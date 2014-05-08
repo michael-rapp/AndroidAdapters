@@ -93,7 +93,14 @@ public class SingleChoiceSelection<ItemType> extends
 	@Override
 	public final void onItemRemoved(final ItemType item, final int index) {
 		getSelections().remove(index);
-		// TODO: Handle, if removed item was selected + listener notification
+
+		if (getSelections().size() >= index + 1) {
+			triggerSelection(index);
+			notifyOnItemSelected(index);
+		} else if (getSelections().size() >= index) {
+			triggerSelection(index - 1);
+			notifyOnItemSelected(index - 1);
+		}
 	}
 
 	@Override
