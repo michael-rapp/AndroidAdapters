@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 
+import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.list.selection.ListSelection;
 import de.mrapp.android.adapter.list.selection.ListSelectionListener;
 import android.content.Context;
