@@ -38,7 +38,7 @@ import de.mrapp.android.adapter.list.selection.SelectableList;
  */
 public interface ListAdapter<ItemType> extends Adapter<ItemType>,
 		List<ItemType>, SelectableList, ObservableListSelection<ItemType>,
-		ObservableListAdapter<ItemType> {
+		ObservableListAdapter<ItemType>, android.widget.ListAdapter {
 
 	/**
 	 * Returns the context, the adapter belongs to.
