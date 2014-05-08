@@ -73,7 +73,7 @@ public class SingleChoiceSelection<ItemType> extends
 			if (i == index && !getSelections().get(i)) {
 				getSelections().set(i, true);
 				notifyOnItemSelected(index);
-			} else if (getSelections().get(i)) {
+			} else if (i != index && getSelections().get(i)) {
 				getSelections().set(i, false);
 				notifyOnItemUnselected(index);
 			}
