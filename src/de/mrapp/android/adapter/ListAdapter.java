@@ -19,7 +19,7 @@ package de.mrapp.android.adapter;
 import java.util.List;
 
 import android.content.Context;
-import de.mrapp.android.adapter.list.ListAdapterListener;
+import de.mrapp.android.adapter.list.ObservableListAdapter;
 import de.mrapp.android.adapter.list.selection.ObservableListSelection;
 
 /**
@@ -35,7 +35,8 @@ import de.mrapp.android.adapter.list.selection.ObservableListSelection;
  * @since 1.0.0
  */
 public interface ListAdapter<ItemType> extends Adapter<ItemType>,
-		List<ItemType>, ObservableListSelection<ItemType> {
+		List<ItemType>, ObservableListSelection<ItemType>,
+		ObservableListAdapter<ItemType> {
 
 	/**
 	 * Returns the context, the adapter belongs to.
@@ -44,28 +45,6 @@ public interface ListAdapter<ItemType> extends Adapter<ItemType>,
 	 *         {@link Context}
 	 */
 	Context getContext();
-
-	/**
-	 * Adds a new listener, which should be notified when the adapter's
-	 * underlying data has been modified.
-	 * 
-	 * @param listener
-	 *            The listener, which should be added, as an instance of the
-	 *            class {@link ListAdapterListener}. The listener may not be
-	 *            null
-	 */
-	void addAdapterListener(ListAdapterListener<ItemType> listener);
-
-	/**
-	 * Removes a specific listener, which should not be notified when the
-	 * adapter's underlying data has been modified, anymore.
-	 * 
-	 * @param listener
-	 *            The listener, which should be removed, as an instance of the
-	 *            class {@link ListAdapterListener}. The listener may not be
-	 *            null
-	 */
-	void removeAdapterListener(ListAdapterListener<ItemType> listener);
 
 	/**
 	 * Triggers the selection of the item, which belongs to a specific index.
