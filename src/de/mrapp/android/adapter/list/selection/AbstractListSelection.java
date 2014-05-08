@@ -193,6 +193,32 @@ public abstract class AbstractListSelection<ItemType> implements
 	}
 
 	@Override
+	public final List<Integer> getSelectedIndices() {
+		List<Integer> selectedIndices = new ArrayList<Integer>();
+
+		for (int i = 0; i < selections.size(); i++) {
+			if (selections.get(i)) {
+				selectedIndices.add(i);
+			}
+		}
+
+		return selectedIndices;
+	}
+
+	@Override
+	public final List<Integer> getUnselectedIndices() {
+		List<Integer> unselectedIndices = new ArrayList<Integer>();
+
+		for (int i = 0; i < selections.size(); i++) {
+			if (!selections.get(i)) {
+				unselectedIndices.add(i);
+			}
+		}
+
+		return unselectedIndices;
+	}
+
+	@Override
 	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
