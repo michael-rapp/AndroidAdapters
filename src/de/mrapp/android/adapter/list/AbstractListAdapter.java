@@ -27,15 +27,16 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 
-import de.mrapp.android.adapter.ListAdapter;
-import de.mrapp.android.adapter.list.selection.ListSelection;
-import de.mrapp.android.adapter.list.selection.ListSelectionListener;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import de.mrapp.android.adapter.ListAdapter;
+import de.mrapp.android.adapter.ListDecorator;
+import de.mrapp.android.adapter.list.selection.ListSelection;
+import de.mrapp.android.adapter.list.selection.ListSelectionListener;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
@@ -61,6 +62,13 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	 * The context, the adapter belongs to.
 	 */
 	private final transient Context context;
+
+	/**
+	 * The decorator, which is used to customize the appearance of the widgets,
+	 * which belong to the view, which is used to visualize the items of the
+	 * adapter.
+	 */
+	private final transient ListDecorator<ItemType> decorator;
 
 	/**
 	 * The selection, which is used to manage the selection states of the
@@ -148,23 +156,82 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	}
 
 	/**
-	 * The method which is invoked, when an item should be visualized,
-	 * respectively when its visualization should be refreshed. This method is
-	 * meant to be used to customize the appearance of the widgets, which belong
-	 * to the view, which is used to visualize the item.
+	 * Returns the id of the view, which is used to visualize each item of the
+	 * adapter.
 	 * 
-	 * @param view
-	 *            The view, which is used to visualize the item, as an instance
-	 *            of the class {@link View}. The view may not be null
-	 * @param item
-	 *            The item, which is should be visualized, as an instance of the
-	 *            generic type ItemType. The item may not be null
-	 * @param selected
-	 *            True, if the item, which should be visualized, is currently
-	 *            selected, false otherwise
+	 * @return The id of the view, which should be used to visualize each item
+	 *         of the adapter, as an {@link Integer} value. The id must specify
+	 *         a valid view from within the \res folder
 	 */
-	protected abstract void onCreateItem(View view, ItemType item,
-			boolean selected);
+	protected final int getViewId() {
+		return viewId;
+	}
+
+	/**
+	 * Returns the decorator, which is used to customize the appearance of the
+	 * widgets, which belong to the view, which is used to visualize the items
+	 * of the adapter.
+	 * 
+	 * @return The decorator, which is used to customize the appearance of the
+	 *         widgets, which belong to the view, which is used to visualize the
+	 *         items of the adapter, as an instance of the type
+	 *         {@link ListDecorator}. The decorator may not be null
+	 */
+	protected final ListDecorator<ItemType> getDecorator() {
+		return decorator;
+	}
+
+	/**
+	 * Returns a set, which contains the listeners, which should be notified
+	 * when the adapter's underlying data has been modified.
+	 * 
+	 * @return A set, which contains the listeners, which should be notified
+	 *         when the adapter's underlying data has been modified, as an
+	 *         instance of the type {@link Set}. The set may not be null
+	 */
+	protected final Set<ListAdapterListener<ItemType>> getAdapterListeners() {
+		return adapterListeners;
+	}
+
+	/**
+	 * Creates and returns a deep copy of the list, which contains the adapter's
+	 * items.
+	 * 
+	 * @return A deep copy of the list, which contains the adapter's items, as
+	 *         an instance of the type {@link List}. The list may not be null
+	 * @throws CloneNotSupportedException
+	 *             The exception, which is thrown, if cloning is not supported
+	 */
+	@SuppressWarnings("unchecked")
+	protected final List<ItemType> cloneItems()
+			throws CloneNotSupportedException {
+		List<ItemType> clonedItems = new ArrayList<ItemType>();
+
+		try {
+			for (ItemType item : items) {
+				ItemType clonedItem = (ItemType) item.getClass()
+						.getMethod("clone").invoke(item);
+				clonedItems.add(clonedItem);
+			}
+		} catch (Exception e) {
+			throw new CloneNotSupportedException();
+		}
+
+		return clonedItems;
+	}
+
+	/**
+	 * Creates and returns a deep copy of the adapter's selection.
+	 * 
+	 * @return A deep copy of the adapter's selection, as an instance of the
+	 *         type {@link List}. The list may not be null
+	 * @throws CloneNotSupportedException
+	 *             The exception, which is thrown, if cloning is not supported
+	 */
+	protected final ListSelection<ItemType> cloneSelection()
+			throws CloneNotSupportedException {
+		return selection.clone();
+	}
 
 	/**
 	 * Creates a new adapter, whose underlying data is managed as a list of
@@ -177,25 +244,72 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	 *            The id of the view, which should be used to visualize each
 	 *            item of the adapter, as an {@link Integer} value. The id must
 	 *            specify a valid view from within the \res folder
+	 * @param decorator
+	 *            The decorator, which should be used to customize the
+	 *            appearance of the widgets, which belong to the view, which is
+	 *            used to visualize the items of the adapter, as an instance of
+	 *            the type {@link ListDecorator}. The decorator may not be null
+	 * @param selection
+	 *            The selection, which should be used to manage the selection
+	 *            states of the adapter's items, as an instance of the type
+	 *            {@link ListSelection}. The selection may not be null
+	 * @param items
+	 *            A list, which contains the the adapter's items, or an empty
+	 *            list, if the adapter should not contain any items
+	 * @param adapterListeners
+	 *            A set, which contains the listeners, which should be notified
+	 *            when the adapter's underlying data has been modified or an
+	 *            empty set, if no listeners should be notified
+	 */
+	protected AbstractListAdapter(final Context context, final int viewId,
+			final ListDecorator<ItemType> decorator,
+			final ListSelection<ItemType> selection,
+			final List<ItemType> items,
+			final Set<ListAdapterListener<ItemType>> adapterListeners) {
+		ensureNotNull(context, "The context may not be null");
+		ensureNotNull(selection, "The selection may not be null");
+		ensureNotNull(decorator, "The decorator may not ben null");
+		ensureNotNull(items, "The items may not be null");
+		ensureNotNull(adapterListeners, "The adapter listeners may not be null");
+
+		// TODO: To keep or not to keep!?
+		context.getResources().getResourceName(viewId);
+
+		this.adapterListeners = adapterListeners;
+		this.items = items;
+		this.context = context;
+		this.viewId = viewId;
+		this.decorator = decorator;
+		this.selection = selection;
+		addAdapterListener(selection);
+	}
+
+	/**
+	 * Creates a new adapter, whose underlying data is managed as a list of
+	 * arbitrary items.
+	 * 
+	 * @param context
+	 *            The context, the adapter should belong to, as an instance of
+	 *            the class {@link Context}. The context may not be null
+	 * @param viewId
+	 *            The id of the view, which should be used to visualize each
+	 *            item of the adapter, as an {@link Integer} value. The id must
+	 *            specify a valid view from within the \res folder
+	 * @param decorator
+	 *            The decorator, which should be used to customize the
+	 *            appearance of the widgets, which belong to the view, which is
+	 *            used to visualize the items of the adapter, as an instance of
+	 *            the type {@link ListDecorator}. The decorator may not be null
 	 * @param selection
 	 *            The selection, which should be used to manage the selection
 	 *            states of the adapter's items, as an instance of the type
 	 *            {@link ListSelection}. The selection may not be null
 	 */
 	public AbstractListAdapter(final Context context, final int viewId,
+			final ListDecorator<ItemType> decorator,
 			final ListSelection<ItemType> selection) {
-		ensureNotNull(context, "The context may not be null");
-		ensureNotNull(selection, "The selection may not be null");
-
-		// TODO: To keep or not to keep!?
-		context.getResources().getResourceName(viewId);
-
-		this.adapterListeners = new LinkedHashSet<ListAdapterListener<ItemType>>();
-		this.items = new ArrayList<ItemType>();
-		this.context = context;
-		this.viewId = viewId;
-		this.selection = selection;
-		addAdapterListener(selection);
+		this(context, viewId, decorator, selection, new ArrayList<ItemType>(),
+				new LinkedHashSet<ListAdapterListener<ItemType>>());
 	}
 
 	@Override
@@ -437,7 +551,8 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(viewId, parent, false);
 		view.setOnClickListener(getItemOnClickListener(index));
-		onCreateItem(view, getItem(index), selection.isSelected(index));
+		decorator.onCreateItem(context, view, getItem(index),
+				selection.isSelected(index));
 		return view;
 	}
 
@@ -473,6 +588,7 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	}
 
 	@Override
-	public abstract AbstractListAdapter<ItemType> clone();
+	public abstract AbstractListAdapter<ItemType> clone()
+			throws CloneNotSupportedException;
 
 }

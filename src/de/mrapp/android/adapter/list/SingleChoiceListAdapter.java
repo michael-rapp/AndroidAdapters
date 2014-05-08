@@ -17,7 +17,12 @@
  */
 package de.mrapp.android.adapter.list;
 
+import java.util.List;
+import java.util.Set;
+
 import android.content.Context;
+import de.mrapp.android.adapter.ListDecorator;
+import de.mrapp.android.adapter.list.selection.ListSelection;
 import de.mrapp.android.adapter.list.selection.SingleChoiceSelection;
 
 /**
@@ -32,7 +37,7 @@ import de.mrapp.android.adapter.list.selection.SingleChoiceSelection;
  * 
  * @since 1.0.0
  */
-public abstract class SingleChoiceListAdapter<ItemType> extends
+public class SingleChoiceListAdapter<ItemType> extends
 		AbstractListAdapter<ItemType> {
 
 	/**
@@ -51,12 +56,58 @@ public abstract class SingleChoiceListAdapter<ItemType> extends
 	 *            The id of the view, which should be used to visualize each
 	 *            item of the adapter, as an {@link Integer} value. The id must
 	 *            specify a valid view from within the \res folder
+	 * @param decorator
+	 *            The decorator, which should be used to customize the
+	 *            appearance of the widgets, which belong to the view, which is
+	 *            used to visualize the items of the adapter, as an instance of
+	 *            the type {@link ListDecorator}. The decorator may not be null
+	 * @param selection
+	 *            The selection, which should be used to manage the selection
+	 *            states of the adapter's items, as an instance of the type
+	 *            {@link ListSelection}. The selection may not be null
+	 * @param items
+	 *            A list, which contains the the adapter's items, or an empty
+	 *            list, if the adapter should not contain any items
+	 * @param adapterListeners
+	 *            A set, which contains the listeners, which should be notified
+	 *            when the adapter's underlying data has been modified or an
+	 *            empty set, if no listeners should be notified
 	 */
-	public SingleChoiceListAdapter(final Context context, final int viewId) {
-		super(context, viewId, new SingleChoiceSelection<ItemType>());
+	protected SingleChoiceListAdapter(final Context context, final int viewId,
+			final ListDecorator<ItemType> decorator,
+			final ListSelection<ItemType> selection,
+			final List<ItemType> items,
+			final Set<ListAdapterListener<ItemType>> adapterListeners) {
+		super(context, viewId, decorator, selection, items, adapterListeners);
+	}
+
+	/**
+	 * Creates a new adapter, whose underlying data is managed as a list of
+	 * arbitrary items, of whom only one item can be selected at once.
+	 * 
+	 * @param context
+	 *            The context, the adapter should belong to, as an instance of
+	 *            the class {@link Context}. The context may not be null
+	 * @param viewId
+	 *            The id of the view, which should be used to visualize each
+	 *            item of the adapter, as an {@link Integer} value. The id must
+	 *            specify a valid view from within the \res folder
+	 * @param decorator
+	 *            The decorator, which should be used to customize the
+	 *            appearance of the widgets, which belong to the view, which is
+	 *            used to visualize the items of the adapter, as an instance of
+	 *            the type {@link ListDecorator}. The decorator may not be null
+	 */
+	public SingleChoiceListAdapter(final Context context, final int viewId,
+			final ListDecorator<ItemType> decorator) {
+		super(context, viewId, decorator, new SingleChoiceSelection<ItemType>());
 	}
 
 	@Override
-	public abstract SingleChoiceListAdapter<ItemType> clone();
-
+	public final SingleChoiceListAdapter<ItemType> clone()
+			throws CloneNotSupportedException {
+		return new SingleChoiceListAdapter<ItemType>(getContext(), getViewId(),
+				getDecorator(), cloneSelection(), cloneItems(),
+				getAdapterListeners());
+	}
 }

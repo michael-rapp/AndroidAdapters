@@ -110,7 +110,8 @@ public class SingleChoiceSelection<ItemType> extends
 	}
 
 	@Override
-	public final SingleChoiceSelection<ItemType> clone() {
+	public final SingleChoiceSelection<ItemType> clone()
+			throws CloneNotSupportedException {
 		return new SingleChoiceSelection<ItemType>(cloneSelections(),
 				getSelectionListeners());
 	}

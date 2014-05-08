@@ -36,8 +36,10 @@ public interface Entity extends Serializable, Cloneable {
 	 * 
 	 * @return A deep copy of the object as an instance of the class
 	 *         {@link Object}
+	 * @throws CloneNotSupportedException
+	 *             The exception, which is thrown, if cloning is not supported
 	 */
-	Entity clone();
+	Entity clone() throws CloneNotSupportedException;
 
 	@Override
 	String toString();

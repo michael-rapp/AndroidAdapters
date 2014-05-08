@@ -97,7 +97,8 @@ public class MultipleChoiceSelection<ItemType> extends
 	}
 
 	@Override
-	public final MultipleChoiceSelection<ItemType> clone() {
+	public final MultipleChoiceSelection<ItemType> clone()
+			throws CloneNotSupportedException {
 		return new MultipleChoiceSelection<ItemType>(cloneSelections(),
 				getSelectionListeners());
 	}

@@ -145,6 +145,9 @@ public abstract class AbstractListSelection<ItemType> implements
 	 */
 	protected AbstractListSelection(final List<Boolean> selections,
 			final Set<ListSelectionListener<ItemType>> selectionListeners) {
+		ensureNotNull(selections, "The selections may not be null");
+		ensureNotNull(selectionListeners,
+				"The selection listeners may not be null");
 		this.selections = selections;
 		this.selectionListeners = selectionListeners;
 	}
@@ -244,6 +247,7 @@ public abstract class AbstractListSelection<ItemType> implements
 	}
 
 	@Override
-	public abstract AbstractListSelection<ItemType> clone();
+	public abstract AbstractListSelection<ItemType> clone()
+			throws CloneNotSupportedException;
 
 }
