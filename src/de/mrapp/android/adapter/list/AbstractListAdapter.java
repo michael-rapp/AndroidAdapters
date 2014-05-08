@@ -49,7 +49,6 @@ import android.widget.BaseAdapter;
  * 
  * @since 1.0.0
  */
-// TODO: Implement hashCode-, equals- toString- and clone-methods.
 public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 		implements ListAdapter<ItemType> {
 
