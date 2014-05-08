@@ -14,11 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>. 
  */
-package de.mrapp.android.adapter.list;
+package de.mrapp.android.adapter;
 
 import java.util.List;
 
 import android.content.Context;
+import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.selection.ListSelectionListener;
 
 /**
