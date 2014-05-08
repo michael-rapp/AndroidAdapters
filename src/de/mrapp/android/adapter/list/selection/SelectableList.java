@@ -17,6 +17,8 @@
  */
 package de.mrapp.android.adapter.list.selection;
 
+import java.util.List;
+
 /**
  * Defines the interface, which must be implemented by all classes, which should
  * allow to select items of a list, respectively retrieve the selection states
@@ -53,5 +55,25 @@ public interface SelectableList {
 	 * @return True, if the item is currently selected, false otherwise
 	 */
 	boolean isSelected(int index);
+
+	/**
+	 * Returns a list, which contains the indices of all items, which are
+	 * currently selected.
+	 * 
+	 * @return A list, which contains the indices of all items, which are
+	 *         currently selected, as an instance of the type {@link List} or an
+	 *         empty list, if no item is currently selected
+	 */
+	List<Integer> getSelectedIndices();
+
+	/**
+	 * Returns a list, which contains the indices of all items, which are
+	 * currently not selected.
+	 * 
+	 * @return A list, which contains the indices of all items, which are
+	 *         currently not selected, as an instance of the type {@link List}
+	 *         or an empty list, if all items are currently selected
+	 */
+	List<Integer> getUnselectedIndices();
 
 }

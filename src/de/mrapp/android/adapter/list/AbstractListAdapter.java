@@ -204,6 +204,16 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	}
 
 	@Override
+	public final List<Integer> getSelectedIndices() {
+		return selection.getSelectedIndices();
+	}
+
+	@Override
+	public final List<Integer> getUnselectedIndices() {
+		return selection.getUnselectedIndices();
+	}
+
+	@Override
 	public final void addAdapterListener(
 			final ListAdapterListener<ItemType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
