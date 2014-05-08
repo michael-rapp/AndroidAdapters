@@ -25,15 +25,15 @@ import de.mrapp.android.adapter.list.selection.SingleChoiceSelection;
  * whom only one item can be selected at once. Such an adapter is meant to
  * provide the underlying data for visualization using a @link ListView} widget.
  * 
- * @param <DataType>
+ * @param <ItemType>
  *            The type of the adapter's underlying data
  * 
  * @author Michael Rapp
  * 
  * @since 1.0.0
  */
-public abstract class SingleChoiceListAdapter<DataType> extends
-		AbstractListAdapter<DataType> {
+public abstract class SingleChoiceListAdapter<ItemType> extends
+		AbstractListAdapter<ItemType> {
 
 	/**
 	 * The constant serial version UID.
@@ -53,7 +53,10 @@ public abstract class SingleChoiceListAdapter<DataType> extends
 	 *            specify a valid view from within the \res folder
 	 */
 	public SingleChoiceListAdapter(final Context context, final int viewId) {
-		super(context, viewId, new SingleChoiceSelection<DataType>());
+		super(context, viewId, new SingleChoiceSelection<ItemType>());
 	}
+
+	@Override
+	public abstract SingleChoiceListAdapter<ItemType> clone();
 
 }

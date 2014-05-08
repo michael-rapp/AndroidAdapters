@@ -39,6 +39,11 @@ public abstract class AbstractListSelection<ItemType> implements
 		ListSelection<ItemType> {
 
 	/**
+	 * The constant serial version UID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	 * A list, which contains the selection states, which correspond to the
 	 * adapter's items. The reference between the selection states and the items
 	 * is established by their indices.
@@ -61,6 +66,36 @@ public abstract class AbstractListSelection<ItemType> implements
 	 */
 	protected final List<Boolean> getSelections() {
 		return selections;
+	}
+
+	/**
+	 * Creates and returns a deep copy of the list, which contains the selection
+	 * states, which correspond to the adapter's items.
+	 * 
+	 * @return A deep copy of the list, which contains the selection states,
+	 *         which correspond to the adapter's items, as an instance of the
+	 *         type {@link List}. The list may not be null
+	 */
+	protected final List<Boolean> cloneSelections() {
+		List<Boolean> clonedSelections = new ArrayList<Boolean>();
+
+		for (Boolean selection : getSelections()) {
+			clonedSelections.add(Boolean.valueOf(selection));
+		}
+
+		return clonedSelections;
+	}
+
+	/**
+	 * Returns the set, which contains the listeners, which should be notified
+	 * when the selection of an item of the adapter has been changed.
+	 * 
+	 * @return The set, which contains the listeners, which should be notified
+	 *         when the selection of an item of the adapter has been changed, as
+	 *         an instance of the type {@link Set}. The set may not be null
+	 */
+	protected final Set<ListSelectionListener<ItemType>> getSelectionListeners() {
+		return selectionListeners;
 	}
 
 	/**
@@ -98,10 +133,29 @@ public abstract class AbstractListSelection<ItemType> implements
 	/**
 	 * Creates a new selection, which is able to manage the selection states of
 	 * the items of a {@link ListAdapter}.
+	 * 
+	 * @param selections
+	 *            A list, which contains the selection states, which correspond
+	 *            to the adapter's items, as an instance of the type
+	 *            {@link List}. The list may not be null
+	 * @param selectionListeners
+	 *            A set, which contains the listeners, which should be notified
+	 *            when the selection of an item of the adapter has been changed,
+	 *            as an instance of the type {@link Set} The set may not be null
+	 */
+	protected AbstractListSelection(final List<Boolean> selections,
+			final Set<ListSelectionListener<ItemType>> selectionListeners) {
+		this.selections = selections;
+		this.selectionListeners = selectionListeners;
+	}
+
+	/**
+	 * Creates a new selection, which is able to manage the selection states of
+	 * the items of a {@link ListAdapter}.
 	 */
 	public AbstractListSelection() {
-		this.selections = new ArrayList<Boolean>();
-		this.selectionListeners = new LinkedHashSet<ListSelectionListener<ItemType>>();
+		this(new ArrayList<Boolean>(),
+				new LinkedHashSet<ListSelectionListener<ItemType>>());
 	}
 
 	/**
@@ -137,5 +191,33 @@ public abstract class AbstractListSelection<ItemType> implements
 	public final boolean isSelected(final int index) {
 		return selections.get(index);
 	}
+
+	@Override
+	public final int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + selectionListeners.hashCode();
+		result = prime * result + selections.hashCode();
+		return result;
+	}
+
+	@Override
+	public final boolean equals(final Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AbstractListSelection<?> other = (AbstractListSelection<?>) obj;
+		if (!selectionListeners.equals(other.selectionListeners))
+			return false;
+		if (!selections.equals(other.selections))
+			return false;
+		return true;
+	}
+
+	@Override
+	public abstract AbstractListSelection<ItemType> clone();
 
 }

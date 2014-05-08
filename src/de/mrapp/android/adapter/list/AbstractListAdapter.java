@@ -432,4 +432,38 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 		return view;
 	}
 
+	@Override
+	public final int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + adapterListeners.hashCode();
+		result = prime * result + items.hashCode();
+		result = prime * result + selection.hashCode();
+		result = prime * result + viewId;
+		return result;
+	}
+
+	@Override
+	public final boolean equals(final Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AbstractListAdapter<?> other = (AbstractListAdapter<?>) obj;
+		if (!adapterListeners.equals(other.adapterListeners))
+			return false;
+		if (!items.equals(other.items))
+			return false;
+		if (!selection.equals(other.selection))
+			return false;
+		if (viewId != other.viewId)
+			return false;
+		return true;
+	}
+
+	@Override
+	public abstract AbstractListAdapter<ItemType> clone();
+
 }
