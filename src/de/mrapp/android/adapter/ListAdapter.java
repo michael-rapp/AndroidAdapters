@@ -21,6 +21,7 @@ import java.util.List;
 import android.content.Context;
 import de.mrapp.android.adapter.list.ObservableListAdapter;
 import de.mrapp.android.adapter.list.selection.ObservableListSelection;
+import de.mrapp.android.adapter.list.selection.SelectableList;
 
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a list
@@ -35,7 +36,7 @@ import de.mrapp.android.adapter.list.selection.ObservableListSelection;
  * @since 1.0.0
  */
 public interface ListAdapter<ItemType> extends Adapter<ItemType>,
-		List<ItemType>, ObservableListSelection<ItemType>,
+		List<ItemType>, SelectableList, ObservableListSelection<ItemType>,
 		ObservableListAdapter<ItemType> {
 
 	/**
@@ -45,31 +46,5 @@ public interface ListAdapter<ItemType> extends Adapter<ItemType>,
 	 *         {@link Context}
 	 */
 	Context getContext();
-
-	/**
-	 * Triggers the selection of the item, which belongs to a specific index.
-	 * The impact of this method on the selection state of the item and on the
-	 * selection states of all other items depends on the way the selection is
-	 * meant to work.
-	 * 
-	 * @param index
-	 *            The index of the item, whose selection should be triggered, as
-	 *            an {@link Integer} value. The index must be between 0 and the
-	 *            value of the adapter's <code>size():int</code> method - 1
-	 */
-	void triggerSelection(int index);
-
-	/**
-	 * Returns, whether a the item, which belongs to a specific index, is
-	 * currently selected, or not.
-	 * 
-	 * @param index
-	 *            The index of the item, whose selection state should be
-	 *            retrieved, as an {@link Integer} value. The index must be
-	 *            between 0 and the value of the adapter's
-	 *            <code>size():int</code> method - 1
-	 * @return True, if the item is currently selected, false otherwise
-	 */
-	boolean isSelected(int index);
 
 }
