@@ -35,6 +35,11 @@ public abstract class SingleChoiceListAdapter<DataType> extends
 		AbstractListAdapter<DataType> {
 
 	/**
+	 * The constant serial version UID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	 * Creates a new adapter, whose underlying data is managed as a list of
 	 * arbitrary items, of whom only one item can be selected at once.
 	 * 

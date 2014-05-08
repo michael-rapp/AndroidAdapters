@@ -16,6 +16,8 @@
  */
 package de.mrapp.android.adapter;
 
+import java.io.Serializable;
+
 /**
  * Defines the interface, all adapters must implement.
  * 
@@ -26,6 +28,6 @@ package de.mrapp.android.adapter;
  * 
  * @since 1.0.0
  */
-public interface Adapter<ItemType> {
+public interface Adapter<ItemType> extends Serializable, Cloneable {
 
 }
