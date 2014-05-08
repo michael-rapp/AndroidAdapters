@@ -29,7 +29,8 @@ import de.mrapp.android.adapter.list.ListAdapterListener;
  * 
  * @since 1.0.0
  */
-public interface ListSelection<ItemType> extends ListAdapterListener<ItemType> {
+public interface ListSelection<ItemType> extends ListAdapterListener<ItemType>,
+		ObservableListSelection<ItemType> {
 
 	/**
 	 * Triggers the selection of the item, which belongs to a specific index.
@@ -56,27 +57,5 @@ public interface ListSelection<ItemType> extends ListAdapterListener<ItemType> {
 	 * @return True, if the item is currently selected, false otherwise
 	 */
 	boolean isSelected(int index);
-
-	/**
-	 * Adds a new listener, which should be notified when the selection of an
-	 * item has been changed.
-	 * 
-	 * @param listener
-	 *            The listener, which should be added, as an instance of the
-	 *            type {@link ListSelectionListener}. The listener may not be
-	 *            null
-	 */
-	void addSelectionListener(ListSelectionListener<ItemType> listener);
-
-	/**
-	 * Removes a specific listener, which should not be notified when the
-	 * selection of an item has been changed, anymore.
-	 * 
-	 * @param listener
-	 *            The listener, which should be removed, as an instance of the
-	 *            type {@link ListSelectionListener}. The listener may not be
-	 *            null
-	 */
-	void removeSelectionListener(ListSelectionListener<ItemType> listener);
 
 }
