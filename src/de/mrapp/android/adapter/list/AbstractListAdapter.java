@@ -48,8 +48,14 @@ import android.widget.BaseAdapter;
  * 
  * @since 1.0.0
  */
+// TODO: Implement hashCode-, equals- toString- and clone-methods.
 public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 		implements ListAdapter<ItemType> {
+
+	/**
+	 * The constant serial version UID.
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * The context, the adapter belongs to.
