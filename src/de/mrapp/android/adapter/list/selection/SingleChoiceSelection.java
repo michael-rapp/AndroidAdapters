@@ -17,6 +17,9 @@
  */
 package de.mrapp.android.adapter.list.selection;
 
+import java.util.List;
+import java.util.Set;
+
 /**
  * Manages the selection states of the items of a {@link ListAdapter} in a way,
  * that only one item can be selected at once.
@@ -30,6 +33,39 @@ package de.mrapp.android.adapter.list.selection;
  */
 public class SingleChoiceSelection<ItemType> extends
 		AbstractListSelection<ItemType> {
+
+	/**
+	 * The constant serial version UID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * Creates a new selection, which is able to manage the selection states of
+	 * the items of a {@link ListAdapter} in a way, that only one item can be
+	 * selected at once.
+	 * 
+	 * @param selections
+	 *            A list, which contains the selection states, which correspond
+	 *            to the adapter's items, as an instance of the type
+	 *            {@link List}. The list may not be null
+	 * @param selectionListeners
+	 *            A set, which contains the listeners, which should be notified
+	 *            when the selection of an item of the adapter has been changed,
+	 *            as an instance of the type {@link Set} The set may not be null
+	 */
+	protected SingleChoiceSelection(final List<Boolean> selections,
+			final Set<ListSelectionListener<ItemType>> selectionListeners) {
+		super(selections, selectionListeners);
+	}
+
+	/**
+	 * Creates a new selection, which is able to manage the selection states of
+	 * the items of a {@link ListAdapter} in a way, that only one iteme can be
+	 * selected at once.
+	 */
+	public SingleChoiceSelection() {
+		super();
+	}
 
 	@Override
 	public final void triggerSelection(final int index) {
@@ -58,6 +94,18 @@ public class SingleChoiceSelection<ItemType> extends
 	public final void onItemRemoved(final ItemType item, final int index) {
 		getSelections().remove(index);
 		// TODO: Handle, if removed item was selected + listener notification
+	}
+
+	@Override
+	public final String toString() {
+		return "SingleChoiceSelection [selections=" + getSelections()
+				+ ", selectionListeners=" + getSelectionListeners() + "]";
+	}
+
+	@Override
+	public final SingleChoiceSelection<ItemType> clone() {
+		return new SingleChoiceSelection<ItemType>(cloneSelections(),
+				getSelectionListeners());
 	}
 
 }

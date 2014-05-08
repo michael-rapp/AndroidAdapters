@@ -15,23 +15,37 @@
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/>. 
  */
-package de.mrapp.android.adapter;
+package de.mrapp.android.adapter.util;
 
-import de.mrapp.android.adapter.util.Entity;
+import java.io.Serializable;
 
 /**
- * Defines the interface, all adapters must implement.
- * 
- * @param <ItemType>
- *            The type of the adapter's underlying data
+ * Defines the interface, all classes, which represent a data structure, must
+ * implement. Such data structures therefore must implement the interface
+ * {@link Serializable} to support serialization, as well as the interface
+ * {@link Cloneable}, to allow deep copies of class instances.
  * 
  * @author Michael Rapp
  * 
  * @since 1.0.0
  */
-public interface Adapter<ItemType> extends Entity {
+public interface Entity extends Serializable, Cloneable {
+
+	/**
+	 * Creates and returns a deep copy of the object.
+	 * 
+	 * @return A deep copy of the object as an instance of the class
+	 *         {@link Object}
+	 */
+	Entity clone();
 
 	@Override
-	Adapter<ItemType> clone();
-	
+	String toString();
+
+	@Override
+	int hashCode();
+
+	@Override
+	boolean equals(Object object);
+
 }

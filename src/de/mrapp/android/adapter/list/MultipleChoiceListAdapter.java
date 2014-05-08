@@ -56,4 +56,7 @@ public abstract class MultipleChoiceListAdapter<DataType> extends
 		super(context, viewId, new MultipleChoiceSelection<DataType>());
 	}
 
+	@Override
+	public abstract MultipleChoiceListAdapter<DataType> clone();
+
 }

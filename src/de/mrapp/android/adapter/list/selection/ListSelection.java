@@ -18,6 +18,7 @@
 package de.mrapp.android.adapter.list.selection;
 
 import de.mrapp.android.adapter.list.ListAdapterListener;
+import de.mrapp.android.adapter.util.Entity;
 
 /**
  * Defines the interface, all classes, which should be able to manage the
@@ -31,6 +32,10 @@ import de.mrapp.android.adapter.list.ListAdapterListener;
  * @since 1.0.0
  */
 public interface ListSelection<ItemType> extends SelectableList,
-		ListAdapterListener<ItemType>, ObservableListSelection<ItemType> {
+		ListAdapterListener<ItemType>, ObservableListSelection<ItemType>,
+		Entity {
+
+	@Override
+	ListSelection<ItemType> clone();
 
 }
