@@ -32,6 +32,6 @@ import de.mrapp.android.adapter.util.Entity;
 public interface Adapter<ItemType> extends Entity {
 
 	@Override
-	Adapter<ItemType> clone();
-	
+	Adapter<ItemType> clone() throws CloneNotSupportedException;
+
 }

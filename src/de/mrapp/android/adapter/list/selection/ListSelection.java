@@ -36,6 +36,6 @@ public interface ListSelection<ItemType> extends SelectableList,
 		Entity {
 
 	@Override
-	ListSelection<ItemType> clone();
+	ListSelection<ItemType> clone() throws CloneNotSupportedException;
 
 }

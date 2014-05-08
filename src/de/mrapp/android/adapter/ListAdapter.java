@@ -49,6 +49,6 @@ public interface ListAdapter<ItemType> extends Adapter<ItemType>,
 	Context getContext();
 
 	@Override
-	ListAdapter<ItemType> clone();
+	ListAdapter<ItemType> clone() throws CloneNotSupportedException;
 
 }
