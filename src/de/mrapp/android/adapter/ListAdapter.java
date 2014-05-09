@@ -48,6 +48,25 @@ public interface ListAdapter<ItemType> extends Adapter<ItemType>,
 	 */
 	Context getContext();
 
+	/**
+	 * Sets, whether the selection of an item should be triggered, when the item
+	 * is clicked, or not.
+	 * 
+	 * @param enable
+	 *            True, if the selection of an item should be triggered, when
+	 *            the item is clicked, false otherwise
+	 */
+	void triggerSelectionOnClick(boolean enable);
+
+	/**
+	 * Returns, whether the selection of an item is triggered, when the item is
+	 * clicked, or not.
+	 * 
+	 * @return True, if the selection of an item is triggered, when the item is
+	 *         clicked, false otherwise
+	 */
+	boolean isSelectionTriggeredOnClick();
+
 	@Override
 	ListAdapter<ItemType> clone() throws CloneNotSupportedException;
 

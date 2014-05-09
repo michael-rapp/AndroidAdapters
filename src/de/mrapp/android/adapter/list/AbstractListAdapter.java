@@ -93,6 +93,12 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	private Set<ListAdapterListener<ItemType>> adapterListeners;
 
 	/**
+	 * True, if the selection of an item is triggered, when the item is clicked,
+	 * false otherwise.
+	 */
+	private boolean triggerSelectionOnClick;
+
+	/**
 	 * Notifies all listeners, which have been registered to be notified when
 	 * the adapter's underlying data has been modified, about an item, which has
 	 * been added to the adapter.
@@ -149,7 +155,9 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 
 			@Override
 			public void onClick(final View view) {
-				triggerSelection(index);
+				if (isSelectionTriggeredOnClick()) {
+					triggerSelection(index);
+				}
 			}
 
 		};
@@ -260,12 +268,16 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	 *            A set, which contains the listeners, which should be notified
 	 *            when the adapter's underlying data has been modified or an
 	 *            empty set, if no listeners should be notified
+	 * @param triggerSelectionOnClick
+	 *            True, if the selection of an item should be triggered, when
+	 *            the item is clicked, false otherwise
 	 */
 	protected AbstractListAdapter(final Context context, final int viewId,
 			final ListDecorator<ItemType> decorator,
 			final ListSelection<ItemType> selection,
 			final List<ItemType> items,
-			final Set<ListAdapterListener<ItemType>> adapterListeners) {
+			final Set<ListAdapterListener<ItemType>> adapterListeners,
+			final boolean triggerSelectionOnClick) {
 		ensureNotNull(context, "The context may not be null");
 		ensureNotNull(selection, "The selection may not be null");
 		ensureNotNull(decorator, "The decorator may not ben null");
@@ -282,6 +294,7 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 		this.decorator = decorator;
 		this.selection = selection;
 		addAdapterListener(selection);
+		this.triggerSelectionOnClick = triggerSelectionOnClick;
 	}
 
 	/**
@@ -309,12 +322,22 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 			final ListDecorator<ItemType> decorator,
 			final ListSelection<ItemType> selection) {
 		this(context, viewId, decorator, selection, new ArrayList<ItemType>(),
-				new LinkedHashSet<ListAdapterListener<ItemType>>());
+				new LinkedHashSet<ListAdapterListener<ItemType>>(), true);
 	}
 
 	@Override
 	public final Context getContext() {
 		return context;
+	}
+
+	@Override
+	public final void triggerSelectionOnClick(final boolean enable) {
+		this.triggerSelectionOnClick = enable;
+	}
+
+	@Override
+	public final boolean isSelectionTriggeredOnClick() {
+		return triggerSelectionOnClick;
 	}
 
 	@Override
@@ -564,6 +587,7 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 		result = prime * result + items.hashCode();
 		result = prime * result + selection.hashCode();
 		result = prime * result + viewId;
+		result = prime * result + (triggerSelectionOnClick ? 1231 : 1237);
 		return result;
 	}
 
@@ -583,6 +607,8 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 		if (!selection.equals(other.selection))
 			return false;
 		if (viewId != other.viewId)
+			return false;
+		if (triggerSelectionOnClick != other.triggerSelectionOnClick)
 			return false;
 		return true;
 	}

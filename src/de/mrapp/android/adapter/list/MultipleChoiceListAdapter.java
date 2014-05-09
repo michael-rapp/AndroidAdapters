@@ -72,13 +72,18 @@ public class MultipleChoiceListAdapter<ItemType> extends
 	 *            A set, which contains the listeners, which should be notified
 	 *            when the adapter's underlying data has been modified or an
 	 *            empty set, if no listeners should be notified
+	 * @param triggerSelectionOnClick
+	 *            True, if the selection of an item should be triggered, when
+	 *            the item is clicked, false otherwise
 	 */
 	protected MultipleChoiceListAdapter(final Context context,
 			final int viewId, final ListDecorator<ItemType> decorator,
 			final ListSelection<ItemType> selection,
 			final List<ItemType> items,
-			final Set<ListAdapterListener<ItemType>> adapterListeners) {
-		super(context, viewId, decorator, selection, items, adapterListeners);
+			final Set<ListAdapterListener<ItemType>> adapterListeners,
+			final boolean triggerSelectionOnClick) {
+		super(context, viewId, decorator, selection, items, adapterListeners,
+				triggerSelectionOnClick);
 	}
 
 	/**
@@ -109,7 +114,7 @@ public class MultipleChoiceListAdapter<ItemType> extends
 			throws CloneNotSupportedException {
 		return new MultipleChoiceListAdapter<ItemType>(getContext(),
 				getViewId(), getDecorator(), cloneSelection(), cloneItems(),
-				getAdapterListeners());
+				getAdapterListeners(), isSelectionTriggeredOnClick());
 	}
 
 }
