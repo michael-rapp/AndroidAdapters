@@ -25,7 +25,7 @@ package de.mrapp.android.adapter;
  * 
  * @since 1.0.0
  */
-public class SortingNotSupported extends Exception {
+public class SortingNotSupportedException extends Exception {
 
 	/**
 	 * 
