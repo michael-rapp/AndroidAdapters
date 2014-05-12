@@ -25,10 +25,10 @@ package de.mrapp.android.adapter;
  * 
  * @since 1.0.0
  */
-public class SortingNotSupportedException extends Exception {
+public class SortingNotSupportedException extends RuntimeException {
 
 	/**
-	 * 
+	 * The constant serial version UID.
 	 */
 	private static final long serialVersionUID = 1L;
 
