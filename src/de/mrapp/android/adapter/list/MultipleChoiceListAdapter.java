@@ -37,6 +37,7 @@ import de.mrapp.android.adapter.list.selection.MultipleChoiceSelection;
  * 
  * @since 1.0.0
  */
+// TODO: Implement toString
 public class MultipleChoiceListAdapter<ItemType> extends
 		AbstractListAdapter<ItemType> {
 
@@ -81,9 +82,10 @@ public class MultipleChoiceListAdapter<ItemType> extends
 			final ListSelection<ItemType> selection,
 			final List<ItemType> items,
 			final Set<ListAdapterListener<ItemType>> adapterListeners,
+			final Set<ListSortingListener<ItemType>> sortingListeners,
 			final boolean triggerSelectionOnClick) {
 		super(context, viewId, decorator, selection, items, adapterListeners,
-				triggerSelectionOnClick);
+				sortingListeners, triggerSelectionOnClick);
 	}
 
 	/**
@@ -114,7 +116,8 @@ public class MultipleChoiceListAdapter<ItemType> extends
 			throws CloneNotSupportedException {
 		return new MultipleChoiceListAdapter<ItemType>(getContext(),
 				getViewId(), getDecorator(), cloneSelection(), cloneItems(),
-				getAdapterListeners(), isSelectionTriggeredOnClick());
+				getAdapterListeners(), getSortingListeners(),
+				isSelectionTriggeredOnClick());
 	}
 
 }

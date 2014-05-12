@@ -24,6 +24,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import de.mrapp.android.adapter.sorting.Order;
+
 /**
  * An abstract base class for all classes, which should be able to manage the
  * selection states of the items of a {@link ListAdapter}.
@@ -55,18 +57,6 @@ public abstract class AbstractListSelection<ItemType> implements
 	 * selection of an item of the adapter has been changed.
 	 */
 	private Set<ListSelectionListener<ItemType>> selectionListeners;
-
-	/**
-	 * Returns the list, which contains the selection states, which correspond
-	 * to the adapter's items.
-	 * 
-	 * @return The list, which contains the selection states, which correspond
-	 *         to the adapter's items, as an instance of the type {@link List}.
-	 *         The list may not be null
-	 */
-	protected final List<Boolean> getSelections() {
-		return selections;
-	}
 
 	/**
 	 * Creates and returns a deep copy of the list, which contains the selection
@@ -191,6 +181,11 @@ public abstract class AbstractListSelection<ItemType> implements
 	}
 
 	@Override
+	public final List<Boolean> getSelections() {
+		return selections;
+	}
+
+	@Override
 	public final boolean isSelected(final int index) {
 		return selections.get(index);
 	}
@@ -219,6 +214,12 @@ public abstract class AbstractListSelection<ItemType> implements
 		}
 
 		return unselectedIndices;
+	}
+
+	@Override
+	public final void onSorted(final List<ItemType> sortedList,
+			final List<Boolean> sortedSelections, final Order order) {
+		selections = sortedSelections;
 	}
 
 	@Override
