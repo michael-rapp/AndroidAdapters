@@ -21,6 +21,7 @@ import java.util.List;
 
 import android.content.Context;
 import de.mrapp.android.adapter.list.ObservableListAdapter;
+import de.mrapp.android.adapter.list.SortableList;
 import de.mrapp.android.adapter.list.selection.ObservableListSelection;
 import de.mrapp.android.adapter.list.selection.SelectableList;
 
@@ -37,8 +38,9 @@ import de.mrapp.android.adapter.list.selection.SelectableList;
  * @since 1.0.0
  */
 public interface ListAdapter<ItemType> extends Adapter<ItemType>,
-		List<ItemType>, SelectableList, ObservableListSelection<ItemType>,
-		ObservableListAdapter<ItemType>, android.widget.ListAdapter {
+		List<ItemType>, SelectableList, SortableList,
+		ObservableListSelection<ItemType>, ObservableListAdapter<ItemType>,
+		android.widget.ListAdapter {
 
 	/**
 	 * Returns the context, the adapter belongs to.

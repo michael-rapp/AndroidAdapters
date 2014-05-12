@@ -37,6 +37,7 @@ import de.mrapp.android.adapter.list.selection.SingleChoiceSelection;
  * 
  * @since 1.0.0
  */
+// TODO: Implement toString
 public class SingleChoiceListAdapter<ItemType> extends
 		AbstractListAdapter<ItemType> {
 
@@ -81,9 +82,10 @@ public class SingleChoiceListAdapter<ItemType> extends
 			final ListSelection<ItemType> selection,
 			final List<ItemType> items,
 			final Set<ListAdapterListener<ItemType>> adapterListeners,
+			final Set<ListSortingListener<ItemType>> sortingListeners,
 			final boolean triggerSelectionOnClick) {
 		super(context, viewId, decorator, selection, items, adapterListeners,
-				triggerSelectionOnClick);
+				sortingListeners, triggerSelectionOnClick);
 	}
 
 	/**
@@ -113,6 +115,7 @@ public class SingleChoiceListAdapter<ItemType> extends
 			throws CloneNotSupportedException {
 		return new SingleChoiceListAdapter<ItemType>(getContext(), getViewId(),
 				getDecorator(), cloneSelection(), cloneItems(),
-				getAdapterListeners(), isSelectionTriggeredOnClick());
+				getAdapterListeners(), getSortingListeners(),
+				isSelectionTriggeredOnClick());
 	}
 }

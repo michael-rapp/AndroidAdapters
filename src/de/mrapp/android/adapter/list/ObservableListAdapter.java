@@ -17,6 +17,8 @@
  */
 package de.mrapp.android.adapter.list;
 
+import android.content.ClipData.Item;
+
 /**
  * Defines the interface, all classes, which should allow to register listeners,
  * which are notified when the underlying data of a {@link ListAdapter} has been
@@ -52,5 +54,9 @@ public interface ObservableListAdapter<ItemType> {
 	 *            null
 	 */
 	void removeAdapterListener(ListAdapterListener<ItemType> listener);
+
+	void addSortingListner(ListSortingListener<ItemType> listener);
+
+	void removeSortingListener(ListSortingListener<ItemType> listener);
 
 }

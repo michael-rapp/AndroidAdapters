@@ -28,15 +28,23 @@ import java.util.ListIterator;
 import java.util.Set;
 
 import android.content.Context;
+import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.ListDecorator;
+import de.mrapp.android.adapter.SortingNotSupportedException;
 import de.mrapp.android.adapter.list.selection.ListSelection;
 import de.mrapp.android.adapter.list.selection.ListSelectionListener;
+import de.mrapp.android.adapter.sorting.InsertionSort;
+import de.mrapp.android.adapter.sorting.MergeSort;
+import de.mrapp.android.adapter.sorting.Order;
+import de.mrapp.android.adapter.sorting.SortingAlgorithm;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
@@ -92,6 +100,8 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	 */
 	private Set<ListAdapterListener<ItemType>> adapterListeners;
 
+	private Set<ListSortingListener<ItemType>> sortingListeners;
+
 	/**
 	 * True, if the selection of an item is triggered, when the item is clicked,
 	 * false otherwise.
@@ -135,6 +145,13 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	private void notifyOnItemRemoved(final ItemType item, final int index) {
 		for (ListAdapterListener<ItemType> listener : adapterListeners) {
 			listener.onItemRemoved(item, index);
+		}
+	}
+
+	private void notifyOnSorted(final List<ItemType> sortedList,
+			final List<Boolean> sortedSelections, final Order order) {
+		for (ListSortingListener<ItemType> listener : sortingListeners) {
+			listener.onSorted(sortedList, sortedSelections, order);
 		}
 	}
 
@@ -199,6 +216,10 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	 */
 	protected final Set<ListAdapterListener<ItemType>> getAdapterListeners() {
 		return adapterListeners;
+	}
+
+	protected final Set<ListSortingListener<ItemType>> getSortingListeners() {
+		return sortingListeners;
 	}
 
 	/**
@@ -277,23 +298,27 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 			final ListSelection<ItemType> selection,
 			final List<ItemType> items,
 			final Set<ListAdapterListener<ItemType>> adapterListeners,
+			final Set<ListSortingListener<ItemType>> sortingListeners,
 			final boolean triggerSelectionOnClick) {
 		ensureNotNull(context, "The context may not be null");
 		ensureNotNull(selection, "The selection may not be null");
 		ensureNotNull(decorator, "The decorator may not ben null");
 		ensureNotNull(items, "The items may not be null");
 		ensureNotNull(adapterListeners, "The adapter listeners may not be null");
+		ensureNotNull(sortingListeners, "The sorting listeners may not be null");
 
 		// TODO: To keep or not to keep!?
 		context.getResources().getResourceName(viewId);
 
 		this.adapterListeners = adapterListeners;
+		this.sortingListeners = sortingListeners;
 		this.items = items;
 		this.context = context;
 		this.viewId = viewId;
 		this.decorator = decorator;
 		this.selection = selection;
 		addAdapterListener(selection);
+		addSortingListner(selection);
 		this.triggerSelectionOnClick = triggerSelectionOnClick;
 	}
 
@@ -322,12 +347,28 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 			final ListDecorator<ItemType> decorator,
 			final ListSelection<ItemType> selection) {
 		this(context, viewId, decorator, selection, new ArrayList<ItemType>(),
-				new LinkedHashSet<ListAdapterListener<ItemType>>(), true);
+				new LinkedHashSet<ListAdapterListener<ItemType>>(),
+				new LinkedHashSet<ListSortingListener<ItemType>>(), true);
 	}
 
 	@Override
 	public final Context getContext() {
 		return context;
+	}
+
+	@Override
+	public final void sort(final Order order)
+			throws SortingNotSupportedException {
+		SortingAlgorithm sortingAlgorithm = new InsertionSort();
+
+		long curr = System.currentTimeMillis();
+		Pair<List<ItemType>, List<Boolean>> result = sortingAlgorithm.sort(
+				items, selection.getSelections(), order);
+		Log.d("sort", Long.toString(System.currentTimeMillis() - curr));
+
+		items = result.first;
+		notifyOnSorted(result.first, result.second, order);
+		notifyDataSetChanged();
 	}
 
 	@Override
@@ -361,6 +402,19 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	public final void removeAdapterListener(
 			final ListAdapterListener<ItemType> listener) {
 		adapterListeners.remove(listener);
+	}
+
+	@Override
+	public final void addSortingListner(
+			final ListSortingListener<ItemType> listener) {
+		ensureNotNull(listener, "The listener may not be null");
+		sortingListeners.add(listener);
+	}
+
+	@Override
+	public final void removeSortingListener(
+			final ListSortingListener<ItemType> listener) {
+		sortingListeners.remove(listener);
 	}
 
 	@Override
@@ -584,6 +638,7 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + adapterListeners.hashCode();
+		result = prime * result + sortingListeners.hashCode();
 		result = prime * result + items.hashCode();
 		result = prime * result + selection.hashCode();
 		result = prime * result + viewId;
@@ -601,6 +656,8 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 			return false;
 		AbstractListAdapter<?> other = (AbstractListAdapter<?>) obj;
 		if (!adapterListeners.equals(other.adapterListeners))
+			return false;
+		if (!sortingListeners.equals(other.sortingListeners))
 			return false;
 		if (!items.equals(other.items))
 			return false;

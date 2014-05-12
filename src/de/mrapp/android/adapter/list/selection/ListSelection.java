@@ -17,7 +17,10 @@
  */
 package de.mrapp.android.adapter.list.selection;
 
+import java.util.List;
+
 import de.mrapp.android.adapter.list.ListAdapterListener;
+import de.mrapp.android.adapter.list.ListSortingListener;
 import de.mrapp.android.adapter.util.Entity;
 
 /**
@@ -32,8 +35,18 @@ import de.mrapp.android.adapter.util.Entity;
  * @since 1.0.0
  */
 public interface ListSelection<ItemType> extends SelectableList,
-		ListAdapterListener<ItemType>, ObservableListSelection<ItemType>,
-		Entity {
+		ListAdapterListener<ItemType>, ListSortingListener<ItemType>,
+		ObservableListSelection<ItemType>, Entity {
+
+	/**
+	 * Returns the list, which contains the selection states, which correspond
+	 * to the adapter's items.
+	 * 
+	 * @return The list, which contains the selection states, which correspond
+	 *         to the adapter's items, as an instance of the type {@link List}.
+	 *         The list may not be null
+	 */
+	List<Boolean> getSelections();
 
 	@Override
 	ListSelection<ItemType> clone() throws CloneNotSupportedException;
