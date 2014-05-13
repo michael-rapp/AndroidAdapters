@@ -24,6 +24,7 @@ import android.content.Context;
 import de.mrapp.android.adapter.ListDecorator;
 import de.mrapp.android.adapter.list.selection.ListSelection;
 import de.mrapp.android.adapter.list.selection.SingleChoiceSelection;
+import de.mrapp.android.adapter.sorting.Order;
 
 /**
  * An adapter, whose underlying data is managed as a list of arbitrary items, of
@@ -118,4 +119,5 @@ public class SingleChoiceListAdapter<ItemType> extends
 				getAdapterListeners(), getSortingListeners(),
 				isSelectionTriggeredOnClick());
 	}
+
 }
