@@ -24,7 +24,6 @@ import android.content.Context;
 import de.mrapp.android.adapter.ListDecorator;
 import de.mrapp.android.adapter.list.selection.ListSelection;
 import de.mrapp.android.adapter.list.selection.SingleChoiceSelection;
-import de.mrapp.android.adapter.sorting.Order;
 
 /**
  * An adapter, whose underlying data is managed as a list of arbitrary items, of
@@ -74,6 +73,10 @@ public class SingleChoiceListAdapter<ItemType> extends
 	 *            A set, which contains the listeners, which should be notified
 	 *            when the adapter's underlying data has been modified or an
 	 *            empty set, if no listeners should be notified
+	 * @param sortingListeners
+	 *            A set, which contains the listeners, which should be notified,
+	 *            when the adapter's underlying data has been sorted or an empty
+	 *            set, if no listeners should be notified
 	 * @param triggerSelectionOnClick
 	 *            True, if the selection of an item should be triggered, when
 	 *            the item is clicked, false otherwise
