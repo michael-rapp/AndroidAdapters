@@ -28,7 +28,6 @@ import java.util.ListIterator;
 import java.util.Set;
 
 import android.content.Context;
-import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,10 +37,8 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.ListDecorator;
-import de.mrapp.android.adapter.SortingNotSupportedException;
 import de.mrapp.android.adapter.list.selection.ListSelection;
 import de.mrapp.android.adapter.list.selection.ListSelectionListener;
-import de.mrapp.android.adapter.sorting.InsertionSort;
 import de.mrapp.android.adapter.sorting.MergeSort;
 import de.mrapp.android.adapter.sorting.Order;
 import de.mrapp.android.adapter.sorting.SortingAlgorithm;
@@ -357,15 +354,10 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	}
 
 	@Override
-	public final void sort(final Order order)
-			throws SortingNotSupportedException {
-		SortingAlgorithm sortingAlgorithm = new InsertionSort();
-
-		long curr = System.currentTimeMillis();
+	public final void sort(final Order order) {
+		SortingAlgorithm sortingAlgorithm = new MergeSort();
 		Pair<List<ItemType>, List<Boolean>> result = sortingAlgorithm.sort(
 				items, selection.getSelections(), order);
-		Log.d("sort", Long.toString(System.currentTimeMillis() - curr));
-
 		items = result.first;
 		notifyOnSorted(result.first, result.second, order);
 		notifyDataSetChanged();
