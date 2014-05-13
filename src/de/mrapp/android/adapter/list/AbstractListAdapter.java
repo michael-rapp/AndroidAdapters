@@ -35,7 +35,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.ListDecorator;
 import de.mrapp.android.adapter.list.selection.ListSelection;
@@ -98,6 +97,10 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	 */
 	private Set<ListAdapterListener<ItemType>> adapterListeners;
 
+	/**
+	 * A set, which contains the listeners, which should be notified when the
+	 * adapter's underlying data has been sorted.
+	 */
 	private Set<ListSortingListener<ItemType>> sortingListeners;
 
 	/**
@@ -146,6 +149,22 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 		}
 	}
 
+	/**
+	 * Notifies all listeners, which have been registered to be notified when
+	 * the adapter's underlying data has been sorted.
+	 * 
+	 * @param sortedList
+	 *            A list, which contains the adapter's sorted items, as an
+	 *            instance of the type {@link List}. The list may not be null
+	 * @param sortedSelections
+	 *            A list, which contains the selection states, which correspond
+	 *            to the adapter's sorted items, as an instance of the type
+	 *            {@link List}. The list may not be null
+	 * @param order
+	 *            The order, which has been used to sort the list, as a value of
+	 *            the enum {@link Order}. The order may either be
+	 *            <code>ASCENDING</code> or <code>DESCENDING</code>
+	 */
 	private void notifyOnSorted(final List<ItemType> sortedList,
 			final List<Boolean> sortedSelections, final Order order) {
 		for (ListSortingListener<ItemType> listener : sortingListeners) {
@@ -216,6 +235,14 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 		return adapterListeners;
 	}
 
+	/**
+	 * Returns a set, which contains the listeners, which should be notified
+	 * when the adapter's underlying data has been sorted.
+	 * 
+	 * @return A set, which contains the listeners, which should be notified
+	 *         when the adapter's underlying data has been modified, as an
+	 *         instance of the type {@link Set}. The set may not be null
+	 */
 	protected final Set<ListSortingListener<ItemType>> getSortingListeners() {
 		return sortingListeners;
 	}
@@ -287,6 +314,10 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	 *            A set, which contains the listeners, which should be notified
 	 *            when the adapter's underlying data has been modified or an
 	 *            empty set, if no listeners should be notified
+	 * @param sortingListeners
+	 *            A set, which contains the listeners, which should be notified,
+	 *            when the adapter's underlying data has been sorted or an empty
+	 *            set, if no listeners should be notified
 	 * @param triggerSelectionOnClick
 	 *            True, if the selection of an item should be triggered, when
 	 *            the item is clicked, false otherwise
