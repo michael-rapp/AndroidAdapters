@@ -21,7 +21,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import android.util.Pair;
-import de.mrapp.android.adapter.SortingNotSupportedException;
 
 /**
  * An implementation of the sorting algorithm MergeSort.
@@ -41,6 +40,14 @@ public class MergeSort extends AbstractSortingAlgorithm {
 	 * @param list
 	 *            The list, whose entries should be sorted, as an instance of
 	 *            the type {@link List}. The list may not be null
+	 * @param selections
+	 *            The list, which contains the selection states, which belong to
+	 *            the entries of the list, which should be sorted, as an
+	 *            instance of the type {@link List}. The list may not be null
+	 * @param order
+	 *            The order, which should be used to sort, as a value of the
+	 *            enum {@link Order}. The value may either be
+	 *            <code>ASCENDING</code> or <code>DESCENDING</code>
 	 * @param comparator
 	 *            The comparator, which should be used to compare the list
 	 *            entries, as an instance of the type {@link Comparator} or
@@ -48,12 +55,10 @@ public class MergeSort extends AbstractSortingAlgorithm {
 	 *            entries must implement the interface {@link Comparable},
 	 *            otherwise a {@link SortingNotSupportedException} will be
 	 *            thrown
-	 * @return A list, which contains the sorted entries, as an instance of the
-	 *         type {@link List}. The list may not be null
-	 * @throws SortingNotSupportedException
-	 *             The exception, which is thrown, if no {@link Comparable}
-	 *             instance has been passed and the list entries do not
-	 *             implement the interface {@link Comparable}
+	 * @return A pair, which contains a list, which contains the sorted entries
+	 *         and a list, which contains the selection states, which correspond
+	 *         to the entries of the sorted list, as an instance of the type
+	 *         {@link Pair}. The pair may not be null
 	 */
 	private <T> Pair<List<T>, List<Boolean>> mergeSort(final List<T> list,
 			final List<Boolean> selections, final Order order,
@@ -83,6 +88,44 @@ public class MergeSort extends AbstractSortingAlgorithm {
 				order, comparator);
 	}
 
+	/**
+	 * Merges to lists by comparing their entries. Entries, which are identified
+	 * to be greater than other entries, will be placed at higher indices of the
+	 * resulting list or vice versa, depending on the given order.
+	 * 
+	 * @param <T>
+	 *            The type of the list entries
+	 * @param leftList
+	 *            The first list, which should be merged, as an instance of the
+	 *            type {@link List}. The list may not be null
+	 * @param rightList
+	 *            The second list, which should be merged, as an instance of the
+	 *            type {@link List}. The list may not be null
+	 * @param leftSelections
+	 *            A list, which contains the selection states, which correspond
+	 *            to the entries of the first list, which should be merged, as
+	 *            an instance of the type {@link List}. The list may not be null
+	 * @param rightSelections
+	 *            A list, which contains the selection states, which correspond
+	 *            to the entries of the second list, which should be merged, as
+	 *            an instance of the type {@link List}. The list may not be null
+	 * @param order
+	 *            The order, which should be used to compare the list entries,
+	 *            as a value of the enum {@link Order}. The value may either be
+	 *            <code>ASCENDING</code> or <code>DESCENDING</code>
+	 * @param comparator
+	 *            The comparator, which should be used to compare the list
+	 *            entries, as an instance of the type {@link Comparator} or
+	 *            null, if no comparator should be used. In such case the list
+	 *            entries must implement the interface {@link Comparable},
+	 *            otherwise a {@link SortingNotSupportedException} will be
+	 *            thrown
+	 * @return A pair, which contains a list, which contains the entries of both
+	 *         given lists in a sorted manner and a list, which contains the
+	 *         selection states, which correspond to the entries of the sorted
+	 *         list, as an instance of the type {@link Pair}. The pair may not
+	 *         be null
+	 */
 	private <T> Pair<List<T>, List<Boolean>> merge(final List<T> leftList,
 			final List<T> rightList, final List<Boolean> leftSelections,
 			final List<Boolean> rightSelections, final Order order,
