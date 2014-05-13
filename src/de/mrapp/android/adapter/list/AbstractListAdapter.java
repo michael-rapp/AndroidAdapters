@@ -21,6 +21,7 @@ import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -354,10 +355,31 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	}
 
 	@Override
+	public final void sort() {
+		sort(Order.ASCENDING);
+	}
+
+	@Override
 	public final void sort(final Order order) {
 		SortingAlgorithm sortingAlgorithm = new MergeSort();
 		Pair<List<ItemType>, List<Boolean>> result = sortingAlgorithm.sort(
 				items, selection.getSelections(), order);
+		items = result.first;
+		notifyOnSorted(result.first, result.second, order);
+		notifyDataSetChanged();
+	}
+
+	@Override
+	public final void sort(final Comparator<ItemType> comparator) {
+		sort(Order.ASCENDING, comparator);
+	}
+
+	@Override
+	public final void sort(final Order order,
+			final Comparator<ItemType> comparator) {
+		SortingAlgorithm sortingAlgorithm = new MergeSort();
+		Pair<List<ItemType>, List<Boolean>> result = sortingAlgorithm.sort(
+				items, selection.getSelections(), order, comparator);
 		items = result.first;
 		notifyOnSorted(result.first, result.second, order);
 		notifyDataSetChanged();

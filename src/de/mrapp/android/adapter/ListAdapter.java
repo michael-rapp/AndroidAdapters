@@ -38,7 +38,7 @@ import de.mrapp.android.adapter.list.selection.SelectableList;
  * @since 1.0.0
  */
 public interface ListAdapter<ItemType> extends Adapter<ItemType>,
-		List<ItemType>, SelectableList, SortableList,
+		List<ItemType>, SelectableList, SortableList<ItemType>,
 		ObservableListSelection<ItemType>, ObservableListAdapter<ItemType>,
 		android.widget.ListAdapter {
 
