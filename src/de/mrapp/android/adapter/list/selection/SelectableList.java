@@ -57,6 +57,17 @@ public interface SelectableList {
 	boolean isSelected(int index);
 
 	/**
+	 * Returns the index of the first selected item or -1, if no item is
+	 * currently selected.
+	 * 
+	 * @return The index of the first selected item, as an {@link Integer} value
+	 *         or -1, if no item is currently selected. The index must be
+	 *         between 0 and the value of the adapter's <code>size():int</code>
+	 *         method - 1
+	 */
+	int getSelectedIndex();
+
+	/**
 	 * Returns a list, which contains the indices of all items, which are
 	 * currently selected.
 	 * 

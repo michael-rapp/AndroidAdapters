@@ -191,6 +191,11 @@ public abstract class AbstractListSelection<ItemType> implements
 	}
 
 	@Override
+	public final int getSelectedIndex() {
+		return selections.indexOf(true);
+	}
+	
+	@Override
 	public final List<Integer> getSelectedIndices() {
 		List<Integer> selectedIndices = new ArrayList<Integer>();
 
