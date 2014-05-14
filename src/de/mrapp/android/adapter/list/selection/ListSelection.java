@@ -27,16 +27,16 @@ import de.mrapp.android.adapter.util.Entity;
  * Defines the interface, all classes, which should be able to manage the
  * selection states of the items of a {@link ListAdapter}, must implement.
  * 
- * @param <ItemType>
+ * @param <DataType>
  *            The type of the adapter's underlying data
  * 
  * @author Michael Rapp
  * 
  * @since 1.0.0
  */
-public interface ListSelection<ItemType> extends SelectableList,
-		ListAdapterListener<ItemType>, ListSortingListener<ItemType>,
-		ObservableListSelection<ItemType>, Entity {
+public interface ListSelection<DataType> extends SelectableList,
+		ListAdapterListener<DataType>, ListSortingListener<DataType>,
+		ObservableListSelection<DataType>, Entity {
 
 	/**
 	 * Returns the list, which contains the selection states, which correspond
@@ -49,6 +49,6 @@ public interface ListSelection<ItemType> extends SelectableList,
 	List<Boolean> getSelections();
 
 	@Override
-	ListSelection<ItemType> clone() throws CloneNotSupportedException;
+	ListSelection<DataType> clone() throws CloneNotSupportedException;
 
 }

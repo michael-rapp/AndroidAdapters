@@ -22,27 +22,27 @@ package de.mrapp.android.adapter.list;
  * underlying data of a {@link AbstractListAdapter} has been modified, must
  * implement.
  * 
- * @param <ItemType>
+ * @param <DataType>
  *            The type of the observed adapter's underlying data
  * 
  * @author Michael Rapp
  * 
  * @since 1.0.0
  */
-public interface ListAdapterListener<ItemType> {
+public interface ListAdapterListener<DataType> {
 
 	/**
 	 * The method, which is invoked, when an item has been added to the adapter.
 	 * 
 	 * @param item
 	 *            The item, which has been added, as an instance of the generic
-	 *            type ItemType. The item may not be null
+	 *            type DataType. The item may not be null
 	 * @param index
 	 *            The index of the item, which has been added, as an
 	 *            {@link Integer} value. The index must be between 0 and the
 	 *            value of the adapter's <code>size():int</code> method - 1
 	 */
-	void onItemAdded(ItemType item, int index);
+	void onItemAdded(DataType item, int index);
 
 	/**
 	 * The method, which is invoked, when an item has been removed from the
@@ -50,12 +50,12 @@ public interface ListAdapterListener<ItemType> {
 	 * 
 	 * @param item
 	 *            The item, which has been removed, as an instance of the
-	 *            generic type ItemType. The item may not be null
+	 *            generic type DataType. The item may not be null
 	 * @param index
 	 *            The index of the item, which has been removed, as an
 	 *            {@link Integer} value. The index must be between 0 and the
 	 *            value of the adapter's <code>size():int</code> method - 2
 	 */
-	void onItemRemoved(ItemType item, int index);
+	void onItemRemoved(DataType item, int index);
 
 }

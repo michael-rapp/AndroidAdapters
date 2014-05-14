@@ -27,10 +27,10 @@ import android.view.View;
  * 
  * @author Michael Rapp
  * 
- * @param <ItemType>
+ * @param <DataType>
  *            The type of the adapter's underlying data
  */
-public interface ListDecorator<ItemType> {
+public interface ListDecorator<DataType> {
 
 	/**
 	 * The method which is invoked, when an item should be visualized,
@@ -46,12 +46,12 @@ public interface ListDecorator<ItemType> {
 	 *            of the class {@link View}. The view may not be null
 	 * @param item
 	 *            The item, which is should be visualized, as an instance of the
-	 *            generic type ItemType. The item may not be null
+	 *            generic type DataType. The item may not be null
 	 * @param selected
 	 *            True, if the item, which should be visualized, is currently
 	 *            selected, false otherwise
 	 */
-	void onCreateItem(Context context, View view, ItemType item,
+	void onCreateItem(Context context, View view, DataType item,
 			boolean selected);
 
 }

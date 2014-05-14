@@ -30,7 +30,7 @@ import de.mrapp.android.adapter.list.selection.SingleChoiceSelection;
  * whom only one item can be selected at once. Such an adapter is meant to
  * provide the underlying data for visualization using a @link ListView} widget.
  * 
- * @param <ItemType>
+ * @param <DataType>
  *            The type of the adapter's underlying data
  * 
  * @author Michael Rapp
@@ -38,8 +38,8 @@ import de.mrapp.android.adapter.list.selection.SingleChoiceSelection;
  * @since 1.0.0
  */
 // TODO: Implement toString
-public class SingleChoiceListAdapter<ItemType> extends
-		AbstractListAdapter<ItemType> {
+public class SingleChoiceListAdapter<DataType> extends
+		AbstractListAdapter<DataType> {
 
 	/**
 	 * The constant serial version UID.
@@ -82,11 +82,11 @@ public class SingleChoiceListAdapter<ItemType> extends
 	 *            the item is clicked, false otherwise
 	 */
 	protected SingleChoiceListAdapter(final Context context, final int viewId,
-			final ListDecorator<ItemType> decorator,
-			final ListSelection<ItemType> selection,
-			final List<ItemType> items,
-			final Set<ListAdapterListener<ItemType>> adapterListeners,
-			final Set<ListSortingListener<ItemType>> sortingListeners,
+			final ListDecorator<DataType> decorator,
+			final ListSelection<DataType> selection,
+			final List<DataType> items,
+			final Set<ListAdapterListener<DataType>> adapterListeners,
+			final Set<ListSortingListener<DataType>> sortingListeners,
 			final boolean triggerSelectionOnClick) {
 		super(context, viewId, decorator, selection, items, adapterListeners,
 				sortingListeners, triggerSelectionOnClick);
@@ -110,14 +110,14 @@ public class SingleChoiceListAdapter<ItemType> extends
 	 *            the type {@link ListDecorator}. The decorator may not be null
 	 */
 	public SingleChoiceListAdapter(final Context context, final int viewId,
-			final ListDecorator<ItemType> decorator) {
-		super(context, viewId, decorator, new SingleChoiceSelection<ItemType>());
+			final ListDecorator<DataType> decorator) {
+		super(context, viewId, decorator, new SingleChoiceSelection<DataType>());
 	}
 
 	@Override
-	public final SingleChoiceListAdapter<ItemType> clone()
+	public final SingleChoiceListAdapter<DataType> clone()
 			throws CloneNotSupportedException {
-		return new SingleChoiceListAdapter<ItemType>(getContext(), getViewId(),
+		return new SingleChoiceListAdapter<DataType>(getContext(), getViewId(),
 				getDecorator(), cloneSelection(), cloneItems(),
 				getAdapterListeners(), getSortingListeners(),
 				isSelectionTriggeredOnClick());

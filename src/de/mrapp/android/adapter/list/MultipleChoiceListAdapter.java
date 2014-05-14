@@ -30,7 +30,7 @@ import de.mrapp.android.adapter.list.selection.MultipleChoiceSelection;
  * whom multiple items can be selected at once. Such an adapter is meant to
  * provide the underlying data for visualization using a @link ListView} widget.
  * 
- * @param <ItemType>
+ * @param <DataType>
  *            The type of the adapter's underlying data
  * 
  * @author Michael Rapp
@@ -38,8 +38,8 @@ import de.mrapp.android.adapter.list.selection.MultipleChoiceSelection;
  * @since 1.0.0
  */
 // TODO: Implement toString
-public class MultipleChoiceListAdapter<ItemType> extends
-		AbstractListAdapter<ItemType> {
+public class MultipleChoiceListAdapter<DataType> extends
+		AbstractListAdapter<DataType> {
 
 	/**
 	 * The constant serial version UID.
@@ -82,11 +82,11 @@ public class MultipleChoiceListAdapter<ItemType> extends
 	 *            the item is clicked, false otherwise
 	 */
 	protected MultipleChoiceListAdapter(final Context context,
-			final int viewId, final ListDecorator<ItemType> decorator,
-			final ListSelection<ItemType> selection,
-			final List<ItemType> items,
-			final Set<ListAdapterListener<ItemType>> adapterListeners,
-			final Set<ListSortingListener<ItemType>> sortingListeners,
+			final int viewId, final ListDecorator<DataType> decorator,
+			final ListSelection<DataType> selection,
+			final List<DataType> items,
+			final Set<ListAdapterListener<DataType>> adapterListeners,
+			final Set<ListSortingListener<DataType>> sortingListeners,
 			final boolean triggerSelectionOnClick) {
 		super(context, viewId, decorator, selection, items, adapterListeners,
 				sortingListeners, triggerSelectionOnClick);
@@ -110,15 +110,15 @@ public class MultipleChoiceListAdapter<ItemType> extends
 	 *            the type {@link ListDecorator}. The decorator may not be null
 	 */
 	public MultipleChoiceListAdapter(final Context context, final int viewId,
-			final ListDecorator<ItemType> decorator) {
+			final ListDecorator<DataType> decorator) {
 		super(context, viewId, decorator,
-				new MultipleChoiceSelection<ItemType>());
+				new MultipleChoiceSelection<DataType>());
 	}
 
 	@Override
-	public final MultipleChoiceListAdapter<ItemType> clone()
+	public final MultipleChoiceListAdapter<DataType> clone()
 			throws CloneNotSupportedException {
-		return new MultipleChoiceListAdapter<ItemType>(getContext(),
+		return new MultipleChoiceListAdapter<DataType>(getContext(),
 				getViewId(), getDecorator(), cloneSelection(), cloneItems(),
 				getAdapterListeners(), getSortingListeners(),
 				isSelectionTriggeredOnClick());

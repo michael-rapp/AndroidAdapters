@@ -24,7 +24,7 @@ import java.util.Set;
  * Manages the selection states of the items of a {@link ListAdapter} in a way,
  * that no item can be selected.
  * 
- * @param <ItemType>
+ * @param <DataType>
  *            The type of the adapter's underlying data
  * 
  * @author Michael Rapp
@@ -32,7 +32,7 @@ import java.util.Set;
  * @since 1.0.0
  */
 // TODO: Add toString-method
-public class NullSelection<ItemType> extends AbstractListSelection<ItemType> {
+public class NullSelection<DataType> extends AbstractListSelection<DataType> {
 
 	/**
 	 * The constant serial version UID.
@@ -54,7 +54,7 @@ public class NullSelection<ItemType> extends AbstractListSelection<ItemType> {
 	 *            as an instance of the type {@link Set} The set may not be null
 	 */
 	protected NullSelection(final List<Boolean> selections,
-			final Set<ListSelectionListener<ItemType>> selectionListeners) {
+			final Set<ListSelectionListener<DataType>> selectionListeners) {
 		super(selections, selectionListeners);
 	}
 
@@ -72,19 +72,19 @@ public class NullSelection<ItemType> extends AbstractListSelection<ItemType> {
 	}
 
 	@Override
-	public final void onItemAdded(final ItemType item, final int index) {
+	public final void onItemAdded(final DataType item, final int index) {
 		getSelections().add(index, false);
 	}
 
 	@Override
-	public final void onItemRemoved(final ItemType item, final int index) {
+	public final void onItemRemoved(final DataType item, final int index) {
 		getSelections().remove(index);
 	}
 
 	@Override
-	public final AbstractListSelection<ItemType> clone()
+	public final AbstractListSelection<DataType> clone()
 			throws CloneNotSupportedException {
-		return new NullSelection<ItemType>(cloneSelections(),
+		return new NullSelection<DataType>(cloneSelections(),
 				getSelectionListeners());
 	}
 

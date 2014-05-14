@@ -26,14 +26,14 @@ import de.mrapp.android.adapter.sorting.Order;
  * underlying data of a {@link AbstractListAdapter} has been sorted, must
  * implement.
  * 
- * @param <ItemType>
+ * @param <DataType>
  *            The type of the observed adapter's underlying data
  * 
  * @author Michael Rapp
  * 
  * @since 1.0.0
  */
-public interface ListSortingListener<ItemType> {
+public interface ListSortingListener<DataType> {
 
 	/**
 	 * The method, which is invoked, when the adapter's underlying data has been
@@ -51,7 +51,7 @@ public interface ListSortingListener<ItemType> {
 	 *            a value of the enum {@link Order}. The order may either be
 	 *            <code>ASCENDING</code> or <code>DESCENDING</code>
 	 */
-	void onSorted(List<ItemType> sortedList, List<Boolean> sortedSelections,
+	void onSorted(List<DataType> sortedList, List<Boolean> sortedSelections,
 			Order order);
 
 }

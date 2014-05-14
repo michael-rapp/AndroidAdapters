@@ -22,14 +22,14 @@ package de.mrapp.android.adapter.list.selection;
  * which are notified when the selection states of the items of a
  * {@link ListAdapter} has been changed, must implement.
  * 
- * @param <ItemType>
+ * @param <DataType>
  *            The type of the adapter's underlying data
  * 
  * @author Michael Rapp
  * 
  * @since 1.0.0
  */
-public interface ObservableListSelection<ItemType> {
+public interface ObservableListSelection<DataType> {
 
 	/**
 	 * Adds a new listener, which should be notified when the selection of an
@@ -40,7 +40,7 @@ public interface ObservableListSelection<ItemType> {
 	 *            type {@link ListSelectionListener}. The listener may not be
 	 *            null
 	 */
-	void addSelectionListener(ListSelectionListener<ItemType> listener);
+	void addSelectionListener(ListSelectionListener<DataType> listener);
 
 	/**
 	 * Removes a specific listener, which should not be notified when the
@@ -51,6 +51,6 @@ public interface ObservableListSelection<ItemType> {
 	 *            type {@link ListSelectionListener}. The listener may not be
 	 *            null
 	 */
-	void removeSelectionListener(ListSelectionListener<ItemType> listener);
+	void removeSelectionListener(ListSelectionListener<DataType> listener);
 
 }
