@@ -17,6 +17,7 @@
  */
 package de.mrapp.android.adapter;
 
+import android.os.Bundle;
 import de.mrapp.android.adapter.util.Entity;
 
 /**
@@ -33,5 +34,26 @@ public interface Adapter<ItemType> extends Entity {
 
 	@Override
 	Adapter<ItemType> clone() throws CloneNotSupportedException;
+
+	/**
+	 * This method may be called to retrieve per-instance state from an activity
+	 * before being killed so that the state can be restored.
+	 * 
+	 * @param outState
+	 *            The bundle, which is used to store the saved state, as an
+	 *            instance of the class {@link Bundle}. The bundle may not be
+	 *            null
+	 */
+	void onSaveInstanceState(Bundle outState);
+
+	/**
+	 * This method may be called after to re-initialize an activity from a
+	 * previously saved state.
+	 * 
+	 * @param savedInstanceState
+	 *            The bundle, which contains the previously save state, as an
+	 *            instance of the class {@link Bundle}. The bundle may be null
+	 */
+	void onRestoreInstanceState(Bundle savedInstanceState);
 
 }
