@@ -455,6 +455,11 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	}
 
 	@Override
+	public final int getSelectedIndex() {
+		return selection.getSelectedIndex();
+	}
+
+	@Override
 	public final List<Integer> getSelectedIndices() {
 		return selection.getSelectedIndices();
 	}
