@@ -22,14 +22,14 @@ package de.mrapp.android.adapter.list;
  * which are notified when the underlying data of a {@link ListAdapter} has been
  * modified, must implement.
  * 
- * @param <ItemType>
+ * @param <DataType>
  *            The type of the adapter's underlying data
  * 
  * @author Michael Rapp
  * 
  * @since 1.0.0
  */
-public interface ObservableListAdapter<ItemType> {
+public interface ObservableListAdapter<DataType> {
 
 	/**
 	 * Adds a new listener, which should be notified when the adapter's
@@ -40,7 +40,7 @@ public interface ObservableListAdapter<ItemType> {
 	 *            class {@link ListAdapterListener}. The listener may not be
 	 *            null
 	 */
-	void addAdapterListener(ListAdapterListener<ItemType> listener);
+	void addAdapterListener(ListAdapterListener<DataType> listener);
 
 	/**
 	 * Removes a specific listener, which should not be notified when the
@@ -51,7 +51,7 @@ public interface ObservableListAdapter<ItemType> {
 	 *            class {@link ListAdapterListener}. The listener may not be
 	 *            null
 	 */
-	void removeAdapterListener(ListAdapterListener<ItemType> listener);
+	void removeAdapterListener(ListAdapterListener<DataType> listener);
 
 	/**
 	 * Adds a new listener, which should be notified when the adapter's
@@ -62,7 +62,7 @@ public interface ObservableListAdapter<ItemType> {
 	 *            class {@link ListSortingListener}. The listener may not be
 	 *            null
 	 */
-	void addSortingListner(ListSortingListener<ItemType> listener);
+	void addSortingListner(ListSortingListener<DataType> listener);
 
 	/**
 	 * Removes a specific listener, which should not be notified when the
@@ -73,6 +73,6 @@ public interface ObservableListAdapter<ItemType> {
 	 *            class {@link ListSortingListener}. The listener may not be
 	 *            null
 	 */
-	void removeSortingListener(ListSortingListener<ItemType> listener);
+	void removeSortingListener(ListSortingListener<DataType> listener);
 
 }

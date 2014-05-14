@@ -50,15 +50,15 @@ import de.mrapp.android.adapter.util.SerializableWrapper;
  * a list of arbitrary items. Such adapters are meant to provide the underlying
  * data for visualization using a {@link ListView} widget.
  * 
- * @param <ItemType>
+ * @param <DataType>
  *            The type of the adapter's underlying data
  * 
  * @author Michael Rapp
  * 
  * @since 1.0.0
  */
-public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
-		implements ListAdapter<ItemType> {
+public abstract class AbstractListAdapter<DataType> extends BaseAdapter
+		implements ListAdapter<DataType> {
 
 	/**
 	 * The constant serial version UID.
@@ -101,13 +101,13 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	 * which belong to the view, which is used to visualize the items of the
 	 * adapter.
 	 */
-	private final transient ListDecorator<ItemType> decorator;
+	private final transient ListDecorator<DataType> decorator;
 
 	/**
 	 * The selection, which is used to manage the selection states of the
 	 * adapter's items.
 	 */
-	private ListSelection<ItemType> selection;
+	private ListSelection<DataType> selection;
 
 	/**
 	 * The id of the view, which is used to visualize each item of the adapter.
@@ -117,19 +117,19 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	/**
 	 * A list, which contains the the adapter's items.
 	 */
-	private List<ItemType> items;
+	private List<DataType> items;
 
 	/**
 	 * A set, which contains the listeners, which should be notified when the
 	 * adapter's underlying data has been modified.
 	 */
-	private Set<ListAdapterListener<ItemType>> adapterListeners;
+	private Set<ListAdapterListener<DataType>> adapterListeners;
 
 	/**
 	 * A set, which contains the listeners, which should be notified when the
 	 * adapter's underlying data has been sorted.
 	 */
-	private Set<ListSortingListener<ItemType>> sortingListeners;
+	private Set<ListSortingListener<DataType>> sortingListeners;
 
 	/**
 	 * True, if the selection of an item is triggered, when the item is clicked,
@@ -144,14 +144,14 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	 * 
 	 * @param item
 	 *            The item, which has been added to the adapter, as an instance
-	 *            of the generic type ItemType. The item may not be null
+	 *            of the generic type DataType. The item may not be null
 	 * @param index
 	 *            The index of the item, which has been added to the adapter, as
 	 *            an {@link Integer} value. The index must be between 0 and the
 	 *            value of the method <code>size():int</code> - 1
 	 */
-	private void notifyOnItemAdded(final ItemType item, final int index) {
-		for (ListAdapterListener<ItemType> listener : adapterListeners) {
+	private void notifyOnItemAdded(final DataType item, final int index) {
+		for (ListAdapterListener<DataType> listener : adapterListeners) {
 			listener.onItemAdded(item, index);
 		}
 	}
@@ -163,7 +163,7 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	 * 
 	 * @param item
 	 *            The item, which has been removed from the adapter, as an
-	 *            instance of the generic type ItemType. The item may not be
+	 *            instance of the generic type DataType. The item may not be
 	 *            null
 	 * @param index
 	 *            The index of the item, which has been removed from the
@@ -171,8 +171,8 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	 *            between 0 and the value of the method <code>size():int</code>
 	 *            - 2.
 	 */
-	private void notifyOnItemRemoved(final ItemType item, final int index) {
-		for (ListAdapterListener<ItemType> listener : adapterListeners) {
+	private void notifyOnItemRemoved(final DataType item, final int index) {
+		for (ListAdapterListener<DataType> listener : adapterListeners) {
 			listener.onItemRemoved(item, index);
 		}
 	}
@@ -193,9 +193,9 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	 *            the enum {@link Order}. The order may either be
 	 *            <code>ASCENDING</code> or <code>DESCENDING</code>
 	 */
-	private void notifyOnSorted(final List<ItemType> sortedList,
+	private void notifyOnSorted(final List<DataType> sortedList,
 			final List<Boolean> sortedSelections, final Order order) {
-		for (ListSortingListener<ItemType> listener : sortingListeners) {
+		for (ListSortingListener<DataType> listener : sortingListeners) {
 			listener.onSorted(sortedList, sortedSelections, order);
 		}
 	}
@@ -247,7 +247,7 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	 *         items of the adapter, as an instance of the type
 	 *         {@link ListDecorator}. The decorator may not be null
 	 */
-	protected final ListDecorator<ItemType> getDecorator() {
+	protected final ListDecorator<DataType> getDecorator() {
 		return decorator;
 	}
 
@@ -259,7 +259,7 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	 *         when the adapter's underlying data has been modified, as an
 	 *         instance of the type {@link Set}. The set may not be null
 	 */
-	protected final Set<ListAdapterListener<ItemType>> getAdapterListeners() {
+	protected final Set<ListAdapterListener<DataType>> getAdapterListeners() {
 		return adapterListeners;
 	}
 
@@ -271,7 +271,7 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	 *         when the adapter's underlying data has been modified, as an
 	 *         instance of the type {@link Set}. The set may not be null
 	 */
-	protected final Set<ListSortingListener<ItemType>> getSortingListeners() {
+	protected final Set<ListSortingListener<DataType>> getSortingListeners() {
 		return sortingListeners;
 	}
 
@@ -285,13 +285,13 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	 *             The exception, which is thrown, if cloning is not supported
 	 */
 	@SuppressWarnings("unchecked")
-	protected final List<ItemType> cloneItems()
+	protected final List<DataType> cloneItems()
 			throws CloneNotSupportedException {
-		List<ItemType> clonedItems = new ArrayList<ItemType>();
+		List<DataType> clonedItems = new ArrayList<DataType>();
 
 		try {
-			for (ItemType item : items) {
-				ItemType clonedItem = (ItemType) item.getClass()
+			for (DataType item : items) {
+				DataType clonedItem = (DataType) item.getClass()
 						.getMethod("clone").invoke(item);
 				clonedItems.add(clonedItem);
 			}
@@ -310,7 +310,7 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	 * @throws CloneNotSupportedException
 	 *             The exception, which is thrown, if cloning is not supported
 	 */
-	protected final ListSelection<ItemType> cloneSelection()
+	protected final ListSelection<DataType> cloneSelection()
 			throws CloneNotSupportedException {
 		return selection.clone();
 	}
@@ -351,11 +351,11 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	 *            the item is clicked, false otherwise
 	 */
 	protected AbstractListAdapter(final Context context, final int viewId,
-			final ListDecorator<ItemType> decorator,
-			final ListSelection<ItemType> selection,
-			final List<ItemType> items,
-			final Set<ListAdapterListener<ItemType>> adapterListeners,
-			final Set<ListSortingListener<ItemType>> sortingListeners,
+			final ListDecorator<DataType> decorator,
+			final ListSelection<DataType> selection,
+			final List<DataType> items,
+			final Set<ListAdapterListener<DataType>> adapterListeners,
+			final Set<ListSortingListener<DataType>> sortingListeners,
 			final boolean triggerSelectionOnClick) {
 		ensureNotNull(context, "The context may not be null");
 		ensureNotNull(selection, "The selection may not be null");
@@ -401,11 +401,11 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	 *            {@link ListSelection}. The selection may not be null
 	 */
 	public AbstractListAdapter(final Context context, final int viewId,
-			final ListDecorator<ItemType> decorator,
-			final ListSelection<ItemType> selection) {
-		this(context, viewId, decorator, selection, new ArrayList<ItemType>(),
-				new LinkedHashSet<ListAdapterListener<ItemType>>(),
-				new LinkedHashSet<ListSortingListener<ItemType>>(), true);
+			final ListDecorator<DataType> decorator,
+			final ListSelection<DataType> selection) {
+		this(context, viewId, decorator, selection, new ArrayList<DataType>(),
+				new LinkedHashSet<ListAdapterListener<DataType>>(),
+				new LinkedHashSet<ListSortingListener<DataType>>(), true);
 	}
 
 	@Override
@@ -421,7 +421,7 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	@Override
 	public final void sort(final Order order) {
 		SortingAlgorithm sortingAlgorithm = new MergeSort();
-		Pair<List<ItemType>, List<Boolean>> result = sortingAlgorithm.sort(
+		Pair<List<DataType>, List<Boolean>> result = sortingAlgorithm.sort(
 				items, selection.getSelections(), order);
 		items = result.first;
 		notifyOnSorted(result.first, result.second, order);
@@ -429,15 +429,15 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	}
 
 	@Override
-	public final void sort(final Comparator<ItemType> comparator) {
+	public final void sort(final Comparator<DataType> comparator) {
 		sort(Order.ASCENDING, comparator);
 	}
 
 	@Override
 	public final void sort(final Order order,
-			final Comparator<ItemType> comparator) {
+			final Comparator<DataType> comparator) {
 		SortingAlgorithm sortingAlgorithm = new MergeSort();
-		Pair<List<ItemType>, List<Boolean>> result = sortingAlgorithm.sort(
+		Pair<List<DataType>, List<Boolean>> result = sortingAlgorithm.sort(
 				items, selection.getSelections(), order, comparator);
 		items = result.first;
 		notifyOnSorted(result.first, result.second, order);
@@ -471,44 +471,44 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 
 	@Override
 	public final void addAdapterListener(
-			final ListAdapterListener<ItemType> listener) {
+			final ListAdapterListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		adapterListeners.add(listener);
 	}
 
 	@Override
 	public final void removeAdapterListener(
-			final ListAdapterListener<ItemType> listener) {
+			final ListAdapterListener<DataType> listener) {
 		adapterListeners.remove(listener);
 	}
 
 	@Override
 	public final void addSortingListner(
-			final ListSortingListener<ItemType> listener) {
+			final ListSortingListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		sortingListeners.add(listener);
 	}
 
 	@Override
 	public final void removeSortingListener(
-			final ListSortingListener<ItemType> listener) {
+			final ListSortingListener<DataType> listener) {
 		sortingListeners.remove(listener);
 	}
 
 	@Override
 	public final void addSelectionListener(
-			final ListSelectionListener<ItemType> listener) {
+			final ListSelectionListener<DataType> listener) {
 		selection.addSelectionListener(listener);
 	}
 
 	@Override
 	public final void removeSelectionListener(
-			final ListSelectionListener<ItemType> listener) {
+			final ListSelectionListener<DataType> listener) {
 		selection.removeSelectionListener(listener);
 	}
 
 	@Override
-	public final boolean add(final ItemType item) {
+	public final boolean add(final DataType item) {
 		boolean modified = items.add(item);
 		notifyOnItemAdded(item, items.size() - 1);
 		notifyDataSetChanged();
@@ -516,17 +516,17 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	}
 
 	@Override
-	public final void add(final int index, final ItemType item) {
+	public final void add(final int index, final DataType item) {
 		items.add(index, item);
 		notifyOnItemAdded(item, index);
 		notifyDataSetChanged();
 	}
 
 	@Override
-	public final boolean addAll(final Collection<? extends ItemType> items) {
+	public final boolean addAll(final Collection<? extends DataType> items) {
 		boolean modified = false;
 
-		for (ItemType item : items) {
+		for (DataType item : items) {
 			modified |= add(item);
 		}
 
@@ -535,10 +535,10 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 
 	@Override
 	public final boolean addAll(final int index,
-			final Collection<? extends ItemType> items) {
+			final Collection<? extends DataType> items) {
 		int currentIndex = index;
 
-		for (ItemType item : items) {
+		for (DataType item : items) {
 			add(currentIndex, item);
 			currentIndex++;
 		}
@@ -547,8 +547,8 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	}
 
 	@Override
-	public final ItemType set(final int index, final ItemType item) {
-		ItemType replacedItem = items.set(index, item);
+	public final DataType set(final int index, final DataType item) {
+		DataType replacedItem = items.set(index, item);
 		notifyOnItemRemoved(replacedItem, index);
 		notifyOnItemAdded(item, index);
 		notifyDataSetChanged();
@@ -556,8 +556,8 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	}
 
 	@Override
-	public final ItemType remove(final int index) {
-		ItemType item = items.remove(index);
+	public final DataType remove(final int index) {
+		DataType item = items.remove(index);
 		notifyOnItemRemoved(item, index);
 		notifyDataSetChanged();
 		return item;
@@ -570,7 +570,7 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 		boolean modified = items.remove(item);
 
 		try {
-			notifyOnItemRemoved((ItemType) item, index);
+			notifyOnItemRemoved((DataType) item, index);
 			notifyDataSetChanged();
 		} catch (ClassCastException e) {
 			return modified;
@@ -594,7 +594,7 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	public final boolean retainAll(final Collection<?> items) {
 		boolean modified = false;
 
-		for (ItemType item : this.items) {
+		for (DataType item : this.items) {
 			if (!items.contains(item)) {
 				modified |= remove(item);
 			}
@@ -609,22 +609,22 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	}
 
 	@Override
-	public final Iterator<ItemType> iterator() {
+	public final Iterator<DataType> iterator() {
 		return items.iterator();
 	}
 
 	@Override
-	public final ListIterator<ItemType> listIterator() {
+	public final ListIterator<DataType> listIterator() {
 		return items.listIterator();
 	}
 
 	@Override
-	public final ListIterator<ItemType> listIterator(final int index) {
+	public final ListIterator<DataType> listIterator(final int index) {
 		return items.listIterator(index);
 	}
 
 	@Override
-	public final List<ItemType> subList(final int start, final int end) {
+	public final List<DataType> subList(final int start, final int end) {
 		return items.subList(start, end);
 	}
 
@@ -639,7 +639,7 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	}
 
 	@Override
-	public final ItemType get(final int index) {
+	public final DataType get(final int index) {
 		return items.get(index);
 	}
 
@@ -690,7 +690,7 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	}
 
 	@Override
-	public final ItemType getItem(final int index) {
+	public final DataType getItem(final int index) {
 		return items.get(index);
 	}
 
@@ -715,16 +715,16 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	public final void onSaveInstanceState(final Bundle outState) {
 		outState.putSerializable(SELECTION_BUNDLE_KEY, selection);
 
-		SerializableWrapper<List<ItemType>> wrappedItems = new SerializableWrapper<List<ItemType>>(
+		SerializableWrapper<List<DataType>> wrappedItems = new SerializableWrapper<List<DataType>>(
 				items);
 		outState.putSerializable(ITEMS_BUNDLE_KEY, wrappedItems);
 
-		SerializableWrapper<Set<ListAdapterListener<ItemType>>> wrappedAdapterListeners = new SerializableWrapper<Set<ListAdapterListener<ItemType>>>(
+		SerializableWrapper<Set<ListAdapterListener<DataType>>> wrappedAdapterListeners = new SerializableWrapper<Set<ListAdapterListener<DataType>>>(
 				adapterListeners);
 		outState.putSerializable(ADAPTER_LISTENERS_BUNDLE_KEY,
 				wrappedAdapterListeners);
 
-		SerializableWrapper<Set<ListSortingListener<ItemType>>> wrappedSortingListeners = new SerializableWrapper<Set<ListSortingListener<ItemType>>>(
+		SerializableWrapper<Set<ListSortingListener<DataType>>> wrappedSortingListeners = new SerializableWrapper<Set<ListSortingListener<DataType>>>(
 				sortingListeners);
 		outState.putSerializable(SORTING_LISTENERS_BUNDLE_KEY,
 				wrappedSortingListeners);
@@ -734,18 +734,18 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	@Override
 	public final void onRestoreInstanceState(final Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
-			SerializableWrapper<List<ItemType>> wrappedItems = (SerializableWrapper<List<ItemType>>) savedInstanceState
+			SerializableWrapper<List<DataType>> wrappedItems = (SerializableWrapper<List<DataType>>) savedInstanceState
 					.getSerializable(ITEMS_BUNDLE_KEY);
 			items = wrappedItems.getWrappedInstance();
 
-			selection = (ListSelection<ItemType>) savedInstanceState
+			selection = (ListSelection<DataType>) savedInstanceState
 					.getSerializable(SELECTION_BUNDLE_KEY);
 
-			SerializableWrapper<Set<ListAdapterListener<ItemType>>> wrappedAdapterListeners = (SerializableWrapper<Set<ListAdapterListener<ItemType>>>) savedInstanceState
+			SerializableWrapper<Set<ListAdapterListener<DataType>>> wrappedAdapterListeners = (SerializableWrapper<Set<ListAdapterListener<DataType>>>) savedInstanceState
 					.getSerializable(ADAPTER_LISTENERS_BUNDLE_KEY);
 			adapterListeners = wrappedAdapterListeners.getWrappedInstance();
 
-			SerializableWrapper<Set<ListSortingListener<ItemType>>> wrappedSortingListeners = (SerializableWrapper<Set<ListSortingListener<ItemType>>>) savedInstanceState
+			SerializableWrapper<Set<ListSortingListener<DataType>>> wrappedSortingListeners = (SerializableWrapper<Set<ListSortingListener<DataType>>>) savedInstanceState
 					.getSerializable(SORTING_LISTENERS_BUNDLE_KEY);
 			sortingListeners = wrappedSortingListeners.getWrappedInstance();
 
@@ -791,7 +791,7 @@ public abstract class AbstractListAdapter<ItemType> extends BaseAdapter
 	}
 
 	@Override
-	public abstract AbstractListAdapter<ItemType> clone()
+	public abstract AbstractListAdapter<DataType> clone()
 			throws CloneNotSupportedException;
 
 }

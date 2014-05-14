@@ -27,10 +27,10 @@ import de.mrapp.android.adapter.sorting.Order;
  * 
  * @author Michael Rapp
  * 
- * @param <ItemType>
+ * @param <DataType>
  *            The type of the adapter's underlying data
  */
-public interface SortableList<ItemType> {
+public interface SortableList<DataType> {
 
 	/**
 	 * Sorts the entries of the adapter in an ascending order.
@@ -56,7 +56,7 @@ public interface SortableList<ItemType> {
 	 *            an instance of the type {@link Comparator}. The comparator may
 	 *            not be null
 	 */
-	void sort(Comparator<ItemType> comparator);
+	void sort(Comparator<DataType> comparator);
 
 	/**
 	 * Sorts the entries of the adapter by using a comparator in a specific
@@ -71,6 +71,6 @@ public interface SortableList<ItemType> {
 	 *            value of the enum {@link Order}. The order may either be
 	 *            <code>ASCENDING</code> order <code>DESCENDING</code>
 	 */
-	void sort(Order order, Comparator<ItemType> comparator);
+	void sort(Order order, Comparator<DataType> comparator);
 
 }

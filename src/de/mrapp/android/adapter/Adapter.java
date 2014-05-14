@@ -23,17 +23,17 @@ import de.mrapp.android.adapter.util.Entity;
 /**
  * Defines the interface, all adapters must implement.
  * 
- * @param <ItemType>
+ * @param <DataType>
  *            The type of the adapter's underlying data
  * 
  * @author Michael Rapp
  * 
  * @since 1.0.0
  */
-public interface Adapter<ItemType> extends Entity {
+public interface Adapter<DataType> extends Entity {
 
 	@Override
-	Adapter<ItemType> clone() throws CloneNotSupportedException;
+	Adapter<DataType> clone() throws CloneNotSupportedException;
 
 	/**
 	 * This method may be called to retrieve per-instance state from an activity

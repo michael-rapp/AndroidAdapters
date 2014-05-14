@@ -25,15 +25,15 @@ import java.util.Set;
  * that multiple items can be selected at once. Triggering the selection of an
  * already selected item causes it to become unselected.
  * 
- * @param <ItemType>
+ * @param <DataType>
  *            The type of the adapter's underlying data
  * 
  * @author Michael Rapp
  * 
  * @since 1.0.0
  */
-public class MultipleChoiceSelection<ItemType> extends
-		AbstractListSelection<ItemType> {
+public class MultipleChoiceSelection<DataType> extends
+		AbstractListSelection<DataType> {
 
 	/**
 	 * The constant serial version UID.
@@ -55,7 +55,7 @@ public class MultipleChoiceSelection<ItemType> extends
 	 *            as an instance of the type {@link Set} The set may not be null
 	 */
 	protected MultipleChoiceSelection(final List<Boolean> selections,
-			final Set<ListSelectionListener<ItemType>> selectionListeners) {
+			final Set<ListSelectionListener<DataType>> selectionListeners) {
 		super(selections, selectionListeners);
 	}
 
@@ -81,12 +81,12 @@ public class MultipleChoiceSelection<ItemType> extends
 	}
 
 	@Override
-	public final void onItemAdded(final ItemType item, final int index) {
+	public final void onItemAdded(final DataType item, final int index) {
 		getSelections().add(index, false);
 	}
 
 	@Override
-	public final void onItemRemoved(final ItemType item, final int index) {
+	public final void onItemRemoved(final DataType item, final int index) {
 		getSelections().remove(index);
 	}
 
@@ -97,9 +97,9 @@ public class MultipleChoiceSelection<ItemType> extends
 	}
 
 	@Override
-	public final MultipleChoiceSelection<ItemType> clone()
+	public final MultipleChoiceSelection<DataType> clone()
 			throws CloneNotSupportedException {
-		return new MultipleChoiceSelection<ItemType>(cloneSelections(),
+		return new MultipleChoiceSelection<DataType>(cloneSelections(),
 				getSelectionListeners());
 	}
 

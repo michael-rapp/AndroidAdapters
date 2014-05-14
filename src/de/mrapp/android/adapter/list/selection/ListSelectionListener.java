@@ -22,14 +22,14 @@ package de.mrapp.android.adapter.list.selection;
  * selection of an item of a {@link ListAdapter} has been modified, must
  * implement.
  * 
- * @param <ItemType>
+ * @param <DataType>
  *            The type of the observed adapter's underlying data
  * 
  * @author Michael Rapp
  * 
  * @since 1.0.0
  */
-public interface ListSelectionListener<ItemType> {
+public interface ListSelectionListener<DataType> {
 
 	/**
 	 * The method, which is invoked, when an item has been selected.

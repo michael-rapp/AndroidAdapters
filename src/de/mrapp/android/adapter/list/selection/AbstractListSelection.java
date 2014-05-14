@@ -30,15 +30,15 @@ import de.mrapp.android.adapter.sorting.Order;
  * An abstract base class for all classes, which should be able to manage the
  * selection states of the items of a {@link ListAdapter}.
  * 
- * @param <ItemType>
+ * @param <DataType>
  *            The type of the adapter's underlying data
  * 
  * @author Michael Rapp
  * 
  * @since 1.0.0
  */
-public abstract class AbstractListSelection<ItemType> implements
-		ListSelection<ItemType> {
+public abstract class AbstractListSelection<DataType> implements
+		ListSelection<DataType> {
 
 	/**
 	 * The constant serial version UID.
@@ -56,7 +56,7 @@ public abstract class AbstractListSelection<ItemType> implements
 	 * A set, which contains the listeners, which should be notified when the
 	 * selection of an item of the adapter has been changed.
 	 */
-	private Set<ListSelectionListener<ItemType>> selectionListeners;
+	private Set<ListSelectionListener<DataType>> selectionListeners;
 
 	/**
 	 * Creates and returns a deep copy of the list, which contains the selection
@@ -84,7 +84,7 @@ public abstract class AbstractListSelection<ItemType> implements
 	 *         when the selection of an item of the adapter has been changed, as
 	 *         an instance of the type {@link Set}. The set may not be null
 	 */
-	protected final Set<ListSelectionListener<ItemType>> getSelectionListeners() {
+	protected final Set<ListSelectionListener<DataType>> getSelectionListeners() {
 		return selectionListeners;
 	}
 
@@ -99,7 +99,7 @@ public abstract class AbstractListSelection<ItemType> implements
 	 *            value of the method <code>size():int</code> - 1
 	 */
 	protected final void notifyOnItemSelected(final int index) {
-		for (ListSelectionListener<ItemType> listener : selectionListeners) {
+		for (ListSelectionListener<DataType> listener : selectionListeners) {
 			listener.onItemSelected(index);
 		}
 	}
@@ -115,7 +115,7 @@ public abstract class AbstractListSelection<ItemType> implements
 	 *            value of the method <code>size():int</code> - 1
 	 */
 	protected final void notifyOnItemUnselected(final int index) {
-		for (ListSelectionListener<ItemType> listener : selectionListeners) {
+		for (ListSelectionListener<DataType> listener : selectionListeners) {
 			listener.onItemUnselected(index);
 		}
 	}
@@ -134,7 +134,7 @@ public abstract class AbstractListSelection<ItemType> implements
 	 *            as an instance of the type {@link Set} The set may not be null
 	 */
 	protected AbstractListSelection(final List<Boolean> selections,
-			final Set<ListSelectionListener<ItemType>> selectionListeners) {
+			final Set<ListSelectionListener<DataType>> selectionListeners) {
 		ensureNotNull(selections, "The selections may not be null");
 		ensureNotNull(selectionListeners,
 				"The selection listeners may not be null");
@@ -148,7 +148,7 @@ public abstract class AbstractListSelection<ItemType> implements
 	 */
 	public AbstractListSelection() {
 		this(new ArrayList<Boolean>(),
-				new LinkedHashSet<ListSelectionListener<ItemType>>());
+				new LinkedHashSet<ListSelectionListener<DataType>>());
 	}
 
 	/**
@@ -161,7 +161,7 @@ public abstract class AbstractListSelection<ItemType> implements
 	 *            null
 	 */
 	public final void addSelectionListener(
-			final ListSelectionListener<ItemType> listener) {
+			final ListSelectionListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		selectionListeners.add(listener);
 	}
@@ -176,7 +176,7 @@ public abstract class AbstractListSelection<ItemType> implements
 	 *            null
 	 */
 	public final void removeSelectionListener(
-			final ListSelectionListener<ItemType> listener) {
+			final ListSelectionListener<DataType> listener) {
 		selectionListeners.remove(listener);
 	}
 
@@ -222,7 +222,7 @@ public abstract class AbstractListSelection<ItemType> implements
 	}
 
 	@Override
-	public final void onSorted(final List<ItemType> sortedList,
+	public final void onSorted(final List<DataType> sortedList,
 			final List<Boolean> sortedSelections, final Order order) {
 		selections = sortedSelections;
 	}
@@ -253,7 +253,7 @@ public abstract class AbstractListSelection<ItemType> implements
 	}
 
 	@Override
-	public abstract AbstractListSelection<ItemType> clone()
+	public abstract AbstractListSelection<DataType> clone()
 			throws CloneNotSupportedException;
 
 }

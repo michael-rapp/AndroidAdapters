@@ -30,16 +30,16 @@ import de.mrapp.android.adapter.list.selection.SelectableList;
  * of arbitrary items, must implement. Such an adapter is meant to provide the
  * underlying data for visualization using a {@link ListView} widget.
  * 
- * @param <ItemType>
+ * @param <DataType>
  *            The type of the adapter's underlying data
  * 
  * @author Michael Rapp
  * 
  * @since 1.0.0
  */
-public interface ListAdapter<ItemType> extends Adapter<ItemType>,
-		List<ItemType>, SelectableList, SortableList<ItemType>,
-		ObservableListSelection<ItemType>, ObservableListAdapter<ItemType>,
+public interface ListAdapter<DataType> extends Adapter<DataType>,
+		List<DataType>, SelectableList, SortableList<DataType>,
+		ObservableListSelection<DataType>, ObservableListAdapter<DataType>,
 		android.widget.ListAdapter {
 
 	/**
@@ -70,6 +70,6 @@ public interface ListAdapter<ItemType> extends Adapter<ItemType>,
 	boolean isSelectionTriggeredOnClick();
 
 	@Override
-	ListAdapter<ItemType> clone() throws CloneNotSupportedException;
+	ListAdapter<DataType> clone() throws CloneNotSupportedException;
 
 }

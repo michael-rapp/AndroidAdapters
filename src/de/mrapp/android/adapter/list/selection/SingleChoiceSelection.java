@@ -24,15 +24,15 @@ import java.util.Set;
  * Manages the selection states of the items of a {@link ListAdapter} in a way,
  * that only one item can be selected at once.
  * 
- * @param <ItemType>
+ * @param <DataType>
  *            The type of the adapter's underlying data
  * 
  * @author Michael Rapp
  * 
  * @since 1.0.0
  */
-public class SingleChoiceSelection<ItemType> extends
-		AbstractListSelection<ItemType> {
+public class SingleChoiceSelection<DataType> extends
+		AbstractListSelection<DataType> {
 
 	/**
 	 * The constant serial version UID.
@@ -54,7 +54,7 @@ public class SingleChoiceSelection<ItemType> extends
 	 *            as an instance of the type {@link Set} The set may not be null
 	 */
 	protected SingleChoiceSelection(final List<Boolean> selections,
-			final Set<ListSelectionListener<ItemType>> selectionListeners) {
+			final Set<ListSelectionListener<DataType>> selectionListeners) {
 		super(selections, selectionListeners);
 	}
 
@@ -81,7 +81,7 @@ public class SingleChoiceSelection<ItemType> extends
 	}
 
 	@Override
-	public final void onItemAdded(final ItemType item, final int index) {
+	public final void onItemAdded(final DataType item, final int index) {
 		if (getSelections().isEmpty()) {
 			getSelections().add(index, true);
 			notifyOnItemSelected(index);
@@ -91,7 +91,7 @@ public class SingleChoiceSelection<ItemType> extends
 	}
 
 	@Override
-	public final void onItemRemoved(final ItemType item, final int index) {
+	public final void onItemRemoved(final DataType item, final int index) {
 		getSelections().remove(index);
 
 		if (getSelections().size() >= index + 1) {
@@ -110,9 +110,9 @@ public class SingleChoiceSelection<ItemType> extends
 	}
 
 	@Override
-	public final SingleChoiceSelection<ItemType> clone()
+	public final SingleChoiceSelection<DataType> clone()
 			throws CloneNotSupportedException {
-		return new SingleChoiceSelection<ItemType>(cloneSelections(),
+		return new SingleChoiceSelection<DataType>(cloneSelections(),
 				getSelectionListeners());
 	}
 
