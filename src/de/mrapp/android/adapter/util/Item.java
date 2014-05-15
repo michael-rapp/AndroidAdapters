@@ -24,10 +24,10 @@ import de.mrapp.android.adapter.SortingNotSupportedException;
  * Represents an item of an adapter. It contains the item's data, a selection
  * state and may be enabled or disabled.
  * 
- * @author Michael Rapp
- * 
  * @param <DataType>
  *            The type of the item's data
+ * 
+ * @author Michael Rapp
  */
 public class Item<DataType> implements Entity, Comparable<Item<DataType>> {
 
@@ -151,13 +151,13 @@ public class Item<DataType> implements Entity, Comparable<Item<DataType>> {
 	}
 
 	@Override
-	public final String toString() {
+	public String toString() {
 		return "Item [data=" + data + ", selectionState=" + selectionState
 				+ ", enabled=" + enabled + "]";
 	}
 
 	@Override
-	public final int hashCode() {
+	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + data.hashCode();
@@ -167,7 +167,7 @@ public class Item<DataType> implements Entity, Comparable<Item<DataType>> {
 	}
 
 	@Override
-	public final boolean equals(final Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
