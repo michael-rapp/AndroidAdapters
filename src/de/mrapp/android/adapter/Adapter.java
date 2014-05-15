@@ -24,14 +24,11 @@ import de.mrapp.android.adapter.util.Entity;
 /**
  * Defines the interface, all adapters must implement.
  * 
- * @param <DataType>
- *            The type of the adapter's underlying data
- * 
  * @author Michael Rapp
  * 
  * @since 1.0.0
  */
-public interface Adapter<DataType> extends Entity {
+public interface Adapter extends Entity {
 
 	/**
 	 * Returns the context, the adapter belongs to.
@@ -63,6 +60,6 @@ public interface Adapter<DataType> extends Entity {
 	void onRestoreInstanceState(Bundle savedInstanceState);
 
 	@Override
-	Adapter<DataType> clone() throws CloneNotSupportedException;
+	Adapter clone() throws CloneNotSupportedException;
 
 }
