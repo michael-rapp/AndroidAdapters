@@ -20,6 +20,8 @@ package de.mrapp.android.adapter.util;
 import java.util.Iterator;
 import java.util.List;
 
+import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+
 /**
  * An iterator, which allows to iterate over the data of a list's items.
  * 
@@ -45,6 +47,7 @@ public class ItemIterator<DataType> implements Iterator<DataType> {
 	 *            may not be null
 	 */
 	public ItemIterator(final List<Item<DataType>> items) {
+		ensureNotNull(items, "The items may not be null");
 		this.items = items;
 	}
 
