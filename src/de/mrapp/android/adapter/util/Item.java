@@ -59,7 +59,9 @@ public class Item<DataType> implements Entity, Comparable<Item<DataType>> {
 	 *            The data may not be null
 	 */
 	public Item(final DataType data) {
-
+		setData(data);
+		setEnabled(true);
+		setSelectionState(0);
 	}
 
 	/**
