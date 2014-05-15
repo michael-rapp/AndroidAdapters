@@ -17,6 +17,8 @@
  */
 package de.mrapp.android.adapter;
 
+import java.util.List;
+
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a list
  * of arbitrary items, must implement. Such an adapter is meant to provide the
@@ -29,7 +31,7 @@ package de.mrapp.android.adapter;
  * 
  * @since 1.0.0
  */
-public interface ListAdapter<DataType> extends Adapter {
+public interface ListAdapter<DataType> extends Adapter, List<DataType> {
 
 	@Override
 	ListAdapter<DataType> clone() throws CloneNotSupportedException;
