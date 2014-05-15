@@ -29,7 +29,7 @@ package de.mrapp.android.adapter;
  * 
  * @since 1.0.0
  */
-public interface ListAdapter<DataType> extends Adapter<DataType> {
+public interface ListAdapter<DataType> extends Adapter {
 
 	@Override
 	ListAdapter<DataType> clone() throws CloneNotSupportedException;
