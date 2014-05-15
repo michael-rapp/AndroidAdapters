@@ -38,6 +38,11 @@ public class ItemIterator<DataType> implements Iterator<DataType> {
 	private List<Item<DataType>> items;
 
 	/**
+	 * The current index of the iterator.
+	 */
+	private int currentIndex;
+
+	/**
 	 * Creates a new iterator, which allows to iterate over the data of a list's
 	 * items.
 	 * 
@@ -49,21 +54,23 @@ public class ItemIterator<DataType> implements Iterator<DataType> {
 	public ItemIterator(final List<Item<DataType>> items) {
 		ensureNotNull(items, "The items may not be null");
 		this.items = items;
+		this.currentIndex = 0;
 	}
 
 	@Override
 	public final boolean hasNext() {
-		return items.iterator().hasNext();
+		return currentIndex < items.size() - 1;
 	}
 
 	@Override
 	public final DataType next() {
-		return items.iterator().next().getData();
+		currentIndex++;
+		return items.get(currentIndex).getData();
 	}
 
 	@Override
 	public final void remove() {
-		items.iterator().remove();
+		items.remove(currentIndex);
 	}
 
 }
