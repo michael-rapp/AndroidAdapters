@@ -17,26 +17,31 @@
  */
 package de.mrapp.android.adapter;
 
+import de.mrapp.android.adapter.util.Group;
+
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a
  * two-dimensional list of items, which are categorized by groups, must
  * implement. Such an adapter is meant to provide the underlying data for
  * visualization using a {@link ExpandableListView} widget.
  * 
- * @param <GroupType>
+ * @param <GroupDataType>> The type of the group's underlying data
+ * @param <ChildDataType>
+ *            The type of the children's underlying data
+ * @param <GroupAdapterType>
  *            The type of the adapter, which manages the groups
- * @param <ChildType>
- *            The type of the adapter, which manages the children
+ * @param <ChildAdapterType>> The type of the adapter, which manages the
+ *        children
  * 
  * @author Michael Rapp
  * 
  * @since 1.0.0
  */
-public interface ExpandableListAdapter<GroupType extends ListAdapter<ListAdapter<ChildType>>, ChildType>
+public interface ExpandableListAdapter<GroupDataType, ChildDataType, GroupAdapterType extends ListAdapter<Group<GroupDataType, ChildDataType, ChildAdapterType>>, ChildAdapterType extends ListAdapter<ChildDataType>>
 		extends Adapter {
 
 	@Override
-	ExpandableListAdapter<GroupType, ChildType> clone()
+	ExpandableListAdapter<GroupDataType, ChildDataType, GroupAdapterType, ChildAdapterType> clone()
 			throws CloneNotSupportedException;
 
 }
