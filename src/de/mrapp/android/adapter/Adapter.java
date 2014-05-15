@@ -33,9 +33,6 @@ import de.mrapp.android.adapter.util.Entity;
  */
 public interface Adapter<DataType> extends Entity {
 
-	@Override
-	Adapter<DataType> clone() throws CloneNotSupportedException;
-
 	/**
 	 * Returns the context, the adapter belongs to.
 	 * 
@@ -64,5 +61,8 @@ public interface Adapter<DataType> extends Entity {
 	 *            instance of the class {@link Bundle}. The bundle may be null
 	 */
 	void onRestoreInstanceState(Bundle savedInstanceState);
+
+	@Override
+	Adapter<DataType> clone() throws CloneNotSupportedException;
 
 }
