@@ -17,6 +17,7 @@
  */
 package de.mrapp.android.adapter;
 
+import android.content.Context;
 import android.os.Bundle;
 import de.mrapp.android.adapter.util.Entity;
 
@@ -34,6 +35,14 @@ public interface Adapter<DataType> extends Entity {
 
 	@Override
 	Adapter<DataType> clone() throws CloneNotSupportedException;
+
+	/**
+	 * Returns the context, the adapter belongs to.
+	 * 
+	 * @return The context, the adapter belongs to, as an instance of the class
+	 *         {@link Context}
+	 */
+	Context getContext();
 
 	/**
 	 * This method may be called to retrieve per-instance state from an activity
