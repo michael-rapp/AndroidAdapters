@@ -33,6 +33,15 @@ import java.util.List;
  */
 public interface ListAdapter<DataType> extends Adapter, List<DataType> {
 
+	/**
+	 * Returns a list, which contains the adapter's items.
+	 * 
+	 * @return A list, which contains the adapter's items, as an instance of the
+	 *         type {@link List} or an empty list, if the adapter does not
+	 *         contain any items
+	 */
+	List<DataType> getItems();
+
 	@Override
 	ListAdapter<DataType> clone() throws CloneNotSupportedException;
 
