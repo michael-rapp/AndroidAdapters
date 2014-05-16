@@ -23,8 +23,6 @@ public class SingleChoiceListAdapter<DataType> extends
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private SelectableListDecorator<DataType> decorator;
-
 	private ListAdapterListener<DataType> getAdapterListener() {
 		return new ListAdapterListener<DataType>() {
 
@@ -58,9 +56,7 @@ public class SingleChoiceListAdapter<DataType> extends
 			final Set<ListSelectionListener<DataType>> selectionListeners,
 			final SelectableListDecorator<DataType> decorator) {
 		super(context, itemViewId, itemView, items, adapterListeners,
-				sortingListeners, selectionListeners);
-		ensureNotNull(decorator, "The decorator may not be null");
-		this.decorator = decorator;
+				sortingListeners, selectionListeners, decorator);
 		addAdapterListener(getAdapterListener());
 	}
 
@@ -103,21 +99,12 @@ public class SingleChoiceListAdapter<DataType> extends
 	}
 
 	@Override
-	public final View getView(final int index, final View convertView,
-			final ViewGroup parent) {
-		View view = inflateOrReturnItemView(parent);
-		decorator.onCreateItem(getContext(), view, get(index),
-				isEnabled(index), isSelected(index));
-		return view;
-	}
-
-	@Override
 	public final AbstractListAdapter<DataType> clone()
 			throws CloneNotSupportedException {
 		return new SingleChoiceListAdapter<DataType>(getContext(),
 				getItemViewId(), getItemView(), cloneItems(),
 				getAdapterListeners(), getSortingListeners(),
-				getSelectionListeners(), decorator);
+				getSelectionListeners(), getDecorator());
 	}
 
 }
