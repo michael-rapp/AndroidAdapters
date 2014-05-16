@@ -23,7 +23,7 @@ public class SingleChoiceListAdapter<DataType> extends
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private SingleChoiceListDecorator<DataType> decorator;
+	private SelectableListDecorator<DataType> decorator;
 
 	private ListAdapterListener<DataType> getAdapterListener() {
 		return new ListAdapterListener<DataType>() {
@@ -56,7 +56,7 @@ public class SingleChoiceListAdapter<DataType> extends
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final Set<ListSelectionListener<DataType>> selectionListeners,
-			final SingleChoiceListDecorator<DataType> decorator) {
+			final SelectableListDecorator<DataType> decorator) {
 		super(context, itemViewId, itemView, items, adapterListeners,
 				sortingListeners, selectionListeners);
 		ensureNotNull(decorator, "The decorator may not be null");
