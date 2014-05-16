@@ -243,6 +243,17 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	}
 
 	/**
+	 * Returns a list, which contains the adapters underlying data.
+	 * 
+	 * @return A list, which contains the adapters underlying data, as an
+	 *         instance of the type {@link List} or an empty list, if the
+	 *         adapter does not contain any data
+	 */
+	protected final List<Item<DataType>> getItems() {
+		return items;
+	}
+
+	/**
 	 * Returns a set, which contains the listeners, which should be notified
 	 * when the adapter's underlying data has been modified.
 	 * 
