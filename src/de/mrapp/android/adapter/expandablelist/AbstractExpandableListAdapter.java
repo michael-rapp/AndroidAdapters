@@ -3,14 +3,12 @@ package de.mrapp.android.adapter.expandablelist;
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 import android.content.Context;
 import android.widget.BaseExpandableListAdapter;
-import de.mrapp.android.adapter.ExpandableListAdapter;
+import de.mrapp.android.adapter.Adapter;
 import de.mrapp.android.adapter.list.AbstractListAdapter;
 import de.mrapp.android.adapter.util.Group;
 
 public abstract class AbstractExpandableListAdapter<GroupDataType, ChildDataType, GroupAdapterType extends AbstractListAdapter<Group<GroupDataType, ChildDataType, ChildAdapterType>>, ChildAdapterType extends AbstractListAdapter<ChildDataType>>
-		extends BaseExpandableListAdapter
-		implements
-		ExpandableListAdapter<GroupDataType, ChildDataType, GroupAdapterType, ChildAdapterType> {
+		extends BaseExpandableListAdapter implements Adapter {
 
 	/**
 	 * The constant serial version UID.
