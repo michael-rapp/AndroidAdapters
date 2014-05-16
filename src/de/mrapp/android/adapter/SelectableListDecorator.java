@@ -20,7 +20,7 @@ package de.mrapp.android.adapter;
 import android.content.Context;
 import android.view.View;
 
-public interface SingleChoiceListDecorator<DataType> {
+public interface SelectableListDecorator<DataType> {
 
 	void onCreateItem(Context context, View view, DataType item,
 			boolean enabled, boolean selected);
