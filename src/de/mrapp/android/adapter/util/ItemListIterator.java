@@ -49,10 +49,31 @@ public class ItemListIterator<DataType> implements ListIterator<DataType> {
 	 *            The list, which contains the items, whose data should be
 	 *            iterated, as an instance of the type {@link List}. The list
 	 *            may not be null
+	 * @param index
+	 *            The index, the iterator should start at, as an {@link Integer}
+	 *            value. The index must be greater than 0 and less than the size
+	 *            of the given list - 1
+	 */
+	public ItemListIterator(final List<Item<DataType>> items, final int index) {
+		if (index < 0 || index >= items.size()) {
+			throw new IndexOutOfBoundsException();
+		}
+
+		this.items = items;
+		this.currentIndex = index;
+	}
+
+	/**
+	 * Creates a new list iterator, which allows to iterate over the data of a
+	 * list's items.
+	 * 
+	 * @param items
+	 *            The list, which contains the items, whose data should be
+	 *            iterated, as an instance of the type {@link List}. The list
+	 *            may not be null
 	 */
 	public ItemListIterator(final List<Item<DataType>> items) {
-		this.items = items;
-		this.currentIndex = 0;
+		this(items, 0);
 	}
 
 	@Override
