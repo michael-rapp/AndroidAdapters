@@ -721,7 +721,7 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 			Collections.sort(items, Collections.reverseOrder());
 		}
 
-		notifyOnSorted(getItems(), order);
+		notifyOnSorted(getAllItems(), order);
 		notifyDataSetChanged();
 	}
 
@@ -762,7 +762,7 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 			Collections.sort(items, Collections.reverseOrder(itemComparator));
 		}
 
-		notifyOnSorted(getItems(), order);
+		notifyOnSorted(getAllItems(), order);
 		notifyDataSetChanged();
 	}
 
@@ -831,7 +831,7 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	 *         type {@link List} or an empty list, if the adapter does not
 	 *         contain any items
 	 */
-	public final List<DataType> getItems() {
+	public final List<DataType> getAllItems() {
 		List<DataType> result = new ArrayList<DataType>();
 
 		for (Item<DataType> item : items) {
