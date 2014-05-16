@@ -17,8 +17,8 @@
  */
 package de.mrapp.android.adapter.util;
 
-import de.mrapp.android.adapter.ListAdapter;
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+import de.mrapp.android.adapter.list.AbstractListAdapter;
 
 /**
  * Represents a group, which categorizes multiple items of an adapter. It
@@ -34,7 +34,7 @@ import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
  * 
  * @author Michael Rapp
  */
-public class Group<DataType, ChildDataType, ChildAdapterType extends ListAdapter<ChildDataType>>
+public class Group<DataType, ChildDataType, ChildAdapterType extends AbstractListAdapter<ChildDataType>>
 		extends Item<DataType> {
 
 	/**
