@@ -56,14 +56,27 @@ public abstract class AbstractSingleStateListAdapter<DataType> extends
 		}
 	}
 
+	/**
+	 * Returns the set, which contains the listeners, which should be notified
+	 * when the selection of an item of the adapter has been changed.
+	 * 
+	 * @return The set, which contains the listeners, which should be notified
+	 *         when the selection of an item of the adapter has been changed, as
+	 *         an instance of the type {@link Set}. The set may not be null
+	 */
+	protected final Set<ListSelectionListener<DataType>> getSelectionListeners() {
+		return selectionListeners;
+	}
+
 	protected AbstractSingleStateListAdapter(final Context context,
 			final int itemViewId, final View itemView,
 			final List<Item<DataType>> items,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
-			final Set<ListSortingListener<DataType>> sortingListeners) {
+			final Set<ListSortingListener<DataType>> sortingListeners,
+			final Set<ListSelectionListener<DataType>> selectionListeners) {
 		super(context, itemViewId, itemView, items, adapterListeners,
 				sortingListeners);
-		this.selectionListeners = new LinkedHashSet<ListSelectionListener<DataType>>();
+		this.selectionListeners = selectionListeners;
 	}
 
 	/**
