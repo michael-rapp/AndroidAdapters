@@ -35,7 +35,8 @@ import de.mrapp.android.adapter.list.ListSortingListener;
  * 
  * @since 1.0.0
  */
-public interface ListAdapter<DataType> extends Adapter, List<DataType> {
+public interface ListAdapter<DataType> extends Adapter, List<DataType>,
+		android.widget.ListAdapter {
 
 	/**
 	 * Returns a list, which contains the adapter's items.
