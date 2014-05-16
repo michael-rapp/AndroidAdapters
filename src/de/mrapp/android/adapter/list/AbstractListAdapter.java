@@ -31,7 +31,9 @@ import java.util.Set;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.Order;
@@ -89,12 +91,12 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	/**
 	 * The id of the view, which is used to visualize each item of the adapter.
 	 */
-	private final int itemViewId;
+	private final transient int itemViewId;
 
 	/**
 	 * The view, which is used to visualize each item of the adapter.
 	 */
-	private final View itemView;
+	private final transient View itemView;
 
 	/**
 	 * A list, which contains the the adapter's items.
@@ -170,6 +172,97 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		for (ListSortingListener<DataType> listener : sortingListeners) {
 			listener.onSorted(sortedList, order);
 		}
+	}
+
+	/**
+	 * Returns the view, which is used to visualize each item of the adapter. If
+	 * a view has been passed to the adapter, the view is returned, otherwise
+	 * the view with the given id is inflated.
+	 * 
+	 * @param parent
+	 *            The parent, that this view will eventually be attached to, as
+	 *            an instance of the class {@link ViewGroup}. The parent may not
+	 *            be null
+	 * @return The view, which is used to visualize each item of the adapter, as
+	 *         an instance of the class {@link View}. The view may not be null
+	 */
+	protected final View inflateOrReturnItemView(final ViewGroup parent) {
+		LayoutInflater inflater = (LayoutInflater) getContext()
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+		if (itemView != null) {
+			return itemView;
+		} else {
+			return inflater.inflate(itemViewId, parent, false);
+		}
+	}
+
+	/**
+	 * Creates and returns a deep copy of the list, which contains the adapter's
+	 * items.
+	 * 
+	 * @return A deep copy of the list, which contains the adapter's items, as
+	 *         an instance of the type {@link List}. The list may not be null
+	 * @throws CloneNotSupportedException
+	 *             The exception, which is thrown, if cloning is not supported
+	 *             by the adapter's underlying data
+	 */
+	protected final List<Item<DataType>> cloneItems()
+			throws CloneNotSupportedException {
+		List<Item<DataType>> clonedItems = new ArrayList<Item<DataType>>();
+
+		for (Item<DataType> item : items) {
+			clonedItems.add(item.clone());
+		}
+
+		return clonedItems;
+	}
+
+	/**
+	 * Returns the id of the view, which is used to visualize each item of the
+	 * adapter.
+	 * 
+	 * @return The id of the view, which should be used to visualize each item
+	 *         of the adapter, as an {@link Integer} value. The id must specify
+	 *         a valid view from within the \res folder
+	 */
+	protected final int getItemViewId() {
+		return itemViewId;
+	}
+
+	/**
+	 * Returns the view, which is used to visualize each item of the adapter.
+	 * 
+	 * @return The view, which should be used to visualize each item of the
+	 *         adapter, as an instance of the class {@link View}. The view may
+	 *         be null
+	 */
+	protected final View getItemView() {
+		return itemView;
+	}
+
+	/**
+	 * Returns a set, which contains the listeners, which should be notified
+	 * when the adapter's underlying data has been modified.
+	 * 
+	 * @return A set, which contains the listeners, which should be notified
+	 *         when the adapter's underlying data has been modified, as an
+	 *         instance of the type {@link Set}. The set may not be null
+	 */
+	protected final Set<ListAdapterListener<DataType>> getAdapterListeners() {
+		return adapterListeners;
+	}
+
+	/**
+	 * Returns a set, which contains the listeners, which should be notified
+	 * when the adapter's underlying data has been sorted.
+	 * 
+	 * @return A set, which contains the listeners, which should be notified
+	 *         when the adapter's underlying data has been modified, as an
+	 *         instance of the type {@link Set}. The set may not be null
+	 */
+	protected final Set<ListSortingListener<DataType>> getSortingListeners() {
+		return sortingListeners;
 	}
 
 	/**
