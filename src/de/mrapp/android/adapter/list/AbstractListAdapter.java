@@ -30,15 +30,16 @@ import java.util.ListIterator;
 import java.util.Set;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.util.Item;
 import de.mrapp.android.adapter.util.ItemComparator;
 import de.mrapp.android.adapter.util.ItemIterator;
 import de.mrapp.android.adapter.util.ItemListIterator;
+import de.mrapp.android.adapter.util.SerializableWrapper;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
@@ -59,6 +60,26 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	 * The constant serial version UID.
 	 */
 	private static final long serialVersionUID = 1L;
+
+	/**
+	 * The key, which is used to store the adapter's items within a bundle.
+	 */
+	private static final String ITEMS_BUNDLE_KEY = AbstractListAdapter.class
+			.getSimpleName() + "::Items";
+
+	/**
+	 * The key, which is used to store the listeners, which should be notified
+	 * when the adapter's underlying data has been modified, within a bundle.
+	 */
+	private static final String ADAPTER_LISTENERS_BUNDLE_KEY = AbstractListAdapter.class
+			.getSimpleName() + "::AdapterListeners";
+
+	/**
+	 * The key, which is used to store the listeners, which should be notified
+	 * when the adapter's underlying data has been sorted, within a bundle.
+	 */
+	private static final String SORTING_LISTENERS_BUNDLE_KEY = AbstractListAdapter.class
+			.getSimpleName() + "::SortingListners";
 
 	/**
 	 * The context, the adapter belongs to.
@@ -496,6 +517,43 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	@Override
 	public final long getItemId(final int index) {
 		return index;
+	}
+
+	@Override
+	public final void onSaveInstanceState(final Bundle outState) {
+		SerializableWrapper<List<Item<DataType>>> wrappedItems = new SerializableWrapper<List<Item<DataType>>>(
+				items);
+		outState.putSerializable(ITEMS_BUNDLE_KEY, wrappedItems);
+
+		SerializableWrapper<Set<ListAdapterListener<DataType>>> wrappedAdapterListeners = new SerializableWrapper<Set<ListAdapterListener<DataType>>>(
+				adapterListeners);
+		outState.putSerializable(ADAPTER_LISTENERS_BUNDLE_KEY,
+				wrappedAdapterListeners);
+
+		SerializableWrapper<Set<ListSortingListener<DataType>>> wrappedSortingListeners = new SerializableWrapper<Set<ListSortingListener<DataType>>>(
+				sortingListeners);
+		outState.putSerializable(SORTING_LISTENERS_BUNDLE_KEY,
+				wrappedSortingListeners);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public final void onRestoreInstanceState(final Bundle savedInstanceState) {
+		if (savedInstanceState != null) {
+			SerializableWrapper<List<Item<DataType>>> wrappedItems = (SerializableWrapper<List<Item<DataType>>>) savedInstanceState
+					.getSerializable(ITEMS_BUNDLE_KEY);
+			items = wrappedItems.getWrappedInstance();
+
+			SerializableWrapper<Set<ListAdapterListener<DataType>>> wrappedAdapterListeners = (SerializableWrapper<Set<ListAdapterListener<DataType>>>) savedInstanceState
+					.getSerializable(ADAPTER_LISTENERS_BUNDLE_KEY);
+			adapterListeners = wrappedAdapterListeners.getWrappedInstance();
+
+			SerializableWrapper<Set<ListSortingListener<DataType>>> wrappedSortingListeners = (SerializableWrapper<Set<ListSortingListener<DataType>>>) savedInstanceState
+					.getSerializable(SORTING_LISTENERS_BUNDLE_KEY);
+			sortingListeners = wrappedSortingListeners.getWrappedInstance();
+
+			notifyDataSetChanged();
+		}
 	}
 
 	@Override
