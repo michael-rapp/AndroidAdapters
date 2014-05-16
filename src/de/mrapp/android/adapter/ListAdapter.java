@@ -13,6 +13,8 @@ import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.ListSortingListener;
 import de.mrapp.android.adapter.util.Item;
 
+import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+
 public class ListAdapter<DataType> extends AbstractListAdapter<DataType> {
 
 	/**
@@ -34,6 +36,7 @@ public class ListAdapter<DataType> extends AbstractListAdapter<DataType> {
 			final ListDecorator<DataType> decorator) {
 		super(context, itemViewId, itemView, items, adapterListeners,
 				sortingListeners);
+		ensureNotNull(decorator, "The decorator may not be null");
 		this.decorator = decorator;
 	}
 
