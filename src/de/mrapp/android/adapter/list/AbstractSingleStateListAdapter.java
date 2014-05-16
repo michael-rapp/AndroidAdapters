@@ -1,14 +1,15 @@
 package de.mrapp.android.adapter.list;
 
-import java.util.LinkedHashSet;
+import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+
 import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
+import de.mrapp.android.adapter.SelectableListDecorator;
 import de.mrapp.android.adapter.util.Item;
-
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 public abstract class AbstractSingleStateListAdapter<DataType> extends
 		AbstractListAdapter<DataType> {
@@ -23,6 +24,8 @@ public abstract class AbstractSingleStateListAdapter<DataType> extends
 	 * selection of an item of the adapter has been changed.
 	 */
 	private Set<ListSelectionListener<DataType>> selectionListeners;
+
+	private SelectableListDecorator<DataType> decorator;
 
 	/**
 	 * Notifies all listeners, which have been registered to be notified when
@@ -56,6 +59,10 @@ public abstract class AbstractSingleStateListAdapter<DataType> extends
 		}
 	}
 
+	protected final SelectableListDecorator<DataType> getDecorator() {
+		return decorator;
+	}
+
 	/**
 	 * Returns the set, which contains the listeners, which should be notified
 	 * when the selection of an item of the adapter has been changed.
@@ -73,9 +80,14 @@ public abstract class AbstractSingleStateListAdapter<DataType> extends
 			final List<Item<DataType>> items,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
-			final Set<ListSelectionListener<DataType>> selectionListeners) {
+			final Set<ListSelectionListener<DataType>> selectionListeners,
+			final SelectableListDecorator<DataType> decorator) {
 		super(context, itemViewId, itemView, items, adapterListeners,
 				sortingListeners);
+		ensureNotNull(decorator, "The decorator may not be null");
+		ensureNotNull(selectionListeners,
+				"The selection listeners may not be null");
+		this.decorator = decorator;
 		this.selectionListeners = selectionListeners;
 	}
 
@@ -114,6 +126,15 @@ public abstract class AbstractSingleStateListAdapter<DataType> extends
 
 	public final boolean isSelected(final DataType item) {
 		return isSelected(indexOf(item));
+	}
+
+	@Override
+	public final View getView(final int index, final View convertView,
+			final ViewGroup parent) {
+		View view = inflateOrReturnItemView(parent);
+		decorator.onCreateItem(getContext(), view, get(index),
+				isEnabled(index), isSelected(index));
+		return view;
 	}
 
 	@Override
