@@ -16,7 +16,7 @@
  * <http://www.gnu.org/licenses/>. 
  */
 package de.mrapp.android.adapter;
-
+import de.mrapp.android.adapter.list.AbstractListAdapter;
 import de.mrapp.android.adapter.util.Group;
 
 /**
@@ -37,7 +37,7 @@ import de.mrapp.android.adapter.util.Group;
  * 
  * @since 1.0.0
  */
-public interface ExpandableListAdapter<GroupDataType, ChildDataType, GroupAdapterType extends ListAdapter<Group<GroupDataType, ChildDataType, ChildAdapterType>>, ChildAdapterType extends ListAdapter<ChildDataType>>
+public interface ExpandableListAdapter<GroupDataType, ChildDataType, GroupAdapterType extends AbstractListAdapter<Group<GroupDataType, ChildDataType, ChildAdapterType>>, ChildAdapterType extends AbstractListAdapter<ChildDataType>>
 		extends Adapter {
 
 	@Override

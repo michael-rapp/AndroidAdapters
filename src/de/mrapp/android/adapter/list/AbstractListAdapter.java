@@ -35,7 +35,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import de.mrapp.android.adapter.ListAdapter;
+import android.widget.ListAdapter;
+import de.mrapp.android.adapter.Adapter;
 import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.util.Item;
 import de.mrapp.android.adapter.util.ItemComparator;
@@ -56,7 +57,7 @@ import de.mrapp.android.adapter.util.SerializableWrapper;
  * @since 1.0.0
  */
 public abstract class AbstractListAdapter<DataType> extends BaseAdapter
-		implements ListAdapter<DataType> {
+		implements Adapter, List<DataType>, ListAdapter {
 
 	/**
 	 * The constant serial version UID.
@@ -314,13 +315,22 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		return context;
 	}
 
-	@Override
+	/**
+	 * Sorts the items of the adapter in an ascending order.
+	 */
 	public final void sort() {
 		sort(Order.ASCENDING);
 
 	}
 
-	@Override
+	/**
+	 * Sorts the items of the adapter in a specific order.
+	 * 
+	 * @param order
+	 *            The order, which should be used to sort the items, as a value
+	 *            of the enum {@link Order}. The order may either be
+	 *            <code>ASCENDING</code> order <code>DESCENDING</code>
+	 */
 	public final void sort(final Order order) {
 		if (order == Order.ASCENDING) {
 			Collections.sort(items);
@@ -332,12 +342,32 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		notifyDataSetChanged();
 	}
 
-	@Override
+	/**
+	 * Sorts the items of the adapter by using a comparator in an ascending
+	 * order.
+	 * 
+	 * @param comparator
+	 *            The comparable, which should be used to sort the items, as an
+	 *            instance of the type {@link Comparator}. The comparator may
+	 *            not be null
+	 */
 	public final void sort(final Comparator<DataType> comparator) {
 		sort(Order.ASCENDING, comparator);
 	}
 
-	@Override
+	/**
+	 * Sorts the entries of the adapter by using a comparator in a specific
+	 * order.
+	 * 
+	 * @param comparator
+	 *            The comparable, which should be used to sort the entries, as
+	 *            an instance of the type {@link Comparator}. The comparator may
+	 *            not be null
+	 * @param order
+	 *            The order, which should be used to sort the entries, as a
+	 *            value of the enum {@link Order}. The order may either be
+	 *            <code>ASCENDING</code> order <code>DESCENDING</code>
+	 */
 	public final void sort(final Order order,
 			final Comparator<DataType> comparator) {
 		Comparator<Item<DataType>> itemComparator = new ItemComparator<DataType>(
@@ -353,30 +383,79 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		notifyDataSetChanged();
 	}
 
-	@Override
+	/**
+	 * Adds a new listener, which should be notified when the adapter's
+	 * underlying data has been modified.
+	 * 
+	 * @param listener
+	 *            The listener, which should be added, as an instance of the
+	 *            class {@link ListAdapterListener}. The listener may not be
+	 *            null
+	 */
 	public final void addAdapterListener(
 			final ListAdapterListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		adapterListeners.add(listener);
 	}
 
-	@Override
+	/**
+	 * Removes a specific listener, which should not be notified when the
+	 * adapter's underlying data has been modified, anymore.
+	 * 
+	 * @param listener
+	 *            The listener, which should be removed, as an instance of the
+	 *            class {@link ListAdapterListener}. The listener may not be
+	 *            null
+	 */
 	public final void removeAdapterListener(
 			final ListAdapterListener<DataType> listener) {
 		adapterListeners.remove(listener);
 	}
 
-	@Override
+	/**
+	 * Adds a new listener, which should be notified when the adapter's
+	 * underlying data has been sorted.
+	 * 
+	 * @param listener
+	 *            The listener, which should be added, as an instance of the
+	 *            class {@link ListSortingListener}. The listener may not be
+	 *            null
+	 */
 	public final void addSortingListner(
 			final ListSortingListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		sortingListeners.add(listener);
 	}
 
-	@Override
+	/**
+	 * Removes a specific listener, which should not be notified when the
+	 * adapter's underlying data has been modified, anymore.
+	 * 
+	 * @param listener
+	 *            The listener, which should be removed, as an instance of the
+	 *            class {@link ListSortingListener}. The listener may not be
+	 *            null
+	 */
 	public final void removeSortingListener(
 			final ListSortingListener<DataType> listener) {
 		sortingListeners.remove(listener);
+	}
+
+	/**
+	 * Returns a list, which contains the adapter's items.
+	 * 
+	 * @return A list, which contains the adapter's items, as an instance of the
+	 *         type {@link List} or an empty list, if the adapter does not
+	 *         contain any items
+	 */
+	public final List<DataType> getItems() {
+		List<DataType> result = new ArrayList<DataType>();
+
+		for (Item<DataType> item : items) {
+			result.add(item.getData());
+		}
+
+		return result;
 	}
 
 	@Override
@@ -584,17 +663,6 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	@Override
 	public final int size() {
 		return items.size();
-	}
-
-	@Override
-	public final List<DataType> getItems() {
-		List<DataType> result = new ArrayList<DataType>();
-
-		for (Item<DataType> item : items) {
-			result.add(item.getData());
-		}
-
-		return result;
 	}
 
 	@Override
