@@ -20,6 +20,9 @@ package de.mrapp.android.adapter;
 import java.util.Comparator;
 import java.util.List;
 
+import de.mrapp.android.adapter.list.ListAdapterListener;
+import de.mrapp.android.adapter.list.ListSortingListener;
+
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a list
  * of arbitrary items, must implement. Such an adapter is meant to provide the
@@ -83,6 +86,50 @@ public interface ListAdapter<DataType> extends Adapter, List<DataType> {
 	 *            <code>ASCENDING</code> order <code>DESCENDING</code>
 	 */
 	void sort(Order order, Comparator<DataType> comparator);
+
+	/**
+	 * Adds a new listener, which should be notified when the adapter's
+	 * underlying data has been modified.
+	 * 
+	 * @param listener
+	 *            The listener, which should be added, as an instance of the
+	 *            class {@link ListAdapterListener}. The listener may not be
+	 *            null
+	 */
+	void addAdapterListener(ListAdapterListener<DataType> listener);
+
+	/**
+	 * Removes a specific listener, which should not be notified when the
+	 * adapter's underlying data has been modified, anymore.
+	 * 
+	 * @param listener
+	 *            The listener, which should be removed, as an instance of the
+	 *            class {@link ListAdapterListener}. The listener may not be
+	 *            null
+	 */
+	void removeAdapterListener(ListAdapterListener<DataType> listener);
+
+	/**
+	 * Adds a new listener, which should be notified when the adapter's
+	 * underlying data has been sorted.
+	 * 
+	 * @param listener
+	 *            The listener, which should be added, as an instance of the
+	 *            class {@link ListSortingListener}. The listener may not be
+	 *            null
+	 */
+	void addSortingListner(ListSortingListener<DataType> listener);
+
+	/**
+	 * Removes a specific listener, which should not be notified when the
+	 * adapter's underlying data has been modified, anymore.
+	 * 
+	 * @param listener
+	 *            The listener, which should be removed, as an instance of the
+	 *            class {@link ListSortingListener}. The listener may not be
+	 *            null
+	 */
+	void removeSortingListener(ListSortingListener<DataType> listener);
 
 	@Override
 	ListAdapter<DataType> clone() throws CloneNotSupportedException;
