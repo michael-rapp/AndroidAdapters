@@ -55,7 +55,8 @@ public class ListAdapter<DataType> extends AbstractListAdapter<DataType> {
 	public final View getView(final int index, final View convertView,
 			final ViewGroup parent) {
 		View view = inflateOrReturnItemView(parent);
-		decorator.onCreateItem(getContext(), view, getItem(index));
+		decorator.onCreateItem(getContext(), view, getItem(index),
+				isEnabled(index));
 		return view;
 	}
 

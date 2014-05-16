@@ -47,7 +47,10 @@ public interface ListDecorator<DataType> {
 	 * @param item
 	 *            The item, which is should be visualized, as an instance of the
 	 *            generic type DataType. The item may not be null
+	 * @param enabled
+	 *            True, if the item, which should be visualized, is enabled, or
+	 *            not
 	 */
-	void onCreateItem(Context context, View view, DataType item);
+	void onCreateItem(Context context, View view, DataType item, boolean enabled);
 
 }
