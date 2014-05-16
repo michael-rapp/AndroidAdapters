@@ -17,6 +17,7 @@
  */
 package de.mrapp.android.adapter;
 
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -41,6 +42,47 @@ public interface ListAdapter<DataType> extends Adapter, List<DataType> {
 	 *         contain any items
 	 */
 	List<DataType> getItems();
+
+	/**
+	 * Sorts the items of the adapter in an ascending order.
+	 */
+	void sort();
+
+	/**
+	 * Sorts the items of the adapter in a specific order.
+	 * 
+	 * @param order
+	 *            The order, which should be used to sort the items, as a value
+	 *            of the enum {@link Order}. The order may either be
+	 *            <code>ASCENDING</code> order <code>DESCENDING</code>
+	 */
+	void sort(Order order);
+
+	/**
+	 * Sorts the items of the adapter by using a comparator in an ascending
+	 * order.
+	 * 
+	 * @param comparator
+	 *            The comparable, which should be used to sort the items, as an
+	 *            instance of the type {@link Comparator}. The comparator may
+	 *            not be null
+	 */
+	void sort(Comparator<DataType> comparator);
+
+	/**
+	 * Sorts the entries of the adapter by using a comparator in a specific
+	 * order.
+	 * 
+	 * @param comparator
+	 *            The comparable, which should be used to sort the entries, as
+	 *            an instance of the type {@link Comparator}. The comparator may
+	 *            not be null
+	 * @param order
+	 *            The order, which should be used to sort the entries, as a
+	 *            value of the enum {@link Order}. The order may either be
+	 *            <code>ASCENDING</code> order <code>DESCENDING</code>
+	 */
+	void sort(Order order, Comparator<DataType> comparator);
 
 	@Override
 	ListAdapter<DataType> clone() throws CloneNotSupportedException;
