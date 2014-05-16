@@ -240,6 +240,32 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	}
 
 	@Override
+	public final void addAdapterListener(
+			final ListAdapterListener<DataType> listener) {
+		ensureNotNull(listener, "The listener may not be null");
+		adapterListeners.add(listener);
+	}
+
+	@Override
+	public final void removeAdapterListener(
+			final ListAdapterListener<DataType> listener) {
+		adapterListeners.remove(listener);
+	}
+
+	@Override
+	public final void addSortingListner(
+			final ListSortingListener<DataType> listener) {
+		ensureNotNull(listener, "The listener may not be null");
+		sortingListeners.add(listener);
+	}
+
+	@Override
+	public final void removeSortingListener(
+			final ListSortingListener<DataType> listener) {
+		sortingListeners.remove(listener);
+	}
+
+	@Override
 	public final boolean add(final DataType item) {
 		boolean modified = items.add(new Item<DataType>(item));
 		notifyOnItemAdded(item, items.size() - 1);
