@@ -42,16 +42,11 @@ public interface ListSortingListener<DataType> {
 	 * @param sortedList
 	 *            A list, which contains the adapter's sorted items, as an
 	 *            instance of the type {@link List}. The list may not be null
-	 * @param sortedSelections
-	 *            A list, which contains the selection states, which correspond
-	 *            to the adapter's sorted items, as an instance of the type
-	 *            {@link List}. The list may not be null
 	 * @param order
 	 *            The order, which has been used to sort the adapter's items, as
 	 *            a value of the enum {@link Order}. The order may either be
 	 *            <code>ASCENDING</code> or <code>DESCENDING</code>
 	 */
-	void onSorted(List<DataType> sortedList, List<Boolean> sortedSelections,
-			Order order);
+	void onSorted(List<DataType> sortedList, Order order);
 
 }
