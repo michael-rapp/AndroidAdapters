@@ -99,7 +99,7 @@ public class SingleChoiceListAdapter<DataType> extends
 	}
 
 	@Override
-	public final AbstractListAdapter<DataType> clone()
+	public final SingleChoiceListAdapter<DataType> clone()
 			throws CloneNotSupportedException {
 		return new SingleChoiceListAdapter<DataType>(getContext(),
 				getItemViewId(), getItemView(), cloneItems(),
