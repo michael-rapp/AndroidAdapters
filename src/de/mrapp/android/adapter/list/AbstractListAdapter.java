@@ -17,9 +17,13 @@
  */
 package de.mrapp.android.adapter.list;
 
+import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -28,12 +32,13 @@ import java.util.Set;
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.util.Item;
+import de.mrapp.android.adapter.util.ItemComparator;
 import de.mrapp.android.adapter.util.ItemIterator;
 import de.mrapp.android.adapter.util.ItemListIterator;
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
@@ -134,19 +139,15 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	 * @param sortedList
 	 *            A list, which contains the adapter's sorted items, as an
 	 *            instance of the type {@link List}. The list may not be null
-	 * @param sortedSelections
-	 *            A list, which contains the selection states, which correspond
-	 *            to the adapter's sorted items, as an instance of the type
-	 *            {@link List}. The list may not be null
 	 * @param order
 	 *            The order, which has been used to sort the list, as a value of
 	 *            the enum {@link Order}. The order may either be
 	 *            <code>ASCENDING</code> or <code>DESCENDING</code>
 	 */
 	private void notifyOnSorted(final List<DataType> sortedList,
-			final List<Boolean> sortedSelections, final Order order) {
+			final Order order) {
 		for (ListSortingListener<DataType> listener : sortingListeners) {
-			listener.onSorted(sortedList, sortedSelections, order);
+			listener.onSorted(sortedList, order);
 		}
 	}
 
@@ -197,6 +198,45 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	@Override
 	public final Context getContext() {
 		return context;
+	}
+
+	@Override
+	public final void sort() {
+		sort(Order.ASCENDING);
+
+	}
+
+	@Override
+	public final void sort(final Order order) {
+		if (order == Order.ASCENDING) {
+			Collections.sort(items);
+		} else {
+			Collections.sort(items, Collections.reverseOrder());
+		}
+
+		notifyOnSorted(getItems(), order);
+		notifyDataSetChanged();
+	}
+
+	@Override
+	public final void sort(final Comparator<DataType> comparator) {
+		sort(Order.ASCENDING, comparator);
+	}
+
+	@Override
+	public final void sort(final Order order,
+			final Comparator<DataType> comparator) {
+		Comparator<Item<DataType>> itemComparator = new ItemComparator<DataType>(
+				comparator);
+
+		if (order == Order.ASCENDING) {
+			Collections.sort(items, itemComparator);
+		} else {
+			Collections.sort(items, Collections.reverseOrder(itemComparator));
+		}
+
+		notifyOnSorted(getItems(), order);
+		notifyDataSetChanged();
 	}
 
 	@Override
