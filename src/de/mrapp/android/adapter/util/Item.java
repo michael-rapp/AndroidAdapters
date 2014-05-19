@@ -18,6 +18,7 @@
 package de.mrapp.android.adapter.util;
 
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+import static de.mrapp.android.adapter.util.Condition.ensureGreater;
 import de.mrapp.android.adapter.SortingNotSupportedException;
 
 /**
@@ -50,6 +51,11 @@ public class Item<DataType> implements Entity, Comparable<Item<DataType>> {
 	 * True, if the item is enabled, false otherwise.
 	 */
 	private boolean enabled;
+
+	/**
+	 * The item's state.
+	 */
+	private int state;
 
 	/**
 	 * Creates a new item.
@@ -121,6 +127,20 @@ public class Item<DataType> implements Entity, Comparable<Item<DataType>> {
 	 */
 	public final void setEnabled(final boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	/**
+	 * Returns the item's state.
+	 *  
+	 * @return The item's state as an {@link Integer} vale. The value must be greater than 0
+	 */
+	public final int getState() {
+		return state;
+	}
+
+	public final void setState(final int state) {
+		ensureGreater(state, 0, "The state must be greater than -1");
+		this.state = state;
 	}
 
 	@SuppressWarnings("unchecked")
