@@ -535,4 +535,8 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 		enableStateListeners.remove(listener);
 	}
 
+	@Override
+	public abstract AbstractEnableStateListAdapter<DataType> clone()
+			throws CloneNotSupportedException;
+
 }
