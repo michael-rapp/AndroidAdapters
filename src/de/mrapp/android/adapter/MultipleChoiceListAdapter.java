@@ -6,7 +6,6 @@ import java.util.Set;
 
 import android.content.Context;
 import android.view.View;
-import de.mrapp.android.adapter.list.AbstractListAdapter;
 import de.mrapp.android.adapter.list.AbstractSingleStateListAdapter;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.ListSelectionListener;
@@ -15,6 +14,11 @@ import de.mrapp.android.adapter.util.Item;
 
 public class MultipleChoiceListAdapter<DataType> extends
 		AbstractSingleStateListAdapter<DataType> {
+
+	/**
+	 * The constant serial version UID.
+	 */
+	private static final long serialVersionUID = 1L;
 
 	protected MultipleChoiceListAdapter(final Context context,
 			final int itemViewId, final View itemView,
@@ -37,7 +41,7 @@ public class MultipleChoiceListAdapter<DataType> extends
 
 	public final int getFirstSelectedIndex() {
 		for (int i = 0; i < size(); i++) {
-			if (getItems().get(i).getSelectionState() == 1) {
+			if (getItems().get(i).isSelected()) {
 				return i;
 			}
 		}
@@ -47,7 +51,7 @@ public class MultipleChoiceListAdapter<DataType> extends
 
 	public final DataType getFirstSelectedItem() {
 		for (Item<DataType> item : getItems()) {
-			if (item.getSelectionState() == 1) {
+			if (item.isSelected()) {
 				return item.getData();
 			}
 		}
@@ -57,7 +61,7 @@ public class MultipleChoiceListAdapter<DataType> extends
 
 	public final int getLastSelectedIndex() {
 		for (int i = size() - 1; i >= 0; i--) {
-			if (getItems().get(i).getSelectionState() == 1) {
+			if (getItems().get(i).isSelected()) {
 				return i;
 			}
 		}
@@ -69,7 +73,7 @@ public class MultipleChoiceListAdapter<DataType> extends
 		for (int i = size() - 1; i >= 0; i--) {
 			Item<DataType> item = getItems().get(i);
 
-			if (item.getSelectionState() == 1) {
+			if (item.isSelected()) {
 				return item.getData();
 			}
 		}
@@ -79,7 +83,7 @@ public class MultipleChoiceListAdapter<DataType> extends
 
 	public final int getFirstUnselectedIndex() {
 		for (int i = 0; i < size(); i++) {
-			if (getItems().get(i).getSelectionState() == 0) {
+			if (!getItems().get(i).isSelected()) {
 				return i;
 			}
 		}
@@ -89,7 +93,7 @@ public class MultipleChoiceListAdapter<DataType> extends
 
 	public final DataType getFirstUnselectedItem() {
 		for (Item<DataType> item : getItems()) {
-			if (item.getSelectionState() == 0) {
+			if (!item.isSelected()) {
 				return item.getData();
 			}
 		}
@@ -99,7 +103,7 @@ public class MultipleChoiceListAdapter<DataType> extends
 
 	public final int getLastUnselectedIndex() {
 		for (int i = size() - 1; i >= 0; i--) {
-			if (getItems().get(i).getSelectionState() == 0) {
+			if (!getItems().get(i).isSelected()) {
 				return i;
 			}
 		}
@@ -111,7 +115,7 @@ public class MultipleChoiceListAdapter<DataType> extends
 		for (int i = size() - 1; i >= 0; i--) {
 			Item<DataType> item = getItems().get(i);
 
-			if (item.getSelectionState() == 0) {
+			if (!item.isSelected()) {
 				return item.getData();
 			}
 		}
@@ -123,7 +127,7 @@ public class MultipleChoiceListAdapter<DataType> extends
 		List<Integer> selectedIndices = new ArrayList<Integer>();
 
 		for (int i = 0; i < size(); i++) {
-			if (getItems().get(i).getSelectionState() == 1) {
+			if (getItems().get(i).isSelected()) {
 				selectedIndices.add(i);
 			}
 		}
@@ -135,7 +139,7 @@ public class MultipleChoiceListAdapter<DataType> extends
 		List<DataType> selectedItems = new ArrayList<DataType>();
 
 		for (Item<DataType> item : getItems()) {
-			if (item.getSelectionState() == 1) {
+			if (item.isSelected()) {
 				selectedItems.add(item.getData());
 			}
 		}
@@ -147,7 +151,7 @@ public class MultipleChoiceListAdapter<DataType> extends
 		List<Integer> unselectedIndices = new ArrayList<Integer>();
 
 		for (int i = 0; i < size(); i++) {
-			if (getItems().get(i).getSelectionState() == 0) {
+			if (!getItems().get(i).isSelected()) {
 				unselectedIndices.add(i);
 			}
 		}
@@ -159,7 +163,7 @@ public class MultipleChoiceListAdapter<DataType> extends
 		List<DataType> unselectedItems = new ArrayList<DataType>();
 
 		for (Item<DataType> item : getItems()) {
-			if (item.getSelectionState() == 0) {
+			if (!item.isSelected()) {
 				unselectedItems.add(item.getData());
 			}
 		}
@@ -177,7 +181,7 @@ public class MultipleChoiceListAdapter<DataType> extends
 
 	public final void select(final int index) {
 		Item<DataType> item = getItems().get(index);
-		item.setSelectionState(1);
+		item.setSelected(true);
 		notifyOnItemSelected(index);
 	}
 
@@ -187,7 +191,7 @@ public class MultipleChoiceListAdapter<DataType> extends
 
 	public final void unselect(final int index) {
 		Item<DataType> item = getItems().get(index);
-		item.setSelectionState(0);
+		item.setSelected(false);
 		notifyOnItemUnselected(index);
 	}
 
@@ -198,11 +202,11 @@ public class MultipleChoiceListAdapter<DataType> extends
 	public final void triggerSelection(final int index) {
 		Item<DataType> item = getItems().get(index);
 
-		if (item.getSelectionState() == 1) {
-			item.setSelectionState(0);
+		if (item.isSelected()) {
+			item.setSelected(false);
 			notifyOnItemUnselected(index);
 		} else {
-			item.setSelectionState(1);
+			item.setSelected(true);
 			notifyOnItemSelected(index);
 		}
 	}
