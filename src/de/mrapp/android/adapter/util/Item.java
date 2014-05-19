@@ -18,7 +18,7 @@
 package de.mrapp.android.adapter.util;
 
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
-import static de.mrapp.android.adapter.util.Condition.ensureGreater;
+import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
 import de.mrapp.android.adapter.SortingNotSupportedException;
 
 /**
@@ -131,15 +131,16 @@ public class Item<DataType> implements Entity, Comparable<Item<DataType>> {
 
 	/**
 	 * Returns the item's state.
-	 *  
-	 * @return The item's state as an {@link Integer} vale. The value must be greater than 0
+	 * 
+	 * @return The item's state as an {@link Integer} vale. The value must be
+	 *         greater than 0
 	 */
 	public final int getState() {
 		return state;
 	}
 
 	public final void setState(final int state) {
-		ensureGreater(state, 0, "The state must be greater than -1");
+		ensureAtLeast(state, 0, "The state must be at least 0");
 		this.state = state;
 	}
 
