@@ -32,14 +32,18 @@ public abstract class AbstractSingleStateListAdapter<DataType> extends
 	 * the selection of an item of the adapter has been changed, about an item,
 	 * which has been selected.
 	 * 
+	 * @param item
+	 *            The item, which has been selected, as an instance of the
+	 *            generic type DataType. The item may not be null
 	 * @param index
 	 *            The index of the item, which has been selected, as an
 	 *            {@link Integer} value. The index must be between 0 and the
 	 *            value of the method <code>size():int</code> - 1
 	 */
-	protected final void notifyOnItemSelected(final int index) {
+	protected final void notifyOnItemSelected(final DataType item,
+			final int index) {
 		for (ListSelectionListener<DataType> listener : selectionListeners) {
-			listener.onItemSelected(index);
+			listener.onItemSelected(item, index);
 		}
 	}
 
@@ -48,14 +52,18 @@ public abstract class AbstractSingleStateListAdapter<DataType> extends
 	 * the selection of an item of the adapter has been changed, about an item,
 	 * which has been unselected.
 	 * 
+	 * @param item
+	 *            The item, which has been unselected, as an instance of the
+	 *            generic type DataType. The item may not be null
 	 * @param index
 	 *            The index of the item, which has been unselected, as an
 	 *            {@link Integer} value. The index must be between 0 and the
 	 *            value of the method <code>size():int</code> - 1
 	 */
-	protected final void notifyOnItemUnselected(final int index) {
+	protected final void notifyOnItemUnselected(final DataType item,
+			final int index) {
 		for (ListSelectionListener<DataType> listener : selectionListeners) {
-			listener.onItemUnselected(index);
+			listener.onItemUnselected(item, index);
 		}
 	}
 
