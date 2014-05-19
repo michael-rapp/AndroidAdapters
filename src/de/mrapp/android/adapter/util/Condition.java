@@ -76,4 +76,27 @@ public final class Condition {
 		}
 	}
 
+	/**
+	 * Ensures, that an {@link Integer} value is at maximum a specific value.
+	 * Otherwise an {@link IllegalArgumentException} with a specific message
+	 * will be thrown.
+	 * 
+	 * @param value
+	 *            The value, which should be checked, as an {@link Integer}
+	 *            value
+	 * @param referenceValue
+	 *            The value, the given value must be at maximum, as an
+	 *            {@link Integer} value
+	 * @param exceptionMessage
+	 *            The message of the {@link IllegalArgumentException}, which is
+	 *            thrown, if the given value is greater than the reference
+	 *            value, as a {@link String}
+	 */
+	public static void ensureAtMaximum(final int value,
+			final int referenceValue, final String exceptionMessage) {
+		if (value > referenceValue) {
+			throw new IllegalArgumentException(exceptionMessage);
+		}
+	}
+
 }
