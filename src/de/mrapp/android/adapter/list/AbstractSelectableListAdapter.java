@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import de.mrapp.android.adapter.SelectableListDecorator;
 import de.mrapp.android.adapter.util.Item;
 
-public abstract class AbstractSingleStateListAdapter<DataType> extends
+public abstract class AbstractSelectableListAdapter<DataType> extends
 		AbstractSortableListAdapter<DataType> {
 
 	/**
@@ -83,7 +83,7 @@ public abstract class AbstractSingleStateListAdapter<DataType> extends
 		return selectionListeners;
 	}
 
-	protected AbstractSingleStateListAdapter(final Context context,
+	protected AbstractSelectableListAdapter(final Context context,
 			final int itemViewId, final View itemView,
 			final List<Item<DataType>> items,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
@@ -147,7 +147,7 @@ public abstract class AbstractSingleStateListAdapter<DataType> extends
 	}
 
 	@Override
-	public abstract AbstractSingleStateListAdapter<DataType> clone()
+	public abstract AbstractSelectableListAdapter<DataType> clone()
 			throws CloneNotSupportedException;
 
 }
