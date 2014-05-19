@@ -45,7 +45,7 @@ import de.mrapp.android.adapter.util.SerializableWrapper;
  * @since 1.0.0
  */
 public abstract class AbstractSortableListAdapter<DataType> extends
-		AbstractListAdapter<DataType> {
+		AbstractEnableStateListAdapter<DataType> {
 
 	/**
 	 * The constant serial version UID.
@@ -126,8 +126,8 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 	}
 
 	/**
-	 * Creates a new adapter, whose underlying data is managed as a list of
-	 * arbitrary items.
+	 * Creates a new adapter, whose underlying data is managed as a sortable
+	 * list of arbitrary items.
 	 * 
 	 * @param context
 	 *            The context, the adapter should belong to, as an instance of
