@@ -68,6 +68,7 @@ public class Item<DataType> implements Entity, Comparable<Item<DataType>> {
 		setData(data);
 		setEnabled(true);
 		setSelected(false);
+		setState(0);
 	}
 
 	/**
@@ -132,13 +133,20 @@ public class Item<DataType> implements Entity, Comparable<Item<DataType>> {
 	/**
 	 * Returns the item's state.
 	 * 
-	 * @return The item's state as an {@link Integer} vale. The value must be
-	 *         greater than 0
+	 * @return The item's state as an {@link Integer} vale. The value must be at
+	 *         least 0
 	 */
 	public final int getState() {
 		return state;
 	}
 
+	/**
+	 * Sets the item's state.
+	 * 
+	 * @param state
+	 *            The state, which should be set as an {@link Integer} value.
+	 *            The value must be at least 0
+	 */
 	public final void setState(final int state) {
 		ensureAtLeast(state, 0, "The state must be at least 0");
 		this.state = state;
@@ -173,7 +181,7 @@ public class Item<DataType> implements Entity, Comparable<Item<DataType>> {
 	@Override
 	public String toString() {
 		return "Item [data=" + data + ", selected=" + selected + ", enabled="
-				+ enabled + "]";
+				+ enabled + ", state=" + state + "]";
 	}
 
 	@Override
@@ -183,6 +191,7 @@ public class Item<DataType> implements Entity, Comparable<Item<DataType>> {
 		result = prime * result + data.hashCode();
 		result = prime * result + (enabled ? 1231 : 1237);
 		result = prime * result + (selected ? 1231 : 1237);
+		result = prime * result + state;
 		return result;
 	}
 
@@ -200,6 +209,8 @@ public class Item<DataType> implements Entity, Comparable<Item<DataType>> {
 		if (enabled != other.enabled)
 			return false;
 		if (selected != other.selected)
+			return false;
+		if (state != other.state)
 			return false;
 		return true;
 	}
