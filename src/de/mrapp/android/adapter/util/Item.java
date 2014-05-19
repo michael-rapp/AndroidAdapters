@@ -42,9 +42,9 @@ public class Item<DataType> implements Entity, Comparable<Item<DataType>> {
 	private DataType data;
 
 	/**
-	 * The item's selection state.
+	 * True, if the item is selected, false otherwise.
 	 */
-	private int selectionState;
+	private boolean selected;
 
 	/**
 	 * True, if the item is enabled, false otherwise.
@@ -61,7 +61,7 @@ public class Item<DataType> implements Entity, Comparable<Item<DataType>> {
 	public Item(final DataType data) {
 		setData(data);
 		setEnabled(true);
-		setSelectionState(0);
+		setSelected(false);
 	}
 
 	/**
@@ -86,23 +86,22 @@ public class Item<DataType> implements Entity, Comparable<Item<DataType>> {
 	}
 
 	/**
-	 * Returns the item's selection state.
+	 * Returns, whether the item is selected, or not.
 	 * 
-	 * @return The item's selection state as an {@link Integer} value
+	 * @return True, if the item is selected, false otherwise
 	 */
-	public final int getSelectionState() {
-		return selectionState;
+	public final boolean isSelected() {
+		return selected;
 	}
 
 	/**
-	 * Sets the item's selection state.
+	 * Sets, whether the item is selected, or not.
 	 * 
-	 * @param selectionState
-	 *            The selection state, which should be set, as a {@link Integer}
-	 *            value
+	 * @param selected
+	 *            True, if the item should be selected, false otherwise
 	 */
-	public final void setSelectionState(final int selectionState) {
-		this.selectionState = selectionState;
+	public final void setSelected(final boolean selected) {
+		this.selected = selected;
 	}
 
 	/**
@@ -142,7 +141,7 @@ public class Item<DataType> implements Entity, Comparable<Item<DataType>> {
 			DataType clonedData = (DataType) data.getClass().getMethod("clone")
 					.invoke(data);
 			Item<DataType> clonedItem = new Item<DataType>(clonedData);
-			clonedItem.setSelectionState(getSelectionState());
+			clonedItem.setSelected(isSelected());
 			clonedItem.setEnabled(isEnabled());
 			return clonedItem;
 		} catch (Exception e) {
@@ -152,8 +151,8 @@ public class Item<DataType> implements Entity, Comparable<Item<DataType>> {
 
 	@Override
 	public String toString() {
-		return "Item [data=" + data + ", selectionState=" + selectionState
-				+ ", enabled=" + enabled + "]";
+		return "Item [data=" + data + ", selected=" + selected + ", enabled="
+				+ enabled + "]";
 	}
 
 	@Override
@@ -162,7 +161,7 @@ public class Item<DataType> implements Entity, Comparable<Item<DataType>> {
 		int result = 1;
 		result = prime * result + data.hashCode();
 		result = prime * result + (enabled ? 1231 : 1237);
-		result = prime * result + selectionState;
+		result = prime * result + (selected ? 1231 : 1237);
 		return result;
 	}
 
@@ -179,7 +178,7 @@ public class Item<DataType> implements Entity, Comparable<Item<DataType>> {
 			return false;
 		if (enabled != other.enabled)
 			return false;
-		if (selectionState != other.selectionState)
+		if (selected != other.selected)
 			return false;
 		return true;
 	}

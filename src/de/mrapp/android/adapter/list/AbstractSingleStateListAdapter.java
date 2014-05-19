@@ -121,7 +121,7 @@ public abstract class AbstractSingleStateListAdapter<DataType> extends
 	}
 
 	public final boolean isSelected(final int index) {
-		return getItems().get(index).getSelectionState() == 1;
+		return getItems().get(index).isSelected();
 	}
 
 	public final boolean isSelected(final DataType item) {

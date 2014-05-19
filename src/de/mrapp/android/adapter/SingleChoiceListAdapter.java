@@ -1,14 +1,10 @@
 package de.mrapp.android.adapter;
 
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
-
 import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
-import de.mrapp.android.adapter.list.AbstractListAdapter;
 import de.mrapp.android.adapter.list.AbstractSingleStateListAdapter;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.ListSelectionListener;
@@ -62,7 +58,7 @@ public class SingleChoiceListAdapter<DataType> extends
 
 	public final int getSelectedIndex() {
 		for (int i = 0; i < size(); i++) {
-			if (getItems().get(i).getSelectionState() == 1) {
+			if (getItems().get(i).isSelected()) {
 				return i;
 			}
 		}
@@ -72,7 +68,7 @@ public class SingleChoiceListAdapter<DataType> extends
 
 	public final DataType getSelectedItem() {
 		for (Item<DataType> item : getItems()) {
-			if (item.getSelectionState() == 1) {
+			if (item.isSelected()) {
 				return item.getData();
 			}
 		}
@@ -84,11 +80,11 @@ public class SingleChoiceListAdapter<DataType> extends
 		for (int i = 0; i < size(); i++) {
 			Item<DataType> item = getItems().get(i);
 
-			if (i == index && item.getSelectionState() == 0) {
-				item.setSelectionState(1);
+			if (i == index && !item.isSelected()) {
+				item.setSelected(true);
 				notifyOnItemSelected(index);
-			} else if (i != index && item.getSelectionState() == 1) {
-				item.setSelectionState(0);
+			} else if (i != index && item.isSelected()) {
+				item.setSelected(false);
 				notifyOnItemUnselected(index);
 			}
 		}
