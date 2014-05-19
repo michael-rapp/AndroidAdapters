@@ -24,6 +24,7 @@ import java.util.Set;
 import android.content.Context;
 import android.view.View;
 import de.mrapp.android.adapter.util.Item;
+import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
@@ -47,6 +48,41 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * A set, which contains the listeners, which should be notified when an
+	 * item has been disabled or enabled.
+	 */
+	private Set<ListEnableStateListener<DataType>> enableStateListeners;
+
+	/**
+	 * Returns a set, which contains the listeners, which should be notified
+	 * when an item has been disabled or enabled.
+	 * 
+	 * @return A set, which contains the listeners, which should be notified
+	 *         when an item has been disabled or enabled, as an instance of the
+	 *         type {@link Set} or an empty set, if no listeners should be
+	 *         notified
+	 */
+	protected final Set<ListEnableStateListener<DataType>> getEnableStateListeners() {
+		return enableStateListeners;
+	}
+
+	/**
+	 * Sets the set, which contains the listeners, which should be notified when
+	 * an item has been disabled or enabled.
+	 * 
+	 * @param enableStateListeners
+	 *            The set, which should be set, as an instance of the type
+	 *            {@link Set} or an empty set, if no listeners should be
+	 *            notified
+	 */
+	protected final void setEnableStateListeners(
+			final Set<ListEnableStateListener<DataType>> enableStateListeners) {
+		ensureNotNull(enableStateListeners,
+				"The enable state listeners may not be null");
+		this.enableStateListeners = enableStateListeners;
+	}
+
+	/**
 	 * Creates a new adapter, whose underlying data is managed as a list of
 	 * arbitrary items, which can be disabled or enabled.
 	 * 
@@ -68,12 +104,18 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 	 *            A set, which contains the listeners, which should be notified
 	 *            when the adapter's underlying data has been modified or an
 	 *            empty set, if no listeners should be notified
+	 * @param enableStateListeners
+	 *            A set, which contains the listeners, which should be notified
+	 *            when an item has been disabled or enabled or an empty set, if
+	 *            no listeners should be notified
 	 */
 	protected AbstractEnableStateListAdapter(final Context context,
 			final int itemViewId, final View itemView,
 			final List<Item<DataType>> items,
-			final Set<ListAdapterListener<DataType>> adapterListeners) {
+			final Set<ListAdapterListener<DataType>> adapterListeners,
+			final Set<ListEnableStateListener<DataType>> enableStateListeners) {
 		super(context, itemViewId, itemView, items, adapterListeners);
+		setEnableStateListeners(enableStateListeners);
 	}
 
 	/**
@@ -462,6 +504,35 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 		for (Item<DataType> item : getItems()) {
 			item.setEnabled(!item.isEnabled());
 		}
+	}
+
+	/**
+	 * Adds a new listener, which should be notified when an item has been
+	 * disable or enabled.
+	 * 
+	 * @param listener
+	 *            The listener, which should be added, as an instance of the
+	 *            class {@link ListEnableStateListener}. The listener may not be
+	 *            null
+	 */
+	public final void addEnableStateListner(
+			final ListEnableStateListener<DataType> listener) {
+		ensureNotNull(listener, "The listener may not be null");
+		enableStateListeners.add(listener);
+	}
+
+	/**
+	 * Removes a specific listener, which should not be notified when an item
+	 * has been disable or enabled, anymore.
+	 * 
+	 * @param listener
+	 *            The listener, which should be removed, as an instance of the
+	 *            class {@link ListEnableStateListener}. The listener may not be
+	 *            null
+	 */
+	public final void removeSortingListener(
+			final ListEnableStateListener<DataType> listener) {
+		enableStateListeners.remove(listener);
 	}
 
 }

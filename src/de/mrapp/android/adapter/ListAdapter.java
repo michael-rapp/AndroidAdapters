@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import de.mrapp.android.adapter.list.AbstractListAdapter;
 import de.mrapp.android.adapter.list.AbstractSortableListAdapter;
 import de.mrapp.android.adapter.list.ListAdapterListener;
+import de.mrapp.android.adapter.list.ListEnableStateListener;
 import de.mrapp.android.adapter.list.ListSortingListener;
 import de.mrapp.android.adapter.util.Item;
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
@@ -33,10 +34,11 @@ public class ListAdapter<DataType> extends
 	protected ListAdapter(final Context context, final int itemViewId,
 			final View itemView, final List<Item<DataType>> items,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
+			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final ListDecorator<DataType> decorator) {
 		super(context, itemViewId, itemView, items, adapterListeners,
-				sortingListeners);
+				enableStateListeners, sortingListeners);
 		ensureNotNull(decorator, "The decorator may not be null");
 		this.decorator = decorator;
 	}
@@ -45,6 +47,7 @@ public class ListAdapter<DataType> extends
 			final ListDecorator<DataType> decorator, final int itemViewId) {
 		this(context, itemViewId, null, new ArrayList<Item<DataType>>(),
 				new LinkedHashSet<ListAdapterListener<DataType>>(),
+				new LinkedHashSet<ListEnableStateListener<DataType>>(),
 				new LinkedHashSet<ListSortingListener<DataType>>(), decorator);
 	}
 
@@ -52,6 +55,7 @@ public class ListAdapter<DataType> extends
 			final ListDecorator<DataType> decorator, final View itemView) {
 		this(context, -1, itemView, new ArrayList<Item<DataType>>(),
 				new LinkedHashSet<ListAdapterListener<DataType>>(),
+				new LinkedHashSet<ListEnableStateListener<DataType>>(),
 				new LinkedHashSet<ListSortingListener<DataType>>(), decorator);
 	}
 
@@ -69,7 +73,7 @@ public class ListAdapter<DataType> extends
 			throws CloneNotSupportedException {
 		return new ListAdapter<DataType>(getContext(), getItemViewId(),
 				getItemView(), cloneItems(), getAdapterListeners(),
-				getSortingListeners(), decorator);
+				getEnableStateListeners(), getSortingListeners(), decorator);
 	}
 
 }

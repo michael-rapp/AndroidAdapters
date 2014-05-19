@@ -7,6 +7,7 @@ import android.content.Context;
 import android.view.View;
 import de.mrapp.android.adapter.list.AbstractSingleStateListAdapter;
 import de.mrapp.android.adapter.list.ListAdapterListener;
+import de.mrapp.android.adapter.list.ListEnableStateListener;
 import de.mrapp.android.adapter.list.ListSelectionListener;
 import de.mrapp.android.adapter.list.ListSortingListener;
 import de.mrapp.android.adapter.util.Item;
@@ -48,11 +49,13 @@ public class SingleChoiceListAdapter<DataType> extends
 			final int itemViewId, final View itemView,
 			final List<Item<DataType>> items,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
+			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final Set<ListSelectionListener<DataType>> selectionListeners,
 			final SelectableListDecorator<DataType> decorator) {
 		super(context, itemViewId, itemView, items, adapterListeners,
-				sortingListeners, selectionListeners, decorator);
+				enableStateListeners, sortingListeners, selectionListeners,
+				decorator);
 		addAdapterListener(getAdapterListener());
 	}
 
@@ -99,8 +102,8 @@ public class SingleChoiceListAdapter<DataType> extends
 			throws CloneNotSupportedException {
 		return new SingleChoiceListAdapter<DataType>(getContext(),
 				getItemViewId(), getItemView(), cloneItems(),
-				getAdapterListeners(), getSortingListeners(),
-				getSelectionListeners(), getDecorator());
+				getAdapterListeners(), getEnableStateListeners(),
+				getSortingListeners(), getSelectionListeners(), getDecorator());
 	}
 
 }
