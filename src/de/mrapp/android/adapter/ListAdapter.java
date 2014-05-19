@@ -1,5 +1,7 @@
 package de.mrapp.android.adapter;
 
+import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -8,13 +10,11 @@ import java.util.Set;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import de.mrapp.android.adapter.list.AbstractListAdapter;
 import de.mrapp.android.adapter.list.AbstractSortableListAdapter;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.ListEnableStateListener;
 import de.mrapp.android.adapter.list.ListSortingListener;
 import de.mrapp.android.adapter.util.Item;
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 public class ListAdapter<DataType> extends
 		AbstractSortableListAdapter<DataType> {
@@ -69,7 +69,7 @@ public class ListAdapter<DataType> extends
 	}
 
 	@Override
-	public final AbstractListAdapter<DataType> clone()
+	public final ListAdapter<DataType> clone()
 			throws CloneNotSupportedException {
 		return new ListAdapter<DataType>(getContext(), getItemViewId(),
 				getItemView(), cloneItems(), getAdapterListeners(),
