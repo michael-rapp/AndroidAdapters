@@ -24,6 +24,8 @@ import android.content.Context;
 import android.view.View;
 import de.mrapp.android.adapter.util.Item;
 
+import static de.mrapp.android.adapter.util.Condition.ensureGreaterThan;
+
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
  * a list of arbitrary items, which can have multiple states. Such adapters are
@@ -45,14 +47,37 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 	 */
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * The number of states, the adapter's items can have.
+	 */
+	private int numberOfItemStates;
+
 	protected AbstractItemStateListAdapter(final Context context,
 			final int itemViewId, final View itemView,
 			final List<Item<DataType>> items,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
-			final Set<ListSortingListener<DataType>> sortingListeners) {
+			final Set<ListSortingListener<DataType>> sortingListeners,
+			final int numberOfItemStates) {
 		super(context, itemViewId, itemView, items, adapterListeners,
 				enableStateListeners, sortingListeners);
+		ensureGreaterThan(numberOfItemStates, 0, "The number of items states "
+				+ "must be greater than 0");
+		this.numberOfItemStates = numberOfItemStates;
+	}
+
+	/**
+	 * Returns the number of states, the adapter's items can have.
+	 * 
+	 * @return The number of states, the adapter's items can have, as an
+	 *         {@link Integer} value. The value must be greater than 0
+	 */
+	public final int getNumberOfStates() {
+		return numberOfItemStates;
+	}
+
+	public final int getItemState(final int index) {
+		return getItems().get(index).ge
 	}
 
 	@Override
