@@ -19,7 +19,7 @@ package de.mrapp.android.adapter.list;
 
 /**
  * Defines the interface, all listeners, which should be notified when an item
- * of a {@link ListAdapter} has been enabled or disable, must implement.
+ * of a {@link ListAdapter} has been enabled or disabled, must implement.
  * 
  * @param <DataType>
  *            The type of the observed adapter's underlying data
