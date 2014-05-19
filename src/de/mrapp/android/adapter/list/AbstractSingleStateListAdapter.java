@@ -12,7 +12,7 @@ import de.mrapp.android.adapter.SelectableListDecorator;
 import de.mrapp.android.adapter.util.Item;
 
 public abstract class AbstractSingleStateListAdapter<DataType> extends
-		AbstractListAdapter<DataType> {
+		AbstractSortableListAdapter<DataType> {
 
 	/**
 	 * The constant serial version UID.

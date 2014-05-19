@@ -22,27 +22,21 @@ import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import de.mrapp.android.adapter.Adapter;
-import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.util.Item;
-import de.mrapp.android.adapter.util.ItemComparator;
 import de.mrapp.android.adapter.util.ItemIterator;
 import de.mrapp.android.adapter.util.ItemListIterator;
-import de.mrapp.android.adapter.util.SerializableWrapper;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
@@ -63,26 +57,6 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	 * The constant serial version UID.
 	 */
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * The key, which is used to store the adapter's items within a bundle.
-	 */
-	private static final String ITEMS_BUNDLE_KEY = AbstractListAdapter.class
-			.getSimpleName() + "::Items";
-
-	/**
-	 * The key, which is used to store the listeners, which should be notified
-	 * when the adapter's underlying data has been modified, within a bundle.
-	 */
-	private static final String ADAPTER_LISTENERS_BUNDLE_KEY = AbstractListAdapter.class
-			.getSimpleName() + "::AdapterListeners";
-
-	/**
-	 * The key, which is used to store the listeners, which should be notified
-	 * when the adapter's underlying data has been sorted, within a bundle.
-	 */
-	private static final String SORTING_LISTENERS_BUNDLE_KEY = AbstractListAdapter.class
-			.getSimpleName() + "::SortingListners";
 
 	/**
 	 * The context, the adapter belongs to.
@@ -109,12 +83,6 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	 * adapter's underlying data has been modified.
 	 */
 	private Set<ListAdapterListener<DataType>> adapterListeners;
-
-	/**
-	 * A set, which contains the listeners, which should be notified when the
-	 * adapter's underlying data has been sorted.
-	 */
-	private Set<ListSortingListener<DataType>> sortingListeners;
 
 	/**
 	 * Notifies all listeners, which have been registered to be notified when
@@ -153,25 +121,6 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	private void notifyOnItemRemoved(final DataType item, final int index) {
 		for (ListAdapterListener<DataType> listener : adapterListeners) {
 			listener.onItemRemoved(item, index);
-		}
-	}
-
-	/**
-	 * Notifies all listeners, which have been registered to be notified when
-	 * the adapter's underlying data has been sorted.
-	 * 
-	 * @param sortedList
-	 *            A list, which contains the adapter's sorted items, as an
-	 *            instance of the type {@link List}. The list may not be null
-	 * @param order
-	 *            The order, which has been used to sort the list, as a value of
-	 *            the enum {@link Order}. The order may either be
-	 *            <code>ASCENDING</code> or <code>DESCENDING</code>
-	 */
-	private void notifyOnSorted(final List<DataType> sortedList,
-			final Order order) {
-		for (ListSortingListener<DataType> listener : sortingListeners) {
-			listener.onSorted(sortedList, order);
 		}
 	}
 
@@ -243,7 +192,7 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	}
 
 	/**
-	 * Returns a list, which contains the adapters underlying data.
+	 * Returns a list, which contains the adapter's underlying data.
 	 * 
 	 * @return A list, which contains the adapters underlying data, as an
 	 *         instance of the type {@link List} or an empty list, if the
@@ -254,27 +203,43 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	}
 
 	/**
+	 * Sets the list, which contains the adapter's underlying data.
+	 * 
+	 * @param items
+	 *            The list, which should be set, as an instance of the type
+	 *            {@link List} or an empty list, if the adapter should not
+	 *            contain any data
+	 */
+	protected final void setItems(final List<Item<DataType>> items) {
+		ensureNotNull(items, "The items may not be null");
+		this.items = items;
+	}
+
+	/**
 	 * Returns a set, which contains the listeners, which should be notified
 	 * when the adapter's underlying data has been modified.
 	 * 
 	 * @return A set, which contains the listeners, which should be notified
 	 *         when the adapter's underlying data has been modified, as an
-	 *         instance of the type {@link Set}. The set may not be null
+	 *         instance of the type {@link Set} or an empty set, if no listeners
+	 *         should be notified
 	 */
 	protected final Set<ListAdapterListener<DataType>> getAdapterListeners() {
 		return adapterListeners;
 	}
 
 	/**
-	 * Returns a set, which contains the listeners, which should be notified
-	 * when the adapter's underlying data has been sorted.
+	 * Sets the set, which contains the listeners, which should be notified,
+	 * when the adapter's underlying data has been modified.
 	 * 
-	 * @return A set, which contains the listeners, which should be notified
-	 *         when the adapter's underlying data has been modified, as an
-	 *         instance of the type {@link Set}. The set may not be null
+	 * @param adapterListeners
+	 *            The set, which should be set, as an instance of the type
+	 *            {@link Set} or an empty set, if no listeners should be
+	 *            notified
 	 */
-	protected final Set<ListSortingListener<DataType>> getSortingListeners() {
-		return sortingListeners;
+	protected final void setAdapterListeners(
+			final Set<ListAdapterListener<DataType>> adapterListeners) {
+		ensureNotNull(adapterListeners, "The adapter listeners may not be null");
 	}
 
 	/**
@@ -299,22 +264,15 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	 *            A set, which contains the listeners, which should be notified
 	 *            when the adapter's underlying data has been modified or an
 	 *            empty set, if no listeners should be notified
-	 * @param sortingListeners
-	 *            A set, which contains the listeners, which should be notified,
-	 *            when the adapter's underlying data has been sorted or an empty
-	 *            set, if no listeners should be notified
 	 */
 	protected AbstractListAdapter(final Context context, final int itemViewId,
 			final View itemView, final List<Item<DataType>> items,
-			final Set<ListAdapterListener<DataType>> adapterListeners,
-			final Set<ListSortingListener<DataType>> sortingListeners) {
+			final Set<ListAdapterListener<DataType>> adapterListeners) {
 		ensureNotNull(context, "The context may not be null");
 		ensureNotNull(items, "The items may not be null");
 		ensureNotNull(adapterListeners, "The adapter listeners may not be null");
-		ensureNotNull(sortingListeners, "The sorting listeners may not be null");
 
 		this.adapterListeners = adapterListeners;
-		this.sortingListeners = sortingListeners;
 		this.items = items;
 		this.context = context;
 		this.itemViewId = itemViewId;
@@ -710,74 +668,6 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	}
 
 	/**
-	 * Sorts the items of the adapter in an ascending order.
-	 */
-	public final void sort() {
-		sort(Order.ASCENDING);
-
-	}
-
-	/**
-	 * Sorts the items of the adapter in a specific order.
-	 * 
-	 * @param order
-	 *            The order, which should be used to sort the items, as a value
-	 *            of the enum {@link Order}. The order may either be
-	 *            <code>ASCENDING</code> order <code>DESCENDING</code>
-	 */
-	public final void sort(final Order order) {
-		if (order == Order.ASCENDING) {
-			Collections.sort(items);
-		} else {
-			Collections.sort(items, Collections.reverseOrder());
-		}
-
-		notifyOnSorted(getAllItems(), order);
-		notifyDataSetChanged();
-	}
-
-	/**
-	 * Sorts the items of the adapter by using a comparator in an ascending
-	 * order.
-	 * 
-	 * @param comparator
-	 *            The comparable, which should be used to sort the items, as an
-	 *            instance of the type {@link Comparator}. The comparator may
-	 *            not be null
-	 */
-	public final void sort(final Comparator<DataType> comparator) {
-		sort(Order.ASCENDING, comparator);
-	}
-
-	/**
-	 * Sorts the entries of the adapter by using a comparator in a specific
-	 * order.
-	 * 
-	 * @param comparator
-	 *            The comparable, which should be used to sort the entries, as
-	 *            an instance of the type {@link Comparator}. The comparator may
-	 *            not be null
-	 * @param order
-	 *            The order, which should be used to sort the entries, as a
-	 *            value of the enum {@link Order}. The order may either be
-	 *            <code>ASCENDING</code> order <code>DESCENDING</code>
-	 */
-	public final void sort(final Order order,
-			final Comparator<DataType> comparator) {
-		Comparator<Item<DataType>> itemComparator = new ItemComparator<DataType>(
-				comparator);
-
-		if (order == Order.ASCENDING) {
-			Collections.sort(items, itemComparator);
-		} else {
-			Collections.sort(items, Collections.reverseOrder(itemComparator));
-		}
-
-		notifyOnSorted(getAllItems(), order);
-		notifyDataSetChanged();
-	}
-
-	/**
 	 * Adds a new listener, which should be notified when the adapter's
 	 * underlying data has been modified.
 	 * 
@@ -804,35 +694,6 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	public final void removeAdapterListener(
 			final ListAdapterListener<DataType> listener) {
 		adapterListeners.remove(listener);
-	}
-
-	/**
-	 * Adds a new listener, which should be notified when the adapter's
-	 * underlying data has been sorted.
-	 * 
-	 * @param listener
-	 *            The listener, which should be added, as an instance of the
-	 *            class {@link ListSortingListener}. The listener may not be
-	 *            null
-	 */
-	public final void addSortingListner(
-			final ListSortingListener<DataType> listener) {
-		ensureNotNull(listener, "The listener may not be null");
-		sortingListeners.add(listener);
-	}
-
-	/**
-	 * Removes a specific listener, which should not be notified when the
-	 * adapter's underlying data has been modified, anymore.
-	 * 
-	 * @param listener
-	 *            The listener, which should be removed, as an instance of the
-	 *            class {@link ListSortingListener}. The listener may not be
-	 *            null
-	 */
-	public final void removeSortingListener(
-			final ListSortingListener<DataType> listener) {
-		sortingListeners.remove(listener);
 	}
 
 	/**
@@ -1077,43 +938,6 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	@Override
 	public final long getItemId(final int index) {
 		return index;
-	}
-
-	@Override
-	public final void onSaveInstanceState(final Bundle outState) {
-		SerializableWrapper<List<Item<DataType>>> wrappedItems = new SerializableWrapper<List<Item<DataType>>>(
-				items);
-		outState.putSerializable(ITEMS_BUNDLE_KEY, wrappedItems);
-
-		SerializableWrapper<Set<ListAdapterListener<DataType>>> wrappedAdapterListeners = new SerializableWrapper<Set<ListAdapterListener<DataType>>>(
-				adapterListeners);
-		outState.putSerializable(ADAPTER_LISTENERS_BUNDLE_KEY,
-				wrappedAdapterListeners);
-
-		SerializableWrapper<Set<ListSortingListener<DataType>>> wrappedSortingListeners = new SerializableWrapper<Set<ListSortingListener<DataType>>>(
-				sortingListeners);
-		outState.putSerializable(SORTING_LISTENERS_BUNDLE_KEY,
-				wrappedSortingListeners);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public final void onRestoreInstanceState(final Bundle savedInstanceState) {
-		if (savedInstanceState != null) {
-			SerializableWrapper<List<Item<DataType>>> wrappedItems = (SerializableWrapper<List<Item<DataType>>>) savedInstanceState
-					.getSerializable(ITEMS_BUNDLE_KEY);
-			items = wrappedItems.getWrappedInstance();
-
-			SerializableWrapper<Set<ListAdapterListener<DataType>>> wrappedAdapterListeners = (SerializableWrapper<Set<ListAdapterListener<DataType>>>) savedInstanceState
-					.getSerializable(ADAPTER_LISTENERS_BUNDLE_KEY);
-			adapterListeners = wrappedAdapterListeners.getWrappedInstance();
-
-			SerializableWrapper<Set<ListSortingListener<DataType>>> wrappedSortingListeners = (SerializableWrapper<Set<ListSortingListener<DataType>>>) savedInstanceState
-					.getSerializable(SORTING_LISTENERS_BUNDLE_KEY);
-			sortingListeners = wrappedSortingListeners.getWrappedInstance();
-
-			notifyDataSetChanged();
-		}
 	}
 
 	@Override

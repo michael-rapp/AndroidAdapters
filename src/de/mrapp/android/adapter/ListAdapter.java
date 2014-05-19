@@ -9,13 +9,14 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import de.mrapp.android.adapter.list.AbstractListAdapter;
+import de.mrapp.android.adapter.list.AbstractSortableListAdapter;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.ListSortingListener;
 import de.mrapp.android.adapter.util.Item;
-
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
-public class ListAdapter<DataType> extends AbstractListAdapter<DataType> {
+public class ListAdapter<DataType> extends
+		AbstractSortableListAdapter<DataType> {
 
 	/**
 	 * The constant serial version UID.
