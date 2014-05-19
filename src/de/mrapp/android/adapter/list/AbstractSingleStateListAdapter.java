@@ -147,7 +147,7 @@ public abstract class AbstractSingleStateListAdapter<DataType> extends
 	}
 
 	@Override
-	public abstract AbstractListAdapter<DataType> clone()
+	public abstract AbstractSingleStateListAdapter<DataType> clone()
 			throws CloneNotSupportedException;
 
 }
