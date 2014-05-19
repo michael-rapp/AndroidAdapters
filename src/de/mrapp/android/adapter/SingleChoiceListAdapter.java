@@ -5,7 +5,7 @@ import java.util.Set;
 
 import android.content.Context;
 import android.view.View;
-import de.mrapp.android.adapter.list.AbstractSingleStateListAdapter;
+import de.mrapp.android.adapter.list.AbstractSelectableListAdapter;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.ListEnableStateListener;
 import de.mrapp.android.adapter.list.ListSelectionListener;
@@ -13,7 +13,7 @@ import de.mrapp.android.adapter.list.ListSortingListener;
 import de.mrapp.android.adapter.util.Item;
 
 public class SingleChoiceListAdapter<DataType> extends
-		AbstractSingleStateListAdapter<DataType> {
+		AbstractSelectableListAdapter<DataType> {
 
 	/**
 	 * The constant serial version UID.
