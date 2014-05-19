@@ -34,21 +34,27 @@ public interface ListSelectionListener<DataType> {
 	/**
 	 * The method, which is invoked, when an item has been selected.
 	 * 
+	 * @param item
+	 *            The item, which has been selected, as an instance of the
+	 *            generic type DataType. The item may not be null
 	 * @param index
 	 *            The index of the item, which has been selected, as an
 	 *            {@link Integer} value. The index must be between 0 and the
 	 *            value of the adapter's <code>size():int</code> method - 1
 	 */
-	void onItemSelected(int index);
+	void onItemSelected(DataType item, int index);
 
 	/**
 	 * The method, which is invoked, when an item has been unselected.
 	 * 
+	 * @param item
+	 *            The item, which has been unselected, as an instance of the
+	 *            generic type DataType. The item may not be null
 	 * @param index
 	 *            The index of the item, which has been unselected, as an
 	 *            {@link Integer} value. The index must be between 0 and the
 	 *            value of the adapter's <code>size():int</code> method - 1
 	 */
-	void onItemUnselected(int index);
+	void onItemUnselected(DataType item, int index);
 
 }

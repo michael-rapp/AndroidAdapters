@@ -185,7 +185,7 @@ public class MultipleChoiceListAdapter<DataType> extends
 	public final void select(final int index) {
 		Item<DataType> item = getItems().get(index);
 		item.setSelected(true);
-		notifyOnItemSelected(index);
+		notifyOnItemSelected(item.getData(), index);
 	}
 
 	public final void select(final DataType item) {
@@ -195,7 +195,7 @@ public class MultipleChoiceListAdapter<DataType> extends
 	public final void unselect(final int index) {
 		Item<DataType> item = getItems().get(index);
 		item.setSelected(false);
-		notifyOnItemUnselected(index);
+		notifyOnItemUnselected(item.getData(), index);
 	}
 
 	public final void unselect(final DataType item) {
@@ -207,10 +207,10 @@ public class MultipleChoiceListAdapter<DataType> extends
 
 		if (item.isSelected()) {
 			item.setSelected(false);
-			notifyOnItemUnselected(index);
+			notifyOnItemUnselected(item.getData(), index);
 		} else {
 			item.setSelected(true);
-			notifyOnItemSelected(index);
+			notifyOnItemSelected(item.getData(), index);
 		}
 	}
 

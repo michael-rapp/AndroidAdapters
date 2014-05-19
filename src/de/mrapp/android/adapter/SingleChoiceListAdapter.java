@@ -27,7 +27,7 @@ public class SingleChoiceListAdapter<DataType> extends
 			public void onItemAdded(final DataType item, final int index) {
 				if (isEmpty()) {
 					select(index);
-					notifyOnItemSelected(index);
+					notifyOnItemSelected(item, index);
 				}
 			}
 
@@ -35,10 +35,10 @@ public class SingleChoiceListAdapter<DataType> extends
 			public void onItemRemoved(final DataType item, final int index) {
 				if (size() >= index + 1) {
 					select(index);
-					notifyOnItemSelected(index);
+					notifyOnItemSelected(get(index), index);
 				} else if (size() >= index) {
 					select(index - 1);
-					notifyOnItemSelected(index - 1);
+					notifyOnItemSelected(get(index - 1), index - 1);
 				}
 			}
 
@@ -85,10 +85,10 @@ public class SingleChoiceListAdapter<DataType> extends
 
 			if (i == index && !item.isSelected()) {
 				item.setSelected(true);
-				notifyOnItemSelected(index);
+				notifyOnItemSelected(item.getData(), index);
 			} else if (i != index && item.isSelected()) {
 				item.setSelected(false);
-				notifyOnItemUnselected(index);
+				notifyOnItemUnselected(item.getData(), index);
 			}
 		}
 	}
