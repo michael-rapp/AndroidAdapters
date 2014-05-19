@@ -69,8 +69,8 @@ public final class Condition {
 	 *            thrown, if the given value is less than the reference value,
 	 *            as a {@link String}
 	 */
-	public static void ensureGreaterThan(final int value,
-			final int referenceValue, final String exceptionMessage) {
+	public static void ensureGreater(final int value, final int referenceValue,
+			final String exceptionMessage) {
 		if (value <= referenceValue) {
 			throw new IllegalArgumentException(exceptionMessage);
 		}
