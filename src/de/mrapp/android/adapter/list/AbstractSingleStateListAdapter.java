@@ -79,11 +79,12 @@ public abstract class AbstractSingleStateListAdapter<DataType> extends
 			final int itemViewId, final View itemView,
 			final List<Item<DataType>> items,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
+			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final Set<ListSelectionListener<DataType>> selectionListeners,
 			final SelectableListDecorator<DataType> decorator) {
 		super(context, itemViewId, itemView, items, adapterListeners,
-				sortingListeners);
+				enableStateListeners, sortingListeners);
 		ensureNotNull(decorator, "The decorator may not be null");
 		ensureNotNull(selectionListeners,
 				"The selection listeners may not be null");

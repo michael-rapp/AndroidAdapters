@@ -151,13 +151,19 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 	 *            A set, which contains the listeners, which should be notified,
 	 *            when the adapter's underlying data has been sorted or an empty
 	 *            set, if no listeners should be notified
+	 * @param enableStateListeners
+	 *            A set, which contains the listeners, which should be notified
+	 *            when an item has been disabled or enabled or an empty set, if
+	 *            no listeners should be notified
 	 */
 	protected AbstractSortableListAdapter(final Context context,
 			final int itemViewId, final View itemView,
 			final List<Item<DataType>> items,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
+			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners) {
-		super(context, itemViewId, itemView, items, adapterListeners);
+		super(context, itemViewId, itemView, items, adapterListeners,
+				enableStateListeners);
 		setSortingListeners(sortingListeners);
 	}
 
