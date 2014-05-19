@@ -302,4 +302,8 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 		}
 	}
 
+	@Override
+	public abstract AbstractSortableListAdapter<DataType> clone()
+			throws CloneNotSupportedException;
+
 }
