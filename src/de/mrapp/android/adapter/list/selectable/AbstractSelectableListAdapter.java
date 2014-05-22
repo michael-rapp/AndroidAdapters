@@ -1,4 +1,4 @@
-package de.mrapp.android.adapter.list;
+package de.mrapp.android.adapter.list.selectable;
 
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
@@ -9,6 +9,8 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import de.mrapp.android.adapter.SelectableListDecorator;
+import de.mrapp.android.adapter.list.AbstractItemStateListAdapter;
+import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.sorting.ListSortingListener;
 import de.mrapp.android.adapter.util.Item;
