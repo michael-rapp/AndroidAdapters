@@ -23,6 +23,7 @@ import java.util.Set;
 
 import android.content.Context;
 import android.view.View;
+import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.sorting.AbstractSortableListAdapter;
 import de.mrapp.android.adapter.list.sorting.ListSortingListener;
 import de.mrapp.android.adapter.util.Item;

@@ -9,6 +9,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import de.mrapp.android.adapter.SelectableListDecorator;
+import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.sorting.ListSortingListener;
 import de.mrapp.android.adapter.util.Item;
 import de.mrapp.android.adapter.util.Logger;
