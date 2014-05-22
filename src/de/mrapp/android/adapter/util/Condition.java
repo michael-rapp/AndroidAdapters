@@ -64,7 +64,7 @@ public final class Condition {
 	 *            The message of the {@link IllegalArgumentException}, which is
 	 *            thrown, if the given string is empty, as a {@link String}
 	 */
-	public void ensureNotEmpty(final String string,
+	public static void ensureNotEmpty(final String string,
 			final String exceptionMessage) {
 		if (string.length() == 0) {
 			throw new IllegalArgumentException(exceptionMessage);
