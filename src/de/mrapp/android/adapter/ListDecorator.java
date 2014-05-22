@@ -17,13 +17,14 @@
  */
 package de.mrapp.android.adapter;
 
+import de.mrapp.android.adapter.list.ListAdapterImplementation;
 import android.content.Context;
 import android.view.View;
 
 /**
  * Defines the interface, all classes must implement, which should allow to
  * customize the appearance of the widgets, which belong to the view, which is
- * used to visualize an item of a {@link ListAdapter}.
+ * used to visualize an item of a {@link ListAdapterImplementation}.
  * 
  * @author Michael Rapp
  * 

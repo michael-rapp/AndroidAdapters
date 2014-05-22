@@ -1,4 +1,4 @@
-package de.mrapp.android.adapter;
+package de.mrapp.android.adapter.list;
 
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
@@ -10,14 +10,11 @@ import java.util.Set;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import de.mrapp.android.adapter.list.AbstractSortableListAdapter;
-import de.mrapp.android.adapter.list.ListAdapterListener;
-import de.mrapp.android.adapter.list.ListEnableStateListener;
-import de.mrapp.android.adapter.list.ListSortingListener;
+import de.mrapp.android.adapter.ListDecorator;
 import de.mrapp.android.adapter.util.Item;
 import de.mrapp.android.adapter.util.Logger;
 
-public class ListAdapter<DataType> extends
+public class ListAdapterImplementation<DataType> extends
 		AbstractSortableListAdapter<DataType> {
 
 	/**
@@ -32,7 +29,7 @@ public class ListAdapter<DataType> extends
 	 */
 	private final transient ListDecorator<DataType> decorator;
 
-	protected ListAdapter(final Context context, final Logger logger,
+	protected ListAdapterImplementation(final Context context, final Logger logger,
 			final int itemViewId, final View itemView,
 			final List<Item<DataType>> items,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
@@ -45,7 +42,7 @@ public class ListAdapter<DataType> extends
 		this.decorator = decorator;
 	}
 
-	public ListAdapter(final Context context, final Logger logger,
+	public ListAdapterImplementation(final Context context, final Logger logger,
 			final ListDecorator<DataType> decorator, final int itemViewId) {
 		this(context, logger, itemViewId, null,
 				new ArrayList<Item<DataType>>(),
@@ -54,7 +51,7 @@ public class ListAdapter<DataType> extends
 				new LinkedHashSet<ListSortingListener<DataType>>(), decorator);
 	}
 
-	public ListAdapter(final Context context, final Logger logger,
+	public ListAdapterImplementation(final Context context, final Logger logger,
 			final ListDecorator<DataType> decorator, final View itemView) {
 		this(context, logger, -1, itemView, new ArrayList<Item<DataType>>(),
 				new LinkedHashSet<ListAdapterListener<DataType>>(),
@@ -72,9 +69,9 @@ public class ListAdapter<DataType> extends
 	}
 
 	@Override
-	public final ListAdapter<DataType> clone()
+	public final ListAdapterImplementation<DataType> clone()
 			throws CloneNotSupportedException {
-		return new ListAdapter<DataType>(getContext(), getLogger().clone(),
+		return new ListAdapterImplementation<DataType>(getContext(), getLogger().clone(),
 				getItemViewId(), getItemView(), cloneItems(),
 				getAdapterListeners(), getEnableStateListeners(),
 				getSortingListeners(), decorator);
