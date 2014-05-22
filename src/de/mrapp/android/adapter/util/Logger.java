@@ -17,10 +17,9 @@
  */
 package de.mrapp.android.adapter.util;
 
-import android.util.Log;
-
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 import static de.mrapp.android.adapter.util.Condition.ensureNotEmpty;
+import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+import android.util.Log;
 
 /**
  * A logger, which allows to log messages or exceptions on various log levels,
@@ -28,7 +27,12 @@ import static de.mrapp.android.adapter.util.Condition.ensureNotEmpty;
  * 
  * @author Michael Rapp
  */
-public class Logger {
+public class Logger implements Entity {
+
+	/**
+	 * The constant serial version UID.
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * The tag, which is used for logging.
@@ -325,6 +329,42 @@ public class Logger {
 	 */
 	public final void logError(final Throwable exception) {
 		logError(exception.getMessage(), exception);
+	}
+
+	@Override
+	public final String toString() {
+		return "Logger [tag=" + tag + ", loggingEnabled=" + loggingEnabled
+				+ "]";
+	}
+
+	@Override
+	public final int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (loggingEnabled ? 1231 : 1237);
+		result = prime * result + tag.hashCode();
+		return result;
+	}
+
+	@Override
+	public final boolean equals(final Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Logger other = (Logger) obj;
+		if (loggingEnabled != other.loggingEnabled)
+			return false;
+		if (!tag.equals(other.tag))
+			return false;
+		return true;
+	}
+
+	@Override
+	public final Logger clone() {
+		return new Logger(new String(tag), loggingEnabled);
 	}
 
 }
