@@ -44,7 +44,7 @@ public class MultipleChoiceListAdapter<DataType> extends
 	}
 
 	public final int getFirstSelectedIndex() {
-		for (int i = 0; i < size(); i++) {
+		for (int i = 0; i < getNumberOfItems(); i++) {
 			if (getItems().get(i).isSelected()) {
 				return i;
 			}
@@ -64,7 +64,7 @@ public class MultipleChoiceListAdapter<DataType> extends
 	}
 
 	public final int getLastSelectedIndex() {
-		for (int i = size() - 1; i >= 0; i--) {
+		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
 			if (getItems().get(i).isSelected()) {
 				return i;
 			}
@@ -74,7 +74,7 @@ public class MultipleChoiceListAdapter<DataType> extends
 	}
 
 	public final DataType getLastSelectedItem() {
-		for (int i = size() - 1; i >= 0; i--) {
+		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
 			Item<DataType> item = getItems().get(i);
 
 			if (item.isSelected()) {
@@ -86,7 +86,7 @@ public class MultipleChoiceListAdapter<DataType> extends
 	}
 
 	public final int getFirstUnselectedIndex() {
-		for (int i = 0; i < size(); i++) {
+		for (int i = 0; i < getNumberOfItems(); i++) {
 			if (!getItems().get(i).isSelected()) {
 				return i;
 			}
@@ -106,7 +106,7 @@ public class MultipleChoiceListAdapter<DataType> extends
 	}
 
 	public final int getLastUnselectedIndex() {
-		for (int i = size() - 1; i >= 0; i--) {
+		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
 			if (!getItems().get(i).isSelected()) {
 				return i;
 			}
@@ -116,7 +116,7 @@ public class MultipleChoiceListAdapter<DataType> extends
 	}
 
 	public final DataType getLastUnselectedItem() {
-		for (int i = size() - 1; i >= 0; i--) {
+		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
 			Item<DataType> item = getItems().get(i);
 
 			if (!item.isSelected()) {
@@ -130,7 +130,7 @@ public class MultipleChoiceListAdapter<DataType> extends
 	public final List<Integer> getSelectedIndices() {
 		List<Integer> selectedIndices = new ArrayList<Integer>();
 
-		for (int i = 0; i < size(); i++) {
+		for (int i = 0; i < getNumberOfItems(); i++) {
 			if (getItems().get(i).isSelected()) {
 				selectedIndices.add(i);
 			}
@@ -154,7 +154,7 @@ public class MultipleChoiceListAdapter<DataType> extends
 	public final List<Integer> getUnselectedIndices() {
 		List<Integer> unselectedIndices = new ArrayList<Integer>();
 
-		for (int i = 0; i < size(); i++) {
+		for (int i = 0; i < getNumberOfItems(); i++) {
 			if (!getItems().get(i).isSelected()) {
 				unselectedIndices.add(i);
 			}
@@ -220,19 +220,19 @@ public class MultipleChoiceListAdapter<DataType> extends
 	}
 
 	public final void selectAll() {
-		for (int i = 0; i < size(); i++) {
+		for (int i = 0; i < getNumberOfItems(); i++) {
 			select(i);
 		}
 	}
 
 	public final void unselectAll() {
-		for (int i = 0; i < size(); i++) {
+		for (int i = 0; i < getNumberOfItems(); i++) {
 			unselect(i);
 		}
 	}
 
 	public final void triggerAllSelections() {
-		for (int i = 0; i < size(); i++) {
+		for (int i = 0; i < getNumberOfItems(); i++) {
 			triggerSelection(i);
 		}
 	}

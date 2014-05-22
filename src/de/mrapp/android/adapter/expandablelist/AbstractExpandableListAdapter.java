@@ -35,7 +35,8 @@ public abstract class AbstractExpandableListAdapter<GroupDataType, ChildDataType
 	@Override
 	public final ChildDataType getChild(final int groupIndex,
 			final int childIndex) {
-		return groupAdapter.get(groupIndex).getChildAdapter().get(childIndex);
+		return groupAdapter.getItem(groupIndex).getChildAdapter()
+				.getItem(childIndex);
 	}
 
 	@Override
@@ -44,8 +45,8 @@ public abstract class AbstractExpandableListAdapter<GroupDataType, ChildDataType
 
 		for (int i = 0; i < groupIndex; i++) {
 			Group<GroupDataType, ChildDataType, ChildAdapterType> group = groupAdapter
-					.get(i);
-			id += group.getChildAdapter().size();
+					.getItem(i);
+			id += group.getChildAdapter().getNumberOfItems();
 		}
 
 		return id;
@@ -53,17 +54,18 @@ public abstract class AbstractExpandableListAdapter<GroupDataType, ChildDataType
 
 	@Override
 	public final int getChildrenCount(final int groupIndex) {
-		return groupAdapter.get(groupIndex).getChildAdapter().size();
+		return groupAdapter.getItem(groupIndex).getChildAdapter()
+				.getNumberOfItems();
 	}
 
 	@Override
 	public final GroupDataType getGroup(final int groupIndex) {
-		return groupAdapter.get(groupIndex).getData();
+		return groupAdapter.getItem(groupIndex).getData();
 	}
 
 	@Override
 	public final int getGroupCount() {
-		return groupAdapter.size();
+		return groupAdapter.getNumberOfItems();
 	}
 
 	@Override

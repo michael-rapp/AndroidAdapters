@@ -169,7 +169,7 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 	}
 
 	public final void setAllItemStates(final int state) {
-		for (int i = 0; i < size(); i++) {
+		for (int i = 0; i < getNumberOfItems(); i++) {
 			setItemState(i, state);
 		}
 	}
@@ -194,7 +194,7 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 	}
 
 	public final void triggerAllItemStates() {
-		for (int i = 0; i < size(); i++) {
+		for (int i = 0; i < getNumberOfItems(); i++) {
 			triggerItemState(i);
 		}
 	}
@@ -204,7 +204,7 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 	}
 
 	public final int getFirstIndexWithSpecificState(final int state) {
-		for (int i = 0; i < size(); i++) {
+		for (int i = 0; i < getNumberOfItems(); i++) {
 			if (getItems().get(i).getState() == state) {
 				return i;
 			}
@@ -224,7 +224,7 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 	}
 
 	public final int getLastIndexWithSpecificState(final int state) {
-		for (int i = size() - 1; i >= 0; i--) {
+		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
 			if (getItems().get(i).getState() == state) {
 				return i;
 			}
@@ -234,7 +234,7 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 	}
 
 	public final DataType getLastItemWithSpecificState(final int state) {
-		for (int i = size() - 1; i >= 0; i--) {
+		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
 			Item<DataType> item = getItems().get(i);
 
 			if (item.getState() == state) {
@@ -248,7 +248,7 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 	public final List<Integer> getIndicesWithSpecificState(final int state) {
 		List<Integer> indices = new ArrayList<Integer>();
 
-		for (int i = 0; i < size(); i++) {
+		for (int i = 0; i < getNumberOfItems(); i++) {
 			if (getItems().get(i).getState() == state) {
 				indices.add(i);
 			}
