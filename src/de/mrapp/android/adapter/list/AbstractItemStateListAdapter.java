@@ -24,6 +24,7 @@ import java.util.Set;
 import android.content.Context;
 import android.view.View;
 import de.mrapp.android.adapter.util.Item;
+import de.mrapp.android.adapter.util.Logger;
 import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
 import static de.mrapp.android.adapter.util.Condition.ensureAtMaximum;
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
@@ -114,13 +115,13 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 	}
 
 	protected AbstractItemStateListAdapter(final Context context,
-			final int itemViewId, final View itemView,
+			final Logger logger, final int itemViewId, final View itemView,
 			final List<Item<DataType>> items,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final int numberOfItemStates) {
-		super(context, itemViewId, itemView, items, adapterListeners,
+		super(context, logger, itemViewId, itemView, items, adapterListeners,
 				enableStateListeners, sortingListeners);
 		ensureAtLeast(numberOfItemStates, 1, "The number of items states "
 				+ "must be at least 1");

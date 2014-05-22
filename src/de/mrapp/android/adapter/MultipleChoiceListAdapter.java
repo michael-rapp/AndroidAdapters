@@ -12,6 +12,7 @@ import de.mrapp.android.adapter.list.ListEnableStateListener;
 import de.mrapp.android.adapter.list.ListSelectionListener;
 import de.mrapp.android.adapter.list.ListSortingListener;
 import de.mrapp.android.adapter.util.Item;
+import de.mrapp.android.adapter.util.Logger;
 
 public class MultipleChoiceListAdapter<DataType> extends
 		AbstractSelectableListAdapter<DataType> {
@@ -22,14 +23,14 @@ public class MultipleChoiceListAdapter<DataType> extends
 	private static final long serialVersionUID = 1L;
 
 	protected MultipleChoiceListAdapter(final Context context,
-			final int itemViewId, final View itemView,
+			final Logger logger, final int itemViewId, final View itemView,
 			final List<Item<DataType>> items,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final Set<ListSelectionListener<DataType>> selectionListeners,
 			final SelectableListDecorator<DataType> decorator) {
-		super(context, itemViewId, itemView, items, adapterListeners,
+		super(context, logger, itemViewId, itemView, items, adapterListeners,
 				enableStateListeners, sortingListeners, selectionListeners,
 				decorator);
 	}
@@ -240,8 +241,8 @@ public class MultipleChoiceListAdapter<DataType> extends
 	public final MultipleChoiceListAdapter<DataType> clone()
 			throws CloneNotSupportedException {
 		return new MultipleChoiceListAdapter<DataType>(getContext(),
-				getItemViewId(), getItemView(), cloneItems(),
-				getAdapterListeners(), getEnableStateListeners(),
+				getLogger().clone(), getItemViewId(), getItemView(),
+				cloneItems(), getAdapterListeners(), getEnableStateListeners(),
 				getSortingListeners(), getSelectionListeners(), getDecorator());
 	}
 
