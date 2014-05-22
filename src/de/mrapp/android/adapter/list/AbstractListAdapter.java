@@ -31,8 +31,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ListAdapter;
-import de.mrapp.android.adapter.Adapter;
+import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.util.Item;
 import de.mrapp.android.adapter.util.ItemIterator;
 import de.mrapp.android.adapter.util.ItemListIterator;
@@ -51,7 +50,7 @@ import de.mrapp.android.adapter.util.Logger;
  * @since 1.0.0
  */
 public abstract class AbstractListAdapter<DataType> extends BaseAdapter
-		implements Adapter, ListAdapter {
+		implements ListAdapter<DataType> {
 
 	/**
 	 * The constant serial version UID.
@@ -300,30 +299,14 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		this.itemView = itemView;
 	}
 
-	/**
-	 * Adds a new listener, which should be notified when the adapter's
-	 * underlying data has been modified.
-	 * 
-	 * @param listener
-	 *            The listener, which should be added, as an instance of the
-	 *            class {@link ListAdapterListener}. The listener may not be
-	 *            null
-	 */
+	@Override
 	public final void addAdapterListener(
 			final ListAdapterListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		adapterListeners.add(listener);
 	}
 
-	/**
-	 * Removes a specific listener, which should not be notified when the
-	 * adapter's underlying data has been modified, anymore.
-	 * 
-	 * @param listener
-	 *            The listener, which should be removed, as an instance of the
-	 *            class {@link ListAdapterListener}. The listener may not be
-	 *            null
-	 */
+	@Override
 	public final void removeAdapterListener(
 			final ListAdapterListener<DataType> listener) {
 		adapterListeners.remove(listener);
@@ -334,65 +317,27 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		return context;
 	}
 
-	/**
-	 * Adds a specific item to the end of the adapter.
-	 * 
-	 * @param item
-	 *            The item, which should be added, as an instance of the generic
-	 *            type DataType. The item may not be null
-	 */
+	@Override
 	public final void addItem(final DataType item) {
 		notifyOnItemAdded(item, items.size() - 1);
 		notifyDataSetChanged();
 	}
 
-	/**
-	 * Adds a specific item to the adapter at a specific index.
-	 * 
-	 * @param index
-	 *            The index, the item should be added at, as an {@link Integer}
-	 *            value. The index must be between 0 and the value of the method
-	 *            <code>getNumberOfItems():int</code> - 1
-	 * @param item
-	 *            The item, which should be added, as an instance of the generic
-	 *            type DataType. The item may not be null
-	 */
+	@Override
 	public final void addItem(final int index, final DataType item) {
 		items.add(index, new Item<DataType>(item));
 		notifyOnItemAdded(item, index);
 		notifyDataSetChanged();
 	}
 
-	/**
-	 * Adds all items, which are contained by a specific collection, to the
-	 * adapter.
-	 * 
-	 * @param items
-	 *            The collection, which contains the items, which should be
-	 *            added to the adapter, as an instance of the type
-	 *            {@link Collection} or an empty collection, if no items should
-	 *            be added
-	 */
+	@Override
 	public final void addAllItems(final Collection<DataType> items) {
 		for (DataType item : items) {
 			addItem(item);
 		}
 	}
 
-	/**
-	 * Adds all items, which are contained by a specific collection, to the
-	 * adapter, beginning at a specific index.
-	 * 
-	 * @param index
-	 *            The index, the items should be added at, as an {@link Integer}
-	 *            value. The index must be between 0 and the value of the method
-	 *            <code>getNumberOfItems():int</code> - 1
-	 * @param items
-	 *            The collection, which contains the items, which should be
-	 *            added to the adapter, as an instance of the type
-	 *            {@link Collection} or an empty collection, if no items should
-	 *            be added
-	 */
+	@Override
 	public final void addAllItems(final int index,
 			final Collection<DataType> items) {
 		int currentIndex = index;
@@ -403,20 +348,7 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		}
 	}
 
-	/**
-	 * Replaces the item, which belongs to a specific index, by an other item.
-	 * 
-	 * @param index
-	 *            The index of the item, which should be replaced, as an
-	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfItems():int</code> - 1
-	 * @param item
-	 *            The item, which should replace the item at the given index, as
-	 *            an instance of the generic type DataType. The item may not be
-	 *            null
-	 * @return The item, which has been replaced, as an instance of the generic
-	 *         type DataType. The item may not be null
-	 */
+	@Override
 	public final DataType replaceItem(final int index, final DataType item) {
 		DataType replacedItem = items.set(index, new Item<DataType>(item))
 				.getData();
@@ -426,17 +358,7 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		return replacedItem;
 	}
 
-	/**
-	 * Removes the item, which belongs to a specific index, from the adapter.
-	 * 
-	 * @param index
-	 *            The index of the item, which should be removed from the
-	 *            adapter, as an {@link Integer} value. The index must be
-	 *            between 0 and the value of the method
-	 *            <code>getNumberOfItems():int</code> - 1
-	 * @return The item, which has been removed, as an instance of the generic
-	 *         type DataType. The item may not be null
-	 */
+	@Override
 	public final DataType removeItem(final int index) {
 		DataType removedItem = items.remove(index).getData();
 		notifyOnItemRemoved(removedItem, index);
@@ -444,13 +366,7 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		return removedItem;
 	}
 
-	/**
-	 * Removes a specific item from the adapter.
-	 * 
-	 * @param item
-	 *            The item, which should be removed, as an instance of the
-	 *            generic type DataType. The item may not be null
-	 */
+	@Override
 	public final void removeItem(final DataType item) {
 		int index = indexOf(item);
 		items.remove(index);
@@ -458,31 +374,14 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		notifyDataSetChanged();
 	}
 
-	/**
-	 * Removes all items, which are contained by a specific collection, from the
-	 * adapter.
-	 * 
-	 * @param items
-	 *            The collection, which contains the items, which should be
-	 *            removed from the adapter, as an instance of the type
-	 *            {@link Collection} or an empty collection, if no items should
-	 *            be removed
-	 */
+	@Override
 	public final void removeAllItems(final Collection<DataType> items) {
 		for (DataType item : items) {
 			removeItem(item);
 		}
 	}
 
-	/**
-	 * Removes all items from the adapter, except of the items, which are
-	 * contained by a specific collection.
-	 * 
-	 * @param items
-	 *            The collection, which contains the items, which should be
-	 *            retained, as an instance of the type {@link Collection} or an
-	 *            empty collection, if no items should be retained
-	 */
+	@Override
 	public final void retainAllItems(final Collection<DataType> items) {
 
 		for (Item<DataType> item : this.items) {
@@ -492,68 +391,27 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		}
 	}
 
-	/**
-	 * Removes all items from the adapter.
-	 */
+	@Override
 	public final void clearItems() {
 		items.clear();
 	}
 
-	/**
-	 * Returns an iterator, which allows to iterate over the adapter's items.
-	 * 
-	 * @return An iterator, which allows to iterate over the adapter's items, as
-	 *         an instance of the type {@link Iterator}
-	 */
+	@Override
 	public final Iterator<DataType> iterator() {
 		return new ItemIterator<DataType>(items);
 	}
 
-	/**
-	 * Returns a list iterator, which allows to iterate over the adapter's
-	 * items.
-	 * 
-	 * @return A list iterator, which allows to iterate over the adapter's
-	 *         items, as an instance of the type {@link ListIterator}. The
-	 *         iterator may not be null
-	 */
+	@Override
 	public final ListIterator<DataType> listIterator() {
 		return new ItemListIterator<DataType>(items);
 	}
 
-	/**
-	 * Returns a list iterator, which allows to iterate over the adapter's
-	 * items, starting at a specific index.
-	 * 
-	 * @param index
-	 *            The index, the iterator should start at, as an {@link Integer}
-	 *            value. The index must be between 0 and the value of the method
-	 *            <code>getNumberOfItems():int</code> - 1
-	 * @return A list iterator, which allows to iterate over the adapter's
-	 *         items, starting at the given index, as an instance of the type
-	 *         {@link ListIterator}. The iterator may not be null
-	 */
+	@Override
 	public final ListIterator<DataType> listIterator(final int index) {
 		return new ItemListIterator<DataType>(items, index);
 	}
 
-	/**
-	 * Returns a list, which contains the adapter's items, between a specific
-	 * start and end index.
-	 * 
-	 * @param start
-	 *            The start index of the items, which should be returned, as an
-	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfItems():int</code> - 1
-	 * @param end
-	 *            The end index of the items, which should be returned, as an
-	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfItems():int</code> -1 and
-	 *            it must be greater than the start index
-	 * @return A list, which contains the adapter's items, between a specific
-	 *         start end end index, as an instance of the type {@link List} or
-	 *         an empty list, if the adapter does not contain any items
-	 */
+	@Override
 	public final List<DataType> subList(final int start, final int end) {
 		List<DataType> subList = new ArrayList<DataType>();
 
@@ -564,13 +422,7 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		return subList;
 	}
 
-	/**
-	 * Returns an array, which contains the adapter's items.
-	 * 
-	 * @return An array, which contains the adapter's items, as an
-	 *         {@link Object} array or an empty array, if the adapter does not
-	 *         contain any items
-	 */
+	@Override
 	public final Object[] toArray() {
 		Object[] array = new Object[items.size()];
 
@@ -581,17 +433,7 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		return array;
 	}
 
-	/**
-	 * Returns the index of a specific item.
-	 * 
-	 * @param item
-	 *            The item, whose index should be returned, as an instance of
-	 *            the generic type DataType. The item may not be null
-	 * @return The index of the the given item, as an {@link Integer} value or
-	 *         -1, if the adapter does not contain the given adapter. The index
-	 *         must be between 0 and the value of the method
-	 *         <code>getNumberOfItems():int</code> - 1
-	 */
+	@Override
 	public final int indexOf(final DataType item) {
 		for (int i = 0; i < items.size(); i++) {
 			if (items.get(i).getData() == item) {
@@ -602,17 +444,7 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		return -1;
 	}
 
-	/**
-	 * Returns the last index of a specific item.
-	 * 
-	 * @param item
-	 *            The item, whose last index should be returned, as an instance
-	 *            of the generic type DataType. The item may not be null
-	 * @return The last index of the given item, as an {@link Integer} value or
-	 *         -1, if the adapter does not contain the given item. The index
-	 *         must be between 0 and the value of the method
-	 *         <code>getNumberOfItems():int</code> - 1
-	 */
+	@Override
 	public final int lastIndexOf(final DataType item) {
 		for (int i = items.size() - 1; i >= 0; i--) {
 			if (items.get(i).getData() == item) {
@@ -623,29 +455,12 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		return -1;
 	}
 
-	/**
-	 * Returns, whether the adapter contains a specific item, or not.
-	 * 
-	 * @param item
-	 *            The item, whose presence should be checked, as an instance of
-	 *            the generic type DataType. The item may not be null
-	 * @return True, if the adapter contains the given item, false otherwise
-	 */
+	@Override
 	public final boolean containsItem(final DataType item) {
 		return indexOf(item) != -1;
 	}
 
-	/**
-	 * Returns, whether the adapter contains all items, which are contained by a
-	 * specific collection, or not.
-	 * 
-	 * @param items
-	 *            The collection, which contains the items, which whose presence
-	 *            should be checked, as an instance of the type
-	 *            {@link Collection}. The collection may not be null
-	 * @return True, if the adapter contains all items, which are contained by
-	 *         the given collection, false otherwise
-	 */
+	@Override
 	public final boolean containsAllItems(final Collection<DataType> items) {
 		for (DataType item : items) {
 			if (!containsItem(item)) {
@@ -656,22 +471,12 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		return true;
 	}
 
-	/**
-	 * Returns the number of the adapter's items.
-	 * 
-	 * @return The number of the adapter's items, as an {@link Integer} value
-	 */
+	@Override
 	public final int getNumberOfItems() {
 		return items.size();
 	}
 
-	/**
-	 * Returns a list, which contains the adapter's items.
-	 * 
-	 * @return A list, which contains the adapter's items, as an instance of the
-	 *         type {@link List} or an empty list, if the adapter does not
-	 *         contain any items
-	 */
+	@Override
 	public final List<DataType> getAllItems() {
 		List<DataType> result = new ArrayList<DataType>();
 

@@ -1,11 +1,16 @@
 package de.mrapp.android.adapter;
 
+import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-interface ListAdapter<DataType> extends Adapter {
+import de.mrapp.android.adapter.list.ListAdapterListener;
+
+public interface ListAdapter<DataType> extends Adapter,
+		android.widget.ListAdapter {
 
 	/**
 	 * Adds a specific item to the end of the adapter.
@@ -267,4 +272,26 @@ interface ListAdapter<DataType> extends Adapter {
 	 */
 	boolean isEmpty();
 
+	/**
+	 * Adds a new listener, which should be notified when the adapter's
+	 * underlying data has been modified.
+	 * 
+	 * @param listener
+	 *            The listener, which should be added, as an instance of the
+	 *            class {@link ListAdapterListener}. The listener may not be
+	 *            null
+	 */
+	void addAdapterListener(ListAdapterListener<DataType> listener);
+
+	/**
+	 * Removes a specific listener, which should not be notified when the
+	 * adapter's underlying data has been modified, anymore.
+	 * 
+	 * @param listener
+	 *            The listener, which should be removed, as an instance of the
+	 *            class {@link ListAdapterListener}. The listener may not be
+	 *            null
+	 */
+	void removeAdapterListener(ListAdapterListener<DataType> listener);
+	
 }
