@@ -43,7 +43,8 @@ import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
  * @since 1.0.0
  */
 public abstract class AbstractItemStateListAdapter<DataType> extends
-		AbstractSortableListAdapter<DataType> {
+		AbstractSortableListAdapter<DataType> implements
+		ItemStateListAdapter<DataType> {
 
 	/**
 	 * The constant serial version UID.
@@ -128,60 +129,22 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 		this.numberOfItemStates = numberOfItemStates;
 	}
 
-	/**
-	 * Returns the number of states, the adapter's items can have.
-	 * 
-	 * @return The number of states, the adapter's items can have, as an
-	 *         {@link Integer} value. The value must be greater than 0
-	 */
-	public final int getNumberOfStates() {
+	@Override
+	public final int getNumberOfItemStates() {
 		return numberOfItemStates;
 	}
 
-	/**
-	 * Returns the state of the item, which belongs to a specific index.
-	 * 
-	 * @param index
-	 *            The index of the item, whose state should be returned, as an
-	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the adapter's <code>size():int</code> method - 1
-	 * @return The state of the item, which belongs to the given index, as a
-	 *         {@link Integer} value. The state must be at least 0 and less than
-	 *         the value of the method <code>getNumberOfStates():int</code> - 1
-	 */
+	@Override
 	public final int getItemState(final int index) {
 		return getItems().get(index).getState();
 	}
 
-	/**
-	 * Returns the state of a specific item.
-	 * 
-	 * @param item
-	 *            The item, whose state should be returned, as an instance of
-	 *            the generic type DataType. The item may not be null
-	 * @return The state of the given item, as an {@link Integer} value. The
-	 *         state must be between 0 and the value of the method
-	 *         <code>getNumberOfStates():int</code> - 1
-	 */
+	@Override
 	public final int getItemState(final DataType item) {
 		return getItemState(indexOf(item));
 	}
 
-	/**
-	 * Sets the state of the item, which belongs to a specific index.
-	 * 
-	 * @param index
-	 *            The index of the item, whose state should be set, as an
-	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfItems():int</code> - 1
-	 * @param state
-	 *            The state, which should be set, as an {@link Integer} value.
-	 *            The state must be between 0 and the value of the method
-	 *            <code>getNumberOfStates():int</code> - 1
-	 * @return The previous state of the given item, as an {@link Integer} item.
-	 *         The state must be between 0 and the value of the method
-	 *         <code>getNumberOfStates():int</code> - 1
-	 */
+	@Override
 	public final int setItemState(final int index, final int state) {
 		ensureAtMaximum(state, numberOfItemStates - 1,
 				"The state may be at maximum " + (numberOfItemStates - 1));
@@ -193,33 +156,14 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 		return previousState;
 	}
 
-	/**
-	 * Sets the states of all items.
-	 * 
-	 * @param state
-	 *            The state, which should be set, as an {@link Integer} value.
-	 *            The state must be between 0 and the value of the method
-	 *            <code>getNumberOfStates():int</code> - 1
-	 */
+	@Override
 	public final void setAllItemStates(final int state) {
 		for (int i = 0; i < getNumberOfItems(); i++) {
 			setItemState(i, state);
 		}
 	}
 
-	/**
-	 * Triggers the state of the item, which belongs to a specific index. This
-	 * causes the state to be increased by one. If the state is already the
-	 * maximum state, the state will be set to 0.
-	 * 
-	 * @param index
-	 *            The index of the item, whose state should be triggered, as an
-	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfItems():int</code> - 1
-	 * @return The previous state of the item, which belongs to the given index,
-	 *         as an {@link Integer} value. The state must be between 0 and the
-	 *         value of the method <code>getNumberOfStates():int</code> - 1
-	 */
+	@Override
 	public final int triggerItemState(final int index) {
 		Item<DataType> item = getItems().get(index);
 		int previousState = item.getState();
@@ -235,61 +179,24 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 		return previousState;
 	}
 
-	/**
-	 * Triggers the state of a specific item. This causes the state to be
-	 * increased by one. If the state is already the maximum state, the state
-	 * will be set to 0.
-	 * 
-	 * @param item
-	 *            The item, whose state should be triggered, as an instance of
-	 *            the generic type DataType. The item may not be null
-	 * @return The previous state of the given item, as an {@link Integer}
-	 *         value. The state must be between 0 and the value of the method
-	 *         <code>getNumberOfStates():int</code> - 1
-	 */
+	@Override
 	public final int triggerItemState(final DataType item) {
 		return triggerItemState(indexOf(item));
 	}
 
-	/**
-	 * Triggers the states of all items. This causes the states to be increaed
-	 * by one. If a state is already the maximum state, the state will be set to
-	 * 0.
-	 */
+	@Override
 	public final void triggerAllItemStates() {
 		for (int i = 0; i < getNumberOfItems(); i++) {
 			triggerItemState(i);
 		}
 	}
 
-	/**
-	 * Sets the state of a specific item.
-	 * 
-	 * @param item
-	 *            The item, whose state should be set, as an instance of the
-	 *            generic type DataType
-	 * @param state
-	 *            The state, which should be set, as an {@link Integer} value.
-	 *            The state must be between 0 and the value of the method
-	 *            <code>getNumberOfStates():int</code> - 1
-	 * @return The previous state of the given item, as an {@link Integer}
-	 *         value. The state must be between 0 and the value of the method
-	 *         <code>getNumberOfStates():int</code> - 1
-	 */
+	@Override
 	public final int setItemState(final DataType item, final int state) {
 		return setItemState(indexOf(item), state);
 	}
 
-	/**
-	 * Returns the index of the first item, which has a specific state.
-	 * 
-	 * @param state
-	 *            The state of the item, whose index should be returned, as an
-	 *            {@link Integer} value
-	 * @return The index of the first item, which has the given state, as an
-	 *         {@link Integer} value or -1, if the adapter does not contain an
-	 *         item with the given state
-	 */
+	@Override
 	public final int getFirstIndexWithSpecificState(final int state) {
 		for (int i = 0; i < getNumberOfItems(); i++) {
 			if (getItems().get(i).getState() == state) {
@@ -300,16 +207,7 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 		return -1;
 	}
 
-	/**
-	 * Returns the first item, which has a specific state.
-	 * 
-	 * @param state
-	 *            The state of the item, which should be returned, as an
-	 *            {@link Integer} value
-	 * @return The first item, which has the given state, as an instance of the
-	 *         generic type DataType or null, if the adapter does not contain an
-	 *         item with the given state
-	 */
+	@Override
 	public final DataType getFirstItemWithSpecificState(final int state) {
 		for (Item<DataType> item : getItems()) {
 			if (item.getState() == state) {
@@ -320,16 +218,7 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 		return null;
 	}
 
-	/**
-	 * Returns the index of the last item, which has a specific state.
-	 * 
-	 * @param state
-	 *            The state of the item, whose index should be returned, as an
-	 *            {@link Integer} value
-	 * @return The index of the last item, which has the given state, as an
-	 *         {@link Integer} value or -1, if the adapter does not contain an
-	 *         item with the given state
-	 */
+	@Override
 	public final int getLastIndexWithSpecificState(final int state) {
 		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
 			if (getItems().get(i).getState() == state) {
@@ -340,16 +229,7 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 		return -1;
 	}
 
-	/**
-	 * Returns the last item, which has a specific state.
-	 * 
-	 * @param state
-	 *            The state of the item, which should be returned, as an
-	 *            {@link Integer} value
-	 * @return The last item, which has the given state, as an instance of the
-	 *         generic type DataType or null, if the adapter does not contain an
-	 *         item with the given state
-	 */
+	@Override
 	public final DataType getLastItemWithSpecificState(final int state) {
 		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
 			Item<DataType> item = getItems().get(i);
@@ -362,18 +242,7 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 		return null;
 	}
 
-	/**
-	 * Returns a list, which contains the indices of the items, which have a
-	 * specific state.
-	 * 
-	 * @param state
-	 *            The state of the items, whose indices should be returned, as
-	 *            an {@link Integer} value
-	 * @return A list, which contains the indices of the items, which have a
-	 *         specific state, as an instance of the type {@link List} or an
-	 *         empty list, if the adapter does not contain any items with the
-	 *         given state
-	 */
+	@Override
 	public final List<Integer> getIndicesWithSpecificState(final int state) {
 		List<Integer> indices = new ArrayList<Integer>();
 
@@ -386,16 +255,7 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 		return indices;
 	}
 
-	/**
-	 * Returns a list, which contains the items, which have a specific state.
-	 * 
-	 * @param state
-	 *            The state of the items, which should be returned, as an
-	 *            {@link Integer} value
-	 * @return A list, which contains the items, which have the given state, as
-	 *         an instance of the type {@link List} or an empty list, if the
-	 *         adapter contains no items with the given state
-	 */
+	@Override
 	public final List<DataType> getItemsWithSpecificState(final int state) {
 		List<DataType> items = new ArrayList<DataType>();
 
@@ -408,15 +268,7 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 		return items;
 	}
 
-	/**
-	 * Returns the number of items, which have a specific state.
-	 * 
-	 * @param state
-	 *            The state of the items, which should be counted, as an
-	 *            {@link Integer} value {@link Integer} value
-	 * @return The number of items, which have the given state, as an
-	 *         {@link Integer} value
-	 */
+	@Override
 	public final int getNumberOfItemsWithSpecificState(final int state) {
 		return getItemsWithSpecificState(state).size();
 	}

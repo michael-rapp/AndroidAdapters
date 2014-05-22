@@ -6,12 +6,13 @@ import java.util.List;
 import java.util.ListIterator;
 
 import de.mrapp.android.adapter.list.EnableStateListAdapter;
+import de.mrapp.android.adapter.list.ItemStateListAdapter;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.SortableListAdapter;
 
 public interface ListAdapter<DataType> extends Adapter,
 		android.widget.ListAdapter, EnableStateListAdapter<DataType>,
-		SortableListAdapter<DataType> {
+		SortableListAdapter<DataType>, ItemStateListAdapter<DataType> {
 
 	/**
 	 * Adds a specific item to the end of the adapter.

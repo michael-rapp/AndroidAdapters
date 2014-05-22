@@ -13,7 +13,7 @@ import de.mrapp.android.adapter.util.Item;
 import de.mrapp.android.adapter.util.Logger;
 
 public abstract class AbstractSelectableListAdapter<DataType> extends
-		AbstractSortableListAdapter<DataType> {
+		AbstractItemStateListAdapter<DataType> {
 
 	/**
 	 * The constant serial version UID.
@@ -91,9 +91,10 @@ public abstract class AbstractSelectableListAdapter<DataType> extends
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final Set<ListSelectionListener<DataType>> selectionListeners,
+			final int numberOfItemStates,
 			final SelectableListDecorator<DataType> decorator) {
 		super(context, logger, itemViewId, itemView, items, adapterListeners,
-				enableStateListeners, sortingListeners);
+				enableStateListeners, sortingListeners, numberOfItemStates);
 		ensureNotNull(decorator, "The decorator may not be null");
 		ensureNotNull(selectionListeners,
 				"The selection listeners may not be null");

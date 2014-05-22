@@ -29,10 +29,11 @@ public class MultipleChoiceListAdapter<DataType> extends
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final Set<ListSelectionListener<DataType>> selectionListeners,
+			final int numberOfItemStates,
 			final SelectableListDecorator<DataType> decorator) {
 		super(context, logger, itemViewId, itemView, items, adapterListeners,
 				enableStateListeners, sortingListeners, selectionListeners,
-				decorator);
+				numberOfItemStates, decorator);
 	}
 
 	public final boolean isUnselected(final int index) {
@@ -243,7 +244,8 @@ public class MultipleChoiceListAdapter<DataType> extends
 		return new MultipleChoiceListAdapter<DataType>(getContext(),
 				getLogger().clone(), getItemViewId(), getItemView(),
 				cloneItems(), getAdapterListeners(), getEnableStateListeners(),
-				getSortingListeners(), getSelectionListeners(), getDecorator());
+				getSortingListeners(), getSelectionListeners(),
+				getNumberOfItemStates(), getDecorator());
 	}
 
 }
