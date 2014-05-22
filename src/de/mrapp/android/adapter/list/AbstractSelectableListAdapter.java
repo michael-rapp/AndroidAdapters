@@ -131,10 +131,32 @@ public abstract class AbstractSelectableListAdapter<DataType> extends
 		selectionListeners.remove(listener);
 	}
 
+	/**
+	 * Returns, whether the item, which belongs to a specific index, is
+	 * selected, or not.
+	 * 
+	 * @param index
+	 *            The index of the item, whose selection state should be
+	 *            returned, as an {@link Integer} value. The index must be
+	 *            between 0 and the value of the method
+	 *            <code>getNumberOfItems():int</code> - 1
+	 * @return True, if the item, which belongs to the given index, is selected,
+	 *         false otherwise
+	 */
 	public final boolean isSelected(final int index) {
 		return getItems().get(index).isSelected();
 	}
 
+	/**
+	 * Returns, whether a specific item is selected, or not.
+	 * 
+	 * @param item
+	 *            The item, whose selection state should be returned, as an
+	 *            instance of the generic type DataType. The item may not be
+	 *            null <code>getNumberOfItems():int</code> - 1
+	 * @return True, if the item, which belongs to the given index, is selected,
+	 *         false otherwise
+	 */
 	public final boolean isSelected(final DataType item) {
 		return isSelected(indexOf(item));
 	}
