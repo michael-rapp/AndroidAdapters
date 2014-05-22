@@ -1,16 +1,15 @@
 package de.mrapp.android.adapter;
 
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
-
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import de.mrapp.android.adapter.list.EnableStateListAdapter;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 
 public interface ListAdapter<DataType> extends Adapter,
-		android.widget.ListAdapter {
+		android.widget.ListAdapter, EnableStateListAdapter<DataType> {
 
 	/**
 	 * Adds a specific item to the end of the adapter.
@@ -293,5 +292,5 @@ public interface ListAdapter<DataType> extends Adapter,
 	 *            null
 	 */
 	void removeAdapterListener(ListAdapterListener<DataType> listener);
-	
+
 }
