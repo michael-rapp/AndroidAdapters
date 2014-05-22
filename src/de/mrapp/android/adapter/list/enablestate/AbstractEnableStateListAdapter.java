@@ -15,7 +15,7 @@
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/>. 
  */
-package de.mrapp.android.adapter.list;
+package de.mrapp.android.adapter.list.enablestate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +23,8 @@ import java.util.Set;
 
 import android.content.Context;
 import android.view.View;
+import de.mrapp.android.adapter.list.AbstractListAdapter;
+import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.util.Item;
 import de.mrapp.android.adapter.util.Logger;
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;

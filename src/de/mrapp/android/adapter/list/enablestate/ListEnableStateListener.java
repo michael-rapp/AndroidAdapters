@@ -15,7 +15,7 @@
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/>. 
  */
-package de.mrapp.android.adapter.list;
+package de.mrapp.android.adapter.list.enablestate;
 
 /**
  * Defines the interface, all listeners, which should be notified when an item

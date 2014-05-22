@@ -1,4 +1,4 @@
-package de.mrapp.android.adapter.list;
+package de.mrapp.android.adapter.list.enablestate;
 
 import java.util.List;
 
