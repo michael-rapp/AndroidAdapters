@@ -41,7 +41,8 @@ import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
  * @since 1.0.0
  */
 public abstract class AbstractEnableStateListAdapter<DataType> extends
-		AbstractListAdapter<DataType> {
+		AbstractListAdapter<DataType> implements
+		EnableStateListAdapter<DataType> {
 
 	/**
 	 * The constant serial version UID.
@@ -122,67 +123,27 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 		setEnableStateListeners(enableStateListeners);
 	}
 
-	/**
-	 * Returns, whether the item, which belongs to a specific index, is enabled,
-	 * or not.
-	 * 
-	 * @param index
-	 *            The index of the item, whose enable state should be checked,
-	 *            as an {@link Integer} value. The index must be between 0 and
-	 *            the value of the method <code>size():int</code> - 1
-	 * @return True, if the item, which belongs to the given index, is enabled,
-	 *         false otherwise
-	 */
+	@Override
 	public final boolean isEnabled(final int index) {
 		return getItems().get(index).isEnabled();
 	}
 
-	/**
-	 * Returns, whether a specific item is enabled, or not.
-	 * 
-	 * @param item
-	 *            The item, whose enable state should be checked, as an instance
-	 *            of the generic type DataType. The item may not be null
-	 * @return True, if the given item is enabled, false otherwise
-	 */
+	@Override
 	public final boolean isEnabled(final DataType item) {
 		return getItems().get(indexOf(item)).isEnabled();
 	}
 
-	/**
-	 * Returns, whether the item, which belongs to a specific index, is
-	 * disabled, or not.
-	 * 
-	 * @param index
-	 *            The index of the item, whose enable state should be checked,
-	 *            as an {@link Integer} value. The index must be between 0 and
-	 *            the value of the method <code>size():int</code> - 1
-	 * @return True, if the item, which belongs to the given index, is disabled,
-	 *         false otherwise
-	 */
+	@Override
 	public final boolean isDisabled(final int index) {
 		return !isEnabled(index);
 	}
 
-	/**
-	 * Returns, whether a specific item is disabled, or not.
-	 * 
-	 * @param item
-	 *            The item, whose enable state should be checked, as an instance
-	 *            of the generic type DataType. The item may not be null
-	 * @return True, if the given item is disabled, false otherwise
-	 */
+	@Override
 	public final boolean isDisabled(final DataType item) {
 		return !isEnabled(item);
 	}
 
-	/**
-	 * Returns the index of the first enabled item.
-	 * 
-	 * @return The index of the first enabled item, as an {@link Integer} value
-	 *         or -1, if no item is enabled. The index must be between 0 and the
-	 *         value of the method <code>size():int</code> - 1
-	 */
+	@Override
 	public final int getFirstEnabledIndex() {
 		for (int i = 0; i < getNumberOfItems(); i++) {
 			if (getItems().get(i).isEnabled()) {
@@ -193,12 +154,7 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 		return -1;
 	}
 
-	/**
-	 * Returns the first enabled item.
-	 * 
-	 * @return The first enabled item, as an instance of the generic type
-	 *         DataType or null, if no item is enabled
-	 */
+	@Override
 	public final DataType getFirstEnabledItem() {
 		for (Item<DataType> item : getItems()) {
 			if (item.isEnabled()) {
@@ -209,13 +165,7 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 		return null;
 	}
 
-	/**
-	 * Returns the index of the last enabled item.
-	 * 
-	 * @return The index of the last enabled item, as an {@link Integer} value
-	 *         or -1, if no item is enabled. The index must be between 0 and the
-	 *         value of the method <code>size():int</code> - 1
-	 */
+	@Override
 	public final int getLastEnabledIndex() {
 		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
 			if (getItems().get(i).isEnabled()) {
@@ -226,12 +176,7 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 		return -1;
 	}
 
-	/**
-	 * Returns the last enabled item.
-	 * 
-	 * @return The last enabled item, as an instance of the generic type
-	 *         DataType or null, if no item is enabled
-	 */
+	@Override
 	public final DataType getLastEnabledItem() {
 		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
 			Item<DataType> item = getItems().get(i);
@@ -244,13 +189,7 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 		return null;
 	}
 
-	/**
-	 * Returns the index of the first disabled item.
-	 * 
-	 * @return The index of the first disabled item, as an {@link Integer} value
-	 *         or -1, if no item is disabled. The index must be between 0 and
-	 *         the value of the method <code>size():int</code> - 1
-	 */
+	@Override
 	public final int getFirstDisabledIndex() {
 		for (int i = 0; i < getNumberOfItems(); i++) {
 			if (!getItems().get(i).isEnabled()) {
@@ -261,12 +200,7 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 		return -1;
 	}
 
-	/**
-	 * Returns the first disabled item.
-	 * 
-	 * @return The first disabled item, as an instance of the generic type
-	 *         DataType or null, if no item is disabled
-	 */
+	@Override
 	public final DataType getFirstDisabledItem() {
 		for (Item<DataType> item : getItems()) {
 			if (!item.isEnabled()) {
@@ -277,13 +211,7 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 		return null;
 	}
 
-	/**
-	 * Returns the index of the last disabled item.
-	 * 
-	 * @return The index of the last disabled item, as an {@link Integer} value
-	 *         or -1, if no item is disabled. The index must be between 0 and
-	 *         the value of the method <code>size():int</code> - 1
-	 */
+	@Override
 	public final int getLastDisabledIndex() {
 		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
 			if (!getItems().get(i).isEnabled()) {
@@ -294,13 +222,7 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 		return -1;
 	}
 
-	/**
-	 * Returns the index of the last disabled item.
-	 * 
-	 * @return The index of the last disabled item, as an {@link Integer} value
-	 *         or -1, if no item is disabled. The index must be between 0 and
-	 *         the value of the method <code>size():int</code> - 1
-	 */
+	@Override
 	public final DataType getLastDisabledItem() {
 		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
 			Item<DataType> item = getItems().get(i);
@@ -313,13 +235,7 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 		return null;
 	}
 
-	/**
-	 * Returns a list, which contains the indices of all enabled items.
-	 * 
-	 * @return A list, which contains the indices of all enabled items, as an
-	 *         instance of the type {@link List} or an empty list, if no item is
-	 *         enabled
-	 */
+	@Override
 	public final List<Integer> getEnabledIndices() {
 		List<Integer> enabledIndices = new ArrayList<Integer>();
 
@@ -332,12 +248,7 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 		return enabledIndices;
 	}
 
-	/**
-	 * Returns a list, which contains all enabled items.
-	 * 
-	 * @return A list, which contains all enabled items, as an instance of the
-	 *         type {@link List} or an empty list, if no item is enabled
-	 */
+	@Override
 	public final List<DataType> getEnabledItems() {
 		List<DataType> enabledItems = new ArrayList<DataType>();
 
@@ -350,13 +261,7 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 		return enabledItems;
 	}
 
-	/**
-	 * Returns a list, which contains the indices of all disabled items.
-	 * 
-	 * @return A list, which contains the indices of all disabled items, as an
-	 *         instance of the type {@link List} or an empty list, if no item is
-	 *         disabled
-	 */
+	@Override
 	public final List<Integer> getDisabledIndices() {
 		List<Integer> disabledIndices = new ArrayList<Integer>();
 
@@ -369,12 +274,7 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 		return disabledIndices;
 	}
 
-	/**
-	 * Returns a list, which contains all disabled items.
-	 * 
-	 * @return A list, which contains all disabled items, as an instance of the
-	 *         type {@link List} or an empty list, if no item is disabled
-	 */
+	@Override
 	public final List<DataType> getDisabledItems() {
 		List<DataType> disabledItems = new ArrayList<DataType>();
 
@@ -387,153 +287,77 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 		return disabledItems;
 	}
 
-	/**
-	 * Returns the number of enabled items.
-	 * 
-	 * @return The number of enabled items, as an {@link Integer} value
-	 */
+	@Override
 	public final int getNumberOfEnabledItems() {
 		return getEnabledItems().size();
 	}
 
-	/**
-	 * Returns the number of disabled items.
-	 * 
-	 * @return The number of disabled items, as an {@link Integer} value.
-	 */
+	@Override
 	public final int getNumberOfDisabledItems() {
 		return getDisabledItems().size();
 	}
 
-	/**
-	 * Enables the item, which belongs to a specific index.
-	 * 
-	 * @param index
-	 *            The index of the item, which should be enabled, as a
-	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>size():int</code> - 1
-	 */
+	@Override
 	public final void enable(final int index) {
 		getItems().get(index).setEnabled(true);
 	}
 
-	/**
-	 * Enables a specific item.
-	 * 
-	 * @param item
-	 *            The item, which should be enabled, as an instance of the
-	 *            generic type DataType. The item may not be null
-	 */
+	@Override
 	public final void enable(final DataType item) {
 		enable(indexOf(item));
 	}
 
-	/**
-	 * Disables the item, which belongs to a specific index.
-	 * 
-	 * @param index
-	 *            The index of the item, which should be disabled, as a
-	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>size():int</code> - 1
-	 */
+	@Override
 	public final void disable(final int index) {
 		getItems().get(index).setEnabled(false);
 	}
 
-	/**
-	 * Disables a specific item.
-	 * 
-	 * @param item
-	 *            The item, which should be disabled, as an instance of the
-	 *            generic type DataType. The item may not be null
-	 */
+	@Override
 	public final void disable(final DataType item) {
 		disable(indexOf(item));
 	}
 
-	/**
-	 * Triggers the enable state of the item, which belongs to a specific index.
-	 * That means, that the item will be disabled, if it is enabled and vice
-	 * versa.
-	 * 
-	 * @param index
-	 *            The index of the item, whose enable state should be triggered,
-	 *            as an {@link Integer} value. The index must be between 0 and
-	 *            the value of the method <code>size():int</code> - 1
-	 * @return True, if the item has been enabled, false otherwise
-	 */
+	@Override
 	public final boolean triggerEnableState(final int index) {
 		Item<DataType> item = getItems().get(index);
 		item.setEnabled(!item.isEnabled());
 		return item.isEnabled();
 	}
 
-	/**
-	 * Triggers the enable state of a specific item. That means, that the item
-	 * will be disabled, if it is enabled and vice versa.
-	 * 
-	 * @param item
-	 *            The item, whose enable state should be triggered, as an
-	 *            instance of the generic type DataType. The item may not be
-	 *            null
-	 * @return True, if the item has been enabled, false otherwise
-	 */
+	@Override
 	public final boolean triggerEnableState(final DataType item) {
 		return triggerEnableState(indexOf(item));
 	}
 
-	/**
-	 * Enables all items.
-	 */
+	@Override
 	public final void enableAll() {
 		for (Item<DataType> item : getItems()) {
 			item.setEnabled(true);
 		}
 	}
 
-	/**
-	 * Disables all items.
-	 */
+	@Override
 	public final void disableAll() {
 		for (Item<DataType> item : getItems()) {
 			item.setEnabled(false);
 		}
 	}
 
-	/**
-	 * Triggers the enable states of all items. That means, that the items will
-	 * be disabled, if they are enabled and vice versa.
-	 */
+	@Override
 	public final void triggerAllEnableStates() {
 		for (Item<DataType> item : getItems()) {
 			item.setEnabled(!item.isEnabled());
 		}
 	}
 
-	/**
-	 * Adds a new listener, which should be notified when an item has been
-	 * disable or enabled.
-	 * 
-	 * @param listener
-	 *            The listener, which should be added, as an instance of the
-	 *            class {@link ListEnableStateListener}. The listener may not be
-	 *            null
-	 */
+	@Override
 	public final void addEnableStateListner(
 			final ListEnableStateListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		enableStateListeners.add(listener);
 	}
 
-	/**
-	 * Removes a specific listener, which should not be notified when an item
-	 * has been disable or enabled, anymore.
-	 * 
-	 * @param listener
-	 *            The listener, which should be removed, as an instance of the
-	 *            class {@link ListEnableStateListener}. The listener may not be
-	 *            null
-	 */
+	@Override
 	public final void removeSortingListener(
 			final ListEnableStateListener<DataType> listener) {
 		enableStateListeners.remove(listener);
