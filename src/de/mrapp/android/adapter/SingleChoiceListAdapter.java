@@ -53,10 +53,11 @@ public class SingleChoiceListAdapter<DataType> extends
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final Set<ListSelectionListener<DataType>> selectionListeners,
+			final int numberOfItemStates,
 			final SelectableListDecorator<DataType> decorator) {
 		super(context, logger, itemViewId, itemView, items, adapterListeners,
 				enableStateListeners, sortingListeners, selectionListeners,
-				decorator);
+				numberOfItemStates, decorator);
 		addAdapterListener(getAdapterListener());
 	}
 
@@ -104,7 +105,8 @@ public class SingleChoiceListAdapter<DataType> extends
 		return new SingleChoiceListAdapter<DataType>(getContext(), getLogger()
 				.clone(), getItemViewId(), getItemView(), cloneItems(),
 				getAdapterListeners(), getEnableStateListeners(),
-				getSortingListeners(), getSelectionListeners(), getDecorator());
+				getSortingListeners(), getSelectionListeners(),
+				getNumberOfItemStates(), getDecorator());
 	}
 
 }
