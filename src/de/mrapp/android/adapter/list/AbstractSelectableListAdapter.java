@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import de.mrapp.android.adapter.SelectableListDecorator;
 import de.mrapp.android.adapter.util.Item;
+import de.mrapp.android.adapter.util.Logger;
 
 public abstract class AbstractSelectableListAdapter<DataType> extends
 		AbstractSortableListAdapter<DataType> {
@@ -84,14 +85,14 @@ public abstract class AbstractSelectableListAdapter<DataType> extends
 	}
 
 	protected AbstractSelectableListAdapter(final Context context,
-			final int itemViewId, final View itemView,
+			final Logger logger, final int itemViewId, final View itemView,
 			final List<Item<DataType>> items,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final Set<ListSelectionListener<DataType>> selectionListeners,
 			final SelectableListDecorator<DataType> decorator) {
-		super(context, itemViewId, itemView, items, adapterListeners,
+		super(context, logger, itemViewId, itemView, items, adapterListeners,
 				enableStateListeners, sortingListeners);
 		ensureNotNull(decorator, "The decorator may not be null");
 		ensureNotNull(selectionListeners,

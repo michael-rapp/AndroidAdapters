@@ -37,6 +37,7 @@ import de.mrapp.android.adapter.Adapter;
 import de.mrapp.android.adapter.util.Item;
 import de.mrapp.android.adapter.util.ItemIterator;
 import de.mrapp.android.adapter.util.ItemListIterator;
+import de.mrapp.android.adapter.util.Logger;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
@@ -72,6 +73,11 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	 * The view, which is used to visualize each item of the adapter.
 	 */
 	private final transient View itemView;
+
+	/**
+	 * The logger, which is used for logging.
+	 */
+	private final Logger logger;
 
 	/**
 	 * A list, which contains the the adapter's items.
@@ -145,6 +151,16 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		} else {
 			return inflater.inflate(itemViewId, parent, false);
 		}
+	}
+
+	/**
+	 * Returns the logger, which is used for logging.
+	 * 
+	 * @return The logger, which is used for logging, as an instance of the
+	 *         class {@link Logger}. The logger may not be null
+	 */
+	protected final Logger getLogger() {
+		return logger;
 	}
 
 	/**
@@ -249,6 +265,9 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	 * @param context
 	 *            The context, the adapter should belong to, as an instance of
 	 *            the class {@link Context}. The context may not be null
+	 * @param logger
+	 *            The logger, which should be used for logging, as an instance
+	 *            of the class {@link Logger}. The logger may not be null
 	 * @param itemViewId
 	 *            The id of the view, which should be used to visualize each
 	 *            item of the adapter, as an {@link Integer} value. The id must
@@ -265,13 +284,16 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	 *            when the adapter's underlying data has been modified or an
 	 *            empty set, if no listeners should be notified
 	 */
-	protected AbstractListAdapter(final Context context, final int itemViewId,
-			final View itemView, final List<Item<DataType>> items,
+	protected AbstractListAdapter(final Context context, final Logger logger,
+			final int itemViewId, final View itemView,
+			final List<Item<DataType>> items,
 			final Set<ListAdapterListener<DataType>> adapterListeners) {
 		ensureNotNull(context, "The context may not be null");
 		ensureNotNull(items, "The items may not be null");
 		ensureNotNull(adapterListeners, "The adapter listeners may not be null");
+		ensureNotNull(logger, "The logger may not be null");
 
+		this.logger = logger;
 		this.adapterListeners = adapterListeners;
 		this.items = items;
 		this.context = context;

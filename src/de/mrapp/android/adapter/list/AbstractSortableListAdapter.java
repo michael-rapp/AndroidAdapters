@@ -30,6 +30,7 @@ import android.view.View;
 import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.util.Item;
 import de.mrapp.android.adapter.util.ItemComparator;
+import de.mrapp.android.adapter.util.Logger;
 import de.mrapp.android.adapter.util.SerializableWrapper;
 
 /**
@@ -132,6 +133,9 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 	 * @param context
 	 *            The context, the adapter should belong to, as an instance of
 	 *            the class {@link Context}. The context may not be null
+	 * @param logger
+	 *            The logger, which should be used for logging, as an instance
+	 *            of the class {@link Logger}. The logger may not be null
 	 * @param itemViewId
 	 *            The id of the view, which should be used to visualize each
 	 *            item of the adapter, as an {@link Integer} value. The id must
@@ -157,12 +161,12 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 	 *            no listeners should be notified
 	 */
 	protected AbstractSortableListAdapter(final Context context,
-			final int itemViewId, final View itemView,
+			final Logger logger, final int itemViewId, final View itemView,
 			final List<Item<DataType>> items,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners) {
-		super(context, itemViewId, itemView, items, adapterListeners,
+		super(context, logger, itemViewId, itemView, items, adapterListeners,
 				enableStateListeners);
 		setSortingListeners(sortingListeners);
 	}
