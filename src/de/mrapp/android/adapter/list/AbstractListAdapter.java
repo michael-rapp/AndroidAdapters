@@ -27,6 +27,7 @@ import java.util.ListIterator;
 import java.util.Set;
 
 import android.content.Context;
+import android.renderscript.Element.DataType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -364,7 +365,7 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		notifyDataSetChanged();
 	}
 
-	public final boolean addAllItems(final Collection<? extends DataType> items) {
+	public final boolean addAllItems(final Collection<DataType> items) {
 		boolean modified = false;
 
 		for (DataType item : items) {
@@ -374,7 +375,7 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		return modified;
 	}
 
-	public final boolean addAllItems(final int index,
+	public final void addAllItems(final int index,
 			final Collection<? extends DataType> items) {
 		int currentIndex = index;
 
@@ -382,8 +383,6 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 			addItem(currentIndex, item);
 			currentIndex++;
 		}
-
-		return true;
 	}
 
 	public final DataType replaceItem(final int index, final DataType item) {
@@ -402,33 +401,26 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		return removedItem;
 	}
 
-	@SuppressWarnings("unchecked")
-	public final boolean removeItem(final Object item) {
+	public void removeItem(final DataType item) {
 		int index = indexOf(item);
 		items.remove(index);
 		notifyOnItemRemoved((DataType) item, index);
 		notifyDataSetChanged();
-		return true;
 	}
 
-	public final boolean removeAllItems(final Collection<?> items) {
-		boolean modified = false;
-
-		for (Object item : items) {
-			modified |= removeItem(item);
+	public final void removeAllItems(final Collection<DataType> items) {
+		for (DataType item : items) {
+			removeItem(item);
 		}
-		return modified;
 	}
 
-	public final boolean retainAllItems(final Collection<?> arg0) {
-		boolean modified = false;
+	public final void retainAllItems(final Collection<DataType> items) {
 
 		for (Item<DataType> item : this.items) {
 			if (!items.contains(item.getData())) {
-				modified |= removeItem(item);
+				removeItem(item.getData());
 			}
 		}
-		return modified;
 	}
 
 	public final void clearItems() {
@@ -467,7 +459,7 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		return array;
 	}
 
-	public final int indexOf(final Object item) {
+	public final int indexOf(final DataType item) {
 		for (int i = 0; i < items.size(); i++) {
 			if (items.get(i).getData() == item) {
 				return i;
@@ -477,7 +469,7 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		return -1;
 	}
 
-	public final int lastIndexOf(final Object item) {
+	public final int lastIndexOf(final DataType item) {
 		for (int i = items.size() - 1; i >= 0; i--) {
 			if (items.get(i).getData() == item) {
 				return i;
@@ -487,12 +479,12 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		return -1;
 	}
 
-	public final boolean containsItem(final Object item) {
+	public final boolean containsItem(final DataType item) {
 		return indexOf(item) != -1;
 	}
 
-	public final boolean containsAllItems(final Collection<?> items) {
-		for (Object item : items) {
+	public final boolean containsAllItems(final Collection<DataType> items) {
+		for (DataType item : items) {
 			if (!containsItem(item)) {
 				return false;
 			}
