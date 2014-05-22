@@ -184,7 +184,7 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 	 *         value of the method <code>size():int</code> - 1
 	 */
 	public final int getFirstEnabledIndex() {
-		for (int i = 0; i < size(); i++) {
+		for (int i = 0; i < getNumberOfItems(); i++) {
 			if (getItems().get(i).isEnabled()) {
 				return i;
 			}
@@ -217,7 +217,7 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 	 *         value of the method <code>size():int</code> - 1
 	 */
 	public final int getLastEnabledIndex() {
-		for (int i = size() - 1; i >= 0; i--) {
+		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
 			if (getItems().get(i).isEnabled()) {
 				return i;
 			}
@@ -233,7 +233,7 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 	 *         DataType or null, if no item is enabled
 	 */
 	public final DataType getLastEnabledItem() {
-		for (int i = size() - 1; i >= 0; i--) {
+		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
 			Item<DataType> item = getItems().get(i);
 
 			if (item.isEnabled()) {
@@ -252,7 +252,7 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 	 *         the value of the method <code>size():int</code> - 1
 	 */
 	public final int getFirstDisabledIndex() {
-		for (int i = 0; i < size(); i++) {
+		for (int i = 0; i < getNumberOfItems(); i++) {
 			if (!getItems().get(i).isEnabled()) {
 				return i;
 			}
@@ -285,7 +285,7 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 	 *         the value of the method <code>size():int</code> - 1
 	 */
 	public final int getLastDisabledIndex() {
-		for (int i = size() - 1; i >= 0; i--) {
+		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
 			if (!getItems().get(i).isEnabled()) {
 				return i;
 			}
@@ -302,7 +302,7 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 	 *         the value of the method <code>size():int</code> - 1
 	 */
 	public final DataType getLastDisabledItem() {
-		for (int i = size() - 1; i >= 0; i--) {
+		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
 			Item<DataType> item = getItems().get(i);
 
 			if (!item.isEnabled()) {
@@ -323,7 +323,7 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 	public final List<Integer> getEnabledIndices() {
 		List<Integer> enabledIndices = new ArrayList<Integer>();
 
-		for (int i = 0; i < size(); i++) {
+		for (int i = 0; i < getNumberOfItems(); i++) {
 			if (getItems().get(i).isEnabled()) {
 				enabledIndices.add(i);
 			}
@@ -360,7 +360,7 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 	public final List<Integer> getDisabledIndices() {
 		List<Integer> disabledIndices = new ArrayList<Integer>();
 
-		for (int i = 0; i < size(); i++) {
+		for (int i = 0; i < getNumberOfItems(); i++) {
 			if (!getItems().get(i).isEnabled()) {
 				disabledIndices.add(i);
 			}

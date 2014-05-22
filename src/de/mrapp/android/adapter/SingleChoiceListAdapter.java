@@ -34,12 +34,12 @@ public class SingleChoiceListAdapter<DataType> extends
 
 			@Override
 			public void onItemRemoved(final DataType item, final int index) {
-				if (size() >= index + 1) {
+				if (getNumberOfItems() >= index + 1) {
 					select(index);
-					notifyOnItemSelected(get(index), index);
-				} else if (size() >= index) {
+					notifyOnItemSelected(getItem(index), index);
+				} else if (getNumberOfItems() >= index) {
 					select(index - 1);
-					notifyOnItemSelected(get(index - 1), index - 1);
+					notifyOnItemSelected(getItem(index - 1), index - 1);
 				}
 			}
 
@@ -61,7 +61,7 @@ public class SingleChoiceListAdapter<DataType> extends
 	}
 
 	public final int getSelectedIndex() {
-		for (int i = 0; i < size(); i++) {
+		for (int i = 0; i < getNumberOfItems(); i++) {
 			if (getItems().get(i).isSelected()) {
 				return i;
 			}
@@ -81,7 +81,7 @@ public class SingleChoiceListAdapter<DataType> extends
 	}
 
 	public final void select(final int index) {
-		for (int i = 0; i < size(); i++) {
+		for (int i = 0; i < getNumberOfItems(); i++) {
 			Item<DataType> item = getItems().get(i);
 
 			if (i == index && !item.isSelected()) {
