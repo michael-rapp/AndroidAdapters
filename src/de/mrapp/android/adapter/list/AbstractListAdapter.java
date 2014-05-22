@@ -19,7 +19,6 @@ package de.mrapp.android.adapter.list;
 
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -52,7 +51,7 @@ import de.mrapp.android.adapter.util.Logger;
  * @since 1.0.0
  */
 public abstract class AbstractListAdapter<DataType> extends BaseAdapter
-		implements Adapter, List<DataType>, ListAdapter {
+		implements Adapter, ListAdapter {
 
 	/**
 	 * The constant serial version UID.
@@ -352,47 +351,42 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		return context;
 	}
 
-	@Override
-	public final boolean add(final DataType item) {
+	public final boolean addItem(final DataType item) {
 		boolean modified = items.add(new Item<DataType>(item));
 		notifyOnItemAdded(item, items.size() - 1);
 		notifyDataSetChanged();
 		return modified;
 	}
 
-	@Override
-	public final void add(final int index, final DataType item) {
+	public final void addItem(final int index, final DataType item) {
 		items.add(index, new Item<DataType>(item));
 		notifyOnItemAdded(item, index);
 		notifyDataSetChanged();
 	}
 
-	@Override
-	public final boolean addAll(final Collection<? extends DataType> items) {
+	public final boolean addAllItems(final Collection<? extends DataType> items) {
 		boolean modified = false;
 
 		for (DataType item : items) {
-			modified |= add(item);
+			modified |= addItem(item);
 		}
 
 		return modified;
 	}
 
-	@Override
-	public final boolean addAll(final int index,
+	public final boolean addAllItems(final int index,
 			final Collection<? extends DataType> items) {
 		int currentIndex = index;
 
 		for (DataType item : items) {
-			add(currentIndex, item);
+			addItem(currentIndex, item);
 			currentIndex++;
 		}
 
 		return true;
 	}
 
-	@Override
-	public final DataType set(final int index, final DataType item) {
+	public final DataType replaceItem(final int index, final DataType item) {
 		DataType replacedItem = items.set(index, new Item<DataType>(item))
 				.getData();
 		notifyOnItemRemoved(replacedItem, index);
@@ -401,8 +395,7 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		return replacedItem;
 	}
 
-	@Override
-	public final DataType remove(final int index) {
+	public final DataType removeItem(final int index) {
 		DataType removedItem = items.remove(index).getData();
 		notifyOnItemRemoved(removedItem, index);
 		notifyDataSetChanged();
@@ -410,8 +403,7 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
-	public final boolean remove(final Object item) {
+	public final boolean removeItem(final Object item) {
 		int index = indexOf(item);
 		items.remove(index);
 		notifyOnItemRemoved((DataType) item, index);
@@ -419,49 +411,42 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		return true;
 	}
 
-	@Override
-	public final boolean removeAll(final Collection<?> items) {
+	public final boolean removeAllItems(final Collection<?> items) {
 		boolean modified = false;
 
 		for (Object item : items) {
-			modified |= remove(item);
+			modified |= removeItem(item);
 		}
 		return modified;
 	}
 
-	@Override
-	public final boolean retainAll(final Collection<?> arg0) {
+	public final boolean retainAllItems(final Collection<?> arg0) {
 		boolean modified = false;
 
 		for (Item<DataType> item : this.items) {
 			if (!items.contains(item.getData())) {
-				modified |= remove(item);
+				modified |= removeItem(item);
 			}
 		}
 		return modified;
 	}
 
-	@Override
-	public final void clear() {
+	public final void clearItems() {
 		items.clear();
 	}
 
-	@Override
 	public final Iterator<DataType> iterator() {
 		return new ItemIterator<DataType>(items);
 	}
 
-	@Override
 	public final ListIterator<DataType> listIterator() {
 		return new ItemListIterator<DataType>(items);
 	}
 
-	@Override
 	public final ListIterator<DataType> listIterator(final int index) {
 		return new ItemListIterator<DataType>(items, index);
 	}
 
-	@Override
 	public final List<DataType> subList(final int start, final int end) {
 		List<DataType> subList = new ArrayList<DataType>();
 
@@ -472,7 +457,6 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		return subList;
 	}
 
-	@Override
 	public final Object[] toArray() {
 		Object[] array = new Object[items.size()];
 
@@ -483,35 +467,6 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		return array;
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public final <T> T[] toArray(final T[] array) {
-		T[] result;
-
-		if (array.length >= items.size()) {
-			result = array;
-		} else {
-			result = (T[]) Array.newInstance(array.getClass()
-					.getComponentType(), items.size());
-		}
-
-		for (int i = 0; i < result.length; i++) {
-			if (i < items.size() - 1) {
-				result[i] = (T) items.get(i).getData();
-			} else {
-				result[i] = null;
-			}
-		}
-
-		return result;
-	}
-
-	@Override
-	public final DataType get(final int index) {
-		return items.get(index).getData();
-	}
-
-	@Override
 	public final int indexOf(final Object item) {
 		for (int i = 0; i < items.size(); i++) {
 			if (items.get(i).getData() == item) {
@@ -522,7 +477,6 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		return -1;
 	}
 
-	@Override
 	public final int lastIndexOf(final Object item) {
 		for (int i = items.size() - 1; i >= 0; i--) {
 			if (items.get(i).getData() == item) {
@@ -533,15 +487,13 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		return -1;
 	}
 
-	@Override
-	public final boolean contains(final Object item) {
+	public final boolean containsItem(final Object item) {
 		return indexOf(item) != -1;
 	}
 
-	@Override
-	public final boolean containsAll(final Collection<?> items) {
+	public final boolean containsAllItems(final Collection<?> items) {
 		for (Object item : items) {
-			if (!contains(item)) {
+			if (!containsItem(item)) {
 				return false;
 			}
 		}
@@ -549,14 +501,13 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		return true;
 	}
 
-	@Override
-	public final boolean isEmpty() {
-		return items.isEmpty();
+	public final int getNumberOfItems() {
+		return items.size();
 	}
 
 	@Override
-	public final int size() {
-		return items.size();
+	public final boolean isEmpty() {
+		return items.isEmpty();
 	}
 
 	@Override
