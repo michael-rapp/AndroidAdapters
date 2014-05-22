@@ -54,6 +54,24 @@ public final class Condition {
 	}
 
 	/**
+	 * Ensures, that a string is not empty. Otherwise an
+	 * {@link IllegalArgumentException} with a specific message will be thrown.
+	 * 
+	 * @param string
+	 *            The string, which should be ensured to be not empty, as a
+	 *            {@link String}
+	 * @param exceptionMessage
+	 *            The message of the {@link IllegalArgumentException}, which is
+	 *            thrown, if the given string is empty, as a {@link String}
+	 */
+	public void ensureNotEmpty(final String string,
+			final String exceptionMessage) {
+		if (string.length() == 0) {
+			throw new IllegalArgumentException(exceptionMessage);
+		}
+	}
+
+	/**
 	 * Ensures, that an {@link Integer} value is at least a specific value.
 	 * Otherwise an {@link IllegalArgumentException} with a specific message
 	 * will be thrown.
