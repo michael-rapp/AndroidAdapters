@@ -27,7 +27,6 @@ import java.util.ListIterator;
 import java.util.Set;
 
 import android.content.Context;
-import android.renderscript.Element.DataType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,7 +100,7 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	 * @param index
 	 *            The index of the item, which has been added to the adapter, as
 	 *            an {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>size():int</code> - 1
+	 *            value of the method <code>getNumberOfItems():int</code> - 1
 	 */
 	private void notifyOnItemAdded(final DataType item, final int index) {
 		for (ListAdapterListener<DataType> listener : adapterListeners) {
@@ -121,8 +120,8 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	 * @param index
 	 *            The index of the item, which has been removed from the
 	 *            adapter, as an {@link Integer} value. The index must be
-	 *            between 0 and the value of the method <code>size():int</code>
-	 *            - 2.
+	 *            between 0 and the value of the method
+	 *            <code>getNumberOfItems():int</code> - 2.
 	 */
 	private void notifyOnItemRemoved(final DataType item, final int index) {
 		for (ListAdapterListener<DataType> listener : adapterListeners) {
@@ -330,6 +329,342 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		adapterListeners.remove(listener);
 	}
 
+	@Override
+	public final Context getContext() {
+		return context;
+	}
+
+	/**
+	 * Adds a specific item to the end of the adapter.
+	 * 
+	 * @param item
+	 *            The item, which should be added, as an instance of the generic
+	 *            type DataType. The item may not be null
+	 */
+	public final void addItem(final DataType item) {
+		notifyOnItemAdded(item, items.size() - 1);
+		notifyDataSetChanged();
+	}
+
+	/**
+	 * Adds a specific item to the adapter at a specific index.
+	 * 
+	 * @param index
+	 *            The index, the item should be added at, as an {@link Integer}
+	 *            value. The index must be between 0 and the value of the method
+	 *            <code>getNumberOfItems():int</code> - 1
+	 * @param item
+	 *            The item, which should be added, as an instance of the generic
+	 *            type DataType. The item may not be null
+	 */
+	public final void addItem(final int index, final DataType item) {
+		items.add(index, new Item<DataType>(item));
+		notifyOnItemAdded(item, index);
+		notifyDataSetChanged();
+	}
+
+	/**
+	 * Adds all items, which are contained by a specific collection, to the
+	 * adapter.
+	 * 
+	 * @param items
+	 *            The collection, which contains the items, which should be
+	 *            added to the adapter, as an instance of the type
+	 *            {@link Collection} or an empty collection, if no items should
+	 *            be added
+	 */
+	public final void addAllItems(final Collection<DataType> items) {
+		for (DataType item : items) {
+			addItem(item);
+		}
+	}
+
+	/**
+	 * Adds all items, which are contained by a specific collection, to the
+	 * adapter, beginning at a specific index.
+	 * 
+	 * @param index
+	 *            The index, the items should be added at, as an {@link Integer}
+	 *            value. The index must be between 0 and the value of the method
+	 *            <code>getNumberOfItems():int</code> - 1
+	 * @param items
+	 *            The collection, which contains the items, which should be
+	 *            added to the adapter, as an instance of the type
+	 *            {@link Collection} or an empty collection, if no items should
+	 *            be added
+	 */
+	public final void addAllItems(final int index,
+			final Collection<DataType> items) {
+		int currentIndex = index;
+
+		for (DataType item : items) {
+			addItem(currentIndex, item);
+			currentIndex++;
+		}
+	}
+
+	/**
+	 * Replaces the item, which belongs to a specific index, by an other item.
+	 * 
+	 * @param index
+	 *            The index of the item, which should be replaced, as an
+	 *            {@link Integer} value. The index must be between 0 and the
+	 *            value of the method <code>getNumberOfItems():int</code> - 1
+	 * @param item
+	 *            The item, which should replace the item at the given index, as
+	 *            an instance of the generic type DataType. The item may not be
+	 *            null
+	 * @return The item, which has been replaced, as an instance of the generic
+	 *         type DataType. The item may not be null
+	 */
+	public final DataType replaceItem(final int index, final DataType item) {
+		DataType replacedItem = items.set(index, new Item<DataType>(item))
+				.getData();
+		notifyOnItemRemoved(replacedItem, index);
+		notifyOnItemAdded(item, index);
+		notifyDataSetChanged();
+		return replacedItem;
+	}
+
+	/**
+	 * Removes the item, which belongs to a specific index, from the adapter.
+	 * 
+	 * @param index
+	 *            The index of the item, which should be removed from the
+	 *            adapter, as an {@link Integer} value. The index must be
+	 *            between 0 and the value of the method
+	 *            <code>getNumberOfItems():int</code> - 1
+	 * @return The item, which has been removed, as an instance of the generic
+	 *         type DataType. The item may not be null
+	 */
+	public final DataType removeItem(final int index) {
+		DataType removedItem = items.remove(index).getData();
+		notifyOnItemRemoved(removedItem, index);
+		notifyDataSetChanged();
+		return removedItem;
+	}
+
+	/**
+	 * Removes a specific item from the adapter.
+	 * 
+	 * @param item
+	 *            The item, which should be removed, as an instance of the
+	 *            generic type DataType. The item may not be null
+	 */
+	public final void removeItem(final DataType item) {
+		int index = indexOf(item);
+		items.remove(index);
+		notifyOnItemRemoved((DataType) item, index);
+		notifyDataSetChanged();
+	}
+
+	/**
+	 * Removes all items, which are contained by a specific collection, from the
+	 * adapter.
+	 * 
+	 * @param items
+	 *            The collection, which contains the items, which should be
+	 *            removed from the adapter, as an instance of the type
+	 *            {@link Collection} or an empty collection, if no items should
+	 *            be removed
+	 */
+	public final void removeAllItems(final Collection<DataType> items) {
+		for (DataType item : items) {
+			removeItem(item);
+		}
+	}
+
+	/**
+	 * Removes all items from the adapter, except of the items, which are
+	 * contained by a specific collection.
+	 * 
+	 * @param items
+	 *            The collection, which contains the items, which should be
+	 *            retained, as an instance of the type {@link Collection} or an
+	 *            empty collection, if no items should be retained
+	 */
+	public final void retainAllItems(final Collection<DataType> items) {
+
+		for (Item<DataType> item : this.items) {
+			if (!items.contains(item.getData())) {
+				removeItem(item.getData());
+			}
+		}
+	}
+
+	/**
+	 * Removes all items from the adapter.
+	 */
+	public final void clearItems() {
+		items.clear();
+	}
+
+	/**
+	 * Returns an iterator, which allows to iterate over the adapter's items.
+	 * 
+	 * @return An iterator, which allows to iterate over the adapter's items, as
+	 *         an instance of the type {@link Iterator}
+	 */
+	public final Iterator<DataType> iterator() {
+		return new ItemIterator<DataType>(items);
+	}
+
+	/**
+	 * Returns a list iterator, which allows to iterate over the adapter's
+	 * items.
+	 * 
+	 * @return A list iterator, which allows to iterate over the adapter's
+	 *         items, as an instance of the type {@link ListIterator}. The
+	 *         iterator may not be null
+	 */
+	public final ListIterator<DataType> listIterator() {
+		return new ItemListIterator<DataType>(items);
+	}
+
+	/**
+	 * Returns a list iterator, which allows to iterate over the adapter's
+	 * items, starting at a specific index.
+	 * 
+	 * @param index
+	 *            The index, the iterator should start at, as an {@link Integer}
+	 *            value. The index must be between 0 and the value of the method
+	 *            <code>getNumberOfItems():int</code> - 1
+	 * @return A list iterator, which allows to iterate over the adapter's
+	 *         items, starting at the given index, as an instance of the type
+	 *         {@link ListIterator}. The iterator may not be null
+	 */
+	public final ListIterator<DataType> listIterator(final int index) {
+		return new ItemListIterator<DataType>(items, index);
+	}
+
+	/**
+	 * Returns a list, which contains the adapter's items, between a specific
+	 * start and end index.
+	 * 
+	 * @param start
+	 *            The start index of the items, which should be returned, as an
+	 *            {@link Integer} value. The index must be between 0 and the
+	 *            value of the method <code>getNumberOfItems():int</code> - 1
+	 * @param end
+	 *            The end index of the items, which should be returned, as an
+	 *            {@link Integer} value. The index must be between 0 and the
+	 *            value of the method <code>getNumberOfItems():int</code> -1 and
+	 *            it must be greater than the start index
+	 * @return A list, which contains the adapter's items, between a specific
+	 *         start end end index, as an instance of the type {@link List} or
+	 *         an empty list, if the adapter does not contain any items
+	 */
+	public final List<DataType> subList(final int start, final int end) {
+		List<DataType> subList = new ArrayList<DataType>();
+
+		for (int i = start; i < end; i++) {
+			subList.add(items.get(i).getData());
+		}
+
+		return subList;
+	}
+
+	/**
+	 * Returns an array, which contains the adapter's items.
+	 * 
+	 * @return An array, which contains the adapter's items, as an
+	 *         {@link Object} array or an empty array, if the adapter does not
+	 *         contain any items
+	 */
+	public final Object[] toArray() {
+		Object[] array = new Object[items.size()];
+
+		for (int i = 0; i < items.size(); i++) {
+			array[i] = items.get(i).getData();
+		}
+
+		return array;
+	}
+
+	/**
+	 * Returns the index of a specific item.
+	 * 
+	 * @param item
+	 *            The item, whose index should be returned, as an instance of
+	 *            the generic type DataType. The item may not be null
+	 * @return The index of the the given item, as an {@link Integer} value or
+	 *         -1, if the adapter does not contain the given adapter. The index
+	 *         must be between 0 and the value of the method
+	 *         <code>getNumberOfItems():int</code> - 1
+	 */
+	public final int indexOf(final DataType item) {
+		for (int i = 0; i < items.size(); i++) {
+			if (items.get(i).getData() == item) {
+				return i;
+			}
+		}
+
+		return -1;
+	}
+
+	/**
+	 * Returns the last index of a specific item.
+	 * 
+	 * @param item
+	 *            The item, whose last index should be returned, as an instance
+	 *            of the generic type DataType. The item may not be null
+	 * @return The last index of the given item, as an {@link Integer} value or
+	 *         -1, if the adapter does not contain the given item. The index
+	 *         must be between 0 and the value of the method
+	 *         <code>getNumberOfItems():int</code> - 1
+	 */
+	public final int lastIndexOf(final DataType item) {
+		for (int i = items.size() - 1; i >= 0; i--) {
+			if (items.get(i).getData() == item) {
+				return i;
+			}
+		}
+
+		return -1;
+	}
+
+	/**
+	 * Returns, whether the adapter contains a specific item, or not.
+	 * 
+	 * @param item
+	 *            The item, whose presence should be checked, as an instance of
+	 *            the generic type DataType. The item may not be null
+	 * @return True, if the adapter contains the given item, false otherwise
+	 */
+	public final boolean containsItem(final DataType item) {
+		return indexOf(item) != -1;
+	}
+
+	/**
+	 * Returns, whether the adapter contains all items, which are contained by a
+	 * specific collection, or not.
+	 * 
+	 * @param items
+	 *            The collection, which contains the items, which whose presence
+	 *            should be checked, as an instance of the type
+	 *            {@link Collection}. The collection may not be null
+	 * @return True, if the adapter contains all items, which are contained by
+	 *         the given collection, false otherwise
+	 */
+	public final boolean containsAllItems(final Collection<DataType> items) {
+		for (DataType item : items) {
+			if (!containsItem(item)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Returns the number of the adapter's items.
+	 * 
+	 * @return The number of the adapter's items, as an {@link Integer} value
+	 */
+	public final int getNumberOfItems() {
+		return items.size();
+	}
+
 	/**
 	 * Returns a list, which contains the adapter's items.
 	 * 
@@ -345,156 +680,6 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		}
 
 		return result;
-	}
-
-	@Override
-	public final Context getContext() {
-		return context;
-	}
-
-	public final boolean addItem(final DataType item) {
-		boolean modified = items.add(new Item<DataType>(item));
-		notifyOnItemAdded(item, items.size() - 1);
-		notifyDataSetChanged();
-		return modified;
-	}
-
-	public final void addItem(final int index, final DataType item) {
-		items.add(index, new Item<DataType>(item));
-		notifyOnItemAdded(item, index);
-		notifyDataSetChanged();
-	}
-
-	public final boolean addAllItems(final Collection<DataType> items) {
-		boolean modified = false;
-
-		for (DataType item : items) {
-			modified |= addItem(item);
-		}
-
-		return modified;
-	}
-
-	public final void addAllItems(final int index,
-			final Collection<? extends DataType> items) {
-		int currentIndex = index;
-
-		for (DataType item : items) {
-			addItem(currentIndex, item);
-			currentIndex++;
-		}
-	}
-
-	public final DataType replaceItem(final int index, final DataType item) {
-		DataType replacedItem = items.set(index, new Item<DataType>(item))
-				.getData();
-		notifyOnItemRemoved(replacedItem, index);
-		notifyOnItemAdded(item, index);
-		notifyDataSetChanged();
-		return replacedItem;
-	}
-
-	public final DataType removeItem(final int index) {
-		DataType removedItem = items.remove(index).getData();
-		notifyOnItemRemoved(removedItem, index);
-		notifyDataSetChanged();
-		return removedItem;
-	}
-
-	public void removeItem(final DataType item) {
-		int index = indexOf(item);
-		items.remove(index);
-		notifyOnItemRemoved((DataType) item, index);
-		notifyDataSetChanged();
-	}
-
-	public final void removeAllItems(final Collection<DataType> items) {
-		for (DataType item : items) {
-			removeItem(item);
-		}
-	}
-
-	public final void retainAllItems(final Collection<DataType> items) {
-
-		for (Item<DataType> item : this.items) {
-			if (!items.contains(item.getData())) {
-				removeItem(item.getData());
-			}
-		}
-	}
-
-	public final void clearItems() {
-		items.clear();
-	}
-
-	public final Iterator<DataType> iterator() {
-		return new ItemIterator<DataType>(items);
-	}
-
-	public final ListIterator<DataType> listIterator() {
-		return new ItemListIterator<DataType>(items);
-	}
-
-	public final ListIterator<DataType> listIterator(final int index) {
-		return new ItemListIterator<DataType>(items, index);
-	}
-
-	public final List<DataType> subList(final int start, final int end) {
-		List<DataType> subList = new ArrayList<DataType>();
-
-		for (int i = start; i < end; i++) {
-			subList.add(items.get(i).getData());
-		}
-
-		return subList;
-	}
-
-	public final Object[] toArray() {
-		Object[] array = new Object[items.size()];
-
-		for (int i = 0; i < items.size(); i++) {
-			array[i] = items.get(i).getData();
-		}
-
-		return array;
-	}
-
-	public final int indexOf(final DataType item) {
-		for (int i = 0; i < items.size(); i++) {
-			if (items.get(i).getData() == item) {
-				return i;
-			}
-		}
-
-		return -1;
-	}
-
-	public final int lastIndexOf(final DataType item) {
-		for (int i = items.size() - 1; i >= 0; i--) {
-			if (items.get(i).getData() == item) {
-				return i;
-			}
-		}
-
-		return -1;
-	}
-
-	public final boolean containsItem(final DataType item) {
-		return indexOf(item) != -1;
-	}
-
-	public final boolean containsAllItems(final Collection<DataType> items) {
-		for (DataType item : items) {
-			if (!containsItem(item)) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	public final int getNumberOfItems() {
-		return items.size();
 	}
 
 	@Override
