@@ -7,9 +7,11 @@ import java.util.ListIterator;
 
 import de.mrapp.android.adapter.list.EnableStateListAdapter;
 import de.mrapp.android.adapter.list.ListAdapterListener;
+import de.mrapp.android.adapter.list.SortableListAdapter;
 
 public interface ListAdapter<DataType> extends Adapter,
-		android.widget.ListAdapter, EnableStateListAdapter<DataType> {
+		android.widget.ListAdapter, EnableStateListAdapter<DataType>,
+		SortableListAdapter<DataType> {
 
 	/**
 	 * Adds a specific item to the end of the adapter.

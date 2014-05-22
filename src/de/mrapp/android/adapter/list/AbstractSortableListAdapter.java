@@ -46,7 +46,8 @@ import de.mrapp.android.adapter.util.SerializableWrapper;
  * @since 1.0.0
  */
 public abstract class AbstractSortableListAdapter<DataType> extends
-		AbstractEnableStateListAdapter<DataType> {
+		AbstractEnableStateListAdapter<DataType> implements
+		SortableListAdapter<DataType> {
 
 	/**
 	 * The constant serial version UID.
@@ -171,22 +172,13 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 		setSortingListeners(sortingListeners);
 	}
 
-	/**
-	 * Sorts the items of the adapter in an ascending order.
-	 */
+	@Override
 	public final void sort() {
 		sort(Order.ASCENDING);
 
 	}
 
-	/**
-	 * Sorts the items of the adapter in a specific order.
-	 * 
-	 * @param order
-	 *            The order, which should be used to sort the items, as a value
-	 *            of the enum {@link Order}. The order may either be
-	 *            <code>ASCENDING</code> order <code>DESCENDING</code>
-	 */
+	@Override
 	public final void sort(final Order order) {
 		if (order == Order.ASCENDING) {
 			Collections.sort(getItems());
@@ -198,32 +190,12 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 		notifyDataSetChanged();
 	}
 
-	/**
-	 * Sorts the items of the adapter by using a comparator in an ascending
-	 * order.
-	 * 
-	 * @param comparator
-	 *            The comparable, which should be used to sort the items, as an
-	 *            instance of the type {@link Comparator}. The comparator may
-	 *            not be null
-	 */
+	@Override
 	public final void sort(final Comparator<DataType> comparator) {
 		sort(Order.ASCENDING, comparator);
 	}
 
-	/**
-	 * Sorts the entries of the adapter by using a comparator in a specific
-	 * order.
-	 * 
-	 * @param comparator
-	 *            The comparable, which should be used to sort the entries, as
-	 *            an instance of the type {@link Comparator}. The comparator may
-	 *            not be null
-	 * @param order
-	 *            The order, which should be used to sort the entries, as a
-	 *            value of the enum {@link Order}. The order may either be
-	 *            <code>ASCENDING</code> order <code>DESCENDING</code>
-	 */
+	@Override
 	public final void sort(final Order order,
 			final Comparator<DataType> comparator) {
 		Comparator<Item<DataType>> itemComparator = new ItemComparator<DataType>(
@@ -240,30 +212,14 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 		notifyDataSetChanged();
 	}
 
-	/**
-	 * Adds a new listener, which should be notified when the adapter's
-	 * underlying data has been sorted.
-	 * 
-	 * @param listener
-	 *            The listener, which should be added, as an instance of the
-	 *            class {@link ListSortingListener}. The listener may not be
-	 *            null
-	 */
+	@Override
 	public final void addSortingListner(
 			final ListSortingListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		sortingListeners.add(listener);
 	}
 
-	/**
-	 * Removes a specific listener, which should not be notified when the
-	 * adapter's underlying data has been modified, anymore.
-	 * 
-	 * @param listener
-	 *            The listener, which should be removed, as an instance of the
-	 *            class {@link ListSortingListener}. The listener may not be
-	 *            null
-	 */
+	@Override
 	public final void removeSortingListener(
 			final ListSortingListener<DataType> listener) {
 		sortingListeners.remove(listener);
