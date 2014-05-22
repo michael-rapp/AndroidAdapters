@@ -8,7 +8,7 @@ import java.util.ListIterator;
 import de.mrapp.android.adapter.list.EnableStateListAdapter;
 import de.mrapp.android.adapter.list.ItemStateListAdapter;
 import de.mrapp.android.adapter.list.ListAdapterListener;
-import de.mrapp.android.adapter.list.SortableListAdapter;
+import de.mrapp.android.adapter.list.sorting.SortableListAdapter;
 
 public interface ListAdapter<DataType> extends Adapter,
 		android.widget.ListAdapter, EnableStateListAdapter<DataType>,

@@ -15,7 +15,7 @@
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/>. 
  */
-package de.mrapp.android.adapter.list;
+package de.mrapp.android.adapter.list.sorting;
 
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
@@ -28,6 +28,10 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import de.mrapp.android.adapter.Order;
+import de.mrapp.android.adapter.list.AbstractEnableStateListAdapter;
+import de.mrapp.android.adapter.list.AbstractListAdapter;
+import de.mrapp.android.adapter.list.ListAdapterListener;
+import de.mrapp.android.adapter.list.ListEnableStateListener;
 import de.mrapp.android.adapter.util.Item;
 import de.mrapp.android.adapter.util.ItemComparator;
 import de.mrapp.android.adapter.util.Logger;
