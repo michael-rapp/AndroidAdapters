@@ -19,7 +19,6 @@ package de.mrapp.android.adapter.list.sorting;
 
 import java.util.List;
 
-import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.list.AbstractListAdapter;
 
 /**

@@ -27,7 +27,6 @@ import java.util.Set;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.list.AbstractListAdapter;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.AbstractEnableStateListAdapter;

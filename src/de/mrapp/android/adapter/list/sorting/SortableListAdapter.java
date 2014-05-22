@@ -2,8 +2,6 @@ package de.mrapp.android.adapter.list.sorting;
 
 import java.util.Comparator;
 
-import de.mrapp.android.adapter.Order;
-
 public interface SortableListAdapter<DataType> {
 
 	/**
