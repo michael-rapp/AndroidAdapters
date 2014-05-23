@@ -72,7 +72,7 @@ public class ListAdapterImplementation<DataType> extends
 			final ViewGroup parent) {
 		View view = inflateOrReturnItemView(parent);
 		decorator.onCreateItem(getContext(), view, getItem(index),
-				isEnabled(index));
+				isEnabled(index), getItemState(index));
 		return view;
 	}
 
