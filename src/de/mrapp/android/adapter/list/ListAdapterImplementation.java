@@ -15,7 +15,6 @@ import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.itemstate.AbstractItemStateListAdapter;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 import de.mrapp.android.adapter.util.Item;
-import de.mrapp.android.adapter.util.Logger;
 
 public class ListAdapterImplementation<DataType> extends
 		AbstractItemStateListAdapter<DataType> {
@@ -33,24 +32,23 @@ public class ListAdapterImplementation<DataType> extends
 	private final transient ListDecorator<DataType> decorator;
 
 	protected ListAdapterImplementation(final Context context,
-			final Logger logger, final int itemViewId, final View itemView,
+			final int itemViewId, final View itemView,
 			final List<Item<DataType>> items,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final int numberOfItemStates,
 			final ListDecorator<DataType> decorator) {
-		super(context, logger, itemViewId, itemView, items, adapterListeners,
+		super(context, itemViewId, itemView, items, adapterListeners,
 				enableStateListeners, sortingListeners, numberOfItemStates);
 		ensureNotNull(decorator, "The decorator may not be null");
 		this.decorator = decorator;
 	}
 
 	public ListAdapterImplementation(final Context context,
-			final Logger logger, final int numberOfItemStates,
+			final int numberOfItemStates,
 			final ListDecorator<DataType> decorator, final int itemViewId) {
-		this(context, logger, itemViewId, null,
-				new ArrayList<Item<DataType>>(),
+		this(context, itemViewId, null, new ArrayList<Item<DataType>>(),
 				new LinkedHashSet<ListAdapterListener<DataType>>(),
 				new LinkedHashSet<ListEnableStateListener<DataType>>(),
 				new LinkedHashSet<ListSortingListener<DataType>>(),
@@ -58,9 +56,9 @@ public class ListAdapterImplementation<DataType> extends
 	}
 
 	public ListAdapterImplementation(final Context context,
-			final Logger logger, final int numberOfItemStates,
+			final int numberOfItemStates,
 			final ListDecorator<DataType> decorator, final View itemView) {
-		this(context, logger, -1, itemView, new ArrayList<Item<DataType>>(),
+		this(context, -1, itemView, new ArrayList<Item<DataType>>(),
 				new LinkedHashSet<ListAdapterListener<DataType>>(),
 				new LinkedHashSet<ListEnableStateListener<DataType>>(),
 				new LinkedHashSet<ListSortingListener<DataType>>(),
@@ -80,8 +78,8 @@ public class ListAdapterImplementation<DataType> extends
 	public final ListAdapterImplementation<DataType> clone()
 			throws CloneNotSupportedException {
 		return new ListAdapterImplementation<DataType>(getContext(),
-				getLogger().clone(), getItemViewId(), getItemView(),
-				cloneItems(), getAdapterListeners(), getEnableStateListeners(),
+				getItemViewId(), getItemView(), cloneItems(),
+				getAdapterListeners(), getEnableStateListeners(),
 				getSortingListeners(), getNumberOfItemStates(), decorator);
 	}
 

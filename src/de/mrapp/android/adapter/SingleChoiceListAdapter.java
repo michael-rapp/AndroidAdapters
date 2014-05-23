@@ -11,7 +11,6 @@ import de.mrapp.android.adapter.list.selectable.AbstractSelectableListAdapter;
 import de.mrapp.android.adapter.list.selectable.ListSelectionListener;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 import de.mrapp.android.adapter.util.Item;
-import de.mrapp.android.adapter.util.Logger;
 
 public class SingleChoiceListAdapter<DataType> extends
 		AbstractSelectableListAdapter<DataType> {
@@ -47,7 +46,7 @@ public class SingleChoiceListAdapter<DataType> extends
 	}
 
 	protected SingleChoiceListAdapter(final Context context,
-			final Logger logger, final int itemViewId, final View itemView,
+			final int itemViewId, final View itemView,
 			final List<Item<DataType>> items,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
@@ -55,7 +54,7 @@ public class SingleChoiceListAdapter<DataType> extends
 			final Set<ListSelectionListener<DataType>> selectionListeners,
 			final int numberOfItemStates,
 			final SelectableListDecorator<DataType> decorator) {
-		super(context, logger, itemViewId, itemView, items, adapterListeners,
+		super(context, itemViewId, itemView, items, adapterListeners,
 				enableStateListeners, sortingListeners, selectionListeners,
 				numberOfItemStates, decorator);
 		addAdapterListener(getAdapterListener());
@@ -102,11 +101,10 @@ public class SingleChoiceListAdapter<DataType> extends
 	@Override
 	public final SingleChoiceListAdapter<DataType> clone()
 			throws CloneNotSupportedException {
-		return new SingleChoiceListAdapter<DataType>(getContext(), getLogger()
-				.clone(), getItemViewId(), getItemView(), cloneItems(),
+		return new SingleChoiceListAdapter<DataType>(getContext(),
+				getItemViewId(), getItemView(), cloneItems(),
 				getAdapterListeners(), getEnableStateListeners(),
 				getSortingListeners(), getSelectionListeners(),
 				getNumberOfItemStates(), getDecorator());
 	}
-
 }

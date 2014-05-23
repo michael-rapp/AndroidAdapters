@@ -14,7 +14,6 @@ import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.itemstate.AbstractItemStateListAdapter;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 import de.mrapp.android.adapter.util.Item;
-import de.mrapp.android.adapter.util.Logger;
 
 public abstract class AbstractSelectableListAdapter<DataType> extends
 		AbstractItemStateListAdapter<DataType> implements
@@ -90,7 +89,7 @@ public abstract class AbstractSelectableListAdapter<DataType> extends
 	}
 
 	protected AbstractSelectableListAdapter(final Context context,
-			final Logger logger, final int itemViewId, final View itemView,
+			final int itemViewId, final View itemView,
 			final List<Item<DataType>> items,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
@@ -98,7 +97,7 @@ public abstract class AbstractSelectableListAdapter<DataType> extends
 			final Set<ListSelectionListener<DataType>> selectionListeners,
 			final int numberOfItemStates,
 			final SelectableListDecorator<DataType> decorator) {
-		super(context, logger, itemViewId, itemView, items, adapterListeners,
+		super(context, itemViewId, itemView, items, adapterListeners,
 				enableStateListeners, sortingListeners, numberOfItemStates);
 		ensureNotNull(decorator, "The decorator may not be null");
 		ensureNotNull(selectionListeners,
