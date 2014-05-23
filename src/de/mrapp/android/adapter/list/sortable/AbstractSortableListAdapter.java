@@ -23,17 +23,18 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ListView;
 import de.mrapp.android.adapter.list.AbstractListAdapter;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.AbstractEnableStateListAdapter;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.util.Item;
 import de.mrapp.android.adapter.util.ItemComparator;
-import de.mrapp.android.adapter.util.Logger;
 import de.mrapp.android.adapter.util.SerializableWrapper;
 
 /**
@@ -165,12 +166,12 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 	 *            no listeners should be notified
 	 */
 	protected AbstractSortableListAdapter(final Context context,
-			final Logger logger, final int itemViewId, final View itemView,
+			final int itemViewId, final View itemView,
 			final List<Item<DataType>> items,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners) {
-		super(context, logger, itemViewId, itemView, items, adapterListeners,
+		super(context, itemViewId, itemView, items, adapterListeners,
 				enableStateListeners);
 		setSortingListeners(sortingListeners);
 	}
