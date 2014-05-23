@@ -12,7 +12,7 @@ import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 import de.mrapp.android.adapter.util.Item;
 
-public class MultipleChoiceListAdapter<DataType> extends
+public class MultipleChoiceListAdapterImplementation<DataType> extends
 		AbstractSelectableListAdapter<DataType> {
 
 	/**
@@ -20,7 +20,7 @@ public class MultipleChoiceListAdapter<DataType> extends
 	 */
 	private static final long serialVersionUID = 1L;
 
-	protected MultipleChoiceListAdapter(final Context context,
+	protected MultipleChoiceListAdapterImplementation(final Context context,
 			final int itemViewId, final View itemView,
 			final List<Item<DataType>> items,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
@@ -237,9 +237,9 @@ public class MultipleChoiceListAdapter<DataType> extends
 	}
 
 	@Override
-	public final MultipleChoiceListAdapter<DataType> clone()
+	public final MultipleChoiceListAdapterImplementation<DataType> clone()
 			throws CloneNotSupportedException {
-		return new MultipleChoiceListAdapter<DataType>(getContext(),
+		return new MultipleChoiceListAdapterImplementation<DataType>(getContext(),
 				getItemViewId(), getItemView(), cloneItems(),
 				getAdapterListeners(), getEnableStateListeners(),
 				getSortingListeners(), getSelectionListeners(),
