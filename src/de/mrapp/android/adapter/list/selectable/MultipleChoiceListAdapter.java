@@ -1,4 +1,4 @@
-package de.mrapp.android.adapter;
+package de.mrapp.android.adapter.list.selectable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,10 +6,9 @@ import java.util.Set;
 
 import android.content.Context;
 import android.view.View;
+import de.mrapp.android.adapter.SelectableListDecorator;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
-import de.mrapp.android.adapter.list.selectable.AbstractSelectableListAdapter;
-import de.mrapp.android.adapter.list.selectable.ListSelectionListener;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 import de.mrapp.android.adapter.util.Item;
 
