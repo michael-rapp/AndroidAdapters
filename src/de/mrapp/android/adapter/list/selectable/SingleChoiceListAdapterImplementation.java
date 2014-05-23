@@ -11,7 +11,7 @@ import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 import de.mrapp.android.adapter.util.Item;
 
-public class SingleChoiceListAdapter<DataType> extends
+public class SingleChoiceListAdapterImplementation<DataType> extends
 		AbstractSelectableListAdapter<DataType> {
 
 	/**
@@ -44,7 +44,7 @@ public class SingleChoiceListAdapter<DataType> extends
 		};
 	}
 
-	protected SingleChoiceListAdapter(final Context context,
+	protected SingleChoiceListAdapterImplementation(final Context context,
 			final int itemViewId, final View itemView,
 			final List<Item<DataType>> items,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
@@ -98,10 +98,10 @@ public class SingleChoiceListAdapter<DataType> extends
 	}
 
 	@Override
-	public final SingleChoiceListAdapter<DataType> clone()
+	public final SingleChoiceListAdapterImplementation<DataType> clone()
 			throws CloneNotSupportedException {
-		return new SingleChoiceListAdapter<DataType>(getContext(),
-				getItemViewId(), getItemView(), cloneItems(),
+		return new SingleChoiceListAdapterImplementation<DataType>(
+				getContext(), getItemViewId(), getItemView(), cloneItems(),
 				getAdapterListeners(), getEnableStateListeners(),
 				getSortingListeners(), getSelectionListeners(),
 				getNumberOfItemStates(), getDecorator());
