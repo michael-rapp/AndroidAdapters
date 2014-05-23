@@ -1,4 +1,4 @@
-package de.mrapp.android.adapter.list.sorting;
+package de.mrapp.android.adapter.list.sortable;
 
 import java.util.Comparator;
 

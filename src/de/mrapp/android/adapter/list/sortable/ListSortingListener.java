@@ -15,7 +15,7 @@
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/>. 
  */
-package de.mrapp.android.adapter.list.sorting;
+package de.mrapp.android.adapter.list.sortable;
 
 import java.util.List;
 

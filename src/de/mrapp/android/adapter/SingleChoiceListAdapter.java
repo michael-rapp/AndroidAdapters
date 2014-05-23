@@ -9,7 +9,7 @@ import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.selectable.AbstractSelectableListAdapter;
 import de.mrapp.android.adapter.list.selectable.ListSelectionListener;
-import de.mrapp.android.adapter.list.sorting.ListSortingListener;
+import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 import de.mrapp.android.adapter.util.Item;
 import de.mrapp.android.adapter.util.Logger;
 
