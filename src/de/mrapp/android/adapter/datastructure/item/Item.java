@@ -19,7 +19,7 @@ package de.mrapp.android.adapter.datastructure.item;
 
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
-import de.mrapp.android.adapter.datastructure.Entity;
+import de.mrapp.android.adapter.datastructure.DataStructure;
 import de.mrapp.android.adapter.list.selectable.SortingNotSupportedException;
 
 /**
@@ -31,7 +31,7 @@ import de.mrapp.android.adapter.list.selectable.SortingNotSupportedException;
  * 
  * @author Michael Rapp
  */
-public class Item<DataType> implements Entity, Comparable<Item<DataType>> {
+public class Item<DataType> implements DataStructure, Comparable<Item<DataType>> {
 
 	/**
 	 * The constant serial version UID.
