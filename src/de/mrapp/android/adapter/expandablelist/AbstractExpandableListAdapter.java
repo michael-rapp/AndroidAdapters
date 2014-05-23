@@ -4,7 +4,7 @@ import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 import android.content.Context;
 import android.widget.BaseExpandableListAdapter;
 import de.mrapp.android.adapter.Adapter;
-import de.mrapp.android.adapter.datastructure.Group;
+import de.mrapp.android.adapter.datastructure.group.Group;
 import de.mrapp.android.adapter.list.AbstractListAdapter;
 
 public abstract class AbstractExpandableListAdapter<GroupDataType, ChildDataType, GroupAdapterType extends AbstractListAdapter<Group<GroupDataType, ChildDataType, ChildAdapterType>>, ChildAdapterType extends AbstractListAdapter<ChildDataType>>

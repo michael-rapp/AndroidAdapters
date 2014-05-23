@@ -15,9 +15,10 @@
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/>. 
  */
-package de.mrapp.android.adapter.datastructure;
+package de.mrapp.android.adapter.datastructure.group;
 
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+import de.mrapp.android.adapter.datastructure.Item;
 import de.mrapp.android.adapter.list.AbstractListAdapter;
 
 /**
