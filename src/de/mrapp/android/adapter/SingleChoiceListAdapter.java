@@ -1,7 +1,9 @@
 package de.mrapp.android.adapter;
 
+import de.mrapp.android.adapter.list.selectable.SelectableListAdapter;
+
 public interface SingleChoiceListAdapter<DataType> extends
-		ListAdapter<DataType> {
+		ListAdapter<DataType>, SelectableListAdapter<DataType> {
 
 	/**
 	 * Returns the currently selected index.
