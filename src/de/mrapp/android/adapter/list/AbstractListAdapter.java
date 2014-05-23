@@ -33,9 +33,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import de.mrapp.android.adapter.ListAdapter;
-import de.mrapp.android.adapter.util.Item;
-import de.mrapp.android.adapter.util.ItemIterator;
-import de.mrapp.android.adapter.util.ItemListIterator;
+import de.mrapp.android.adapter.datastructure.Item;
+import de.mrapp.android.adapter.datastructure.ItemIterator;
+import de.mrapp.android.adapter.datastructure.ItemListIterator;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as

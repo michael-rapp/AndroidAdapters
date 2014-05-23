@@ -9,11 +9,11 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import de.mrapp.android.adapter.SelectableListDecorator;
+import de.mrapp.android.adapter.datastructure.Item;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.itemstate.AbstractItemStateListAdapter;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
-import de.mrapp.android.adapter.util.Item;
 
 public abstract class AbstractSelectableListAdapter<DataType> extends
 		AbstractItemStateListAdapter<DataType> implements

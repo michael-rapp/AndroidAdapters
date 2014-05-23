@@ -29,13 +29,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
+import de.mrapp.android.adapter.datastructure.Item;
+import de.mrapp.android.adapter.datastructure.ItemComparator;
+import de.mrapp.android.adapter.datastructure.SerializableWrapper;
 import de.mrapp.android.adapter.list.AbstractListAdapter;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.AbstractEnableStateListAdapter;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
-import de.mrapp.android.adapter.util.Item;
-import de.mrapp.android.adapter.util.ItemComparator;
-import de.mrapp.android.adapter.util.SerializableWrapper;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
