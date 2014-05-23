@@ -6,6 +6,7 @@ import java.util.Set;
 
 import android.content.Context;
 import android.view.View;
+import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.SelectableListDecorator;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
@@ -13,7 +14,8 @@ import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 import de.mrapp.android.adapter.util.Item;
 
 public class MultipleChoiceListAdapterImplementation<DataType> extends
-		AbstractSelectableListAdapter<DataType> {
+		AbstractSelectableListAdapter<DataType> implements
+		MultipleChoiceListAdapter<DataType> {
 
 	/**
 	 * The constant serial version UID.
@@ -34,42 +36,17 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 				numberOfItemStates, decorator);
 	}
 
-	/**
-	 * Returns, whether the item, which belongs to a specific index, is
-	 * unselected, or not.
-	 * 
-	 * @param index
-	 *            The index of the item, whose selection state should be
-	 *            returned, as an {@link Integer} value. The index must be
-	 *            between 0 and the value of the method
-	 *            <code>getNumberOfItems():int</code> - 1
-	 * @return True, if the item, which belongs to the given index, is
-	 *         unselected, false otherwise
-	 */
+	@Override
 	public final boolean isUnselected(final int index) {
 		return !isSelected(index);
 	}
 
-	/**
-	 * Returns, whether a specific item is unselected, or not.
-	 * 
-	 * @param item
-	 *            The item, whose selection state should be returned, as an
-	 *            instance of the generic type DataType. The item may not be
-	 *            null
-	 * @return True, if the given item is unselected, false otherwise
-	 */
+	@Override
 	public final boolean isUnselected(final DataType item) {
 		return !isSelected(item);
 	}
 
-	/**
-	 * Return the index of the first selected item.
-	 * 
-	 * @return The index of the first selected item or -1, if no item is
-	 *         selected. The index must be between 0 and the value of the method
-	 *         <code>getNumberOfItems():int</code> - 1
-	 */
+	@Override
 	public final int getFirstSelectedIndex() {
 		for (int i = 0; i < getNumberOfItems(); i++) {
 			if (getItems().get(i).isSelected()) {
@@ -80,12 +57,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 		return -1;
 	}
 
-	/**
-	 * Returns the first selected item.
-	 * 
-	 * @return The first selected item, as an instance of the generic type
-	 *         DataType or null, if no item is selected
-	 */
+	@Override
 	public final DataType getFirstSelectedItem() {
 		for (Item<DataType> item : getItems()) {
 			if (item.isSelected()) {
@@ -96,13 +68,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 		return null;
 	}
 
-	/**
-	 * Return the index of the last selected item.
-	 * 
-	 * @return The index of the last selected item or -1, if no item is
-	 *         selected. The index must be between 0 and the value of the method
-	 *         <code>getNumberOfItems():int</code> - 1
-	 */
+	@Override
 	public final int getLastSelectedIndex() {
 		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
 			if (getItems().get(i).isSelected()) {
@@ -113,12 +79,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 		return -1;
 	}
 
-	/**
-	 * Returns the last selected item.
-	 * 
-	 * @return The last selected item, as an instance of the generic type
-	 *         DataType or null, if no item is selected
-	 */
+	@Override
 	public final DataType getLastSelectedItem() {
 		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
 			Item<DataType> item = getItems().get(i);
@@ -131,13 +92,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 		return null;
 	}
 
-	/**
-	 * Return the index of the first unselected item.
-	 * 
-	 * @return The index of the first unselected item or -1, if no item is
-	 *         unselected. The index must be between 0 and the value of the
-	 *         method <code>getNumberOfItems():int</code> - 1
-	 */
+	@Override
 	public final int getFirstUnselectedIndex() {
 		for (int i = 0; i < getNumberOfItems(); i++) {
 			if (!getItems().get(i).isSelected()) {
@@ -148,12 +103,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 		return -1;
 	}
 
-	/**
-	 * Returns the first unselected item.
-	 * 
-	 * @return The first unselected item, as an instance of the generic type
-	 *         DataType or null, if no item is unselected
-	 */
+	@Override
 	public final DataType getFirstUnselectedItem() {
 		for (Item<DataType> item : getItems()) {
 			if (!item.isSelected()) {
@@ -164,13 +114,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 		return null;
 	}
 
-	/**
-	 * Return the index of the last unselected item.
-	 * 
-	 * @return The index of the last unselected item or -1, if no item is
-	 *         unselected. The index must be between 0 and the value of the
-	 *         method <code>getNumberOfItems():int</code> - 1
-	 */
+	@Override
 	public final int getLastUnselectedIndex() {
 		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
 			if (!getItems().get(i).isSelected()) {
@@ -181,12 +125,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 		return -1;
 	}
 
-	/**
-	 * Returns the last unselected item.
-	 * 
-	 * @return The last unselected item, as an instance of the generic type
-	 *         DataType or null, if no item is unselected
-	 */
+	@Override
 	public final DataType getLastUnselectedItem() {
 		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
 			Item<DataType> item = getItems().get(i);
@@ -199,13 +138,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 		return null;
 	}
 
-	/**
-	 * Returns a list, which contains the indices of all selected items.
-	 * 
-	 * @return A list, which contains the indices of all selected items, as an
-	 *         instance of the type {@link List} or an empty list, if no item is
-	 *         selected
-	 */
+	@Override
 	public final List<Integer> getSelectedIndices() {
 		List<Integer> selectedIndices = new ArrayList<Integer>();
 
@@ -218,12 +151,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 		return selectedIndices;
 	}
 
-	/**
-	 * Returns a list, which contains all selected items.
-	 * 
-	 * @return A list, which contains all selected items, as an instance of the
-	 *         type {@link List} or an empty list, if no item is selected
-	 */
+	@Override
 	public final List<DataType> getSelectedItems() {
 		List<DataType> selectedItems = new ArrayList<DataType>();
 
@@ -236,13 +164,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 		return selectedItems;
 	}
 
-	/**
-	 * Returns a list, which contains the indices of all unselected items.
-	 * 
-	 * @return A list, which contains the indices of all unselected items, as an
-	 *         instance of the type {@link List} or an empty list, if no item is
-	 *         selected
-	 */
+	@Override
 	public final List<Integer> getUnselectedIndices() {
 		List<Integer> unselectedIndices = new ArrayList<Integer>();
 
@@ -255,12 +177,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 		return unselectedIndices;
 	}
 
-	/**
-	 * Returns a list, which contains all unselected items.
-	 * 
-	 * @return A list, which contains all unselected items, as an instance of
-	 *         the type {@link List} or an empty list, if no item is selected
-	 */
+	@Override
 	public final List<DataType> getUnselectedItems() {
 		List<DataType> unselectedItems = new ArrayList<DataType>();
 
@@ -273,84 +190,41 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 		return unselectedItems;
 	}
 
-	/**
-	 * Returns the number of selected items.
-	 * 
-	 * @return The number of selected items, as an {@link Integer} value
-	 */
+	@Override
 	public final int getNumberOfSelectedItems() {
 		return getSelectedItems().size();
 	}
 
-	/**
-	 * Returns the number unselected items.
-	 * 
-	 * @return The number of unselected items, as an {@link Integer} value
-	 */
+	@Override
 	public final int getNumberOfUnselectedItems() {
 		return getUnselectedItems().size();
 	}
 
-	/**
-	 * Selects the item, which belongs to a specific index.
-	 * 
-	 * @param index
-	 *            The index of the item, which should be selected, as an
-	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfItems():int</code> - 1
-	 */
+	@Override
 	public final void select(final int index) {
 		Item<DataType> item = getItems().get(index);
 		item.setSelected(true);
 		notifyOnItemSelected(item.getData(), index);
 	}
 
-	/**
-	 * Selects a specific item.
-	 * 
-	 * @param item
-	 *            The item, which should be selected, as an instance of the
-	 *            generic type DataType. The item may not be null
-	 */
+	@Override
 	public final void select(final DataType item) {
 		select(indexOf(item));
 	}
 
-	/**
-	 * Unselects the item, which belongs to a specific index.
-	 * 
-	 * @param index
-	 *            The index of the item, which should be unselected, as an
-	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfItems():int</code> - 1
-	 */
+	@Override
 	public final void unselect(final int index) {
 		Item<DataType> item = getItems().get(index);
 		item.setSelected(false);
 		notifyOnItemUnselected(item.getData(), index);
 	}
 
-	/**
-	 * Unselects a specific item.
-	 * 
-	 * @param item
-	 *            The item, which should be unselected, as an instance of the
-	 *            generic type DataType. The item may not be null
-	 */
+	@Override
 	public final void unselect(final DataType item) {
 		unselect(indexOf(item));
 	}
 
-	/**
-	 * Triggers the selection of the item, which belongs to a specific index.
-	 * This causes the item to become unselected, if it is selected and vice
-	 * versa.
-	 * 
-	 * @param index
-	 *            The index of the item, whose selection should be triggered, as
-	 *            an {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfItems():int</code> - 1
-	 */
+	@Override
 	public final void triggerSelection(final int index) {
 		Item<DataType> item = getItems().get(index);
 
@@ -363,40 +237,26 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 		}
 	}
 
-	/**
-	 * Triggers the selection of a specific item. This causes the item to become
-	 * unselected, if it is selected and vice versa.
-	 * 
-	 * @param item
-	 *            The item, whose selection should be triggered, as an instance
-	 *            of the generic type DataType. The item may not be null
-	 */
+	@Override
 	public final void triggerSelection(final DataType item) {
 		triggerSelection(indexOf(item));
 	}
 
-	/**
-	 * Selects all items.
-	 */
+	@Override
 	public final void selectAll() {
 		for (int i = 0; i < getNumberOfItems(); i++) {
 			select(i);
 		}
 	}
 
-	/**
-	 * Unselects all items.
-	 */
+	@Override
 	public final void unselectAll() {
 		for (int i = 0; i < getNumberOfItems(); i++) {
 			unselect(i);
 		}
 	}
 
-	/**
-	 * Triggers the selections of all items. This causes an item to become
-	 * unselected, if it is selected and vice versa.
-	 */
+	@Override
 	public final void triggerAllSelections() {
 		for (int i = 0; i < getNumberOfItems(); i++) {
 			triggerSelection(i);
