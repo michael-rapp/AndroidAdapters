@@ -29,7 +29,7 @@ import java.io.Serializable;
  * 
  * @since 1.0.0
  */
-public interface Entity extends Serializable, Cloneable {
+public interface DataStructure extends Serializable, Cloneable {
 
 	/**
 	 * Creates and returns a deep copy of the object.
@@ -39,7 +39,7 @@ public interface Entity extends Serializable, Cloneable {
 	 * @throws CloneNotSupportedException
 	 *             The exception, which is thrown, if cloning is not supported
 	 */
-	Entity clone() throws CloneNotSupportedException;
+	DataStructure clone() throws CloneNotSupportedException;
 
 	@Override
 	String toString();

@@ -19,7 +19,7 @@ package de.mrapp.android.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
-import de.mrapp.android.adapter.datastructure.Entity;
+import de.mrapp.android.adapter.datastructure.DataStructure;
 
 /**
  * Defines the interface, all adapters must implement.
@@ -28,7 +28,7 @@ import de.mrapp.android.adapter.datastructure.Entity;
  * 
  * @since 1.0.0
  */
-public interface Adapter extends Entity {
+public interface Adapter extends DataStructure {
 
 	/**
 	 * Returns the context, the adapter belongs to.
