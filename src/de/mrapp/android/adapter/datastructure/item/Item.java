@@ -15,10 +15,11 @@
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/>. 
  */
-package de.mrapp.android.adapter.datastructure;
+package de.mrapp.android.adapter.datastructure.item;
 
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
+import de.mrapp.android.adapter.datastructure.Entity;
 import de.mrapp.android.adapter.list.selectable.SortingNotSupportedException;
 
 /**

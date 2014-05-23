@@ -15,7 +15,7 @@
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/>. 
  */
-package de.mrapp.android.adapter.datastructure;
+package de.mrapp.android.adapter.datastructure.item;
 
 import java.util.List;
 import java.util.ListIterator;
