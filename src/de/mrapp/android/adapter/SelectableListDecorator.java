@@ -23,6 +23,6 @@ import android.view.View;
 public interface SelectableListDecorator<DataType> {
 
 	void onCreateItem(Context context, View view, DataType item,
-			boolean enabled, boolean selected);
+			boolean enabled, int state, boolean selected);
 
 }

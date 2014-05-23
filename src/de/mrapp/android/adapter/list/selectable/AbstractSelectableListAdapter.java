@@ -134,7 +134,7 @@ public abstract class AbstractSelectableListAdapter<DataType> extends
 			final ViewGroup parent) {
 		View view = inflateOrReturnItemView(parent);
 		decorator.onCreateItem(getContext(), view, getItem(index),
-				isEnabled(index), isSelected(index));
+				isEnabled(index), getItemState(index), isSelected(index));
 		return view;
 	}
 
