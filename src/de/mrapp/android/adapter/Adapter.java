@@ -19,7 +19,7 @@ package de.mrapp.android.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
-import de.mrapp.android.adapter.util.Entity;
+import de.mrapp.android.adapter.datastructure.Entity;
 
 /**
  * Defines the interface, all adapters must implement.

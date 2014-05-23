@@ -8,10 +8,10 @@ import android.content.Context;
 import android.view.View;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.SelectableListDecorator;
+import de.mrapp.android.adapter.datastructure.Item;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
-import de.mrapp.android.adapter.util.Item;
 
 public class MultipleChoiceListAdapterImplementation<DataType> extends
 		AbstractSelectableListAdapter<DataType> implements

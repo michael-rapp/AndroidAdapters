@@ -27,9 +27,9 @@ import android.content.Context;
 import android.renderscript.Element.DataType;
 import android.view.View;
 import android.widget.ListView;
+import de.mrapp.android.adapter.datastructure.Item;
 import de.mrapp.android.adapter.list.AbstractListAdapter;
 import de.mrapp.android.adapter.list.ListAdapterListener;
-import de.mrapp.android.adapter.util.Item;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
