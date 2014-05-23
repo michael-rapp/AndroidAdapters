@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import de.mrapp.android.adapter.ListDecorator;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.itemstate.AbstractItemStateListAdapter;
-import de.mrapp.android.adapter.list.sorting.ListSortingListener;
+import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 import de.mrapp.android.adapter.util.Item;
 import de.mrapp.android.adapter.util.Logger;
 

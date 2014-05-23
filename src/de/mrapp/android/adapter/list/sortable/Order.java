@@ -15,7 +15,7 @@
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/>. 
  */
-package de.mrapp.android.adapter.list.sorting;
+package de.mrapp.android.adapter.list.sortable;
 
 /**
  * Contains all possible orders, which may be used by sorting algorithms to sort
