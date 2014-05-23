@@ -19,7 +19,7 @@ package de.mrapp.android.adapter.util;
 
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
-import de.mrapp.android.adapter.SortingNotSupportedException;
+import de.mrapp.android.adapter.list.selectable.SortingNotSupportedException;
 
 /**
  * Represents an item of an adapter. It contains the item's data, a selection
