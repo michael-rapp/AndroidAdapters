@@ -22,6 +22,22 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private ListEnableStateListener<DataType> getEnableStateListener() {
+		return new ListEnableStateListener<DataType>() {
+
+			@Override
+			public void onItemEnabled(final DataType item, final int index) {
+				return;
+			}
+
+			@Override
+			public void onItemDisabled(final DataType item, final int index) {
+				unselect(index);
+			}
+
+		};
+	}
+
 	protected MultipleChoiceListAdapterImplementation(final Context context,
 			final int itemViewId, final View itemView,
 			final List<Item<DataType>> items,
@@ -34,6 +50,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 		super(context, itemViewId, itemView, items, adapterListeners,
 				enableStateListeners, sortingListeners, selectionListeners,
 				numberOfItemStates, decorator);
+		addEnableStateListner(getEnableStateListener());
 	}
 
 	@Override
@@ -205,6 +222,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 		Item<DataType> item = getItems().get(index);
 		item.setSelected(true);
 		notifyOnItemSelected(item.getData(), index);
+		notifyDataSetInvalidated();
 	}
 
 	@Override
@@ -217,6 +235,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 		Item<DataType> item = getItems().get(index);
 		item.setSelected(false);
 		notifyOnItemUnselected(item.getData(), index);
+		notifyDataSetInvalidated();
 	}
 
 	@Override
@@ -231,9 +250,11 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 		if (item.isSelected()) {
 			item.setSelected(false);
 			notifyOnItemUnselected(item.getData(), index);
+			notifyDataSetInvalidated();
 		} else {
 			item.setSelected(true);
 			notifyOnItemSelected(item.getData(), index);
+			notifyDataSetInvalidated();
 		}
 	}
 
