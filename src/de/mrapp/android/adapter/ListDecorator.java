@@ -51,7 +51,11 @@ public interface ListDecorator<DataType> {
 	 * @param enabled
 	 *            True, if the item, which should be visualized, is enabled, or
 	 *            not
+	 * @param state
+	 *            The state of the item, which should be visualized, as an
+	 *            {@link Integer} value
 	 */
-	void onCreateItem(Context context, View view, DataType item, boolean enabled);
+	void onCreateItem(Context context, View view, DataType item,
+			boolean enabled, int state);
 
 }
