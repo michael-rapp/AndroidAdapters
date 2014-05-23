@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
+import android.renderscript.Element.DataType;
 import android.view.View;
 import android.widget.ListView;
 import de.mrapp.android.adapter.list.AbstractListAdapter;
@@ -57,6 +58,44 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 	 * item has been disabled or enabled.
 	 */
 	private Set<ListEnableStateListener<DataType>> enableStateListeners;
+
+	/**
+	 * Notifies all listeners, which have been registered to be notified, when
+	 * an item has been disabled or enabled, about an item, which has been
+	 * enabled.
+	 * 
+	 * @param item
+	 *            The item, which has been enabled, as an instance of the
+	 *            generic type DataType. The item may not be null
+	 * @param index
+	 *            The index of the item, which has been enabled, as an
+	 *            {@link Integer} value. The index must be between 0 and the
+	 *            value of the method <code>getNumberOfItems():int</code> - 1
+	 */
+	private void notifyOnItemEnabled(final DataType item, final int index) {
+		for (ListEnableStateListener<DataType> listener : enableStateListeners) {
+			listener.onItemEnabled(item, index);
+		}
+	}
+
+	/**
+	 * Notifies all listeners, which have been registered to be notified, when
+	 * an item has been disabled or enabled, about an item, which has been
+	 * disabled.
+	 * 
+	 * @param item
+	 *            The item, which has been disabled, as an instance of the
+	 *            generic type DataType. The item may not be null
+	 * @param index
+	 *            The index of the item, which has been disabled, as an
+	 *            {@link Integer} value. The index must be between 0 and the
+	 *            value of the method <code>getNumberOfItems():int</code> - 1
+	 */
+	private void notifyOnItemDisabled(final DataType item, final int index) {
+		for (ListEnableStateListener<DataType> listener : enableStateListeners) {
+			listener.onItemDisabled(item, index);
+		}
+	}
 
 	/**
 	 * Returns a set, which contains the listeners, which should be notified
@@ -299,7 +338,10 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 
 	@Override
 	public final void enable(final int index) {
-		getItems().get(index).setEnabled(true);
+		Item<DataType> item = getItems().get(index);
+		item.setEnabled(true);
+		notifyOnItemEnabled(item.getData(), index);
+		notifyDataSetInvalidated();
 	}
 
 	@Override
@@ -309,7 +351,10 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 
 	@Override
 	public final void disable(final int index) {
-		getItems().get(index).setEnabled(false);
+		Item<DataType> item = getItems().get(index);
+		item.setEnabled(false);
+		notifyOnItemDisabled(item.getData(), index);
+		notifyDataSetInvalidated();
 	}
 
 	@Override
@@ -320,7 +365,16 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 	@Override
 	public final boolean triggerEnableState(final int index) {
 		Item<DataType> item = getItems().get(index);
-		item.setEnabled(!item.isEnabled());
+
+		if (item.isEnabled()) {
+			item.setEnabled(false);
+			notifyOnItemDisabled(item.getData(), index);
+		} else {
+			item.setEnabled(true);
+			notifyOnItemEnabled(item.getData(), index);
+		}
+
+		notifyDataSetInvalidated();
 		return item.isEnabled();
 	}
 
@@ -331,22 +385,22 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 
 	@Override
 	public final void enableAll() {
-		for (Item<DataType> item : getItems()) {
-			item.setEnabled(true);
+		for (int i = 0; i < getNumberOfItems(); i++) {
+			enable(i);
 		}
 	}
 
 	@Override
 	public final void disableAll() {
-		for (Item<DataType> item : getItems()) {
-			item.setEnabled(false);
+		for (int i = 0; i < getNumberOfItems(); i++) {
+			disable(i);
 		}
 	}
 
 	@Override
 	public final void triggerAllEnableStates() {
-		for (Item<DataType> item : getItems()) {
-			item.setEnabled(!item.isEnabled());
+		for (int i = 0; i < getNumberOfItems(); i++) {
+			triggerEnableState(i);
 		}
 	}
 
