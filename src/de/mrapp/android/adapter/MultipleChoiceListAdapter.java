@@ -2,8 +2,10 @@ package de.mrapp.android.adapter;
 
 import java.util.List;
 
+import de.mrapp.android.adapter.list.selectable.SelectableListAdapter;
+
 public interface MultipleChoiceListAdapter<DataType> extends
-		ListAdapter<DataType> {
+		ListAdapter<DataType>, SelectableListAdapter<DataType> {
 
 	/**
 	 * Returns, whether the item, which belongs to a specific index, is
