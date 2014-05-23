@@ -28,7 +28,7 @@ import java.util.Set;
 import android.content.Context;
 import android.view.View;
 import android.widget.ListView;
-import de.mrapp.android.adapter.datastructure.Item;
+import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.sortable.AbstractSortableListAdapter;

@@ -18,7 +18,7 @@
 package de.mrapp.android.adapter.datastructure.group;
 
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
-import de.mrapp.android.adapter.datastructure.Item;
+import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.list.AbstractListAdapter;
 
 /**
