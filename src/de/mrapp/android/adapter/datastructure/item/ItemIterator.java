@@ -17,11 +17,12 @@
  */
 package de.mrapp.android.adapter.datastructure.item;
 
+import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
-
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 /**
  * An iterator, which allows to iterate the data of items, which are contained
@@ -39,7 +40,13 @@ public class ItemIterator<DataType> implements Iterator<DataType> {
 	/**
 	 * A list, which contains the items, whose data should be iterated.
 	 */
-	private List<Item<DataType>> items;
+	private List<Item<DataType>> originalItems;
+
+	/**
+	 * A copied list of the list, which contains the items, whose data should be
+	 * iterated.
+	 */
+	private List<Item<DataType>> copiedItems;
 
 	/**
 	 * The current index of the iterator.
@@ -63,14 +70,15 @@ public class ItemIterator<DataType> implements Iterator<DataType> {
 	 */
 	public ItemIterator(final List<Item<DataType>> items) {
 		ensureNotNull(items, "The items may not be null");
-		this.items = items;
+		this.originalItems = items;
+		this.copiedItems = new ArrayList<Item<DataType>>(items);
 		this.currentIndex = 0;
 		this.lastReturnedData = null;
 	}
 
 	@Override
 	public final boolean hasNext() {
-		return currentIndex < items.size();
+		return currentIndex < copiedItems.size();
 	}
 
 	@Override
@@ -79,7 +87,7 @@ public class ItemIterator<DataType> implements Iterator<DataType> {
 			lastReturnedData = null;
 			throw new NoSuchElementException();
 		} else {
-			lastReturnedData = items.get(currentIndex).getData();
+			lastReturnedData = copiedItems.get(currentIndex).getData();
 			currentIndex++;
 			return lastReturnedData;
 		}
@@ -91,7 +99,7 @@ public class ItemIterator<DataType> implements Iterator<DataType> {
 		if (lastReturnedData == null) {
 			throw new IllegalStateException();
 		} else {
-			items.remove(currentIndex - 1);
+			originalItems.remove(currentIndex - 1);
 			lastReturnedData = null;
 		}
 	}
