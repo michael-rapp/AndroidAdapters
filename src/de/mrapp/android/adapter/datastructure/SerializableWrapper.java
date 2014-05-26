@@ -25,10 +25,13 @@ import java.io.Serializable;
  * instances, which do not implement the interface {@link Serializable}, within
  * a {@link Bundle} object.
  * 
- * @author Michael Rapp
  * 
  * @param <Type>
  *            The type of the encapsulated instance
+ * 
+ * @author Michael Rapp
+ * 
+ * @since 1.0.0
  */
 public class SerializableWrapper<Type> implements Serializable {
 
