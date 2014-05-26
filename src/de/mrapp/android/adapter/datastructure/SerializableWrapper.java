@@ -47,7 +47,8 @@ public class SerializableWrapper<Type> implements Serializable {
 	 * 
 	 * @param wrappedInstance
 	 *            The instance, which should be encapsulated by the wrapper, as
-	 *            a instance of the generic type Type. The instance may be null
+	 *            a instance of the generic type Type or null, if no instance
+	 *            should be encapsulated
 	 */
 	public SerializableWrapper(final Type wrappedInstance) {
 		this.wrappedInstance = wrappedInstance;
@@ -57,7 +58,8 @@ public class SerializableWrapper<Type> implements Serializable {
 	 * Returns the instance, which is encapsulated by the wrapper.
 	 * 
 	 * @return The instance, which is encapsulated by the wrapper, as an
-	 *         instance of the generic type Type. The instance may be null
+	 *         instance of the generic type Type or null, if no instance is
+	 *         encapsulated
 	 */
 	public final Type getWrappedInstance() {
 		return wrappedInstance;
