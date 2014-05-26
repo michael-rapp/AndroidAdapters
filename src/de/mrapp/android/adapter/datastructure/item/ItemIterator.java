@@ -43,8 +43,8 @@ public class ItemIterator<DataType> implements Iterator<DataType> {
 	private List<Item<DataType>> originalItems;
 
 	/**
-	 * A copied list of the list, which contains the items, whose data should be
-	 * iterated.
+	 * A copy of the list, which contains the items, whose data should
+	 * be iterated.
 	 */
 	private List<Item<DataType>> copiedItems;
 
