@@ -119,7 +119,7 @@ public class Group<DataType, ChildDataType, ChildAdapterType extends AbstractLis
 	public final String toString() {
 		return "Group [expanded=" + expanded + ", childAdapter=" + childAdapter
 				+ ", data=" + getData() + ", selected=" + isSelected()
-				+ ", enabled=" + isEnabled() + "]";
+				+ ", enabled=" + isEnabled() + "state=" + getState() + "]";
 	}
 
 	@Override
