@@ -22,8 +22,7 @@ import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 import java.util.Comparator;
 
 /**
- * A comparator, which allows to compare two items by encapsulating a
- * comparator, which allows to compare the data of the items.
+ * A comparator, which allows to compare two items by comparing their data.
  * 
  * @author Michael Rapp
  * 
@@ -33,17 +32,16 @@ import java.util.Comparator;
 public class ItemComparator<DataType> implements Comparator<Item<DataType>> {
 
 	/**
-	 * The comparator, which is used to compare the item's data.
+	 * The comparator, which is used to compare the items' data.
 	 */
 	private final Comparator<DataType> comparator;
 
 	/**
-	 * Creates a new comparator, which allows to compare two items by
-	 * encapsulating a comparator, which allows to compare the data of the
-	 * items.
+	 * Creates a new comparator, which allows to compare two items by comparing
+	 * their data.
 	 * 
 	 * @param comparator
-	 *            The comparator, which should be used to compare the item's
+	 *            The comparator, which should be used to compare the items'
 	 *            data, as an instance of the type {@link Comparator}. The
 	 *            comparator may not be null
 	 */
