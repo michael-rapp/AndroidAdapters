@@ -19,7 +19,6 @@ package de.mrapp.android.adapter.datastructure.item;
 
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -40,13 +39,7 @@ public class ItemIterator<DataType> implements Iterator<DataType> {
 	/**
 	 * A list, which contains the items, whose data should be iterated.
 	 */
-	private List<Item<DataType>> originalItems;
-
-	/**
-	 * A copy of the list, which contains the items, whose data should be
-	 * iterated.
-	 */
-	private List<Item<DataType>> copiedItems;
+	private List<Item<DataType>> items;
 
 	/**
 	 * The current index of the iterator.
@@ -70,15 +63,14 @@ public class ItemIterator<DataType> implements Iterator<DataType> {
 	 */
 	public ItemIterator(final List<Item<DataType>> items) {
 		ensureNotNull(items, "The items may not be null");
-		this.originalItems = items;
-		this.copiedItems = new ArrayList<Item<DataType>>(items);
-		this.currentIndex = 0;
+		this.items = items;
+		this.currentIndex = -1;
 		this.lastReturnedData = null;
 	}
 
 	@Override
 	public final boolean hasNext() {
-		return currentIndex < copiedItems.size();
+		return currentIndex < items.size() - 1;
 	}
 
 	@Override
@@ -87,8 +79,8 @@ public class ItemIterator<DataType> implements Iterator<DataType> {
 			lastReturnedData = null;
 			throw new NoSuchElementException();
 		} else {
-			lastReturnedData = copiedItems.get(currentIndex).getData();
 			currentIndex++;
+			lastReturnedData = items.get(currentIndex).getData();
 			return lastReturnedData;
 		}
 
@@ -99,7 +91,8 @@ public class ItemIterator<DataType> implements Iterator<DataType> {
 		if (lastReturnedData == null) {
 			throw new IllegalStateException();
 		} else {
-			originalItems.remove(currentIndex - 1);
+			items.remove(currentIndex);
+			currentIndex--;
 			lastReturnedData = null;
 		}
 	}
