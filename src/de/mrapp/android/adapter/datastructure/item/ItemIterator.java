@@ -50,7 +50,7 @@ public class ItemIterator<DataType> implements Iterator<DataType> {
 	 * The data, which has been returned the last time when the next-method has
 	 * been called.
 	 */
-	private DataType lastReturnedData;
+	private Item<DataType> lastReturnedData;
 
 	/**
 	 * Creates a new iterator, which allows to iterate the data of items, which
@@ -80,8 +80,8 @@ public class ItemIterator<DataType> implements Iterator<DataType> {
 			throw new NoSuchElementException();
 		} else {
 			currentIndex++;
-			lastReturnedData = items.get(currentIndex).getData();
-			return lastReturnedData;
+			lastReturnedData = items.get(currentIndex);
+			return lastReturnedData.getData();
 		}
 
 	}
@@ -91,7 +91,7 @@ public class ItemIterator<DataType> implements Iterator<DataType> {
 		if (lastReturnedData == null) {
 			throw new IllegalStateException();
 		} else {
-			items.remove(currentIndex);
+			items.remove(lastReturnedData);
 			currentIndex--;
 			lastReturnedData = null;
 		}
