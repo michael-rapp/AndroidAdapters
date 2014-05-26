@@ -23,15 +23,16 @@ import de.mrapp.android.adapter.datastructure.DataStructure;
 import de.mrapp.android.adapter.list.selectable.SortingNotSupportedException;
 
 /**
- * Represents an item of an adapter. It contains the item's data, a selection
- * state and may be enabled or disabled.
+ * A data structure, which holds the data of an item of an adapter. It has a
+ * state, a selection state and may be enabled or disabled.
  * 
  * @param <DataType>
  *            The type of the item's data
  * 
  * @author Michael Rapp
  */
-public class Item<DataType> implements DataStructure, Comparable<Item<DataType>> {
+public class Item<DataType> implements DataStructure,
+		Comparable<Item<DataType>> {
 
 	/**
 	 * The constant serial version UID.
@@ -59,7 +60,8 @@ public class Item<DataType> implements DataStructure, Comparable<Item<DataType>>
 	private int state;
 
 	/**
-	 * Creates a new item.
+	 * Creates a new data structure, which holds the data of an item of an
+	 * adapter.
 	 * 
 	 * @param data
 	 *            The item's data, as an instance of the generic type DataType.
@@ -75,7 +77,8 @@ public class Item<DataType> implements DataStructure, Comparable<Item<DataType>>
 	/**
 	 * Returns the item's data.
 	 * 
-	 * @return The item's data, as an instance of the generic type DataType
+	 * @return The item's data, as an instance of the generic type DataType. The
+	 *         data may not be null
 	 */
 	public final DataType getData() {
 		return data;
@@ -173,6 +176,7 @@ public class Item<DataType> implements DataStructure, Comparable<Item<DataType>>
 			Item<DataType> clonedItem = new Item<DataType>(clonedData);
 			clonedItem.setSelected(isSelected());
 			clonedItem.setEnabled(isEnabled());
+			clonedItem.setState(getState());
 			return clonedItem;
 		} catch (Exception e) {
 			throw new CloneNotSupportedException();
