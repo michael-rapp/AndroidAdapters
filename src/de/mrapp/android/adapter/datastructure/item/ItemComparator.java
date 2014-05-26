@@ -26,7 +26,7 @@ import java.util.Comparator;
  * 
  * 
  * @param <DataType>
- *            The type of the item's data
+ *            The type of the items' data
  * 
  * @author Michael Rapp
  * 
