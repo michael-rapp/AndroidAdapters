@@ -47,7 +47,7 @@ public class ItemIterator<DataType> implements Iterator<DataType> {
 	private int currentIndex;
 
 	/**
-	 * The data, which has been returned the last time when the next-method has
+	 * The item, whose data has been returned the last time when the next-method has
 	 * been called.
 	 */
 	private Item<DataType> lastReturnedData;
