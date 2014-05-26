@@ -19,16 +19,20 @@ package de.mrapp.android.adapter.datastructure.item;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 /**
- * An iterator, which allows to iterate over the data of a list's items.
+ * An iterator, which allows to iterate the data of items, which are contained
+ * by a list.
  * 
  * @param <DataType>
  *            The type of the item's data
  * 
  * @author Michael Rapp
+ * 
+ * @since 1.0.0
  */
 public class ItemIterator<DataType> implements Iterator<DataType> {
 
@@ -43,8 +47,14 @@ public class ItemIterator<DataType> implements Iterator<DataType> {
 	private int currentIndex;
 
 	/**
-	 * Creates a new iterator, which allows to iterate over the data of a list's
-	 * items.
+	 * The data, which has been returned the last time when the next-method has
+	 * been called.
+	 */
+	private DataType lastReturnedData;
+
+	/**
+	 * Creates a new iterator, which allows to iterate the data of items, which
+	 * are contained by a list.
 	 * 
 	 * @param items
 	 *            The list, which contains the items, whose data should be
@@ -55,22 +65,35 @@ public class ItemIterator<DataType> implements Iterator<DataType> {
 		ensureNotNull(items, "The items may not be null");
 		this.items = items;
 		this.currentIndex = 0;
+		this.lastReturnedData = null;
 	}
 
 	@Override
 	public final boolean hasNext() {
-		return currentIndex < items.size() - 1;
+		return currentIndex < items.size();
 	}
 
 	@Override
 	public final DataType next() {
-		currentIndex++;
-		return items.get(currentIndex).getData();
+		if (!hasNext()) {
+			lastReturnedData = null;
+			throw new NoSuchElementException();
+		} else {
+			lastReturnedData = items.get(currentIndex).getData();
+			currentIndex++;
+			return lastReturnedData;
+		}
+
 	}
 
 	@Override
 	public final void remove() {
-		items.remove(currentIndex);
+		if (lastReturnedData == null) {
+			throw new IllegalStateException();
+		} else {
+			items.remove(currentIndex - 1);
+			lastReturnedData = null;
+		}
 	}
 
 }
