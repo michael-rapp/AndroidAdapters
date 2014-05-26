@@ -24,10 +24,13 @@ import java.util.Comparator;
 /**
  * A comparator, which allows to compare two items by comparing their data.
  * 
- * @author Michael Rapp
  * 
  * @param <DataType>
  *            The type of the item's data
+ * 
+ * @author Michael Rapp
+ * 
+ * @since 1.0.0
  */
 public class ItemComparator<DataType> implements Comparator<Item<DataType>> {
 
