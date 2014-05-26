@@ -17,17 +17,24 @@
  */
 package de.mrapp.android.adapter.datastructure.item;
 
+import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
+import static de.mrapp.android.adapter.util.Condition.ensureAtMaximum;
+import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
 /**
- * A list iterator, which allows to iterate over the data of a list's items.
+ * A list iterator, which allows to iterate the data the items, which are
+ * contained by a list.
  * 
  * @param <DataType>
- *            The type of the item's data
+ *            The type of the items' data
  * 
  * @author Michael Rapp
+ * 
+ * @since 1.0.0
  */
 public class ItemListIterator<DataType> implements ListIterator<DataType> {
 
@@ -42,8 +49,14 @@ public class ItemListIterator<DataType> implements ListIterator<DataType> {
 	private int currentIndex;
 
 	/**
-	 * Creates a new list iterator, which allows to iterate over the data of a
-	 * list's items.
+	 * The item, whose data has been returned the last time when the next- or
+	 * previous-method has been called.
+	 */
+	private Item<DataType> lastReturnedItem;
+
+	/**
+	 * Creates a new list iterator, which allows to iterate the data of the
+	 * item's which are contained by a list, starting at a specific index.
 	 * 
 	 * @param items
 	 *            The list, which contains the items, whose data should be
@@ -51,21 +64,24 @@ public class ItemListIterator<DataType> implements ListIterator<DataType> {
 	 *            may not be null
 	 * @param index
 	 *            The index, the iterator should start at, as an {@link Integer}
-	 *            value. The index must be greater than 0 and less than the size
-	 *            of the given list - 1
+	 *            value. The index must be at least 0 and at maximum the size of
+	 *            the given list - 1
 	 */
 	public ItemListIterator(final List<Item<DataType>> items, final int index) {
-		if (index < 0 || index >= items.size()) {
-			throw new IndexOutOfBoundsException();
-		}
+		ensureNotNull(items, "The items may not be null");
+		ensureAtLeast(index, -1, "The index must be at least -1");
+		ensureAtMaximum(index, items.isEmpty() ? 0 : items.size(),
+				"The index must be at maximum " + items.size());
 
 		this.items = items;
 		this.currentIndex = index;
+		this.lastReturnedItem = null;
 	}
 
 	/**
-	 * Creates a new list iterator, which allows to iterate over the data of a
-	 * list's items.
+	 * Creates a new list iterator, which allows to iterate the data of the
+	 * item's which are contained by a list, starting at the beginning of the
+	 * list.
 	 * 
 	 * @param items
 	 *            The list, which contains the items, whose data should be
@@ -73,11 +89,13 @@ public class ItemListIterator<DataType> implements ListIterator<DataType> {
 	 *            may not be null
 	 */
 	public ItemListIterator(final List<Item<DataType>> items) {
-		this(items, 0);
+		this(items, -1);
 	}
 
 	@Override
 	public final void add(final DataType item) {
+		ensureNotNull(item, "The item may not be null");
+		currentIndex++;
 		items.add(currentIndex, new Item<DataType>(item));
 	}
 
@@ -95,47 +113,64 @@ public class ItemListIterator<DataType> implements ListIterator<DataType> {
 	public final DataType next() {
 		if (!hasNext()) {
 			throw new NoSuchElementException();
+		} else {
+			currentIndex++;
+			lastReturnedItem = items.get(currentIndex);
+			return lastReturnedItem.getData();
 		}
-
-		currentIndex++;
-		return items.get(currentIndex).getData();
 	}
 
 	@Override
 	public final int nextIndex() {
 		if (!hasNext()) {
 			throw new NoSuchElementException();
+		} else {
+			return currentIndex + 1;
 		}
-
-		return currentIndex + 1;
 	}
 
 	@Override
 	public final DataType previous() {
 		if (!hasPrevious()) {
 			throw new NoSuchElementException();
+		} else {
+			currentIndex--;
+			lastReturnedItem = items.get(currentIndex);
+			return lastReturnedItem.getData();
 		}
-
-		return items.get(currentIndex - 1).getData();
 	}
 
 	@Override
 	public final int previousIndex() {
 		if (!hasPrevious()) {
 			throw new NoSuchElementException();
+		} else {
+			return currentIndex - 1;
 		}
-
-		return currentIndex - 1;
 	}
 
 	@Override
 	public final void remove() {
-		items.remove(currentIndex);
+		if (lastReturnedItem == null) {
+			throw new IllegalStateException();
+		} else {
+			items.remove(lastReturnedItem);
+			currentIndex--;
+			lastReturnedItem = null;
+		}
 	}
 
 	@Override
 	public final void set(final DataType item) {
-		items.set(currentIndex, new Item<DataType>(item));
+		ensureNotNull(item, "The item may not be null");
+
+		if (lastReturnedItem == null) {
+			throw new IllegalStateException();
+		} else {
+			int index = items.indexOf(lastReturnedItem);
+			items.set(index, new Item<DataType>(item));
+			lastReturnedItem = null;
+		}
 	}
 
 }
