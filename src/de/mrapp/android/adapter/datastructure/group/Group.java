@@ -22,14 +22,14 @@ import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.list.AbstractListAdapter;
 
 /**
- * Represents a group, which categorizes multiple items of an adapter. It
- * contains the groups's data, an adapter, which manages the child items, a
- * selection state and may be enabled or disabled and expanded or collapsed.
+ * A data structure, which categorizes multiple items of an adapter. A group has all
+ * properties of an item, but it does furthermore refer to an adapter, which
+ * manages the its child items and may be expanded or collapsed.
  * 
  * @param <DataType>
  *            The type of the groups's data
  * @param <ChildDataType>
- *            The type of the child item's data
+ *            The type of the child items' data
  * @param <ChildAdapterType>
  *            The type of the adapter, which manages the group's child items
  * 
@@ -54,10 +54,11 @@ public class Group<DataType, ChildDataType, ChildAdapterType extends AbstractLis
 	private ChildAdapterType childAdapter;
 
 	/**
-	 * Creates a new group, which categorizes multiple items of an adapter.
+	 * Creates a new data structure, which categorizes multiple items of an
+	 * adapter.
 	 * 
 	 * @param data
-	 *            The item's data, as an instance of the generic type DataType.
+	 *            The groups's data, as an instance of the generic type DataType.
 	 *            The data may not be null
 	 * @param childAdapter
 	 *            The adapter, which manages the group's child items, as an
