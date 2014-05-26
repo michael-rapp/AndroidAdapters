@@ -30,6 +30,8 @@ import de.mrapp.android.adapter.list.selectable.SortingNotSupportedException;
  *            The type of the item's data
  * 
  * @author Michael Rapp
+ * 
+ * @since 1.0.0
  */
 public class Item<DataType> implements DataStructure,
 		Comparable<Item<DataType>> {
