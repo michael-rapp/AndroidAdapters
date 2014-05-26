@@ -28,7 +28,7 @@ import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
  * by a list.
  * 
  * @param <DataType>
- *            The type of the item's data
+ *            The type of the items' data
  * 
  * @author Michael Rapp
  * 
