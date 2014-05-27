@@ -18,8 +18,8 @@
 package de.mrapp.android.adapter.datastructure.group;
 
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.datastructure.item.Item;
-import de.mrapp.android.adapter.list.AbstractListAdapter;
 
 /**
  * A data structure, which categorizes multiple items of an adapter. A group has
@@ -37,7 +37,7 @@ import de.mrapp.android.adapter.list.AbstractListAdapter;
  * 
  * @since 1.0.0
  */
-public class Group<DataType, ChildDataType, ChildAdapterType extends AbstractListAdapter<ChildDataType>>
+public class Group<DataType, ChildDataType, ChildAdapterType extends ListAdapter<ChildDataType>>
 		extends Item<DataType> {
 
 	/**
