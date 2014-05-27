@@ -115,6 +115,27 @@ public class Group<DataType, ChildDataType, ChildAdapterType extends ListAdapter
 		this.childAdapter = childAdapter;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public final Group<DataType, ChildDataType, ChildAdapterType> clone()
+			throws CloneNotSupportedException {
+		try {
+			DataType clonedData = (DataType) getData().getClass()
+					.getMethod("clone").invoke(getData());
+			ChildAdapterType clonedChildAdapter = (ChildAdapterType) childAdapter
+					.clone();
+			Group<DataType, ChildDataType, ChildAdapterType> clonedGroup = new Group<DataType, ChildDataType, ChildAdapterType>(
+					clonedData, clonedChildAdapter);
+			clonedGroup.setSelected(isSelected());
+			clonedGroup.setEnabled(isEnabled());
+			clonedGroup.setState(getState());
+			clonedGroup.setExpanded(isExpanded());
+			return clonedGroup;
+		} catch (Exception e) {
+			throw new CloneNotSupportedException();
+		}
+	}
+
 	@Override
 	public final String toString() {
 		return "Group [expanded=" + expanded + ", childAdapter=" + childAdapter
