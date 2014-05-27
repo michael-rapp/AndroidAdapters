@@ -171,7 +171,7 @@ public class Item<DataType> implements DataStructure,
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public final Item<DataType> clone() throws CloneNotSupportedException {
+	public Item<DataType> clone() throws CloneNotSupportedException {
 		try {
 			DataType clonedData = (DataType) data.getClass().getMethod("clone")
 					.invoke(data);
