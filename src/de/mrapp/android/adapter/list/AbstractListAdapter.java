@@ -315,23 +315,38 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	}
 
 	@Override
-	public final void addItem(final DataType item) {
-		notifyOnItemAdded(item, items.size() - 1);
-		notifyDataSetChanged();
-	}
-
-	@Override
-	public final void addItem(final int index, final DataType item) {
-		items.add(index, new Item<DataType>(item));
-		notifyOnItemAdded(item, index);
-		notifyDataSetChanged();
-	}
-
-	@Override
-	public final void addAllItems(final Collection<DataType> items) {
-		for (DataType item : items) {
-			addItem(item);
+	public final boolean addItem(final DataType item) {
+		if (!areDuplicatesAllowed() && containsItem(item)) {
+			return false;
+		} else {
+			items.add(new Item<DataType>(item));
+			notifyOnItemAdded(item, items.size() - 1);
+			notifyDataSetChanged();
+			return true;
 		}
+	}
+
+	@Override
+	public final boolean addItem(final int index, final DataType item) {
+		if (!areDuplicatesAllowed() && containsItem(item)) {
+			return false;
+		} else {
+			items.add(index, new Item<DataType>(item));
+			notifyOnItemAdded(item, index);
+			notifyDataSetChanged();
+			return true;
+		}
+	}
+
+	@Override
+	public final boolean addAllItems(final Collection<DataType> items) {
+		boolean result = true;
+
+		for (DataType item : items) {
+			result &= addItem(item);
+		}
+
+		return result;
 	}
 
 	@Override
@@ -364,18 +379,28 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	}
 
 	@Override
-	public final void removeItem(final DataType item) {
+	public final boolean removeItem(final DataType item) {
 		int index = indexOf(item);
-		items.remove(index);
-		notifyOnItemRemoved((DataType) item, index);
-		notifyDataSetChanged();
+
+		if (index != -1) {
+			items.remove(index);
+			notifyOnItemRemoved((DataType) item, index);
+			notifyDataSetChanged();
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
-	public final void removeAllItems(final Collection<DataType> items) {
+	public final boolean removeAllItems(final Collection<DataType> items) {
+		boolean result = true;
+
 		for (DataType item : items) {
-			removeItem(item);
+			result &= removeItem(item);
 		}
+
+		return result;
 	}
 
 	@Override
