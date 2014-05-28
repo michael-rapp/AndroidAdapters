@@ -22,6 +22,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
+
 /**
  * An inflater, which allows to inflate views, which may be referenced by a
  * resource id.
@@ -47,6 +49,7 @@ public class ViewIdInflater implements ViewInflater {
 	 *            resource
 	 */
 	public ViewIdInflater(final int viewId) {
+		ensureAtLeast(viewId, 1, "The view id must be at least 1");
 		this.viewId = viewId;
 	}
 
