@@ -19,7 +19,8 @@ package de.mrapp.android.adapter.util;
 
 /**
  * An utility class, which offers static methods to ensure, that attributes
- * satisfy specific conditions. Otherwise exceptions are thrown.
+ * satisfy specific conditions by throwing exceptions, if the conditions are not
+ * satisfied.
  * 
  * @author Michael Rapp
  * 
@@ -28,8 +29,9 @@ package de.mrapp.android.adapter.util;
 public final class Condition {
 
 	/**
-	 * Creates a new utility class, which offers static methods to ensure, that
-	 * attributes satisfy specific conditions.
+	 * An utility class, which offers static methods to ensure, that attributes
+	 * satisfy specific conditions by throwing exceptions, if the conditions are
+	 * not satisfied.
 	 */
 	private Condition() {
 
@@ -40,8 +42,8 @@ public final class Condition {
 	 * {@link NullPointerException} with a specific message will be thrown.
 	 * 
 	 * @param reference
-	 *            The reference, which should be ensured to be not null, as an
-	 *            instance of the class {@link Object}
+	 *            The reference, which should be checked, as an instance of the
+	 *            class {@link Object}
 	 * @param exceptionMessage
 	 *            The message of the {@link NullPointerException}, which is
 	 *            thrown, if the given reference is null, as a {@link String}
@@ -58,8 +60,7 @@ public final class Condition {
 	 * {@link IllegalArgumentException} with a specific message will be thrown.
 	 * 
 	 * @param string
-	 *            The string, which should be ensured to be not empty, as a
-	 *            {@link String}
+	 *            The string, which should be checked, as a {@link String}
 	 * @param exceptionMessage
 	 *            The message of the {@link IllegalArgumentException}, which is
 	 *            thrown, if the given string is empty, as a {@link String}
@@ -80,7 +81,7 @@ public final class Condition {
 	 *            The value, which should be checked, as an {@link Integer}
 	 *            value
 	 * @param referenceValue
-	 *            The value, the given value must at least, as an
+	 *            The value, the given value must be at least, as an
 	 *            {@link Integer} value
 	 * @param exceptionMessage
 	 *            The message of the {@link IndexOutOfBoundsException}, which is
