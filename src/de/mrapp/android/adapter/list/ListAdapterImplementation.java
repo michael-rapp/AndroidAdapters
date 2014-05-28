@@ -2,8 +2,6 @@ package de.mrapp.android.adapter.list;
 
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -33,36 +31,17 @@ public class ListAdapterImplementation<DataType> extends
 
 	protected ListAdapterImplementation(final Context context,
 			final int itemViewId, final View itemView,
-			final List<Item<DataType>> items,
+			final List<Item<DataType>> items, final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final int numberOfItemStates,
 			final ListDecorator<DataType> decorator) {
-		super(context, itemViewId, itemView, items, adapterListeners,
-				enableStateListeners, sortingListeners, numberOfItemStates);
+		super(context, itemViewId, itemView, items, allowDuplicates,
+				adapterListeners, enableStateListeners, sortingListeners,
+				numberOfItemStates);
 		ensureNotNull(decorator, "The decorator may not be null");
 		this.decorator = decorator;
-	}
-
-	public ListAdapterImplementation(final Context context,
-			final int numberOfItemStates,
-			final ListDecorator<DataType> decorator, final int itemViewId) {
-		this(context, itemViewId, null, new ArrayList<Item<DataType>>(),
-				new LinkedHashSet<ListAdapterListener<DataType>>(),
-				new LinkedHashSet<ListEnableStateListener<DataType>>(),
-				new LinkedHashSet<ListSortingListener<DataType>>(),
-				numberOfItemStates, decorator);
-	}
-
-	public ListAdapterImplementation(final Context context,
-			final int numberOfItemStates,
-			final ListDecorator<DataType> decorator, final View itemView) {
-		this(context, -1, itemView, new ArrayList<Item<DataType>>(),
-				new LinkedHashSet<ListAdapterListener<DataType>>(),
-				new LinkedHashSet<ListEnableStateListener<DataType>>(),
-				new LinkedHashSet<ListSortingListener<DataType>>(),
-				numberOfItemStates, decorator);
 	}
 
 	@Override
@@ -79,8 +58,9 @@ public class ListAdapterImplementation<DataType> extends
 			throws CloneNotSupportedException {
 		return new ListAdapterImplementation<DataType>(getContext(),
 				getItemViewId(), getItemView(), cloneItems(),
-				getAdapterListeners(), getEnableStateListeners(),
-				getSortingListeners(), getNumberOfItemStates(), decorator);
+				areDuplicatesAllowed(), getAdapterListeners(),
+				getEnableStateListeners(), getSortingListeners(),
+				getNumberOfItemStates(), decorator);
 	}
 
 }

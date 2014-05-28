@@ -23,12 +23,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ListView;
 import de.mrapp.android.adapter.datastructure.SerializableWrapper;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemComparator;
@@ -138,9 +136,6 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 	 * @param context
 	 *            The context, the adapter should belong to, as an instance of
 	 *            the class {@link Context}. The context may not be null
-	 * @param logger
-	 *            The logger, which should be used for logging, as an instance
-	 *            of the class {@link Logger}. The logger may not be null
 	 * @param itemViewId
 	 *            The id of the view, which should be used to visualize each
 	 *            item of the adapter, as an {@link Integer} value. The id must
@@ -152,6 +147,8 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 	 * @param items
 	 *            A list, which contains the the adapter's items, or an empty
 	 *            list, if the adapter should not contain any items
+	 * @param allowDuplicates
+	 *            True, if duplicate items should be allowed, false otherwise
 	 * @param adapterListeners
 	 *            A set, which contains the listeners, which should be notified
 	 *            when the adapter's underlying data has been modified or an
@@ -167,12 +164,12 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 	 */
 	protected AbstractSortableListAdapter(final Context context,
 			final int itemViewId, final View itemView,
-			final List<Item<DataType>> items,
+			final List<Item<DataType>> items, final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners) {
-		super(context, itemViewId, itemView, items, adapterListeners,
-				enableStateListeners);
+		super(context, itemViewId, itemView, items, allowDuplicates,
+				adapterListeners, enableStateListeners);
 		setSortingListeners(sortingListeners);
 	}
 
