@@ -48,16 +48,16 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 
 	protected SingleChoiceListAdapterImplementation(final Context context,
 			final int itemViewId, final View itemView,
-			final List<Item<DataType>> items,
+			final List<Item<DataType>> items, final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final Set<ListSelectionListener<DataType>> selectionListeners,
 			final int numberOfItemStates,
 			final SelectableListDecorator<DataType> decorator) {
-		super(context, itemViewId, itemView, items, adapterListeners,
-				enableStateListeners, sortingListeners, selectionListeners,
-				numberOfItemStates, decorator);
+		super(context, itemViewId, itemView, items, allowDuplicates,
+				adapterListeners, enableStateListeners, sortingListeners,
+				selectionListeners, numberOfItemStates, decorator);
 		addAdapterListener(getAdapterListener());
 	}
 
@@ -108,8 +108,9 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 			throws CloneNotSupportedException {
 		return new SingleChoiceListAdapterImplementation<DataType>(
 				getContext(), getItemViewId(), getItemView(), cloneItems(),
-				getAdapterListeners(), getEnableStateListeners(),
-				getSortingListeners(), getSelectionListeners(),
-				getNumberOfItemStates(), getDecorator());
+				areDuplicatesAllowed(), getAdapterListeners(),
+				getEnableStateListeners(), getSortingListeners(),
+				getSelectionListeners(), getNumberOfItemStates(),
+				getDecorator());
 	}
 }

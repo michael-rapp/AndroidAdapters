@@ -32,6 +32,21 @@ public interface ListAdapter<DataType> extends Adapter,
 		SortableListAdapter<DataType>, ItemStateListAdapter<DataType> {
 
 	/**
+	 * Returns, whether duplicate items are allowed, or not.
+	 * 
+	 * @return True, if duplicate items are allowed, false otherwise
+	 */
+	boolean areDuplicatesAllowed();
+
+	/**
+	 * Sets, whether duplicate items should be allowed, or not.
+	 * 
+	 * @param allowDuplicates
+	 *            True , if duplicates should be allowed, false otherwise
+	 */
+	void allowDuplicates(boolean allowDuplicates);
+
+	/**
 	 * Adds a specific item to the adapter. The item will be added at the end.
 	 * 
 	 * @param item

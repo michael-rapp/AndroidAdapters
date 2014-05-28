@@ -27,7 +27,6 @@ import java.util.Set;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.ListView;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
@@ -122,13 +121,13 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 
 	protected AbstractItemStateListAdapter(final Context context,
 			final int itemViewId, final View itemView,
-			final List<Item<DataType>> items,
+			final List<Item<DataType>> items, final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final int numberOfItemStates) {
-		super(context, itemViewId, itemView, items, adapterListeners,
-				enableStateListeners, sortingListeners);
+		super(context, itemViewId, itemView, items, allowDuplicates,
+				adapterListeners, enableStateListeners, sortingListeners);
 		ensureAtLeast(numberOfItemStates, 1, "The number of items states "
 				+ "must be at least 1");
 		this.numberOfItemStates = numberOfItemStates;

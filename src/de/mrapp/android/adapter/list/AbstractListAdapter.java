@@ -31,7 +31,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemIterator;
@@ -71,6 +70,11 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	 * The view, which is used to visualize each item of the adapter.
 	 */
 	private final transient View itemView;
+
+	/**
+	 * True, if duplicate items are allowed, false otherwise.
+	 */
+	private boolean allowDuplicates;
 
 	/**
 	 * A list, which contains the the adapter's items.
@@ -259,6 +263,8 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	 * @param items
 	 *            A list, which contains the the adapter's items, or an empty
 	 *            list, if the adapter should not contain any items
+	 * @param allowDuplicates
+	 *            True, if duplicate items should be allowed, false otherwise
 	 * @param adapterListeners
 	 *            A set, which contains the listeners, which should be notified
 	 *            when the adapter's underlying data has been modified or an
@@ -266,16 +272,28 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	 */
 	protected AbstractListAdapter(final Context context, final int itemViewId,
 			final View itemView, final List<Item<DataType>> items,
+			final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners) {
 		ensureNotNull(context, "The context may not be null");
 		ensureNotNull(items, "The items may not be null");
 		ensureNotNull(adapterListeners, "The adapter listeners may not be null");
 
+		this.allowDuplicates = allowDuplicates;
 		this.adapterListeners = adapterListeners;
 		this.items = items;
 		this.context = context;
 		this.itemViewId = itemViewId;
 		this.itemView = itemView;
+	}
+
+	@Override
+	public final boolean areDuplicatesAllowed() {
+		return allowDuplicates;
+	}
+
+	@Override
+	public final void allowDuplicates(final boolean allowDuplicates) {
+		this.allowDuplicates = allowDuplicates;
 	}
 
 	@Override

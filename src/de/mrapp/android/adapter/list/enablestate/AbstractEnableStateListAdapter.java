@@ -24,9 +24,7 @@ import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
-import android.renderscript.Element.DataType;
 import android.view.View;
-import android.widget.ListView;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.list.AbstractListAdapter;
 import de.mrapp.android.adapter.list.ListAdapterListener;
@@ -144,6 +142,8 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 	 * @param items
 	 *            A list, which contains the the adapter's items, or an empty
 	 *            list, if the adapter should not contain any items
+	 * @param allowDuplicates
+	 *            True, if duplicate items should be allowed, false otherwise
 	 * @param adapterListeners
 	 *            A set, which contains the listeners, which should be notified
 	 *            when the adapter's underlying data has been modified or an
@@ -155,10 +155,11 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 	 */
 	protected AbstractEnableStateListAdapter(final Context context,
 			final int itemViewId, final View itemView,
-			final List<Item<DataType>> items,
+			final List<Item<DataType>> items, final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners) {
-		super(context, itemViewId, itemView, items, adapterListeners);
+		super(context, itemViewId, itemView, items, allowDuplicates,
+				adapterListeners);
 		setEnableStateListeners(enableStateListeners);
 	}
 
