@@ -15,25 +15,25 @@
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/>. 
  */
-package de.mrapp.android.adapter.view;
+package de.mrapp.android.adapter.inflater;
 
 import android.view.View;
 
 /**
  * An utility class, which offers factory methods, which allow to initialize
- * instances of the type {@link ViewInflater}.
+ * instances of the type {@link Inflater}.
  * 
  * @author Michael Rapp
  * 
  * @since 1.0.0
  */
-public final class ViewInflaterFactory {
+public final class InflaterFactory {
 
 	/**
 	 * Creates a new utility class, which offers factory methods, which allow to
-	 * initialize instances of the type {@link ViewInflater}.
+	 * initialize instances of the type {@link Inflater}.
 	 */
-	private ViewInflaterFactory() {
+	private InflaterFactory() {
 
 	}
 
@@ -45,10 +45,10 @@ public final class ViewInflaterFactory {
 	 *            The view, which should be inflated, as an instance of the
 	 *            class {@link View}. The view may not be null
 	 * @return The inflater, which has been created, as an instance of the type
-	 *         {@link ViewInflater}. The inflater may not be null
+	 *         {@link Inflater}. The inflater may not be null
 	 */
-	public static ViewInflater createViewInflater(final View view) {
-		return new ViewInstanceInflater(view);
+	public static Inflater createInflater(final View view) {
+		return new InstanceInflater(view);
 	}
 
 	/**
@@ -60,10 +60,10 @@ public final class ViewInflaterFactory {
 	 *            inflater, as an {@link Integer} value. The id must correspond
 	 *            to a valid view resource
 	 * @return The inflater, which has been created, as an instance of the type
-	 *         {@link ViewInflater}. The inflater may not be null
+	 *         {@link Inflater}. The inflater may not be null
 	 */
-	public static ViewInflater createViewInflater(final int viewId) {
-		return new ViewIdInflater(viewId);
+	public static Inflater createInflater(final int viewId) {
+		return new IdInflater(viewId);
 	}
 
 }

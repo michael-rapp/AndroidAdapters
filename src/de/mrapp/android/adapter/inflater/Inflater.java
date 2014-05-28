@@ -15,44 +15,35 @@
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/>. 
  */
-package de.mrapp.android.adapter.view;
+package de.mrapp.android.adapter.inflater;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 /**
- * An inflater, which allows to inflate views, which are present as an instance
- * of the class {@link View}.
+ * Defines the interface, a class, which should allow to inflate views, must
+ * implement.
  * 
  * @author Michael Rapp
  * 
  * @since 1.0.0
  */
-public class ViewInstanceInflater implements ViewInflater {
+public interface Inflater {
 
 	/**
-	 * The view, which should be inflated.
-	 */
-	private final View view;
-
-	/**
-	 * Creates a new inflater, which allows to inflate view, which are present
-	 * as an instance of the class {@link View}.
+	 * Inflates and returns the view.
 	 * 
-	 * @param view
-	 *            The view, which should be inflated, as an instance of the
-	 *            class {@link View}. The view may not be null
+	 * @param context
+	 *            The context, which should be used, as an instance of the class
+	 *            {@link Context}. The context may not be null
+	 * @param parent
+	 *            The parent, that this view will eventually be attached to, as
+	 *            an instance of the class {@link ViewGroup}. The parent may not
+	 *            be null
+	 * @return The view, which has been inflated, as an instance of the class
+	 *         {@link View} The view may not be null
 	 */
-	public ViewInstanceInflater(final View view) {
-		ensureNotNull(view, "The view may not be null");
-		this.view = view;
-	}
-
-	@Override
-	public final View inflateView(final Context context, final ViewGroup parent) {
-		return view;
-	}
+	View inflate(Context context, ViewGroup parent);
 
 }

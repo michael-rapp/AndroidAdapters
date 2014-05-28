@@ -15,46 +15,44 @@
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/>. 
  */
-package de.mrapp.android.adapter.view;
+package de.mrapp.android.adapter.inflater;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 /**
- * An inflater, which allows to inflate views, which may be referenced by a
- * resource id.
+ * An inflater, which allows to inflate views, which are present as an instance
+ * of the class {@link View}.
  * 
  * @author Michael Rapp
  * 
  * @since 1.0.0
  */
-public class ViewIdInflater implements ViewInflater {
+public class InstanceInflater implements Inflater {
 
 	/**
-	 * The resource id of the view, which should be inflated.
+	 * The view, which should be inflated.
 	 */
-	private final int viewId;
+	private final View view;
 
 	/**
-	 * Creates a new inflater, which allows to inflate views, which may be
-	 * referenced by a resource id.
+	 * Creates a new inflater, which allows to inflate view, which are present
+	 * as an instance of the class {@link View}.
 	 * 
-	 * @param viewId
-	 *            The resource id of the view, which should be inflated, as an
-	 *            {@link Integer} value. The id must correspond to a valid view
-	 *            resource
+	 * @param view
+	 *            The view, which should be inflated, as an instance of the
+	 *            class {@link View}. The view may not be null
 	 */
-	public ViewIdInflater(final int viewId) {
-		this.viewId = viewId;
+	public InstanceInflater(final View view) {
+		ensureNotNull(view, "The view may not be null");
+		this.view = view;
 	}
 
 	@Override
-	public final View inflateView(final Context context, final ViewGroup parent) {
-		LayoutInflater inflater = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(viewId, parent);
+	public final View inflate(final Context context, final ViewGroup parent) {
+		return view;
 	}
 
 }
