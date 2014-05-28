@@ -172,6 +172,15 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	}
 
 	/**
+	 * Returns, the context, the adapter belongs to.
+	 * 
+	 * @return The context, the adapter belongs to
+	 */
+	protected final Context getContext() {
+		return context;
+	}
+
+	/**
 	 * Returns the id of the view, which is used to visualize each item of the
 	 * adapter.
 	 * 
@@ -307,11 +316,6 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	public final void removeAdapterListener(
 			final ListAdapterListener<DataType> listener) {
 		adapterListeners.remove(listener);
-	}
-
-	@Override
-	public final Context getContext() {
-		return context;
 	}
 
 	@Override

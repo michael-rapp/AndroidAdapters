@@ -21,6 +21,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.ListIterator;
 
+import android.os.Bundle;
+import de.mrapp.android.adapter.datastructure.DataStructure;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.EnableStateListAdapter;
 import de.mrapp.android.adapter.list.itemstate.ItemStateListAdapter;
@@ -38,7 +40,7 @@ import de.mrapp.android.adapter.list.sortable.SortableListAdapter;
  * 
  * @since 1.0.0
  */
-public interface ListAdapter<DataType> extends Adapter,
+public interface ListAdapter<DataType> extends DataStructure,
 		android.widget.ListAdapter, EnableStateListAdapter<DataType>,
 		SortableListAdapter<DataType>, ItemStateListAdapter<DataType> {
 
@@ -355,5 +357,26 @@ public interface ListAdapter<DataType> extends Adapter,
 	 *            null
 	 */
 	void removeAdapterListener(ListAdapterListener<DataType> listener);
+
+	/**
+	 * This method may be called to store the state of the adapter before an
+	 * activity is killed.
+	 * 
+	 * @param outState
+	 *            The bundle, which is used to store the saved state, as an
+	 *            instance of the class {@link Bundle}. The bundle may not be
+	 *            null
+	 */
+	void onSaveInstanceState(Bundle outState);
+
+	/**
+	 * This method may be called to restore a previously saved state of the
+	 * adapter after an activity has been reinitialized.
+	 * 
+	 * @param savedInstanceState
+	 *            The bundle, which contains the previously saved state, as an
+	 *            instance of the class {@link Bundle}. The bundle may be null
+	 */
+	void onRestoreInstanceState(Bundle savedInstanceState);
 
 }

@@ -3,33 +3,22 @@ package de.mrapp.android.adapter.expandablelist;
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 import android.content.Context;
 import android.widget.BaseExpandableListAdapter;
-import de.mrapp.android.adapter.Adapter;
+import de.mrapp.android.adapter.datastructure.DataStructure;
 import de.mrapp.android.adapter.datastructure.group.Group;
 import de.mrapp.android.adapter.list.AbstractListAdapter;
 
 public abstract class AbstractExpandableListAdapter<GroupDataType, ChildDataType, GroupAdapterType extends AbstractListAdapter<Group<GroupDataType, ChildDataType, ChildAdapterType>>, ChildAdapterType extends AbstractListAdapter<ChildDataType>>
-		extends BaseExpandableListAdapter implements Adapter {
+		extends BaseExpandableListAdapter implements DataStructure {
 
 	/**
 	 * The constant serial version UID.
 	 */
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * The context, the adapter belongs to.
-	 */
-	private final transient Context context;
-
 	private GroupAdapterType groupAdapter;
 
 	protected AbstractExpandableListAdapter(final Context context) {
 		ensureNotNull(context, "The context may not be null");
-		this.context = context;
-	}
-
-	@Override
-	public final Context getContext() {
-		return context;
 	}
 
 	@Override
