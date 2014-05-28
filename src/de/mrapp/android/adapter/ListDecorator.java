@@ -50,6 +50,9 @@ public interface ListDecorator<DataType> {
 	 * @param item
 	 *            The item, which should be visualized, as an instance of the
 	 *            generic type DataType. The item may not be null
+	 * @param index
+	 *            The index of the item, which should be visualized, as an
+	 *            {@link Integer} value
 	 * @param enabled
 	 *            True, if the item, which should be visualized, is enabled,
 	 *            false otherwise
@@ -57,7 +60,7 @@ public interface ListDecorator<DataType> {
 	 *            The state of the item, which should be visualized, as an
 	 *            {@link Integer} value
 	 */
-	void onShowItem(Context context, View view, DataType item, boolean enabled,
-			int state);
+	void onShowItem(Context context, View view, DataType item, int index,
+			boolean enabled, int state);
 
 }
