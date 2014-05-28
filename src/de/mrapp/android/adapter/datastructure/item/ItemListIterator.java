@@ -65,7 +65,8 @@ public class ItemListIterator<DataType> implements ListIterator<DataType> {
 	 * @param index
 	 *            The index, the iterator should start at, as an {@link Integer}
 	 *            value. The index must be at least 0 and at maximum the size of
-	 *            the given list - 1
+	 *            the given list - 1, otherwise an
+	 *            {@link IndexOutOfBoundsException} will be thrown
 	 */
 	public ItemListIterator(final List<Item<DataType>> items, final int index) {
 		ensureNotNull(items, "The items may not be null");
