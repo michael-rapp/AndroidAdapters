@@ -57,8 +57,8 @@ public interface ListDecorator<DataType> {
 	 *            True, if the item, which should be visualized, is currently
 	 *            enabled, false otherwise
 	 * @param state
-	 *            The current state of the item, which should be visualized, as an
-	 *            {@link Integer} value
+	 *            The current state of the item, which should be visualized, as
+	 *            an {@link Integer} value
 	 */
 	void onShowItem(Context context, View view, DataType item, int index,
 			boolean enabled, int state);
