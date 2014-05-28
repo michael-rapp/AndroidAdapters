@@ -4,11 +4,12 @@ import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 import android.content.Context;
 import android.widget.BaseExpandableListAdapter;
 import de.mrapp.android.adapter.datastructure.DataStructure;
+import de.mrapp.android.adapter.datastructure.Restorable;
 import de.mrapp.android.adapter.datastructure.group.Group;
 import de.mrapp.android.adapter.list.AbstractListAdapter;
 
 public abstract class AbstractExpandableListAdapter<GroupDataType, ChildDataType, GroupAdapterType extends AbstractListAdapter<Group<GroupDataType, ChildDataType, ChildAdapterType>>, ChildAdapterType extends AbstractListAdapter<ChildDataType>>
-		extends BaseExpandableListAdapter implements DataStructure {
+		extends BaseExpandableListAdapter implements DataStructure, Restorable {
 
 	/**
 	 * The constant serial version UID.
