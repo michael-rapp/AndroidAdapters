@@ -18,7 +18,7 @@
 package de.mrapp.android.adapter.list;
 
 /**
- * Defines the interface, all listeners, which should be notified when the
+ * Defines the interface, all listeners, which should be notified, when the
  * underlying data of a {@link ListAdapter} has been modified, must implement.
  * 
  * @param <DataType>
@@ -38,8 +38,7 @@ public interface ListAdapterListener<DataType> {
 	 *            type DataType. The item may not be null
 	 * @param index
 	 *            The index of the item, which has been added, as an
-	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the adapter's <code>size():int</code> method - 1
+	 *            {@link Integer} value
 	 */
 	void onItemAdded(DataType item, int index);
 
@@ -52,8 +51,7 @@ public interface ListAdapterListener<DataType> {
 	 *            generic type DataType. The item may not be null
 	 * @param index
 	 *            The index of the item, which has been removed, as an
-	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the adapter's <code>size():int</code> method - 2
+	 *            {@link Integer} value
 	 */
 	void onItemRemoved(DataType item, int index);
 
