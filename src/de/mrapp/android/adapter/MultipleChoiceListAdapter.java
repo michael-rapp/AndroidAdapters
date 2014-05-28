@@ -23,7 +23,7 @@ import de.mrapp.android.adapter.list.selectable.SelectableListAdapter;
 
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a list
- * of arbitrary items, of which multiple items can be selected as once, must
+ * of arbitrary items, of which multiple items can be selected at once, must
  * implement. Such an adapter's purpose is to provide the underlying data for
  * visualization using a {@link ListView} widget.
  * 
