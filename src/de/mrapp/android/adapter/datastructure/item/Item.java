@@ -139,8 +139,7 @@ public class Item<DataType> implements DataStructure,
 	/**
 	 * Returns the item's state.
 	 * 
-	 * @return The item's state as an {@link Integer} vale. The value must be at
-	 *         least 0
+	 * @return The item's state as an {@link Integer} value
 	 */
 	public final int getState() {
 		return state;
