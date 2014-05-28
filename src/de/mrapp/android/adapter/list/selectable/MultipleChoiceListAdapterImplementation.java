@@ -218,70 +218,93 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 	}
 
 	@Override
-	public final void select(final int index) {
-		Item<DataType> item = getItems().get(index);
-		item.setSelected(true);
-		notifyOnItemSelected(item.getData(), index);
-		notifyDataSetInvalidated();
-	}
-
-	@Override
-	public final void select(final DataType item) {
-		select(indexOf(item));
-	}
-
-	@Override
-	public final void unselect(final int index) {
-		Item<DataType> item = getItems().get(index);
-		item.setSelected(false);
-		notifyOnItemUnselected(item.getData(), index);
-		notifyDataSetInvalidated();
-	}
-
-	@Override
-	public final void unselect(final DataType item) {
-		unselect(indexOf(item));
-	}
-
-	@Override
-	public final void triggerSelection(final int index) {
+	public final boolean select(final int index) {
 		Item<DataType> item = getItems().get(index);
 
-		if (item.isSelected()) {
-			item.setSelected(false);
-			notifyOnItemUnselected(item.getData(), index);
-			notifyDataSetInvalidated();
-		} else {
+		if (item.isEnabled()) {
 			item.setSelected(true);
 			notifyOnItemSelected(item.getData(), index);
 			notifyDataSetInvalidated();
+			return true;
+		} else {
+			return false;
 		}
 	}
 
 	@Override
-	public final void triggerSelection(final DataType item) {
-		triggerSelection(indexOf(item));
+	public final boolean select(final DataType item) {
+		return select(indexOf(item));
 	}
 
 	@Override
-	public final void selectAll() {
+	public final boolean unselect(final int index) {
+		Item<DataType> item = getItems().get(index);
+
+		if (item.isEnabled()) {
+			item.setSelected(false);
+			notifyOnItemUnselected(item.getData(), index);
+			notifyDataSetInvalidated();
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public final boolean unselect(final DataType item) {
+		return unselect(indexOf(item));
+	}
+
+	@Override
+	public final boolean triggerSelection(final int index) {
+		Item<DataType> item = getItems().get(index);
+
+		if (item.isEnabled()) {
+			item.setSelected(!item.isSelected());
+			notifyOnItemSelected(item.getData(), index);
+			notifyDataSetInvalidated();
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public final boolean triggerSelection(final DataType item) {
+		return triggerSelection(indexOf(item));
+	}
+
+	@Override
+	public final boolean selectAll() {
+		boolean result = true;
+
 		for (int i = 0; i < getNumberOfItems(); i++) {
-			select(i);
+			result &= select(i);
 		}
+
+		return result;
 	}
 
 	@Override
-	public final void unselectAll() {
+	public final boolean unselectAll() {
+		boolean result = true;
+
 		for (int i = 0; i < getNumberOfItems(); i++) {
-			unselect(i);
+			result &= unselect(i);
 		}
+
+		return result;
 	}
 
 	@Override
-	public final void triggerAllSelections() {
+	public final boolean triggerAllSelections() {
+		boolean result = true;
+
 		for (int i = 0; i < getNumberOfItems(); i++) {
-			triggerSelection(i);
+			result &= triggerSelection(i);
 		}
+
+		return result;
 	}
 
 	@Override
