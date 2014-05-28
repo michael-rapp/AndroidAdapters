@@ -32,7 +32,7 @@ public interface ListAdapter<DataType> extends Adapter,
 		SortableListAdapter<DataType>, ItemStateListAdapter<DataType> {
 
 	/**
-	 * Adds a specific item to the end of the adapter.
+	 * Adds a specific item to the adapter. The item will be added at the end.
 	 * 
 	 * @param item
 	 *            The item, which should be added, as an instance of the generic
@@ -41,10 +41,11 @@ public interface ListAdapter<DataType> extends Adapter,
 	void addItem(DataType item);
 
 	/**
-	 * Adds a specific item to the adapter at a specific index.
+	 * Adds a specific item to the adapter. The item will be added at a specific
+	 * index.
 	 * 
 	 * @param index
-	 *            The index, the item should be added at, as an;@link Integer}
+	 *            The index, the item should be added at, as an {@link Integer}
 	 *            value. The index must be between 0 and the value of the method
 	 *            <code>getNumberOfItems():int</code> - 1
 	 * @param item
@@ -55,29 +56,30 @@ public interface ListAdapter<DataType> extends Adapter,
 
 	/**
 	 * Adds all items, which are contained by a specific collection, to the
-	 * adapter.
+	 * adapter. The items will be added in a consecutive order at the end.
 	 * 
 	 * @param items
 	 *            The collection, which contains the items, which should be
-	 *            added to the adapter, as an instance of the type ;@link
-	 *            Collection} or an empty collection, if no items should be
-	 *            added
+	 *            added to the adapter, as an instance of the type
+	 *            {@link Collection} or an empty collection, if no items should
+	 *            be added
 	 */
 	void addAllItems(Collection<DataType> items);
 
 	/**
 	 * Adds all items, which are contained by a specific collection, to the
-	 * adapter, beginning at a specific index.
+	 * adapter. The items will be added in a consecutive order at a specific
+	 * index.
 	 * 
 	 * @param index
-	 *            The index, the items should be added at, as an;@link Integer}
+	 *            The index, the items should be added at, as an {@link Integer}
 	 *            value. The index must be between 0 and the value of the method
 	 *            <code>getNumberOfItems():int</code> - 1
 	 * @param items
 	 *            The collection, which contains the items, which should be
-	 *            added to the adapter, as an instance of the type ;@link
-	 *            Collection} or an empty collection, if no items should be
-	 *            added
+	 *            added to the adapter, as an instance of the type
+	 *            {@link Collection} or an empty collection, if no items should
+	 *            be added
 	 */
 	void addAllItems(int index, Collection<DataType> items);
 
@@ -85,9 +87,9 @@ public interface ListAdapter<DataType> extends Adapter,
 	 * Replaces the item, which belongs to a specific index, by an other item.
 	 * 
 	 * @param index
-	 *            The index of the item, which should be replaced, as an ;@link
-	 *            Integer} value. The index must be between 0 and the value of
-	 *            the method <code>getNumberOfItems():int</code> - 1
+	 *            The index of the item, which should be replaced, as an
+	 *            {@link Integer} value. The index must be between 0 and the
+	 *            value of the method <code>getNumberOfItems():int</code> - 1
 	 * @param item
 	 *            The item, which should replace the item at the given index, as
 	 *            an instance of the generic type DataType. The item may not be
