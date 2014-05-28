@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import de.mrapp.android.adapter.SelectableListDecorator;
 import de.mrapp.android.adapter.datastructure.item.Item;
+import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.itemstate.AbstractItemStateListAdapter;
@@ -89,17 +90,16 @@ public abstract class AbstractSelectableListAdapter<DataType> extends
 	}
 
 	protected AbstractSelectableListAdapter(final Context context,
-			final int itemViewId, final View itemView,
-			final List<Item<DataType>> items, final boolean allowDuplicates,
+			final Inflater inflater, final List<Item<DataType>> items,
+			final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final Set<ListSelectionListener<DataType>> selectionListeners,
 			final int numberOfItemStates,
 			final SelectableListDecorator<DataType> decorator) {
-		super(context, itemViewId, itemView, items, allowDuplicates,
-				adapterListeners, enableStateListeners, sortingListeners,
-				numberOfItemStates);
+		super(context, inflater, items, allowDuplicates, adapterListeners,
+				enableStateListeners, sortingListeners, numberOfItemStates);
 		ensureNotNull(decorator, "The decorator may not be null");
 		ensureNotNull(selectionListeners,
 				"The selection listeners may not be null");
@@ -133,7 +133,7 @@ public abstract class AbstractSelectableListAdapter<DataType> extends
 	@Override
 	public final View getView(final int index, final View convertView,
 			final ViewGroup parent) {
-		View view = inflateOrReturnItemView(parent);
+		View view = getInflater().inflate(getContext(), parent);
 		decorator.onCreateItem(getContext(), view, getItem(index), index,
 				isEnabled(index), getItemState(index), isSelected(index));
 		return view;

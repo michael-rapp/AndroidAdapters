@@ -26,10 +26,11 @@ import java.util.Set;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.view.View;
+import android.widget.ListView;
 import de.mrapp.android.adapter.datastructure.SerializableWrapper;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemComparator;
+import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.AbstractListAdapter;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.AbstractEnableStateListAdapter;
@@ -136,14 +137,10 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 	 * @param context
 	 *            The context, the adapter should belong to, as an instance of
 	 *            the class {@link Context}. The context may not be null
-	 * @param itemViewId
-	 *            The id of the view, which should be used to visualize each
-	 *            item of the adapter, as an {@link Integer} value. The id must
-	 *            specify a valid view from within the \res folder
-	 * @param itemView
-	 *            The view, which should be used to visualize each item of the
-	 *            adapter, as an instance of the class {@link View}. The view
-	 *            may be null
+	 * @param inflater
+	 *            The inflater, which should be used to inflate the views, which
+	 *            are used to visualize the adapter's items, as an instance of
+	 *            the type {@link Inflater}. The inflater may not be null
 	 * @param items
 	 *            A list, which contains the the adapter's items, or an empty
 	 *            list, if the adapter should not contain any items
@@ -163,13 +160,13 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 	 *            no listeners should be notified
 	 */
 	protected AbstractSortableListAdapter(final Context context,
-			final int itemViewId, final View itemView,
-			final List<Item<DataType>> items, final boolean allowDuplicates,
+			final Inflater inflater, final List<Item<DataType>> items,
+			final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners) {
-		super(context, itemViewId, itemView, items, allowDuplicates,
-				adapterListeners, enableStateListeners);
+		super(context, inflater, items, allowDuplicates, adapterListeners,
+				enableStateListeners);
 		setSortingListeners(sortingListeners);
 	}
 

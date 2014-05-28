@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import de.mrapp.android.adapter.ListDecorator;
 import de.mrapp.android.adapter.datastructure.item.Item;
+import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.itemstate.AbstractItemStateListAdapter;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
@@ -30,16 +31,15 @@ public class ListAdapterImplementation<DataType> extends
 	private final transient ListDecorator<DataType> decorator;
 
 	protected ListAdapterImplementation(final Context context,
-			final int itemViewId, final View itemView,
-			final List<Item<DataType>> items, final boolean allowDuplicates,
+			final Inflater inflater, final List<Item<DataType>> items,
+			final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final int numberOfItemStates,
 			final ListDecorator<DataType> decorator) {
-		super(context, itemViewId, itemView, items, allowDuplicates,
-				adapterListeners, enableStateListeners, sortingListeners,
-				numberOfItemStates);
+		super(context, inflater, items, allowDuplicates, adapterListeners,
+				enableStateListeners, sortingListeners, numberOfItemStates);
 		ensureNotNull(decorator, "The decorator may not be null");
 		this.decorator = decorator;
 	}
@@ -47,7 +47,7 @@ public class ListAdapterImplementation<DataType> extends
 	@Override
 	public final View getView(final int index, final View convertView,
 			final ViewGroup parent) {
-		View view = inflateOrReturnItemView(parent);
+		View view = getInflater().inflate(getContext(), parent);
 		decorator.onShowItem(getContext(), view, getItem(index), index,
 				isEnabled(index), getItemState(index));
 		return view;
@@ -57,10 +57,9 @@ public class ListAdapterImplementation<DataType> extends
 	public final ListAdapterImplementation<DataType> clone()
 			throws CloneNotSupportedException {
 		return new ListAdapterImplementation<DataType>(getContext(),
-				getItemViewId(), getItemView(), cloneItems(),
-				areDuplicatesAllowed(), getAdapterListeners(),
-				getEnableStateListeners(), getSortingListeners(),
-				getNumberOfItemStates(), decorator);
+				getInflater(), cloneItems(), areDuplicatesAllowed(),
+				getAdapterListeners(), getEnableStateListeners(),
+				getSortingListeners(), getNumberOfItemStates(), decorator);
 	}
 
 }

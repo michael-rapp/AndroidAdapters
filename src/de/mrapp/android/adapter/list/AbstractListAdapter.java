@@ -27,14 +27,12 @@ import java.util.ListIterator;
 import java.util.Set;
 
 import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemIterator;
 import de.mrapp.android.adapter.datastructure.item.ItemListIterator;
+import de.mrapp.android.adapter.inflater.Inflater;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
@@ -62,14 +60,10 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	private final transient Context context;
 
 	/**
-	 * The id of the view, which is used to visualize each item of the adapter.
+	 * The inflater, which is used to inflate the view, which are used to
+	 * visualize the adapter's items.
 	 */
-	private final transient int itemViewId;
-
-	/**
-	 * The view, which is used to visualize each item of the adapter.
-	 */
-	private final transient View itemView;
+	private final transient Inflater inflater;
 
 	/**
 	 * True, if duplicate items are allowed, false otherwise.
@@ -128,26 +122,15 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	}
 
 	/**
-	 * Returns the view, which is used to visualize each item of the adapter. If
-	 * a view has been passed to the adapter, the view is returned, otherwise
-	 * the view with the given id is inflated.
+	 * Returns the inflater, which is used to inflate the views, which are used
+	 * to visualize the adapter's items.
 	 * 
-	 * @param parent
-	 *            The parent, that this view will eventually be attached to, as
-	 *            an instance of the class {@link ViewGroup}. The parent may not
-	 *            be null
-	 * @return The view, which is used to visualize each item of the adapter, as
-	 *         an instance of the class {@link View}. The view may not be null
+	 * @return The inflater, which is used to inflate views, which are used to
+	 *         visualize the adapter's items, as an instance of the type
+	 *         {@link Inflater}. The inflater may not be null
 	 */
-	protected final View inflateOrReturnItemView(final ViewGroup parent) {
-		LayoutInflater inflater = (LayoutInflater) getContext()
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-		if (itemView != null) {
-			return itemView;
-		} else {
-			return inflater.inflate(itemViewId, parent, false);
-		}
+	protected final Inflater getInflater() {
+		return inflater;
 	}
 
 	/**
@@ -178,29 +161,6 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	 */
 	protected final Context getContext() {
 		return context;
-	}
-
-	/**
-	 * Returns the id of the view, which is used to visualize each item of the
-	 * adapter.
-	 * 
-	 * @return The id of the view, which should be used to visualize each item
-	 *         of the adapter, as an {@link Integer} value. The id must specify
-	 *         a valid view from within the \res folder
-	 */
-	protected final int getItemViewId() {
-		return itemViewId;
-	}
-
-	/**
-	 * Returns the view, which is used to visualize each item of the adapter.
-	 * 
-	 * @return The view, which should be used to visualize each item of the
-	 *         adapter, as an instance of the class {@link View}. The view may
-	 *         be null
-	 */
-	protected final View getItemView() {
-		return itemView;
 	}
 
 	/**
@@ -261,14 +221,10 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	 * @param context
 	 *            The context, the adapter should belong to, as an instance of
 	 *            the class {@link Context}. The context may not be null
-	 * @param itemViewId
-	 *            The id of the view, which should be used to visualize each
-	 *            item of the adapter, as an {@link Integer} value. The id must
-	 *            specify a valid view from within the \res folder
-	 * @param itemView
-	 *            The view, which should be used to visualize each item of the
-	 *            adapter, as an instance of the class {@link View}. The view
-	 *            may be null
+	 * @param inflater
+	 *            The inflater, which should be used to inflate the views, which
+	 *            are used to visualize the adapter's items, as an instance of
+	 *            the type {@link Inflater}. The inflater may not be null
 	 * @param items
 	 *            A list, which contains the the adapter's items, or an empty
 	 *            list, if the adapter should not contain any items
@@ -279,20 +235,20 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	 *            when the adapter's underlying data has been modified or an
 	 *            empty set, if no listeners should be notified
 	 */
-	protected AbstractListAdapter(final Context context, final int itemViewId,
-			final View itemView, final List<Item<DataType>> items,
+	protected AbstractListAdapter(final Context context,
+			final Inflater inflater, final List<Item<DataType>> items,
 			final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners) {
 		ensureNotNull(context, "The context may not be null");
 		ensureNotNull(items, "The items may not be null");
 		ensureNotNull(adapterListeners, "The adapter listeners may not be null");
+		ensureNotNull(inflater, "The inflater may not be null");
 
+		this.inflater = inflater;
 		this.allowDuplicates = allowDuplicates;
 		this.adapterListeners = adapterListeners;
 		this.items = items;
 		this.context = context;
-		this.itemViewId = itemViewId;
-		this.itemView = itemView;
 	}
 
 	@Override
