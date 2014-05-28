@@ -34,13 +34,13 @@ public interface Adapter extends DataStructure {
 	 * Returns the context, the adapter belongs to.
 	 * 
 	 * @return The context, the adapter belongs to, as an instance of the class
-	 *         {@link Context}
+	 *         {@link Context}. The context may not be null
 	 */
 	Context getContext();
 
 	/**
-	 * This method may be called to retrieve per-instance state from an activity
-	 * before being killed so that the state can be restored.
+	 * This method may be called to store the state of the adapter before an
+	 * activity is killed.
 	 * 
 	 * @param outState
 	 *            The bundle, which is used to store the saved state, as an
@@ -50,11 +50,11 @@ public interface Adapter extends DataStructure {
 	void onSaveInstanceState(Bundle outState);
 
 	/**
-	 * This method may be called after to re-initialize an activity from a
-	 * previously saved state.
+	 * This method may be called to restore a previously saved state of the
+	 * adapter after an activity has been reinitialized.
 	 * 
 	 * @param savedInstanceState
-	 *            The bundle, which contains the previously save state, as an
+	 *            The bundle, which contains the previously saved state, as an
 	 *            instance of the class {@link Bundle}. The bundle may be null
 	 */
 	void onRestoreInstanceState(Bundle savedInstanceState);
