@@ -17,27 +17,29 @@
  */
 package de.mrapp.android.adapter;
 
-import de.mrapp.android.adapter.list.ListAdapterImplementation;
 import android.content.Context;
 import android.view.View;
 
 /**
- * Defines the interface, all classes must implement, which should allow to
- * customize the appearance of the widgets, which belong to the view, which is
- * used to visualize an item of a {@link ListAdapterImplementation}.
- * 
- * @author Michael Rapp
+ * Defines the interface, a class, which should allow to customize the
+ * appearance of the view, which is used to visualize the items of a
+ * {@link ListAdapter}, must implement.
  * 
  * @param <DataType>
  *            The type of the adapter's underlying data
+ * 
+ * @author Michael Rapp
+ * 
+ * @since 1.0.0
  */
 public interface ListDecorator<DataType> {
 
 	/**
-	 * The method which is invoked, when an item should be visualized,
-	 * respectively when its visualization should be refreshed. This method is
-	 * meant to be used to customize the appearance of the widgets, which belong
-	 * to the view, which is used to visualize the item.
+	 * The method which is invoked, when the view, which is used to visualize an
+	 * item, should be shown, respectively when it should be refreshed. The
+	 * purpose of this method is to customize the appearance of the view, which
+	 * is used to visualize the appropriate item, depending on its state and
+	 * whether it is currently enabled or not.
 	 * 
 	 * @param context
 	 *            The context, the adapter belongs to, as an instance of the
@@ -46,16 +48,16 @@ public interface ListDecorator<DataType> {
 	 *            The view, which is used to visualize the item, as an instance
 	 *            of the class {@link View}. The view may not be null
 	 * @param item
-	 *            The item, which is should be visualized, as an instance of the
+	 *            The item, which should be visualized, as an instance of the
 	 *            generic type DataType. The item may not be null
 	 * @param enabled
-	 *            True, if the item, which should be visualized, is enabled, or
-	 *            not
+	 *            True, if the item, which should be visualized, is enabled,
+	 *            false otherwise
 	 * @param state
 	 *            The state of the item, which should be visualized, as an
 	 *            {@link Integer} value
 	 */
-	void onCreateItem(Context context, View view, DataType item,
-			boolean enabled, int state);
+	void onShowItem(Context context, View view, DataType item, boolean enabled,
+			int state);
 
 }
