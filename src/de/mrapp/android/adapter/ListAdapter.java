@@ -19,7 +19,6 @@ package de.mrapp.android.adapter;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import java.util.ListIterator;
 
 import de.mrapp.android.adapter.list.ListAdapterListener;
@@ -27,6 +26,18 @@ import de.mrapp.android.adapter.list.enablestate.EnableStateListAdapter;
 import de.mrapp.android.adapter.list.itemstate.ItemStateListAdapter;
 import de.mrapp.android.adapter.list.sortable.SortableListAdapter;
 
+/**
+ * Defines the interface, an adapter, whose underlying data is managed as a list
+ * of arbitrary items, must implement. Such an adapter's purpose is to provide
+ * the underlying data for visualization using a {@link ListView} widget.
+ * 
+ * @param <DataType>
+ *            The type of the adapter's underlying data
+ * 
+ * @author Michael Rapp
+ * 
+ * @since 1.0.0
+ */
 public interface ListAdapter<DataType> extends Adapter,
 		android.widget.ListAdapter, EnableStateListAdapter<DataType>,
 		SortableListAdapter<DataType>, ItemStateListAdapter<DataType> {
@@ -50,10 +61,11 @@ public interface ListAdapter<DataType> extends Adapter,
 	 * Adds a specific item to the adapter. The item will be added at the end.
 	 * 
 	 * @param item
-	 *            The item, which should be added, as an instance of the generic
-	 *            type DataType. The item may not be null
+	 *            The item, which should be added to the adapter, as an instance
+	 *            of the generic type DataType. The item may not be null
+	 * @return True, if the item has been added to the adapter, false otherwise
 	 */
-	void addItem(DataType item);
+	boolean addItem(DataType item);
 
 	/**
 	 * Adds a specific item to the adapter. The item will be added at a specific
@@ -62,12 +74,14 @@ public interface ListAdapter<DataType> extends Adapter,
 	 * @param index
 	 *            The index, the item should be added at, as an {@link Integer}
 	 *            value. The index must be between 0 and the value of the method
-	 *            <code>getNumberOfItems():int</code> - 1
+	 *            <code>getNumberOfItems():int</code> - 1, otherwise an
+	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @param item
-	 *            The item, which should be added, as an instance of the generic
-	 *            type DataType. The item may not be null
+	 *            The item, which should be added to the adapter, as an instance
+	 *            of the generic type DataType. The item may not be null
+	 * @return True, if the item has been added to the adapter, false otherwise
 	 */
-	void addItem(int index, DataType item);
+	boolean addItem(int index, DataType item);
 
 	/**
 	 * Adds all items, which are contained by a specific collection, to the
@@ -78,8 +92,10 @@ public interface ListAdapter<DataType> extends Adapter,
 	 *            added to the adapter, as an instance of the type
 	 *            {@link Collection} or an empty collection, if no items should
 	 *            be added
+	 * @return True, if all items have been added to the adapter, false
+	 *         otherwise
 	 */
-	void addAllItems(Collection<DataType> items);
+	boolean addAllItems(Collection<DataType> items);
 
 	/**
 	 * Adds all items, which are contained by a specific collection, to the
@@ -89,7 +105,8 @@ public interface ListAdapter<DataType> extends Adapter,
 	 * @param index
 	 *            The index, the items should be added at, as an {@link Integer}
 	 *            value. The index must be between 0 and the value of the method
-	 *            <code>getNumberOfItems():int</code> - 1
+	 *            <code>getNumberOfItems():int</code> - 1, otherwise an
+	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @param items
 	 *            The collection, which contains the items, which should be
 	 *            added to the adapter, as an instance of the type
@@ -104,7 +121,8 @@ public interface ListAdapter<DataType> extends Adapter,
 	 * @param index
 	 *            The index of the item, which should be replaced, as an
 	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfItems():int</code> - 1
+	 *            value of the method <code>getNumberOfItems():int</code> - 1,
+	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
 	 * @param item
 	 *            The item, which should replace the item at the given index, as
 	 *            an instance of the generic type DataType. The item may not be
@@ -121,7 +139,8 @@ public interface ListAdapter<DataType> extends Adapter,
 	 *            The index of the item, which should be removed from the
 	 *            adapter, as an;@link Integer} value. The index must be between
 	 *            0 and the value of the method
-	 *            <code>getNumberOfItems():int</code> - 1
+	 *            <code>getNumberOfItems():int</code> - 1, otherwise an
+	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @return The item, which has been removed, as an instance of the generic
 	 *         type DataType. The item may not be null
 	 */
@@ -133,8 +152,9 @@ public interface ListAdapter<DataType> extends Adapter,
 	 * @param item
 	 *            The item, which should be removed, as an instance of the
 	 *            generic type DataType. The item may not be null
+	 * @return True, if the item has been removed, false otherwise
 	 */
-	void removeItem(DataType item);
+	boolean removeItem(DataType item);
 
 	/**
 	 * Removes all items, which are contained by a specific collection, from the
@@ -142,11 +162,13 @@ public interface ListAdapter<DataType> extends Adapter,
 	 * 
 	 * @param items
 	 *            The collection, which contains the items, which should be
-	 *            removed from the adapter, as an instance of the type ;@link
-	 *            Collection} or an empty collection, if no items should be
-	 *            removed
+	 *            removed from the adapter, as an instance of the type
+	 *            {@link Collection} or an empty collection, if no items should
+	 *            be removed
+	 * @return True, if all items have been removed from the adapter, false
+	 *         otherwise
 	 */
-	void removeAllItems(Collection<DataType> items);
+	boolean removeAllItems(Collection<DataType> items);
 
 	/**
 	 * Removes all items from the adapter, except of the items, which are
@@ -154,7 +176,7 @@ public interface ListAdapter<DataType> extends Adapter,
 	 * 
 	 * @param items
 	 *            The collection, which contains the items, which should be
-	 *            retained, as an instance of the type;@link Collection} or an
+	 *            retained, as an instance of the type {@link Collection} or an
 	 *            empty collection, if no items should be retained
 	 */
 	void retainAllItems(Collection<DataType> items);
@@ -165,62 +187,68 @@ public interface ListAdapter<DataType> extends Adapter,
 	void clearItems();
 
 	/**
-	 * Returns an iterator, which allows to iterate over the adapter's items.
+	 * Returns an iterator, which allows to iterate the adapter's items.
 	 * 
-	 * @return An iterator, which allows to iterate over the adapter's items, as
-	 *         an instance of the type;@link Iterator}
+	 * @return An iterator, which allows to iterate the adapter's items, as an
+	 *         instance of the type {@link Iterator}. The iterator may not be
+	 *         null
 	 */
 	Iterator<DataType> iterator();
 
 	/**
-	 * Returns a list iterator, which allows to iterate over the adapter's
-	 * items.
+	 * Returns a list iterator, which allows to iterate the adapter's items.
 	 * 
-	 * @return A list iterator, which allows to iterate over the adapter's
-	 *         items, as an instance of the type;@link ListIterator}. The
-	 *         iterator may not be null
+	 * @return A list iterator, which allows to iterate the adapter's items, as
+	 *         an instance of the type {@link ListIterator}. The iterator may
+	 *         not be null
 	 */
 	ListIterator<DataType> listIterator();
 
 	/**
-	 * Returns a list iterator, which allows to iterate over the adapter's
-	 * items, starting at a specific index.
+	 * Returns a list iterator, which allows to iterate the adapter's items,
+	 * starting at a specific index.
 	 * 
 	 * @param index
-	 *            The index, the iterator should start at, as an;@link Integer}
+	 *            The index, the iterator should start at, as an {@link Integer}
 	 *            value. The index must be between 0 and the value of the method
-	 *            <code>getNumberOfItems():int</code> - 1
-	 * @return A list iterator, which allows to iterate over the adapter's
-	 *         items, starting at the given index, as an instance of the type
-	 *         ;@link ListIterator}. The iterator may not be null
+	 *            <code>getNumberOfItems():int</code> - 1, otherwise an
+	 *            {@link IndexOutOfBoundsException} will be thrown
+	 * @return A list iterator, which allows to iterate the adapter's items,
+	 *         starting at the given index, as an instance of the type
+	 *         {@link ListIterator}. The iterator may not be null
 	 */
 	ListIterator<DataType> listIterator(int index);
 
 	/**
-	 * Returns a list, which contains the adapter's items, between a specific
-	 * start and end index.
+	 * Returns a collection, which contains the adapter's items between a
+	 * specific start and end index.
 	 * 
 	 * @param start
 	 *            The start index of the items, which should be returned, as an
-	 *            ;@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfItems():int</code> - 1
+	 *            {@link Integer} value. The item, which belongs to the start
+	 *            index will be included. The index must be between 0 and the
+	 *            value of the method <code>getNumberOfItems():int</code> - 1,
+	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
 	 * @param end
 	 *            The end index of the items, which should be returned, as an
-	 *            ;@link Integer} value. The index must be between 0 and the
+	 *            {@link Integer} value. The item, which belongs to the end
+	 *            index, will be excluded. The index must be between 0 and the
 	 *            value of the method <code>getNumberOfItems():int</code> -1 and
-	 *            it must be greater than the start index
-	 * @return A list, which contains the adapter's items, between a specific
-	 *         start end end index, as an instance of the type;@link List} or an
-	 *         empty list, if the adapter does not contain any items
+	 *            it must be greater than the start index, otherwise an
+	 *            {@link IndexOutOfBoundsException} will be thrown
+	 * @return A collection, which contains the adapter's items, between a
+	 *         specific start end end index, as an instance of the type
+	 *         {@link Collection} or an empty collection, if the adapter does
+	 *         not contain any items
 	 */
-	List<DataType> subList(int start, int end);
+	Collection<DataType> subList(int start, int end);
 
 	/**
 	 * Returns an array, which contains the adapter's items.
 	 * 
-	 * @return An array, which contains the adapter's items, as an ;@link
-	 *         Object} array or an empty array, if the adapter does not contain
-	 *         any items
+	 * @return An array, which contains the adapter's items, as an
+	 *         {@link Object} array or an empty array, if the adapter does not
+	 *         contain any items
 	 */
 	Object[] toArray();
 
@@ -230,7 +258,8 @@ public interface ListAdapter<DataType> extends Adapter,
 	 * @param index
 	 *            The index of the item, which should be returned, as an
 	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfItems():int</code> - 1
+	 *            value of the method <code>getNumberOfItems():int</code> - 1,
+	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
 	 * @return The item, which belongs to the given index, as an instance of the
 	 *         generic type DataType. The item may not be null
 	 */
@@ -242,10 +271,8 @@ public interface ListAdapter<DataType> extends Adapter,
 	 * @param item
 	 *            The item, whose index should be returned, as an instance of
 	 *            the generic type DataType. The item may not be null
-	 * @return The index of the the given item, as an;@link Integer} value or
-	 *         -1, if the adapter does not contain the given adapter. The index
-	 *         must be between 0 and the value of the method
-	 *         <code>getNumberOfItems():int</code> - 1
+	 * @return The index of the the given item, as an {@link Integer} value or
+	 *         -1, if the adapter does not contain the given item
 	 */
 	int indexOf(DataType item);
 
@@ -255,10 +282,8 @@ public interface ListAdapter<DataType> extends Adapter,
 	 * @param item
 	 *            The item, whose last index should be returned, as an instance
 	 *            of the generic type DataType. The item may not be null
-	 * @return The last index of the given item, as an;@link Integer} value or
-	 *         -1, if the adapter does not contain the given item. The index
-	 *         must be between 0 and the value of the method
-	 *         <code>getNumberOfItems():int</code> - 1
+	 * @return The last index of the given item, as an {@link Integer} value or
+	 *         -1, if the adapter does not contain the given item
 	 */
 	int lastIndexOf(DataType item);
 
@@ -278,38 +303,39 @@ public interface ListAdapter<DataType> extends Adapter,
 	 * 
 	 * @param items
 	 *            The collection, which contains the items, which whose presence
-	 *            should be checked, as an instance of the type ;@link
-	 *            Collection}. The collection may not be null
+	 *            should be checked, as an instance of the type
+	 *            {@link Collection}. The collection may not be null
 	 * @return True, if the adapter contains all items, which are contained by
 	 *         the given collection, false otherwise
 	 */
 	boolean containsAllItems(Collection<DataType> items);
 
 	/**
-	 * Returns the number of the adapter's items.
+	 * Returns the number of items, which are contained by the adapter.
 	 * 
-	 * @return The number of the adapter's items, as an;@link Integer} value
+	 * @return The number of items, which are contained by the adapter, as an
+	 *         {@link Integer} value
 	 */
 	int getNumberOfItems();
 
 	/**
-	 * Returns a list, which contains the adapter's items.
+	 * Returns a collection, which contains all of the adapter's items.
 	 * 
-	 * @return A list, which contains the adapter's items, as an instance of the
-	 *         type;@link List} or an empty list, if the adapter does not
-	 *         contain any items
+	 * @return A collection, which contains all of the adapter's items, as an
+	 *         instance of the type {@link Collection} or an empty collection,
+	 *         if the adapter does not contain any items
 	 */
-	List<DataType> getAllItems();
+	Collection<DataType> getAllItems();
 
 	/**
-	 * Returns, whether the adapter does contain any items, or not.
+	 * Returns, whether the adapter is empty, or not.
 	 * 
-	 * @return True, if the adapter does contain any items, false otherwise
+	 * @return True, if the adapter is empty, false otherwise
 	 */
 	boolean isEmpty();
 
 	/**
-	 * Adds a new listener, which should be notified when the adapter's
+	 * Adds a new listener, which should be notified, when the adapter's
 	 * underlying data has been modified.
 	 * 
 	 * @param listener
@@ -320,7 +346,7 @@ public interface ListAdapter<DataType> extends Adapter,
 	void addAdapterListener(ListAdapterListener<DataType> listener);
 
 	/**
-	 * Removes a specific listener, which should not be notified when the
+	 * Removes a specific listener, which should not be notified, when the
 	 * adapter's underlying data has been modified, anymore.
 	 * 
 	 * @param listener
