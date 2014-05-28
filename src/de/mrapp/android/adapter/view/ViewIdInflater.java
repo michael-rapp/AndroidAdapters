@@ -42,7 +42,7 @@ public class ViewIdInflater implements ViewInflater {
 	 * referenced by a resource id.
 	 * 
 	 * @param viewId
-	 *            The resource if of the view, which should be inflated, as an
+	 *            The resource id of the view, which should be inflated, as an
 	 *            {@link Integer} value. The id must correspond to a valid view
 	 *            resource
 	 */
