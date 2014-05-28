@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
-import android.view.View;
 import de.mrapp.android.adapter.SelectableListDecorator;
 import de.mrapp.android.adapter.SingleChoiceListAdapter;
 import de.mrapp.android.adapter.datastructure.item.Item;
+import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
@@ -47,17 +47,17 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 	}
 
 	protected SingleChoiceListAdapterImplementation(final Context context,
-			final int itemViewId, final View itemView,
-			final List<Item<DataType>> items, final boolean allowDuplicates,
+			final Inflater inflater, final List<Item<DataType>> items,
+			final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final Set<ListSelectionListener<DataType>> selectionListeners,
 			final int numberOfItemStates,
 			final SelectableListDecorator<DataType> decorator) {
-		super(context, itemViewId, itemView, items, allowDuplicates,
-				adapterListeners, enableStateListeners, sortingListeners,
-				selectionListeners, numberOfItemStates, decorator);
+		super(context, inflater, items, allowDuplicates, adapterListeners,
+				enableStateListeners, sortingListeners, selectionListeners,
+				numberOfItemStates, decorator);
 		addAdapterListener(getAdapterListener());
 	}
 
@@ -113,7 +113,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 	public final SingleChoiceListAdapterImplementation<DataType> clone()
 			throws CloneNotSupportedException {
 		return new SingleChoiceListAdapterImplementation<DataType>(
-				getContext(), getItemViewId(), getItemView(), cloneItems(),
+				getContext(), getInflater(), cloneItems(),
 				areDuplicatesAllowed(), getAdapterListeners(),
 				getEnableStateListeners(), getSortingListeners(),
 				getSelectionListeners(), getNumberOfItemStates(),
