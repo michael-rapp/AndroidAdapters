@@ -18,8 +18,8 @@
 package de.mrapp.android.adapter.list.itemstate;
 
 /**
- * Defines the interface, all listeners, which should be notified when the state
- * of an item of a {@link ListAdapter} has been changed, must implement.
+ * Defines the interface, all listeners, which should be notified, when the
+ * state of an item of a {@link ListAdapter} has been changed, must implement.
  * 
  * @param <DataType>
  *            The type of the observed adapter's underlying data
@@ -38,8 +38,7 @@ public interface ListItemStateListener<DataType> {
 	 *            generic type DataType. The item may not be null
 	 * @param index
 	 *            The index of the item, whose state has been changed, as an
-	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the adapter's <code>size():int</code> method - 1
+	 *            {@link Integer} value
 	 * @param state
 	 *            The new state of the item, whose state has been changed, as an
 	 *            {@link Integer} value
