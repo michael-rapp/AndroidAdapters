@@ -29,7 +29,6 @@ import java.util.Set;
 import android.content.Context;
 import android.os.Bundle;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.datastructure.SerializableWrapper;
 import de.mrapp.android.adapter.datastructure.item.Item;
@@ -39,8 +38,8 @@ import de.mrapp.android.adapter.inflater.Inflater;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
- * a list of arbitrary items. Such adapters are meant to provide the underlying
- * data for visualization using a {@link ListView} widget.
+ * a list of arbitrary items. Such an adapter's purpose is to provide the
+ * underlying data for visualization using a {@link ListView} widget.
  * 
  * @param <DataType>
  *            The type of the adapter's underlying data
