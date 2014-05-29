@@ -18,8 +18,8 @@
 package de.mrapp.android.adapter.list.sortable;
 
 /**
- * Contains all possible orders, which may be used by sorting algorithms to sort
- * the entries of a list.
+ * Contains all possible orders, which may be used to sort the items of a
+ * {@link ListAdapter}.
  * 
  * @author Michael Rapp
  * 
@@ -28,16 +28,16 @@ package de.mrapp.android.adapter.list.sortable;
 public enum Order {
 
 	/**
-	 * Instructs a sorting algorithm to sort the entries of a list in an
-	 * ascending order. This causes entries, which are identified to be greater
-	 * than other entries, to be placed at higher indices of the list.
+	 * Causes the items of an adapter to be sorted in an ascending order.
+	 * Therefore items, which are identified to be greater than other items,
+	 * will be placed at higher indices.
 	 */
 	ASCENDING,
 
 	/**
-	 * Instructs a sorting algorithm to sort the entries of a list in a
-	 * descending order. This causes entries, which are identified to be greater
-	 * than other entries, to be placed at lower indices of the list.
+	 * Causes the items of an adapter to be sorted in a descending order.
+	 * Therefore the items, which are identified to be greater than other items,
+	 * will be placed at lower indices.
 	 */
 	DESCENDING;
 
