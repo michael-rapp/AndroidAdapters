@@ -48,7 +48,6 @@ import de.mrapp.android.adapter.inflater.Inflater;
  * 
  * @since 1.0.0
  */
-// TODO: Implement hashCode- and equals-method
 public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		implements ListAdapter<DataType> {
 
@@ -479,6 +478,34 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 
 			notifyDataSetChanged();
 		}
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + adapterListeners.hashCode();
+		result = prime * result + (allowDuplicates ? 1231 : 1237);
+		result = prime * result + items.hashCode();
+		return result;
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AbstractListAdapter<?> other = (AbstractListAdapter<?>) obj;
+		if (!adapterListeners.equals(other.adapterListeners))
+			return false;
+		if (allowDuplicates != other.allowDuplicates)
+			return false;
+		if (!items.equals(other.items))
+			return false;
+		return true;
 	}
 
 	@Override
