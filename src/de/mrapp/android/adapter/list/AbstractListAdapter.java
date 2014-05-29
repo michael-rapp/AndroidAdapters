@@ -60,7 +60,7 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	private final transient Context context;
 
 	/**
-	 * The inflater, which is used to inflate the view, which are used to
+	 * The inflater, which is used to inflate the views, which are used to
 	 * visualize the adapter's items.
 	 */
 	private final transient Inflater inflater;
@@ -71,18 +71,18 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	private boolean allowDuplicates;
 
 	/**
-	 * A list, which contains the the adapter's items.
+	 * A list, which contains the the adapter's underlying data.
 	 */
 	private List<Item<DataType>> items;
 
 	/**
-	 * A set, which contains the listeners, which should be notified when the
+	 * A set, which contains the listeners, which should be notified, when the
 	 * adapter's underlying data has been modified.
 	 */
 	private Set<ListAdapterListener<DataType>> adapterListeners;
 
 	/**
-	 * Notifies all listeners, which have been registered to be notified when
+	 * Notifies all listeners, which have been registered to be notified, when
 	 * the adapter's underlying data has been modified, about an item, which has
 	 * been added to the adapter.
 	 * 
@@ -101,7 +101,7 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	}
 
 	/**
-	 * Notifies all listeners, which have been registered to be notified when
+	 * Notifies all listeners, which have been registered to be notified, when
 	 * the adapter's underlying data has been modified, about an item, which has
 	 * been removed from the adapter.
 	 * 
@@ -113,12 +113,22 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	 *            The index of the item, which has been removed from the
 	 *            adapter, as an {@link Integer} value. The index must be
 	 *            between 0 and the value of the method
-	 *            <code>getNumberOfItems():int</code> - 2.
+	 *            <code>getNumberOfItems():int</code>
 	 */
 	private void notifyOnItemRemoved(final DataType item, final int index) {
 		for (ListAdapterListener<DataType> listener : adapterListeners) {
 			listener.onItemRemoved(item, index);
 		}
+	}
+
+	/**
+	 * Returns, the context, the adapter belongs to.
+	 * 
+	 * @return The context, the adapter belongs to, as an instance of the class
+	 *         {@link Context}. The context may not be null
+	 */
+	protected final Context getContext() {
+		return context;
 	}
 
 	/**
@@ -134,11 +144,23 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	}
 
 	/**
-	 * Creates and returns a deep copy of the list, which contains the adapter's
-	 * items.
+	 * Returns a list, which contains the adapter's underlying data.
 	 * 
-	 * @return A deep copy of the list, which contains the adapter's items, as
-	 *         an instance of the type {@link List}. The list may not be null
+	 * @return A list, which contains the adapters underlying data, as an
+	 *         instance of the type {@link List} or an empty list, if the
+	 *         adapter does not contain any data
+	 */
+	protected final List<Item<DataType>> getItems() {
+		return items;
+	}
+
+	/**
+	 * Creates and returns a deep copy of the list, which contains the adapter's
+	 * underlying data.
+	 * 
+	 * @return A deep copy of the list, which contains the adapter's underlying
+	 *         data, as an instance of the type {@link List}. The list may not
+	 *         be null
 	 * @throws CloneNotSupportedException
 	 *             The exception, which is thrown, if cloning is not supported
 	 *             by the adapter's underlying data
@@ -155,26 +177,6 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	}
 
 	/**
-	 * Returns, the context, the adapter belongs to.
-	 * 
-	 * @return The context, the adapter belongs to
-	 */
-	protected final Context getContext() {
-		return context;
-	}
-
-	/**
-	 * Returns a list, which contains the adapter's underlying data.
-	 * 
-	 * @return A list, which contains the adapters underlying data, as an
-	 *         instance of the type {@link List} or an empty list, if the
-	 *         adapter does not contain any data
-	 */
-	protected final List<Item<DataType>> getItems() {
-		return items;
-	}
-
-	/**
 	 * Sets the list, which contains the adapter's underlying data.
 	 * 
 	 * @param items
@@ -182,16 +184,17 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	 *            {@link List} or an empty list, if the adapter should not
 	 *            contain any data
 	 */
+	// TODO: Remove
 	protected final void setItems(final List<Item<DataType>> items) {
 		ensureNotNull(items, "The items may not be null");
 		this.items = items;
 	}
 
 	/**
-	 * Returns a set, which contains the listeners, which should be notified
+	 * Returns a set, which contains the listeners, which should be notified,
 	 * when the adapter's underlying data has been modified.
 	 * 
-	 * @return A set, which contains the listeners, which should be notified
+	 * @return A set, which contains the listeners, which should be notified,
 	 *         when the adapter's underlying data has been modified, as an
 	 *         instance of the type {@link Set} or an empty set, if no listeners
 	 *         should be notified
@@ -209,6 +212,7 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	 *            {@link Set} or an empty set, if no listeners should be
 	 *            notified
 	 */
+	// TODO: Remove
 	protected final void setAdapterListeners(
 			final Set<ListAdapterListener<DataType>> adapterListeners) {
 		ensureNotNull(adapterListeners, "The adapter listeners may not be null");
@@ -219,36 +223,38 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	 * arbitrary items.
 	 * 
 	 * @param context
-	 *            The context, the adapter should belong to, as an instance of
-	 *            the class {@link Context}. The context may not be null
+	 *            The context, the adapter belongs to, as an instance of the
+	 *            class {@link Context}. The context may not be null
 	 * @param inflater
 	 *            The inflater, which should be used to inflate the views, which
 	 *            are used to visualize the adapter's items, as an instance of
 	 *            the type {@link Inflater}. The inflater may not be null
 	 * @param items
-	 *            A list, which contains the the adapter's items, or an empty
-	 *            list, if the adapter should not contain any items
+	 *            A list, which contains the the adapter's underlying data, as
+	 *            an instance of the type {@link List} or an empty list, if the
+	 *            adapter should not contain any data
 	 * @param allowDuplicates
 	 *            True, if duplicate items should be allowed, false otherwise
 	 * @param adapterListeners
-	 *            A set, which contains the listeners, which should be notified
-	 *            when the adapter's underlying data has been modified or an
-	 *            empty set, if no listeners should be notified
+	 *            A set, which contains the listeners, which should be notified,
+	 *            when the adapter's underlying data has been modified, as an
+	 *            instance of the type {@link Set} or an empty set, if no
+	 *            listeners should be notified
 	 */
 	protected AbstractListAdapter(final Context context,
 			final Inflater inflater, final List<Item<DataType>> items,
 			final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners) {
 		ensureNotNull(context, "The context may not be null");
+		ensureNotNull(inflater, "The inflater may not be null");
 		ensureNotNull(items, "The items may not be null");
 		ensureNotNull(adapterListeners, "The adapter listeners may not be null");
-		ensureNotNull(inflater, "The inflater may not be null");
 
+		this.context = context;
 		this.inflater = inflater;
+		this.items = items;
 		this.allowDuplicates = allowDuplicates;
 		this.adapterListeners = adapterListeners;
-		this.items = items;
-		this.context = context;
 	}
 
 	@Override
@@ -459,6 +465,11 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	}
 
 	@Override
+	public final DataType getItem(final int index) {
+		return items.get(index).getData();
+	}
+
+	@Override
 	public final List<DataType> getAllItems() {
 		List<DataType> result = new ArrayList<DataType>();
 
@@ -476,12 +487,7 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 
 	@Override
 	public final int getCount() {
-		return items.size();
-	}
-
-	@Override
-	public final DataType getItem(final int index) {
-		return items.get(index).getData();
+		return getNumberOfItems();
 	}
 
 	@Override
