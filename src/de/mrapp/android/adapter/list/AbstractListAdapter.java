@@ -27,8 +27,11 @@ import java.util.ListIterator;
 import java.util.Set;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import de.mrapp.android.adapter.ListAdapter;
+import de.mrapp.android.adapter.datastructure.SerializableWrapper;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemIterator;
 import de.mrapp.android.adapter.datastructure.item.ItemListIterator;
@@ -53,6 +56,20 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	 * The constant serial version UID.
 	 */
 	private static final long serialVersionUID = 1L;
+
+	/**
+	 * The key, which is used to store the adapter's underlying data within a
+	 * bundle.
+	 */
+	private static final String ITEMS_BUNDLE_KEY = AbstractListAdapter.class
+			.getSimpleName() + "::Items";
+
+	/**
+	 * The key, which is used to store the listeners, which should be notified
+	 * when the adapter's underlying data has been modified, within a bundle.
+	 */
+	private static final String ADAPTER_LISTENERS_BUNDLE_KEY = AbstractListAdapter.class
+			.getSimpleName() + "::AdapterListeners";
 
 	/**
 	 * The context, the adapter belongs to.
@@ -177,20 +194,6 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	}
 
 	/**
-	 * Sets the list, which contains the adapter's underlying data.
-	 * 
-	 * @param items
-	 *            The list, which should be set, as an instance of the type
-	 *            {@link List} or an empty list, if the adapter should not
-	 *            contain any data
-	 */
-	// TODO: Remove
-	protected final void setItems(final List<Item<DataType>> items) {
-		ensureNotNull(items, "The items may not be null");
-		this.items = items;
-	}
-
-	/**
 	 * Returns a set, which contains the listeners, which should be notified,
 	 * when the adapter's underlying data has been modified.
 	 * 
@@ -201,21 +204,6 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	 */
 	protected final Set<ListAdapterListener<DataType>> getAdapterListeners() {
 		return adapterListeners;
-	}
-
-	/**
-	 * Sets the set, which contains the listeners, which should be notified,
-	 * when the adapter's underlying data has been modified.
-	 * 
-	 * @param adapterListeners
-	 *            The set, which should be set, as an instance of the type
-	 *            {@link Set} or an empty set, if no listeners should be
-	 *            notified
-	 */
-	// TODO: Remove
-	protected final void setAdapterListeners(
-			final Set<ListAdapterListener<DataType>> adapterListeners) {
-		ensureNotNull(adapterListeners, "The adapter listeners may not be null");
 	}
 
 	/**
@@ -493,6 +481,34 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	@Override
 	public final long getItemId(final int index) {
 		return index;
+	}
+
+	@Override
+	public void onSaveInstanceState(final Bundle outState) {
+		SerializableWrapper<List<Item<DataType>>> wrappedItems = new SerializableWrapper<List<Item<DataType>>>(
+				getItems());
+		outState.putSerializable(ITEMS_BUNDLE_KEY, wrappedItems);
+
+		SerializableWrapper<Set<ListAdapterListener<DataType>>> wrappedAdapterListeners = new SerializableWrapper<Set<ListAdapterListener<DataType>>>(
+				getAdapterListeners());
+		outState.putSerializable(ADAPTER_LISTENERS_BUNDLE_KEY,
+				wrappedAdapterListeners);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public void onRestoreInstanceState(final Bundle savedInstanceState) {
+		if (savedInstanceState != null) {
+			SerializableWrapper<List<Item<DataType>>> wrappedItems = (SerializableWrapper<List<Item<DataType>>>) savedInstanceState
+					.getSerializable(ITEMS_BUNDLE_KEY);
+			items = wrappedItems.getWrappedInstance();
+
+			SerializableWrapper<Set<ListAdapterListener<DataType>>> wrappedAdapterListeners = (SerializableWrapper<Set<ListAdapterListener<DataType>>>) savedInstanceState
+					.getSerializable(ADAPTER_LISTENERS_BUNDLE_KEY);
+			adapterListeners = wrappedAdapterListeners.getWrappedInstance();
+
+			notifyDataSetChanged();
+		}
 	}
 
 	@Override
