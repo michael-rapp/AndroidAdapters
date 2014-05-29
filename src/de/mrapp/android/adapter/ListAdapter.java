@@ -114,8 +114,10 @@ public interface ListAdapter<DataType> extends DataStructure, Restorable,
 	 *            added to the adapter, as an instance of the type
 	 *            {@link Collection} or an empty collection, if no items should
 	 *            be added
+	 * @return True, if all items have been added to the adapter, false
+	 *         otherwise
 	 */
-	void addAllItems(int index, Collection<DataType> items);
+	boolean addAllItems(int index, Collection<DataType> items);
 
 	/**
 	 * Replaces the item, which belongs to a specific index, by an other item.
@@ -253,6 +255,24 @@ public interface ListAdapter<DataType> extends DataStructure, Restorable,
 	 *         contain any items
 	 */
 	Object[] toArray();
+
+	/**
+	 * Returns an array, which contains all of the adapter's items. If the given
+	 * array is large enough to hold the items, the specified array is used,
+	 * otherwise an array of the same type is created. If the given array can
+	 * hold more items, the array's elements, following the adapter's items, are
+	 * set to null.
+	 * 
+	 * @param <T>
+	 *            The type of the array, which should be returned
+	 * @param array
+	 *            The array, which should be used, if it is large enough, as an
+	 *            array of the generic type T. The array may not be null
+	 * @return An array, which contains all of the adapter's item, as an array
+	 *         of the generic type T or an empty array, if the adapter does not
+	 *         contain any items
+	 */
+	<T> T[] toArray(T[] array);
 
 	/**
 	 * Returns the item, which belongs to a specific index.

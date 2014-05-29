@@ -49,6 +49,7 @@ import de.mrapp.android.adapter.inflater.Inflater;
  * 
  * @since 1.0.0
  */
+// TODO: Implement hashCode- and equals-method
 public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		implements ListAdapter<DataType> {
 
@@ -270,48 +271,38 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 
 	@Override
 	public final boolean addItem(final DataType item) {
-		if (!areDuplicatesAllowed() && containsItem(item)) {
-			return false;
-		} else {
-			items.add(new Item<DataType>(item));
-			notifyOnItemAdded(item, items.size() - 1);
-			notifyDataSetChanged();
-			return true;
-		}
+		return addItem(getNumberOfItems(), item);
 	}
 
 	@Override
 	public final boolean addItem(final int index, final DataType item) {
 		if (!areDuplicatesAllowed() && containsItem(item)) {
 			return false;
-		} else {
-			items.add(index, new Item<DataType>(item));
-			notifyOnItemAdded(item, index);
-			notifyDataSetChanged();
-			return true;
 		}
+
+		items.add(index, new Item<DataType>(item));
+		notifyOnItemAdded(item, index);
+		notifyDataSetChanged();
+		return true;
 	}
 
 	@Override
 	public final boolean addAllItems(final Collection<DataType> items) {
-		boolean result = true;
-
-		for (DataType item : items) {
-			result &= addItem(item);
-		}
-
-		return result;
+		return addAllItems(getNumberOfItems(), items);
 	}
 
 	@Override
-	public final void addAllItems(final int index,
+	public final boolean addAllItems(final int index,
 			final Collection<DataType> items) {
+		boolean result = true;
 		int currentIndex = index;
 
 		for (DataType item : items) {
-			addItem(currentIndex, item);
+			result &= addItem(currentIndex, item);
 			currentIndex++;
 		}
+
+		return result;
 	}
 
 	@Override
@@ -338,12 +329,12 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 
 		if (index != -1) {
 			items.remove(index);
-			notifyOnItemRemoved((DataType) item, index);
+			notifyOnItemRemoved(item, index);
 			notifyDataSetChanged();
 			return true;
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 
 	@Override
@@ -359,7 +350,6 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 
 	@Override
 	public final void retainAllItems(final Collection<DataType> items) {
-
 		for (Item<DataType> item : this.items) {
 			if (!items.contains(item.getData())) {
 				removeItem(item.getData());
@@ -388,11 +378,11 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	}
 
 	@Override
-	public final List<DataType> subList(final int start, final int end) {
-		List<DataType> subList = new ArrayList<DataType>();
+	public final Collection<DataType> subList(final int start, final int end) {
+		Collection<DataType> subList = new ArrayList<DataType>();
 
 		for (int i = start; i < end; i++) {
-			subList.add(items.get(i).getData());
+			subList.add(getItem(i));
 		}
 
 		return subList;
@@ -400,51 +390,32 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 
 	@Override
 	public final Object[] toArray() {
-		Object[] array = new Object[items.size()];
+		return getAllItems().toArray();
+	}
 
-		for (int i = 0; i < items.size(); i++) {
-			array[i] = items.get(i).getData();
-		}
-
-		return array;
+	@Override
+	public final <T> T[] toArray(final T[] array) {
+		return getAllItems().toArray(array);
 	}
 
 	@Override
 	public final int indexOf(final DataType item) {
-		for (int i = 0; i < items.size(); i++) {
-			if (items.get(i).getData() == item) {
-				return i;
-			}
-		}
-
-		return -1;
+		return getAllItems().indexOf(item);
 	}
 
 	@Override
 	public final int lastIndexOf(final DataType item) {
-		for (int i = items.size() - 1; i >= 0; i--) {
-			if (items.get(i).getData() == item) {
-				return i;
-			}
-		}
-
-		return -1;
+		return getAllItems().lastIndexOf(item);
 	}
 
 	@Override
 	public final boolean containsItem(final DataType item) {
-		return indexOf(item) != -1;
+		return getAllItems().contains(item);
 	}
 
 	@Override
 	public final boolean containsAllItems(final Collection<DataType> items) {
-		for (DataType item : items) {
-			if (!containsItem(item)) {
-				return false;
-			}
-		}
-
-		return true;
+		return getAllItems().containsAll(items);
 	}
 
 	@Override
