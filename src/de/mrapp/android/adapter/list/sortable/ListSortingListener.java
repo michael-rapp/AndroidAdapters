@@ -17,14 +17,11 @@
  */
 package de.mrapp.android.adapter.list.sortable;
 
-import java.util.List;
-
-import de.mrapp.android.adapter.list.AbstractListAdapter;
+import java.util.Collection;
 
 /**
- * Defines the interface, all listeners, which should be notified when the
- * underlying data of a {@link AbstractListAdapter} has been sorted, must
- * implement.
+ * Defines the interface, all listeners, which should be notified when the items
+ * of a {@link ListAdapter} have been sorted, must implement.
  * 
  * @param <DataType>
  *            The type of the observed adapter's underlying data
@@ -36,17 +33,17 @@ import de.mrapp.android.adapter.list.AbstractListAdapter;
 public interface ListSortingListener<DataType> {
 
 	/**
-	 * The method, which is invoked, when the adapter's underlying data has been
-	 * sorted.
+	 * The method, which is invoked, when the adapter's items have been sorted.
 	 * 
-	 * @param sortedList
-	 *            A list, which contains the adapter's sorted items, as an
-	 *            instance of the type {@link List}. The list may not be null
+	 * @param sortedItems
+	 *            A collection, which contains the adapter's sorted items, as an
+	 *            instance of the type {@link Collection} or an empty
+	 *            collection, if the adapter does not contain any items
 	 * @param order
 	 *            The order, which has been used to sort the adapter's items, as
 	 *            a value of the enum {@link Order}. The order may either be
 	 *            <code>ASCENDING</code> or <code>DESCENDING</code>
 	 */
-	void onSorted(List<DataType> sortedList, Order order);
+	void onSorted(Collection<DataType> sortedItems, Order order);
 
 }
