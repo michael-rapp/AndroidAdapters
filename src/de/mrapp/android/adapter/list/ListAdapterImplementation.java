@@ -44,6 +44,7 @@ import de.mrapp.android.adapter.list.sortable.ListSortingListener;
  * 
  * @since 1.0.0
  */
+// TODO: Add toString-method
 public class ListAdapterImplementation<DataType> extends
 		AbstractItemStateListAdapter<DataType> {
 
