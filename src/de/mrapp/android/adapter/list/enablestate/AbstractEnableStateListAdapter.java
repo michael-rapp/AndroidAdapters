@@ -31,8 +31,8 @@ import de.mrapp.android.adapter.list.ListAdapterListener;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
- * a list of arbitrary items, which can be disabled or enabled. Such adapters
- * are meant to provide the underlying data for visualization using a
+ * a list of arbitrary items, which may be disabled or enabled. Such an
+ * adapter's purpose is to provide the underlying data for visualization using a
  * {@link ListView} widget.
  * 
  * @param <DataType>
@@ -52,7 +52,7 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * A set, which contains the listeners, which should be notified when an
+	 * A set, which contains the listeners, which should be notified, when an
 	 * item has been disabled or enabled.
 	 */
 	private Set<ListEnableStateListener<DataType>> enableStateListeners;
@@ -96,10 +96,10 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 	}
 
 	/**
-	 * Returns a set, which contains the listeners, which should be notified
+	 * Returns a set, which contains the listeners, which should be notified,
 	 * when an item has been disabled or enabled.
 	 * 
-	 * @return A set, which contains the listeners, which should be notified
+	 * @return A set, which contains the listeners, which should be notified,
 	 *         when an item has been disabled or enabled, as an instance of the
 	 *         type {@link Set} or an empty set, if no listeners should be
 	 *         notified
@@ -109,8 +109,8 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 	}
 
 	/**
-	 * Sets the set, which contains the listeners, which should be notified when
-	 * an item has been disabled or enabled.
+	 * Sets the set, which contains the listeners, which should be notified,
+	 * when an item has been disabled or enabled.
 	 * 
 	 * @param enableStateListeners
 	 *            The set, which should be set, as an instance of the type
@@ -126,7 +126,7 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 
 	/**
 	 * Creates a new adapter, whose underlying data is managed as a list of
-	 * arbitrary items, which can be disabled or enabled.
+	 * arbitrary items, which may be disabled or enabled.
 	 * 
 	 * @param context
 	 *            The context, the adapter should belong to, as an instance of
@@ -136,16 +136,16 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 	 *            are used to visualize the adapter's items, as an instance of
 	 *            the type {@link Inflater}. The inflater may not be null
 	 * @param items
-	 *            A list, which contains the the adapter's items, or an empty
-	 *            list, if the adapter should not contain any items
+	 *            A list, which contains the adapter's items, or an empty list,
+	 *            if the adapter should not contain any items
 	 * @param allowDuplicates
 	 *            True, if duplicate items should be allowed, false otherwise
 	 * @param adapterListeners
-	 *            A set, which contains the listeners, which should be notified
+	 *            A set, which contains the listeners, which should be notified,
 	 *            when the adapter's underlying data has been modified or an
 	 *            empty set, if no listeners should be notified
 	 * @param enableStateListeners
-	 *            A set, which contains the listeners, which should be notified
+	 *            A set, which contains the listeners, which should be notified,
 	 *            when an item has been disabled or enabled or an empty set, if
 	 *            no listeners should be notified
 	 */
