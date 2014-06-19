@@ -1,64 +1,111 @@
+/*
+ * AndroidAdapters Copyright 2014 Michael Rapp
+ *
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU Lesser General Public License as published 
+ * by the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but 
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public 
+ * License along with this program.  If not, see
+ * <http://www.gnu.org/licenses/>. 
+ */
 package de.mrapp.android.adapter.list.itemstate;
 
 import java.util.List;
 
+/**
+ * Defines the interface, an adapter, whose underlying data is managed as a list
+ * of arbitrary items, which may have different states, must implement. Such an
+ * adapter's purpose is to provide the underlying data for visualization using a
+ * {@link ListView} widget.
+ * 
+ * @param <DataType>
+ *            The type of the adapter's underlying data
+ * 
+ * @author Michael Rapp
+ * 
+ * @since 1.0.0
+ */
 public interface ItemStateListAdapter<DataType> {
 
 	/**
 	 * Returns the number of states, the adapter's items can have.
 	 * 
-	 * @return The number of states, the adapter's items can have, as an ;@link
-	 *         Integer} value. The value must be greater than 0
+	 * @return The number of states, the adapter's items can have, as an
+	 *         {@link Integer} value. The value must be at least 1
 	 */
 	int getNumberOfItemStates();
 
 	/**
-	 * Returns the state of the item, which belongs to a specific index.
+	 * Returns the current state of the item, which belongs to a specific index.
 	 * 
 	 * @param index
 	 *            The index of the item, whose state should be returned, as an
-	 *            ;@link Integer} value. The index must be between 0 and the
-	 *            value of the adapter's <code>size():int</code> method - 1
+	 *            {@link Integer} value. The index must be between 0 and the
+	 *            value of the method <code>getNumberOfItems():int</code> - 1,
+	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
 	 * @return The state of the item, which belongs to the given index, as a
-	 *         ;@link Integer} value. The state must be at least 0 and less than
-	 *         the value of the method <code>getNumberOfStates():int</code> - 1
+	 *         {@link Integer} value
 	 */
 	int getItemState(int index);
 
 	/**
-	 * Returns the state of a specific item.
+	 * Returns the current state of a specific item.
 	 * 
 	 * @param item
 	 *            The item, whose state should be returned, as an instance of
-	 *            the generic type DataType. The item may not be null
-	 * @return The state of the given item, as an;@link Integer} value. The
-	 *         state must be between 0 and the value of the method
-	 *         <code>getNumberOfStates():int</code> - 1
+	 *            the generic type DataType. The item may not be null. If the
+	 *            item does not belong to the adapter, a
+	 *            {@link NoSuchElementException} will be thrown
+	 * @return The state of the given item as an {@link Integer} value
 	 */
 	int getItemState(DataType item);
 
 	/**
-	 * Sets the state of the item, which belongs to a specific index.
+	 * Sets the state of the item, which belongs to a specific index, to a
+	 * specific state.
 	 * 
 	 * @param index
-	 *            The index of the item, whose state should be set, as an ;@link
-	 *            Integer} value. The index must be between 0 and the value of
-	 *            the method <code>getNumberOfItems():int</code> - 1
+	 *            The index of the item, whose state should be set, as an
+	 *            {@link Integer} value. The index must be between 0 and the
+	 *            value of the method <code>getNumberOfItems():int</code> - 1,
+	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
 	 * @param state
-	 *            The state, which should be set, as an;@link Integer} value.
+	 *            The state, which should be set, as an {@link Integer} value.
 	 *            The state must be between 0 and the value of the method
 	 *            <code>getNumberOfStates():int</code> - 1
-	 * @return The previous state of the given item, as an;@link Integer} item.
-	 *         The state must be between 0 and the value of the method
-	 *         <code>getNumberOfStates():int</code> - 1
+	 * @return The previous state of the item, which belongs to the given index,
+	 *         as an {@link Integer} value
 	 */
 	int setItemState(int index, int state);
 
 	/**
-	 * Sets the states of all items.
+	 * Sets the state of a specific item to a specific state.
+	 * 
+	 * @param item
+	 *            The item, whose state should be set, as an instance of the
+	 *            generic type DataType. The item may not be null. If the item
+	 *            does not belong to the adapter, a
+	 *            {@link NoSuchElementException} will be thrown
+	 * @param state
+	 *            The state, which should be set, as an {@link Integer} value.
+	 *            The state must be between 0 and the value of the method
+	 *            <code>getNumberOfStates():int</code> - 1
+	 * @return The previous state of the given item as an {@link Integer} value
+	 */
+	int setItemState(DataType item, int state);
+
+	/**
+	 * Sets the states of all items to a specific state.
 	 * 
 	 * @param state
-	 *            The state, which should be set, as an;@link Integer} value.
+	 *            The state, which should be set, as an {@link Integer} value.
 	 *            The state must be between 0 and the value of the method
 	 *            <code>getNumberOfStates():int</code> - 1
 	 */
@@ -67,137 +114,123 @@ public interface ItemStateListAdapter<DataType> {
 	/**
 	 * Triggers the state of the item, which belongs to a specific index. This
 	 * causes the state to be increased by one. If the state is already the
-	 * maximum state, the state will be set to 0.
+	 * maximum state, the state will be set to 0 instead.
 	 * 
 	 * @param index
 	 *            The index of the item, whose state should be triggered, as an
-	 *            ;@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfItems():int</code> - 1
+	 *            {@link Integer} value. The index must be between 0 and the
+	 *            value of the method <code>getNumberOfItems():int</code> - 1,
+	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
 	 * @return The previous state of the item, which belongs to the given index,
-	 *         as an;@link Integer} value. The state must be between 0 and the
-	 *         value of the method <code>getNumberOfStates():int</code> - 1
+	 *         as an {@link Integer} value
 	 */
 	int triggerItemState(int index);
 
 	/**
 	 * Triggers the state of a specific item. This causes the state to be
 	 * increased by one. If the state is already the maximum state, the state
-	 * will be set to 0.
+	 * will be set to 0 instead.
 	 * 
 	 * @param item
 	 *            The item, whose state should be triggered, as an instance of
-	 *            the generic type DataType. The item may not be null
-	 * @return The previous state of the given item, as an;@link Integer} value.
-	 *         The state must be between 0 and the value of the method
-	 *         <code>getNumberOfStates():int</code> - 1
+	 *            the generic type DataType. The item may not be null. If the
+	 *            item does not belong to the adapter, a
+	 *            {@link NoSuchElementException} will be thrown
+	 * @return The previous state of the given item, as an {@link Integer} value
 	 */
 	int triggerItemState(DataType item);
 
 	/**
-	 * Triggers the states of all items. This causes the states to be increaed
+	 * Triggers the states of all items. This causes the states to be increased
 	 * by one. If a state is already the maximum state, the state will be set to
-	 * 0.
+	 * 0 instead.
 	 */
 	void triggerAllItemStates();
 
 	/**
-	 * Sets the state of a specific item.
-	 * 
-	 * @param item
-	 *            The item, whose state should be set, as an instance of the
-	 *            generic type DataType
-	 * @param state
-	 *            The state, which should be set, as an;@link Integer} value.
-	 *            The state must be between 0 and the value of the method
-	 *            <code>getNumberOfStates():int</code> - 1
-	 * @return The previous state of the given item, as an;@link Integer} value.
-	 *         The state must be between 0 and the value of the method
-	 *         <code>getNumberOfStates():int</code> - 1
-	 */
-	int setItemState(DataType item, int state);
-
-	/**
-	 * Returns the index of the first item, which has a specific state.
+	 * Returns the index of the first item, which currently has a specific
+	 * state.
 	 * 
 	 * @param state
 	 *            The state of the item, whose index should be returned, as an
-	 *            ;@link Integer} value
-	 * @return The index of the first item, which has the given state, as an
-	 *         ;@link Integer} value or -1, if the adapter does not contain an
-	 *         item with the given state
+	 *            {@link Integer} value
+	 * @return The index of the first item, which currently has the given state,
+	 *         as an {@link Integer} value or -1, if the adapter does not
+	 *         contain an item with the given state
 	 */
 	int getFirstIndexWithSpecificState(int state);
 
 	/**
-	 * Returns the first item, which has a specific state.
+	 * Returns the first item, which currently has a specific state.
 	 * 
 	 * @param state
-	 *            The state of the item, which should be returned, as an ;@link
-	 *            Integer} value
-	 * @return The first item, which has the given state, as an instance of the
-	 *         generic type DataType or null, if the adapter does not contain an
-	 *         item with the given state
+	 *            The state of the item, which should be returned, as an
+	 *            {@link Integer} value
+	 * @return The first item, which currently has the given state, as an
+	 *         instance of the generic type DataType or null, if the adapter
+	 *         does not contain an item with the given state
 	 */
 	DataType getFirstItemWithSpecificState(int state);
 
 	/**
-	 * Returns the index of the last item, which has a specific state.
+	 * Returns the index of the last item, which currently has a specific state.
 	 * 
 	 * @param state
 	 *            The state of the item, whose index should be returned, as an
-	 *            ;@link Integer} value
-	 * @return The index of the last item, which has the given state, as an
-	 *         ;@link Integer} value or -1, if the adapter does not contain an
-	 *         item with the given state
+	 *            {@link Integer} value
+	 * @return The index of the last item, which currently has the given state,
+	 *         as an {@link Integer} value or -1, if the adapter does not
+	 *         contain an item with the given state
 	 */
 	int getLastIndexWithSpecificState(int state);
 
 	/**
-	 * Returns the last item, which has a specific state.
+	 * Returns the last item, which currently has a specific state.
 	 * 
 	 * @param state
-	 *            The state of the item, which should be returned, as an ;@link
-	 *            Integer} value
-	 * @return The last item, which has the given state, as an instance of the
-	 *         generic type DataType or null, if the adapter does not contain an
-	 *         item with the given state
+	 *            The state of the item, which should be returned, as an
+	 *            {@link Integer} value
+	 * @return The last item, which currently has the given state, as an
+	 *         instance of the generic type DataType or null, if the adapter
+	 *         does not contain an item with the given state
 	 */
 	DataType getLastItemWithSpecificState(int state);
 
 	/**
-	 * Returns a list, which contains the indices of the items, which have a
-	 * specific state.
+	 * Returns a list, which contains the indices of all items, which currently
+	 * have a specific state.
 	 * 
 	 * @param state
 	 *            The state of the items, whose indices should be returned, as
-	 *            an;@link Integer} value
-	 * @return A list, which contains the indices of the items, which have a
-	 *         specific state, as an instance of the type;@link List} or an
-	 *         empty list, if the adapter does not contain any items with the
+	 *            an {@link Integer} value
+	 * @return A list, which contains the indices of all items, which currently
+	 *         have a specific state, as an instance of the type {@link List} or
+	 *         an empty list, if the adapter does not contain any items with the
 	 *         given state
 	 */
 	List<Integer> getIndicesWithSpecificState(int state);
 
 	/**
-	 * Returns a list, which contains the items, which have a specific state.
+	 * Returns a list, which contains all items, which currently have a specific
+	 * state.
 	 * 
 	 * @param state
-	 *            The state of the items, which should be returned, as an ;@link
-	 *            Integer} value
-	 * @return A list, which contains the items, which have the given state, as
-	 *         an instance of the type;@link List} or an empty list, if the
-	 *         adapter contains no items with the given state
+	 *            The state of the items, which should be returned, as an
+	 *            {@link Integer} value
+	 * @return A list, which contains the items, which currently have the given
+	 *         state, as an instance of the type {@link List} or an empty list,
+	 *         if the adapter contains no items with the given state
 	 */
 	List<DataType> getItemsWithSpecificState(int state);
 
 	/**
-	 * Returns the number of items, which have a specific state.
+	 * Returns the number of items, which currently have a specific state.
 	 * 
 	 * @param state
-	 *            The state of the items, which should be counted, as an ;@link
-	 *            Integer} value;@link Integer} value
-	 * @return The number of items, which have the given state, as an ;@link
-	 *         Integer} value
+	 *            The state of the items, which should be counted, as an
+	 *            {@link Integer} value
+	 * @return The number of items, which currently have the given state, as an
+	 *         {@link Integer} value
 	 */
 	int getNumberOfItemsWithSpecificState(int state);
 
