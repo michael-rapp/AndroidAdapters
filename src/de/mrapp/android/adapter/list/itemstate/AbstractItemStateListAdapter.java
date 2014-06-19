@@ -30,9 +30,8 @@ import android.widget.ListView;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.ListAdapterListener;
+import de.mrapp.android.adapter.list.enablestate.AbstractEnableStateListAdapter;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
-import de.mrapp.android.adapter.list.sortable.AbstractSortableListAdapter;
-import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
@@ -48,7 +47,7 @@ import de.mrapp.android.adapter.list.sortable.ListSortingListener;
  * @since 1.0.0
  */
 public abstract class AbstractItemStateListAdapter<DataType> extends
-		AbstractSortableListAdapter<DataType> implements
+		AbstractEnableStateListAdapter<DataType> implements
 		ItemStateListAdapter<DataType> {
 
 	/**
@@ -125,10 +124,9 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 			final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
-			final Set<ListSortingListener<DataType>> sortingListeners,
 			final int numberOfItemStates) {
 		super(context, inflater, items, allowDuplicates, adapterListeners,
-				enableStateListeners, sortingListeners);
+				enableStateListeners);
 		ensureAtLeast(numberOfItemStates, 1, "The number of items states "
 				+ "must be at least 1");
 		this.numberOfItemStates = numberOfItemStates;

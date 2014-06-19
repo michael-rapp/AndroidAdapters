@@ -43,13 +43,13 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 			final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
+			final int numberOfItemStates,
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final Set<ListSelectionListener<DataType>> selectionListeners,
-			final int numberOfItemStates,
 			final SelectableListDecorator<DataType> decorator) {
 		super(context, inflater, items, allowDuplicates, adapterListeners,
-				enableStateListeners, sortingListeners, selectionListeners,
-				numberOfItemStates, decorator);
+				enableStateListeners, numberOfItemStates, sortingListeners,
+				selectionListeners, decorator);
 		addEnableStateListner(getEnableStateListener());
 	}
 
@@ -313,9 +313,8 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 		return new MultipleChoiceListAdapterImplementation<DataType>(
 				getContext(), getInflater(), cloneItems(),
 				areDuplicatesAllowed(), getAdapterListeners(),
-				getEnableStateListeners(), getSortingListeners(),
-				getSelectionListeners(), getNumberOfItemStates(),
-				getDecorator());
+				getEnableStateListeners(), getNumberOfItemStates(),
+				getSortingListeners(), getSelectionListeners(), getDecorator());
 	}
 
 }

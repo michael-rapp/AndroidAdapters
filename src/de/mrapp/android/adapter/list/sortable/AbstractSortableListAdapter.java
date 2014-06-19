@@ -35,6 +35,7 @@ import de.mrapp.android.adapter.list.AbstractListAdapter;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.AbstractEnableStateListAdapter;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
+import de.mrapp.android.adapter.list.itemstate.AbstractItemStateListAdapter;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
@@ -49,14 +50,14 @@ import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
  * @since 1.0.0
  */
 public abstract class AbstractSortableListAdapter<DataType> extends
-		AbstractEnableStateListAdapter<DataType> implements
+		AbstractItemStateListAdapter<DataType> implements
 		SortableListAdapter<DataType> {
 
 	/**
 	 * The constant serial version UID.
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * The key, which is used to store the listeners, which should be notified
 	 * when the adapter's underlying data has been sorted, within a bundle.
@@ -151,9 +152,10 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 			final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
+			final int numberOfItemStates,
 			final Set<ListSortingListener<DataType>> sortingListeners) {
 		super(context, inflater, items, allowDuplicates, adapterListeners,
-				enableStateListeners);
+				enableStateListeners, numberOfItemStates);
 		setSortingListeners(sortingListeners);
 	}
 
@@ -213,7 +215,7 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 	@Override
 	public final void onSaveInstanceState(final Bundle outState) {
 		super.onSaveInstanceState(outState);
-		
+
 		SerializableWrapper<Set<ListSortingListener<DataType>>> wrappedSortingListeners = new SerializableWrapper<Set<ListSortingListener<DataType>>>(
 				getSortingListeners());
 		outState.putSerializable(SORTING_LISTENERS_BUNDLE_KEY,
@@ -224,7 +226,7 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 	@Override
 	public final void onRestoreInstanceState(final Bundle savedInstanceState) {
 		super.onRestoreInstanceState(savedInstanceState);
-		
+
 		if (savedInstanceState != null) {
 			SerializableWrapper<Set<ListSortingListener<DataType>>> wrappedSortingListeners = (SerializableWrapper<Set<ListSortingListener<DataType>>>) savedInstanceState
 					.getSerializable(SORTING_LISTENERS_BUNDLE_KEY);
