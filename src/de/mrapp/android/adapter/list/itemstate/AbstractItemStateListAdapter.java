@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
-import android.widget.ListView;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.ListAdapterListener;
@@ -35,8 +34,8 @@ import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
- * a list of arbitrary items, which can have multiple states. Such adapters are
- * meant to provide the underlying data for visualization using a
+ * a list of arbitrary items, which may have multiple states. Such an adapter's
+ * purpose is to provide the underlying data for visualization using a
  * {@link ListView} widget.
  * 
  * @param <DataType>
@@ -76,12 +75,11 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 	 * @param index
 	 *            The index of the item, whose state has been changed, as an
 	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the adapter's <code>size():int</code> method - 1
+	 *            value of the method <code>getNumberOfItems():int</code> - 1
 	 * @param state
 	 *            The new state of the item, whose state has been changed, as an
-	 *            {@link Integer} value. The state must be at least 0 and less
-	 *            than the value of the method
-	 *            <code>getNumberOfStates():int</code> - 1
+	 *            {@link Integer} value. The state must be between 0 and the
+	 *            value of the method <code>getNumberOfStates():int</code> - 1
 	 */
 	private void notifyOnItemStateChanged(final DataType item, final int index,
 			final int state) {
@@ -119,6 +117,34 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 		this.itemStateListeners = itemStateListeners;
 	}
 
+	/**
+	 * Creates a new adapter, whose underlying data is managed as a list of
+	 * arbitrary items, which may have multiple states.
+	 * 
+	 * @param context
+	 *            The context, the adapter should belong to, as an instance of
+	 *            the class {@link Context}. The context may not be null
+	 * @param inflater
+	 *            The inflater, which should be used to inflate the views, which
+	 *            are used to visualize the adapter's items, as an instance of
+	 *            the type {@link Inflater}. The inflater may not be null
+	 * @param items
+	 *            A list, which contains the adapter's items, or an empty list,
+	 *            if the adapter should not contain any items
+	 * @param allowDuplicates
+	 *            True, if duplicate items should be allowed, false otherwise
+	 * @param adapterListeners
+	 *            A set, which contains the listeners, which should be notified,
+	 *            when the adapter's underlying data has been modified or an
+	 *            empty set, if no listeners should be notified
+	 * @param enableStateListeners
+	 *            A set, which contains the listeners, which should be notified,
+	 *            when an item has been disabled or enabled or an empty set, if
+	 *            no listeners should be notified
+	 * @param numberOfItemStates
+	 *            The number of states, the adapter's items may have, as an
+	 *            {@link Integer} value. The value must be at least 1
+	 */
 	protected AbstractItemStateListAdapter(final Context context,
 			final Inflater inflater, final List<Item<DataType>> items,
 			final boolean allowDuplicates,
