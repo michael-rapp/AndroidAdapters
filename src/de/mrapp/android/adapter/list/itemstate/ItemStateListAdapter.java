@@ -35,9 +35,9 @@ import java.util.List;
 public interface ItemStateListAdapter<DataType> {
 
 	/**
-	 * Returns the number of states, the adapter's items can have.
+	 * Returns the number of states, the adapter's items may have.
 	 * 
-	 * @return The number of states, the adapter's items can have, as an
+	 * @return The number of states, the adapter's items may have, as an
 	 *         {@link Integer} value. The value must be at least 1
 	 */
 	int getNumberOfItemStates();
