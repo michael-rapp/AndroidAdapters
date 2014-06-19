@@ -13,11 +13,11 @@ import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
-import de.mrapp.android.adapter.list.itemstate.AbstractItemStateListAdapter;
+import de.mrapp.android.adapter.list.sortable.AbstractSortableListAdapter;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 
 public abstract class AbstractSelectableListAdapter<DataType> extends
-		AbstractItemStateListAdapter<DataType> implements
+		AbstractSortableListAdapter<DataType> implements
 		SelectableListAdapter<DataType> {
 
 	/**
@@ -94,12 +94,12 @@ public abstract class AbstractSelectableListAdapter<DataType> extends
 			final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
+			final int numberOfItemStates,
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final Set<ListSelectionListener<DataType>> selectionListeners,
-			final int numberOfItemStates,
 			final SelectableListDecorator<DataType> decorator) {
 		super(context, inflater, items, allowDuplicates, adapterListeners,
-				enableStateListeners, sortingListeners, numberOfItemStates);
+				enableStateListeners, numberOfItemStates, sortingListeners);
 		ensureNotNull(decorator, "The decorator may not be null");
 		ensureNotNull(selectionListeners,
 				"The selection listeners may not be null");

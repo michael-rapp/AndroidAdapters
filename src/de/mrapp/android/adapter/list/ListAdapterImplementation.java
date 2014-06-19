@@ -25,11 +25,12 @@ import java.util.Set;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import de.mrapp.android.adapter.ListDecorator;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
-import de.mrapp.android.adapter.list.itemstate.AbstractItemStateListAdapter;
+import de.mrapp.android.adapter.list.sortable.AbstractSortableListAdapter;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 
 /**
@@ -46,7 +47,7 @@ import de.mrapp.android.adapter.list.sortable.ListSortingListener;
  */
 // TODO: Add toString-method
 public class ListAdapterImplementation<DataType> extends
-		AbstractItemStateListAdapter<DataType> {
+		AbstractSortableListAdapter<DataType> {
 
 	/**
 	 * The constant serial version UID.
@@ -92,11 +93,11 @@ public class ListAdapterImplementation<DataType> extends
 			final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
-			final Set<ListSortingListener<DataType>> sortingListeners,
 			final int numberOfItemStates,
+			final Set<ListSortingListener<DataType>> sortingListeners,
 			final ListDecorator<DataType> decorator) {
 		super(context, inflater, items, allowDuplicates, adapterListeners,
-				enableStateListeners, sortingListeners, numberOfItemStates);
+				enableStateListeners, numberOfItemStates, sortingListeners);
 		ensureNotNull(decorator, "The decorator may not be null");
 		this.decorator = decorator;
 	}
@@ -116,7 +117,7 @@ public class ListAdapterImplementation<DataType> extends
 		return new ListAdapterImplementation<DataType>(getContext(),
 				getInflater(), cloneItems(), areDuplicatesAllowed(),
 				getAdapterListeners(), getEnableStateListeners(),
-				getSortingListeners(), getNumberOfItemStates(), decorator);
+				getNumberOfItemStates(), getSortingListeners(), decorator);
 	}
 
 }
