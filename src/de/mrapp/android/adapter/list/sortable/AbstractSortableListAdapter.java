@@ -26,21 +26,19 @@ import java.util.Set;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.widget.ListView;
 import de.mrapp.android.adapter.datastructure.SerializableWrapper;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemComparator;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.AbstractListAdapter;
 import de.mrapp.android.adapter.list.ListAdapterListener;
-import de.mrapp.android.adapter.list.enablestate.AbstractEnableStateListAdapter;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.itemstate.AbstractItemStateListAdapter;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
- * a sortable list of arbitrary items. Such adapters are meant to provide the
- * underlying data for visualization using a {@link ListView} widget.
+ * a sortable list of arbitrary items. Such an adapter's purpose is to provide
+ * the underlying data for visualization using a {@link ListView} widget.
  * 
  * @param <DataType>
  *            The type of the adapter's underlying data
@@ -59,25 +57,26 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * The key, which is used to store the listeners, which should be notified
+	 * The key, which is used to store the listeners, which should be notified,
 	 * when the adapter's underlying data has been sorted, within a bundle.
 	 */
 	private static final String SORTING_LISTENERS_BUNDLE_KEY = AbstractListAdapter.class
 			.getSimpleName() + "::SortingListners";
 
 	/**
-	 * A set, which contains the listeners, which should be notified when the
+	 * A set, which contains the listeners, which should be notified, when the
 	 * adapter's underlying data has been sorted.
 	 */
 	private Set<ListSortingListener<DataType>> sortingListeners;
 
 	/**
-	 * Notifies all listeners, which have been registered to be notified when
+	 * Notifies all listeners, which have been registered to be notified, when
 	 * the adapter's underlying data has been sorted.
 	 * 
 	 * @param sortedList
 	 *            A list, which contains the adapter's sorted items, as an
-	 *            instance of the type {@link List}. The list may not be null
+	 *            instance of the type {@link List} or an empty list, if the
+	 *            adapter does not contain any items
 	 * @param order
 	 *            The order, which has been used to sort the list, as a value of
 	 *            the enum {@link Order}. The order may either be
@@ -91,10 +90,10 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 	}
 
 	/**
-	 * Returns a set, which contains the listeners, which should be notified
+	 * Returns a set, which contains the listeners, which should be notified,
 	 * when the adapter's underlying data has been sorted.
 	 * 
-	 * @return A set, which contains the listeners, which should be notified
+	 * @return A set, which contains the listeners, which should be notified,
 	 *         when the adapter's underlying data has been modified, as an
 	 *         instance of the type {@link Set} or an empty set, if no listeners
 	 *         should be notified
@@ -104,8 +103,8 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 	}
 
 	/**
-	 * Sets the set, which contains the listeners, which should be notified when
-	 * the adapter's underlying data has been sorted.
+	 * Sets the set, which contains the listeners, which should be notified,
+	 * when the adapter's underlying data has been sorted.
 	 * 
 	 * @param sortingListeners
 	 *            The set, which should be set, as an instance of the type
@@ -138,14 +137,14 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 	 *            A set, which contains the listeners, which should be notified
 	 *            when the adapter's underlying data has been modified or an
 	 *            empty set, if no listeners should be notified
-	 * @param sortingListeners
-	 *            A set, which contains the listeners, which should be notified,
-	 *            when the adapter's underlying data has been sorted or an empty
-	 *            set, if no listeners should be notified
 	 * @param enableStateListeners
 	 *            A set, which contains the listeners, which should be notified
 	 *            when an item has been disabled or enabled or an empty set, if
 	 *            no listeners should be notified
+	 * @param sortingListeners
+	 *            A set, which contains the listeners, which should be notified,
+	 *            when the adapter's underlying data has been sorted or an empty
+	 *            set, if no listeners should be notified
 	 */
 	protected AbstractSortableListAdapter(final Context context,
 			final Inflater inflater, final List<Item<DataType>> items,
