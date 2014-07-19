@@ -107,7 +107,7 @@ public interface ListAdapter<DataType> extends DataStructure, Restorable,
 	 * @param index
 	 *            The index, the items should be added at, as an {@link Integer}
 	 *            value. The index must be between 0 and the value of the method
-	 *            <code>getNumberOfItems():int</code> - 1, otherwise an
+	 *            <code>getNumberOfItems():int</code>, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @param items
 	 *            The collection, which contains the items, which should be
