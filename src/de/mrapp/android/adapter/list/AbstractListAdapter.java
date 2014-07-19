@@ -263,6 +263,7 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	@Override
 	public final void removeAdapterListener(
 			final ListAdapterListener<DataType> listener) {
+		ensureNotNull(listener, "The listener may not be null");
 		adapterListeners.remove(listener);
 	}
 
@@ -273,6 +274,8 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 
 	@Override
 	public final boolean addItem(final int index, final DataType item) {
+		ensureNotNull(item, "The item may not be null");
+
 		if (!areDuplicatesAllowed() && containsItem(item)) {
 			return false;
 		}
@@ -285,6 +288,7 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 
 	@Override
 	public final boolean addAllItems(final Collection<DataType> items) {
+		ensureNotNull(items, "The collection may not be null");
 		return addAllItems(getNumberOfItems(), items);
 	}
 
@@ -304,6 +308,7 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 
 	@Override
 	public final DataType replaceItem(final int index, final DataType item) {
+		ensureNotNull(item, "The item may not be null");
 		DataType replacedItem = items.set(index, new Item<DataType>(item))
 				.getData();
 		notifyOnItemRemoved(replacedItem, index);
@@ -322,6 +327,7 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 
 	@Override
 	public final boolean removeItem(final DataType item) {
+		ensureNotNull(item, "The item may not be null");
 		int index = indexOf(item);
 
 		if (index != -1) {
@@ -336,6 +342,7 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 
 	@Override
 	public final boolean removeAllItems(final Collection<DataType> items) {
+		ensureNotNull(items, "The collection may not be null");
 		boolean result = true;
 
 		for (DataType item : items) {
@@ -347,6 +354,8 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 
 	@Override
 	public final void retainAllItems(final Collection<DataType> items) {
+		ensureNotNull(items, "The collection may not be null");
+
 		for (Item<DataType> item : this.items) {
 			if (!items.contains(item.getData())) {
 				removeItem(item.getData());
