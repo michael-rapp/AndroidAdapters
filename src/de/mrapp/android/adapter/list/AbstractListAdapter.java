@@ -38,6 +38,7 @@ import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemIterator;
 import de.mrapp.android.adapter.datastructure.item.ItemListIterator;
 import de.mrapp.android.adapter.inflater.Inflater;
+import de.mrapp.android.adapter.util.VisibleForTesting;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
@@ -63,14 +64,16 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	 * The key, which is used to store the adapter's underlying data within a
 	 * bundle.
 	 */
-	private static final String ITEMS_BUNDLE_KEY = AbstractListAdapter.class
+	@VisibleForTesting
+	protected static final String ITEMS_BUNDLE_KEY = AbstractListAdapter.class
 			.getSimpleName() + "::Items";
 
 	/**
 	 * The key, which is used to store the listeners, which should be notified
 	 * when the adapter's underlying data has been modified, within a bundle.
 	 */
-	private static final String ADAPTER_LISTENERS_BUNDLE_KEY = AbstractListAdapter.class
+	@VisibleForTesting
+	protected static final String ADAPTER_LISTENERS_BUNDLE_KEY = AbstractListAdapter.class
 			.getSimpleName() + "::AdapterListeners";
 
 	/**
