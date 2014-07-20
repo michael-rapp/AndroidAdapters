@@ -443,17 +443,26 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 
 	@Override
 	public final int lastIndexOf(final DataType item) {
+		ensureNotNull(item, "The item may not be null");
 		return getAllItems().lastIndexOf(item);
 	}
 
 	@Override
 	public final boolean containsItem(final DataType item) {
+		ensureNotNull(item, "The item may not be null");
 		return getAllItems().contains(item);
 	}
 
 	@Override
 	public final boolean containsAllItems(final Collection<DataType> items) {
+		ensureNotNull(items, "The collection may not be null");
 		return getAllItems().containsAll(items);
+	}
+
+	@Override
+	public final boolean containsAllItems(final DataType... items) {
+		ensureNotNull(items, "The array may not be null");
+		return containsAllItems(Arrays.asList(items));
 	}
 
 	@Override
