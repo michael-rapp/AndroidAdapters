@@ -206,6 +206,19 @@ public interface ListAdapter<DataType> extends DataStructure, Restorable,
 	boolean removeAllItems(Collection<DataType> items);
 
 	/**
+	 * Removes all items, which are contained by a specific array, from the
+	 * adapter.
+	 * 
+	 * @param items
+	 *            The array, which contains the items, which should be removed
+	 *            from the adapter, as an array of the generic type DataType or
+	 *            an empty array, if no items should be removed
+	 * @return True, if all items have been removed from the adapter, false
+	 *         otherwise
+	 */
+	boolean removeAllItems(DataType... items);
+
+	/**
 	 * Removes all items from the adapter, except of the items, which are
 	 * contained by a specific collection.
 	 * 
