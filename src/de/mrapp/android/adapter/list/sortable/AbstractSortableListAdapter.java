@@ -34,6 +34,7 @@ import de.mrapp.android.adapter.list.AbstractListAdapter;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.itemstate.AbstractItemStateListAdapter;
+import de.mrapp.android.adapter.util.VisibleForTesting;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
@@ -60,7 +61,8 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 	 * The key, which is used to store the listeners, which should be notified,
 	 * when the adapter's underlying data has been sorted, within a bundle.
 	 */
-	private static final String SORTING_LISTENERS_BUNDLE_KEY = AbstractListAdapter.class
+	@VisibleForTesting
+	protected static final String SORTING_LISTENERS_BUNDLE_KEY = AbstractListAdapter.class
 			.getSimpleName() + "::SortingListners";
 
 	/**
