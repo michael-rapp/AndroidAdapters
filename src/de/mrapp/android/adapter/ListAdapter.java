@@ -120,6 +120,37 @@ public interface ListAdapter<DataType> extends DataStructure, Restorable,
 	boolean addAllItems(int index, Collection<DataType> items);
 
 	/**
+	 * Adds all items, which are contained by a specific array, to the adapter.
+	 * The items will be added in a consecutive order at the end.
+	 * 
+	 * @param items
+	 *            The array, which contains the items, which should be added to
+	 *            the adapter, as an array of the generic type DataType or an
+	 *            empty array, if no items should be added
+	 * @return True, if all items have been added to the adapter, false
+	 *         otherwise
+	 */
+	boolean addAllItems(DataType... items);
+
+	/**
+	 * Adds all items, which are contained by a specific array, to the adapter.
+	 * The items will be added in a consecutive order at a specific index.
+	 * 
+	 * @param index
+	 *            The index, the items should be added at, as an {@link Integer}
+	 *            value. The index must be between 0 and the value of the method
+	 *            <code>getNumberOfItems():int</code>, otherwise an
+	 *            {@link IndexOutOfBoundsException} will be thrown
+	 * @param items
+	 *            The array, which contains the items, which should be added to
+	 *            the adapter, as an array of the generic type DataType or an
+	 *            empty array, if no items should be added
+	 * @return True, if all items have been added to the adapter, false
+	 *         otherwise
+	 */
+	boolean addAllItems(int index, DataType... items);
+
+	/**
 	 * Replaces the item, which belongs to a specific index, by an other item.
 	 * 
 	 * @param index

@@ -20,6 +20,7 @@ package de.mrapp.android.adapter.list;
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -28,7 +29,6 @@ import java.util.Set;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.renderscript.Element.DataType;
 import android.widget.BaseAdapter;
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.datastructure.SerializableWrapper;
@@ -296,6 +296,7 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	@Override
 	public final boolean addAllItems(final int index,
 			final Collection<DataType> items) {
+		ensureNotNull(items, "The collection may not be null");
 		boolean result = true;
 		int currentIndex = index;
 
@@ -305,6 +306,18 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 		}
 
 		return result;
+	}
+
+	@Override
+	public final boolean addAllItems(final DataType... items) {
+		ensureNotNull(items, "The collection may not be null");
+		return addAllItems(getNumberOfItems(), items);
+	}
+
+	@Override
+	public final boolean addAllItems(final int index, final DataType... items) {
+		ensureNotNull(items, "The array may not be null");
+		return addAllItems(index, Arrays.asList(items));
 	}
 
 	@Override
