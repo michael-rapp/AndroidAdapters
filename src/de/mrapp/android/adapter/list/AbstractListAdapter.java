@@ -18,6 +18,8 @@
 package de.mrapp.android.adapter.list;
 
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
+import static de.mrapp.android.adapter.util.Condition.ensureAtMaximum;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -498,6 +500,10 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 
 	@Override
 	public final long getItemId(final int index) {
+		ensureAtLeast(index, 0, "The index must be at least 0");
+		ensureAtMaximum(index, items.size() - 1,
+				isEmpty() ? "The index must be at maximum "
+						+ (items.size() - 1) : "The adapter is empty");
 		return index;
 	}
 
