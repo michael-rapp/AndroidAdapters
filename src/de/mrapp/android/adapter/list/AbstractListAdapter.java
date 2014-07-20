@@ -28,7 +28,9 @@ import java.util.Set;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.renderscript.Element.DataType;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.datastructure.SerializableWrapper;
 import de.mrapp.android.adapter.datastructure.item.Item;
@@ -343,31 +345,53 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	@Override
 	public final boolean removeAllItems(final Collection<DataType> items) {
 		ensureNotNull(items, "The collection may not be null");
-		boolean result = true;
+		int numberOfRemovedItems = 0;
+		List<Item<DataType>> clonedItems = new ArrayList<Item<DataType>>(
+				this.items);
 
 		for (DataType item : items) {
-			result &= removeItem(item);
+			int index = indexOf(item);
+
+			if (index != -1) {
+				Item<DataType> removedItem = this.items.remove(index);
+				numberOfRemovedItems++;
+				notifyOnItemRemoved(item, clonedItems.indexOf(removedItem));
+			}
 		}
 
-		return result;
+		notifyDataSetChanged();
+		return numberOfRemovedItems == items.size();
 	}
 
 	@Override
 	public final void retainAllItems(final Collection<DataType> items) {
 		ensureNotNull(items, "The collection may not be null");
+		List<Item<DataType>> clonedItems = new ArrayList<Item<DataType>>(
+				this.items);
+		List<Item<DataType>> itemsToRemove = new ArrayList<Item<DataType>>();
 
 		for (Item<DataType> item : this.items) {
 			if (!items.contains(item.getData())) {
-				removeItem(item.getData());
+				itemsToRemove.add(item);
+				notifyOnItemRemoved(item.getData(), clonedItems.indexOf(item));
 			}
 		}
+
+		this.items.removeAll(itemsToRemove);
+		notifyDataSetChanged();
 	}
 
 	@Override
 	public final void clearItems() {
-		for (DataType item : getAllItems()) {
-			removeItem(item);
+		List<Item<DataType>> clonedItems = new ArrayList<Item<DataType>>(items);
+		items.clear();
+
+		for (int i = 0; i < clonedItems.size(); i++) {
+			DataType removedItem = clonedItems.get(i).getData();
+			notifyOnItemRemoved(removedItem, i);
 		}
+
+		notifyDataSetChanged();
 	}
 
 	@Override
@@ -408,6 +432,7 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 
 	@Override
 	public final int indexOf(final DataType item) {
+		ensureNotNull(item, "The item may not be null");
 		return getAllItems().indexOf(item);
 	}
 
