@@ -77,6 +77,14 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 			.getSimpleName() + "::AdapterListeners";
 
 	/**
+	 * The key, which is used to store, whether duplicate items should be
+	 * allowed, or not, within a bundle.
+	 */
+	@VisibleForTesting
+	protected static final String ALLOW_DUPLICATES_BUNDLE_KEY = AbstractListAdapter.class
+			.getSimpleName() + "::AllowDuplicates";
+
+	/**
 	 * The context, the adapter belongs to.
 	 */
 	private final transient Context context;
@@ -520,6 +528,8 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 				getAdapterListeners());
 		outState.putSerializable(ADAPTER_LISTENERS_BUNDLE_KEY,
 				wrappedAdapterListeners);
+
+		outState.putBoolean(ALLOW_DUPLICATES_BUNDLE_KEY, areDuplicatesAllowed());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -533,6 +543,9 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 			SerializableWrapper<Set<ListAdapterListener<DataType>>> wrappedAdapterListeners = (SerializableWrapper<Set<ListAdapterListener<DataType>>>) savedInstanceState
 					.getSerializable(ADAPTER_LISTENERS_BUNDLE_KEY);
 			adapterListeners = wrappedAdapterListeners.getWrappedInstance();
+
+			allowDuplicates = savedInstanceState
+					.getBoolean(ALLOW_DUPLICATES_BUNDLE_KEY);
 
 			notifyDataSetChanged();
 		}
