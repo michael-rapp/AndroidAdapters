@@ -388,6 +388,19 @@ public interface ListAdapter<DataType> extends DataStructure, Restorable,
 	boolean containsAllItems(Collection<DataType> items);
 
 	/**
+	 * Returns, whether the adapter contains all items, which are contained by a
+	 * specific array, or not.
+	 * 
+	 * @param items
+	 *            The array, which contains the items, which whose presence
+	 *            should be checked, as an array of the generic type DataType.
+	 *            The array may not be null
+	 * @return True, if the adapter contains all items, which are contained by
+	 *         the given array, false otherwise
+	 */
+	boolean containsAllItems(DataType... items);
+
+	/**
 	 * Returns the number of items, which are contained by the adapter.
 	 * 
 	 * @return The number of items, which are contained by the adapter, as an
