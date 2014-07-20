@@ -28,6 +28,7 @@ import java.util.Set;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.renderscript.Element.DataType;
 import android.widget.BaseAdapter;
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.datastructure.SerializableWrapper;
@@ -344,52 +345,33 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	public final boolean removeAllItems(final Collection<DataType> items) {
 		ensureNotNull(items, "The collection may not be null");
 		int numberOfRemovedItems = 0;
-		List<Item<DataType>> clonedItems = new ArrayList<Item<DataType>>(
-				this.items);
 
-		for (DataType item : items) {
-			int index = indexOf(item);
-
-			if (index != -1) {
-				Item<DataType> removedItem = this.items.remove(index);
+		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
+			if (items.contains(getItem(i))) {
+				removeItem(i);
 				numberOfRemovedItems++;
-				notifyOnItemRemoved(item, clonedItems.indexOf(removedItem));
 			}
 		}
 
-		notifyDataSetChanged();
 		return numberOfRemovedItems == items.size();
 	}
 
 	@Override
 	public final void retainAllItems(final Collection<DataType> items) {
 		ensureNotNull(items, "The collection may not be null");
-		List<Item<DataType>> clonedItems = new ArrayList<Item<DataType>>(
-				this.items);
-		List<Item<DataType>> itemsToRemove = new ArrayList<Item<DataType>>();
 
-		for (Item<DataType> item : this.items) {
-			if (!items.contains(item.getData())) {
-				itemsToRemove.add(item);
-				notifyOnItemRemoved(item.getData(), clonedItems.indexOf(item));
+		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
+			if (!items.contains(getItem(i))) {
+				removeItem(i);
 			}
 		}
-
-		this.items.removeAll(itemsToRemove);
-		notifyDataSetChanged();
 	}
 
 	@Override
 	public final void clearItems() {
-		List<Item<DataType>> clonedItems = new ArrayList<Item<DataType>>(items);
-		items.clear();
-
-		for (int i = 0; i < clonedItems.size(); i++) {
-			DataType removedItem = clonedItems.get(i).getData();
-			notifyOnItemRemoved(removedItem, i);
+		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
+			removeItem(i);
 		}
-
-		notifyDataSetChanged();
 	}
 
 	@Override
