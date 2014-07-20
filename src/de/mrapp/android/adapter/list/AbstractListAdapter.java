@@ -365,7 +365,9 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 
 	@Override
 	public final void clearItems() {
-		items.clear();
+		for (DataType item : getAllItems()) {
+			removeItem(item);
+		}
 	}
 
 	@Override
