@@ -28,9 +28,7 @@ import java.util.Set;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.renderscript.Element.DataType;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.datastructure.SerializableWrapper;
 import de.mrapp.android.adapter.datastructure.item.Item;
