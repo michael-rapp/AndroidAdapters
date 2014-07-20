@@ -230,6 +230,17 @@ public interface ListAdapter<DataType> extends DataStructure, Restorable,
 	void retainAllItems(Collection<DataType> items);
 
 	/**
+	 * Removes all items from the adapter, except of the items, which are
+	 * contained by a specific array.
+	 * 
+	 * @param items
+	 *            The array, which contains the items, which should be retained,
+	 *            as an array of the generic type DataType or an empty array, if
+	 *            no items should be retained
+	 */
+	void retainAllItems(DataType... items);
+
+	/**
 	 * Removes all items from the adapter.
 	 */
 	void clearItems();

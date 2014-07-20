@@ -368,7 +368,7 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 
 		return numberOfRemovedItems == items.size();
 	}
-	
+
 	@Override
 	public final boolean removeAllItems(final DataType... items) {
 		ensureNotNull(items, "The array may not be null");
@@ -384,6 +384,12 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 				removeItem(i);
 			}
 		}
+	}
+
+	@Override
+	public final void retainAllItems(final DataType... items) {
+		ensureNotNull(items, "The array may not be null");
+		retainAllItems(Arrays.asList(items));
 	}
 
 	@Override
