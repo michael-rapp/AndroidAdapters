@@ -70,12 +70,12 @@ public class ItemListIterator<DataType> implements ListIterator<DataType> {
 	 */
 	public ItemListIterator(final List<Item<DataType>> items, final int index) {
 		ensureNotNull(items, "The items may not be null");
-		ensureAtLeast(index, -1, "The index must be at least -1");
+		ensureAtLeast(index, 0, "The index must be at least 0");
 		ensureAtMaximum(index, items.isEmpty() ? 0 : items.size(),
 				"The index must be at maximum " + items.size());
 
 		this.items = items;
-		this.currentIndex = index;
+		this.currentIndex = index - 1;
 		this.lastReturnedItem = null;
 	}
 
@@ -90,7 +90,7 @@ public class ItemListIterator<DataType> implements ListIterator<DataType> {
 	 *            may not be null
 	 */
 	public ItemListIterator(final List<Item<DataType>> items) {
-		this(items, -1);
+		this(items, 0);
 	}
 
 	@Override
