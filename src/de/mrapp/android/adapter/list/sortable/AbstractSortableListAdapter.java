@@ -63,7 +63,7 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 	 */
 	@VisibleForTesting
 	protected static final String SORTING_LISTENERS_BUNDLE_KEY = AbstractListAdapter.class
-			.getSimpleName() + "::SortingListners";
+			.getSimpleName() + "::SortingListeners";
 
 	/**
 	 * A set, which contains the listeners, which should be notified, when the
