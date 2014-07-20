@@ -208,6 +208,7 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 	@Override
 	public final void removeSortingListener(
 			final ListSortingListener<DataType> listener) {
+		ensureNotNull(listener, "The listener may not be null");
 		sortingListeners.remove(listener);
 	}
 
