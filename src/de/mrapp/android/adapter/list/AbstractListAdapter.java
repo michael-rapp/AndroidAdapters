@@ -368,6 +368,12 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 
 		return numberOfRemovedItems == items.size();
 	}
+	
+	@Override
+	public final boolean removeAllItems(final DataType... items) {
+		ensureNotNull(items, "The array may not be null");
+		return removeAllItems(Arrays.asList(items));
+	}
 
 	@Override
 	public final void retainAllItems(final Collection<DataType> items) {
