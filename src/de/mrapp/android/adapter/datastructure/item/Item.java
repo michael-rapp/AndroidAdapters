@@ -20,7 +20,7 @@ package de.mrapp.android.adapter.datastructure.item;
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
 import de.mrapp.android.adapter.datastructure.DataStructure;
-import de.mrapp.android.adapter.list.selectable.SortingNotSupportedException;
+import de.mrapp.android.adapter.list.sortable.SortingNotSupportedException;
 
 /**
  * A data structure, which holds the data of an item of an adapter. It has a
