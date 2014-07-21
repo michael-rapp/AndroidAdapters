@@ -232,7 +232,7 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 	}
 
 	@Override
-	public final void onSaveInstanceState(final Bundle outState) {
+	public void onSaveInstanceState(final Bundle outState) {
 		super.onSaveInstanceState(outState);
 
 		SerializableWrapper<Set<ListSortingListener<DataType>>> wrappedSortingListeners = new SerializableWrapper<Set<ListSortingListener<DataType>>>(
@@ -243,7 +243,7 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public final void onRestoreInstanceState(final Bundle savedInstanceState) {
+	public void onRestoreInstanceState(final Bundle savedInstanceState) {
 		super.onRestoreInstanceState(savedInstanceState);
 
 		if (savedInstanceState != null) {

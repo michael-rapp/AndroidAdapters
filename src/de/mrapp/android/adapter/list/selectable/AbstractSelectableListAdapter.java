@@ -6,16 +6,20 @@ import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import de.mrapp.android.adapter.SelectableListDecorator;
+import de.mrapp.android.adapter.datastructure.SerializableWrapper;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.ListAdapterListener;
+import de.mrapp.android.adapter.list.enablestate.AbstractEnableStateListAdapter;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
 import de.mrapp.android.adapter.list.sortable.AbstractSortableListAdapter;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
+import de.mrapp.android.adapter.util.VisibleForTesting;
 
 public abstract class AbstractSelectableListAdapter<DataType> extends
 		AbstractSortableListAdapter<DataType> implements
@@ -27,8 +31,16 @@ public abstract class AbstractSelectableListAdapter<DataType> extends
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * A set, which contains the listeners, which should be notified when the
-	 * selection of an item of the adapter has been changed.
+	 * The key, which is used to store the listeners, which should be notified,
+	 * when an item has been selected or unselected, within a bundle.
+	 */
+	@VisibleForTesting
+	protected static final String SELECTION_LISTENERS_BUNDLE_KEY = AbstractSelectableListAdapter.class
+			.getSimpleName() + "::SelectionListeners";
+
+	/**
+	 * A set, which contains the listeners, which should be notified, when an
+	 * item has been selected or unselected.
 	 */
 	private Set<ListSelectionListener<DataType>> selectionListeners;
 
@@ -141,6 +153,26 @@ public abstract class AbstractSelectableListAdapter<DataType> extends
 		decorator.onCreateItem(getContext(), view, getItem(index), index,
 				isEnabled(index), getItemState(index), isSelected(index));
 		return view;
+	}
+
+	@Override
+	public final void onSaveInstanceState(final Bundle outState) {
+		SerializableWrapper<Set<ListSelectionListener<DataType>>> wrappedSelectionListeners = new SerializableWrapper<Set<ListSelectionListener<DataType>>>(
+				getSelectionListeners());
+		outState.putSerializable(SELECTION_LISTENERS_BUNDLE_KEY,
+				wrappedSelectionListeners);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public final void onRestoreInstanceState(final Bundle savedInstanceState) {
+		if (savedInstanceState != null) {
+			SerializableWrapper<Set<ListSelectionListener<DataType>>> wrappedSelectionListeners = (SerializableWrapper<Set<ListSelectionListener<DataType>>>) savedInstanceState
+					.getSerializable(SELECTION_LISTENERS_BUNDLE_KEY);
+			selectionListeners = wrappedSelectionListeners.getWrappedInstance();
+
+			notifyDataSetChanged();
+		}
 	}
 
 	@Override
