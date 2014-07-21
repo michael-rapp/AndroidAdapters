@@ -14,7 +14,6 @@ import de.mrapp.android.adapter.datastructure.SerializableWrapper;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.ListAdapterListener;
-import de.mrapp.android.adapter.list.enablestate.AbstractEnableStateListAdapter;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
 import de.mrapp.android.adapter.list.sortable.AbstractSortableListAdapter;
@@ -44,6 +43,7 @@ public abstract class AbstractSelectableListAdapter<DataType> extends
 	 */
 	private Set<ListSelectionListener<DataType>> selectionListeners;
 
+	// TODO: Remove
 	private SelectableListDecorator<DataType> decorator;
 
 	/**
@@ -173,6 +173,28 @@ public abstract class AbstractSelectableListAdapter<DataType> extends
 
 			notifyDataSetChanged();
 		}
+	}
+
+	@Override
+	public final int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + selectionListeners.hashCode();
+		return result;
+	}
+
+	@Override
+	public final boolean equals(final Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AbstractSelectableListAdapter<?> other = (AbstractSelectableListAdapter<?>) obj;
+		if (!selectionListeners.equals(other.selectionListeners))
+			return false;
+		return true;
 	}
 
 	@Override
