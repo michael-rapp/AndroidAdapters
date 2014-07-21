@@ -446,28 +446,27 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 	}
 
 	@Override
-	public final int hashCode() {
+	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + enableStateListeners.hashCode();
+		result = prime
+				* result
+				+ ((enableStateListeners == null) ? 0 : enableStateListeners
+						.hashCode());
 		return result;
 	}
-
+	
 	@Override
-	public final boolean equals(final Object obj) {
-		if (this == obj) {
+	public boolean equals(final Object obj) {
+		if (this == obj)
 			return true;
-		}
-		if (!super.equals(obj)) {
+		if (!super.equals(obj))
 			return false;
-		}
-		if (getClass() != obj.getClass()) {
+		if (getClass() != obj.getClass())
 			return false;
-		}
 		AbstractEnableStateListAdapter<?> other = (AbstractEnableStateListAdapter<?>) obj;
-		if (!enableStateListeners.equals(other.enableStateListeners)) {
+		if (!enableStateListeners.equals(other.enableStateListeners))
 			return false;
-		}
 		return true;
 	}
 
