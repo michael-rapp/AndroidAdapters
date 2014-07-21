@@ -303,6 +303,20 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 	}
 
 	@Override
+	public final void addItemStateListner(
+			final ListItemStateListener<DataType> listener) {
+		ensureNotNull(listener, "The listener may not be null");
+		itemStateListeners.add(listener);
+	}
+
+	@Override
+	public final void removeItemStateListener(
+			final ListItemStateListener<DataType> listener) {
+		ensureNotNull(listener, "The listener may not be null");
+		itemStateListeners.remove(listener);
+	}
+
+	@Override
 	public abstract AbstractItemStateListAdapter<DataType> clone()
 			throws CloneNotSupportedException;
 
