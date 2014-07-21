@@ -24,10 +24,13 @@ import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
+import android.os.Bundle;
+import de.mrapp.android.adapter.datastructure.SerializableWrapper;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.AbstractListAdapter;
 import de.mrapp.android.adapter.list.ListAdapterListener;
+import de.mrapp.android.adapter.util.VisibleForTesting;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
@@ -50,6 +53,14 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 	 * The constant serial version UID.
 	 */
 	private static final long serialVersionUID = 1L;
+
+	/**
+	 * The key, which is used to store the listeners, which should be notified,
+	 * when an item has been disabled or enabled, within a bundle.
+	 */
+	@VisibleForTesting
+	protected static final String ENABLE_STATE_LISTENERS_BUNDLE_KEY = AbstractEnableStateListAdapter.class
+			.getSimpleName() + "::EnableStateListeners";
 
 	/**
 	 * A set, which contains the listeners, which should be notified, when an
@@ -414,7 +425,28 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 	}
 
 	@Override
-	public int hashCode() {
+	public void onSaveInstanceState(final Bundle outState) {
+		SerializableWrapper<Set<ListEnableStateListener<DataType>>> wrappedEnableStateListeners = new SerializableWrapper<Set<ListEnableStateListener<DataType>>>(
+				getEnableStateListeners());
+		outState.putSerializable(ENABLE_STATE_LISTENERS_BUNDLE_KEY,
+				wrappedEnableStateListeners);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public void onRestoreInstanceState(final Bundle savedInstanceState) {
+		if (savedInstanceState != null) {
+			SerializableWrapper<Set<ListEnableStateListener<DataType>>> wrappedEnableStateListeners = (SerializableWrapper<Set<ListEnableStateListener<DataType>>>) savedInstanceState
+					.getSerializable(ENABLE_STATE_LISTENERS_BUNDLE_KEY);
+			enableStateListeners = wrappedEnableStateListeners
+					.getWrappedInstance();
+
+			notifyDataSetChanged();
+		}
+	}
+
+	@Override
+	public final int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + enableStateListeners.hashCode();
@@ -422,16 +454,20 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 	}
 
 	@Override
-	public boolean equals(final Object obj) {
-		if (this == obj)
+	public final boolean equals(final Object obj) {
+		if (this == obj) {
 			return true;
-		if (!super.equals(obj))
+		}
+		if (!super.equals(obj)) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		AbstractEnableStateListAdapter<?> other = (AbstractEnableStateListAdapter<?>) obj;
-		if (!enableStateListeners.equals(other.enableStateListeners))
+		if (!enableStateListeners.equals(other.enableStateListeners)) {
 			return false;
+		}
 		return true;
 	}
 
