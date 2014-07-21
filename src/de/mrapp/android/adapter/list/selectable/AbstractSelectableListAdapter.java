@@ -95,11 +95,13 @@ public abstract class AbstractSelectableListAdapter<DataType> extends
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final int numberOfItemStates,
+			final boolean triggerItemStateOnClick,
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final Set<ListSelectionListener<DataType>> selectionListeners,
 			final SelectableListDecorator<DataType> decorator) {
 		super(context, inflater, items, allowDuplicates, adapterListeners,
-				enableStateListeners, numberOfItemStates, sortingListeners);
+				enableStateListeners, numberOfItemStates,
+				triggerItemStateOnClick, sortingListeners);
 		ensureNotNull(decorator, "The decorator may not be null");
 		ensureNotNull(selectionListeners,
 				"The selection listeners may not be null");

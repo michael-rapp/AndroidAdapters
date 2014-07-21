@@ -235,6 +235,25 @@ public interface ItemStateListAdapter<DataType> {
 	int getNumberOfItemsWithSpecificState(int state);
 
 	/**
+	 * Returns, whether the state of an item is triggered, when it is clicked by
+	 * the user, or not.
+	 * 
+	 * @return True, if the state of an item is triggered, when it is clicked by
+	 *         the user, false otherwise
+	 */
+	boolean isItemStateTriggeredOnClick();
+
+	/**
+	 * Sets, whether the state of an item should be triggered, when it is
+	 * clicked by the user, or not.
+	 * 
+	 * @param triggerItemStateOnClick
+	 *            True, if the state of an item should be triggered, when it is
+	 *            clicked by the user, false otherwise
+	 */
+	void triggerItemStateOnClick(boolean triggerItemStateOnClick);
+
+	/**
 	 * Adds a new listener, which should be notified, when the state of an item
 	 * has been changed.
 	 * 
