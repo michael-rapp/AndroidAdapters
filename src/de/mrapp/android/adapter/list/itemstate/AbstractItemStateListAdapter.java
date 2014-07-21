@@ -162,15 +162,24 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 			final int numberOfItemStates, final boolean triggerItemStateOnClick) {
 		super(context, inflater, items, allowDuplicates, adapterListeners,
 				enableStateListeners);
-		ensureAtLeast(numberOfItemStates, 1, "The number of items states "
-				+ "must be at least 1");
-		this.numberOfItemStates = numberOfItemStates;
+		setNumberOfItemStates(numberOfItemStates);
 		triggerItemStateOnClick(triggerItemStateOnClick);
 	}
 
 	@Override
 	public final int getNumberOfItemStates() {
 		return numberOfItemStates;
+	}
+
+	@Override
+	public final void setNumberOfItemStates(final int numberOfItemStates) {
+		ensureAtLeast(numberOfItemStates, 1, "The number of items states "
+				+ "must be at least 1");
+		this.numberOfItemStates = numberOfItemStates;
+
+		for (Item<DataType> item : getItems()) {
+			item.setState(Math.min(item.getState(), numberOfItemStates));
+		}
 	}
 
 	@Override
