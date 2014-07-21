@@ -40,13 +40,17 @@ import de.mrapp.android.adapter.util.VisibleForTesting;
  * 
  * @param <DataType>
  *            The type of the adapter's underlying data
+ * @param <DecoratorType>
+ *            The type of the decorator, which allows to customize the
+ *            appearance of the views, which are used to visualize the items of
+ *            the adapter
  * 
  * @author Michael Rapp
  * 
  * @since 1.0.0
  */
-public abstract class AbstractEnableStateListAdapter<DataType> extends
-		AbstractListAdapter<DataType> implements
+public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
+		extends AbstractListAdapter<DataType, DecoratorType> implements
 		EnableStateListAdapter<DataType> {
 
 	/**
@@ -146,6 +150,11 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 	 *            The inflater, which should be used to inflate the views, which
 	 *            are used to visualize the adapter's items, as an instance of
 	 *            the type {@link Inflater}. The inflater may not be null
+	 * @param decorator
+	 *            The decorator, which should be used to customize the
+	 *            appearance of the views, which are used to visualize the items
+	 *            of the adapter, as an instance of the generic type
+	 *            DecoratorType. The decorator may not be null
 	 * @param items
 	 *            A list, which contains the adapter's items, or an empty list,
 	 *            if the adapter should not contain any items
@@ -161,11 +170,12 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 	 *            no listeners should be notified
 	 */
 	protected AbstractEnableStateListAdapter(final Context context,
-			final Inflater inflater, final List<Item<DataType>> items,
-			final boolean allowDuplicates,
+			final Inflater inflater, final DecoratorType decorator,
+			final List<Item<DataType>> items, final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners) {
-		super(context, inflater, items, allowDuplicates, adapterListeners);
+		super(context, inflater, decorator, items, allowDuplicates,
+				adapterListeners);
 		setEnableStateListeners(enableStateListeners);
 	}
 
@@ -461,14 +471,14 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AbstractEnableStateListAdapter<?> other = (AbstractEnableStateListAdapter<?>) obj;
+		AbstractEnableStateListAdapter<?, ?> other = (AbstractEnableStateListAdapter<?, ?>) obj;
 		if (!enableStateListeners.equals(other.enableStateListeners))
 			return false;
 		return true;
 	}
 
 	@Override
-	public abstract AbstractEnableStateListAdapter<DataType> clone()
+	public abstract AbstractEnableStateListAdapter<DataType, DecoratorType> clone()
 			throws CloneNotSupportedException;
 
 }

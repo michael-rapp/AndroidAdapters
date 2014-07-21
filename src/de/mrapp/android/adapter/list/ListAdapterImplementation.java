@@ -17,15 +17,12 @@
  */
 package de.mrapp.android.adapter.list;
 
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
-
 import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import de.mrapp.android.adapter.ListDecorator;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
@@ -48,18 +45,12 @@ import de.mrapp.android.adapter.list.sortable.ListSortingListener;
  */
 // TODO: Add toString-method
 public class ListAdapterImplementation<DataType> extends
-		AbstractSortableListAdapter<DataType> {
+		AbstractSortableListAdapter<DataType, ListDecorator<DataType>> {
 
 	/**
 	 * The constant serial version UID.
 	 */
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * The decorator, which is used to customize the appearance of the views,
-	 * which are used to visualize the items of the adapter.
-	 */
-	private final transient ListDecorator<DataType> decorator;
 
 	/**
 	 * Creates a new adapter, whose underlying data is managed as a list of
@@ -90,27 +81,24 @@ public class ListAdapterImplementation<DataType> extends
 	 *            {@link ListDecorator}. The decorator may not be null
 	 */
 	protected ListAdapterImplementation(final Context context,
-			final Inflater inflater, final List<Item<DataType>> items,
-			final boolean allowDuplicates,
+			final Inflater inflater, final ListDecorator<DataType> decorator,
+			final List<Item<DataType>> items, final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final int numberOfItemStates,
 			final boolean triggerItemStateOnClick,
 			final Set<ListItemStateListener<DataType>> itemStateListeners,
-			final Set<ListSortingListener<DataType>> sortingListeners,
-			final ListDecorator<DataType> decorator) {
-		super(context, inflater, items, allowDuplicates, adapterListeners,
-				enableStateListeners, numberOfItemStates,
+			final Set<ListSortingListener<DataType>> sortingListeners) {
+		super(context, inflater, decorator, items, allowDuplicates,
+				adapterListeners, enableStateListeners, numberOfItemStates,
 				triggerItemStateOnClick, itemStateListeners, sortingListeners);
-		ensureNotNull(decorator, "The decorator may not be null");
-		this.decorator = decorator;
 	}
 
 	@Override
 	public final View getView(final int index, final View convertView,
 			final ViewGroup parent) {
 		View view = getInflater().inflate(getContext(), parent);
-		decorator.onShowItem(getContext(), view, getItem(index), index,
+		getDecorator().onShowItem(getContext(), view, getItem(index), index,
 				isEnabled(index), getItemState(index));
 		return view;
 	}
@@ -119,10 +107,11 @@ public class ListAdapterImplementation<DataType> extends
 	public final ListAdapterImplementation<DataType> clone()
 			throws CloneNotSupportedException {
 		return new ListAdapterImplementation<DataType>(getContext(),
-				getInflater(), cloneItems(), areDuplicatesAllowed(),
-				getAdapterListeners(), getEnableStateListeners(),
-				getNumberOfItemStates(), isItemStateTriggeredOnClick(),
-				getItemStateListeners(), getSortingListeners(), decorator);
+				getInflater(), getDecorator(), cloneItems(),
+				areDuplicatesAllowed(), getAdapterListeners(),
+				getEnableStateListeners(), getNumberOfItemStates(),
+				isItemStateTriggeredOnClick(), getItemStateListeners(),
+				getSortingListeners());
 	}
 
 }

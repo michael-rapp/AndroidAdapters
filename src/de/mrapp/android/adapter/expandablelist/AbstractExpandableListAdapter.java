@@ -8,7 +8,7 @@ import de.mrapp.android.adapter.datastructure.Restorable;
 import de.mrapp.android.adapter.datastructure.group.Group;
 import de.mrapp.android.adapter.list.AbstractListAdapter;
 
-public abstract class AbstractExpandableListAdapter<GroupDataType, ChildDataType, GroupAdapterType extends AbstractListAdapter<Group<GroupDataType, ChildDataType, ChildAdapterType>>, ChildAdapterType extends AbstractListAdapter<ChildDataType>>
+public abstract class AbstractExpandableListAdapter<GroupDataType, ChildDataType, GroupAdapterType extends AbstractListAdapter<Group<GroupDataType, ChildDataType, ChildAdapterType>, GroupDecoratorType>, ChildAdapterType extends AbstractListAdapter<ChildDataType, ChildDecoratorType>, ChildDecoratorType, GroupDecoratorType>
 		extends BaseExpandableListAdapter implements DataStructure, Restorable {
 
 	/**
@@ -75,7 +75,7 @@ public abstract class AbstractExpandableListAdapter<GroupDataType, ChildDataType
 	}
 
 	@Override
-	public abstract AbstractExpandableListAdapter<GroupDataType, ChildDataType, GroupAdapterType, ChildAdapterType> clone()
+	public abstract AbstractExpandableListAdapter<GroupDataType, ChildDataType, GroupAdapterType, ChildAdapterType, ChildDecoratorType, GroupDecoratorType> clone()
 			throws CloneNotSupportedException;
 
 }

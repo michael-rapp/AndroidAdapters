@@ -47,13 +47,17 @@ import de.mrapp.android.adapter.util.VisibleForTesting;
  * 
  * @param <DataType>
  *            The type of the adapter's underlying data
+ * @param <DecoratorType>
+ *            The type of the decorator, which allows to customize the
+ *            appearance of the views, which are used to visualize the items of
+ *            the adapter
  * 
  * @author Michael Rapp
  * 
  * @since 1.0.0
  */
-public abstract class AbstractListAdapter<DataType> extends BaseAdapter
-		implements ListAdapter<DataType> {
+public abstract class AbstractListAdapter<DataType, DecoratorType> extends
+		BaseAdapter implements ListAdapter<DataType> {
 
 	/**
 	 * The constant serial version UID.
@@ -94,6 +98,12 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	 * visualize the adapter's items.
 	 */
 	private final transient Inflater inflater;
+
+	/**
+	 * The decorator, which allows to customize the appearance of the views,
+	 * which are used to visualize the items of the adapter.
+	 */
+	private final transient DecoratorType decorator;
 
 	/**
 	 * True, if duplicate items are allowed, false otherwise.
@@ -174,6 +184,19 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	}
 
 	/**
+	 * Returns the decorator, which allows to customize the appearance of the
+	 * views, which are used to visualize the items of the adapter.
+	 * 
+	 * @return The decorator, which allows to customize the appearance of the
+	 *         views, which are used to visualize the items of the adapter, as
+	 *         an instance of the generic type DecoratorType. The decorator may
+	 *         not be null
+	 */
+	protected final DecoratorType getDecorator() {
+		return decorator;
+	}
+
+	/**
 	 * Returns a list, which contains the adapter's underlying data.
 	 * 
 	 * @return A list, which contains the adapters underlying data, as an
@@ -230,6 +253,11 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	 *            The inflater, which should be used to inflate the views, which
 	 *            are used to visualize the adapter's items, as an instance of
 	 *            the type {@link Inflater}. The inflater may not be null
+	 * @param decorator
+	 *            The decorator, which should be used to customize the
+	 *            appearance of the views, which are used to visualize the items
+	 *            of the adapter, as an instance of the generic type
+	 *            DecoratorType. The decorator may not be null
 	 * @param items
 	 *            A list, which contains the the adapter's underlying data, as
 	 *            an instance of the type {@link List} or an empty list, if the
@@ -243,15 +271,17 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	 *            listeners should be notified
 	 */
 	protected AbstractListAdapter(final Context context,
-			final Inflater inflater, final List<Item<DataType>> items,
-			final boolean allowDuplicates,
+			final Inflater inflater, final DecoratorType decorator,
+			final List<Item<DataType>> items, final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners) {
 		ensureNotNull(context, "The context may not be null");
 		ensureNotNull(inflater, "The inflater may not be null");
+		ensureNotNull(decorator, "The decorator may not be null");
 		ensureNotNull(items, "The items may not be null");
 		ensureNotNull(adapterListeners, "The adapter listeners may not be null");
 		this.context = context;
 		this.inflater = inflater;
+		this.decorator = decorator;
 		this.items = items;
 		this.allowDuplicates = allowDuplicates;
 		this.adapterListeners = adapterListeners;
@@ -569,7 +599,7 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AbstractListAdapter<?> other = (AbstractListAdapter<?>) obj;
+		AbstractListAdapter<?, ?> other = (AbstractListAdapter<?, ?>) obj;
 		if (!adapterListeners.equals(other.adapterListeners))
 			return false;
 		if (allowDuplicates != other.allowDuplicates)
@@ -580,7 +610,7 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 	}
 
 	@Override
-	public abstract AbstractListAdapter<DataType> clone()
+	public abstract AbstractListAdapter<DataType, DecoratorType> clone()
 			throws CloneNotSupportedException;
 
 }

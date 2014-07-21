@@ -48,20 +48,20 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 	}
 
 	protected SingleChoiceListAdapterImplementation(final Context context,
-			final Inflater inflater, final List<Item<DataType>> items,
-			final boolean allowDuplicates,
+			final Inflater inflater,
+			final SelectableListDecorator<DataType> decorator,
+			final List<Item<DataType>> items, final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final int numberOfItemStates,
 			final boolean triggerItemStateOnClick,
 			final Set<ListItemStateListener<DataType>> itemStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
-			final Set<ListSelectionListener<DataType>> selectionListeners,
-			final SelectableListDecorator<DataType> decorator) {
-		super(context, inflater, items, allowDuplicates, adapterListeners,
-				enableStateListeners, numberOfItemStates,
+			final Set<ListSelectionListener<DataType>> selectionListeners) {
+		super(context, inflater, decorator, items, allowDuplicates,
+				adapterListeners, enableStateListeners, numberOfItemStates,
 				triggerItemStateOnClick, itemStateListeners, sortingListeners,
-				selectionListeners, decorator);
+				selectionListeners);
 		addAdapterListener(getAdapterListener());
 	}
 
@@ -117,10 +117,10 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 	public final SingleChoiceListAdapterImplementation<DataType> clone()
 			throws CloneNotSupportedException {
 		return new SingleChoiceListAdapterImplementation<DataType>(
-				getContext(), getInflater(), cloneItems(),
+				getContext(), getInflater(), getDecorator(), cloneItems(),
 				areDuplicatesAllowed(), getAdapterListeners(),
 				getEnableStateListeners(), getNumberOfItemStates(),
 				isItemStateTriggeredOnClick(), getItemStateListeners(),
-				getSortingListeners(), getSelectionListeners(), getDecorator());
+				getSortingListeners(), getSelectionListeners());
 	}
 }

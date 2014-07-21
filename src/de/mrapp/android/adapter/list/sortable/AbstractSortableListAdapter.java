@@ -44,13 +44,17 @@ import de.mrapp.android.adapter.util.VisibleForTesting;
  * 
  * @param <DataType>
  *            The type of the adapter's underlying data
+ * @param <DecoratorType>
+ *            The type of the decorator, which allows to customize the
+ *            appearance of the views, which are used to visualize the items of
+ *            the adapter
  * 
  * @author Michael Rapp
  * 
  * @since 1.0.0
  */
-public abstract class AbstractSortableListAdapter<DataType> extends
-		AbstractItemStateListAdapter<DataType> implements
+public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
+		extends AbstractItemStateListAdapter<DataType, DecoratorType> implements
 		SortableListAdapter<DataType> {
 
 	/**
@@ -131,6 +135,11 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 	 *            The inflater, which should be used to inflate the views, which
 	 *            are used to visualize the adapter's items, as an instance of
 	 *            the type {@link Inflater}. The inflater may not be null
+	 * @param decorator
+	 *            The decorator, which should be used to customize the
+	 *            appearance of the views, which are used to visualize the items
+	 *            of the adapter, as an instance of the generic type
+	 *            DecoratorType. The decorator may not be null
 	 * @param items
 	 *            A list, which contains the the adapter's items, or an empty
 	 *            list, if the adapter should not contain any items
@@ -160,16 +169,16 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 	 *            set, if no listeners should be notified
 	 */
 	protected AbstractSortableListAdapter(final Context context,
-			final Inflater inflater, final List<Item<DataType>> items,
-			final boolean allowDuplicates,
+			final Inflater inflater, final DecoratorType decorator,
+			final List<Item<DataType>> items, final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final int numberOfItemStates,
 			final boolean triggerItemStateOnClick,
 			final Set<ListItemStateListener<DataType>> itemStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners) {
-		super(context, inflater, items, allowDuplicates, adapterListeners,
-				enableStateListeners, numberOfItemStates,
+		super(context, inflater, decorator, items, allowDuplicates,
+				adapterListeners, enableStateListeners, numberOfItemStates,
 				triggerItemStateOnClick, itemStateListeners);
 		setSortingListeners(sortingListeners);
 	}
@@ -271,14 +280,14 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AbstractSortableListAdapter<?> other = (AbstractSortableListAdapter<?>) obj;
+		AbstractSortableListAdapter<?, ?> other = (AbstractSortableListAdapter<?, ?>) obj;
 		if (!sortingListeners.equals(other.sortingListeners))
 			return false;
 		return true;
 	}
 
 	@Override
-	public abstract AbstractSortableListAdapter<DataType> clone()
+	public abstract AbstractSortableListAdapter<DataType, DecoratorType> clone()
 			throws CloneNotSupportedException;
 
 }
