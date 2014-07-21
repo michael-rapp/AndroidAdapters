@@ -414,6 +414,28 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 	}
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + enableStateListeners.hashCode();
+		return result;
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AbstractEnableStateListAdapter<?> other = (AbstractEnableStateListAdapter<?>) obj;
+		if (!enableStateListeners.equals(other.enableStateListeners))
+			return false;
+		return true;
+	}
+
+	@Override
 	public abstract AbstractEnableStateListAdapter<DataType> clone()
 			throws CloneNotSupportedException;
 
