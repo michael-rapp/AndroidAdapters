@@ -171,6 +171,8 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 
 	@Override
 	public final void sort(final Order order) {
+		ensureNotNull(order, "The order may not be null");
+
 		if (order == Order.ASCENDING) {
 			Collections.sort(getItems());
 		} else {
@@ -189,6 +191,7 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 	@Override
 	public final void sort(final Order order,
 			final Comparator<DataType> comparator) {
+		ensureNotNull(order, "The order may not be null");
 		Comparator<Item<DataType>> itemComparator = new ItemComparator<DataType>(
 				comparator);
 
