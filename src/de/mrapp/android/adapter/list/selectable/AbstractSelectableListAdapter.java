@@ -20,9 +20,10 @@ import de.mrapp.android.adapter.list.sortable.AbstractSortableListAdapter;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 import de.mrapp.android.adapter.util.VisibleForTesting;
 
-public abstract class AbstractSelectableListAdapter<DataType> extends
-		AbstractSortableListAdapter<DataType> implements
-		SelectableListAdapter<DataType> {
+public abstract class AbstractSelectableListAdapter<DataType>
+		extends
+		AbstractSortableListAdapter<DataType, SelectableListDecorator<DataType>>
+		implements SelectableListAdapter<DataType> {
 
 	/**
 	 * The constant serial version UID.
@@ -42,9 +43,6 @@ public abstract class AbstractSelectableListAdapter<DataType> extends
 	 * item has been selected or unselected.
 	 */
 	private Set<ListSelectionListener<DataType>> selectionListeners;
-
-	// TODO: Remove
-	private SelectableListDecorator<DataType> decorator;
 
 	/**
 	 * Notifies all listeners, which have been registered to be notified when
@@ -86,10 +84,6 @@ public abstract class AbstractSelectableListAdapter<DataType> extends
 		}
 	}
 
-	protected final SelectableListDecorator<DataType> getDecorator() {
-		return decorator;
-	}
-
 	/**
 	 * Returns the set, which contains the listeners, which should be notified
 	 * when the selection of an item of the adapter has been changed.
@@ -103,24 +97,19 @@ public abstract class AbstractSelectableListAdapter<DataType> extends
 	}
 
 	protected AbstractSelectableListAdapter(final Context context,
-			final Inflater inflater, final List<Item<DataType>> items,
-			final boolean allowDuplicates,
+			final Inflater inflater,
+			final SelectableListDecorator<DataType> decorator,
+			final List<Item<DataType>> items, final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final int numberOfItemStates,
 			final boolean triggerItemStateOnClick,
 			final Set<ListItemStateListener<DataType>> itemStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
-			final Set<ListSelectionListener<DataType>> selectionListeners,
-			final SelectableListDecorator<DataType> decorator) {
-		super(context, inflater, items, allowDuplicates, adapterListeners,
-				enableStateListeners, numberOfItemStates,
+			final Set<ListSelectionListener<DataType>> selectionListeners) {
+		super(context, inflater, decorator, items, allowDuplicates,
+				adapterListeners, enableStateListeners, numberOfItemStates,
 				triggerItemStateOnClick, itemStateListeners, sortingListeners);
-		ensureNotNull(decorator, "The decorator may not be null");
-		ensureNotNull(selectionListeners,
-				"The selection listeners may not be null");
-		this.decorator = decorator;
-		this.selectionListeners = selectionListeners;
 	}
 
 	@Override
@@ -150,7 +139,7 @@ public abstract class AbstractSelectableListAdapter<DataType> extends
 	public final View getView(final int index, final View convertView,
 			final ViewGroup parent) {
 		View view = getInflater().inflate(getContext(), parent);
-		decorator.onCreateItem(getContext(), view, getItem(index), index,
+		getDecorator().onCreateItem(getContext(), view, getItem(index), index,
 				isEnabled(index), getItemState(index), isSelected(index));
 		return view;
 	}

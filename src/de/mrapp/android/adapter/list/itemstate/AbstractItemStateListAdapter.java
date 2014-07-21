@@ -27,7 +27,6 @@ import java.util.Set;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.widget.ListView;
 import de.mrapp.android.adapter.datastructure.SerializableWrapper;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
@@ -44,14 +43,18 @@ import de.mrapp.android.adapter.util.VisibleForTesting;
  * 
  * @param <DataType>
  *            The type of the adapter's underlying data
+ * @param <DecoratorType>
+ *            The type of the decorator, which allows to customize the
+ *            appearance of the views, which are used to visualize the items of
+ *            the adapter
  * 
  * @author Michael Rapp
  * 
  * @since 1.0.0
  */
-public abstract class AbstractItemStateListAdapter<DataType> extends
-		AbstractEnableStateListAdapter<DataType> implements
-		ItemStateListAdapter<DataType> {
+public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
+		extends AbstractEnableStateListAdapter<DataType, DecoratorType>
+		implements ItemStateListAdapter<DataType> {
 
 	/**
 	 * The constant serial version UID.
@@ -162,6 +165,11 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 	 *            The inflater, which should be used to inflate the views, which
 	 *            are used to visualize the adapter's items, as an instance of
 	 *            the type {@link Inflater}. The inflater may not be null
+	 * @param decorator
+	 *            The decorator, which should be used to customize the
+	 *            appearance of the views, which are used to visualize the items
+	 *            of the adapter, as an instance of the generic type
+	 *            DecoratorType. The decorator may not be null
 	 * @param items
 	 *            A list, which contains the adapter's items, or an empty list,
 	 *            if the adapter should not contain any items
@@ -187,15 +195,15 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 	 *            no listeners should be notified
 	 */
 	protected AbstractItemStateListAdapter(final Context context,
-			final Inflater inflater, final List<Item<DataType>> items,
-			final boolean allowDuplicates,
+			final Inflater inflater, final DecoratorType decorator,
+			final List<Item<DataType>> items, final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final int numberOfItemStates,
 			final boolean triggerItemStateOnClick,
 			final Set<ListItemStateListener<DataType>> itemStateListeners) {
-		super(context, inflater, items, allowDuplicates, adapterListeners,
-				enableStateListeners);
+		super(context, inflater, decorator, items, allowDuplicates,
+				adapterListeners, enableStateListeners);
 		setNumberOfItemStates(numberOfItemStates);
 		triggerItemStateOnClick(triggerItemStateOnClick);
 		setItemStateListeners(itemStateListeners);
@@ -431,7 +439,7 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AbstractItemStateListAdapter<?> other = (AbstractItemStateListAdapter<?>) obj;
+		AbstractItemStateListAdapter<?, ?> other = (AbstractItemStateListAdapter<?, ?>) obj;
 		if (!itemStateListeners.equals(other.itemStateListeners))
 			return false;
 		if (numberOfItemStates != other.numberOfItemStates)
@@ -442,7 +450,7 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 	}
 
 	@Override
-	public abstract AbstractItemStateListAdapter<DataType> clone()
+	public abstract AbstractItemStateListAdapter<DataType, DecoratorType> clone()
 			throws CloneNotSupportedException;
 
 }

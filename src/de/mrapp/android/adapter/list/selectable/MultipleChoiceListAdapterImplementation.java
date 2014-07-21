@@ -40,20 +40,20 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 	}
 
 	protected MultipleChoiceListAdapterImplementation(final Context context,
-			final Inflater inflater, final List<Item<DataType>> items,
-			final boolean allowDuplicates,
+			final Inflater inflater,
+			final SelectableListDecorator<DataType> decorator,
+			final List<Item<DataType>> items, final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final int numberOfItemStates,
 			final boolean triggerItemStateOnClick,
 			final Set<ListItemStateListener<DataType>> itemStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
-			final Set<ListSelectionListener<DataType>> selectionListeners,
-			final SelectableListDecorator<DataType> decorator) {
-		super(context, inflater, items, allowDuplicates, adapterListeners,
-				enableStateListeners, numberOfItemStates,
+			final Set<ListSelectionListener<DataType>> selectionListeners) {
+		super(context, inflater, decorator, items, allowDuplicates,
+				adapterListeners, enableStateListeners, numberOfItemStates,
 				triggerItemStateOnClick, itemStateListeners, sortingListeners,
-				selectionListeners, decorator);
+				selectionListeners);
 		addEnableStateListner(getEnableStateListener());
 	}
 
@@ -315,11 +315,11 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 	public final MultipleChoiceListAdapterImplementation<DataType> clone()
 			throws CloneNotSupportedException {
 		return new MultipleChoiceListAdapterImplementation<DataType>(
-				getContext(), getInflater(), cloneItems(),
+				getContext(), getInflater(), getDecorator(), cloneItems(),
 				areDuplicatesAllowed(), getAdapterListeners(),
 				getEnableStateListeners(), getNumberOfItemStates(),
 				isItemStateTriggeredOnClick(), getItemStateListeners(),
-				getSortingListeners(), getSelectionListeners(), getDecorator());
+				getSortingListeners(), getSelectionListeners());
 	}
 
 }
