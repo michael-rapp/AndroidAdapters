@@ -449,13 +449,10 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime
-				* result
-				+ ((enableStateListeners == null) ? 0 : enableStateListeners
-						.hashCode());
+		result = prime * result + enableStateListeners.hashCode();
 		return result;
 	}
-	
+
 	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj)
