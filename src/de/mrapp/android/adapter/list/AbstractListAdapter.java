@@ -69,7 +69,7 @@ public abstract class AbstractListAdapter<DataType> extends BaseAdapter
 			.getSimpleName() + "::Items";
 
 	/**
-	 * The key, which is used to store the listeners, which should be notified
+	 * The key, which is used to store the listeners, which should be notified,
 	 * when the adapter's underlying data has been modified, within a bundle.
 	 */
 	@VisibleForTesting
