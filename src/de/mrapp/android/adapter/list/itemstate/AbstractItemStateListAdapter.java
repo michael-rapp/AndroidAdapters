@@ -26,11 +26,15 @@ import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.widget.ListView;
+import de.mrapp.android.adapter.datastructure.SerializableWrapper;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.AbstractEnableStateListAdapter;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
+import de.mrapp.android.adapter.util.VisibleForTesting;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
@@ -53,6 +57,30 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 	 * The constant serial version UID.
 	 */
 	private static final long serialVersionUID = 1L;
+
+	/**
+	 * The key, which is used to store the number of states, the adapter's items
+	 * may have, within a bundle.
+	 */
+	@VisibleForTesting
+	protected static final String NUMBER_OF_ITEM_STATES_BUNDLE_KEY = AbstractItemStateListAdapter.class
+			.getSimpleName() + "::NumberOfItemStates";
+
+	/**
+	 * The key, which is used to store, whether the state of an item should be
+	 * triggered, when it is clicked by the user, or not, within a bundle.
+	 */
+	@VisibleForTesting
+	protected static final String TRIGGER_ITEM_STATE_ON_CLICK_BUNDLE_KEY = AbstractItemStateListAdapter.class
+			.getSimpleName() + "::TriggerItemStateOnClick";
+
+	/**
+	 * The key, which is used to store the listeners, which should be notified,
+	 * when the state of an item has been changed, within a bundle.
+	 */
+	@VisibleForTesting
+	protected static final String ITEM_STATE_LISTENERS_BUNDLE_KEY = AbstractItemStateListAdapter.class
+			.getSimpleName() + "::ItemStateListeners";
 
 	/**
 	 * The number of states, the adapter's items can have.
@@ -351,6 +379,38 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 			final ListItemStateListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		itemStateListeners.remove(listener);
+	}
+
+	@Override
+	public void onSaveInstanceState(final Bundle outState) {
+		outState.putInt(NUMBER_OF_ITEM_STATES_BUNDLE_KEY,
+				getNumberOfItemStates());
+
+		outState.putBoolean(TRIGGER_ITEM_STATE_ON_CLICK_BUNDLE_KEY,
+				isItemStateTriggeredOnClick());
+
+		SerializableWrapper<Set<ListItemStateListener<DataType>>> wrappedItemStateListeners = new SerializableWrapper<Set<ListItemStateListener<DataType>>>(
+				getItemStateListeners());
+		outState.putSerializable(ITEM_STATE_LISTENERS_BUNDLE_KEY,
+				wrappedItemStateListeners);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public void onRestoreInstanceState(final Bundle savedInstanceState) {
+		if (savedInstanceState != null) {
+			numberOfItemStates = savedInstanceState
+					.getInt(NUMBER_OF_ITEM_STATES_BUNDLE_KEY);
+
+			triggerItemStateOnClick = savedInstanceState
+					.getBoolean(TRIGGER_ITEM_STATE_ON_CLICK_BUNDLE_KEY);
+
+			SerializableWrapper<Set<ListItemStateListener<DataType>>> wrappedItemStateListeners = (SerializableWrapper<Set<ListItemStateListener<DataType>>>) savedInstanceState
+					.getSerializable(ITEM_STATE_LISTENERS_BUNDLE_KEY);
+			itemStateListeners = wrappedItemStateListeners.getWrappedInstance();
+
+			notifyDataSetChanged();
+		}
 	}
 
 	@Override
