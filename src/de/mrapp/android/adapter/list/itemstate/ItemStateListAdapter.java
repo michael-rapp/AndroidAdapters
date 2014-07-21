@@ -43,6 +43,17 @@ public interface ItemStateListAdapter<DataType> {
 	int getNumberOfItemStates();
 
 	/**
+	 * Sets the number of states, the adapter's items may have. If the number of
+	 * states is set to a value, less than the previous value, the states of the
+	 * items, which became obsolete, will be set to the maximum state.
+	 * 
+	 * @param numberOfItemStates
+	 *            The number of states, which should be set, as an
+	 *            {@link Integer} value. The value must be at least 1
+	 */
+	void setNumberOfItemStates(int numberOfItemStates);
+
+	/**
 	 * Returns the current state of the item, which belongs to a specific index.
 	 * 
 	 * @param index
