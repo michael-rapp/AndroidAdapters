@@ -31,6 +31,8 @@ import java.util.Set;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.datastructure.SerializableWrapper;
@@ -241,6 +243,23 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	protected final Set<ListAdapterListener<DataType>> getAdapterListeners() {
 		return adapterListeners;
 	}
+
+	/**
+	 * This method is invoked to apply the decorator, which allows to customize
+	 * the view, which is used to visualize a specific item.
+	 * 
+	 * @param context
+	 *            The context, the adapter belongs to, as an instance of the
+	 *            class {@link Context}. The context may not be null
+	 * @param view
+	 *            The view, which is used to visualize the item, as an instance
+	 *            of the class {@link View}. The view may not be null
+	 * @param index
+	 *            The index of the item, which should be visualized, as an
+	 *            {@link Integer} value
+	 */
+	protected abstract void applyDecorator(final Context context,
+			final View view, final int index);
 
 	/**
 	 * Creates a new adapter, whose underlying data is managed as a list of
@@ -546,6 +565,19 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 				isEmpty() ? "The index must be at maximum "
 						+ (items.size() - 1) : "The adapter is empty");
 		return index;
+	}
+
+	@Override
+	public final View getView(final int index, final View convertView,
+			final ViewGroup parent) {
+		View view = convertView;
+
+		if (view == null) {
+			view = getInflater().inflate(getContext(), parent);
+		}
+
+		applyDecorator(getContext(), view, index);
+		return view;
 	}
 
 	@Override

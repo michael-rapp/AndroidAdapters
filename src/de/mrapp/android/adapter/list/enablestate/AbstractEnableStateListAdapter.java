@@ -25,6 +25,7 @@ import java.util.Set;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.widget.ListView;
 import de.mrapp.android.adapter.datastructure.SerializableWrapper;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;

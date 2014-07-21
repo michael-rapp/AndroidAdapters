@@ -22,7 +22,6 @@ import java.util.Set;
 
 import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
 import de.mrapp.android.adapter.ListDecorator;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
@@ -95,12 +94,10 @@ public class ListAdapterImplementation<DataType> extends
 	}
 
 	@Override
-	public final View getView(final int index, final View convertView,
-			final ViewGroup parent) {
-		View view = getInflater().inflate(getContext(), parent);
-		getDecorator().onShowItem(getContext(), view, getItem(index), index,
+	protected final void applyDecorator(final Context context, final View view,
+			final int index) {
+		getDecorator().onShowItem(context, view, getItem(index), index,
 				isEnabled(index), getItemState(index));
-		return view;
 	}
 
 	@Override

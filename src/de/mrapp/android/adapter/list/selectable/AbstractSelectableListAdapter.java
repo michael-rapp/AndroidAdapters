@@ -8,7 +8,6 @@ import java.util.Set;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import de.mrapp.android.adapter.SelectableListDecorator;
 import de.mrapp.android.adapter.datastructure.SerializableWrapper;
 import de.mrapp.android.adapter.datastructure.item.Item;
@@ -96,6 +95,13 @@ public abstract class AbstractSelectableListAdapter<DataType>
 		return selectionListeners;
 	}
 
+	@Override
+	protected final void applyDecorator(final Context context, final View view,
+			final int index) {
+		getDecorator().onShowItem(context, view, getItem(index), index,
+				isEnabled(index), getItemState(index), isSelected(index));
+	}
+
 	protected AbstractSelectableListAdapter(final Context context,
 			final Inflater inflater,
 			final SelectableListDecorator<DataType> decorator,
@@ -133,15 +139,6 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	@Override
 	public final boolean isSelected(final DataType item) {
 		return isSelected(indexOf(item));
-	}
-
-	@Override
-	public final View getView(final int index, final View convertView,
-			final ViewGroup parent) {
-		View view = getInflater().inflate(getContext(), parent);
-		getDecorator().onCreateItem(getContext(), view, getItem(index), index,
-				isEnabled(index), getItemState(index), isSelected(index));
-		return view;
 	}
 
 	@Override
