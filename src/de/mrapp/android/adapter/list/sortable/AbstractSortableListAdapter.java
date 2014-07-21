@@ -34,6 +34,7 @@ import de.mrapp.android.adapter.list.AbstractListAdapter;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.itemstate.AbstractItemStateListAdapter;
+import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
 import de.mrapp.android.adapter.util.VisibleForTesting;
 
 /**
@@ -149,6 +150,10 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 	 * @param triggerItemStateOnClick
 	 *            True, if the state of an item should be triggered, when it is
 	 *            clicked by the user, false otherwise
+	 * @param itemStateListeners
+	 *            A set, which contains the listeners, which should be notified,
+	 *            when the state of an item has been changed or an empty set, if
+	 *            no listeners should be notified
 	 * @param sortingListeners
 	 *            A set, which contains the listeners, which should be notified,
 	 *            when the adapter's underlying data has been sorted or an empty
@@ -161,10 +166,11 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final int numberOfItemStates,
 			final boolean triggerItemStateOnClick,
+			final Set<ListItemStateListener<DataType>> itemStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners) {
 		super(context, inflater, items, allowDuplicates, adapterListeners,
 				enableStateListeners, numberOfItemStates,
-				triggerItemStateOnClick);
+				triggerItemStateOnClick, itemStateListeners);
 		setSortingListeners(sortingListeners);
 	}
 

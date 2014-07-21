@@ -30,6 +30,7 @@ import de.mrapp.android.adapter.ListDecorator;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
+import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
 import de.mrapp.android.adapter.list.sortable.AbstractSortableListAdapter;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 
@@ -95,11 +96,12 @@ public class ListAdapterImplementation<DataType> extends
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final int numberOfItemStates,
 			final boolean triggerItemStateOnClick,
+			final Set<ListItemStateListener<DataType>> itemStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final ListDecorator<DataType> decorator) {
 		super(context, inflater, items, allowDuplicates, adapterListeners,
 				enableStateListeners, numberOfItemStates,
-				triggerItemStateOnClick, sortingListeners);
+				triggerItemStateOnClick, itemStateListeners, sortingListeners);
 		ensureNotNull(decorator, "The decorator may not be null");
 		this.decorator = decorator;
 	}
@@ -120,7 +122,7 @@ public class ListAdapterImplementation<DataType> extends
 				getInflater(), cloneItems(), areDuplicatesAllowed(),
 				getAdapterListeners(), getEnableStateListeners(),
 				getNumberOfItemStates(), isItemStateTriggeredOnClick(),
-				getSortingListeners(), decorator);
+				getItemStateListeners(), getSortingListeners(), decorator);
 	}
 
 }
