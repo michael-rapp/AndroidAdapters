@@ -143,6 +143,9 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 	 *            A set, which contains the listeners, which should be notified
 	 *            when an item has been disabled or enabled or an empty set, if
 	 *            no listeners should be notified
+	 * @param numberOfItemStates
+	 *            The number of states, the adapter's items may have, as an
+	 *            {@link Integer} value. The value must be at least 1
 	 * @param sortingListeners
 	 *            A set, which contains the listeners, which should be notified,
 	 *            when the adapter's underlying data has been sorted or an empty
