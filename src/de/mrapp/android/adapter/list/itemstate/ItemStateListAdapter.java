@@ -234,4 +234,26 @@ public interface ItemStateListAdapter<DataType> {
 	 */
 	int getNumberOfItemsWithSpecificState(int state);
 
+	/**
+	 * Adds a new listener, which should be notified, when the state of an item
+	 * has been changed.
+	 * 
+	 * @param listener
+	 *            The listener, which should be added, as an instance of the
+	 *            class {@link ListItemStateListener}. The listener may not be
+	 *            null
+	 */
+	void addItemStateListner(final ListItemStateListener<DataType> listener);
+
+	/**
+	 * Removes a specific listener, which should not be notified, when the state
+	 * of an item has been changed, anymore.
+	 * 
+	 * @param listener
+	 *            The listener, which should be removed, as an instance of the
+	 *            class {@link ListItemStateListener}. The listener may not be
+	 *            null
+	 */
+	void removeItemStateListener(ListItemStateListener<DataType> listener);
+
 }
