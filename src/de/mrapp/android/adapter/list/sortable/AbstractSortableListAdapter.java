@@ -242,6 +242,28 @@ public abstract class AbstractSortableListAdapter<DataType> extends
 	}
 
 	@Override
+	public final int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + sortingListeners.hashCode();
+		return result;
+	}
+
+	@Override
+	public final boolean equals(final Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AbstractSortableListAdapter<?> other = (AbstractSortableListAdapter<?>) obj;
+		if (!sortingListeners.equals(other.sortingListeners))
+			return false;
+		return true;
+	}
+
+	@Override
 	public abstract AbstractSortableListAdapter<DataType> clone()
 			throws CloneNotSupportedException;
 
