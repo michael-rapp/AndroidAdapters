@@ -94,10 +94,12 @@ public class ListAdapterImplementation<DataType> extends
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final int numberOfItemStates,
+			final boolean triggerItemStateOnClick,
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final ListDecorator<DataType> decorator) {
 		super(context, inflater, items, allowDuplicates, adapterListeners,
-				enableStateListeners, numberOfItemStates, sortingListeners);
+				enableStateListeners, numberOfItemStates,
+				triggerItemStateOnClick, sortingListeners);
 		ensureNotNull(decorator, "The decorator may not be null");
 		this.decorator = decorator;
 	}
@@ -117,7 +119,8 @@ public class ListAdapterImplementation<DataType> extends
 		return new ListAdapterImplementation<DataType>(getContext(),
 				getInflater(), cloneItems(), areDuplicatesAllowed(),
 				getAdapterListeners(), getEnableStateListeners(),
-				getNumberOfItemStates(), getSortingListeners(), decorator);
+				getNumberOfItemStates(), isItemStateTriggeredOnClick(),
+				getSortingListeners(), decorator);
 	}
 
 }

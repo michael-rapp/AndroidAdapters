@@ -66,6 +66,12 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 	private Set<ListItemStateListener<DataType>> itemStateListeners;
 
 	/**
+	 * True, if the state of an item should be triggered, when it is clicked by
+	 * the user, false otherwise.
+	 */
+	private boolean triggerItemStateOnClick;
+
+	/**
 	 * Notifies all listeners, which have registered to be notified, when the
 	 * state of an item of the adapter has been changed.
 	 * 
@@ -144,18 +150,22 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 	 * @param numberOfItemStates
 	 *            The number of states, the adapter's items may have, as an
 	 *            {@link Integer} value. The value must be at least 1
+	 * @param triggerItemStateOnClick
+	 *            True, if the state of an item should be triggered, when it is
+	 *            clicked by the user, false otherwise
 	 */
 	protected AbstractItemStateListAdapter(final Context context,
 			final Inflater inflater, final List<Item<DataType>> items,
 			final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
-			final int numberOfItemStates) {
+			final int numberOfItemStates, final boolean triggerItemStateOnClick) {
 		super(context, inflater, items, allowDuplicates, adapterListeners,
 				enableStateListeners);
 		ensureAtLeast(numberOfItemStates, 1, "The number of items states "
 				+ "must be at least 1");
 		this.numberOfItemStates = numberOfItemStates;
+		triggerItemStateOnClick(triggerItemStateOnClick);
 	}
 
 	@Override
@@ -300,6 +310,17 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 	@Override
 	public final int getNumberOfItemsWithSpecificState(final int state) {
 		return getItemsWithSpecificState(state).size();
+	}
+
+	@Override
+	public final boolean isItemStateTriggeredOnClick() {
+		return triggerItemStateOnClick;
+	}
+
+	@Override
+	public final void triggerItemStateOnClick(
+			final boolean triggerItemStateOnClick) {
+		this.triggerItemStateOnClick = triggerItemStateOnClick;
 	}
 
 	@Override
