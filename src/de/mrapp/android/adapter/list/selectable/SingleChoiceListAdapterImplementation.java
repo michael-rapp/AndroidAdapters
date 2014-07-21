@@ -10,6 +10,7 @@ import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
+import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 
 public class SingleChoiceListAdapterImplementation<DataType> extends
@@ -53,13 +54,14 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final int numberOfItemStates,
 			final boolean triggerItemStateOnClick,
+			final Set<ListItemStateListener<DataType>> itemStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final Set<ListSelectionListener<DataType>> selectionListeners,
 			final SelectableListDecorator<DataType> decorator) {
 		super(context, inflater, items, allowDuplicates, adapterListeners,
 				enableStateListeners, numberOfItemStates,
-				triggerItemStateOnClick, sortingListeners, selectionListeners,
-				decorator);
+				triggerItemStateOnClick, itemStateListeners, sortingListeners,
+				selectionListeners, decorator);
 		addAdapterListener(getAdapterListener());
 	}
 
@@ -118,7 +120,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 				getContext(), getInflater(), cloneItems(),
 				areDuplicatesAllowed(), getAdapterListeners(),
 				getEnableStateListeners(), getNumberOfItemStates(),
-				isItemStateTriggeredOnClick(), getSortingListeners(),
-				getSelectionListeners(), getDecorator());
+				isItemStateTriggeredOnClick(), getItemStateListeners(),
+				getSortingListeners(), getSelectionListeners(), getDecorator());
 	}
 }

@@ -60,16 +60,16 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 	private int numberOfItemStates;
 
 	/**
-	 * A set, which contains the listeners, which should be notified, when the
-	 * state of an item of the adapter has been changed.
-	 */
-	private Set<ListItemStateListener<DataType>> itemStateListeners;
-
-	/**
 	 * True, if the state of an item should be triggered, when it is clicked by
 	 * the user, false otherwise.
 	 */
 	private boolean triggerItemStateOnClick;
+
+	/**
+	 * A set, which contains the listeners, which should be notified, when the
+	 * state of an item of the adapter has been changed.
+	 */
+	private Set<ListItemStateListener<DataType>> itemStateListeners;
 
 	/**
 	 * Notifies all listeners, which have registered to be notified, when the
@@ -153,17 +153,24 @@ public abstract class AbstractItemStateListAdapter<DataType> extends
 	 * @param triggerItemStateOnClick
 	 *            True, if the state of an item should be triggered, when it is
 	 *            clicked by the user, false otherwise
+	 * @param itemStateListeners
+	 *            A set, which contains the listeners, which should be notified,
+	 *            when the state of an item has been changed or an empty set, if
+	 *            no listeners should be notified
 	 */
 	protected AbstractItemStateListAdapter(final Context context,
 			final Inflater inflater, final List<Item<DataType>> items,
 			final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
-			final int numberOfItemStates, final boolean triggerItemStateOnClick) {
+			final int numberOfItemStates,
+			final boolean triggerItemStateOnClick,
+			final Set<ListItemStateListener<DataType>> itemStateListeners) {
 		super(context, inflater, items, allowDuplicates, adapterListeners,
 				enableStateListeners);
 		setNumberOfItemStates(numberOfItemStates);
 		triggerItemStateOnClick(triggerItemStateOnClick);
+		setItemStateListeners(itemStateListeners);
 	}
 
 	@Override
