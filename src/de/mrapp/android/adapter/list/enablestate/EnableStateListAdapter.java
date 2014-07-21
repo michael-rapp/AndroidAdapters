@@ -315,6 +315,6 @@ public interface EnableStateListAdapter<DataType> {
 	 *            type {@link ListEnableStateListener}. The listener may not be
 	 *            null
 	 */
-	void removeSortingListener(ListEnableStateListener<DataType> listener);
+	void removeEnableStateListener(ListEnableStateListener<DataType> listener);
 
 }

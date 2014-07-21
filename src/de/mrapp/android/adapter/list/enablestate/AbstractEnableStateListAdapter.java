@@ -408,7 +408,7 @@ public abstract class AbstractEnableStateListAdapter<DataType> extends
 	}
 
 	@Override
-	public final void removeSortingListener(
+	public final void removeEnableStateListener(
 			final ListEnableStateListener<DataType> listener) {
 		enableStateListeners.remove(listener);
 	}
