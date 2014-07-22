@@ -17,6 +17,8 @@
  */
 package de.mrapp.android.adapter.list;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -51,6 +53,13 @@ public class ListAdapterImplementation<DataType> extends
 	 */
 	private static final long serialVersionUID = 1L;
 
+	@Override
+	protected final void applyDecorator(final Context context, final View view,
+			final int index) {
+		getDecorator().onShowItem(context, view, getItem(index), index,
+				isEnabled(index), getItemState(index));
+	}
+
 	/**
 	 * Creates a new adapter, whose underlying data is managed as a list of
 	 * arbitrary items.
@@ -62,6 +71,11 @@ public class ListAdapterImplementation<DataType> extends
 	 *            The inflater, which should be used to inflate the views, which
 	 *            are used to visualize the adapter's items, as an instance of
 	 *            the type {@link Inflater}. The inflater may not be null
+	 * @param decorator
+	 *            The decorator, which should be used to customize the
+	 *            appearance of the views, which are used to visualize the items
+	 *            of the adapter, as an instance of the type
+	 *            {@link ListDecorator}. The decorator may not be null
 	 * @param items
 	 *            A list, which contains the the adapter's underlying data, as
 	 *            an instance of the type {@link List} or an empty list, if the
@@ -73,11 +87,6 @@ public class ListAdapterImplementation<DataType> extends
 	 *            when the adapter's underlying data has been modified, as an
 	 *            instance of the type {@link Set} or an empty set, if no
 	 *            listeners should be notified
-	 * @param decorator
-	 *            The decorator, which should be used to customize the
-	 *            appearance of the views, which are used to visualize the items
-	 *            of the adapter, as an instance of the type
-	 *            {@link ListDecorator}. The decorator may not be null
 	 */
 	protected ListAdapterImplementation(final Context context,
 			final Inflater inflater, final ListDecorator<DataType> decorator,
@@ -93,11 +102,30 @@ public class ListAdapterImplementation<DataType> extends
 				triggerItemStateOnClick, itemStateListeners, sortingListeners);
 	}
 
-	@Override
-	protected final void applyDecorator(final Context context, final View view,
-			final int index) {
-		getDecorator().onShowItem(context, view, getItem(index), index,
-				isEnabled(index), getItemState(index));
+	/**
+	 * Creates a new adapter, whose underlying data is managed as a list of
+	 * arbitrary items.
+	 * 
+	 * @param context
+	 *            The context, the adapter belongs to, as an instance of the
+	 *            class {@link Context}. The context may not be null
+	 * @param inflater
+	 *            The inflater, which should be used to inflate the views, which
+	 *            are used to visualize the adapter's items, as an instance of
+	 *            the type {@link Inflater}. The inflater may not be null
+	 * @param decorator
+	 *            The decorator, which should be used to customize the
+	 *            appearance of the views, which are used to visualize the items
+	 *            of the adapter, as an instance of the type
+	 *            {@link ListDecorator}. The decorator may not be null
+	 */
+	public ListAdapterImplementation(final Context context,
+			final Inflater inflater, final ListDecorator<DataType> decorator) {
+		this(context, inflater, decorator, new ArrayList<Item<DataType>>(),
+				false, new LinkedHashSet<ListAdapterListener<DataType>>(),
+				new LinkedHashSet<ListEnableStateListener<DataType>>(), 1,
+				false, new LinkedHashSet<ListItemStateListener<DataType>>(),
+				new LinkedHashSet<ListSortingListener<DataType>>());
 	}
 
 	@Override
