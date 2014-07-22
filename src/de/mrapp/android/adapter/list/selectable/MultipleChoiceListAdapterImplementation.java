@@ -1,10 +1,12 @@
 package de.mrapp.android.adapter.list.selectable;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
+import de.mrapp.android.adapter.ListDecorator;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.SelectableListDecorator;
 import de.mrapp.android.adapter.datastructure.item.Item;
@@ -56,6 +58,17 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 				triggerItemStateOnClick, itemStateListeners, sortingListeners,
 				selectItemOnClick, selectionListeners);
 		addEnableStateListner(getEnableStateListener());
+	}
+
+	public MultipleChoiceListAdapterImplementation(final Context context,
+			final Inflater inflater,
+			final SelectableListDecorator<DataType> decorator) {
+		this(context, inflater, decorator, new ArrayList<Item<DataType>>(),
+				false, new LinkedHashSet<ListAdapterListener<DataType>>(),
+				new LinkedHashSet<ListEnableStateListener<DataType>>(), 1,
+				false, new LinkedHashSet<ListItemStateListener<DataType>>(),
+				new LinkedHashSet<ListSortingListener<DataType>>(), true,
+				new LinkedHashSet<ListSelectionListener<DataType>>());
 	}
 
 	@Override
