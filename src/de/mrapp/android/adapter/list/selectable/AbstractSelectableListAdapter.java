@@ -30,12 +30,26 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * The key, which is used to store, whether an item should be selected, when
+	 * it is clicked by the user, or not, within a bundle.
+	 */
+	@VisibleForTesting
+	protected static final String SELECT_ITEM_ON_CLICK_BUNDLE_KEY = AbstractSelectableListAdapter.class
+			.getSimpleName() + "::SelectItemOnClick";
+
+	/**
 	 * The key, which is used to store the listeners, which should be notified,
 	 * when an item has been selected or unselected, within a bundle.
 	 */
 	@VisibleForTesting
 	protected static final String SELECTION_LISTENERS_BUNDLE_KEY = AbstractSelectableListAdapter.class
 			.getSimpleName() + "::SelectionListeners";
+
+	/**
+	 * True, if the an item should be selected, when it is clicked by the user,
+	 * false otherwise.
+	 */
+	private boolean selectItemOnClick;
 
 	/**
 	 * A set, which contains the listeners, which should be notified, when an
@@ -102,6 +116,15 @@ public abstract class AbstractSelectableListAdapter<DataType>
 				isEnabled(index), getItemState(index), isSelected(index));
 	}
 
+	@Override
+	protected final void onItemClicked(final int index) {
+		super.onItemClicked(index);
+
+		if (isItemSelectedOnClick()) {
+			select(index);
+		}
+	}
+
 	protected AbstractSelectableListAdapter(final Context context,
 			final Inflater inflater,
 			final SelectableListDecorator<DataType> decorator,
@@ -112,10 +135,12 @@ public abstract class AbstractSelectableListAdapter<DataType>
 			final boolean triggerItemStateOnClick,
 			final Set<ListItemStateListener<DataType>> itemStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
+			final boolean selectItemOnClick,
 			final Set<ListSelectionListener<DataType>> selectionListeners) {
 		super(context, inflater, decorator, items, allowDuplicates,
 				adapterListeners, enableStateListeners, numberOfItemStates,
 				triggerItemStateOnClick, itemStateListeners, sortingListeners);
+		selectItemOnClick(selectItemOnClick);
 	}
 
 	@Override
@@ -142,7 +167,20 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	}
 
 	@Override
+	public final boolean isItemSelectedOnClick() {
+		return selectItemOnClick;
+	}
+
+	@Override
+	public final void selectItemOnClick(final boolean selectItemOnClick) {
+		this.selectItemOnClick = selectItemOnClick;
+	}
+
+	@Override
 	public final void onSaveInstanceState(final Bundle outState) {
+		outState.putBoolean(SELECT_ITEM_ON_CLICK_BUNDLE_KEY,
+				isItemSelectedOnClick());
+
 		SerializableWrapper<Set<ListSelectionListener<DataType>>> wrappedSelectionListeners = new SerializableWrapper<Set<ListSelectionListener<DataType>>>(
 				getSelectionListeners());
 		outState.putSerializable(SELECTION_LISTENERS_BUNDLE_KEY,
@@ -153,6 +191,9 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	@Override
 	public final void onRestoreInstanceState(final Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
+			selectItemOnClick = savedInstanceState
+					.getBoolean(SELECT_ITEM_ON_CLICK_BUNDLE_KEY);
+
 			SerializableWrapper<Set<ListSelectionListener<DataType>>> wrappedSelectionListeners = (SerializableWrapper<Set<ListSelectionListener<DataType>>>) savedInstanceState
 					.getSerializable(SELECTION_LISTENERS_BUNDLE_KEY);
 			selectionListeners = wrappedSelectionListeners.getWrappedInstance();
