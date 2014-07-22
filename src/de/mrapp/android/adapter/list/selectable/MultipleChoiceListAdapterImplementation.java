@@ -49,11 +49,12 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 			final boolean triggerItemStateOnClick,
 			final Set<ListItemStateListener<DataType>> itemStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
+			final boolean selectItemOnClick,
 			final Set<ListSelectionListener<DataType>> selectionListeners) {
 		super(context, inflater, decorator, items, allowDuplicates,
 				adapterListeners, enableStateListeners, numberOfItemStates,
 				triggerItemStateOnClick, itemStateListeners, sortingListeners,
-				selectionListeners);
+				selectItemOnClick, selectionListeners);
 		addEnableStateListner(getEnableStateListener());
 	}
 
@@ -319,7 +320,8 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 				areDuplicatesAllowed(), getAdapterListeners(),
 				getEnableStateListeners(), getNumberOfItemStates(),
 				isItemStateTriggeredOnClick(), getItemStateListeners(),
-				getSortingListeners(), getSelectionListeners());
+				getSortingListeners(), isItemSelectedOnClick(),
+				getSelectionListeners());
 	}
 
 }

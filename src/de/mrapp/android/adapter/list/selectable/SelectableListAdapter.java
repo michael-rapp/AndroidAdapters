@@ -109,4 +109,23 @@ public interface SelectableListAdapter<DataType> {
 	 */
 	boolean select(DataType item);
 
+	/**
+	 * Returns, whether an item is selected, when it is clicked by the user, or
+	 * not.
+	 * 
+	 * @return True, if an item is selected, when it is clicked by the user,
+	 *         false otherwise
+	 */
+	boolean isItemSelectedOnClick();
+
+	/**
+	 * Sets, whether an item should be selected, when it is clicked by the user,
+	 * or not.
+	 * 
+	 * @param selectItemOnClick
+	 *            True, if an item should be selected, when it is clicked by the
+	 *            user, false otherwise
+	 */
+	void selectItemOnClick(boolean selectItemOnClick);
+
 }
