@@ -32,6 +32,7 @@ import java.util.Set;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import de.mrapp.android.adapter.ListAdapter;
@@ -164,6 +165,27 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	}
 
 	/**
+	 * Creates and returns an {@link OnClickListener}, which is invoked, when a
+	 * specific item has been clicked.
+	 * 
+	 * @param index
+	 *            The index of the item, which should cause the listener to be
+	 *            invoked, when clicked, as an {@link Integer} value
+	 * @return The listener, which has been created as an instance of the type
+	 *         {@link OnClickListener}
+	 */
+	private OnClickListener createItemOnClickListener(final int index) {
+		return new OnClickListener() {
+
+			@Override
+			public void onClick(final View v) {
+				onItemClicked(index);
+			}
+
+		};
+	}
+
+	/**
 	 * Returns, the context, the adapter belongs to.
 	 * 
 	 * @return The context, the adapter belongs to, as an instance of the class
@@ -242,6 +264,17 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	 */
 	protected final Set<ListAdapterListener<DataType>> getAdapterListeners() {
 		return adapterListeners;
+	}
+
+	/**
+	 * The method, which is invoked, when an item has been clicked.
+	 * 
+	 * @param index
+	 *            The index of the item, which has been clicked, as an
+	 *            {@link Integer} value
+	 */
+	protected void onItemClicked(final int index) {
+		return;
 	}
 
 	/**
@@ -574,6 +607,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 
 		if (view == null) {
 			view = getInflater().inflate(getContext(), parent);
+			view.setOnClickListener(createItemOnClickListener(index));
 		}
 
 		applyDecorator(getContext(), view, index);
