@@ -63,6 +63,7 @@ public interface SingleChoiceListAdapter<DataType> extends
 	 * @return True, if the item, which belongs to the given index, has been
 	 *         selected, false otherwise
 	 */
+	@Override
 	boolean select(int index);
 
 	/**
@@ -76,6 +77,7 @@ public interface SingleChoiceListAdapter<DataType> extends
 	 *            {@link NoSuchElementException} will be thrown
 	 * @return True, if the given item has been selected, false otherwise
 	 */
+	@Override
 	boolean select(DataType item);
 
 }
