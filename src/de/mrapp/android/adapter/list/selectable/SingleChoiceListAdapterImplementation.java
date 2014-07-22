@@ -1,5 +1,7 @@
 package de.mrapp.android.adapter.list.selectable;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -66,6 +68,17 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 		addAdapterListener(getAdapterListener());
 	}
 
+	public SingleChoiceListAdapterImplementation(final Context context,
+			final Inflater inflater,
+			final SelectableListDecorator<DataType> decorator) {
+		this(context, inflater, decorator, new ArrayList<Item<DataType>>(),
+				false, new LinkedHashSet<ListAdapterListener<DataType>>(),
+				new LinkedHashSet<ListEnableStateListener<DataType>>(), 1,
+				false, new LinkedHashSet<ListItemStateListener<DataType>>(),
+				new LinkedHashSet<ListSortingListener<DataType>>(), true,
+				new LinkedHashSet<ListSelectionListener<DataType>>());
+	}
+
 	@Override
 	public final int getSelectedIndex() {
 		for (int i = 0; i < getNumberOfItems(); i++) {
@@ -125,5 +138,5 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 				getSortingListeners(), isItemSelectedOnClick(),
 				getSelectionListeners());
 	}
-	
+
 }
