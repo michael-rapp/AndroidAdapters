@@ -154,6 +154,15 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 				"The item state listeners may not be null");
 		this.itemStateListeners = itemStateListeners;
 	}
+	
+	@Override
+	protected void onItemClicked(final int index) {
+		super.onItemClicked(index);
+		
+		if (isItemStateTriggeredOnClick()) {
+			triggerItemState(index);
+		}
+	}
 
 	/**
 	 * Creates a new adapter, whose underlying data is managed as a list of
