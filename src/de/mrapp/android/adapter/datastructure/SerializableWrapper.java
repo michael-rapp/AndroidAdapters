@@ -33,6 +33,7 @@ import java.io.Serializable;
  * 
  * @since 1.0.0
  */
+// TODO: Implement hashCode-, equals-, toString- and clone- method
 public class SerializableWrapper<Type> implements Serializable {
 
 	/**
