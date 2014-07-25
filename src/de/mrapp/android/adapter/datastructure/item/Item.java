@@ -153,7 +153,8 @@ public class Item<DataType> implements DataStructure,
 	 *            The value must be at least 0
 	 */
 	public final void setState(final int state) {
-		ensureAtLeast(state, 0, "The state must be at least 0");
+		ensureAtLeast(state, 0, "The state must be at least 0",
+				IllegalArgumentException.class);
 		this.state = state;
 	}
 
