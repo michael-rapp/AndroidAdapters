@@ -137,7 +137,7 @@ public interface ItemStateListAdapter<DataType> {
 	 *            The state, which should be set, as an {@link Integer} value.
 	 *            The state must be between 0 and the value of the method
 	 *            <code>getNumberOfStates():int</code> - 1, otherwise an
-	 *            {@link IllegalArgumentException} will be thrown
+	 *            {@link IndexOutOfBoundsException} will be thrown
 	 */
 	void setAllItemStates(int state);
 
