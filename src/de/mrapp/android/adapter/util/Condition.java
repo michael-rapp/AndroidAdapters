@@ -17,6 +17,8 @@
  */
 package de.mrapp.android.adapter.util;
 
+import java.lang.reflect.Constructor;
+
 /**
  * An utility class, which offers static methods to ensure, that attributes
  * satisfy specific conditions by throwing exceptions, if the conditions are not
@@ -96,6 +98,39 @@ public final class Condition {
 	}
 
 	/**
+	 * Ensures, that an {@link Integer} value is at least a specific value.
+	 * Otherwise a specific exception with a specific message will be thrown. If
+	 * an error occurs while instantiating the given exception class, an
+	 * {@link IndexOutOfBoundsException} will be thrown instead.
+	 * 
+	 * @param value
+	 *            The value, which should be checked, as an {@link Integer}
+	 *            value
+	 * @param referenceValue
+	 *            The value, the given value must be at least, as an
+	 *            {@link Integer} value
+	 * @param exceptionMessage
+	 *            The message of the {@link IndexOutOfBoundsException}, which is
+	 *            thrown, if the given value is less than the reference value,
+	 *            as a {@link String}
+	 * @param exceptionClass
+	 *            The class of the exception, which should be thrown, as an
+	 *            instance of the class {@link Class}
+	 */
+	public static void ensureAtLeast(final int value, final int referenceValue,
+			final String exceptionMessage,
+			final Class<? extends RuntimeException> exceptionClass) {
+		if (value < referenceValue) {
+			try {
+				throw exceptionClass.getConstructor(String.class).newInstance(
+						exceptionMessage);
+			} catch (Exception e) {
+				throw new IndexOutOfBoundsException(exceptionMessage);
+			}
+		}
+	}
+
+	/**
 	 * Ensures, that an {@link Integer} value is at maximum a specific value.
 	 * Otherwise an {@link IndexOutOfBoundsException} with a specific message
 	 * will be thrown.
@@ -116,6 +151,45 @@ public final class Condition {
 		if (value > referenceValue) {
 			throw new IndexOutOfBoundsException(exceptionMessage);
 		}
+	}
+
+	/**
+	 * Ensures, that an {@link Integer} value is at maximum a specific value.
+	 * Otherwise a specific exception with a specific message will be thrown. If
+	 * an error occurs, while instantiating the given exception class, an
+	 * {@link IndexOutOfBoundsException} will be thrown instead.
+	 * 
+	 * @param value
+	 *            The value, which should be checked, as an {@link Integer}
+	 *            value
+	 * @param referenceValue
+	 *            The value, the given value must be at maximum, as an
+	 *            {@link Integer} value
+	 * @param exceptionMessage
+	 *            The message of the {@link IndexOutOfBoundsException}, which is
+	 *            thrown, if the given value is greater than the reference
+	 *            value, as a {@link String}
+	 * @param exceptionClass
+	 *            The class of the exception, which should be thrown, as an
+	 *            instance of the class {@link Class}
+	 */
+	public static void ensureAtMaximum(final int value,
+			final int referenceValue, final String exceptionMessage,
+			final Class<? extends RuntimeException> exceptionClass) {
+		if (value > referenceValue) {
+			RuntimeException exception;
+
+			try {
+				Constructor<? extends RuntimeException> constructor = exceptionClass
+						.getConstructor(String.class);
+				exception = constructor.newInstance(exceptionMessage);
+			} catch (Exception e) {
+				throw new IndexOutOfBoundsException(exceptionMessage);
+			}
+
+			throw exception;
+		}
+
 	}
 
 }
