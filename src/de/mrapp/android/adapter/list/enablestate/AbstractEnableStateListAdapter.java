@@ -21,6 +21,7 @@ import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import android.content.Context;
@@ -363,7 +364,13 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final void enable(final DataType item) {
-		enable(indexOf(item));
+		int index = indexOf(item);
+
+		if (index != -1) {
+			enable(index);
+		} else {
+			throw new NoSuchElementException();
+		}
 	}
 
 	@Override
@@ -376,7 +383,13 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final void disable(final DataType item) {
-		disable(indexOf(item));
+		int index = indexOf(item);
+
+		if (index != -1) {
+			disable(index);
+		} else {
+			throw new NoSuchElementException();
+		}
 	}
 
 	@Override
@@ -397,7 +410,13 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final boolean triggerEnableState(final DataType item) {
-		return triggerEnableState(indexOf(item));
+		int index = indexOf(item);
+
+		if (index != -1) {
+			return triggerEnableState(indexOf(item));
+		} else {
+			throw new NoSuchElementException();
+		}
 	}
 
 	@Override
@@ -431,6 +450,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 	@Override
 	public final void removeEnableStateListener(
 			final ListEnableStateListener<DataType> listener) {
+		ensureNotNull(listener, "The listener may not be null");
 		enableStateListeners.remove(listener);
 	}
 
