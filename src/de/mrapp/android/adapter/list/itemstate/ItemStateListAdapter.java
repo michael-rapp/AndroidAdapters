@@ -54,6 +54,22 @@ public interface ItemStateListAdapter<DataType> {
 	void setNumberOfItemStates(int numberOfItemStates);
 
 	/**
+	 * Returns the minimum state, the adapter's items may have.
+	 * 
+	 * @return The minimum state, the adapter's items may have, as an
+	 *         {@link Integer} value
+	 */
+	int minItemState();
+
+	/**
+	 * Returns the maximum state, the adapter's items may have.
+	 * 
+	 * @return The maximum state, the adapter's items may have, as an
+	 *         {@link Integer} value
+	 */
+	int maxItemState();
+
+	/**
 	 * Returns the current state of the item, which belongs to a specific index.
 	 * 
 	 * @param index
