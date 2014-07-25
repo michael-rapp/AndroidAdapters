@@ -33,7 +33,6 @@ import java.io.Serializable;
  * 
  * @since 1.0.0
  */
-// TODO: Implement hashCode-, equals-, toString- and clone- method
 public class SerializableWrapper<Type> implements Serializable {
 
 	/**
@@ -67,6 +66,55 @@ public class SerializableWrapper<Type> implements Serializable {
 	 */
 	public final Type getWrappedInstance() {
 		return wrappedInstance;
+	}
+
+	@Override
+	public final String toString() {
+		return "SerializableWrapper [wrappedInstance=" + wrappedInstance + "]";
+	}
+
+	@Override
+	public final int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((wrappedInstance == null) ? 0 : wrappedInstance.hashCode());
+		return result;
+	}
+
+	@Override
+	public final boolean equals(final Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SerializableWrapper<?> other = (SerializableWrapper<?>) obj;
+		if (wrappedInstance == null) {
+			if (other.wrappedInstance != null)
+				return false;
+		} else if (!wrappedInstance.equals(other.wrappedInstance))
+			return false;
+		return true;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public final SerializableWrapper<Type> clone()
+			throws CloneNotSupportedException {
+		try {
+			Type clonedWrappedInstance = null;
+
+			if (wrappedInstance != null) {
+				clonedWrappedInstance = (Type) wrappedInstance.getClass()
+						.getMethod("clone").invoke(wrappedInstance);
+			}
+
+			return new SerializableWrapper<Type>(clonedWrappedInstance);
+		} catch (Exception e) {
+			throw new CloneNotSupportedException();
+		}
 	}
 
 }
