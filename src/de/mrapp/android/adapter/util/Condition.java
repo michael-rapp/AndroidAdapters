@@ -121,12 +121,17 @@ public final class Condition {
 			final String exceptionMessage,
 			final Class<? extends RuntimeException> exceptionClass) {
 		if (value < referenceValue) {
+			RuntimeException exception;
+
 			try {
-				throw exceptionClass.getConstructor(String.class).newInstance(
-						exceptionMessage);
+				Constructor<? extends RuntimeException> constructor = exceptionClass
+						.getConstructor(String.class);
+				exception = constructor.newInstance(exceptionMessage);
 			} catch (Exception e) {
 				throw new IndexOutOfBoundsException(exceptionMessage);
 			}
+
+			throw exception;
 		}
 	}
 
