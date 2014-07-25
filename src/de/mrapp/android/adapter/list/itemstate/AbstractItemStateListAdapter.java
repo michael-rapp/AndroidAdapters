@@ -27,7 +27,6 @@ import java.util.Set;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.widget.ListView;
 import de.mrapp.android.adapter.datastructure.SerializableWrapper;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
@@ -154,11 +153,11 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 				"The item state listeners may not be null");
 		this.itemStateListeners = itemStateListeners;
 	}
-	
+
 	@Override
 	protected void onItemClicked(final int index) {
 		super.onItemClicked(index);
-		
+
 		if (isItemStateTriggeredOnClick()) {
 			triggerItemState(index);
 		}
@@ -230,8 +229,10 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 				+ "must be at least 1");
 		this.numberOfItemStates = numberOfItemStates;
 
-		for (Item<DataType> item : getItems()) {
-			item.setState(Math.min(item.getState(), numberOfItemStates));
+		for (int i = 0; i < getNumberOfItems(); i++) {
+			if (getItemState(i) > numberOfItemStates - 1) {
+				setItemState(i, numberOfItemStates - 1);
+			}
 		}
 	}
 
