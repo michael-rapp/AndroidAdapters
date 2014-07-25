@@ -230,10 +230,20 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 		this.numberOfItemStates = numberOfItemStates;
 
 		for (int i = 0; i < getNumberOfItems(); i++) {
-			if (getItemState(i) > numberOfItemStates - 1) {
-				setItemState(i, numberOfItemStates - 1);
+			if (getItemState(i) > maxItemState()) {
+				setItemState(i, maxItemState());
 			}
 		}
+	}
+
+	@Override
+	public final int minItemState() {
+		return 0;
+	}
+
+	@Override
+	public final int maxItemState() {
+		return getNumberOfItemStates() - 1;
 	}
 
 	@Override
