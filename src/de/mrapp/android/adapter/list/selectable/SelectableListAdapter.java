@@ -56,27 +56,29 @@ public interface SelectableListAdapter<DataType> {
 
 	/**
 	 * Returns, whether the item, which belongs to a specific index, is
-	 * selected, or not.
+	 * currently selected, or not.
 	 * 
 	 * @param index
 	 *            The index of the item, whose selection state should be
 	 *            returned, as an {@link Integer} value. The index must be
 	 *            between 0 and the value of the method
-	 *            <code>getNumberOfItems():int</code> - 1
-	 * @return True, if the item, which belongs to the given index, is selected,
-	 *         false otherwise
+	 *            <code>getNumberOfItems():int</code> - 1, otherwise an
+	 *            {@link IndexOutOfBoundsException} will be thrown
+	 * @return True, if the item, which belongs to the given index, is currently
+	 *         selected, false otherwise
 	 */
 	boolean isSelected(int index);
 
 	/**
-	 * Returns, whether a specific item is selected, or not.
+	 * Returns, whether a specific item is currently selected, or not.
 	 * 
 	 * @param item
 	 *            The item, whose selection state should be returned, as an
 	 *            instance of the generic type DataType. The item may not be
-	 *            null <code>getNumberOfItems():int</code> - 1
-	 * @return True, if the item, which belongs to the given index, is selected,
-	 *         false otherwise
+	 *            null. If the item does not belong to the adapter, a
+	 *            {@link NoSuchElementException} will be thrown
+	 * @return True, if the item, which belongs to the given index, is currently
+	 *         selected, false otherwise
 	 */
 	boolean isSelected(DataType item);
 
