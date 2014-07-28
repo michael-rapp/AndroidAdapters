@@ -44,7 +44,6 @@ import de.mrapp.android.adapter.list.sortable.ListSortingListener;
  * 
  * @since 1.0.0
  */
-// TODO: Add toString-method
 public class ListAdapterImplementation<DataType> extends
 		AbstractSortableListAdapter<DataType, ListDecorator<DataType>> {
 
@@ -126,6 +125,18 @@ public class ListAdapterImplementation<DataType> extends
 				new LinkedHashSet<ListEnableStateListener<DataType>>(), 1,
 				false, new LinkedHashSet<ListItemStateListener<DataType>>(),
 				new LinkedHashSet<ListSortingListener<DataType>>());
+	}
+
+	@Override
+	public final String toString() {
+		return "ListAdapterImplementation [sortingListeners="
+				+ getSortingListeners() + ", itemStateListeners="
+				+ getItemStateListeners() + ", numberOfItemStates="
+				+ getNumberOfItemStates() + ", triggerItemStateOnClick="
+				+ isItemStateTriggeredOnClick() + ", enableStateListeners="
+				+ getEnableStateListeners() + ", items=" + getItems()
+				+ ", adapterListeners=" + getAdapterListeners()
+				+ ", allowDuplicates=" + areDuplicatesAllowed() + "]";
 	}
 
 	@Override
