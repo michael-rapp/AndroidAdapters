@@ -22,7 +22,9 @@ import static de.mrapp.android.adapter.util.Condition.ensureAtMaximum;
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import android.content.Context;
@@ -226,7 +228,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 	@Override
 	public final void setNumberOfItemStates(final int numberOfItemStates) {
 		ensureAtLeast(numberOfItemStates, 1, "The number of items states "
-				+ "must be at least 1");
+				+ "must be at least 1", IllegalArgumentException.class);
 		this.numberOfItemStates = numberOfItemStates;
 
 		for (int i = 0; i < getNumberOfItems(); i++) {
@@ -253,13 +255,19 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final int getItemState(final DataType item) {
-		return getItemState(indexOf(item));
+		int index = indexOf(item);
+
+		if (index != -1) {
+			return getItemState(index);
+		} else {
+			throw new NoSuchElementException();
+		}
 	}
 
 	@Override
 	public final int setItemState(final int index, final int state) {
-		ensureAtMaximum(state, numberOfItemStates - 1,
-				"The state may be at maximum " + (numberOfItemStates - 1));
+		ensureAtMaximum(state, maxItemState(), "The state must at maximum "
+				+ maxItemState(), IllegalArgumentException.class);
 		Item<DataType> item = getItems().get(index);
 		int previousState = item.getState();
 		item.setState(state);
@@ -269,7 +277,17 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
+	public final int setItemState(final DataType item, final int state) {
+		return setItemState(indexOf(item), state);
+	}
+
+	@Override
 	public final void setAllItemStates(final int state) {
+		ensureAtLeast(state, minItemState(), "The state must be at least "
+				+ minItemState(), IllegalArgumentException.class);
+		ensureAtMaximum(state, maxItemState(), "The state must be at maximum "
+				+ maxItemState(), IllegalArgumentException.class);
+
 		for (int i = 0; i < getNumberOfItems(); i++) {
 			setItemState(i, state);
 		}
@@ -280,7 +298,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 		Item<DataType> item = getItems().get(index);
 		int previousState = item.getState();
 
-		if (previousState == numberOfItemStates - 1) {
+		if (previousState == maxItemState()) {
 			item.setState(0);
 		} else {
 			item.setState(previousState + 1);
@@ -293,7 +311,13 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final int triggerItemState(final DataType item) {
-		return triggerItemState(indexOf(item));
+		int index = indexOf(item);
+
+		if (index != -1) {
+			return triggerItemState(index);
+		} else {
+			throw new NoSuchElementException();
+		}
 	}
 
 	@Override
@@ -301,11 +325,6 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 		for (int i = 0; i < getNumberOfItems(); i++) {
 			triggerItemState(i);
 		}
-	}
-
-	@Override
-	public final int setItemState(final DataType item, final int state) {
-		return setItemState(indexOf(item), state);
 	}
 
 	@Override
@@ -355,7 +374,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public final List<Integer> getIndicesWithSpecificState(final int state) {
+	public final Collection<Integer> getIndicesWithSpecificState(final int state) {
 		List<Integer> indices = new ArrayList<Integer>();
 
 		for (int i = 0; i < getNumberOfItems(); i++) {
@@ -368,7 +387,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public final List<DataType> getItemsWithSpecificState(final int state) {
+	public final Collection<DataType> getItemsWithSpecificState(final int state) {
 		List<DataType> items = new ArrayList<DataType>();
 
 		for (Item<DataType> item : getItems()) {
@@ -397,7 +416,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public final void addItemStateListner(
+	public final void addItemStateListener(
 			final ListItemStateListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		itemStateListeners.add(listener);
