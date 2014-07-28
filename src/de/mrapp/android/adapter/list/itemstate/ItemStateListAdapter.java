@@ -17,7 +17,7 @@
  */
 package de.mrapp.android.adapter.list.itemstate;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a list
@@ -239,7 +239,7 @@ public interface ItemStateListAdapter<DataType> {
 	 *         an empty list, if the adapter does not contain any items with the
 	 *         given state
 	 */
-	List<Integer> getIndicesWithSpecificState(int state);
+	Collection<Integer> getIndicesWithSpecificState(int state);
 
 	/**
 	 * Returns a list, which contains all items, which currently have a specific
@@ -252,7 +252,7 @@ public interface ItemStateListAdapter<DataType> {
 	 *         state, as an instance of the type {@link List} or an empty list,
 	 *         if the adapter contains no items with the given state
 	 */
-	List<DataType> getItemsWithSpecificState(int state);
+	Collection<DataType> getItemsWithSpecificState(int state);
 
 	/**
 	 * Returns the number of items, which currently have a specific state.
@@ -293,7 +293,7 @@ public interface ItemStateListAdapter<DataType> {
 	 *            class {@link ListItemStateListener}. The listener may not be
 	 *            null
 	 */
-	void addItemStateListner(final ListItemStateListener<DataType> listener);
+	void addItemStateListener(final ListItemStateListener<DataType> listener);
 
 	/**
 	 * Removes a specific listener, which should not be notified, when the state
