@@ -36,6 +36,19 @@ import de.mrapp.android.adapter.list.sortable.AbstractSortableListAdapter;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 import de.mrapp.android.adapter.util.VisibleForTesting;
 
+/**
+ * An abstract base class for all adapters, whose underlying data is managed as
+ * a list of arbitrary items, of which one or multiple items can be selected.
+ * Such an adapter's purpose is to provide the underlying data for visualization
+ * using a {@link ListView} widget.
+ * 
+ * @param <DataType>
+ *            The type of the adapter's underlying data
+ * 
+ * @author Michael Rapp
+ * 
+ * @since 1.0.0
+ */
 public abstract class AbstractSelectableListAdapter<DataType>
 		extends
 		AbstractSortableListAdapter<DataType, SelectableListDecorator<DataType>>
