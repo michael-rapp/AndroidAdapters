@@ -39,8 +39,7 @@ public interface ListSelectionListener<DataType> {
 	 *            generic type DataType. The item may not be null
 	 * @param index
 	 *            The index of the item, which has been selected, as an
-	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the adapter's <code>size():int</code> method - 1
+	 *            {@link Integer} value
 	 */
 	void onItemSelected(DataType item, int index);
 
@@ -52,8 +51,7 @@ public interface ListSelectionListener<DataType> {
 	 *            generic type DataType. The item may not be null
 	 * @param index
 	 *            The index of the item, which has been unselected, as an
-	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the adapter's <code>size():int</code> method - 1
+	 *            {@link Integer} value
 	 */
 	void onItemUnselected(DataType item, int index);
 
