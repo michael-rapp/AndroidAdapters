@@ -155,6 +155,57 @@ public abstract class AbstractSelectableListAdapter<DataType>
 		}
 	}
 
+	/**
+	 * Creates a new adapter, whose underlying data is managed as a list of
+	 * arbitrary items, of which one or multiple items can be selected.
+	 * 
+	 * @param context
+	 *            The context, the adapter should belong to, as an instance of
+	 *            the class {@link Context}. The context may not be null
+	 * @param inflater
+	 *            The inflater, which should be used to inflate the views, which
+	 *            are used to visualize the adapter's items, as an instance of
+	 *            the type {@link Inflater}. The inflater may not be null
+	 * @param decorator
+	 *            The decorator, which should be used to customize the
+	 *            appearance of the views, which are used to visualize the items
+	 *            of the adapter, as an instance of the generic type
+	 *            DecoratorType. The decorator may not be null
+	 * @param items
+	 *            A list, which contains the the adapter's items, or an empty
+	 *            list, if the adapter should not contain any items
+	 * @param allowDuplicates
+	 *            True, if duplicate items should be allowed, false otherwise
+	 * @param adapterListeners
+	 *            A set, which contains the listeners, which should be notified
+	 *            when the adapter's underlying data has been modified or an
+	 *            empty set, if no listeners should be notified
+	 * @param enableStateListeners
+	 *            A set, which contains the listeners, which should be notified
+	 *            when an item has been disabled or enabled or an empty set, if
+	 *            no listeners should be notified
+	 * @param numberOfItemStates
+	 *            The number of states, the adapter's items may have, as an
+	 *            {@link Integer} value. The value must be at least 1
+	 * @param triggerItemStateOnClick
+	 *            True, if the state of an item should be triggered, when it is
+	 *            clicked by the user, false otherwise
+	 * @param itemStateListeners
+	 *            A set, which contains the listeners, which should be notified,
+	 *            when the state of an item has been changed or an empty set, if
+	 *            no listeners should be notified
+	 * @param sortingListeners
+	 *            A set, which contains the listeners, which should be notified,
+	 *            when the adapter's underlying data has been sorted or an empty
+	 *            set, if no listeners should be notified
+	 * @param selectItemOnClick
+	 *            True, if an item should be selected, when it is clicked by the
+	 *            user, false otherwise
+	 * @param selectionListeners
+	 *            A set, which contains the listeners, which should be notified,
+	 *            when an item's selection has been changed or an empty set, if
+	 *            no listeners should be notified
+	 */
 	protected AbstractSelectableListAdapter(final Context context,
 			final Inflater inflater,
 			final SelectableListDecorator<DataType> decorator,
