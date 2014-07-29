@@ -234,6 +234,7 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	@Override
 	public final void removeSelectionListener(
 			final ListSelectionListener<DataType> listener) {
+		ensureNotNull(listener, "The listener may not be null");
 		selectionListeners.remove(listener);
 	}
 
