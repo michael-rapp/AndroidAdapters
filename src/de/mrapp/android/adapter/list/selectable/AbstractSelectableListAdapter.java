@@ -20,6 +20,7 @@ package de.mrapp.android.adapter.list.selectable;
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import android.content.Context;
@@ -253,7 +254,13 @@ public abstract class AbstractSelectableListAdapter<DataType>
 
 	@Override
 	public final boolean isSelected(final DataType item) {
-		return isSelected(indexOf(item));
+		int index = indexOf(item);
+
+		if (index != -1) {
+			return isSelected(index);
+		} else {
+			throw new NoSuchElementException();
+		}
 	}
 
 	@Override
