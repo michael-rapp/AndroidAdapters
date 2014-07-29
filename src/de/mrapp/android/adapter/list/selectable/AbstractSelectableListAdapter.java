@@ -287,6 +287,7 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	public final int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
+		result = prime * result + (selectItemOnClick ? 1231 : 1237);
 		result = prime * result + selectionListeners.hashCode();
 		return result;
 	}
@@ -300,6 +301,8 @@ public abstract class AbstractSelectableListAdapter<DataType>
 		if (getClass() != obj.getClass())
 			return false;
 		AbstractSelectableListAdapter<?> other = (AbstractSelectableListAdapter<?>) obj;
+		if (selectItemOnClick != other.selectItemOnClick)
+			return false;
 		if (!selectionListeners.equals(other.selectionListeners))
 			return false;
 		return true;
