@@ -139,6 +139,13 @@ public abstract class AbstractSelectableListAdapter<DataType>
 		return selectionListeners;
 	}
 
+	protected final void setSelectionListeners(
+			final Set<ListSelectionListener<DataType>> selectionListeners) {
+		ensureNotNull(selectionListeners,
+				"The selection listeners may not be null");
+		this.selectionListeners = selectionListeners;
+	}
+
 	@Override
 	protected final void applyDecorator(final Context context, final View view,
 			final int index) {
@@ -222,6 +229,7 @@ public abstract class AbstractSelectableListAdapter<DataType>
 				adapterListeners, enableStateListeners, numberOfItemStates,
 				triggerItemStateOnClick, itemStateListeners, sortingListeners);
 		selectItemOnClick(selectItemOnClick);
+		setSelectionListeners(selectionListeners);
 	}
 
 	@Override
