@@ -20,6 +20,7 @@ package de.mrapp.android.adapter.list.selectable;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import android.content.Context;
@@ -55,8 +56,8 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Creates and returns a lister, which allows to adapt the selections of the
-	 * adapter's items, when an item has been removed from or added to the
+	 * Creates and returns a listener, which allows to adapt the selections of
+	 * the adapter's items, when an item has been removed from or added to the
 	 * adapter.
 	 * 
 	 * @return The listener, which has been created, as an instance of the type
@@ -67,24 +68,106 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 
 			@Override
 			public void onItemAdded(final DataType item, final int index) {
-				if (isEmpty()) {
+				if (getNumberOfItems() == 1) {
 					select(index);
-					notifyOnItemSelected(item, index);
 				}
 			}
 
 			@Override
 			public void onItemRemoved(final DataType item, final int index) {
-				if (getNumberOfItems() >= index + 1) {
-					select(index);
-					notifyOnItemSelected(getItem(index), index);
-				} else if (getNumberOfItems() >= index) {
-					select(index - 1);
-					notifyOnItemSelected(getItem(index - 1), index - 1);
+				if (getSelectedIndex() == -1) {
+					selectNearestEnabledItem(index);
 				}
 			}
 
 		};
+	}
+
+	/**
+	 * Creates and returns a listener, which allows to adapt the selections of
+	 * the adapter's items, when an item has been enabled or disabled.
+	 * 
+	 * @return The listener, which has been created, as an instance of the type
+	 *         {@link ListEnableStateListener}
+	 */
+	private ListEnableStateListener<DataType> createEnableStateListener() {
+		return new ListEnableStateListener<DataType>() {
+
+			@Override
+			public void onItemEnabled(final DataType item, final int index) {
+				if (getNumberOfItems() == 1) {
+					select(index);
+				}
+			}
+
+			@Override
+			public void onItemDisabled(final DataType item, final int index) {
+				if (isSelected(index)) {
+					getItems().get(index).setSelected(false);
+					notifyOnItemUnselected(item, index);
+					notifyDataSetChanged();
+					selectNearestEnabledItem(index);
+				}
+			}
+
+		};
+	}
+
+	/**
+	 * Selects the nearest enabled item, starting from a specific index. The
+	 * item is searched in ascending order and afterwards, if this search is not
+	 * successful, in descending order. If no enabled item is available, no item
+	 * will be selected.
+	 * 
+	 * @param index
+	 *            The index, the search for the nearest enabled item should be
+	 *            started at, as an {@link Integer} value
+	 */
+	private void selectNearestEnabledItem(final int index) {
+		boolean selected = selectNearestEnabledItemByAscendingIndex(index);
+
+		if (!selected) {
+			selectNearestEnabledItemByDescendingIndex(index);
+		}
+	}
+
+	/**
+	 * Selects the nearest enabled item, starting from a specific index. The
+	 * item is searched in ascending order. If no enabled item is available, no
+	 * item will be selected.
+	 * 
+	 * @param index
+	 *            The index, the search for the nearest enabled item should be
+	 *            started at, as an {@link Integer} value
+	 * @return True, if an item has been selected, false otherwise
+	 */
+	private boolean selectNearestEnabledItemByAscendingIndex(final int index) {
+		for (int i = index; i < getNumberOfItems(); i++) {
+			if (isEnabled(i)) {
+				select(i);
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Selects the nearest enabled item, starting from a specific index. The
+	 * item is searched in descending order. If no enabled item is available, no
+	 * item will be selected.
+	 * 
+	 * @param index
+	 *            The index, the search for the nearest enabled item should be
+	 *            started at, as an {@link Integer} value
+	 */
+	private void selectNearestEnabledItemByDescendingIndex(final int index) {
+		for (int i = index - 1; i >= 0; i--) {
+			if (isEnabled(i)) {
+				select(i);
+				return;
+			}
+		}
 	}
 
 	/**
@@ -155,6 +238,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 				triggerItemStateOnClick, itemStateListeners, sortingListeners,
 				selectItemOnClick, selectionListeners);
 		addAdapterListener(createAdapterListener());
+		addEnableStateListner(createEnableStateListener());
 	}
 
 	/**
@@ -215,13 +299,14 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 
 				if (i == index && !item.isSelected()) {
 					item.setSelected(true);
-					notifyOnItemSelected(item.getData(), index);
+					notifyOnItemSelected(item.getData(), i);
 				} else if (i != index && item.isSelected()) {
 					item.setSelected(false);
-					notifyOnItemUnselected(item.getData(), index);
+					notifyOnItemUnselected(item.getData(), i);
 				}
 			}
 
+			notifyDataSetChanged();
 			return true;
 		} else {
 			return false;
@@ -230,7 +315,13 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 
 	@Override
 	public final boolean select(final DataType item) {
-		return select(indexOf(item));
+		int index = indexOf(item);
+
+		if (index != -1) {
+			return select(index);
+		} else {
+			throw new NoSuchElementException();
+		}
 	}
 
 	@Override
