@@ -242,7 +242,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 		if (item.isEnabled()) {
 			item.setSelected(true);
 			notifyOnItemSelected(item.getData(), index);
-			notifyDataSetInvalidated();
+			notifyDataSetChanged();
 			return true;
 		} else {
 			return false;
@@ -261,7 +261,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 		if (item.isEnabled()) {
 			item.setSelected(false);
 			notifyOnItemUnselected(item.getData(), index);
-			notifyDataSetInvalidated();
+			notifyDataSetChanged();
 			return true;
 		} else {
 			return false;
@@ -280,7 +280,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 		if (item.isEnabled()) {
 			item.setSelected(!item.isSelected());
 			notifyOnItemSelected(item.getData(), index);
-			notifyDataSetInvalidated();
+			notifyDataSetChanged();
 			return true;
 		} else {
 			return false;

@@ -359,7 +359,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 		Item<DataType> item = getItems().get(index);
 		item.setEnabled(true);
 		notifyOnItemEnabled(item.getData(), index);
-		notifyDataSetInvalidated();
+		notifyDataSetChanged();
 	}
 
 	@Override
@@ -378,7 +378,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 		Item<DataType> item = getItems().get(index);
 		item.setEnabled(false);
 		notifyOnItemDisabled(item.getData(), index);
-		notifyDataSetInvalidated();
+		notifyDataSetChanged();
 	}
 
 	@Override
@@ -404,7 +404,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 			notifyOnItemEnabled(item.getData(), index);
 		}
 
-		notifyDataSetInvalidated();
+		notifyDataSetChanged();
 		return item.isEnabled();
 	}
 
