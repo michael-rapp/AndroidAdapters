@@ -145,14 +145,14 @@ public class ListAdapterImplementation<DataType> extends
 
 	@Override
 	public final String toString() {
-		return "ListAdapterImplementation [sortingListeners="
-				+ getSortingListeners() + ", itemStateListeners="
-				+ getItemStateListeners() + ", numberOfItemStates="
-				+ getNumberOfItemStates() + ", triggerItemStateOnClick="
-				+ isItemStateTriggeredOnClick() + ", enableStateListeners="
-				+ getEnableStateListeners() + ", items=" + getItems()
-				+ ", adapterListeners=" + getAdapterListeners()
-				+ ", allowDuplicates=" + areDuplicatesAllowed() + "]";
+		return "ListAdapter [sortingListeners=" + getSortingListeners()
+				+ ", itemStateListeners=" + getItemStateListeners()
+				+ ", numberOfItemStates=" + getNumberOfItemStates()
+				+ ", triggerItemStateOnClick=" + isItemStateTriggeredOnClick()
+				+ ", enableStateListeners=" + getEnableStateListeners()
+				+ ", items=" + getItems() + ", adapterListeners="
+				+ getAdapterListeners() + ", allowDuplicates="
+				+ areDuplicatesAllowed() + "]";
 	}
 
 	@Override
