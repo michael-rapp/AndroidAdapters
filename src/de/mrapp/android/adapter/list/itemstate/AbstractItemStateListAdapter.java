@@ -272,7 +272,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 		int previousState = item.getState();
 		item.setState(state);
 		notifyOnItemStateChanged(item.getData(), index, state);
-		notifyDataSetInvalidated();
+		notifyDataSetChanged();
 		return previousState;
 	}
 
@@ -305,7 +305,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 		}
 
 		notifyOnItemStateChanged(item.getData(), index, item.getState());
-		notifyDataSetInvalidated();
+		notifyDataSetChanged();
 		return previousState;
 	}
 
