@@ -325,6 +325,20 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 	}
 
 	@Override
+	public final String toString() {
+		return "SingleChoiceListAdapter [sortingListeners="
+				+ getSortingListeners() + ", itemStateListeners="
+				+ getItemStateListeners() + ", numberOfItemStates="
+				+ getNumberOfItemStates() + ", triggerItemStateOnClick="
+				+ isItemStateTriggeredOnClick() + ", enableStateListeners="
+				+ getEnableStateListeners() + ", items=" + getItems()
+				+ ", adapterListeners=" + getAdapterListeners()
+				+ ", allowDuplicates=" + areDuplicatesAllowed()
+				+ ", selectItemOnClick=" + isItemSelectedOnClick()
+				+ ", selectionListeners=" + getSelectionListeners() + "]";
+	}
+
+	@Override
 	public final SingleChoiceListAdapterImplementation<DataType> clone()
 			throws CloneNotSupportedException {
 		return new SingleChoiceListAdapterImplementation<DataType>(
