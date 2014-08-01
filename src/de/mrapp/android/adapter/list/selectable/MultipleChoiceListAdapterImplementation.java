@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import android.content.Context;
@@ -344,7 +345,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 	public final boolean select(final int index) {
 		Item<DataType> item = getItems().get(index);
 
-		if (item.isEnabled()) {
+		if (item.isEnabled() && !item.isSelected()) {
 			item.setSelected(true);
 			notifyOnItemSelected(item.getData(), index);
 			notifyDataSetChanged();
@@ -356,14 +357,20 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 
 	@Override
 	public final boolean select(final DataType item) {
-		return select(indexOf(item));
+		int index = indexOf(item);
+
+		if (index != -1) {
+			return select(index);
+		} else {
+			throw new NoSuchElementException();
+		}
 	}
 
 	@Override
 	public final boolean unselect(final int index) {
 		Item<DataType> item = getItems().get(index);
 
-		if (item.isEnabled()) {
+		if (item.isEnabled() && item.isSelected()) {
 			item.setSelected(false);
 			notifyOnItemUnselected(item.getData(), index);
 			notifyDataSetChanged();
@@ -383,8 +390,14 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 		Item<DataType> item = getItems().get(index);
 
 		if (item.isEnabled()) {
-			item.setSelected(!item.isSelected());
-			notifyOnItemSelected(item.getData(), index);
+			if (item.isSelected()) {
+				item.setSelected(false);
+				notifyOnItemUnselected(item.getData(), index);
+			} else {
+				item.setSelected(true);
+				notifyOnItemSelected(item.getData(), index);
+			}
+
 			notifyDataSetChanged();
 			return true;
 		} else {
@@ -394,7 +407,13 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 
 	@Override
 	public final boolean triggerSelection(final DataType item) {
-		return triggerSelection(indexOf(item));
+		int index = indexOf(item);
+
+		if (index != -1) {
+			return triggerSelection(index);
+		} else {
+			throw new NoSuchElementException();
+		}
 	}
 
 	@Override
