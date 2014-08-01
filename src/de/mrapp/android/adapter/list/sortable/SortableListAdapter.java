@@ -36,14 +36,14 @@ public interface SortableListAdapter<DataType> {
 
 	/**
 	 * Sorts the adapter's items in an ascending order. If the adapter's
-	 * underlying date does not implement the interface {@link Comparable} a
+	 * underlying data does not implement the interface {@link Comparable} a
 	 * {@link SortingNotSupportedException} will be thrown.
 	 */
 	void sort();
 
 	/**
 	 * Sorts the adapter's items in a specific order. If the adapter's
-	 * underlying date does not implement the interface {@link Comparable} a
+	 * underlying data does not implement the interface {@link Comparable} a
 	 * {@link SortingNotSupportedException} will be thrown.
 	 * 
 	 * @param order
