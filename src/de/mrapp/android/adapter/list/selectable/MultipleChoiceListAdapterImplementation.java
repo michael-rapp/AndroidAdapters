@@ -73,7 +73,9 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 
 			@Override
 			public void onItemDisabled(final DataType item, final int index) {
-				unselect(index);
+				getItems().get(index).setSelected(false);
+				notifyOnItemUnselected(item, index);
+				notifyDataSetChanged();
 			}
 
 		};
