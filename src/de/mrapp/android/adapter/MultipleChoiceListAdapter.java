@@ -191,8 +191,8 @@ public interface MultipleChoiceListAdapter<DataType> extends
 	 *            {@link Integer} value. The index must be between 0 and the
 	 *            value of the method <code>getNumberOfItems():int</code> - 1,
 	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
-	 * @return True, if the item, which belongs to the given index, has been
-	 *         selected, false otherwise
+	 * @return True, if the selection of the item, which belongs to the given
+	 *         index, has been changed, false otherwise
 	 */
 	@Override
 	boolean select(int index);
@@ -205,7 +205,8 @@ public interface MultipleChoiceListAdapter<DataType> extends
 	 *            generic type DataType. The item may not be null. If the item
 	 *            does not belong to the adapter, a
 	 *            {@link NoSuchElementException} will be thrown
-	 * @return True, if the given item has been selected, false otherwise
+	 * @return True, if the selection of the given item has been changed, false
+	 *         otherwise
 	 */
 	@Override
 	boolean select(DataType item);
@@ -219,8 +220,8 @@ public interface MultipleChoiceListAdapter<DataType> extends
 	 *            {@link Integer} value. The index must be between 0 and the
 	 *            value of the method <code>getNumberOfItems():int</code> - 1,
 	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
-	 * @return True, if the item, which belongs to the given index, has been
-	 *         unselected, false otherwise
+	 * @return True, if the selection of the item, which belongs to the given
+	 *         index, has been changed, false otherwise
 	 */
 	boolean unselect(int index);
 
@@ -232,7 +233,8 @@ public interface MultipleChoiceListAdapter<DataType> extends
 	 *            generic type DataType. The item may not be null. If the item
 	 *            does not belong to the adapter, a
 	 *            {@link NoSuchElementException} will be thrown
-	 * @return True, if the given item has been unselected, false otherwise
+	 * @return True, if the selection of the given item has been changed, false
+	 *         otherwise
 	 */
 	boolean unselect(DataType item);
 
@@ -247,7 +249,7 @@ public interface MultipleChoiceListAdapter<DataType> extends
 	 *            value of the method <code>getNumberOfItems():int</code> - 1,
 	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
 	 * @return True, if the selection of the item, which belongs to the given
-	 *         index, has been triggered, false otherwise
+	 *         index, has been changed, false otherwise
 	 */
 	boolean triggerSelection(int index);
 
@@ -261,22 +263,24 @@ public interface MultipleChoiceListAdapter<DataType> extends
 	 *            of the generic type DataType. The item may not be null. If the
 	 *            item does not belong to the adapter, a
 	 *            {@link NoSuchElementException} will be thrown
-	 * @return True, if the selection of the given item has been triggered,
-	 *         false otherwise
+	 * @return True, if the selection of the given item has been changed, false
+	 *         otherwise
 	 */
 	boolean triggerSelection(DataType item);
 
 	/**
 	 * Selects all items, if they are currently enabled.
 	 * 
-	 * @return True, if all items have been selected, false otherwise
+	 * @return True, if the selections of all items have been changed, false
+	 *         otherwise
 	 */
 	boolean selectAll();
 
 	/**
 	 * Unselects all items, if they are currently enabled.
 	 * 
-	 * @return True, if all items have been unselected, false otherwise
+	 * @return True, if the selections of all items have been changed, false
+	 *         otherwise
 	 */
 	boolean unselectAll();
 
@@ -285,7 +289,7 @@ public interface MultipleChoiceListAdapter<DataType> extends
 	 * causes an item to become unselected, if it is currently selected and vice
 	 * versa.
 	 * 
-	 * @return True, if the selections of all items have been triggered, false
+	 * @return True, if the selections of all items have been changed, false
 	 *         otherwise
 	 */
 	boolean triggerAllSelections();
