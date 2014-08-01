@@ -264,16 +264,18 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 
 	@Override
 	public final boolean select(final int index) {
-		if (getItems().get(index).isEnabled()) {
-			for (int i = 0; i < getNumberOfItems(); i++) {
-				Item<DataType> item = getItems().get(i);
+		Item<DataType> item = getItems().get(index);
 
-				if (i == index && !item.isSelected()) {
-					item.setSelected(true);
-					notifyOnItemSelected(item.getData(), i);
-				} else if (i != index && item.isSelected()) {
-					item.setSelected(false);
-					notifyOnItemUnselected(item.getData(), i);
+		if (item.isEnabled() && !item.isSelected()) {
+			for (int i = 0; i < getNumberOfItems(); i++) {
+				Item<DataType> currentItem = getItems().get(i);
+
+				if (i == index && !currentItem.isSelected()) {
+					currentItem.setSelected(true);
+					notifyOnItemSelected(currentItem.getData(), i);
+				} else if (i != index && currentItem.isSelected()) {
+					currentItem.setSelected(false);
+					notifyOnItemUnselected(currentItem.getData(), i);
 				}
 			}
 
