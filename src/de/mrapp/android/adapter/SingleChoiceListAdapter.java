@@ -61,8 +61,8 @@ public interface SingleChoiceListAdapter<DataType> extends
 	 *            {@link Integer} value. The index must be between 0 and the
 	 *            value of the method <code>getNumberOfItems():int</code> - 1,
 	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
-	 * @return True, if the item, which belongs to the given index, has been
-	 *         selected, false otherwise
+	 * @return True, if the selection of the item, which belongs to the given
+	 *         index, has been changed, false otherwise
 	 */
 	@Override
 	boolean select(int index);
@@ -76,7 +76,8 @@ public interface SingleChoiceListAdapter<DataType> extends
 	 *            generic type DataType. The item may not be null. If the item
 	 *            does not belong to the adapter, a
 	 *            {@link NoSuchElementException} will be thrown
-	 * @return True, if the given item has been selected, false otherwise
+	 * @return True, if the selection of the given item has been changed, false
+	 *         otherwise
 	 */
 	@Override
 	boolean select(DataType item);
