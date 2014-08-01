@@ -115,58 +115,29 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 
 	/**
 	 * Selects the nearest enabled item, starting from a specific index. The
-	 * item is searched in ascending order and afterwards, if this search is not
-	 * successful, in descending order. If no enabled item is available, no item
-	 * will be selected.
+	 * item is searched alternately by ascending and descending indices. If no
+	 * enabled item is available, no item will be selected.
 	 * 
 	 * @param index
 	 *            The index, the search for the nearest enabled item should be
 	 *            started at, as an {@link Integer} value
 	 */
 	private void selectNearestEnabledItem(final int index) {
-		boolean selected = selectNearestEnabledItemByAscendingIndex(index);
+		int ascendingIndex = index;
+		int descendingIndex = index - 1;
 
-		if (!selected) {
-			selectNearestEnabledItemByDescendingIndex(index);
-		}
-	}
-
-	/**
-	 * Selects the nearest enabled item, starting from a specific index. The
-	 * item is searched in ascending order. If no enabled item is available, no
-	 * item will be selected.
-	 * 
-	 * @param index
-	 *            The index, the search for the nearest enabled item should be
-	 *            started at, as an {@link Integer} value
-	 * @return True, if an item has been selected, false otherwise
-	 */
-	private boolean selectNearestEnabledItemByAscendingIndex(final int index) {
-		for (int i = index; i < getNumberOfItems(); i++) {
-			if (isEnabled(i)) {
-				select(i);
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Selects the nearest enabled item, starting from a specific index. The
-	 * item is searched in descending order. If no enabled item is available, no
-	 * item will be selected.
-	 * 
-	 * @param index
-	 *            The index, the search for the nearest enabled item should be
-	 *            started at, as an {@link Integer} value
-	 */
-	private void selectNearestEnabledItemByDescendingIndex(final int index) {
-		for (int i = index - 1; i >= 0; i--) {
-			if (isEnabled(i)) {
-				select(i);
+		while (ascendingIndex < getNumberOfItems() || descendingIndex >= 0) {
+			if (ascendingIndex < getNumberOfItems()
+					&& isEnabled(ascendingIndex)) {
+				select(ascendingIndex);
+				return;
+			} else if (descendingIndex >= 0 && isEnabled(descendingIndex)) {
+				select(descendingIndex);
 				return;
 			}
+
+			ascendingIndex++;
+			descendingIndex--;
 		}
 	}
 
