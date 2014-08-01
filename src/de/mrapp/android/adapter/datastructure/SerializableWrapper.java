@@ -33,7 +33,7 @@ import java.io.Serializable;
  * 
  * @since 1.0.0
  */
-public class SerializableWrapper<Type> implements Serializable {
+public class SerializableWrapper<Type> implements DataStructure {
 
 	/**
 	 * The constant serial version UID.
