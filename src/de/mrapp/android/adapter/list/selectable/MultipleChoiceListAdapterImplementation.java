@@ -18,6 +18,7 @@
 package de.mrapp.android.adapter.list.selectable;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -278,7 +279,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 	}
 
 	@Override
-	public final List<Integer> getSelectedIndices() {
+	public final Collection<Integer> getSelectedIndices() {
 		List<Integer> selectedIndices = new ArrayList<Integer>();
 
 		for (int i = 0; i < getNumberOfItems(); i++) {
@@ -291,7 +292,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 	}
 
 	@Override
-	public final List<DataType> getSelectedItems() {
+	public final Collection<DataType> getSelectedItems() {
 		List<DataType> selectedItems = new ArrayList<DataType>();
 
 		for (Item<DataType> item : getItems()) {
@@ -304,7 +305,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 	}
 
 	@Override
-	public final List<Integer> getUnselectedIndices() {
+	public final Collection<Integer> getUnselectedIndices() {
 		List<Integer> unselectedIndices = new ArrayList<Integer>();
 
 		for (int i = 0; i < getNumberOfItems(); i++) {
@@ -317,7 +318,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 	}
 
 	@Override
-	public final List<DataType> getUnselectedItems() {
+	public final Collection<DataType> getUnselectedItems() {
 		List<DataType> unselectedItems = new ArrayList<DataType>();
 
 		for (Item<DataType> item : getItems()) {
