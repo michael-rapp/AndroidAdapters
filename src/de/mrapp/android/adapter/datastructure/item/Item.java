@@ -19,7 +19,12 @@ package de.mrapp.android.adapter.datastructure.item;
 
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
+
+import java.util.regex.Pattern;
+
 import de.mrapp.android.adapter.datastructure.DataStructure;
+import de.mrapp.android.adapter.list.filterable.Filterable;
+import de.mrapp.android.adapter.list.filterable.FilteringNotSupportedException;
 import de.mrapp.android.adapter.list.sortable.SortingNotSupportedException;
 
 /**
@@ -34,7 +39,7 @@ import de.mrapp.android.adapter.list.sortable.SortingNotSupportedException;
  * @since 1.0.0
  */
 public class Item<DataType> implements DataStructure,
-		Comparable<Item<DataType>> {
+		Comparable<Item<DataType>>, Filterable {
 
 	/**
 	 * The constant serial version UID.
@@ -166,6 +171,16 @@ public class Item<DataType> implements DataStructure,
 			return comparable.compareTo(another.getData());
 		} catch (ClassCastException e) {
 			throw new SortingNotSupportedException();
+		}
+	}
+
+	@Override
+	public final boolean match(final Pattern regularExpression) {
+		try {
+			Filterable filterable = (Filterable) getData();
+			return filterable.match(regularExpression);
+		} catch (ClassCastException e) {
+			throw new FilteringNotSupportedException();
 		}
 	}
 
