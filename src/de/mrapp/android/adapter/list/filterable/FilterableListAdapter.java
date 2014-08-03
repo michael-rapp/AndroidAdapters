@@ -55,7 +55,7 @@ public interface FilterableListAdapter<DataType> {
 	 * filter, which is used to apply the regular expression on the single
 	 * items, if no filter using the same regular expression has been applied
 	 * yet. This method can be called multiple times without resetting the
-	 * filtering, which causes the filtered item to be filtered once more.
+	 * filtering, which causes the filtered items to be filtered once more.
 	 * 
 	 * @param regularExpression
 	 *            The regular expression, which should be used to filter items,
@@ -86,13 +86,36 @@ public interface FilterableListAdapter<DataType> {
 	void resetAllFilters();
 
 	/**
-	 * Returns, whether at least one filter is applied on the adapter to filter
-	 * its items, or not.
+	 * Returns, whether at least one filter is currently applied on the adapter
+	 * to filter its items, or not.
 	 * 
-	 * @return True, if at least one filter is applied on the adapter, false
-	 *         otherwise.
+	 * @return True, if at least one filter is currently applied on the adapter,
+	 *         false otherwise.
 	 */
-	boolean isFilterApplied();
+	boolean isFiltered();
+
+	/**
+	 * Returns, whether a filter, which uses a specific regular expression, is
+	 * currently applied on the adapter to filter its items, or not.
+	 * 
+	 * @param regularExpression
+	 *            The regular expression of the filter, which should be checked,
+	 *            as an instance of the class {@link Pattern}. The regular
+	 *            expression may not be null
+	 * @return True, if a filter, which uses the given regular expression, is
+	 *         currently applied on the adapter to filter its items, false
+	 *         otherwise
+	 */
+	boolean isFilterApplied(Pattern regularExpression);
+
+	/**
+	 * Returns the number of filters, which are currently applied on the adapter
+	 * to filter its items.
+	 * 
+	 * @return The number of filters, which are currently applied on the adapter
+	 *         to filter its items, as an {@link Integer} value
+	 */
+	int getNumberOfAppliedFilters();
 
 	/**
 	 * Adds a new listener, which should be notified, when the adapter's
