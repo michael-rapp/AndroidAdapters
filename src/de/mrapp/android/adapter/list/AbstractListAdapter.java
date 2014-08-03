@@ -232,6 +232,19 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	}
 
 	/**
+	 * Sets the list, which contains the adapter's underlying data.
+	 * 
+	 * @param items
+	 *            The list, which should be set, as an instance of the type
+	 *            {@link List} or an empty list, if the adapter should not
+	 *            contain any data
+	 */
+	protected final void setItems(final List<Item<DataType>> items) {
+		ensureNotNull(items, "The items may not be null");
+		this.items = items;
+	}
+
+	/**
 	 * Creates and returns a deep copy of the list, which contains the adapter's
 	 * underlying data.
 	 * 
@@ -329,8 +342,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		ensureNotNull(context, "The context may not be null");
 		ensureNotNull(inflater, "The inflater may not be null");
 		ensureNotNull(decorator, "The decorator may not be null");
-		ensureNotNull(items, "The items may not be null");
 		ensureNotNull(adapterListeners, "The adapter listeners may not be null");
+		setItems(items);
 		this.context = context;
 		this.inflater = inflater;
 		this.decorator = decorator;
