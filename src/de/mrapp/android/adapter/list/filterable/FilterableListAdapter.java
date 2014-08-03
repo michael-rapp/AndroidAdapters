@@ -35,8 +35,9 @@ import java.util.regex.Pattern;
 public interface FilterableListAdapter<DataType> {
 
 	/**
-	 * Filters the adapter's items by using a specific regular expression. If
-	 * the adapter's underlying data does not implement the interface
+	 * Filters the adapter's items by using a specific regular expression, if no
+	 * filter using the same regular expression has been applied yet. If the
+	 * adapter's underlying data does not implement the interface
 	 * {@link Filterable} a {@link FilteringNotSupportedException} will be
 	 * thrown. This method can be called multiple times without resetting the
 	 * filtering, which causes the filtered item to be filtered once more.
@@ -45,13 +46,15 @@ public interface FilterableListAdapter<DataType> {
 	 *            The regular expression, which should be used to filter the
 	 *            items, as an instance of the class {@link Pattern}. The
 	 *            regular expression may not be null
+	 * @return True, if the filter has been applied, false otherwise
 	 */
-	void applyFilter(Pattern regularExpression);
+	boolean applyFilter(Pattern regularExpression);
 
 	/**
 	 * Filters the adapter's items by using a specific regular expression and a
 	 * filter, which is used to apply the regular expression on the single
-	 * items. This method can be called multiple times without resetting the
+	 * items, if no filter using the same regular expression has been applied
+	 * yet. This method can be called multiple times without resetting the
 	 * filtering, which causes the filtered item to be filtered once more.
 	 * 
 	 * @param regularExpression
@@ -62,8 +65,9 @@ public interface FilterableListAdapter<DataType> {
 	 *            The filter, which should be used to apply the given regular
 	 *            expression on the adapter's items, as an instance of the type
 	 *            {@link Filter}. The filter may not be null
+	 * @return True, if the filter has been applied, false otherwise
 	 */
-	void applyFilter(Pattern regularExpression, Filter<DataType> filter);
+	boolean applyFilter(Pattern regularExpression, Filter<DataType> filter);
 
 	/**
 	 * Resets the filter, which uses a specific regular expression.
