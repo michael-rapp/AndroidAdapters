@@ -101,7 +101,7 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 	 * when the adapter's underlying data has been sorted.
 	 * 
 	 * @return A set, which contains the listeners, which should be notified,
-	 *         when the adapter's underlying data has been modified, as an
+	 *         when the adapter's underlying data has been filtered, as an
 	 *         instance of the type {@link Set} or an empty set, if no listeners
 	 *         should be notified
 	 */
