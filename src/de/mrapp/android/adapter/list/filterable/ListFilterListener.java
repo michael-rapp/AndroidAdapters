@@ -41,12 +41,17 @@ public interface ListFilterListener<DataType> {
 	 *            The regular expression, which has been used, as an instance of
 	 *            the class {@link Pattern}. The regular expression may not be
 	 *            null
+	 * @param filter
+	 *            The filter, which has been used to apply the regular
+	 *            expression on the single items, as an instance of the type
+	 *            {@link Filter} or null, if the items' implementations of the
+	 *            interface {@link Filterable} has been used instead
 	 * @param filteredItems
 	 *            A collection, which contains the adapter's filtered items, as
 	 *            an instance of the type {@link Collection} or an empty
 	 *            collection, if the adapter does not contain any items
 	 */
-	void onApplyFilter(Pattern regularExpression,
+	void onApplyFilter(Pattern regularExpression, Filter<DataType> filter,
 			Collection<DataType> filteredItems);
 
 	/**
