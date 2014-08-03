@@ -66,9 +66,20 @@ public interface FilterableListAdapter<DataType> {
 	void applyFilter(Pattern regularExpression, Filter<DataType> filter);
 
 	/**
-	 * Resets all applied filters to restore the original items of the adapter.
+	 * Resets the filter, which uses a specific regular expression.
+	 * 
+	 * @param regularExpression
+	 *            The regular expression of the filter, which should be reseted,
+	 *            as an instance of the class {@link Pattern}. If no filter
+	 *            using the regular expression is applied to the adapter an
+	 *            {@link IllegalArgumentException} will be thrown
 	 */
-	void resetFilter();
+	void resetFilter(Pattern regularExpression);
+
+	/**
+	 * Resets all applied filters.
+	 */
+	void resetAllFilters();
 
 	/**
 	 * Returns, whether at least one filter is applied on the adapter to filter
