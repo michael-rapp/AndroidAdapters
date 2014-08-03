@@ -89,11 +89,16 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 	 *            The order, which has been used to sort the list, as a value of
 	 *            the enum {@link Order}. The order may either be
 	 *            <code>ASCENDING</code> or <code>DESCENDING</code>
+	 * @param comparator
+	 *            The comparator, which has been used to compare the single
+	 *            items, as an instance of the type {@link Comparator} or null,
+	 *            if the items' implementation of the type {@link Comparable}
+	 *            has been used instead
 	 */
 	private void notifyOnSorted(final Collection<DataType> sortedItems,
-			final Order order) {
+			final Order order, final Comparator<DataType> comparator) {
 		for (ListSortingListener<DataType> listener : sortingListeners) {
-			listener.onSorted(sortedItems, order);
+			listener.onSorted(sortedItems, order, comparator);
 		}
 	}
 
@@ -200,7 +205,7 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 			Collections.sort(getItems(), Collections.reverseOrder());
 		}
 
-		notifyOnSorted(getAllItems(), order);
+		notifyOnSorted(getAllItems(), order, null);
 		notifyDataSetChanged();
 	}
 
@@ -223,7 +228,7 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 					Collections.reverseOrder(itemComparator));
 		}
 
-		notifyOnSorted(getAllItems(), order);
+		notifyOnSorted(getAllItems(), order, comparator);
 		notifyDataSetChanged();
 	}
 

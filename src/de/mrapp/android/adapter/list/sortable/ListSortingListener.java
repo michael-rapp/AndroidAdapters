@@ -18,6 +18,7 @@
 package de.mrapp.android.adapter.list.sortable;
 
 import java.util.Collection;
+import java.util.Comparator;
 
 /**
  * Defines the interface, all listeners, which should be notified when the items
@@ -43,7 +44,13 @@ public interface ListSortingListener<DataType> {
 	 *            The order, which has been used to sort the adapter's items, as
 	 *            a value of the enum {@link Order}. The order may either be
 	 *            <code>ASCENDING</code> or <code>DESCENDING</code>
+	 * @param comparator
+	 *            The comparator, which has been used to compare the single items,
+	 *            as an instance of the type {@link Comparator} or null, if the
+	 *            items' implementation of the type {@link Comparable} has been
+	 *            used instead
 	 */
-	void onSorted(Collection<DataType> sortedItems, Order order);
+	void onSorted(Collection<DataType> sortedItems, Order order,
+			Comparator<DataType> comparator);
 
 }
