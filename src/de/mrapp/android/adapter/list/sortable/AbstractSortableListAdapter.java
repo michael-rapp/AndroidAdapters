@@ -19,6 +19,7 @@ package de.mrapp.android.adapter.list.sortable;
 
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -26,6 +27,7 @@ import java.util.Set;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.widget.ListView;
 import de.mrapp.android.adapter.datastructure.SerializableWrapper;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemComparator;
@@ -79,19 +81,19 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 	 * Notifies all listeners, which have been registered to be notified, when
 	 * the adapter's underlying data has been sorted.
 	 * 
-	 * @param sortedList
-	 *            A list, which contains the adapter's sorted items, as an
-	 *            instance of the type {@link List} or an empty list, if the
-	 *            adapter does not contain any items
+	 * @param sortedItems
+	 *            A collection, which contains the adapter's sorted items, as an
+	 *            instance of the type {@link Collection} or an empty
+	 *            collection, if the adapter does not contain any items
 	 * @param order
 	 *            The order, which has been used to sort the list, as a value of
 	 *            the enum {@link Order}. The order may either be
 	 *            <code>ASCENDING</code> or <code>DESCENDING</code>
 	 */
-	private void notifyOnSorted(final List<DataType> sortedList,
+	private void notifyOnSorted(final Collection<DataType> sortedItems,
 			final Order order) {
 		for (ListSortingListener<DataType> listener : sortingListeners) {
-			listener.onSorted(sortedList, order);
+			listener.onSorted(sortedItems, order);
 		}
 	}
 
