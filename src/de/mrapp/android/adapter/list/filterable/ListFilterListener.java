@@ -50,14 +50,18 @@ public interface ListFilterListener<DataType> {
 			Collection<DataType> filteredItems);
 
 	/**
-	 * The method, which is invoked, when all applied filters have been reseted
-	 * to restore the adapter's original items.
+	 * The method, which is invoked, when a filter has been reseted.
 	 * 
-	 * @param unfilteredItems
-	 *            A collection, which contains the adapter's unfiltered items,
-	 *            as an instance of the type {@link Collection} or an empty
+	 * @param regularExpression
+	 *            The regular expression used by the filter, which has been
+	 *            reseted, as an instance of the class {@link Pattern}. The
+	 *            regular expression may not be null
+	 * @param filteredItems
+	 *            A collection, which contains the adapter's filtered items, as
+	 *            an instance of the type {@link Collection} or an empty
 	 *            collection, if the adapter does not contain any items
 	 */
-	void onResetFilter(Collection<DataType> unfilteredItems);
+	void onResetFilter(Pattern regularExpression,
+			Collection<DataType> filteredItems);
 
 }
