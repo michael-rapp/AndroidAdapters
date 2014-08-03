@@ -30,7 +30,6 @@ import de.mrapp.android.adapter.datastructure.SerializableWrapper;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemComparator;
 import de.mrapp.android.adapter.inflater.Inflater;
-import de.mrapp.android.adapter.list.AbstractListAdapter;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.itemstate.AbstractItemStateListAdapter;
@@ -67,7 +66,7 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 	 * when the adapter's underlying data has been sorted, within a bundle.
 	 */
 	@VisibleForTesting
-	protected static final String SORTING_LISTENERS_BUNDLE_KEY = AbstractListAdapter.class
+	protected static final String SORTING_LISTENERS_BUNDLE_KEY = AbstractSortableListAdapter.class
 			.getSimpleName() + "::SortingListeners";
 
 	/**
