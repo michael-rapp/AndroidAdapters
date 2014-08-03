@@ -74,11 +74,11 @@ public interface FilterableListAdapter<DataType> {
 	 * 
 	 * @param regularExpression
 	 *            The regular expression of the filter, which should be reseted,
-	 *            as an instance of the class {@link Pattern}. If no filter
-	 *            using the regular expression is applied to the adapter an
-	 *            {@link IllegalArgumentException} will be thrown
+	 *            as an instance of the class {@link Pattern}. The regular
+	 *            expression may not be null
+	 * @return True, if the filter has been reseted, false otherwise
 	 */
-	void resetFilter(Pattern regularExpression);
+	boolean resetFilter(Pattern regularExpression);
 
 	/**
 	 * Resets all applied filters.
