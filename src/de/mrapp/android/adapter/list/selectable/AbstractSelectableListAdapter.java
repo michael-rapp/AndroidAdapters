@@ -131,17 +131,27 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	}
 
 	/**
-	 * Returns the set, which contains the listeners, which should be notified
+	 * Returns a set, which contains the listeners, which should be notified,
 	 * when the selection of an item of the adapter has been changed.
 	 * 
-	 * @return The set, which contains the listeners, which should be notified
+	 * @return A set, which contains the listeners, which should be notified
 	 *         when the selection of an item of the adapter has been changed, as
-	 *         an instance of the type {@link Set}. The set may not be null
+	 *         an instance of the type {@link Set} or an empty set, if no
+	 *         listeners should be notified
 	 */
 	protected final Set<ListSelectionListener<DataType>> getSelectionListeners() {
 		return selectionListeners;
 	}
 
+	/**
+	 * Sets the set, which contains the listeners, which should be notified,
+	 * when the selection of an item of the adapter has been changed.
+	 * 
+	 * @param selectionListeners
+	 *            The set, which should be set, as an instance of the type
+	 *            {@link Set} or an empty set, if no listeners should be
+	 *            notified
+	 */
 	protected final void setSelectionListeners(
 			final Set<ListSelectionListener<DataType>> selectionListeners) {
 		ensureNotNull(selectionListeners,
