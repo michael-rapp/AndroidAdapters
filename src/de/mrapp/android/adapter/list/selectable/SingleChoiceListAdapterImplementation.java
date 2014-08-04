@@ -18,10 +18,12 @@
 package de.mrapp.android.adapter.list.selectable;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import android.content.Context;
 import de.mrapp.android.adapter.SelectableListDecorator;
@@ -31,6 +33,7 @@ import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
+import de.mrapp.android.adapter.list.filterable.Filter;
 import de.mrapp.android.adapter.list.filterable.ListFilterListener;
 import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
@@ -112,6 +115,34 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 				}
 			}
 
+		};
+	}
+
+	/**
+	 * Creates and returns a listener, which allows to adapt the selections of
+	 * the adapter's items, when an the adapter's underlying data has been
+	 * filtered.
+	 * 
+	 * @return The listener, which has been created, as an instance of the type
+	 *         {@link ListFilterListener}
+	 */
+	private ListFilterListener<DataType> createFilterListener() {
+		return new ListFilterListener<DataType>() {
+
+			@Override
+			public void onApplyFilter(final Pattern regularExpression,
+					final Filter<DataType> filter,
+					final Collection<DataType> filteredItems) {
+				if (isFiltered() && getSelectedIndex() == -1 && !isEmpty()) {
+					select(0);
+				}
+			}
+
+			@Override
+			public void onResetFilter(final Pattern regularExpression,
+					final Collection<DataType> filteredItems) {
+				return;
+			}
 		};
 	}
 
@@ -247,6 +278,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 				selectionListeners);
 		addAdapterListener(createAdapterListener());
 		addEnableStateListner(createEnableStateListener());
+		addFilterListener(createFilterListener());
 	}
 
 	/**
