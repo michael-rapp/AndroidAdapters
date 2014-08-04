@@ -322,6 +322,8 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 				+ getEnableStateListeners() + ", items=" + getItems()
 				+ ", adapterListeners=" + getAdapterListeners()
 				+ ", allowDuplicates=" + areDuplicatesAllowed()
+				+ ", filterListeners=" + getSelectionListeners()
+				+ ", appliedFilters=" + getAppliedFilters()
 				+ ", selectItemOnClick=" + isItemSelectedOnClick()
 				+ ", selectionListeners=" + getSelectionListeners() + "]";
 	}

@@ -476,6 +476,8 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 				+ getEnableStateListeners() + ", items=" + getItems()
 				+ ", adapterListeners=" + getAdapterListeners()
 				+ ", allowDuplicates=" + areDuplicatesAllowed()
+				+ ", filterListeners=" + getFilterListeners()
+				+ ", appliedFilters=" + getAppliedFilters()
 				+ ", selectItemOnClick=" + isItemSelectedOnClick()
 				+ ", selectionListeners=" + getSelectionListeners() + "]";
 	}
