@@ -396,6 +396,24 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	}
 
 	/**
+	 * Creates and returns a deep copy of the set, which contains the filters,
+	 * which are applied on the adapter.
+	 * 
+	 * @return A deep copy of the set, which contains the filters, which are
+	 *         applied on the adapter, as an instance of the type {@link Set} or
+	 *         an empty set, if no filters are applied
+	 */
+	protected final Set<AppliedFilter<DataType>> cloneAppliedFilters() {
+		Set<AppliedFilter<DataType>> clonedAppliedFilters = new LinkedHashSet<AppliedFilter<DataType>>();
+
+		for (AppliedFilter<DataType> filter : appliedFilters) {
+			clonedAppliedFilters.add(filter.clone());
+		}
+
+		return clonedAppliedFilters;
+	}
+
+	/**
 	 * Creates a new adapter, whose underlying data is managed as a filterable
 	 * list of arbitrary items.
 	 * 
