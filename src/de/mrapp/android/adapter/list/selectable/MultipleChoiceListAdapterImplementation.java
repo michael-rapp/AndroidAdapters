@@ -27,10 +27,12 @@ import java.util.Set;
 import android.content.Context;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.SelectableListDecorator;
+import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
+import de.mrapp.android.adapter.list.filterable.ListFilterListener;
 import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 
@@ -131,6 +133,14 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 	 *            A set, which contains the listeners, which should be notified,
 	 *            when an item's selection has been changed or an empty set, if
 	 *            no listeners should be notified
+	 * @param filterListeners
+	 *            A set, which contains the listeners, which should be notified,
+	 *            when the adapter's underlying data has been filtered or an
+	 *            empty set, if no listeners should be notified
+	 * @param appliedFilters
+	 *            A list, which contains the filters, which should be used to
+	 *            filter the adapter's underlying data or an empty list, if the
+	 *            adapter's underlying data should not be filtered
 	 */
 	protected MultipleChoiceListAdapterImplementation(final Context context,
 			final Inflater inflater,
@@ -143,11 +153,14 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 			final Set<ListItemStateListener<DataType>> itemStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final boolean selectItemOnClick,
-			final Set<ListSelectionListener<DataType>> selectionListeners) {
+			final Set<ListSelectionListener<DataType>> selectionListeners,
+			final Set<ListFilterListener<DataType>> filterListeners,
+			final Set<AppliedFilter<DataType>> appliedFilters) {
 		super(context, inflater, decorator, items, allowDuplicates,
 				adapterListeners, enableStateListeners, numberOfItemStates,
 				triggerItemStateOnClick, itemStateListeners, sortingListeners,
-				selectItemOnClick, selectionListeners);
+				selectItemOnClick, selectionListeners, filterListeners,
+				appliedFilters);
 		addEnableStateListner(createEnableStateListener());
 	}
 
@@ -176,7 +189,9 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 				new LinkedHashSet<ListEnableStateListener<DataType>>(), 1,
 				false, new LinkedHashSet<ListItemStateListener<DataType>>(),
 				new LinkedHashSet<ListSortingListener<DataType>>(), true,
-				new LinkedHashSet<ListSelectionListener<DataType>>());
+				new LinkedHashSet<ListSelectionListener<DataType>>(),
+				new LinkedHashSet<ListFilterListener<DataType>>(),
+				new LinkedHashSet<AppliedFilter<DataType>>());
 	}
 
 	@Override
@@ -474,7 +489,8 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 				getEnableStateListeners(), getNumberOfItemStates(),
 				isItemStateTriggeredOnClick(), getItemStateListeners(),
 				getSortingListeners(), isItemSelectedOnClick(),
-				getSelectionListeners());
+				getSelectionListeners(), getFilterListeners(),
+				cloneAppliedFilters());
 	}
 
 }

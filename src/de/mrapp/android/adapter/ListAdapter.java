@@ -25,6 +25,7 @@ import de.mrapp.android.adapter.datastructure.DataStructure;
 import de.mrapp.android.adapter.datastructure.Restorable;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.EnableStateListAdapter;
+import de.mrapp.android.adapter.list.filterable.FilterableListAdapter;
 import de.mrapp.android.adapter.list.itemstate.ItemStateListAdapter;
 import de.mrapp.android.adapter.list.sortable.SortableListAdapter;
 
@@ -42,7 +43,8 @@ import de.mrapp.android.adapter.list.sortable.SortableListAdapter;
  */
 public interface ListAdapter<DataType> extends DataStructure, Restorable,
 		android.widget.ListAdapter, EnableStateListAdapter<DataType>,
-		SortableListAdapter<DataType>, ItemStateListAdapter<DataType> {
+		ItemStateListAdapter<DataType>, SortableListAdapter<DataType>,
+		FilterableListAdapter<DataType> {
 
 	/**
 	 * Returns, whether duplicate items are allowed, or not.

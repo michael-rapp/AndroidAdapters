@@ -27,11 +27,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import de.mrapp.android.adapter.SelectableListDecorator;
+import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.SerializableWrapper;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
+import de.mrapp.android.adapter.list.filterable.AbstractFilterableListAdapter;
+import de.mrapp.android.adapter.list.filterable.ListFilterListener;
 import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
 import de.mrapp.android.adapter.list.sortable.AbstractSortableListAdapter;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
@@ -52,7 +55,7 @@ import de.mrapp.android.adapter.util.VisibleForTesting;
  */
 public abstract class AbstractSelectableListAdapter<DataType>
 		extends
-		AbstractSortableListAdapter<DataType, SelectableListDecorator<DataType>>
+		AbstractFilterableListAdapter<DataType, SelectableListDecorator<DataType>>
 		implements SelectableListAdapter<DataType> {
 
 	/**
@@ -213,6 +216,14 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	 *            A set, which contains the listeners, which should be notified,
 	 *            when an item's selection has been changed or an empty set, if
 	 *            no listeners should be notified
+	 * @param filterListeners
+	 *            A set, which contains the listeners, which should be notified,
+	 *            when the adapter's underlying data has been filtered or an
+	 *            empty set, if no listeners should be notified
+	 * @param appliedFilters
+	 *            A list, which contains the filters, which should be used to
+	 *            filter the adapter's underlying data or an empty list, if the
+	 *            adapter's underlying data should not be filtered
 	 */
 	protected AbstractSelectableListAdapter(final Context context,
 			final Inflater inflater,
@@ -225,10 +236,13 @@ public abstract class AbstractSelectableListAdapter<DataType>
 			final Set<ListItemStateListener<DataType>> itemStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final boolean selectItemOnClick,
-			final Set<ListSelectionListener<DataType>> selectionListeners) {
+			final Set<ListSelectionListener<DataType>> selectionListeners,
+			final Set<ListFilterListener<DataType>> filterListeners,
+			final Set<AppliedFilter<DataType>> appliedFilters) {
 		super(context, inflater, decorator, items, allowDuplicates,
 				adapterListeners, enableStateListeners, numberOfItemStates,
-				triggerItemStateOnClick, itemStateListeners, sortingListeners);
+				triggerItemStateOnClick, itemStateListeners, sortingListeners,
+				filterListeners, appliedFilters);
 		selectItemOnClick(selectItemOnClick);
 		setSelectionListeners(selectionListeners);
 	}
