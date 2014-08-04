@@ -18,18 +18,22 @@
 package de.mrapp.android.adapter.list.filterable;
 
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
+import static de.mrapp.android.adapter.util.Condition.ensureAtMaximum;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.SparseIntArray;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.SerializableWrapper;
 import de.mrapp.android.adapter.datastructure.item.Item;
@@ -67,6 +71,12 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	 * A list, which contains the the adapter's unfiltered data.
 	 */
 	private transient List<Item<DataType>> unfilteredItems;
+
+	/**
+	 * A sparse map, which maps the indices of the adapter's filtered items to
+	 * their corresponding indices of the unfiltered data.
+	 */
+	private transient SparseIntArray indexMapping;
 
 	/**
 	 * A set, which contains the filters, which are used to filter the adapter's
@@ -113,9 +123,8 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 
 			@Override
 			public void onItemAdded(final DataType item, final int index) {
-				Item<DataType> addedItem = getItems().get(index);
-
 				if (isFiltered()) {
+					Item<DataType> addedItem = getItems().get(index);
 					unfilteredItems.add(index, addedItem);
 
 					if (!matchAllFilters(addedItem)) {
@@ -127,20 +136,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 			@Override
 			public void onItemRemoved(final DataType item, final int index) {
 				if (isFiltered()) {
-					int occurance = 1;
-
-					for (int i = getNumberOfItems() - 1; i >= 0; i--) {
-						if (getItem(i) == item) {
-							occurance++;
-						}
-					}
-
-					for (int i = unfilteredItems.size() - 1; i >= 0; i--) {
-						if (unfilteredItems.get(i).getData() == item
-								&& --occurance == 0) {
-							unfilteredItems.remove(i);
-						}
-					}
+					unfilteredItems.remove(getUnfilteredIndex(index));
 				}
 			}
 
@@ -228,13 +224,24 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	private void applyFilter(final AppliedFilter<DataType> filter) {
 		if (unfilteredItems == null) {
 			unfilteredItems = new ArrayList<Item<DataType>>(getItems());
+			indexMapping = new SparseIntArray();
 		}
 
-		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
-			if (!matchFilter(filter, getItems().get(i))) {
-				getItems().remove(i);
+		Collection<Item<DataType>> itemsToRemove = new LinkedList<Item<DataType>>();
+		int counter = 0;
+
+		for (int i = 0; i < getNumberOfItems(); i++) {
+			Item<DataType> item = getItems().get(i);
+
+			if (!matchFilter(filter, item)) {
+				itemsToRemove.add(item);
+			} else {
+				indexMapping.put(counter, i);
+				counter++;
 			}
 		}
+
+		getItems().removeAll(itemsToRemove);
 	}
 
 	/**
@@ -393,6 +400,28 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	}
 
 	/**
+	 * Returns the unfiltered index, which corresponds to a specific filtered
+	 * index.
+	 * 
+	 * @param filteredIndex
+	 *            The index, whose corresponding unfiltered index should be
+	 *            retrieved, as an {@link Integer} value
+	 * @return The unfiltered index, which corresponds to the given filtered
+	 *         index, as an {@link Integer} value
+	 */
+	protected final int getUnfilteredIndex(final int filteredIndex) {
+		ensureAtLeast(filteredIndex, 0, "The index must be at least 0");
+		ensureAtMaximum(filteredIndex, getNumberOfItems() - 1,
+				"The index must be at maximum " + (getNumberOfItems() - 1));
+
+		if (!isFiltered()) {
+			return filteredIndex;
+		} else {
+			return indexMapping.get(filteredIndex);
+		}
+	}
+
+	/**
 	 * Creates and returns a deep copy of the set, which contains the filters,
 	 * which are applied on the adapter.
 	 * 
@@ -524,6 +553,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 		if (removed) {
 			setItems(unfilteredItems);
 			unfilteredItems = null;
+			indexMapping = null;
 			applyAllFilters();
 			notifyOnResetFilter(regularExpression, getAllItems());
 			notifyDataSetChanged();
