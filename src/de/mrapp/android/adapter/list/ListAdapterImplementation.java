@@ -24,7 +24,6 @@ import java.util.Set;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.ListView;
 import de.mrapp.android.adapter.ListDecorator;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.item.Item;
