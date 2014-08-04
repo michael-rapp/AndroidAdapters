@@ -169,7 +169,8 @@ public class ListAdapterImplementation<DataType> extends
 				+ ", items=" + getItems() + ", adapterListeners="
 				+ getAdapterListeners() + ", allowDuplicates="
 				+ areDuplicatesAllowed() + ", filterListeners="
-				+ getFilterListeners() + "]";
+				+ getFilterListeners() + ", appliedFilters="
+				+ getAppliedFilters() + "]";
 	}
 
 	@Override
