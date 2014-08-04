@@ -279,9 +279,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 
 	@Override
 	public final boolean select(final int index) {
-		Item<DataType> item = getItems().get(index);
-
-		if (item.isEnabled() && !item.isSelected()) {
+		if (isEnabled(index) && !isSelected(index)) {
 			for (int i = 0; i < getNumberOfItems(); i++) {
 				Item<DataType> currentItem = getItems().get(i);
 
