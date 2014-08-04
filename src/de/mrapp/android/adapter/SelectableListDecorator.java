@@ -59,11 +59,14 @@ public interface SelectableListDecorator<DataType> {
 	 * @param state
 	 *            The current state of the item, which should be visualized, as
 	 *            an {@link Integer} value
+	 * @param filtered
+	 *            True, if at least one filter is currently applied on the
+	 *            adapter, false otherwise
 	 * @param selected
 	 *            True, if the item, which should be visualized, is currently
 	 *            selected, false otherwise
 	 */
 	void onShowItem(Context context, View view, DataType item, int index,
-			boolean enabled, int state, boolean selected);
+			boolean enabled, int state, boolean filtered, boolean selected);
 
 }

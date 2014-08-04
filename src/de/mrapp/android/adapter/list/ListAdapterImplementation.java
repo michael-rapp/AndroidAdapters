@@ -58,7 +58,7 @@ public class ListAdapterImplementation<DataType> extends
 	protected final void applyDecorator(final Context context, final View view,
 			final int index) {
 		getDecorator().onShowItem(context, view, getItem(index), index,
-				isEnabled(index), getItemState(index));
+				isEnabled(index), getItemState(index), isFiltered());
 	}
 
 	/**

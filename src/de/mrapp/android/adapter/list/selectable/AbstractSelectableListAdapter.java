@@ -163,7 +163,8 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	protected final void applyDecorator(final Context context, final View view,
 			final int index) {
 		getDecorator().onShowItem(context, view, getItem(index), index,
-				isEnabled(index), getItemState(index), isSelected(index));
+				isEnabled(index), getItemState(index), isFiltered(),
+				isSelected(index));
 	}
 
 	@Override
