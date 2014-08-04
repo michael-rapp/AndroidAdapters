@@ -17,8 +17,6 @@
  */
 package de.mrapp.android.adapter.datastructure;
 
-import java.io.Serializable;
-
 /**
  * A wrapper, which encapsulates any type of instance and implements the
  * interface {@link Serializable}. Such a wrapper may be used to store
