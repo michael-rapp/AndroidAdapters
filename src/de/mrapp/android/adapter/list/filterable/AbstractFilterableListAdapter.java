@@ -481,7 +481,6 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 				triggerItemStateOnClick, itemStateListeners, sortingListeners);
 		setFilterListeners(filterListeners);
 		setAppliedFilters(appliedFilters);
-		unfilteredItems = null;
 		addAdapterListener(createAdapterListener());
 		addSortingListner(createSortingListener());
 	}
