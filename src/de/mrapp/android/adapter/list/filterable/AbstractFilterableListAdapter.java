@@ -136,12 +136,9 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 					}
 
 					for (int i = unfilteredItems.size() - 1; i >= 0; i--) {
-						if (unfilteredItems.get(i).getData() == item) {
-							occurance--;
-
-							if (occurance == 0) {
-								unfilteredItems.remove(i);
-							}
+						if (unfilteredItems.get(i).getData() == item
+								&& --occurance == 0) {
+							unfilteredItems.remove(i);
 						}
 					}
 				}
