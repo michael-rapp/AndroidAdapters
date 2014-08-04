@@ -24,12 +24,15 @@ import java.util.Set;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.ListView;
 import de.mrapp.android.adapter.ListDecorator;
+import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
+import de.mrapp.android.adapter.list.filterable.AbstractFilterableListAdapter;
+import de.mrapp.android.adapter.list.filterable.ListFilterListener;
 import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
-import de.mrapp.android.adapter.list.sortable.AbstractSortableListAdapter;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 
 /**
@@ -45,7 +48,7 @@ import de.mrapp.android.adapter.list.sortable.ListSortingListener;
  * @since 1.0.0
  */
 public class ListAdapterImplementation<DataType> extends
-		AbstractSortableListAdapter<DataType, ListDecorator<DataType>> {
+		AbstractFilterableListAdapter<DataType, ListDecorator<DataType>> {
 
 	/**
 	 * The constant serial version UID.
@@ -102,6 +105,14 @@ public class ListAdapterImplementation<DataType> extends
 	 *            A set, which contains the listeners, which should be notified,
 	 *            when the adapter's underlying data has been sorted or an empty
 	 *            set, if no listeners should be notified
+	 * @param filterListeners
+	 *            A set, which contains the listeners, which should be notified,
+	 *            when the adapter's underlying data has been filtered or an
+	 *            empty set, if no listeners should be notified
+	 * @param appliedFilters
+	 *            A list, which contains the filters, which should be used to
+	 *            filter the adapter's underlying data or an empty list, if the
+	 *            adapter's underlying data should not be filtered
 	 */
 	protected ListAdapterImplementation(final Context context,
 			final Inflater inflater, final ListDecorator<DataType> decorator,
@@ -111,10 +122,13 @@ public class ListAdapterImplementation<DataType> extends
 			final int numberOfItemStates,
 			final boolean triggerItemStateOnClick,
 			final Set<ListItemStateListener<DataType>> itemStateListeners,
-			final Set<ListSortingListener<DataType>> sortingListeners) {
+			final Set<ListSortingListener<DataType>> sortingListeners,
+			final Set<ListFilterListener<DataType>> filterListeners,
+			final Set<AppliedFilter<DataType>> appliedFilters) {
 		super(context, inflater, decorator, items, allowDuplicates,
 				adapterListeners, enableStateListeners, numberOfItemStates,
-				triggerItemStateOnClick, itemStateListeners, sortingListeners);
+				triggerItemStateOnClick, itemStateListeners, sortingListeners,
+				filterListeners, appliedFilters);
 	}
 
 	/**
@@ -140,7 +154,9 @@ public class ListAdapterImplementation<DataType> extends
 				false, new LinkedHashSet<ListAdapterListener<DataType>>(),
 				new LinkedHashSet<ListEnableStateListener<DataType>>(), 1,
 				false, new LinkedHashSet<ListItemStateListener<DataType>>(),
-				new LinkedHashSet<ListSortingListener<DataType>>());
+				new LinkedHashSet<ListSortingListener<DataType>>(),
+				new LinkedHashSet<ListFilterListener<DataType>>(),
+				new LinkedHashSet<AppliedFilter<DataType>>());
 	}
 
 	@Override
@@ -152,7 +168,8 @@ public class ListAdapterImplementation<DataType> extends
 				+ ", enableStateListeners=" + getEnableStateListeners()
 				+ ", items=" + getItems() + ", adapterListeners="
 				+ getAdapterListeners() + ", allowDuplicates="
-				+ areDuplicatesAllowed() + "]";
+				+ areDuplicatesAllowed() + ", filterListeners="
+				+ getFilterListeners() + "]";
 	}
 
 	@Override
@@ -163,7 +180,8 @@ public class ListAdapterImplementation<DataType> extends
 				areDuplicatesAllowed(), getAdapterListeners(),
 				getEnableStateListeners(), getNumberOfItemStates(),
 				isItemStateTriggeredOnClick(), getItemStateListeners(),
-				getSortingListeners());
+				getSortingListeners(), getFilterListeners(),
+				cloneAppliedFilters());
 	}
 
 }

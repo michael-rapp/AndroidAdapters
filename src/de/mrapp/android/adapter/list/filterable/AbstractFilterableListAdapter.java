@@ -575,7 +575,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public final void onSaveInstanceState(final Bundle outState) {
+	public void onSaveInstanceState(final Bundle outState) {
 		super.onSaveInstanceState(outState);
 
 		SerializableWrapper<Set<ListFilterListener<DataType>>> wrappedFilterListeners = new SerializableWrapper<Set<ListFilterListener<DataType>>>(
@@ -591,7 +591,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public final void onRestoreInstanceState(final Bundle savedInstanceState) {
+	public void onRestoreInstanceState(final Bundle savedInstanceState) {
 		super.onRestoreInstanceState(savedInstanceState);
 
 		if (savedInstanceState != null) {
@@ -608,7 +608,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public final int hashCode() {
+	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + appliedFilters.hashCode();
@@ -617,7 +617,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public final boolean equals(final Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (!super.equals(obj))
