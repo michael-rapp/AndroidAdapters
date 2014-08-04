@@ -144,6 +144,30 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 	}
 
 	/**
+	 * Selects the item of the unfiltered data, which corresponds to a specific
+	 * filtered index, if the adapter's data is currently filtered.
+	 * 
+	 * @param filteredIndex
+	 *            The filtered index, which corresponds to the unfiltered item,
+	 *            which should be selected
+	 */
+	private void selectUnfilteredItem(final int filteredIndex) {
+		if (isFiltered()) {
+			int unfilteredIndex = getUnfilteredIndex(filteredIndex);
+
+			for (int i = 0; i < getUnfilteredItems().size(); i++) {
+				Item<DataType> item = getUnfilteredItems().get(i);
+
+				if (i == unfilteredIndex) {
+					item.setSelected(true);
+				} else {
+					item.setSelected(false);
+				}
+			}
+		}
+	}
+
+	/**
 	 * Creates a new adapter, whose underlying data is managed as a list of
 	 * arbitrary items, of which only one item can be selected at once.
 	 * 
@@ -292,6 +316,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 				}
 			}
 
+			selectUnfilteredItem(index);
 			notifyDataSetChanged();
 			return true;
 		} else {
