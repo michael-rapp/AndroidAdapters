@@ -44,6 +44,10 @@ public interface ListDecorator<DataType> {
 	 * @param context
 	 *            The context, the adapter belongs to, as an instance of the
 	 *            class {@link Context}. The context may not be null
+	 * @param adapter
+	 *            The adapter, whose items are visualized by the decorator, as
+	 *            an instance of the type {@link ListAdapter}. The adapter may
+	 *            not be null
 	 * @param view
 	 *            The view, which is used to visualize the item, as an instance
 	 *            of the class {@link View}. The view may not be null
@@ -63,7 +67,8 @@ public interface ListDecorator<DataType> {
 	 *            True, if at least one filter is currently applied on the
 	 *            adapter, false otherwise
 	 */
-	void onShowItem(Context context, View view, DataType item, int index,
-			boolean enabled, int state, boolean filtered);
+	void onShowItem(Context context, ListAdapter<DataType> adapter, View view,
+			DataType item, int index, boolean enabled, int state,
+			boolean filtered);
 
 }
