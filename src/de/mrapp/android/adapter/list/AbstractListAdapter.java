@@ -619,7 +619,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		View view = convertView;
 
 		if (view == null) {
-			view = getInflater().inflate(getContext(), parent);
+			view = getInflater().inflate(getContext(), parent, false);
 			view.setOnClickListener(createItemOnClickListener(index));
 		}
 
