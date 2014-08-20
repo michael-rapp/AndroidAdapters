@@ -174,8 +174,8 @@ public interface ListAdapter<DataType> extends DataStructure, Restorable,
 	 * 
 	 * @param index
 	 *            The index of the item, which should be removed from the
-	 *            adapter, as an;@link Integer} value. The index must be between
-	 *            0 and the value of the method
+	 *            adapter, as an {@link Integer} value. The index must be
+	 *            between 0 and the value of the method
 	 *            <code>getNumberOfItems():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @return The item, which has been removed, as an instance of the generic
