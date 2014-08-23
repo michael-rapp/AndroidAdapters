@@ -15,7 +15,7 @@
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/>. 
  */
-package de.mrapp.android.adapter.list.sortable;
+package de.mrapp.android.adapter;
 
 /**
  * An exception, which is thrown, if the items of an adapter should be sorted,
