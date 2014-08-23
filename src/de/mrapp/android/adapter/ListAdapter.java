@@ -57,7 +57,7 @@ public interface ListAdapter<DataType> extends DataStructure, Restorable,
 	 * Sets, whether duplicate items should be allowed, or not.
 	 * 
 	 * @param allowDuplicates
-	 *            True, if duplicates should be allowed, false otherwise
+	 *            True, if duplicate items should be allowed, false otherwise
 	 */
 	void allowDuplicates(boolean allowDuplicates);
 
