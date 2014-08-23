@@ -19,6 +19,8 @@ package de.mrapp.android.adapter.list.sortable;
 
 import java.util.Comparator;
 
+import de.mrapp.android.adapter.Order;
+
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a
  * sortable list of arbitrary items, must implement. Such an adapter's purpose
