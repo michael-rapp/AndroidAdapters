@@ -34,6 +34,7 @@ import java.util.regex.Pattern;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.SparseIntArray;
+import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.SerializableWrapper;
 import de.mrapp.android.adapter.datastructure.item.Item;
@@ -44,7 +45,6 @@ import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
 import de.mrapp.android.adapter.list.sortable.AbstractSortableListAdapter;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
-import de.mrapp.android.adapter.list.sortable.Order;
 import de.mrapp.android.adapter.util.VisibleForTesting;
 
 /**

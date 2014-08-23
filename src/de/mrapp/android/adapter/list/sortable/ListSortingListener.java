@@ -20,6 +20,8 @@ package de.mrapp.android.adapter.list.sortable;
 import java.util.Collection;
 import java.util.Comparator;
 
+import de.mrapp.android.adapter.Order;
+
 /**
  * Defines the interface, all listeners, which should be notified when the items
  * of a {@link ListAdapter} have been sorted, must implement.

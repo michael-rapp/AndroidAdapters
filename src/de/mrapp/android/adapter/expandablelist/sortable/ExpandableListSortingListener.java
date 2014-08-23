@@ -21,7 +21,7 @@ import java.util.Collection;
 import java.util.Comparator;
 
 import android.renderscript.Element.DataType;
-import de.mrapp.android.adapter.list.sortable.Order;
+import de.mrapp.android.adapter.Order;
 
 /**
  * Defines the interface, all listeners, which should be notified when the items
