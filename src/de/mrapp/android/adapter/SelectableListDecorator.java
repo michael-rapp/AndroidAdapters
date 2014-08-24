@@ -76,7 +76,6 @@ public abstract class SelectableListDecorator<DataType> extends
 			final SelectableListAdapter<DataType> adapter, final View view,
 			final DataType item, final int index, final boolean enabled,
 			final int state, final boolean filtered, final boolean selected) {
-		setCurrentIndex(index);
 		setCurrentParentView(view);
 		onShowItem(context, adapter, view, item, index, enabled, state,
 				filtered, selected);

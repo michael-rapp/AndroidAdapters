@@ -17,9 +17,7 @@
  */
 package de.mrapp.android.adapter.decorator;
 
-import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
-import android.util.SparseArray;
 import android.view.View;
 
 /**
@@ -35,49 +33,12 @@ import android.view.View;
 public abstract class AbstractDecorator {
 
 	/**
-	 * A sparse array, which maps the indices of the adapter's items to the view
-	 * holder, which may be used to reference the views, which are used to
-	 * visualize the appropriate item.
-	 */
-	private SparseArray<ViewHolder> viewHolders;
-
-	/**
-	 * The index of the item, whose appearance should currently be customized by
-	 * the decorator. This index is used to identify the view holder, which
-	 * provides references to the views, which are used to visualize the
-	 * appropriate item.
-	 */
-	private int currentIndex;
-
-	/**
 	 * The parent view of the item, whose appearance should currently be
 	 * customized by the decorator. This parent view is used to reference the
 	 * views, which are used to visualize the appropriate item, if the view
 	 * holder does not already provide such references.
 	 */
 	private View currentParentView;
-
-	/**
-	 * Creates a new decorator, which should allow to customize the appearance
-	 * of the view, which is used to visualize the items of an adapter.
-	 */
-	public AbstractDecorator() {
-		viewHolders = new SparseArray<ViewHolder>();
-	}
-
-	/**
-	 * Sets the index of the item, whose appearance should currently be
-	 * customized by the decorator. This method should never be called by any
-	 * custom decorator implementation.
-	 * 
-	 * @param currentIndex
-	 *            The index, which should be set, as an {@link Integer} value.
-	 *            The index must be at least 0
-	 */
-	protected final void setCurrentIndex(final int currentIndex) {
-		ensureAtLeast(currentIndex, 0, "The index must be at least 0");
-		this.currentIndex = currentIndex;
-	}
 
 	/**
 	 * Sets the index of the item, whose appearance should currently be
@@ -130,11 +91,11 @@ public abstract class AbstractDecorator {
 	 */
 	@SuppressWarnings("unchecked")
 	protected final <ViewType extends View> ViewType getView(final int viewId) {
-		ViewHolder viewHolder = viewHolders.get(currentIndex);
+		ViewHolder viewHolder = (ViewHolder) currentParentView.getTag();
 
 		if (viewHolder == null) {
 			viewHolder = new ViewHolder();
-			viewHolders.put(currentIndex, viewHolder);
+			currentParentView.setTag(viewHolder);
 		}
 
 		return (ViewType) viewHolder.getView(currentParentView, viewId);
