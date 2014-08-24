@@ -19,6 +19,8 @@ package de.mrapp.android.adapter.list.filterable;
 
 import java.util.regex.Pattern;
 
+import de.mrapp.android.adapter.Filterable;
+
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a
  * filterable list of arbitrary items, must implement. Such an adapter's purpose

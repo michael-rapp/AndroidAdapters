@@ -17,6 +17,8 @@
  */
 package de.mrapp.android.adapter.list.filterable;
 
+import de.mrapp.android.adapter.Filterable;
+
 /**
  * An exception, which is thrown, if the items of an adapter should be filtered,
  * but the underlying data does not implement the interface {@link Filterable}.

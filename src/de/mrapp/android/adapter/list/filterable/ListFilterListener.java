@@ -20,6 +20,8 @@ package de.mrapp.android.adapter.list.filterable;
 import java.util.Collection;
 import java.util.regex.Pattern;
 
+import de.mrapp.android.adapter.Filterable;
+
 /**
  * Defines the interface, all listeners, which should be notified when the
  * underlying data of a {@link ListAdapter} has been filtered, must implement.
