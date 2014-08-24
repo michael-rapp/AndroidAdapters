@@ -15,9 +15,8 @@
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/>. 
  */
-package de.mrapp.android.adapter.list.filterable;
+package de.mrapp.android.adapter;
 
-import de.mrapp.android.adapter.Filterable;
 
 /**
  * An exception, which is thrown, if the items of an adapter should be filtered,
