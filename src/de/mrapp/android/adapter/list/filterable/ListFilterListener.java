@@ -21,7 +21,6 @@ import java.util.Collection;
 import java.util.regex.Pattern;
 
 import de.mrapp.android.adapter.Filter;
-import de.mrapp.android.adapter.Filterable;
 
 /**
  * Defines the interface, all listeners, which should be notified when the
