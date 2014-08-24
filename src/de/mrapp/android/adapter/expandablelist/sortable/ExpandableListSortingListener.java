@@ -24,8 +24,9 @@ import android.renderscript.Element.DataType;
 import de.mrapp.android.adapter.Order;
 
 /**
- * Defines the interface, all listeners, which should be notified when the items
- * of a {@link ExpandableListAdapter} have been sorted, must implement.
+ * Defines the interface, all listeners, which should be notified when the
+ * underlying data of an {@link ExpandableListAdapter} have been sorted, must
+ * implement.
  * 
  * @param <GroupType>
  *            The type of the underlying data of the observed adapter's group
