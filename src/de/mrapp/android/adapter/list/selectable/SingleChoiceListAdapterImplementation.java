@@ -26,6 +26,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import android.content.Context;
+import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.SelectableListDecorator;
 import de.mrapp.android.adapter.SingleChoiceListAdapter;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
@@ -33,7 +34,6 @@ import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
-import de.mrapp.android.adapter.list.filterable.Filter;
 import de.mrapp.android.adapter.list.filterable.ListFilterListener;
 import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;

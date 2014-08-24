@@ -20,6 +20,7 @@ package de.mrapp.android.adapter.list.filterable;
 import java.util.Collection;
 import java.util.regex.Pattern;
 
+import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.Filterable;
 
 /**

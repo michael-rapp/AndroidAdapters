@@ -19,7 +19,7 @@ package de.mrapp.android.adapter.datastructure;
 
 import java.util.regex.Pattern;
 
-import de.mrapp.android.adapter.list.filterable.Filter;
+import de.mrapp.android.adapter.Filter;
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 /**
