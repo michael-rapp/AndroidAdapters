@@ -161,7 +161,7 @@ public abstract class ExpandableListDecorator<GroupType, ChildType> extends
 	 *            True, if at least one filter is currently applied on the
 	 *            adapter's group items, false otherwise
 	 */
-	public abstract void onShowGroup(Context context,
+	protected abstract void onShowGroup(Context context,
 			ExpandableListAdapter<GroupType, ChildType> adapter, View view,
 			GroupType group, int index, boolean enabled, int state,
 			boolean filtered);
@@ -206,7 +206,7 @@ public abstract class ExpandableListDecorator<GroupType, ChildType> extends
 	 *            True, if at least one filter is currently applied on the
 	 *            adapter's child items, false otherwise
 	 */
-	public abstract void onShowChild(Context context,
+	protected abstract void onShowChild(Context context,
 			ExpandableListAdapter<GroupType, ChildType> adapter, View view,
 			ChildType child, int childIndex, GroupType group, int groupIndex,
 			boolean enabled, int state, boolean filtered);
