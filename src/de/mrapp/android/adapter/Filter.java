@@ -15,7 +15,7 @@
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/>. 
  */
-package de.mrapp.android.adapter.list.filterable;
+package de.mrapp.android.adapter;
 
 import java.util.regex.Pattern;
 
