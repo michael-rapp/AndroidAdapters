@@ -18,27 +18,24 @@
 package de.mrapp.android.adapter.datastructure.group;
 
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
-import de.mrapp.android.adapter.ListAdapter;
+import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.datastructure.item.Item;
 
 /**
  * A data structure, which categorizes multiple items of an adapter. A group has
- * all properties of an item, but it does furthermore refer to an adapter, which
- * manages the its child items and may be expanded or collapsed.
+ * all properties of an item, but additionally it does contain an adapter, which
+ * manages the group's child items.
  * 
- * @param <DataType>
+ * @param <GroupType>
  *            The type of the groups's data
- * @param <ChildDataType>
+ * @param <ChildType>
  *            The type of the child items' data
- * @param <ChildAdapterType>
- *            The type of the adapter, which manages the group's child items
  * 
  * @author Michael Rapp
  * 
  * @since 1.0.0
  */
-public class Group<DataType, ChildDataType, ChildAdapterType extends ListAdapter<ChildDataType>>
-		extends Item<DataType> {
+public class Group<GroupType, ChildType> extends Item<GroupType> {
 
 	/**
 	 * The constant serial version UID.
@@ -46,60 +43,36 @@ public class Group<DataType, ChildDataType, ChildAdapterType extends ListAdapter
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * True, if the group is expanded, false otherwise.
-	 */
-	private boolean expanded;
-
-	/**
 	 * The adapter, which manages the group's child items.
 	 */
-	private ChildAdapterType childAdapter;
+	private MultipleChoiceListAdapter<ChildType> childAdapter;
 
 	/**
 	 * Creates a new data structure, which categorizes multiple items of an
 	 * adapter.
 	 * 
 	 * @param data
-	 *            The groups's data, as an instance of the generic type
-	 *            DataType. The data may not be null
+	 *            The group's data, as an instance of the generic type
+	 *            GroupType. The data may not be null
 	 * @param childAdapter
 	 *            The adapter, which manages the group's child items, as an
-	 *            instance of the generic type ChildAdapterType. The adapter may
-	 *            not be null
+	 *            instance of the type {@link MultipleChoiceListAdapter}. The
+	 *            adapter may not be null
 	 */
-	public Group(final DataType data, final ChildAdapterType childAdapter) {
+	public Group(final GroupType data,
+			final MultipleChoiceListAdapter<ChildType> childAdapter) {
 		super(data);
 		setChildAdapter(childAdapter);
-		setExpanded(false);
-	}
-
-	/**
-	 * Returns, whether the group is expanded, or not.
-	 * 
-	 * @return True, if the group is expanded, false otherwise
-	 */
-	public final boolean isExpanded() {
-		return expanded;
-	}
-
-	/**
-	 * Sets, whether the group is expanded, or not.
-	 * 
-	 * @param expanded
-	 *            True, if the group should be expanded, false otherwise
-	 */
-	public final void setExpanded(final boolean expanded) {
-		this.expanded = expanded;
 	}
 
 	/**
 	 * Returns the adapter, which manages the group's child items.
 	 * 
 	 * @return The adapter, which manages the group's child items, as an
-	 *         instance of the generic type ChildAdapterType. The adapter may
-	 *         not be null
+	 *         instance of the type {@link MultipleChoiceListAdapter}. The
+	 *         adapter may not be null
 	 */
-	public final ChildAdapterType getChildAdapter() {
+	public final MultipleChoiceListAdapter<ChildType> getChildAdapter() {
 		return childAdapter;
 	}
 
@@ -107,29 +80,29 @@ public class Group<DataType, ChildDataType, ChildAdapterType extends ListAdapter
 	 * Sets the adapter, which manages the group's child items.
 	 * 
 	 * @param childAdapter
-	 *            The adapter, which should be set, as an instance of the
-	 *            generic type ChildAdapterType. The adapter may not be null
+	 *            The adapter, which should be set, as an instance of the type
+	 *            {@link MultipleChoiceListAdapter}. The adapter may not be null
 	 */
-	public final void setChildAdapter(final ChildAdapterType childAdapter) {
-		ensureNotNull(childAdapter, "The adapter may not be null");
+	public final void setChildAdapter(
+			final MultipleChoiceListAdapter<ChildType> childAdapter) {
+		ensureNotNull(childAdapter, "The child adapter may not be null");
 		this.childAdapter = childAdapter;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public final Group<DataType, ChildDataType, ChildAdapterType> clone()
+	@SuppressWarnings("unchecked")
+	public final Group<GroupType, ChildType> clone()
 			throws CloneNotSupportedException {
 		try {
-			DataType clonedData = (DataType) getData().getClass()
+			GroupType clonedData = (GroupType) getData().getClass()
 					.getMethod("clone").invoke(getData());
-			ChildAdapterType clonedChildAdapter = (ChildAdapterType) childAdapter
+			MultipleChoiceListAdapter<ChildType> clonedChildAdapter = childAdapter
 					.clone();
-			Group<DataType, ChildDataType, ChildAdapterType> clonedGroup = new Group<DataType, ChildDataType, ChildAdapterType>(
+			Group<GroupType, ChildType> clonedGroup = new Group<GroupType, ChildType>(
 					clonedData, clonedChildAdapter);
 			clonedGroup.setSelected(isSelected());
 			clonedGroup.setEnabled(isEnabled());
 			clonedGroup.setState(getState());
-			clonedGroup.setExpanded(isExpanded());
 			return clonedGroup;
 		} catch (Exception e) {
 			throw new CloneNotSupportedException();
@@ -138,9 +111,9 @@ public class Group<DataType, ChildDataType, ChildAdapterType extends ListAdapter
 
 	@Override
 	public final String toString() {
-		return "Group [expanded=" + expanded + ", childAdapter=" + childAdapter
-				+ ", data=" + getData() + ", selected=" + isSelected()
-				+ ", enabled=" + isEnabled() + "state=" + getState() + "]";
+		return "Group [data=" + getData() + ", selected=" + isSelected()
+				+ ", enabled=" + isEnabled() + ", state=" + getState()
+				+ ", childAdapter=" + childAdapter + "]";
 	}
 
 	@Override
@@ -148,7 +121,6 @@ public class Group<DataType, ChildDataType, ChildAdapterType extends ListAdapter
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + childAdapter.hashCode();
-		result = prime * result + (expanded ? 1231 : 1237);
 		return result;
 	}
 
@@ -160,10 +132,8 @@ public class Group<DataType, ChildDataType, ChildAdapterType extends ListAdapter
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Group<?, ?, ?> other = (Group<?, ?, ?>) obj;
+		Group<?, ?> other = (Group<?, ?>) obj;
 		if (!childAdapter.equals(other.childAdapter))
-			return false;
-		if (expanded != other.expanded)
 			return false;
 		return true;
 	}
