@@ -21,8 +21,8 @@ import java.util.Collection;
 import java.util.regex.Pattern;
 
 /**
- * Defines the interface, all listeners, which should be notified when the items
- * of a {@link ListAdapter} have been filtered, must implement.
+ * Defines the interface, all listeners, which should be notified when the
+ * underlying data of a {@link ListAdapter} has been filtered, must implement.
  * 
  * @param <DataType>
  *            The type of the observed adapter's underlying data
