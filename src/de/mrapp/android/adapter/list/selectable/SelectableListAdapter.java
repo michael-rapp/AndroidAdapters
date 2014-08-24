@@ -17,6 +17,8 @@
  */
 package de.mrapp.android.adapter.list.selectable;
 
+import de.mrapp.android.adapter.ListAdapter;
+
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a list
  * of arbitrary items, of which one or multiple items can be selected, must
@@ -30,7 +32,7 @@ package de.mrapp.android.adapter.list.selectable;
  * 
  * @since 1.0.0
  */
-public interface SelectableListAdapter<DataType> {
+public interface SelectableListAdapter<DataType> extends ListAdapter<DataType> {
 
 	/**
 	 * Adds a new listener, which should be notified when the selection of an
