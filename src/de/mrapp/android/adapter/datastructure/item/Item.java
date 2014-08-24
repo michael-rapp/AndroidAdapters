@@ -23,9 +23,9 @@ import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
 import java.util.regex.Pattern;
 
 import de.mrapp.android.adapter.Filterable;
+import de.mrapp.android.adapter.FilteringNotSupportedException;
 import de.mrapp.android.adapter.SortingNotSupportedException;
 import de.mrapp.android.adapter.datastructure.DataStructure;
-import de.mrapp.android.adapter.list.filterable.FilteringNotSupportedException;
 
 /**
  * A data structure, which holds the data of an item of an adapter. It has a
