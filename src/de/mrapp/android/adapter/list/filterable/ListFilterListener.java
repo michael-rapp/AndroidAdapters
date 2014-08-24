@@ -45,7 +45,7 @@ public interface ListFilterListener<DataType> {
 	 *            The filter, which has been used to apply the regular
 	 *            expression on the single items, as an instance of the type
 	 *            {@link Filter} or null, if the items' implementations of the
-	 *            interface {@link Filterable} has been used instead
+	 *            interface {@link Filterable} have been used instead
 	 * @param filteredItems
 	 *            A collection, which contains the adapter's filtered items, as
 	 *            an instance of the type {@link Collection} or an empty
