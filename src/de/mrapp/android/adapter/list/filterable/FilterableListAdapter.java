@@ -20,8 +20,6 @@ package de.mrapp.android.adapter.list.filterable;
 import java.util.regex.Pattern;
 
 import de.mrapp.android.adapter.Filter;
-import de.mrapp.android.adapter.Filterable;
-import de.mrapp.android.adapter.FilteringNotSupportedException;
 
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a

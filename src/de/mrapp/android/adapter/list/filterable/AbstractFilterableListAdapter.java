@@ -17,9 +17,9 @@
  */
 package de.mrapp.android.adapter.list.filterable;
 
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
 import static de.mrapp.android.adapter.util.Condition.ensureAtMaximum;
+import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,7 +35,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.SparseIntArray;
 import de.mrapp.android.adapter.Filter;
-import de.mrapp.android.adapter.Filterable;
 import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.SerializableWrapper;
