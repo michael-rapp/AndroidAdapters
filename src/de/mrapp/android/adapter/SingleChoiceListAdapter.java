@@ -82,4 +82,7 @@ public interface SingleChoiceListAdapter<DataType> extends
 	@Override
 	boolean select(DataType item);
 
+	@Override
+	SingleChoiceListAdapter<DataType> clone() throws CloneNotSupportedException;
+
 }
