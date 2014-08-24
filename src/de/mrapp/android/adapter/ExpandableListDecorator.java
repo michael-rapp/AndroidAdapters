@@ -119,7 +119,7 @@ public abstract class ExpandableListDecorator<GroupType, ChildType> extends
 	 *            adapter's child items, false otherwise
 	 */
 	public final void applyDecoratorOnChild(final Context context,
-			final ExpandableListAdapter<ChildType, ChildType> adapter,
+			final ExpandableListAdapter<GroupType, ChildType> adapter,
 			final View view, final ChildType child, final int childIndex,
 			final GroupType group, final int groupIndex, final boolean enabled,
 			final int state, final boolean filtered) {
@@ -207,7 +207,7 @@ public abstract class ExpandableListDecorator<GroupType, ChildType> extends
 	 *            adapter's child items, false otherwise
 	 */
 	public abstract void onShowChild(Context context,
-			ExpandableListAdapter<ChildType, ChildType> adapter, View view,
+			ExpandableListAdapter<GroupType, ChildType> adapter, View view,
 			ChildType child, int childIndex, GroupType group, int groupIndex,
 			boolean enabled, int state, boolean filtered);
 
