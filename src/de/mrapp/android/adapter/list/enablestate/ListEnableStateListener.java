@@ -46,10 +46,10 @@ public interface ListEnableStateListener<DataType> {
 	 * The method, which is invoked, when an item has been disabled.
 	 * 
 	 * @param item
-	 *            The item, which has been enabled, as an instance of the
+	 *            The item, which has been disabled, as an instance of the
 	 *            generic type DataType. The item may not be null
 	 * @param index
-	 *            The index of the item, which has been unselected, as an
+	 *            The index of the item, which has been disabled, as an
 	 *            {@link Integer} value
 	 */
 	void onItemDisabled(DataType item, int index);
