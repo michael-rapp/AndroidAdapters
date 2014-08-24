@@ -23,8 +23,8 @@ import java.util.Comparator;
 import de.mrapp.android.adapter.Order;
 
 /**
- * Defines the interface, all listeners, which should be notified when the items
- * of a {@link ListAdapter} have been sorted, must implement.
+ * Defines the interface, all listeners, which should be notified when the
+ * underlying data of a {@link ListAdapter} have been sorted, must implement.
  * 
  * @param <DataType>
  *            The type of the observed adapter's underlying data
@@ -47,10 +47,10 @@ public interface ListSortingListener<DataType> {
 	 *            a value of the enum {@link Order}. The order may either be
 	 *            <code>ASCENDING</code> or <code>DESCENDING</code>
 	 * @param comparator
-	 *            The comparator, which has been used to compare the single items,
-	 *            as an instance of the type {@link Comparator} or null, if the
-	 *            items' implementation of the type {@link Comparable} has been
-	 *            used instead
+	 *            The comparator, which has been used to compare the single
+	 *            items, as an instance of the type {@link Comparator} or null,
+	 *            if the items' implementation of the type {@link Comparable}
+	 *            has been used instead
 	 */
 	void onSorted(Collection<DataType> sortedItems, Order order,
 			Comparator<DataType> comparator);
