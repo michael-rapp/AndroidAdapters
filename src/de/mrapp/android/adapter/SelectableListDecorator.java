@@ -71,7 +71,7 @@ public interface SelectableListDecorator<DataType> {
 	 *            True, if the item, which should be visualized, is currently
 	 *            selected, false otherwise
 	 */
-	void onShowItem(Context context, SelectableListAdapter<DataType> adapter,
+	void applyDecorator(Context context, SelectableListAdapter<DataType> adapter,
 			View view, DataType item, int index, boolean enabled, int state,
 			boolean filtered, boolean selected);
 

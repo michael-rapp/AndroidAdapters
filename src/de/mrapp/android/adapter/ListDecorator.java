@@ -67,7 +67,7 @@ public interface ListDecorator<DataType> {
 	 *            True, if at least one filter is currently applied on the
 	 *            adapter, false otherwise
 	 */
-	void onShowItem(Context context, ListAdapter<DataType> adapter, View view,
+	void applyDecorator(Context context, ListAdapter<DataType> adapter, View view,
 			DataType item, int index, boolean enabled, int state,
 			boolean filtered);
 
