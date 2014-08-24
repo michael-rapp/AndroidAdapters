@@ -34,6 +34,7 @@ import java.util.regex.Pattern;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.SparseIntArray;
+import de.mrapp.android.adapter.Filterable;
 import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.SerializableWrapper;
