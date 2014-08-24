@@ -19,12 +19,13 @@ package de.mrapp.android.adapter;
 
 import android.content.Context;
 import android.view.View;
+import de.mrapp.android.adapter.decorator.AbstractDecorator;
 import de.mrapp.android.adapter.list.selectable.SelectableListAdapter;
 
 /**
- * Defines the interface, a class, which should allow to customize the
- * appearance of the view, which is used to visualize the items of a
- * {@link SelectableListAdapter}, must implement.
+ * An abstract base class for all decorators, which should allow to customize
+ * the appearance of the view, which is used to visualize the items of a
+ * {@link SelectableListAdapter}.
  * 
  * @param <DataType>
  *            The type of the adapter's underlying data
@@ -33,7 +34,53 @@ import de.mrapp.android.adapter.list.selectable.SelectableListAdapter;
  * 
  * @since 1.0.0
  */
-public interface SelectableListDecorator<DataType> {
+public abstract class SelectableListDecorator<DataType> extends
+		AbstractDecorator {
+
+	/**
+	 * The method, which is invoked by an adapter to apply the decorator. It
+	 * initializes the view holder pattern, which is provided by the decorator
+	 * and then delegates the method call to the decorator's custom
+	 * implementation of the method <code>onShowItem(...):void</code>.
+	 * 
+	 * @param context
+	 *            The context, the adapter belongs to, as an instance of the
+	 *            class {@link Context}. The context may not be null
+	 * @param adapter
+	 *            The adapter, whose items are visualized by the decorator, as
+	 *            an instance of the type {@link SelectableListAdapter}. The
+	 *            adapter may not be null
+	 * @param view
+	 *            The view, which is used to visualize the item, as an instance
+	 *            of the class {@link View}. The view may not be null
+	 * @param item
+	 *            The item, which should be visualized, as an instance of the
+	 *            generic type DataType. The item may not be null
+	 * @param index
+	 *            The index of the item, which should be visualized, as an
+	 *            {@link Integer} value
+	 * @param enabled
+	 *            True, if the item, which should be visualized, is currently
+	 *            enabled, false otherwise
+	 * @param state
+	 *            The current state of the item, which should be visualized, as
+	 *            an {@link Integer} value
+	 * @param filtered
+	 *            True, if at least one filter is currently applied on the
+	 *            adapter, false otherwise
+	 * @param selected
+	 *            True, if the item, which should be visualized, is currently
+	 *            selected, false otherwise
+	 */
+	public final void applyDecorator(final Context context,
+			final SelectableListAdapter<DataType> adapter, final View view,
+			final DataType item, final int index, final boolean enabled,
+			final int state, final boolean filtered, final boolean selected) {
+		setCurrentIndex(index);
+		setCurrentParentView(view);
+		onShowItem(context, adapter, view, item, index, enabled, state,
+				filtered, selected);
+	}
 
 	/**
 	 * The method which is invoked, when the view, which is used to visualize an
@@ -71,8 +118,9 @@ public interface SelectableListDecorator<DataType> {
 	 *            True, if the item, which should be visualized, is currently
 	 *            selected, false otherwise
 	 */
-	void applyDecorator(Context context, SelectableListAdapter<DataType> adapter,
-			View view, DataType item, int index, boolean enabled, int state,
-			boolean filtered, boolean selected);
+	protected abstract void onShowItem(Context context,
+			SelectableListAdapter<DataType> adapter, View view, DataType item,
+			int index, boolean enabled, int state, boolean filtered,
+			boolean selected);
 
 }
