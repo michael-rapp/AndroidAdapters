@@ -35,7 +35,7 @@ import de.mrapp.android.adapter.list.selectable.SelectableListAdapter;
  * @since 1.0.0
  */
 public interface MultipleChoiceListAdapter<DataType> extends
-		ListAdapter<DataType>, SelectableListAdapter<DataType> {
+		SelectableListAdapter<DataType> {
 
 	/**
 	 * Returns, whether the item, which belongs to a specific index, is

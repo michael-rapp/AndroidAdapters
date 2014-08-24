@@ -33,7 +33,7 @@ import de.mrapp.android.adapter.list.selectable.SelectableListAdapter;
  * @since 1.0.0
  */
 public interface SingleChoiceListAdapter<DataType> extends
-		ListAdapter<DataType>, SelectableListAdapter<DataType> {
+		SelectableListAdapter<DataType> {
 
 	/**
 	 * Returns the index of the currently selected item.
