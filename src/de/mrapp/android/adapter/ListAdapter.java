@@ -448,4 +448,7 @@ public interface ListAdapter<DataType> extends DataStructure, Restorable,
 	 */
 	void removeAdapterListener(ListAdapterListener<DataType> listener);
 
+	@Override
+	ListAdapter<DataType> clone() throws CloneNotSupportedException;
+
 }
