@@ -294,4 +294,8 @@ public interface MultipleChoiceListAdapter<DataType> extends
 	 */
 	boolean triggerAllSelections();
 
+	@Override
+	MultipleChoiceListAdapter<DataType> clone()
+			throws CloneNotSupportedException;
+
 }
