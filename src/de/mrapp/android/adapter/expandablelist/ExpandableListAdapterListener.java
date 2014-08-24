@@ -19,7 +19,7 @@ package de.mrapp.android.adapter.expandablelist;
 
 /**
  * Defines the interface, all listeners, which should be notified, when the
- * underlying data of a {@link ExpandableListAdapter} has been modified, must
+ * underlying data of an {@link ExpandableListAdapter} has been modified, must
  * implement.
  * 
  * @param <GroupType>
