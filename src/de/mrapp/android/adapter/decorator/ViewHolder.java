@@ -67,7 +67,6 @@ public class ViewHolder {
 		if (view == null) {
 			view = parentView.findViewById(viewId);
 			views.put(viewId, view);
-			parentView.setTag(this);
 		}
 
 		return view;
