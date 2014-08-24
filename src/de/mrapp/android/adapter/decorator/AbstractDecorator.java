@@ -134,6 +134,7 @@ public abstract class AbstractDecorator {
 
 		if (viewHolder == null) {
 			viewHolder = new ViewHolder();
+			currentParentView.setTag(viewHolder);
 			viewHolders.put(currentIndex, viewHolder);
 		}
 
