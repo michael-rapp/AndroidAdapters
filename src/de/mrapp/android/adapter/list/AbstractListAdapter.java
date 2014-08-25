@@ -508,17 +508,17 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 
 	@Override
 	public final Iterator<DataType> iterator() {
-		return new ItemIterator<DataType>(items);
+		return new ItemIterator<DataType>(items, this);
 	}
 
 	@Override
 	public final ListIterator<DataType> listIterator() {
-		return new ItemListIterator<DataType>(items);
+		return new ItemListIterator<DataType>(items, this);
 	}
 
 	@Override
 	public final ListIterator<DataType> listIterator(final int index) {
-		return new ItemListIterator<DataType>(items, index);
+		return new ItemListIterator<DataType>(items, this, index);
 	}
 
 	@Override
