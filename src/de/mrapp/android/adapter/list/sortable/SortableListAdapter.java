@@ -88,7 +88,7 @@ public interface SortableListAdapter<DataType> {
 	 *            class {@link ListSortingListener}. The listener may not be
 	 *            null
 	 */
-	void addSortingListner(final ListSortingListener<DataType> listener);
+	void addSortingListner(ListSortingListener<DataType> listener);
 
 	/**
 	 * Removes a specific listener, which should not be notified, when the
