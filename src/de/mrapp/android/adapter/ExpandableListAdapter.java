@@ -255,9 +255,9 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	void retainAllGroups(GroupType... groups);
 
 	/**
-	 * Removes all group and child items from the adapter.
+	 * Removes all groups and their child items from the adapter.
 	 */
-	void clear();
+	void clearGroups();
 
 	/**
 	 * Returns an iterator, which allows to iterate the adapter's group items.
