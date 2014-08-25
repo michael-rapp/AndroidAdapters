@@ -1202,16 +1202,6 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	Iterator<ChildType> childIterator(GroupType group);
 
 	/**
-	 * Returns a list iterator, which allows to iterate the adapter's child
-	 * items.
-	 * 
-	 * @return A list iterator, which allows to iterate the adapter's child
-	 *         items, as an instance of the type {@link ListIterator}. The
-	 *         iterator may not be null
-	 */
-	ListIterator<ChildType> childListIterator();
-
-	/**
 	 * Returns a list iterator, which allow to iterate the child items of the
 	 * group, which belongs to a specific index.
 	 * 

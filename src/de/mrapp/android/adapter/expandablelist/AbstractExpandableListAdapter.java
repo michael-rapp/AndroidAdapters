@@ -728,11 +728,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	}
 
 	@Override
-	public final ListIterator<ChildType> childListIterator() {
-		return getAllChildren().listIterator();
-	}
-
-	@Override
 	public final ListIterator<ChildType> childListIterator(final int groupIndex) {
 		return groupAdapter.getItem(groupIndex).getChildAdapter()
 				.listIterator();
