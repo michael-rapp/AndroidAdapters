@@ -23,6 +23,7 @@ import java.util.ListIterator;
 
 import android.content.Context;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
+import de.mrapp.android.adapter.expandablelist.ChildDecoratorFactory;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.selectable.MultipleChoiceListAdapterImplementation;
 
@@ -59,6 +60,13 @@ public class GroupListIterator<GroupType, ChildType> implements
 	private final Inflater childInflater;
 
 	/**
+	 * The factory, which is used to create the decorators, which are used to
+	 * customize the appearance of the views, which are used to visualize the
+	 * child items of the adapter.
+	 */
+	private final ChildDecoratorFactory<ChildType> childDecoratorFactory;
+
+	/**
 	 * Creates a new adapter, which may be used to manage the child items of a
 	 * newly created group.
 	 * 
@@ -67,7 +75,7 @@ public class GroupListIterator<GroupType, ChildType> implements
 	 */
 	private MultipleChoiceListAdapter<ChildType> createChildAdapter() {
 		return new MultipleChoiceListAdapterImplementation<ChildType>(context,
-				childInflater, null);
+				childInflater, childDecoratorFactory.createChildDecorator());
 	}
 
 	/**
@@ -86,16 +94,26 @@ public class GroupListIterator<GroupType, ChildType> implements
 	 *            The inflater, which should be used to inflate the views, which
 	 *            are used to visualize the groups' child items, as an instance
 	 *            of the type {@link Inflater}. The inflater may not be null
+	 * @param childDecoratorFactory
+	 *            The factory, which should be used to create the decorators,
+	 *            which are used to customize the appearance of the views, which
+	 *            are used to visualize the child items of the adapter, as an
+	 *            instance of the type {@link ChildDecoratorFactory}. The
+	 *            factory may not be null
 	 */
 	public GroupListIterator(
 			final ListIterator<Group<GroupType, ChildType>> iterator,
-			final Context context, final Inflater childInflater) {
+			final Context context, final Inflater childInflater,
+			final ChildDecoratorFactory<ChildType> childDecoratorFactory) {
 		ensureNotNull(iterator, "The list iterator may not be null");
 		ensureNotNull(context, "The context may not be null");
 		ensureNotNull(childInflater, "The child inflater may not be null");
+		ensureNotNull(childDecoratorFactory,
+				"The child decorator factory may not be null");
 		this.listIterator = iterator;
 		this.context = context;
 		this.childInflater = childInflater;
+		this.childDecoratorFactory = childDecoratorFactory;
 	}
 
 	@Override
