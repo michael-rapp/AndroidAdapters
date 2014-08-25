@@ -24,7 +24,6 @@ import java.util.Comparator;
 /**
  * A comparator, which allows to compare two items by comparing their data.
  * 
- * 
  * @param <DataType>
  *            The type of the items' data
  * 
