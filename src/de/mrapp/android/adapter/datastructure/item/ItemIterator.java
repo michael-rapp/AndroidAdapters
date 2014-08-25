@@ -23,6 +23,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import de.mrapp.android.adapter.ListAdapter;
+
 /**
  * An iterator, which allows to iterate the data of items, which are contained
  * by a list.
@@ -40,6 +42,12 @@ public class ItemIterator<DataType> implements Iterator<DataType> {
 	 * A list, which contains the items, whose data should be iterated.
 	 */
 	private List<Item<DataType>> items;
+
+	/**
+	 * The adapter, whose underlying data should be modified, when the list,
+	 * which is iterated by the iterator, is modified.
+	 */
+	private ListAdapter<DataType> adapter;
 
 	/**
 	 * The current index of the iterator.
@@ -60,10 +68,17 @@ public class ItemIterator<DataType> implements Iterator<DataType> {
 	 *            The list, which contains the items, whose data should be
 	 *            iterated, as an instance of the type {@link List}. The list
 	 *            may not be null
+	 * @param adapter
+	 *            The adapter, whose underlying data should be modified, when
+	 *            the list, which is iterated by the iterator, is modified, as
+	 *            an instance of the type {@link ListAdapter} or null, if no
+	 *            adapter's underlying data should be modified
 	 */
-	public ItemIterator(final List<Item<DataType>> items) {
+	public ItemIterator(final List<Item<DataType>> items,
+			final ListAdapter<DataType> adapter) {
 		ensureNotNull(items, "The items may not be null");
 		this.items = items;
+		this.adapter = adapter;
 		this.currentIndex = -1;
 		this.lastReturnedItem = null;
 	}
@@ -88,10 +103,13 @@ public class ItemIterator<DataType> implements Iterator<DataType> {
 
 	@Override
 	public final void remove() {
-		if (lastReturnedItem == null) {
+		if (adapter == null) {
+			throw new UnsupportedOperationException();
+		} else if (lastReturnedItem == null) {
 			throw new IllegalStateException();
 		} else {
-			items.remove(lastReturnedItem);
+			items.remove(currentIndex);
+			adapter.removeItem(currentIndex);
 			currentIndex--;
 			lastReturnedItem = null;
 		}

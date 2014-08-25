@@ -25,9 +25,12 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
+import de.mrapp.android.adapter.ListAdapter;
+
 /**
  * A list iterator, which allows to iterate the data of items, which are
- * contained by a list.
+ * contained by a list. When the iterated list is modified, the underlying data
+ * of the adapter, the items belong to, is also modified.
  * 
  * @param <DataType>
  *            The type of the items' data
@@ -42,6 +45,12 @@ public class ItemListIterator<DataType> implements ListIterator<DataType> {
 	 * A list, which contains the items, whose data should be iterated.
 	 */
 	private List<Item<DataType>> items;
+
+	/**
+	 * The adapter, whose underlying data should be modified, when the list,
+	 * which is iterated by the list iterator, is modified.
+	 */
+	private ListAdapter<DataType> adapter;
 
 	/**
 	 * The current index of the iterator.
@@ -62,19 +71,25 @@ public class ItemListIterator<DataType> implements ListIterator<DataType> {
 	 *            The list, which contains the items, whose data should be
 	 *            iterated, as an instance of the type {@link List}. The list
 	 *            may not be null
+	 * @param adapter
+	 *            The adapter, whose underlying data should be modified, when
+	 *            the list, which is iterated by the list iterator, is modified,
+	 *            as an instance of the type {@link ListAdapter} or null, if no
+	 *            adapter's underlying data should be modified
 	 * @param index
 	 *            The index, the iterator should start at, as an {@link Integer}
 	 *            value. The index must be at least 0 and at maximum the size of
 	 *            the given list - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 */
-	public ItemListIterator(final List<Item<DataType>> items, final int index) {
+	public ItemListIterator(final List<Item<DataType>> items,
+			final ListAdapter<DataType> adapter, final int index) {
 		ensureNotNull(items, "The items may not be null");
 		ensureAtLeast(index, 0, "The index must be at least 0");
 		ensureAtMaximum(index, items.isEmpty() ? 0 : items.size(),
 				"The index must be at maximum " + items.size());
-
 		this.items = items;
+		this.adapter = adapter;
 		this.currentIndex = index - 1;
 		this.lastReturnedItem = null;
 	}
@@ -88,16 +103,28 @@ public class ItemListIterator<DataType> implements ListIterator<DataType> {
 	 *            The list, which contains the items, whose data should be
 	 *            iterated, as an instance of the type {@link List}. The list
 	 *            may not be null
+	 * @param adapter
+	 *            The adapter, whose underlying data should be modified, when
+	 *            the list, which is iterated by the list iterator, is modified,
+	 *            as an instance of the type {@link ListAdapter} or null, if no
+	 *            adapter's underlying data should be modified
 	 */
-	public ItemListIterator(final List<Item<DataType>> items) {
-		this(items, 0);
+	public ItemListIterator(final List<Item<DataType>> items,
+			final ListAdapter<DataType> adapter) {
+		this(items, adapter, 0);
 	}
 
 	@Override
 	public final void add(final DataType item) {
 		ensureNotNull(item, "The item may not be null");
+
+		if (adapter == null) {
+			throw new UnsupportedOperationException();
+		}
+
 		currentIndex++;
 		items.add(currentIndex, new Item<DataType>(item));
+		adapter.addItem(currentIndex, item);
 	}
 
 	@Override
@@ -152,10 +179,13 @@ public class ItemListIterator<DataType> implements ListIterator<DataType> {
 
 	@Override
 	public final void remove() {
-		if (lastReturnedItem == null) {
+		if (adapter == null) {
+			throw new UnsupportedOperationException();
+		} else if (lastReturnedItem == null) {
 			throw new IllegalStateException();
 		} else {
-			items.remove(lastReturnedItem);
+			items.remove(currentIndex);
+			adapter.removeItem(currentIndex);
 			currentIndex--;
 			lastReturnedItem = null;
 		}
@@ -165,11 +195,14 @@ public class ItemListIterator<DataType> implements ListIterator<DataType> {
 	public final void set(final DataType item) {
 		ensureNotNull(item, "The item may not be null");
 
-		if (lastReturnedItem == null) {
+		if (adapter == null) {
+			throw new UnsupportedOperationException();
+		} else if (lastReturnedItem == null) {
 			throw new IllegalStateException();
 		} else {
 			int index = items.indexOf(lastReturnedItem);
 			items.set(index, new Item<DataType>(item));
+			adapter.replaceItem(index, item);
 			lastReturnedItem = null;
 		}
 	}
