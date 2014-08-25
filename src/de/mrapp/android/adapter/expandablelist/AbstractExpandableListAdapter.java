@@ -117,8 +117,11 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 	private MultipleChoiceListAdapter<ChildType> createChildAdapter() {
 		return new MultipleChoiceListAdapterImplementation<ChildType>(context,
-				childInflater, null);
+				childInflater, getChildDecoratorFactory()
+						.createChildDecorator());
 	}
+
+	protected abstract ChildDecoratorFactory<ChildType> getChildDecoratorFactory();
 
 	protected AbstractExpandableListAdapter(
 			final Context context,
@@ -290,13 +293,15 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	@Override
 	public final ListIterator<GroupType> groupListIterator() {
 		return new GroupListIterator<GroupType, ChildType>(
-				groupAdapter.listIterator(), context, childInflater);
+				groupAdapter.listIterator(), context, childInflater,
+				getChildDecoratorFactory());
 	}
 
 	@Override
 	public final ListIterator<GroupType> groupListIterator(final int index) {
 		return new GroupListIterator<GroupType, ChildType>(
-				groupAdapter.listIterator(index), context, childInflater);
+				groupAdapter.listIterator(index), context, childInflater,
+				getChildDecoratorFactory());
 	}
 
 	@Override
