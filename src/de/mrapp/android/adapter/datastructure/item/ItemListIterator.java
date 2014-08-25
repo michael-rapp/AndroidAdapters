@@ -26,7 +26,7 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
 /**
- * A list iterator, which allows to iterate the data the items, which are
+ * A list iterator, which allows to iterate the data of items, which are
  * contained by a list.
  * 
  * @param <DataType>
