@@ -1820,7 +1820,8 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	 *            class {@link ExpandableListAdapterListener}. The listener may
 	 *            not be null
 	 */
-	void addAdapterListener(ExpandableListAdapter<GroupType, ChildType> listener);
+	void addAdapterListener(
+			ExpandableListAdapterListener<GroupType, ChildType> listener);
 
 	/**
 	 * Removes a specific listener, which should not be notified, when the
