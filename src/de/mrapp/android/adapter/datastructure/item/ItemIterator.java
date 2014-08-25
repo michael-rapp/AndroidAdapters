@@ -27,7 +27,8 @@ import de.mrapp.android.adapter.ListAdapter;
 
 /**
  * An iterator, which allows to iterate the data of items, which are contained
- * by a list.
+ * by a list. When the iterated list is modified, the underlying data of the
+ * adapter, the items belong to, is also modified.
  * 
  * @param <DataType>
  *            The type of the items' data
