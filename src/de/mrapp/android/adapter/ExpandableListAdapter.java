@@ -247,12 +247,12 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	 * which are contained by a specific array. The removed groups' children
 	 * will also be removed from the adapter.
 	 * 
-	 * @param items
+	 * @param groups
 	 *            The array, which contains the group items, which should be
 	 *            retained, as an array of the generic type DataType or an empty
 	 *            array, if no group items should be retained
 	 */
-	void retainAllGroups(GroupType... items);
+	void retainAllGroups(GroupType... groups);
 
 	/**
 	 * Removes all group and child items from the adapter.
