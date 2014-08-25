@@ -51,7 +51,7 @@ public interface SortableListAdapter<DataType> {
 	 * @param order
 	 *            The order, which should be used to sort the items, as a value
 	 *            of the enum {@link Order}. The order may either be
-	 *            <code>ASCENDING</code> order <code>DESCENDING</code>
+	 *            <code>ASCENDING</code> or <code>DESCENDING</code>
 	 */
 	void sort(Order order);
 
@@ -75,7 +75,7 @@ public interface SortableListAdapter<DataType> {
 	 * @param order
 	 *            The order, which should be used to sort the items, as a value
 	 *            of the enum {@link Order}. The order may either be
-	 *            <code>ASCENDING</code> order <code>DESCENDING</code>
+	 *            <code>ASCENDING</code> or <code>DESCENDING</code>
 	 */
 	void sort(Order order, Comparator<DataType> comparator);
 
