@@ -29,7 +29,6 @@ import java.util.Set;
 
 import android.content.Context;
 import android.os.Bundle;
-import de.mrapp.android.adapter.datastructure.SerializableWrapper;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.ListAdapterListener;
@@ -80,12 +79,10 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 			.getSimpleName() + "::TriggerItemStateOnClick";
 
 	/**
-	 * The key, which is used to store the listeners, which should be notified,
-	 * when the state of an item has been changed, within a bundle.
+	 * A set, which contains the listeners, which should be notified, when the
+	 * state of an item of the adapter has been changed.
 	 */
-	@VisibleForTesting
-	protected static final String ITEM_STATE_LISTENERS_BUNDLE_KEY = AbstractItemStateListAdapter.class
-			.getSimpleName() + "::ItemStateListeners";
+	private transient Set<ListItemStateListener<DataType>> itemStateListeners;
 
 	/**
 	 * The number of states, the adapter's items can have.
@@ -97,12 +94,6 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 	 * the user, false otherwise.
 	 */
 	private boolean triggerItemStateOnClick;
-
-	/**
-	 * A set, which contains the listeners, which should be notified, when the
-	 * state of an item of the adapter has been changed.
-	 */
-	private Set<ListItemStateListener<DataType>> itemStateListeners;
 
 	/**
 	 * Notifies all listeners, which have registered to be notified, when the
@@ -438,14 +429,8 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 
 		outState.putBoolean(TRIGGER_ITEM_STATE_ON_CLICK_BUNDLE_KEY,
 				isItemStateTriggeredOnClick());
-
-		SerializableWrapper<Set<ListItemStateListener<DataType>>> wrappedItemStateListeners = new SerializableWrapper<Set<ListItemStateListener<DataType>>>(
-				getItemStateListeners());
-		outState.putSerializable(ITEM_STATE_LISTENERS_BUNDLE_KEY,
-				wrappedItemStateListeners);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void onRestoreInstanceState(final Bundle savedInstanceState) {
 		super.onRestoreInstanceState(savedInstanceState);
@@ -457,10 +442,6 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 			triggerItemStateOnClick = savedInstanceState
 					.getBoolean(TRIGGER_ITEM_STATE_ON_CLICK_BUNDLE_KEY);
 
-			SerializableWrapper<Set<ListItemStateListener<DataType>>> wrappedItemStateListeners = (SerializableWrapper<Set<ListItemStateListener<DataType>>>) savedInstanceState
-					.getSerializable(ITEM_STATE_LISTENERS_BUNDLE_KEY);
-			itemStateListeners = wrappedItemStateListeners.getWrappedInstance();
-
 			notifyDataSetChanged();
 		}
 	}
@@ -469,7 +450,6 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + itemStateListeners.hashCode();
 		result = prime * result + numberOfItemStates;
 		result = prime * result + (triggerItemStateOnClick ? 1231 : 1237);
 		return result;
@@ -484,8 +464,6 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 		if (getClass() != obj.getClass())
 			return false;
 		AbstractItemStateListAdapter<?, ?> other = (AbstractItemStateListAdapter<?, ?>) obj;
-		if (!itemStateListeners.equals(other.itemStateListeners))
-			return false;
 		if (numberOfItemStates != other.numberOfItemStates)
 			return false;
 		if (triggerItemStateOnClick != other.triggerItemStateOnClick)

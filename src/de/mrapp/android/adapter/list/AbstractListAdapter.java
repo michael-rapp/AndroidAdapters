@@ -76,14 +76,6 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 			.getSimpleName() + "::Items";
 
 	/**
-	 * The key, which is used to store the listeners, which should be notified,
-	 * when the adapter's underlying data has been modified, within a bundle.
-	 */
-	@VisibleForTesting
-	protected static final String ADAPTER_LISTENERS_BUNDLE_KEY = AbstractListAdapter.class
-			.getSimpleName() + "::AdapterListeners";
-
-	/**
 	 * The key, which is used to store, whether duplicate items should be
 	 * allowed, or not, within a bundle.
 	 */
@@ -109,6 +101,12 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	private final transient DecoratorType decorator;
 
 	/**
+	 * A set, which contains the listeners, which should be notified, when the
+	 * adapter's underlying data has been modified.
+	 */
+	private transient Set<ListAdapterListener<DataType>> adapterListeners;
+
+	/**
 	 * True, if duplicate items are allowed, false otherwise.
 	 */
 	private boolean allowDuplicates;
@@ -117,12 +115,6 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	 * A list, which contains the the adapter's underlying data.
 	 */
 	private List<Item<DataType>> items;
-
-	/**
-	 * A set, which contains the listeners, which should be notified, when the
-	 * adapter's underlying data has been modified.
-	 */
-	private Set<ListAdapterListener<DataType>> adapterListeners;
 
 	/**
 	 * Notifies all listeners, which have been registered to be notified, when
@@ -632,11 +624,6 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 				getItems());
 		outState.putSerializable(ITEMS_BUNDLE_KEY, wrappedItems);
 
-		SerializableWrapper<Set<ListAdapterListener<DataType>>> wrappedAdapterListeners = new SerializableWrapper<Set<ListAdapterListener<DataType>>>(
-				getAdapterListeners());
-		outState.putSerializable(ADAPTER_LISTENERS_BUNDLE_KEY,
-				wrappedAdapterListeners);
-
 		outState.putBoolean(ALLOW_DUPLICATES_BUNDLE_KEY, areDuplicatesAllowed());
 	}
 
@@ -647,10 +634,6 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 			SerializableWrapper<List<Item<DataType>>> wrappedItems = (SerializableWrapper<List<Item<DataType>>>) savedInstanceState
 					.getSerializable(ITEMS_BUNDLE_KEY);
 			items = wrappedItems.getWrappedInstance();
-
-			SerializableWrapper<Set<ListAdapterListener<DataType>>> wrappedAdapterListeners = (SerializableWrapper<Set<ListAdapterListener<DataType>>>) savedInstanceState
-					.getSerializable(ADAPTER_LISTENERS_BUNDLE_KEY);
-			adapterListeners = wrappedAdapterListeners.getWrappedInstance();
 
 			allowDuplicates = savedInstanceState
 					.getBoolean(ALLOW_DUPLICATES_BUNDLE_KEY);
@@ -663,7 +646,6 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + adapterListeners.hashCode();
 		result = prime * result + (allowDuplicates ? 1231 : 1237);
 		result = prime * result + items.hashCode();
 		return result;
@@ -678,8 +660,6 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		if (getClass() != obj.getClass())
 			return false;
 		AbstractListAdapter<?, ?> other = (AbstractListAdapter<?, ?>) obj;
-		if (!adapterListeners.equals(other.adapterListeners))
-			return false;
 		if (allowDuplicates != other.allowDuplicates)
 			return false;
 		if (!items.equals(other.items))

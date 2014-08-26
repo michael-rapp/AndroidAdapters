@@ -26,9 +26,7 @@ import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
-import android.os.Bundle;
 import de.mrapp.android.adapter.Order;
-import de.mrapp.android.adapter.datastructure.SerializableWrapper;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemComparator;
 import de.mrapp.android.adapter.inflater.Inflater;
@@ -36,7 +34,6 @@ import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.itemstate.AbstractItemStateListAdapter;
 import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
-import de.mrapp.android.adapter.util.VisibleForTesting;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
@@ -64,18 +61,10 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * The key, which is used to store the listeners, which should be notified,
-	 * when the adapter's underlying data has been sorted, within a bundle.
-	 */
-	@VisibleForTesting
-	protected static final String SORTING_LISTENERS_BUNDLE_KEY = AbstractSortableListAdapter.class
-			.getSimpleName() + "::SortingListeners";
-
-	/**
 	 * A set, which contains the listeners, which should be notified, when the
 	 * adapter's underlying data has been sorted.
 	 */
-	private Set<ListSortingListener<DataType>> sortingListeners;
+	private transient Set<ListSortingListener<DataType>> sortingListeners;
 
 	/**
 	 * Notifies all listeners, which have been registered to be notified, when
@@ -244,52 +233,6 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 			final ListSortingListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		sortingListeners.remove(listener);
-	}
-
-	@Override
-	public void onSaveInstanceState(final Bundle outState) {
-		super.onSaveInstanceState(outState);
-
-		SerializableWrapper<Set<ListSortingListener<DataType>>> wrappedSortingListeners = new SerializableWrapper<Set<ListSortingListener<DataType>>>(
-				getSortingListeners());
-		outState.putSerializable(SORTING_LISTENERS_BUNDLE_KEY,
-				wrappedSortingListeners);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public void onRestoreInstanceState(final Bundle savedInstanceState) {
-		super.onRestoreInstanceState(savedInstanceState);
-
-		if (savedInstanceState != null) {
-			SerializableWrapper<Set<ListSortingListener<DataType>>> wrappedSortingListeners = (SerializableWrapper<Set<ListSortingListener<DataType>>>) savedInstanceState
-					.getSerializable(SORTING_LISTENERS_BUNDLE_KEY);
-			setSortingListeners(wrappedSortingListeners.getWrappedInstance());
-
-			notifyDataSetChanged();
-		}
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + sortingListeners.hashCode();
-		return result;
-	}
-
-	@Override
-	public boolean equals(final Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		AbstractSortableListAdapter<?, ?> other = (AbstractSortableListAdapter<?, ?>) obj;
-		if (!sortingListeners.equals(other.sortingListeners))
-			return false;
-		return true;
 	}
 
 	@Override
