@@ -34,6 +34,7 @@ import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.itemstate.AbstractItemStateListAdapter;
 import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
+import de.mrapp.android.adapter.logging.LogLevel;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
@@ -135,6 +136,9 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 	 *            appearance of the views, which are used to visualize the items
 	 *            of the adapter, as an instance of the generic type
 	 *            DecoratorType. The decorator may not be null
+	 * @param logLevel
+	 *            The log level, which should be used for logging, as a value of
+	 *            the enum {@link LogLevel}. The log level may not be null
 	 * @param items
 	 *            A list, which contains the the adapter's items, or an empty
 	 *            list, if the adapter should not contain any items
@@ -165,14 +169,15 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 	 */
 	protected AbstractSortableListAdapter(final Context context,
 			final Inflater inflater, final DecoratorType decorator,
-			final List<Item<DataType>> items, final boolean allowDuplicates,
+			final LogLevel logLevel, final List<Item<DataType>> items,
+			final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final int numberOfItemStates,
 			final boolean triggerItemStateOnClick,
 			final Set<ListItemStateListener<DataType>> itemStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners) {
-		super(context, inflater, decorator, items, allowDuplicates,
+		super(context, inflater, decorator, logLevel, items, allowDuplicates,
 				adapterListeners, enableStateListeners, numberOfItemStates,
 				triggerItemStateOnClick, itemStateListeners);
 		setSortingListeners(sortingListeners);

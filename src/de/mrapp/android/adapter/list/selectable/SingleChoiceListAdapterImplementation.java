@@ -37,6 +37,7 @@ import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.filterable.ListFilterListener;
 import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
+import de.mrapp.android.adapter.logging.LogLevel;
 
 /**
  * An adapter, whose underlying data is managed as a list of arbitrary items, of
@@ -214,6 +215,9 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 	 *            appearance of the views, which are used to visualize the items
 	 *            of the adapter, as an instance of the generic type
 	 *            DecoratorType. The decorator may not be null
+	 * @param logLevel
+	 *            The log level, which should be used for logging, as a value of
+	 *            the enum {@link LogLevel}. The log level may not be null
 	 * @param items
 	 *            A list, which contains the the adapter's items, or an empty
 	 *            list, if the adapter should not contain any items
@@ -260,7 +264,8 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 	protected SingleChoiceListAdapterImplementation(final Context context,
 			final Inflater inflater,
 			final SelectableListDecorator<DataType> decorator,
-			final List<Item<DataType>> items, final boolean allowDuplicates,
+			final LogLevel logLevel, final List<Item<DataType>> items,
+			final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final int numberOfItemStates,
@@ -271,7 +276,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 			final Set<AppliedFilter<DataType>> appliedFilters,
 			final boolean selectItemOnClick,
 			final Set<ListSelectionListener<DataType>> selectionListeners) {
-		super(context, inflater, decorator, items, allowDuplicates,
+		super(context, inflater, decorator, logLevel, items, allowDuplicates,
 				adapterListeners, enableStateListeners, numberOfItemStates,
 				triggerItemStateOnClick, itemStateListeners, sortingListeners,
 				filterListeners, appliedFilters, selectItemOnClick,
@@ -301,8 +306,9 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 	public SingleChoiceListAdapterImplementation(final Context context,
 			final Inflater inflater,
 			final SelectableListDecorator<DataType> decorator) {
-		this(context, inflater, decorator, new ArrayList<Item<DataType>>(),
-				false, new LinkedHashSet<ListAdapterListener<DataType>>(),
+		this(context, inflater, decorator, LogLevel.ALL,
+				new ArrayList<Item<DataType>>(), false,
+				new LinkedHashSet<ListAdapterListener<DataType>>(),
 				new LinkedHashSet<ListEnableStateListener<DataType>>(), 1,
 				false, new LinkedHashSet<ListItemStateListener<DataType>>(),
 				new LinkedHashSet<ListSortingListener<DataType>>(),
@@ -387,8 +393,8 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 	public final SingleChoiceListAdapterImplementation<DataType> clone()
 			throws CloneNotSupportedException {
 		return new SingleChoiceListAdapterImplementation<DataType>(
-				getContext(), getInflater(), getDecorator(), cloneItems(),
-				areDuplicatesAllowed(), getAdapterListeners(),
+				getContext(), getInflater(), getDecorator(), getLogLevel(),
+				cloneItems(), areDuplicatesAllowed(), getAdapterListeners(),
 				getEnableStateListeners(), getNumberOfItemStates(),
 				isItemStateTriggeredOnClick(), getItemStateListeners(),
 				getSortingListeners(), getFilterListeners(),

@@ -28,6 +28,7 @@ import de.mrapp.android.adapter.list.enablestate.EnableStateListAdapter;
 import de.mrapp.android.adapter.list.filterable.FilterableListAdapter;
 import de.mrapp.android.adapter.list.itemstate.ItemStateListAdapter;
 import de.mrapp.android.adapter.list.sortable.SortableListAdapter;
+import de.mrapp.android.adapter.logging.Loggable;
 
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a list
@@ -42,7 +43,7 @@ import de.mrapp.android.adapter.list.sortable.SortableListAdapter;
  * @since 1.0.0
  */
 public interface ListAdapter<DataType> extends DataStructure, Restorable,
-		android.widget.ListAdapter, EnableStateListAdapter<DataType>,
+		Loggable, android.widget.ListAdapter, EnableStateListAdapter<DataType>,
 		ItemStateListAdapter<DataType>, SortableListAdapter<DataType>,
 		FilterableListAdapter<DataType> {
 

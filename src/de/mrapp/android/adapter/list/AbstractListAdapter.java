@@ -41,6 +41,8 @@ import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemIterator;
 import de.mrapp.android.adapter.datastructure.item.ItemListIterator;
 import de.mrapp.android.adapter.inflater.Inflater;
+import de.mrapp.android.adapter.logging.LogLevel;
+import de.mrapp.android.adapter.logging.Logger;
 import de.mrapp.android.adapter.util.VisibleForTesting;
 
 /**
@@ -84,6 +86,14 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 			.getSimpleName() + "::AllowDuplicates";
 
 	/**
+	 * The key, which is used to store the log level, which is used for logging,
+	 * within a bundle.
+	 */
+	@VisibleForTesting
+	protected static final String LOG_LEVEL_BUNDLE_KEY = AbstractListAdapter.class
+			.getSimpleName() + "::LogLevel";
+
+	/**
 	 * The context, the adapter belongs to.
 	 */
 	private final transient Context context;
@@ -99,6 +109,11 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	 * which are used to visualize the items of the adapter.
 	 */
 	private final transient DecoratorType decorator;
+
+	/**
+	 * The logger, which is used for logging.
+	 */
+	private final transient Logger logger;
 
 	/**
 	 * A set, which contains the listeners, which should be notified, when the
@@ -213,6 +228,16 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	}
 
 	/**
+	 * Returns the logger, which is used for logging.
+	 * 
+	 * @return The logger, which is used for logging, as an instance of the
+	 *         class {@link Logger}. The logger may not be null
+	 */
+	protected final Logger getLogger() {
+		return logger;
+	}
+
+	/**
 	 * Returns a list, which contains the adapter's underlying data.
 	 * 
 	 * @return A list, which contains the adapters underlying data, as an
@@ -315,6 +340,9 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	 *            appearance of the views, which are used to visualize the items
 	 *            of the adapter, as an instance of the generic type
 	 *            DecoratorType. The decorator may not be null
+	 * @param logLevel
+	 *            The log level, which should be used for logging, as a value of
+	 *            the enum {@link LogLevel}. The log level may not be null
 	 * @param items
 	 *            A list, which contains the the adapter's underlying data, as
 	 *            an instance of the type {@link List} or an empty list, if the
@@ -329,7 +357,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	 */
 	protected AbstractListAdapter(final Context context,
 			final Inflater inflater, final DecoratorType decorator,
-			final List<Item<DataType>> items, final boolean allowDuplicates,
+			final LogLevel logLevel, final List<Item<DataType>> items,
+			final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners) {
 		ensureNotNull(context, "The context may not be null");
 		ensureNotNull(inflater, "The inflater may not be null");
@@ -339,9 +368,20 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		this.context = context;
 		this.inflater = inflater;
 		this.decorator = decorator;
+		this.logger = new Logger(logLevel);
 		this.items = items;
 		this.allowDuplicates = allowDuplicates;
 		this.adapterListeners = adapterListeners;
+	}
+
+	@Override
+	public final LogLevel getLogLevel() {
+		return getLogger().getLogLevel();
+	}
+
+	@Override
+	public final void setLogLevel(final LogLevel logLevel) {
+		getLogger().setLogLevel(logLevel);
 	}
 
 	@Override
@@ -625,6 +665,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		outState.putSerializable(ITEMS_BUNDLE_KEY, wrappedItems);
 
 		outState.putBoolean(ALLOW_DUPLICATES_BUNDLE_KEY, areDuplicatesAllowed());
+
+		outState.putInt(LOG_LEVEL_BUNDLE_KEY, getLogLevel().getRank());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -635,8 +677,11 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 					.getSerializable(ITEMS_BUNDLE_KEY);
 			items = wrappedItems.getWrappedInstance();
 
-			allowDuplicates = savedInstanceState
-					.getBoolean(ALLOW_DUPLICATES_BUNDLE_KEY);
+			allowDuplicates(savedInstanceState
+					.getBoolean(ALLOW_DUPLICATES_BUNDLE_KEY));
+
+			setLogLevel(LogLevel.fromRank(savedInstanceState
+					.getInt(LOG_LEVEL_BUNDLE_KEY)));
 
 			notifyDataSetChanged();
 		}
