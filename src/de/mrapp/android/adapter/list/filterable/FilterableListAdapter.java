@@ -60,9 +60,9 @@ public interface FilterableListAdapter<DataType> {
 	 * filtering, which causes the filtered items to be filtered once more.
 	 * 
 	 * @param regularExpression
-	 *            The regular expression, which should be used to filter items,
-	 *            as an instance of the class {@link Pattern}. The regular
-	 *            expression may not be null
+	 *            The regular expression, which should be used to filter the
+	 *            items, as an instance of the class {@link Pattern}. The
+	 *            regular expression may not be null
 	 * @param filter
 	 *            The filter, which should be used to apply the given regular
 	 *            expression on the adapter's items, as an instance of the type
