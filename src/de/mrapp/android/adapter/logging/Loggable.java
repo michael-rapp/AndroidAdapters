@@ -32,7 +32,7 @@ public interface Loggable {
 	 * equal than the current rank of the currently applied log level, are
 	 * intended to be written to the output.
 	 * 
-	 * @return The current log level as a value of the enum {@link LogLevel} .
+	 * @return The current log level as a value of the enum {@link LogLevel}.
 	 *         The log level may either be <code>ALL</code>, <code>DEBUG</code>,
 	 *         <code>INFO</code>, <code>WARN</code>, <code>ERROR</code> or
 	 *         <code>OFF</code>
