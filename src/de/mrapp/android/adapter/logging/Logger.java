@@ -17,8 +17,9 @@
  */
 package de.mrapp.android.adapter.logging;
 
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 import static de.mrapp.android.adapter.util.Condition.ensureNotEmpty;
+import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+import static de.mrapp.android.adapter.util.ClassUtil.getTruncatedName;
 import android.util.Log;
 
 /**
@@ -76,20 +77,19 @@ public class Logger {
 	 * Logs a specific message on the log level DEBUG.
 	 * 
 	 * @param tag
-	 *            The tag, which identifies the source of the log message, as a
-	 *            {@link String}. The tag may neither be null, nor empty
+	 *            The tag, which identifies the source of the log message, as an
+	 *            instance of the class {@link Class}. The tag may not be null
 	 * @param message
 	 *            The message, which should be logged, as a {@link String}. The
 	 *            message may neither be null, nor empty
 	 */
-	public final void logDebug(final String tag, final String message) {
+	public final void logDebug(final Class<?> tag, final String message) {
 		ensureNotNull(tag, "The tag may not be null");
-		ensureNotEmpty(tag, "The tag may not be empty");
 		ensureNotNull(message, "The message may not be null");
 		ensureNotEmpty(message, "The message may not be empty");
 
 		if (getLogLevel().getRank() >= LogLevel.DEBUG.getRank()) {
-			Log.d(tag, message);
+			Log.d(getTruncatedName(tag), message);
 		}
 	}
 
@@ -106,16 +106,15 @@ public class Logger {
 	 *            The exception, which caused the log message, as an instance of
 	 *            the class {@link Throwable}. The cause may not be null
 	 */
-	public final void logDebug(final String tag, final String message,
+	public final void logDebug(final Class<?> tag, final String message,
 			final Throwable cause) {
 		ensureNotNull(tag, "The tag may not be null");
-		ensureNotEmpty(tag, "The tag may not be empty");
 		ensureNotNull(message, "The message may not be null");
 		ensureNotEmpty(message, "The message may not be empty");
 		ensureNotNull(cause, "The cause may not be null");
 
 		if (getLogLevel().getRank() >= LogLevel.DEBUG.getRank()) {
-			Log.d(tag, message, cause);
+			Log.d(getTruncatedName(tag), message, cause);
 		}
 	}
 
@@ -129,14 +128,13 @@ public class Logger {
 	 *            The message, which should be logged, as a {@link String}. The
 	 *            message may neither be null, nor empty
 	 */
-	public final void logInfo(final String tag, final String message) {
+	public final void logInfo(final Class<?> tag, final String message) {
 		ensureNotNull(tag, "The tag may not be null");
-		ensureNotEmpty(tag, "The tag may not be empty");
 		ensureNotNull(message, "The message may not be null");
 		ensureNotEmpty(message, "The message may not be empty");
 
 		if (getLogLevel().getRank() >= LogLevel.INFO.getRank()) {
-			Log.i(tag, message);
+			Log.i(getTruncatedName(tag), message);
 		}
 	}
 
@@ -153,16 +151,15 @@ public class Logger {
 	 *            The exception, which caused the log message, as an instance of
 	 *            the class {@link Throwable}. The cause may not be null
 	 */
-	public final void logInfo(final String tag, final String message,
+	public final void logInfo(final Class<?> tag, final String message,
 			final Throwable cause) {
 		ensureNotNull(tag, "The tag may not be null");
-		ensureNotEmpty(tag, "The tag may not be empty");
 		ensureNotNull(message, "The message may not be null");
 		ensureNotEmpty(message, "The message may not be empty");
 		ensureNotNull(cause, "The cause may not be null");
 
 		if (getLogLevel().getRank() >= LogLevel.INFO.getRank()) {
-			Log.i(tag, message, cause);
+			Log.i(getTruncatedName(tag), message, cause);
 		}
 	}
 
@@ -176,14 +173,13 @@ public class Logger {
 	 *            The message, which should be logged, as a {@link String}. The
 	 *            message may neither be null, nor empty
 	 */
-	public final void logWarn(final String tag, final String message) {
+	public final void logWarn(final Class<?> tag, final String message) {
 		ensureNotNull(tag, "The tag may not be null");
-		ensureNotEmpty(tag, "The tag may not be empty");
 		ensureNotNull(message, "The message may not be null");
 		ensureNotEmpty(message, "The message may not be empty");
 
 		if (getLogLevel().getRank() >= LogLevel.WARN.getRank()) {
-			Log.w(tag, message);
+			Log.w(getTruncatedName(tag), message);
 		}
 	}
 
@@ -200,16 +196,15 @@ public class Logger {
 	 *            The exception, which caused the log message, as an instance of
 	 *            the class {@link Throwable}. The cause may not be null
 	 */
-	public final void logWarn(final String tag, final String message,
+	public final void logWarn(final Class<?> tag, final String message,
 			final Throwable cause) {
 		ensureNotNull(tag, "The tag may not be null");
-		ensureNotEmpty(tag, "The tag may not be empty");
 		ensureNotNull(message, "The message may not be null");
 		ensureNotEmpty(message, "The message may not be empty");
 		ensureNotNull(cause, "The cause may not be null");
 
 		if (getLogLevel().getRank() >= LogLevel.WARN.getRank()) {
-			Log.w(tag, message, cause);
+			Log.w(getTruncatedName(tag), message, cause);
 		}
 	}
 
@@ -223,14 +218,13 @@ public class Logger {
 	 *            The message, which should be logged, as a {@link String}. The
 	 *            message may neither be null, nor empty
 	 */
-	public final void logError(final String tag, final String message) {
+	public final void logError(final Class<?> tag, final String message) {
 		ensureNotNull(tag, "The tag may not be null");
-		ensureNotEmpty(tag, "The tag may not be empty");
 		ensureNotNull(message, "The message may not be null");
 		ensureNotEmpty(message, "The message may not be empty");
 
 		if (getLogLevel().getRank() >= LogLevel.ERROR.getRank()) {
-			Log.e(tag, message);
+			Log.e(getTruncatedName(tag), message);
 		}
 	}
 
@@ -247,16 +241,15 @@ public class Logger {
 	 *            The exception, which caused the log message, as an instance of
 	 *            the class {@link Throwable}. The cause may not be null
 	 */
-	public final void logError(final String tag, final String message,
+	public final void logError(final Class<?> tag, final String message,
 			final Throwable cause) {
 		ensureNotNull(tag, "The tag may not be null");
-		ensureNotEmpty(tag, "The tag may not be empty");
 		ensureNotNull(message, "The message may not be null");
 		ensureNotEmpty(message, "The message may not be empty");
 		ensureNotNull(cause, "The cause may not be null");
 
 		if (getLogLevel().getRank() >= LogLevel.ERROR.getRank()) {
-			Log.e(tag, message, cause);
+			Log.e(getTruncatedName(tag), message, cause);
 		}
 	}
 
