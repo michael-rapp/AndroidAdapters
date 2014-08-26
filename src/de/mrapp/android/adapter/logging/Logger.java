@@ -97,8 +97,8 @@ public class Logger {
 	 * Logs a specific message and exception on the log level DEBUG.
 	 * 
 	 * @param tag
-	 *            The tag, which identifies the source of the log message, as a
-	 *            {@link String}. The tag may neither be null, nor empty
+	 *            The tag, which identifies the source of the log message, as an
+	 *            instance of the class {@link Class}. The tag may not be null
 	 * @param message
 	 *            The message, which should be logged, as a {@link String}. The
 	 *            message may neither be null, nor empty
@@ -122,8 +122,8 @@ public class Logger {
 	 * Logs a specific message on the log level INFO.
 	 * 
 	 * @param tag
-	 *            The tag, which identifies the source of the log message, as a
-	 *            {@link String}. The tag may neither be null, nor empty
+	 *            The tag, which identifies the source of the log message, as an
+	 *            instance of the class {@link Class}. The tag may not be null
 	 * @param message
 	 *            The message, which should be logged, as a {@link String}. The
 	 *            message may neither be null, nor empty
@@ -142,8 +142,8 @@ public class Logger {
 	 * Logs a specific message and exception on the log level INFO.
 	 * 
 	 * @param tag
-	 *            The tag, which identifies the source of the log message, as a
-	 *            {@link String}. The tag may neither be null, nor empty
+	 *            The tag, which identifies the source of the log message, as an
+	 *            instance of the class {@link Class}. The tag may not be null
 	 * @param message
 	 *            The message, which should be logged, as a {@link String}. The
 	 *            message may neither be null, nor empty
@@ -167,8 +167,8 @@ public class Logger {
 	 * Logs a specific message on the log level WARN.
 	 * 
 	 * @param tag
-	 *            The tag, which identifies the source of the log message, as a
-	 *            {@link String}. The tag may neither be null, nor empty
+	 *            The tag, which identifies the source of the log message, as an
+	 *            instance of the class {@link Class}. The tag may not be null
 	 * @param message
 	 *            The message, which should be logged, as a {@link String}. The
 	 *            message may neither be null, nor empty
@@ -187,8 +187,8 @@ public class Logger {
 	 * Logs a specific message and exception on the log level WARN.
 	 * 
 	 * @param tag
-	 *            The tag, which identifies the source of the log message, as a
-	 *            {@link String}. The tag may neither be null, nor empty
+	 *            The tag, which identifies the source of the log message, as an
+	 *            instance of the class {@link Class}. The tag may not be null
 	 * @param message
 	 *            The message, which should be logged, as a {@link String}. The
 	 *            message may neither be null, nor empty
@@ -212,8 +212,8 @@ public class Logger {
 	 * Logs a specific message on the log level ERROR.
 	 * 
 	 * @param tag
-	 *            The tag, which identifies the source of the log message, as a
-	 *            {@link String}. The tag may neither be null, nor empty
+	 *            The tag, which identifies the source of the log message, as an
+	 *            instance of the class {@link Class}. The tag may not be null
 	 * @param message
 	 *            The message, which should be logged, as a {@link String}. The
 	 *            message may neither be null, nor empty
@@ -232,8 +232,8 @@ public class Logger {
 	 * Logs a specific message and exception on the log level ERROR.
 	 * 
 	 * @param tag
-	 *            The tag, which identifies the source of the log message, as a
-	 *            {@link String}. The tag may neither be null, nor empty
+	 *            The tag, which identifies the source of the log message, as an
+	 *            instance of the class {@link Class}. The tag may not be null
 	 * @param message
 	 *            The message, which should be logged, as a {@link String}. The
 	 *            message may neither be null, nor empty
