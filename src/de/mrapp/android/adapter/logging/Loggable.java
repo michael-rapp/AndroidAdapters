@@ -29,8 +29,8 @@ public interface Loggable {
 
 	/**
 	 * Returns the current log level. Only log messages with a rank greater or
-	 * equal than the current rank of the currently applied log level, are
-	 * intended to be written to the output.
+	 * equal than the rank of the currently applied log level, are written to
+	 * the output.
 	 * 
 	 * @return The current log level as a value of the enum {@link LogLevel}.
 	 *         The log level may either be <code>ALL</code>, <code>DEBUG</code>,
@@ -41,8 +41,7 @@ public interface Loggable {
 
 	/**
 	 * Sets the log level. Only log messages with a rank greater or equal than
-	 * the current rank of the currently applied log level, are intended to be
-	 * written to the output.
+	 * the rank of the currently applied log level, are written to the output.
 	 * 
 	 * @param logLevel
 	 *            The log level, which should be set, as a value of the enum
