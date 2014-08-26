@@ -88,4 +88,35 @@ public enum LogLevel {
 		return rank;
 	}
 
+	/**
+	 * Creates and returns the log level, which belongs to a specific rank.
+	 * 
+	 * @param rank
+	 *            The rank of the log level, which should be returned, as an
+	 *            {@link Integer} value. If the rank is invalid, an
+	 *            {@link IllegalArgumentException} will be thrown
+	 * @return The log level, which belongs to the given rank, as a value of the
+	 *         enum {@link LogLevel}. The log level may either be
+	 *         <code>ALL</code>, <code>DEBUG</code>, <code>INFO</code>,
+	 *         <code>WARN</code>, <code>ERROR</code> or <code>OFF</code>
+	 */
+	public static LogLevel fromRank(final int rank) {
+		switch (rank) {
+		case 0:
+			return ALL;
+		case 1:
+			return DEBUG;
+		case 2:
+			return INFO;
+		case 3:
+			return WARN;
+		case 4:
+			return ERROR;
+		case 5:
+			return OFF;
+		default:
+			throw new IllegalArgumentException();
+		}
+	}
+
 }

@@ -34,6 +34,7 @@ import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.AbstractEnableStateListAdapter;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
+import de.mrapp.android.adapter.logging.LogLevel;
 import de.mrapp.android.adapter.util.VisibleForTesting;
 
 /**
@@ -172,6 +173,9 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 	 *            appearance of the views, which are used to visualize the items
 	 *            of the adapter, as an instance of the generic type
 	 *            DecoratorType. The decorator may not be null
+	 * @param logLevel
+	 *            The log level, which should be used for logging, as a value of
+	 *            the enum {@link LogLevel}. The log level may not be null
 	 * @param items
 	 *            A list, which contains the adapter's items, or an empty list,
 	 *            if the adapter should not contain any items
@@ -198,13 +202,14 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 	 */
 	protected AbstractItemStateListAdapter(final Context context,
 			final Inflater inflater, final DecoratorType decorator,
-			final List<Item<DataType>> items, final boolean allowDuplicates,
+			final LogLevel logLevel, final List<Item<DataType>> items,
+			final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final int numberOfItemStates,
 			final boolean triggerItemStateOnClick,
 			final Set<ListItemStateListener<DataType>> itemStateListeners) {
-		super(context, inflater, decorator, items, allowDuplicates,
+		super(context, inflater, decorator, logLevel, items, allowDuplicates,
 				adapterListeners, enableStateListeners);
 		setNumberOfItemStates(numberOfItemStates);
 		triggerItemStateOnClick(triggerItemStateOnClick);

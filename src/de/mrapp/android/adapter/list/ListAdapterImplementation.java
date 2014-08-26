@@ -33,6 +33,7 @@ import de.mrapp.android.adapter.list.filterable.AbstractFilterableListAdapter;
 import de.mrapp.android.adapter.list.filterable.ListFilterListener;
 import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
+import de.mrapp.android.adapter.logging.LogLevel;
 
 /**
  * An adapter, whose underlying data is managed as a list of arbitrary items.
@@ -57,8 +58,8 @@ public class ListAdapterImplementation<DataType> extends
 	@Override
 	protected final void applyDecorator(final Context context, final View view,
 			final int index) {
-		getDecorator().applyDecorator(context, this, view, getItem(index), index,
-				isEnabled(index), getItemState(index), isFiltered());
+		getDecorator().applyDecorator(context, this, view, getItem(index),
+				index, isEnabled(index), getItemState(index), isFiltered());
 	}
 
 	/**
@@ -77,6 +78,9 @@ public class ListAdapterImplementation<DataType> extends
 	 *            appearance of the views, which are used to visualize the items
 	 *            of the adapter, as an instance of the generic type
 	 *            DecoratorType. The decorator may not be null
+	 * @param logLevel
+	 *            The log level, which should be used for logging, as a value of
+	 *            the enum {@link LogLevel}. The log level may not be null
 	 * @param items
 	 *            A list, which contains the the adapter's items, or an empty
 	 *            list, if the adapter should not contain any items
@@ -115,7 +119,8 @@ public class ListAdapterImplementation<DataType> extends
 	 */
 	protected ListAdapterImplementation(final Context context,
 			final Inflater inflater, final ListDecorator<DataType> decorator,
-			final List<Item<DataType>> items, final boolean allowDuplicates,
+			final LogLevel logLevel, final List<Item<DataType>> items,
+			final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final int numberOfItemStates,
@@ -124,7 +129,7 @@ public class ListAdapterImplementation<DataType> extends
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final Set<ListFilterListener<DataType>> filterListeners,
 			final Set<AppliedFilter<DataType>> appliedFilters) {
-		super(context, inflater, decorator, items, allowDuplicates,
+		super(context, inflater, decorator, logLevel, items, allowDuplicates,
 				adapterListeners, enableStateListeners, numberOfItemStates,
 				triggerItemStateOnClick, itemStateListeners, sortingListeners,
 				filterListeners, appliedFilters);
@@ -149,8 +154,9 @@ public class ListAdapterImplementation<DataType> extends
 	 */
 	public ListAdapterImplementation(final Context context,
 			final Inflater inflater, final ListDecorator<DataType> decorator) {
-		this(context, inflater, decorator, new ArrayList<Item<DataType>>(),
-				false, new LinkedHashSet<ListAdapterListener<DataType>>(),
+		this(context, inflater, decorator, LogLevel.ALL,
+				new ArrayList<Item<DataType>>(), false,
+				new LinkedHashSet<ListAdapterListener<DataType>>(),
 				new LinkedHashSet<ListEnableStateListener<DataType>>(), 1,
 				false, new LinkedHashSet<ListItemStateListener<DataType>>(),
 				new LinkedHashSet<ListSortingListener<DataType>>(),
@@ -176,7 +182,7 @@ public class ListAdapterImplementation<DataType> extends
 	public final ListAdapterImplementation<DataType> clone()
 			throws CloneNotSupportedException {
 		return new ListAdapterImplementation<DataType>(getContext(),
-				getInflater(), getDecorator(), cloneItems(),
+				getInflater(), getDecorator(), getLogLevel(), cloneItems(),
 				areDuplicatesAllowed(), getAdapterListeners(),
 				getEnableStateListeners(), getNumberOfItemStates(),
 				isItemStateTriggeredOnClick(), getItemStateListeners(),

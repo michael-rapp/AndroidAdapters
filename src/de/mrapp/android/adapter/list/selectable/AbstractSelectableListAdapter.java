@@ -36,6 +36,7 @@ import de.mrapp.android.adapter.list.filterable.AbstractFilterableListAdapter;
 import de.mrapp.android.adapter.list.filterable.ListFilterListener;
 import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
+import de.mrapp.android.adapter.logging.LogLevel;
 import de.mrapp.android.adapter.util.VisibleForTesting;
 
 /**
@@ -183,6 +184,9 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	 *            appearance of the views, which are used to visualize the items
 	 *            of the adapter, as an instance of the generic type
 	 *            DecoratorType. The decorator may not be null
+	 * @param logLevel
+	 *            The log level, which should be used for logging, as a value of
+	 *            the enum {@link LogLevel}. The log level may not be null
 	 * @param items
 	 *            A list, which contains the the adapter's items, or an empty
 	 *            list, if the adapter should not contain any items
@@ -229,7 +233,8 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	protected AbstractSelectableListAdapter(final Context context,
 			final Inflater inflater,
 			final SelectableListDecorator<DataType> decorator,
-			final List<Item<DataType>> items, final boolean allowDuplicates,
+			final LogLevel logLevel, final List<Item<DataType>> items,
+			final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final int numberOfItemStates,
@@ -240,7 +245,7 @@ public abstract class AbstractSelectableListAdapter<DataType>
 			final Set<AppliedFilter<DataType>> appliedFilters,
 			final boolean selectItemOnClick,
 			final Set<ListSelectionListener<DataType>> selectionListeners) {
-		super(context, inflater, decorator, items, allowDuplicates,
+		super(context, inflater, decorator, logLevel, items, allowDuplicates,
 				adapterListeners, enableStateListeners, numberOfItemStates,
 				triggerItemStateOnClick, itemStateListeners, sortingListeners,
 				filterListeners, appliedFilters);
