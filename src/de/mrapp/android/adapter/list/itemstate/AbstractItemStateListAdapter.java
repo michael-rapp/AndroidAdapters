@@ -431,6 +431,8 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public void onSaveInstanceState(final Bundle outState) {
+		super.onSaveInstanceState(outState);
+
 		outState.putInt(NUMBER_OF_ITEM_STATES_BUNDLE_KEY,
 				getNumberOfItemStates());
 
@@ -446,6 +448,8 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 	@SuppressWarnings("unchecked")
 	@Override
 	public void onRestoreInstanceState(final Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+
 		if (savedInstanceState != null) {
 			numberOfItemStates = savedInstanceState
 					.getInt(NUMBER_OF_ITEM_STATES_BUNDLE_KEY);

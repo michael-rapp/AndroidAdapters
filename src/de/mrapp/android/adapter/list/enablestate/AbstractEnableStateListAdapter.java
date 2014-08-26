@@ -456,6 +456,8 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public void onSaveInstanceState(final Bundle outState) {
+		super.onSaveInstanceState(outState);
+		
 		SerializableWrapper<Set<ListEnableStateListener<DataType>>> wrappedEnableStateListeners = new SerializableWrapper<Set<ListEnableStateListener<DataType>>>(
 				getEnableStateListeners());
 		outState.putSerializable(ENABLE_STATE_LISTENERS_BUNDLE_KEY,
@@ -465,6 +467,8 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 	@SuppressWarnings("unchecked")
 	@Override
 	public void onRestoreInstanceState(final Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		
 		if (savedInstanceState != null) {
 			SerializableWrapper<Set<ListEnableStateListener<DataType>>> wrappedEnableStateListeners = (SerializableWrapper<Set<ListEnableStateListener<DataType>>>) savedInstanceState
 					.getSerializable(ENABLE_STATE_LISTENERS_BUNDLE_KEY);
