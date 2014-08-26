@@ -71,6 +71,7 @@ public class Logger {
 	 */
 	public final void setLogLevel(final LogLevel logLevel) {
 		ensureNotNull(logLevel, "The log level may not be null");
+		this.logLevel = logLevel;
 	}
 
 	/**
