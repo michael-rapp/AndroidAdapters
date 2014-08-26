@@ -28,7 +28,6 @@ import android.os.Bundle;
 import android.view.View;
 import de.mrapp.android.adapter.SelectableListDecorator;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
-import de.mrapp.android.adapter.datastructure.SerializableWrapper;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.ListAdapterListener;
@@ -71,24 +70,16 @@ public abstract class AbstractSelectableListAdapter<DataType>
 			.getSimpleName() + "::SelectItemOnClick";
 
 	/**
-	 * The key, which is used to store the listeners, which should be notified,
-	 * when an item has been selected or unselected, within a bundle.
+	 * A set, which contains the listeners, which should be notified, when an
+	 * item has been selected or unselected.
 	 */
-	@VisibleForTesting
-	protected static final String SELECTION_LISTENERS_BUNDLE_KEY = AbstractSelectableListAdapter.class
-			.getSimpleName() + "::SelectionListeners";
+	private transient Set<ListSelectionListener<DataType>> selectionListeners;
 
 	/**
 	 * True, if the an item should be selected, when it is clicked by the user,
 	 * false otherwise.
 	 */
 	private boolean selectItemOnClick;
-
-	/**
-	 * A set, which contains the listeners, which should be notified, when an
-	 * item has been selected or unselected.
-	 */
-	private Set<ListSelectionListener<DataType>> selectionListeners;
 
 	/**
 	 * Notifies all listeners, which have been registered to be notified when
@@ -162,8 +153,8 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	@Override
 	protected final void applyDecorator(final Context context, final View view,
 			final int index) {
-		getDecorator().applyDecorator(context, this, view, getItem(index), index,
-				isEnabled(index), getItemState(index), isFiltered(),
+		getDecorator().applyDecorator(context, this, view, getItem(index),
+				index, isEnabled(index), getItemState(index), isFiltered(),
 				isSelected(index));
 	}
 
@@ -300,28 +291,18 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	@Override
 	public final void onSaveInstanceState(final Bundle outState) {
 		super.onSaveInstanceState(outState);
-		
+
 		outState.putBoolean(SELECT_ITEM_ON_CLICK_BUNDLE_KEY,
 				isItemSelectedOnClick());
-
-		SerializableWrapper<Set<ListSelectionListener<DataType>>> wrappedSelectionListeners = new SerializableWrapper<Set<ListSelectionListener<DataType>>>(
-				getSelectionListeners());
-		outState.putSerializable(SELECTION_LISTENERS_BUNDLE_KEY,
-				wrappedSelectionListeners);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public final void onRestoreInstanceState(final Bundle savedInstanceState) {
 		super.onRestoreInstanceState(savedInstanceState);
-		
+
 		if (savedInstanceState != null) {
 			selectItemOnClick = savedInstanceState
 					.getBoolean(SELECT_ITEM_ON_CLICK_BUNDLE_KEY);
-
-			SerializableWrapper<Set<ListSelectionListener<DataType>>> wrappedSelectionListeners = (SerializableWrapper<Set<ListSelectionListener<DataType>>>) savedInstanceState
-					.getSerializable(SELECTION_LISTENERS_BUNDLE_KEY);
-			selectionListeners = wrappedSelectionListeners.getWrappedInstance();
 
 			notifyDataSetChanged();
 		}
@@ -332,7 +313,6 @@ public abstract class AbstractSelectableListAdapter<DataType>
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + (selectItemOnClick ? 1231 : 1237);
-		result = prime * result + selectionListeners.hashCode();
 		return result;
 	}
 
@@ -346,8 +326,6 @@ public abstract class AbstractSelectableListAdapter<DataType>
 			return false;
 		AbstractSelectableListAdapter<?> other = (AbstractSelectableListAdapter<?>) obj;
 		if (selectItemOnClick != other.selectItemOnClick)
-			return false;
-		if (!selectionListeners.equals(other.selectionListeners))
 			return false;
 		return true;
 	}

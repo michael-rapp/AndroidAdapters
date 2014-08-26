@@ -80,29 +80,21 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	private transient SparseIntArray indexMapping;
 
 	/**
+	 * A set, which contains the listeners, which should be notified, when the
+	 * adapter's underlying data has been filtered.
+	 */
+	private transient Set<ListFilterListener<DataType>> filterListeners;
+
+	/**
 	 * A set, which contains the filters, which are used to filter the adapter's
 	 * underlying data.
 	 */
 	private Set<AppliedFilter<DataType>> appliedFilters;
 
 	/**
-	 * A set, which contains the listeners, which should be notified, when the
-	 * adapter's underlying data has been filtered.
-	 */
-	private Set<ListFilterListener<DataType>> filterListeners;
-
-	/**
 	 * The constant serial version UID.
 	 */
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * The key, which is used to store the listeners, which should be notified,
-	 * when the adapter's underlying data has been filtered, within a bundle.
-	 */
-	@VisibleForTesting
-	protected static final String FILTER_LISTENERS_BUNDLE_KEY = AbstractFilterableListAdapter.class
-			.getSimpleName() + "::FilterListeners";
 
 	/**
 	 * The key, which is used to store the filters, which are used to filter the
@@ -606,11 +598,6 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	public void onSaveInstanceState(final Bundle outState) {
 		super.onSaveInstanceState(outState);
 
-		SerializableWrapper<Set<ListFilterListener<DataType>>> wrappedFilterListeners = new SerializableWrapper<Set<ListFilterListener<DataType>>>(
-				getFilterListeners());
-		outState.putSerializable(FILTER_LISTENERS_BUNDLE_KEY,
-				wrappedFilterListeners);
-
 		SerializableWrapper<Set<AppliedFilter<DataType>>> wrappedAppliedFilters = new SerializableWrapper<Set<AppliedFilter<DataType>>>(
 				getAppliedFilters());
 		outState.putSerializable(APPLIED_FILTERS_BUNDLE_KEY,
@@ -623,10 +610,6 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 		super.onRestoreInstanceState(savedInstanceState);
 
 		if (savedInstanceState != null) {
-			SerializableWrapper<Set<ListFilterListener<DataType>>> wrappedFilterListeners = (SerializableWrapper<Set<ListFilterListener<DataType>>>) savedInstanceState
-					.getSerializable(FILTER_LISTENERS_BUNDLE_KEY);
-			setFilterListeners(wrappedFilterListeners.getWrappedInstance());
-
 			SerializableWrapper<Set<AppliedFilter<DataType>>> wrappedAppliedFilters = (SerializableWrapper<Set<AppliedFilter<DataType>>>) savedInstanceState
 					.getSerializable(APPLIED_FILTERS_BUNDLE_KEY);
 			setAppliedFilters(wrappedAppliedFilters.getWrappedInstance());
@@ -640,7 +623,6 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + appliedFilters.hashCode();
-		result = prime * result + filterListeners.hashCode();
 		return result;
 	}
 
@@ -654,8 +636,6 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 			return false;
 		AbstractFilterableListAdapter<?, ?> other = (AbstractFilterableListAdapter<?, ?>) obj;
 		if (!appliedFilters.equals(other.appliedFilters))
-			return false;
-		if (!filterListeners.equals(other.filterListeners))
 			return false;
 		return true;
 	}
