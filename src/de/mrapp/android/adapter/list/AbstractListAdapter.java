@@ -21,6 +21,7 @@ import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
 import static de.mrapp.android.adapter.util.Condition.ensureAtMaximum;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -660,9 +661,16 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 
 	@Override
 	public void onSaveInstanceState(final Bundle outState) {
-		SerializableWrapper<List<Item<DataType>>> wrappedItems = new SerializableWrapper<List<Item<DataType>>>(
-				getItems());
-		outState.putSerializable(ITEMS_BUNDLE_KEY, wrappedItems);
+		if (!isEmpty()
+				&& Serializable.class.isAssignableFrom(getItem(0).getClass())) {
+			SerializableWrapper<List<Item<DataType>>> wrappedItems = new SerializableWrapper<List<Item<DataType>>>(
+					getItems());
+			outState.putSerializable(ITEMS_BUNDLE_KEY, wrappedItems);
+		} else {
+			String message = "The adapter's items can not be stored, because the "
+					+ "underlying data does not implement the interface Serializable";
+			getLogger().logWarn(getClass(), message);
+		}
 
 		outState.putBoolean(ALLOW_DUPLICATES_BUNDLE_KEY, areDuplicatesAllowed());
 
@@ -673,9 +681,11 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	@Override
 	public void onRestoreInstanceState(final Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
-			SerializableWrapper<List<Item<DataType>>> wrappedItems = (SerializableWrapper<List<Item<DataType>>>) savedInstanceState
-					.getSerializable(ITEMS_BUNDLE_KEY);
-			items = wrappedItems.getWrappedInstance();
+			if (savedInstanceState.containsKey(ITEMS_BUNDLE_KEY)) {
+				SerializableWrapper<List<Item<DataType>>> wrappedItems = (SerializableWrapper<List<Item<DataType>>>) savedInstanceState
+						.getSerializable(ITEMS_BUNDLE_KEY);
+				items = wrappedItems.getWrappedInstance();
+			}
 
 			allowDuplicates(savedInstanceState
 					.getBoolean(ALLOW_DUPLICATES_BUNDLE_KEY));
