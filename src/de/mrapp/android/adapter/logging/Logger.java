@@ -89,7 +89,7 @@ public class Logger {
 		ensureNotNull(message, "The message may not be null");
 		ensureNotEmpty(message, "The message may not be empty");
 
-		if (getLogLevel().getRank() >= LogLevel.DEBUG.getRank()) {
+		if (LogLevel.DEBUG.getRank() >= getLogLevel().getRank()) {
 			Log.d(getTruncatedName(tag), message);
 		}
 	}
@@ -114,7 +114,7 @@ public class Logger {
 		ensureNotEmpty(message, "The message may not be empty");
 		ensureNotNull(cause, "The cause may not be null");
 
-		if (getLogLevel().getRank() >= LogLevel.DEBUG.getRank()) {
+		if (LogLevel.DEBUG.getRank() >= getLogLevel().getRank()) {
 			Log.d(getTruncatedName(tag), message, cause);
 		}
 	}
@@ -134,7 +134,7 @@ public class Logger {
 		ensureNotNull(message, "The message may not be null");
 		ensureNotEmpty(message, "The message may not be empty");
 
-		if (getLogLevel().getRank() >= LogLevel.INFO.getRank()) {
+		if (LogLevel.INFO.getRank() >= getLogLevel().getRank()) {
 			Log.i(getTruncatedName(tag), message);
 		}
 	}
@@ -159,7 +159,7 @@ public class Logger {
 		ensureNotEmpty(message, "The message may not be empty");
 		ensureNotNull(cause, "The cause may not be null");
 
-		if (getLogLevel().getRank() >= LogLevel.INFO.getRank()) {
+		if (LogLevel.INFO.getRank() >= getLogLevel().getRank()) {
 			Log.i(getTruncatedName(tag), message, cause);
 		}
 	}
@@ -179,7 +179,7 @@ public class Logger {
 		ensureNotNull(message, "The message may not be null");
 		ensureNotEmpty(message, "The message may not be empty");
 
-		if (getLogLevel().getRank() >= LogLevel.WARN.getRank()) {
+		if (LogLevel.WARN.getRank() >= getLogLevel().getRank()) {
 			Log.w(getTruncatedName(tag), message);
 		}
 	}
@@ -204,7 +204,7 @@ public class Logger {
 		ensureNotEmpty(message, "The message may not be empty");
 		ensureNotNull(cause, "The cause may not be null");
 
-		if (getLogLevel().getRank() >= LogLevel.WARN.getRank()) {
+		if (LogLevel.WARN.getRank() >= getLogLevel().getRank()) {
 			Log.w(getTruncatedName(tag), message, cause);
 		}
 	}
@@ -224,7 +224,7 @@ public class Logger {
 		ensureNotNull(message, "The message may not be null");
 		ensureNotEmpty(message, "The message may not be empty");
 
-		if (getLogLevel().getRank() >= LogLevel.ERROR.getRank()) {
+		if (LogLevel.ERROR.getRank() >= getLogLevel().getRank()) {
 			Log.e(getTruncatedName(tag), message);
 		}
 	}
@@ -249,7 +249,7 @@ public class Logger {
 		ensureNotEmpty(message, "The message may not be empty");
 		ensureNotNull(cause, "The cause may not be null");
 
-		if (getLogLevel().getRank() >= LogLevel.ERROR.getRank()) {
+		if (LogLevel.ERROR.getRank() >= getLogLevel().getRank()) {
 			Log.e(getTruncatedName(tag), message, cause);
 		}
 	}
