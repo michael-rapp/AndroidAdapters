@@ -474,18 +474,19 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 
 	@Override
 	public final String toString() {
-		return "MultipleChoiceListAdapter [sortingListeners="
-				+ getSortingListeners() + ", itemStateListeners="
-				+ getItemStateListeners() + ", numberOfItemStates="
-				+ getNumberOfItemStates() + ", triggerItemStateOnClick="
-				+ isItemStateTriggeredOnClick() + ", enableStateListeners="
-				+ getEnableStateListeners() + ", items=" + getItems()
-				+ ", adapterListeners=" + getAdapterListeners()
-				+ ", allowDuplicates=" + areDuplicatesAllowed()
-				+ ", filterListeners=" + getFilterListeners()
-				+ ", appliedFilters=" + getAppliedFilters()
-				+ ", selectItemOnClick=" + isItemSelectedOnClick()
-				+ ", selectionListeners=" + getSelectionListeners() + "]";
+		return "MultipleChoiceListAdapter [logLevel=" + getLogLevel()
+				+ ", sortingListeners=" + getSortingListeners()
+				+ ", itemStateListeners=" + getItemStateListeners()
+				+ ", numberOfItemStates=" + getNumberOfItemStates()
+				+ ", triggerItemStateOnClick=" + isItemStateTriggeredOnClick()
+				+ ", enableStateListeners=" + getEnableStateListeners()
+				+ ", items=" + getItems() + ", adapterListeners="
+				+ getAdapterListeners() + ", allowDuplicates="
+				+ areDuplicatesAllowed() + ", filterListeners="
+				+ getFilterListeners() + ", appliedFilters="
+				+ getAppliedFilters() + ", selectItemOnClick="
+				+ isItemSelectedOnClick() + ", selectionListeners="
+				+ getSelectionListeners() + "]";
 	}
 
 	@Override
