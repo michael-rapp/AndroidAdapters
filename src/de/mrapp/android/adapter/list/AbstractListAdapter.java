@@ -693,6 +693,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		int result = 1;
 		result = prime * result + (allowDuplicates ? 1231 : 1237);
 		result = prime * result + items.hashCode();
+		result = prime * result + getLogLevel().getRank();
 		return result;
 	}
 
@@ -708,6 +709,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		if (allowDuplicates != other.allowDuplicates)
 			return false;
 		if (!items.equals(other.items))
+			return false;
+		if (!getLogLevel().equals(other.getLogLevel()))
 			return false;
 		return true;
 	}
