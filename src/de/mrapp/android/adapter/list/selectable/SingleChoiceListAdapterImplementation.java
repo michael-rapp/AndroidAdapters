@@ -375,18 +375,19 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 
 	@Override
 	public final String toString() {
-		return "SingleChoiceListAdapter [sortingListeners="
-				+ getSortingListeners() + ", itemStateListeners="
-				+ getItemStateListeners() + ", numberOfItemStates="
-				+ getNumberOfItemStates() + ", triggerItemStateOnClick="
-				+ isItemStateTriggeredOnClick() + ", enableStateListeners="
-				+ getEnableStateListeners() + ", items=" + getItems()
-				+ ", adapterListeners=" + getAdapterListeners()
-				+ ", allowDuplicates=" + areDuplicatesAllowed()
-				+ ", filterListeners=" + getSelectionListeners()
-				+ ", appliedFilters=" + getAppliedFilters()
-				+ ", selectItemOnClick=" + isItemSelectedOnClick()
-				+ ", selectionListeners=" + getSelectionListeners() + "]";
+		return "SingleChoiceListAdapter [logLevel=" + getLogLevel()
+				+ ", sortingListeners=" + getSortingListeners()
+				+ ", itemStateListeners=" + getItemStateListeners()
+				+ ", numberOfItemStates=" + getNumberOfItemStates()
+				+ ", triggerItemStateOnClick=" + isItemStateTriggeredOnClick()
+				+ ", enableStateListeners=" + getEnableStateListeners()
+				+ ", items=" + getItems() + ", adapterListeners="
+				+ getAdapterListeners() + ", allowDuplicates="
+				+ areDuplicatesAllowed() + ", filterListeners="
+				+ getSelectionListeners() + ", appliedFilters="
+				+ getAppliedFilters() + ", selectItemOnClick="
+				+ isItemSelectedOnClick() + ", selectionListeners="
+				+ getSelectionListeners() + "]";
 	}
 
 	@Override
