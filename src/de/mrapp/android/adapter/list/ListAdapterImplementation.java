@@ -58,8 +58,17 @@ public class ListAdapterImplementation<DataType> extends
 	@Override
 	protected final void applyDecorator(final Context context, final View view,
 			final int index) {
-		getDecorator().applyDecorator(context, this, view, getItem(index),
-				index, isEnabled(index), getItemState(index), isFiltered());
+		DataType item = getItem(index);
+		boolean enabled = isEnabled(index);
+		int itemState = getItemState(index);
+		boolean filtered = isFiltered();
+		getDecorator().applyDecorator(context, this, view, item, index,
+				enabled, itemState, filtered);
+		String message = "Applied decorator \"" + getDecorator()
+				+ "\" using arguments: item=[" + item + ", index=" + index
+				+ ", enabled=" + enabled + ", itemState=" + itemState
+				+ ", filtered=" + filtered;
+		getLogger().logVerbose(getClass(), message);
 	}
 
 	/**
