@@ -519,9 +519,17 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 			applyFilter(appliedFilter);
 			notifyOnApplyFilter(regularExpression, null, getAllItems());
 			notifyDataSetChanged();
+			String message = "Applied filter using regular expression \""
+					+ regularExpression + "\"";
+			getLogger().logInfo(getClass(), message);
 			return true;
 		}
 
+		String message = "Filter using regular expression \""
+				+ regularExpression
+				+ "\" not applied, because a filter using the same "
+				+ "regular expression is already applied on the adapter";
+		getLogger().logDebug(getClass(), message);
 		return false;
 	}
 
@@ -536,9 +544,18 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 			applyFilter(appliedFilter);
 			notifyOnApplyFilter(regularExpression, filter, getAllItems());
 			notifyDataSetChanged();
+			String message = "Applied filter using regular expression \""
+					+ regularExpression + "\" and filter \"" + filter + "\"";
+			getLogger().logInfo(getClass(), message);
 			return true;
 		}
 
+		String message = "Filter using regular expression \""
+				+ regularExpression
+				+ "\" not applied, because a filter using the same "
+				+ "regular expression and filter is already applied "
+				+ "on the adapter";
+		getLogger().logDebug(getClass(), message);
 		return false;
 	}
 
@@ -555,8 +572,14 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 			applyAllFilters();
 			notifyOnResetFilter(regularExpression, getAllItems());
 			notifyDataSetChanged();
+			String message = "Reseted filter \"" + appliedFilter + "\"";
+			getLogger().logInfo(getClass(), message);
 			return true;
 		} else {
+			String message = "Filter with regular expression \""
+					+ regularExpression.pattern()
+					+ "\" not reseted, because no such filter is applied on the adapter";
+			getLogger().logDebug(getClass(), message);
 			return false;
 		}
 	}
@@ -567,6 +590,9 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 				appliedFilters)) {
 			resetFilter(appliedFilter.getRegularExpression());
 		}
+
+		String message = "Reseted all previously applied filters";
+		getLogger().logInfo(getClass(), message);
 	}
 
 	@Override
@@ -590,6 +616,8 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 			final ListFilterListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		filterListeners.add(listener);
+		String message = "Added filter listener \"" + listener + "\"";
+		getLogger().logDebug(getClass(), message);
 	}
 
 	@Override
@@ -597,6 +625,8 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 			final ListFilterListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		filterListeners.remove(listener);
+		String message = "Removed filter listener \"" + listener + "\"";
+		getLogger().logDebug(getClass(), message);
 	}
 
 	@Override
