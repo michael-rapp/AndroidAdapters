@@ -368,12 +368,25 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 	public final boolean select(final int index) {
 		Item<DataType> item = getItems().get(index);
 
-		if (item.isEnabled() && !item.isSelected()) {
-			item.setSelected(true);
-			notifyOnItemSelected(item.getData(), index);
-			notifyDataSetChanged();
-			return true;
+		if (item.isEnabled()) {
+			if (item.isSelected()) {
+				item.setSelected(true);
+				notifyOnItemSelected(item.getData(), index);
+				notifyDataSetChanged();
+				String message = "Selected item \"" + item + "\" at index "
+						+ index;
+				getLogger().logInfo(getClass(), message);
+				return true;
+			} else {
+				String message = "Item \"" + item + " at index " + index
+						+ " not selected, because it is already selected";
+				getLogger().logDebug(getClass(), message);
+				return false;
+			}
 		} else {
+			String message = "Item \"" + item + " at index " + index
+					+ " not selected, because it is disabled";
+			getLogger().logDebug(getClass(), message);
 			return false;
 		}
 	}
@@ -393,12 +406,25 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 	public final boolean unselect(final int index) {
 		Item<DataType> item = getItems().get(index);
 
-		if (item.isEnabled() && item.isSelected()) {
-			item.setSelected(false);
-			notifyOnItemUnselected(item.getData(), index);
-			notifyDataSetChanged();
-			return true;
+		if (item.isEnabled()) {
+			if (item.isSelected()) {
+				item.setSelected(false);
+				notifyOnItemUnselected(item.getData(), index);
+				notifyDataSetChanged();
+				String message = "Unselected item \"" + item + "\" at index "
+						+ index;
+				getLogger().logInfo(getClass(), message);
+				return true;
+			} else {
+				String message = "Item \"" + item + " at index " + index
+						+ " not unselected, because it is already unselected";
+				getLogger().logDebug(getClass(), message);
+				return false;
+			}
 		} else {
+			String message = "Item \"" + item + " at index " + index
+					+ " not unselected, because it is disabled";
+			getLogger().logDebug(getClass(), message);
 			return false;
 		}
 	}
@@ -410,21 +436,10 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 
 	@Override
 	public final boolean triggerSelection(final int index) {
-		Item<DataType> item = getItems().get(index);
-
-		if (item.isEnabled()) {
-			if (item.isSelected()) {
-				item.setSelected(false);
-				notifyOnItemUnselected(item.getData(), index);
-			} else {
-				item.setSelected(true);
-				notifyOnItemSelected(item.getData(), index);
-			}
-
-			notifyDataSetChanged();
-			return true;
+		if (isSelected(index)) {
+			return unselect(index);
 		} else {
-			return false;
+			return select(index);
 		}
 	}
 
