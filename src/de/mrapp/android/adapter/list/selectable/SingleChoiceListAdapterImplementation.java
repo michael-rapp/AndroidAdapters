@@ -341,23 +341,41 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 
 	@Override
 	public final boolean select(final int index) {
-		if (isEnabled(index) && !isSelected(index)) {
-			for (int i = 0; i < getNumberOfItems(); i++) {
-				Item<DataType> currentItem = getItems().get(i);
+		if (isEnabled(index)) {
+			if (!isSelected(index)) {
+				for (int i = 0; i < getNumberOfItems(); i++) {
+					Item<DataType> currentItem = getItems().get(i);
 
-				if (i == index && !currentItem.isSelected()) {
-					currentItem.setSelected(true);
-					notifyOnItemSelected(currentItem.getData(), i);
-				} else if (i != index && currentItem.isSelected()) {
-					currentItem.setSelected(false);
-					notifyOnItemUnselected(currentItem.getData(), i);
+					if (i == index && !currentItem.isSelected()) {
+						currentItem.setSelected(true);
+						notifyOnItemSelected(currentItem.getData(), i);
+						String message = "Selected item \"" + currentItem
+								+ "\" at index " + i;
+						getLogger().logInfo(getClass(), message);
+					} else if (i != index && currentItem.isSelected()) {
+						currentItem.setSelected(false);
+						notifyOnItemUnselected(currentItem.getData(), i);
+						String message = "Unselected item \"" + currentItem
+								+ "\" at index " + i;
+						getLogger().logInfo(getClass(), message);
+					}
 				}
-			}
 
-			selectUnfilteredItem(index);
-			notifyDataSetChanged();
-			return true;
+				selectUnfilteredItem(index);
+				notifyDataSetChanged();
+				return true;
+			} else {
+				DataType item = getItem(index);
+				String message = "Item \"" + item + "\" at index " + index
+						+ " not selected, because it is already selected";
+				getLogger().logDebug(getClass(), message);
+				return false;
+			}
 		} else {
+			DataType item = getItem(index);
+			String message = "Item \"" + item + "\" at index " + index
+					+ " not selected, because it is disabled";
+			getLogger().logDebug(getClass(), message);
 			return false;
 		}
 	}
