@@ -369,7 +369,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 		Item<DataType> item = getItems().get(index);
 
 		if (item.isEnabled()) {
-			if (item.isSelected()) {
+			if (!item.isSelected()) {
 				item.setSelected(true);
 				notifyOnItemSelected(item.getData(), index);
 				notifyDataSetChanged();
