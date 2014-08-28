@@ -67,7 +67,7 @@ public class ListAdapterImplementation<DataType> extends
 		String message = "Applied decorator \"" + getDecorator()
 				+ "\" using arguments: item=[" + item + ", index=" + index
 				+ ", enabled=" + enabled + ", itemState=" + itemState
-				+ ", filtered=" + filtered;
+				+ ", filtered=" + filtered + "]";
 		getLogger().logVerbose(getClass(), message);
 	}
 
