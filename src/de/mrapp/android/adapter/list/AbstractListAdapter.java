@@ -426,8 +426,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		ensureNotNull(item, "The item may not be null");
 
 		if (!areDuplicatesAllowed() && containsItem(item)) {
-			String message = "Item \"" + item
-					+ "\" not added, because adapter already contains item";
+			String message = "Item \"" + item + "\" at index " + index
+					+ " not added, because adapter already contains item";
 			getLogger().logDebug(getClass(), message);
 			return false;
 		}
