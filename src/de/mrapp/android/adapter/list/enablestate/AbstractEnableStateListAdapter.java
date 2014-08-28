@@ -354,6 +354,8 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 		item.setEnabled(true);
 		notifyOnItemEnabled(item.getData(), index);
 		notifyDataSetChanged();
+		String message = "Enabled item \"" + item + "\" at index " + index;
+		getLogger().logInfo(getClass(), message);
 	}
 
 	@Override
@@ -373,6 +375,8 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 		item.setEnabled(false);
 		notifyOnItemDisabled(item.getData(), index);
 		notifyDataSetChanged();
+		String message = "Disabled item \"" + item + "\" at index " + index;
+		getLogger().logInfo(getClass(), message);
 	}
 
 	@Override
@@ -388,18 +392,13 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final boolean triggerEnableState(final int index) {
-		Item<DataType> item = getItems().get(index);
-
-		if (item.isEnabled()) {
-			item.setEnabled(false);
-			notifyOnItemDisabled(item.getData(), index);
+		if (isEnabled(index)) {
+			disable(index);
+			return false;
 		} else {
-			item.setEnabled(true);
-			notifyOnItemEnabled(item.getData(), index);
+			enable(index);
+			return true;
 		}
-
-		notifyDataSetChanged();
-		return item.isEnabled();
 	}
 
 	@Override
@@ -439,6 +438,8 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 			final ListEnableStateListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		enableStateListeners.add(listener);
+		String message = "Added enable state listener \"" + listener + "\"";
+		getLogger().logDebug(getClass(), message);
 	}
 
 	@Override
@@ -446,6 +447,8 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 			final ListEnableStateListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		enableStateListeners.remove(listener);
+		String message = "Removed enable state listener \"" + listener + "\"";
+		getLogger().logDebug(getClass(), message);
 	}
 
 	@Override
