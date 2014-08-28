@@ -403,8 +403,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 			final ListAdapterListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		adapterListeners.add(listener);
-		getLogger().logDebug(getClass(),
-				"Added adapter listener \"" + listener + "\"");
+		String message = "Added adapter listener \"" + listener + "\"";
+		getLogger().logDebug(getClass(), message);
 	}
 
 	@Override
@@ -412,8 +412,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 			final ListAdapterListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		adapterListeners.remove(listener);
-		getLogger().logDebug(getClass(),
-				"Removed adapter listener \"" + listener + "\"");
+		String message = "Removed adapter listener \"" + listener + "\"";
+		getLogger().logDebug(getClass(), message);
 	}
 
 	@Override
