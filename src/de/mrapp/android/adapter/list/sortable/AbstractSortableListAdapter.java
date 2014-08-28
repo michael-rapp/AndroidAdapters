@@ -186,7 +186,6 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 	@Override
 	public final void sort() {
 		sort(Order.ASCENDING);
-
 	}
 
 	@Override
@@ -195,8 +194,12 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 
 		if (order == Order.ASCENDING) {
 			Collections.sort(getItems());
+			String message = "Sorted items in ascending order";
+			getLogger().logInfo(getClass(), message);
 		} else {
 			Collections.sort(getItems(), Collections.reverseOrder());
+			String message = "Sorted items in descending order";
+			getLogger().logInfo(getClass(), message);
 		}
 
 		notifyOnSorted(getAllItems(), order, null);
@@ -217,9 +220,15 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 
 		if (order == Order.ASCENDING) {
 			Collections.sort(getItems(), itemComparator);
+			String message = "Sorted items in ascending order using the comparator \""
+					+ itemComparator + "\"";
+			getLogger().logInfo(getClass(), message);
 		} else {
 			Collections.sort(getItems(),
 					Collections.reverseOrder(itemComparator));
+			String message = "Sorted items in descending order using the comparator \""
+					+ itemComparator + "\"";
+			getLogger().logInfo(getClass(), message);
 		}
 
 		notifyOnSorted(getAllItems(), order, comparator);
@@ -231,6 +240,8 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 			final ListSortingListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		sortingListeners.add(listener);
+		String message = "Added sorting listener \"" + listener + "\"";
+		getLogger().logDebug(getClass(), message);
 	}
 
 	@Override
@@ -238,6 +249,8 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 			final ListSortingListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		sortingListeners.remove(listener);
+		String message = "Removed sorting listener \"" + listener + "\"";
+		getLogger().logDebug(getClass(), message);
 	}
 
 	@Override
