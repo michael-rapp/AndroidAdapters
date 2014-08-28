@@ -17,9 +17,9 @@
  */
 package de.mrapp.android.adapter.list;
 
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
 import static de.mrapp.android.adapter.util.Condition.ensureAtMaximum;
+import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -393,6 +393,9 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	@Override
 	public final void allowDuplicates(final boolean allowDuplicates) {
 		this.allowDuplicates = allowDuplicates;
+		String message = "Duplicate items are now "
+				+ (allowDuplicates ? "allowed" : "disallowed");
+		getLogger().logDebug(getClass(), message);
 	}
 
 	@Override
@@ -400,6 +403,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 			final ListAdapterListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		adapterListeners.add(listener);
+		getLogger().logDebug(getClass(),
+				"Added adapter listener \"" + listener + "\"");
 	}
 
 	@Override
@@ -407,6 +412,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 			final ListAdapterListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		adapterListeners.remove(listener);
+		getLogger().logDebug(getClass(),
+				"Removed adapter listener \"" + listener + "\"");
 	}
 
 	@Override
@@ -419,12 +426,17 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		ensureNotNull(item, "The item may not be null");
 
 		if (!areDuplicatesAllowed() && containsItem(item)) {
+			String message = "Item \"" + item
+					+ "\" not added, because adapter already contains item";
+			getLogger().logDebug(getClass(), message);
 			return false;
 		}
 
 		items.add(index, new Item<DataType>(item));
 		notifyOnItemAdded(item, index);
 		notifyDataSetChanged();
+		String message = "Item \"" + item + "\" added";
+		getLogger().logInfo(getClass(), message);
 		return true;
 	}
 
@@ -468,6 +480,9 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		notifyOnItemRemoved(replacedItem, index);
 		notifyOnItemAdded(item, index);
 		notifyDataSetChanged();
+		String message = "Replaced item \"" + replacedItem + "\" at index "
+				+ index + " with item \"" + item + "\"";
+		getLogger().logInfo(getClass(), message);
 		return replacedItem;
 	}
 
@@ -476,6 +491,9 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		DataType removedItem = items.remove(index).getData();
 		notifyOnItemRemoved(removedItem, index);
 		notifyDataSetChanged();
+		String message = "Removed item \"" + removedItem + "\" from index "
+				+ index;
+		getLogger().logInfo(getClass(), message);
 		return removedItem;
 	}
 
@@ -488,9 +506,15 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 			items.remove(index);
 			notifyOnItemRemoved(item, index);
 			notifyDataSetChanged();
+			String message = "Removed item \"" + item + "\" from index "
+					+ index;
+			getLogger().logInfo(getClass(), message);
 			return true;
 		}
 
+		String message = "Item \"" + item
+				+ "\" not removed, because adapter does not contain item";
+		getLogger().logDebug(getClass(), message);
 		return false;
 	}
 
@@ -537,6 +561,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
 			removeItem(i);
 		}
+
+		getLogger().logInfo(getClass(), "Cleared all items");
 	}
 
 	@Override
@@ -653,9 +679,15 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		if (view == null) {
 			view = getInflater().inflate(getContext(), parent, false);
 			view.setOnClickListener(createItemOnClickListener(index));
+			String message = "Inflated view to visualize the item at index "
+					+ index;
+			getLogger().logVerbose(getClass(), message);
 		}
 
 		applyDecorator(getContext(), view, index);
+		String message = "Applied decorator to customize appearance of the item at index "
+				+ index;
+		getLogger().logVerbose(getClass(), message);
 		return view;
 	}
 
@@ -668,13 +700,16 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 			outState.putSerializable(ITEMS_BUNDLE_KEY, wrappedItems);
 		} else {
 			String message = "The adapter's items can not be stored, because the "
-					+ "underlying data does not implement the interface Serializable";
+					+ "underlying data does not implement the interface \""
+					+ Serializable.class.getName() + "\"";
 			getLogger().logWarn(getClass(), message);
 		}
 
 		outState.putBoolean(ALLOW_DUPLICATES_BUNDLE_KEY, areDuplicatesAllowed());
 
 		outState.putInt(LOG_LEVEL_BUNDLE_KEY, getLogLevel().getRank());
+
+		getLogger().logDebug(getClass(), "Saved instance state");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -694,6 +729,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 					.getInt(LOG_LEVEL_BUNDLE_KEY)));
 
 			notifyDataSetChanged();
+			getLogger().logDebug(getClass(), "Restored instance state");
 		}
 	}
 
