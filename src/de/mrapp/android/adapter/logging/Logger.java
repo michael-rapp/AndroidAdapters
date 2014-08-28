@@ -75,6 +75,51 @@ public class Logger {
 	}
 
 	/**
+	 * Logs a specific message on the log level VERBOSE.
+	 * 
+	 * @param tag
+	 *            The tag, which identifies the source of the log message, as an
+	 *            instance of the class {@link Class}. The tag may not be null
+	 * @param message
+	 *            The message, which should be logged, as a {@link String}. The
+	 *            message may neither be null, nor empty
+	 */
+	public final void logVerbose(final Class<?> tag, final String message) {
+		ensureNotNull(tag, "The tag may not be null");
+		ensureNotNull(message, "The message may not be null");
+		ensureNotEmpty(message, "The message may not be empty");
+
+		if (LogLevel.VERBOSE.getRank() >= getLogLevel().getRank()) {
+			Log.v(getTruncatedName(tag), message);
+		}
+	}
+
+	/**
+	 * Logs a specific message and exception on the log level VERBOSE.
+	 * 
+	 * @param tag
+	 *            The tag, which identifies the source of the log message, as an
+	 *            instance of the class {@link Class}. The tag may not be null
+	 * @param message
+	 *            The message, which should be logged, as a {@link String}. The
+	 *            message may neither be null, nor empty
+	 * @param cause
+	 *            The exception, which caused the log message, as an instance of
+	 *            the class {@link Throwable}. The cause may not be null
+	 */
+	public final void logVerbose(final Class<?> tag, final String message,
+			final Throwable cause) {
+		ensureNotNull(tag, "The tag may not be null");
+		ensureNotNull(message, "The message may not be null");
+		ensureNotEmpty(message, "The message may not be empty");
+		ensureNotNull(cause, "The cause may not be null");
+
+		if (LogLevel.VERBOSE.getRank() >= getLogLevel().getRank()) {
+			Log.v(getTruncatedName(tag), message, cause);
+		}
+	}
+
+	/**
 	 * Logs a specific message on the log level DEBUG.
 	 * 
 	 * @param tag
