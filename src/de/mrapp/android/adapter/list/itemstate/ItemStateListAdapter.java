@@ -97,7 +97,7 @@ public interface ItemStateListAdapter<DataType> {
 
 	/**
 	 * Sets the state of the item, which belongs to a specific index, to a
-	 * specific state.
+	 * specific state, if it is currently enabled.
 	 * 
 	 * @param index
 	 *            The index of the item, whose state should be set, as an
@@ -110,12 +110,14 @@ public interface ItemStateListAdapter<DataType> {
 	 *            <code>getNumberOfStates():int</code> - 1, otherwise an
 	 *            {@link IllegalArgumentException} will be thrown
 	 * @return The previous state of the item, which belongs to the given index,
-	 *         as an {@link Integer} value
+	 *         as an {@link Integer} value or -1, if the state has not been
+	 *         changed
 	 */
 	int setItemState(int index, int state);
 
 	/**
-	 * Sets the state of a specific item to a specific state.
+	 * Sets the state of a specific item to a specific state, if it is currently
+	 * enabled.
 	 * 
 	 * @param item
 	 *            The item, whose state should be set, as an instance of the
@@ -128,24 +130,29 @@ public interface ItemStateListAdapter<DataType> {
 	 *            <code>getNumberOfStates():int</code> - 1, otherwise an
 	 *            {@link IllegalArgumentException} will be thrown
 	 * @return The previous state of the given item as an {@link Integer} value
+	 *         or -1, if the state has not been changed
 	 */
 	int setItemState(DataType item, int state);
 
 	/**
-	 * Sets the states of all items to a specific state.
+	 * Sets the states of all items to a specific state, if they are currently
+	 * enabled.
 	 * 
 	 * @param state
 	 *            The state, which should be set, as an {@link Integer} value.
 	 *            The state must be between 0 and the value of the method
 	 *            <code>getNumberOfStates():int</code> - 1, otherwise an
 	 *            {@link IllegalArgumentException} will be thrown
+	 * @return True, if the states of all items have been changed, false
+	 *         otherwise
 	 */
-	void setAllItemStates(int state);
+	boolean setAllItemStates(int state);
 
 	/**
-	 * Triggers the state of the item, which belongs to a specific index. This
-	 * causes the state to be increased by one. If the state is already the
-	 * maximum state, the state will be set to 0 instead.
+	 * Triggers the state of the item, which belongs to a specific index, if it
+	 * is currently enabled. This causes the state to be increased by one. If
+	 * the state is already the maximum state, the state will be set to 0
+	 * instead.
 	 * 
 	 * @param index
 	 *            The index of the item, whose state should be triggered, as an
@@ -153,14 +160,15 @@ public interface ItemStateListAdapter<DataType> {
 	 *            value of the method <code>getNumberOfItems():int</code> - 1,
 	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
 	 * @return The previous state of the item, which belongs to the given index,
-	 *         as an {@link Integer} value
+	 *         as an {@link Integer} value or -1, if the state has not been
+	 *         changed
 	 */
 	int triggerItemState(int index);
 
 	/**
-	 * Triggers the state of a specific item. This causes the state to be
-	 * increased by one. If the state is already the maximum state, the state
-	 * will be set to 0 instead.
+	 * Triggers the state of a specific item, if it is currently enabled. This
+	 * causes the state to be increased by one. If the state is already the
+	 * maximum state, the state will be set to 0 instead.
 	 * 
 	 * @param item
 	 *            The item, whose state should be triggered, as an instance of
@@ -168,15 +176,19 @@ public interface ItemStateListAdapter<DataType> {
 	 *            item does not belong to the adapter, a
 	 *            {@link NoSuchElementException} will be thrown
 	 * @return The previous state of the given item, as an {@link Integer} value
+	 *         or -1, if the state has not been changed
 	 */
 	int triggerItemState(DataType item);
 
 	/**
-	 * Triggers the states of all items. This causes the states to be increased
-	 * by one. If a state is already the maximum state, the state will be set to
-	 * 0 instead.
+	 * Triggers the states of all items. if they are currently enabled. This
+	 * causes the states to be increased by one. If a state is already the
+	 * maximum state, the state will be set to 0 instead.
+	 * 
+	 * @return True, if the states of all items have been changed, false
+	 *         otherwise
 	 */
-	void triggerAllItemStates();
+	boolean triggerAllItemStates();
 
 	/**
 	 * Returns the index of the first item, which currently has a specific

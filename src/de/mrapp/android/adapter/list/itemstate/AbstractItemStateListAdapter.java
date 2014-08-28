@@ -269,14 +269,33 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 		ensureAtMaximum(state, maxItemState(), "The state must at maximum "
 				+ maxItemState(), IllegalArgumentException.class);
 		Item<DataType> item = getItems().get(index);
-		int previousState = item.getState();
-		item.setState(state);
-		notifyOnItemStateChanged(item.getData(), index, state);
-		notifyDataSetChanged();
-		String message = "Changed state of item \"" + item + "\" at index "
-				+ index + " from " + previousState + " to " + state;
-		getLogger().logInfo(getClass(), message);
-		return previousState;
+
+		if (item.isEnabled()) {
+			if (item.getState() != state) {
+				int previousState = item.getState();
+				item.setState(state);
+				notifyOnItemStateChanged(item.getData(), index, state);
+				notifyDataSetChanged();
+				String message = "Changed state of item \"" + item.getData()
+						+ "\" at index " + index + " from " + previousState
+						+ " to " + state;
+				getLogger().logInfo(getClass(), message);
+				return previousState;
+			} else {
+				String message = "The state of item \"" + item.getData()
+						+ "\" at index " + index
+						+ " has not been changed, because state " + state
+						+ " is already set";
+				getLogger().logDebug(getClass(), message);
+				return -1;
+			}
+		} else {
+			String message = "The state of item \"" + item.getData()
+					+ "\" at index " + index
+					+ " has not been changed, because the item is disabled";
+			getLogger().logDebug(getClass(), message);
+			return -1;
+		}
 	}
 
 	@Override
@@ -285,28 +304,35 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public final void setAllItemStates(final int state) {
+	public final boolean setAllItemStates(final int state) {
 		ensureAtLeast(state, minItemState(), "The state must be at least "
 				+ minItemState(), IllegalArgumentException.class);
 		ensureAtMaximum(state, maxItemState(), "The state must be at maximum "
 				+ maxItemState(), IllegalArgumentException.class);
+		boolean result = true;
 
 		for (int i = 0; i < getNumberOfItems(); i++) {
-			setItemState(i, state);
+			result &= (setItemState(i, state) != -1);
 		}
+
+		return result;
 	}
 
 	@Override
 	public final int triggerItemState(final int index) {
-		int previousState = getItemState(index);
+		if (isEnabled(index)) {
+			int previousState = getItemState(index);
 
-		if (previousState == maxItemState()) {
-			setItemState(index, 0);
+			if (previousState == maxItemState()) {
+				setItemState(index, 0);
+			} else {
+				setItemState(index, previousState + 1);
+			}
+
+			return previousState;
 		} else {
-			setItemState(index, previousState + 1);
+			return -1;
 		}
-
-		return previousState;
 	}
 
 	@Override
@@ -321,10 +347,14 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public final void triggerAllItemStates() {
+	public final boolean triggerAllItemStates() {
+		boolean result = true;
+
 		for (int i = 0; i < getNumberOfItems(); i++) {
-			triggerItemState(i);
+			result &= (triggerItemState(i) != -1);
 		}
+
+		return result;
 	}
 
 	@Override
