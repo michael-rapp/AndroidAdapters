@@ -153,6 +153,8 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 		super.onItemClicked(index);
 
 		if (isItemStateTriggeredOnClick()) {
+			getLogger().logVerbose(getClass(),
+					"Triggering item state on click...");
 			triggerItemState(index);
 		}
 	}
@@ -226,6 +228,8 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 		ensureAtLeast(numberOfItemStates, 1, "The number of items states "
 				+ "must be at least 1", IllegalArgumentException.class);
 		this.numberOfItemStates = numberOfItemStates;
+		String message = "Set number of item state to " + numberOfItemStates;
+		getLogger().logDebug(getClass(), message);
 
 		for (int i = 0; i < getNumberOfItems(); i++) {
 			if (getItemState(i) > maxItemState()) {
@@ -269,6 +273,9 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 		item.setState(state);
 		notifyOnItemStateChanged(item.getData(), index, state);
 		notifyDataSetChanged();
+		String message = "Changed state of item \"" + item + "\" at index "
+				+ index + " from " + previousState + " to " + state;
+		getLogger().logInfo(getClass(), message);
 		return previousState;
 	}
 
@@ -291,17 +298,14 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final int triggerItemState(final int index) {
-		Item<DataType> item = getItems().get(index);
-		int previousState = item.getState();
+		int previousState = getItemState(index);
 
 		if (previousState == maxItemState()) {
-			item.setState(0);
+			setItemState(index, 0);
 		} else {
-			item.setState(previousState + 1);
+			setItemState(index, previousState + 1);
 		}
 
-		notifyOnItemStateChanged(item.getData(), index, item.getState());
-		notifyDataSetChanged();
 		return previousState;
 	}
 
@@ -409,6 +413,10 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 	public final void triggerItemStateOnClick(
 			final boolean triggerItemStateOnClick) {
 		this.triggerItemStateOnClick = triggerItemStateOnClick;
+		String message = "Item states are now "
+				+ (triggerItemStateOnClick ? "" : "not ")
+				+ "triggered on click";
+		getLogger().logDebug(getClass(), message);
 	}
 
 	@Override
@@ -416,6 +424,8 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 			final ListItemStateListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		itemStateListeners.add(listener);
+		String message = "Added item state listener \"" + listener + "\"";
+		getLogger().logDebug(getClass(), message);
 	}
 
 	@Override
@@ -423,6 +433,8 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 			final ListItemStateListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		itemStateListeners.remove(listener);
+		String message = "Removed item state listener \"" + listener + "\"";
+		getLogger().logDebug(getClass(), message);
 	}
 
 	@Override
