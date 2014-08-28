@@ -35,34 +35,41 @@ public enum LogLevel {
 	ALL(0),
 
 	/**
+	 * The VERBOSE level designates logging on the highest level of detail,
+	 * which is intended to provide very fine-grained information for
+	 * developers.
+	 */
+	VERBOSE(1),
+
+	/**
 	 * The DEBUG level designates logging on a high level of detail, which is
 	 * intended to provide information for developers.
 	 */
-	DEBUG(1),
+	DEBUG(2),
 
 	/**
 	 * The INFO level designates logging on a level of detail, which is intended
 	 * to give an rudimentary insight on the behavior of the software.
 	 */
-	INFO(2),
+	INFO(3),
 
 	/**
 	 * The WARN level designates logging on a low level of detail, which is
 	 * intended to inform about potentially harmful situations.
 	 */
-	WARN(3),
+	WARN(4),
 
 	/**
 	 * The ERROR level designates logging on the lowest level of detail, which
 	 * is intended to only inform about the occurrence of critical errors.
 	 */
-	ERROR(4),
+	ERROR(5),
 
 	/**
 	 * The OFF level has the highest possible rank and is intended to turn off
 	 * all logging.
 	 */
-	OFF(5);
+	OFF(6);
 
 	/**
 	 * The log level's rank.
@@ -105,14 +112,16 @@ public enum LogLevel {
 		case 0:
 			return ALL;
 		case 1:
-			return DEBUG;
+			return VERBOSE;
 		case 2:
-			return INFO;
+			return DEBUG;
 		case 3:
-			return WARN;
+			return INFO;
 		case 4:
-			return ERROR;
+			return WARN;
 		case 5:
+			return ERROR;
+		case 6:
 			return OFF;
 		default:
 			throw new IllegalArgumentException();
