@@ -341,8 +341,10 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 
 	@Override
 	public final boolean select(final int index) {
-		if (isEnabled(index)) {
-			if (!isSelected(index)) {
+		Item<DataType> item = getItems().get(index);
+
+		if (item.isEnabled()) {
+			if (!item.isSelected()) {
 				for (int i = 0; i < getNumberOfItems(); i++) {
 					Item<DataType> currentItem = getItems().get(i);
 
@@ -365,16 +367,15 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 				notifyDataSetChanged();
 				return true;
 			} else {
-				DataType item = getItem(index);
-				String message = "Item \"" + item + "\" at index " + index
+				String message = "Item \"" + item.getData() + "\" at index "
+						+ index
 						+ " not selected, because it is already selected";
 				getLogger().logDebug(getClass(), message);
 				return false;
 			}
 		} else {
-			DataType item = getItem(index);
-			String message = "Item \"" + item + "\" at index " + index
-					+ " not selected, because it is disabled";
+			String message = "Item \"" + item.getData() + "\" at index "
+					+ index + " not selected, because it is disabled";
 			getLogger().logDebug(getClass(), message);
 			return false;
 		}
