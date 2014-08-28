@@ -685,9 +685,6 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		}
 
 		applyDecorator(getContext(), view, index);
-		String message = "Applied decorator to customize appearance of the item at index "
-				+ index;
-		getLogger().logVerbose(getClass(), message);
 		return view;
 	}
 
