@@ -378,13 +378,14 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 				getLogger().logInfo(getClass(), message);
 				return true;
 			} else {
-				String message = "Item \"" + item + " at index " + index
+				String message = "Item \"" + item.getData() + " at index "
+						+ index
 						+ " not selected, because it is already selected";
 				getLogger().logDebug(getClass(), message);
 				return false;
 			}
 		} else {
-			String message = "Item \"" + item + " at index " + index
+			String message = "Item \"" + item.getData() + " at index " + index
 					+ " not selected, because it is disabled";
 			getLogger().logDebug(getClass(), message);
 			return false;
