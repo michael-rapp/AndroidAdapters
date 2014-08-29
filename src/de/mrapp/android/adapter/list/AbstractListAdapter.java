@@ -147,7 +147,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	 */
 	private void notifyOnItemAdded(final DataType item, final int index) {
 		for (ListAdapterListener<DataType> listener : adapterListeners) {
-			listener.onItemAdded(item, index);
+			listener.onItemAdded(this, item, index);
 		}
 	}
 
@@ -168,7 +168,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	 */
 	private void notifyOnItemRemoved(final DataType item, final int index) {
 		for (ListAdapterListener<DataType> listener : adapterListeners) {
-			listener.onItemRemoved(item, index);
+			listener.onItemRemoved(this, item, index);
 		}
 	}
 

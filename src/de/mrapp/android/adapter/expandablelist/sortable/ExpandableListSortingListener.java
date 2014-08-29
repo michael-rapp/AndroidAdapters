@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.Comparator;
 
 import android.renderscript.Element.DataType;
+import de.mrapp.android.adapter.ExpandableListAdapter;
 import de.mrapp.android.adapter.Order;
 
 /**
@@ -45,6 +46,9 @@ public interface ExpandableListSortingListener<GroupType, ChildType> {
 	 * The method, which is invoked, when the adapter's group items have been
 	 * sorted.
 	 * 
+	 * @param adapter
+	 *            The observed adapter as an instance of the type
+	 *            {@link ExpandableListAdapter}. The adapter may not be null
 	 * @param sortedGroups
 	 *            A collection, which contains the adapter's sorted group items,
 	 *            as an instance of the type {@link Collection} or an empty
@@ -59,13 +63,17 @@ public interface ExpandableListSortingListener<GroupType, ChildType> {
 	 *            null, if the group items' implementation of the type
 	 *            {@link Comparable} has been used instead
 	 */
-	void onGroupsSorted(Collection<DataType> sortedGroups, Order order,
+	void onGroupsSorted(ExpandableListAdapter<GroupType, ChildType> adapter,
+			Collection<DataType> sortedGroups, Order order,
 			Comparator<DataType> comparator);
 
 	/**
 	 * The method, which is invoked, when the child items of a group of the
 	 * adapter have been sorted.
 	 * 
+	 * @param adapter
+	 *            The observed adapter as an instance of the type
+	 *            {@link ExpandableListAdapter}. The adapter may not be null
 	 * @param sortedChildren
 	 *            A collection, which contains the group's sorted child items,
 	 *            as an instance of the type {@link Collection} or an empty
@@ -86,7 +94,8 @@ public interface ExpandableListSortingListener<GroupType, ChildType> {
 	 *            The index of the group, whose child items have been sorted, as
 	 *            an {@link Integer} value
 	 */
-	void onChildrenSorted(Collection<DataType> sortedChildren, Order order,
+	void onChildrenSorted(ExpandableListAdapter<GroupType, ChildType> adapter,
+			Collection<DataType> sortedChildren, Order order,
 			Comparator<DataType> comparator, GroupType group, int groupIndex);
 
 }

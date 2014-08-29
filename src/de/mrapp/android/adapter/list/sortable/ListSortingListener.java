@@ -20,6 +20,7 @@ package de.mrapp.android.adapter.list.sortable;
 import java.util.Collection;
 import java.util.Comparator;
 
+import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.Order;
 
 /**
@@ -38,6 +39,9 @@ public interface ListSortingListener<DataType> {
 	/**
 	 * The method, which is invoked, when the adapter's items have been sorted.
 	 * 
+	 * @param adapter
+	 *            The observed adapters as an instance of the type
+	 *            {@link ListAdapter}. The adapter may not be null
 	 * @param sortedItems
 	 *            A collection, which contains the adapter's sorted items, as an
 	 *            instance of the type {@link Collection} or an empty
@@ -52,7 +56,8 @@ public interface ListSortingListener<DataType> {
 	 *            if the items' implementation of the type {@link Comparable}
 	 *            has been used instead
 	 */
-	void onSorted(Collection<DataType> sortedItems, Order order,
+	void onSorted(ListAdapter<DataType> adapter,
+			Collection<DataType> sortedItems, Order order,
 			Comparator<DataType> comparator);
 
 }

@@ -34,6 +34,9 @@ public interface ListSelectionListener<DataType> {
 	/**
 	 * The method, which is invoked, when an item has been selected.
 	 * 
+	 * @param adapter
+	 *            The observed adapters as an instance of the type
+	 *            {@link SelectableListAdapter}. The adapter may not be null
 	 * @param item
 	 *            The item, which has been selected, as an instance of the
 	 *            generic type DataType. The item may not be null
@@ -41,11 +44,15 @@ public interface ListSelectionListener<DataType> {
 	 *            The index of the item, which has been selected, as an
 	 *            {@link Integer} value
 	 */
-	void onItemSelected(DataType item, int index);
+	void onItemSelected(SelectableListAdapter<DataType> adapter, DataType item,
+			int index);
 
 	/**
 	 * The method, which is invoked, when an item has been unselected.
 	 * 
+	 * @param adapter
+	 *            The observed adapters as an instance of the type
+	 *            {@link SelectableListAdapter}. The adapter may not be null
 	 * @param item
 	 *            The item, which has been unselected, as an instance of the
 	 *            generic type DataType. The item may not be null
@@ -53,6 +60,7 @@ public interface ListSelectionListener<DataType> {
 	 *            The index of the item, which has been unselected, as an
 	 *            {@link Integer} value
 	 */
-	void onItemUnselected(DataType item, int index);
+	void onItemUnselected(SelectableListAdapter<DataType> adapter,
+			DataType item, int index);
 
 }

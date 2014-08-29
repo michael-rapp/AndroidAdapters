@@ -27,6 +27,7 @@ import java.util.regex.Pattern;
 
 import android.content.Context;
 import de.mrapp.android.adapter.Filter;
+import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.SelectableListDecorator;
 import de.mrapp.android.adapter.SingleChoiceListAdapter;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
@@ -73,14 +74,16 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 		return new ListAdapterListener<DataType>() {
 
 			@Override
-			public void onItemAdded(final DataType item, final int index) {
+			public void onItemAdded(final ListAdapter<DataType> adapter,
+					final DataType item, final int index) {
 				if (getNumberOfItems() == 1) {
 					select(index);
 				}
 			}
 
 			@Override
-			public void onItemRemoved(final DataType item, final int index) {
+			public void onItemRemoved(final ListAdapter<DataType> adapter,
+					final DataType item, final int index) {
 				if (getSelectedIndex() == -1) {
 					selectNearestEnabledItem(index);
 				}
@@ -100,14 +103,16 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 		return new ListEnableStateListener<DataType>() {
 
 			@Override
-			public void onItemEnabled(final DataType item, final int index) {
+			public void onItemEnabled(final ListAdapter<DataType> adapter,
+					final DataType item, final int index) {
 				if (getNumberOfItems() == 1) {
 					select(index);
 				}
 			}
 
 			@Override
-			public void onItemDisabled(final DataType item, final int index) {
+			public void onItemDisabled(final ListAdapter<DataType> adapter,
+					final DataType item, final int index) {
 				if (isSelected(index)) {
 					getItems().get(index).setSelected(false);
 					notifyOnItemUnselected(item, index);
@@ -131,7 +136,8 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 		return new ListFilterListener<DataType>() {
 
 			@Override
-			public void onApplyFilter(final Pattern regularExpression,
+			public void onApplyFilter(final ListAdapter<DataType> adapter,
+					final Pattern regularExpression,
 					final Filter<DataType> filter,
 					final Collection<DataType> filteredItems) {
 				if (isFiltered() && getSelectedIndex() == -1 && !isEmpty()) {
@@ -140,7 +146,8 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 			}
 
 			@Override
-			public void onResetFilter(final Pattern regularExpression,
+			public void onResetFilter(final ListAdapter<DataType> adapter,
+					final Pattern regularExpression,
 					final Collection<DataType> filteredItems) {
 				return;
 			}

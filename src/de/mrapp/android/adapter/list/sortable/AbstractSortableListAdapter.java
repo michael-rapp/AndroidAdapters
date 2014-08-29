@@ -88,7 +88,7 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 	private void notifyOnSorted(final Collection<DataType> sortedItems,
 			final Order order, final Comparator<DataType> comparator) {
 		for (ListSortingListener<DataType> listener : sortingListeners) {
-			listener.onSorted(sortedItems, order, comparator);
+			listener.onSorted(this, sortedItems, order, comparator);
 		}
 	}
 
