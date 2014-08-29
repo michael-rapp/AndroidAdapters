@@ -21,8 +21,11 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import android.content.Context;
+import android.view.View;
 import de.mrapp.android.adapter.ExpandableListDecorator;
+import de.mrapp.android.adapter.SelectableListDecorator;
 import de.mrapp.android.adapter.inflater.Inflater;
+import de.mrapp.android.adapter.list.selectable.SelectableListAdapter;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
@@ -44,6 +47,29 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType>
 		AbstractExpandableListAdapter<GroupType, ChildType, ExpandableListDecorator<GroupType, ChildType>> {
 
 	/**
+	 * An implementation of the abstract class {@link SelectableListDecorator},
+	 * which is used to customize the appearance of the views, which are used to
+	 * visualize the adapter's child items. The decorator's method calls are
+	 * therefore delegated to the adapter's actual decorator.
+	 */
+	private class ChildDecorator extends SelectableListDecorator<ChildType> {
+
+		@Override
+		protected void onShowItem(final Context context,
+				final SelectableListAdapter<ChildType> adapter,
+				final View view, final ChildType item, final int index,
+				final boolean enabled, final int state, final boolean filtered,
+				final boolean selected) {
+			int groupIndex = indexOfChild(item);
+			GroupType group = getGroup(groupIndex);
+			getDecorator().applyDecoratorOnChild(context,
+					ExpandableListAdapterImplementation.this, view, item,
+					index, group, groupIndex, enabled, state, filtered);
+		}
+
+	}
+
+	/**
 	 * The constant serial version UID.
 	 */
 	private static final long serialVersionUID = 1L;
@@ -63,7 +89,13 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType>
 	public ExpandableListAdapterImplementation(final Context context,
 			final Inflater groupInflater, final Inflater childInflater,
 			final ExpandableListDecorator<GroupType, ChildType> decorator) {
-		this(context, groupInflater, childInflater, decorator, false, false,
+		this(
+				context,
+				groupInflater,
+				childInflater,
+				decorator,
+				false,
+				false,
 				new LinkedHashSet<ExpandableListAdapterListener<GroupType, ChildType>>());
 	}
 
@@ -74,9 +106,31 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType>
 	}
 
 	@Override
+	protected final void applyDecoratorOnGroup(final Context context,
+			final View view, final int index) {
+		GroupType group = getGroup(index);
+		getDecorator().applyDecoratorOnGroup(context, this, view, group, index,
+				true, 0, false);
+	}
+
+	@Override
+	protected final void applyDecoratorOnChild(final Context context,
+			final View view, final int groupIndex, final int childIndex) {
+		GroupType group = getGroup(groupIndex);
+		ChildType child = getChild(groupIndex, childIndex);
+		getDecorator().applyDecoratorOnChild(context, this, view, child,
+				childIndex, group, groupIndex, true, 0, false);
+	}
+
+	@Override
 	protected final ChildDecoratorFactory<ChildType> getChildDecoratorFactory() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ChildDecoratorFactory<ChildType>() {
+
+			@Override
+			public SelectableListDecorator<ChildType> createChildDecorator() {
+				return new ChildDecorator();
+			}
+		};
 	}
 
 	@Override
