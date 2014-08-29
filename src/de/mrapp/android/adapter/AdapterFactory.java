@@ -19,6 +19,7 @@ package de.mrapp.android.adapter;
 
 import android.content.Context;
 import android.view.View;
+import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterImplementation;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.inflater.InflaterFactory;
 import de.mrapp.android.adapter.list.ListAdapterImplementation;
@@ -219,6 +220,80 @@ public final class AdapterFactory {
 		Inflater inflater = InflaterFactory.createInflater(view);
 		return new MultipleChoiceListAdapterImplementation<DataType>(context,
 				inflater, decorator);
+	}
+
+	/**
+	 * Creates and returns an adapter, whose underlying data is managed as a
+	 * list of arbitrary group and child items.
+	 * 
+	 * @param <GroupType>
+	 *            The type of the underlying data of the adapter's group items
+	 * @param <ChildType>
+	 *            The type of the underlying data of the adapter's child items
+	 * @param context
+	 *            The context, the adapter belongs to, as an instance of the
+	 *            class {@link Context}. The context may not be null
+	 * @param decorator
+	 *            The decorator, which should be used to customize the
+	 *            appearance of the views, which are used to visualize the group
+	 *            and child items of the adapter, as an instance of the type
+	 *            {@link ExpandableListDecorator}. The decorator may not be null
+	 * @param groupViewId
+	 *            The resource id of the view, which should be used to visualize
+	 *            the group items of the adapter, as an {@link Integer} value.
+	 *            The id must correspond to a valid view resource
+	 * @param childViewId
+	 *            The resource id of the view, which should be used to visualize
+	 *            the child items of the adapter, as an {@link Integer} value.
+	 *            The id must correspond to a valid view resource
+	 * @return The adapter, which has been created, as an instance of the type
+	 *         {@link ListAdapter}
+	 */
+	public static <GroupType, ChildType> ExpandableListAdapter<GroupType, ChildType> createExpandableListAdapter(
+			final Context context,
+			final ExpandableListDecorator<GroupType, ChildType> decorator,
+			final int groupViewId, final int childViewId) {
+		Inflater groupInflater = InflaterFactory.createInflater(groupViewId);
+		Inflater childInflater = InflaterFactory.createInflater(childViewId);
+		return new ExpandableListAdapterImplementation<GroupType, ChildType>(
+				context, groupInflater, childInflater, decorator);
+	}
+
+	/**
+	 * Creates and returns an adapter, whose underlying data is managed as a
+	 * list of arbitrary group and child items.
+	 * 
+	 * @param <GroupType>
+	 *            The type of the underlying data of the adapter's group items
+	 * @param <ChildType>
+	 *            The type of the underlying data of the adapter's child items
+	 * @param context
+	 *            The context, the adapter belongs to, as an instance of the
+	 *            class {@link Context}. The context may not be null
+	 * @param decorator
+	 *            The decorator, which should be used to customize the
+	 *            appearance of the views, which are used to visualize the group
+	 *            and child items of the adapter, as an instance of the type
+	 *            {@link ExpandableListDecorator}. The decorator may not be null
+	 * @param groupView
+	 *            The view, which should be used to visualize the group items of
+	 *            the adapter, as an instance of the class {@link View}. The
+	 *            view may not be null
+	 * @param childView
+	 *            The view, which should be used to visualize the child items of
+	 *            the adapter, as an instance of the class {@link View}. The
+	 *            view may not be null
+	 * @return The adapter, which has been created, as an instance of the type
+	 *         {@link ListAdapter}
+	 */
+	public static <GroupType, ChildType> ExpandableListAdapter<GroupType, ChildType> createExpandableListAdapter(
+			final Context context,
+			final ExpandableListDecorator<GroupType, ChildType> decorator,
+			final View groupView, final View childView) {
+		Inflater groupInflater = InflaterFactory.createInflater(groupView);
+		Inflater childInflater = InflaterFactory.createInflater(childView);
+		return new ExpandableListAdapterImplementation<GroupType, ChildType>(
+				context, groupInflater, childInflater, decorator);
 	}
 
 }
