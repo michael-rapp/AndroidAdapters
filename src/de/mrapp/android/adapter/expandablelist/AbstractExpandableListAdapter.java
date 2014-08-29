@@ -121,6 +121,26 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 						.createChildDecorator());
 	}
 
+	protected final Context getContext() {
+		return context;
+	}
+
+	protected final Inflater getGroupInflater() {
+		return groupInflater;
+	}
+
+	protected final Inflater getChildInflater() {
+		return childInflater;
+	}
+
+	protected DecoratorType getDecorator() {
+		return decorator;
+	}
+
+	protected Set<ExpandableListAdapterListener<GroupType, ChildType>> getAdapterListeners() {
+		return adapterListeners;
+	}
+
 	protected abstract ChildDecoratorFactory<ChildType> getChildDecoratorFactory();
 
 	protected AbstractExpandableListAdapter(
