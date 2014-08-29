@@ -201,16 +201,6 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 	}
 
 	@Override
-	public final boolean isUnselected(final int index) {
-		return !isSelected(index);
-	}
-
-	@Override
-	public final boolean isUnselected(final DataType item) {
-		return !isSelected(item);
-	}
-
-	@Override
 	public final int getFirstSelectedIndex() {
 		for (int i = 0; i < getNumberOfItems(); i++) {
 			if (getItems().get(i).isSelected()) {
@@ -352,16 +342,6 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 		}
 
 		return unselectedItems;
-	}
-
-	@Override
-	public final int getNumberOfSelectedItems() {
-		return getSelectedItems().size();
-	}
-
-	@Override
-	public final int getNumberOfUnselectedItems() {
-		return getUnselectedItems().size();
 	}
 
 	@Override

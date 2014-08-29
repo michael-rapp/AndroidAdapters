@@ -298,6 +298,42 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	}
 
 	@Override
+	public final boolean isUnselected(final int index) {
+		return !isSelected(index);
+	}
+
+	@Override
+	public final boolean isUnselected(final DataType item) {
+		return !isSelected(item);
+	}
+
+	@Override
+	public final int getNumberOfSelectedItems() {
+		int result = 0;
+
+		for (Item<DataType> item : getItems()) {
+			if (item.isSelected()) {
+				result++;
+			}
+		}
+
+		return result;
+	}
+
+	@Override
+	public final int getNumberOfUnselectedItems() {
+		int result = 0;
+
+		for (Item<DataType> item : getItems()) {
+			if (!item.isSelected()) {
+				result++;
+			}
+		}
+
+		return result;
+	}
+
+	@Override
 	public final boolean isItemSelectedOnClick() {
 		return selectItemOnClick;
 	}
