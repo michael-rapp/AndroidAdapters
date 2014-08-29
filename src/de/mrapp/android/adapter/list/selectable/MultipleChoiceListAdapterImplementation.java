@@ -84,6 +84,17 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 		};
 	}
 
+	@Override
+	protected final void onItemClicked(final int index) {
+		super.onItemClicked(index);
+
+		if (isItemSelectedOnClick()) {
+			getLogger().logVerbose(getClass(),
+					"Triggering item selection on click...");
+			triggerSelection(index);
+		}
+	}
+
 	/**
 	 * Creates a new adapter, whose underlying data is managed as a list of
 	 * arbitrary items, of which multiple items can be selected at once.

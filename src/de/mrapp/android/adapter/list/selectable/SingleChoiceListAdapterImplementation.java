@@ -199,6 +199,16 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 		}
 	}
 
+	@Override
+	protected final void onItemClicked(final int index) {
+		super.onItemClicked(index);
+
+		if (isItemSelectedOnClick()) {
+			getLogger().logVerbose(getClass(), "Selecting item on click...");
+			select(index);
+		}
+	}
+
 	/**
 	 * Creates a new adapter, whose underlying data is managed as a list of
 	 * arbitrary items, of which only one item can be selected at once.
