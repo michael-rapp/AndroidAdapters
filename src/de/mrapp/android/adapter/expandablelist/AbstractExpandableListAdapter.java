@@ -141,6 +141,43 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		return adapterListeners;
 	}
 
+	/**
+	 * This method is invoked to apply the decorator, which allows to customize
+	 * the view, which is used to visualize a specific group item.
+	 * 
+	 * @param context
+	 *            The context, the adapter belongs to, as an instance of the
+	 *            class {@link Context}. The context may not be null
+	 * @param view
+	 *            The view, which is used to visualize the group item, as an
+	 *            instance of the class {@link View}. The view may not be null
+	 * @param index
+	 *            The index of the group item, which should be visualized, as an
+	 *            {@link Integer} value
+	 */
+	protected abstract void applyDecoratorOnGroup(final Context context,
+			final View view, final int index);
+
+	/**
+	 * This method is invoked to apply the decorator, which allows to customize
+	 * the view, which is used to visualize a specific child item.
+	 * 
+	 * @param context
+	 *            The context, the adapter belongs to, as an instance of the
+	 *            class {@link Context}. The context may not be null
+	 * @param view
+	 *            The view, which is used to visualize the child item, as an
+	 *            instance of the class {@link View}. The view may not be null
+	 * @param groupIndex
+	 *            The index of the group, the child item, which should be
+	 *            visualized, belongs to, as an {@link Integer} value
+	 * @param childIndex
+	 *            The index of the child item, which should be visualized, as an
+	 *            {@link Integer} value
+	 */
+	protected abstract void applyDecoratorOnChild(final Context context,
+			final View view, final int groupIndex, final int childIndex);
+
 	protected abstract ChildDecoratorFactory<ChildType> getChildDecoratorFactory();
 
 	protected AbstractExpandableListAdapter(
@@ -1089,7 +1126,15 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	public final View getGroupView(final int groupIndex,
 			final boolean isExpanded, final View convertView,
 			final ViewGroup parent) {
-		// TODO Auto-generated method stub
+		View view = convertView;
+
+		if (view == null) {
+			view = getGroupInflater().inflate(getContext(), parent, false);
+			// TODO: Click listener
+			// TODO: Logging
+		}
+
+		applyDecoratorOnGroup(getContext(), view, groupIndex);
 		return null;
 	}
 
@@ -1097,8 +1142,16 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	public final View getChildView(final int groupIndex, final int childIndex,
 			final boolean isLastChild, final View convertView,
 			final ViewGroup parent) {
-		// TODO Auto-generated method stub
-		return null;
+		View view = convertView;
+
+		if (view == null) {
+			view = getChildInflater().inflate(getContext(), parent, false);
+			// TODO: Click listener
+			// TODO: Logging
+		}
+
+		applyDecoratorOnChild(getContext(), view, groupIndex, childIndex);
+		return view;
 	}
 
 	@Override
