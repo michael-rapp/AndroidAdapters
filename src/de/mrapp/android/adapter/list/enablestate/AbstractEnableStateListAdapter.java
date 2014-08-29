@@ -78,7 +78,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 	 */
 	private void notifyOnItemEnabled(final DataType item, final int index) {
 		for (ListEnableStateListener<DataType> listener : enableStateListeners) {
-			listener.onItemEnabled(item, index);
+			listener.onItemEnabled(this, item, index);
 		}
 	}
 
@@ -97,7 +97,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 	 */
 	private void notifyOnItemDisabled(final DataType item, final int index) {
 		for (ListEnableStateListener<DataType> listener : enableStateListeners) {
-			listener.onItemDisabled(item, index);
+			listener.onItemDisabled(this, item, index);
 		}
 	}
 

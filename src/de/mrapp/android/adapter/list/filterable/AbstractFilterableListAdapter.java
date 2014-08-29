@@ -35,6 +35,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.SparseIntArray;
 import de.mrapp.android.adapter.Filter;
+import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.SerializableWrapper;
@@ -116,7 +117,8 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 		return new ListAdapterListener<DataType>() {
 
 			@Override
-			public void onItemAdded(final DataType item, final int index) {
+			public void onItemAdded(final ListAdapter<DataType> adapter,
+					final DataType item, final int index) {
 				if (isFiltered()) {
 					Item<DataType> addedItem = getItems().get(index);
 					unfilteredItems.add(index, addedItem);
@@ -128,7 +130,8 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 			}
 
 			@Override
-			public void onItemRemoved(final DataType item, final int index) {
+			public void onItemRemoved(final ListAdapter<DataType> adapter,
+					final DataType item, final int index) {
 				if (isFiltered()) {
 					unfilteredItems.remove(getUnfilteredIndex(index));
 				}
@@ -160,8 +163,9 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 		return new ListSortingListener<DataType>() {
 
 			@Override
-			public void onSorted(final Collection<DataType> sortedItems,
-					final Order order, final Comparator<DataType> comparator) {
+			public void onSorted(final ListAdapter<DataType> adapter,
+					final Collection<DataType> sortedItems, final Order order,
+					final Comparator<DataType> comparator) {
 				if (isFiltered()) {
 					if (order == Order.ASCENDING) {
 						if (comparator != null) {
@@ -301,7 +305,8 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 			final Filter<DataType> filter,
 			final Collection<DataType> filteredItems) {
 		for (ListFilterListener<DataType> listener : filterListeners) {
-			listener.onApplyFilter(regularExpression, filter, filteredItems);
+			listener.onApplyFilter(this, regularExpression, filter,
+					filteredItems);
 		}
 	}
 
@@ -322,7 +327,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	private void notifyOnResetFilter(final Pattern regularExpression,
 			final Collection<DataType> unfilteredItems) {
 		for (ListFilterListener<DataType> listener : filterListeners) {
-			listener.onResetFilter(regularExpression, unfilteredItems);
+			listener.onResetFilter(this, regularExpression, unfilteredItems);
 		}
 	}
 

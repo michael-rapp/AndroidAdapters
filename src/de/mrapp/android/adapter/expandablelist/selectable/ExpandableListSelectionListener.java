@@ -38,6 +38,10 @@ public interface ExpandableListSelectionListener<GroupType, ChildType> {
 	/**
 	 * The method, which is invoked, when a group item has been selected.
 	 * 
+	 * @param adapter
+	 *            The observed adapter as an instance of the type
+	 *            {@link SelectableExpandableListAdapter}. The adapter may not
+	 *            be null
 	 * @param group
 	 *            The group item, which has been selected, as an instance of the
 	 *            generic type GroupType. The group item may not be null
@@ -45,11 +49,17 @@ public interface ExpandableListSelectionListener<GroupType, ChildType> {
 	 *            The index of the group item, which has been selected, as an
 	 *            {@link Integer} value
 	 */
-	void onGroupSelected(GroupType group, int index);
+	void onGroupSelected(
+			SelectableExpandableListAdapter<GroupType, ChildType> adapter,
+			GroupType group, int index);
 
 	/**
 	 * The method, which is invoked, when a group item has been unselected.
 	 * 
+	 * @param adapter
+	 *            The observed adapter as an instance of the type
+	 *            {@link SelectableExpandableListAdapter}. The adapter may not
+	 *            be null
 	 * @param group
 	 *            The group item, which has been unselected, as an instance of
 	 *            the generic type GroupType. The group item may not be null
@@ -57,11 +67,17 @@ public interface ExpandableListSelectionListener<GroupType, ChildType> {
 	 *            The index of the group item, which has been unselected, as an
 	 *            {@link Integer} value
 	 */
-	void onGroupUnselected(GroupType group, int index);
+	void onGroupUnselected(
+			SelectableExpandableListAdapter<GroupType, ChildType> adapter,
+			GroupType group, int index);
 
 	/**
 	 * The method, which is invoked, when a child item has been selected.
 	 * 
+	 * @param adapter
+	 *            The observed adapter as an instance of the type
+	 *            {@link SelectableExpandableListAdapter}. The adapter may not
+	 *            be null
 	 * @param child
 	 *            The child item, which has been selected, as an instance of the
 	 *            generic type ChildType. The child item may not be null
@@ -76,12 +92,17 @@ public interface ExpandableListSelectionListener<GroupType, ChildType> {
 	 *            The index of the group item, the child, which has been
 	 *            selected, belongs to, as an {@link Integer} value
 	 */
-	void onChildSelected(ChildType child, int childIndex, GroupType group,
-			int groupIndex);
+	void onChildSelected(
+			SelectableExpandableListAdapter<GroupType, ChildType> adapter,
+			ChildType child, int childIndex, GroupType group, int groupIndex);
 
 	/**
 	 * The method, which is invoked, when a child item has been unselected.
 	 * 
+	 * @param adapter
+	 *            The observed adapter as an instance of the type
+	 *            {@link SelectableExpandableListAdapter}. The adapter may not
+	 *            be null
 	 * @param child
 	 *            The child item, which has been unselected, as an instance of
 	 *            the generic type ChildType. The child item may not be null
@@ -96,7 +117,8 @@ public interface ExpandableListSelectionListener<GroupType, ChildType> {
 	 *            The index of the group item, the child, which has been
 	 *            unselected, belongs to, as an {@link Integer} value
 	 */
-	void onChildUnselected(ChildType child, int childIndex, GroupType group,
-			int groupIndex);
+	void onChildUnselected(
+			SelectableExpandableListAdapter<GroupType, ChildType> adapter,
+			ChildType child, int childIndex, GroupType group, int groupIndex);
 
 }

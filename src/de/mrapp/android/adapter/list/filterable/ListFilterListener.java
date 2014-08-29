@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.regex.Pattern;
 
 import de.mrapp.android.adapter.Filter;
+import de.mrapp.android.adapter.ListAdapter;
 
 /**
  * Defines the interface, all listeners, which should be notified when the
@@ -39,6 +40,9 @@ public interface ListFilterListener<DataType> {
 	 * The method, which is invoked, when the adapter's items have been filtered
 	 * by using a regular expression.
 	 * 
+	 * @param adapter
+	 *            The observed adapters as an instance of the type
+	 *            {@link ListAdapter}. The adapter may not be null
 	 * @param regularExpression
 	 *            The regular expression, which has been used, as an instance of
 	 *            the class {@link Pattern}. The regular expression may not be
@@ -53,12 +57,16 @@ public interface ListFilterListener<DataType> {
 	 *            an instance of the type {@link Collection} or an empty
 	 *            collection, if the adapter does not contain any items
 	 */
-	void onApplyFilter(Pattern regularExpression, Filter<DataType> filter,
+	void onApplyFilter(ListAdapter<DataType> adapter,
+			Pattern regularExpression, Filter<DataType> filter,
 			Collection<DataType> filteredItems);
 
 	/**
 	 * The method, which is invoked, when a filter has been reseted.
 	 * 
+	 * @param adapter
+	 *            The observed adapters as an instance of the type
+	 *            {@link ListAdapter}. The adapter may not be null
 	 * @param regularExpression
 	 *            The regular expression used by the filter, which has been
 	 *            reseted, as an instance of the class {@link Pattern}. The
@@ -68,7 +76,7 @@ public interface ListFilterListener<DataType> {
 	 *            an instance of the type {@link Collection} or an empty
 	 *            collection, if the adapter does not contain any items
 	 */
-	void onResetFilter(Pattern regularExpression,
-			Collection<DataType> filteredItems);
+	void onResetFilter(ListAdapter<DataType> adapter,
+			Pattern regularExpression, Collection<DataType> filteredItems);
 
 }

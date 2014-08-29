@@ -25,6 +25,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 import android.content.Context;
+import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.SelectableListDecorator;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
@@ -70,12 +71,14 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 		return new ListEnableStateListener<DataType>() {
 
 			@Override
-			public void onItemEnabled(final DataType item, final int index) {
+			public void onItemEnabled(final ListAdapter<DataType> adapter,
+					final DataType item, final int index) {
 				return;
 			}
 
 			@Override
-			public void onItemDisabled(final DataType item, final int index) {
+			public void onItemDisabled(final ListAdapter<DataType> adapter,
+					final DataType item, final int index) {
 				getItems().get(index).setSelected(false);
 				notifyOnItemUnselected(item, index);
 				notifyDataSetChanged();

@@ -17,6 +17,8 @@
  */
 package de.mrapp.android.adapter.expandablelist;
 
+import de.mrapp.android.adapter.ExpandableListAdapter;
+
 /**
  * Defines the interface, all listeners, which should be notified, when the
  * underlying data of an {@link ExpandableListAdapter} has been modified, must
@@ -39,6 +41,9 @@ public interface ExpandableListAdapterListener<GroupType, ChildType> {
 	 * The method, which is invoked, when a group item has been added to the
 	 * adapter.
 	 * 
+	 * @param adapter
+	 *            The observed adapter as an instance of the type
+	 *            {@link ExpandableListAdapter}. The adapter may not be null
 	 * @param group
 	 *            The group item, which has been added, as an instance of the
 	 *            generic type GroupType. The group item may not be null
@@ -46,12 +51,17 @@ public interface ExpandableListAdapterListener<GroupType, ChildType> {
 	 *            The index of the group item, which has been added, as an
 	 *            {@link Integer} value
 	 */
-	void onGroupAdded(GroupType group, int index);
+	void onGroupAdded(
+			ExpandableListAdapterListener<GroupType, ChildType> adapter,
+			GroupType group, int index);
 
 	/**
 	 * The method, which is invoked, when a group item has been removed from the
 	 * adapter.
 	 * 
+	 * @param adapter
+	 *            The observed adapter as an instance of the type
+	 *            {@link ExpandableListAdapter}. The adapter may not be null
 	 * @param group
 	 *            The group item, which has been removed, as an instance of the
 	 *            generic type GroupType. The group item may not be null
@@ -59,12 +69,16 @@ public interface ExpandableListAdapterListener<GroupType, ChildType> {
 	 *            The index of the group item, which has been removed, as an
 	 *            {@link Integer} value
 	 */
-	void onGroupRemoved(GroupType group, int index);
+	void onGroupRemoved(ExpandableListAdapter<GroupType, ChildType> adapter,
+			GroupType group, int index);
 
 	/**
 	 * The method, which is invoked, when a child item has been added to a group
 	 * of the adapter.
 	 * 
+	 * @param adapter
+	 *            The observed adapter as an instance of the type
+	 *            {@link ExpandableListAdapter}. The adapter may not be null
 	 * @param child
 	 *            The child item, which has been added, as an instance of the
 	 *            generic type ChildType. The child item may not be null
@@ -78,13 +92,16 @@ public interface ExpandableListAdapterListener<GroupType, ChildType> {
 	 *            The index of the group item, the child has been added to, as
 	 *            an {@link Integer} value
 	 */
-	void onChildAdded(ChildType child, int childIndex, GroupType group,
-			int groupIndex);
+	void onChildAdded(ExpandableListAdapter<GroupType, ChildType> adapter,
+			ChildType child, int childIndex, GroupType group, int groupIndex);
 
 	/**
 	 * The method, which is invoked, when a child item has been removed from a
 	 * group of the adapter.
 	 * 
+	 * @param adapter
+	 *            The observed adapter as an instance of the type
+	 *            {@link ExpandableListAdapter}. The adapter may not be null
 	 * @param child
 	 *            The child item, which has been removed, as an instance of the
 	 *            generic type ChildType. The child item may not be null
@@ -99,7 +116,7 @@ public interface ExpandableListAdapterListener<GroupType, ChildType> {
 	 *            The index of the group item, the child has been removed from,
 	 *            as an {@link Integer} value
 	 */
-	void onChildRemoved(ChildType child, int childIndex, GroupType group,
-			int groupIndex);
+	void onChildRemoved(ExpandableListAdapter<GroupType, ChildType> adapter,
+			ChildType child, int childIndex, GroupType group, int groupIndex);
 
 }

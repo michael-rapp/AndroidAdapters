@@ -17,6 +17,8 @@
  */
 package de.mrapp.android.adapter.expandablelist.itemstate;
 
+import de.mrapp.android.adapter.ExpandableListAdapter;
+
 /**
  * Defines the interface, all listeners, which should be notified, when the
  * state of a group or child item of a {@link ListAdapter} has been changed,
@@ -39,6 +41,9 @@ public interface ExpandableListItemStateListener<GroupType, ChildType> {
 	 * The method, which is invoked, when the state of a group item has been
 	 * changed.
 	 * 
+	 * @param adapter
+	 *            The observed adapter as an instance of the type
+	 *            {@link ExpandableListAdapter}. The adapter may not be null
 	 * @param group
 	 *            The group item, whose state has been changed, as an instance
 	 *            of the generic type GroupType. The group item may not be null
@@ -49,12 +54,17 @@ public interface ExpandableListItemStateListener<GroupType, ChildType> {
 	 *            The new state of the group item, whose state has been changed,
 	 *            as an {@link Integer} value
 	 */
-	void onGroupStateChanged(GroupType group, int index, int state);
+	void onGroupStateChanged(
+			ExpandableListAdapter<GroupType, ChildType> adapter,
+			GroupType group, int index, int state);
 
 	/**
 	 * The method, which is invoked, when the state of a child item has been
 	 * changed.
 	 * 
+	 * @param adapter
+	 *            The observed adapter as an instance of the type
+	 *            {@link ExpandableListAdapter}. The adapter may not be null
 	 * @param child
 	 *            The child item, whose state has been changed, as an instance
 	 *            of the generic type ChildType. The child item may not be null
@@ -65,6 +75,8 @@ public interface ExpandableListItemStateListener<GroupType, ChildType> {
 	 *            The new state of the child item, whose state has been changed,
 	 *            as an {@link Integer} value
 	 */
-	void onChildStateChanged(ChildType child, int index, int state);
+	void onChildStateChanged(
+			ExpandableListAdapter<GroupType, ChildType> adapter,
+			ChildType child, int index, int state);
 
 }

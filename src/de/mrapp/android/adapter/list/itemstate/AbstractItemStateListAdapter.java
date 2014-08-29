@@ -115,7 +115,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 	private void notifyOnItemStateChanged(final DataType item, final int index,
 			final int state) {
 		for (ListItemStateListener<DataType> listener : itemStateListeners) {
-			listener.onItemStateChanged(item, index, state);
+			listener.onItemStateChanged(this, item, index, state);
 		}
 	}
 

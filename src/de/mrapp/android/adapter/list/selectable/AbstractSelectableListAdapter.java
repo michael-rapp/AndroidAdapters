@@ -98,7 +98,7 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	protected final void notifyOnItemSelected(final DataType item,
 			final int index) {
 		for (ListSelectionListener<DataType> listener : selectionListeners) {
-			listener.onItemSelected(item, index);
+			listener.onItemSelected(this, item, index);
 		}
 	}
 
@@ -118,7 +118,7 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	protected final void notifyOnItemUnselected(final DataType item,
 			final int index) {
 		for (ListSelectionListener<DataType> listener : selectionListeners) {
-			listener.onItemUnselected(item, index);
+			listener.onItemUnselected(this, item, index);
 		}
 	}
 

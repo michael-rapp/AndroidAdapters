@@ -17,6 +17,8 @@
  */
 package de.mrapp.android.adapter.list.enablestate;
 
+import de.mrapp.android.adapter.ListAdapter;
+
 /**
  * Defines the interface, all listeners, which should be notified, when an item
  * of a {@link ListAdapter} has been enabled or disabled, must implement.
@@ -33,6 +35,9 @@ public interface ListEnableStateListener<DataType> {
 	/**
 	 * The method, which is invoked, when an item has been enabled.
 	 * 
+	 * @param adapter
+	 *            The observed adapters as an instance of the type
+	 *            {@link ListAdapter}. The adapter may not be null
 	 * @param item
 	 *            The item, which has been enabled, as an instance of the
 	 *            generic type DataType. The item may not be null
@@ -40,11 +45,14 @@ public interface ListEnableStateListener<DataType> {
 	 *            The index of the item, which has been enabled, as an
 	 *            {@link Integer} value
 	 */
-	void onItemEnabled(DataType item, int index);
+	void onItemEnabled(ListAdapter<DataType> adapter, DataType item, int index);
 
 	/**
 	 * The method, which is invoked, when an item has been disabled.
 	 * 
+	 * @param adapter
+	 *            The observed adapters as an instance of the type
+	 *            {@link ListAdapter}. The adapter may not be null
 	 * @param item
 	 *            The item, which has been disabled, as an instance of the
 	 *            generic type DataType. The item may not be null
@@ -52,6 +60,6 @@ public interface ListEnableStateListener<DataType> {
 	 *            The index of the item, which has been disabled, as an
 	 *            {@link Integer} value
 	 */
-	void onItemDisabled(DataType item, int index);
+	void onItemDisabled(ListAdapter<DataType> adapter, DataType item, int index);
 
 }

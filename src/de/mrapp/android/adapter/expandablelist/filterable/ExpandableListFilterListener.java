@@ -20,6 +20,7 @@ package de.mrapp.android.adapter.expandablelist.filterable;
 import java.util.Collection;
 import java.util.regex.Pattern;
 
+import de.mrapp.android.adapter.ExpandableListAdapter;
 import de.mrapp.android.adapter.Filter;
 
 /**
@@ -44,6 +45,9 @@ public interface ExpandableListFilterListener<GroupType, ChildType> {
 	 * The method, which is invoked, when the adapter's group items have been
 	 * filtered by using a regular expression.
 	 * 
+	 * @param adapter
+	 *            The observed adapter as an instance of the type
+	 *            {@link ExpandableListAdapter}. The adapter may not be null
 	 * @param regularExpression
 	 *            The regular expression, which has been used, as an instance of
 	 *            the class {@link Pattern}. The regular expression may not be
@@ -60,13 +64,18 @@ public interface ExpandableListFilterListener<GroupType, ChildType> {
 	 *            empty collection, if the adapter does not contain any group
 	 *            items
 	 */
-	void onApplyGroupFilter(Pattern regularExpression,
-			Filter<GroupType> filter, Collection<GroupType> filteredGroups);
+	void onApplyGroupFilter(
+			ExpandableListAdapter<GroupType, ChildType> adapter,
+			Pattern regularExpression, Filter<GroupType> filter,
+			Collection<GroupType> filteredGroups);
 
 	/**
 	 * The method, which is invoked, when a filter, which has been used to
 	 * filter the adapter's group items, has been reseted.
 	 * 
+	 * @param adapter
+	 *            The observed adapter as an instance of the type
+	 *            {@link ExpandableListAdapter}. The adapter may not be null
 	 * @param regularExpression
 	 *            The regular expression used by the filter, which has been
 	 *            reseted, as an instance of the class {@link Pattern}. The
@@ -77,13 +86,17 @@ public interface ExpandableListFilterListener<GroupType, ChildType> {
 	 *            empty collection, if the adapter does not contain any group
 	 *            items
 	 */
-	void onResetGroupFilter(Pattern regularExpression,
-			Collection<GroupType> filteredGroups);
+	void onResetGroupFilter(
+			ExpandableListAdapter<GroupType, ChildType> adapter,
+			Pattern regularExpression, Collection<GroupType> filteredGroups);
 
 	/**
 	 * The method, which is invoked, when the adapter's child items have been
 	 * filtered by using a regular expression.
 	 * 
+	 * @param adapter
+	 *            The observed adapter as an instance of the type
+	 *            {@link ExpandableListAdapter}. The adapter may not be null
 	 * @param regularExpression
 	 *            The regular expression, which has been used, as an instance of
 	 *            the class {@link Pattern}. The regular expression may not be
@@ -100,13 +113,18 @@ public interface ExpandableListFilterListener<GroupType, ChildType> {
 	 *            empty collection, if the adapter does not contain any child
 	 *            items
 	 */
-	void onApplyChildFilter(Pattern regularExpression,
-			Filter<GroupType> filter, Collection<GroupType> filteredGroups);
+	void onApplyChildFilter(
+			ExpandableListAdapter<GroupType, ChildType> adapter,
+			Pattern regularExpression, Filter<GroupType> filter,
+			Collection<GroupType> filteredGroups);
 
 	/**
 	 * The method, which is invoked, when a filter, which has been used to
 	 * filter the adapter's child items, has been reseted.
 	 * 
+	 * @param adapter
+	 *            The observed adapter as an instance of the type
+	 *            {@link ExpandableListAdapter}. The adapter may not be null
 	 * @param regularExpression
 	 *            The regular expression used by the filter, which has been
 	 *            reseted, as an instance of the class {@link Pattern}. The
@@ -117,7 +135,8 @@ public interface ExpandableListFilterListener<GroupType, ChildType> {
 	 *            empty collection, if the adapter does not contain any group
 	 *            items
 	 */
-	void onResetChildFilter(Pattern regularExpression,
-			Collection<GroupType> filteredGroups);
+	void onResetChildFilter(
+			ExpandableListAdapter<GroupType, ChildType> adapter,
+			Pattern regularExpression, Collection<GroupType> filteredGroups);
 
 }

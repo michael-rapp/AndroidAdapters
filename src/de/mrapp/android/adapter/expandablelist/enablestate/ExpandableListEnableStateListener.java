@@ -17,6 +17,8 @@
  */
 package de.mrapp.android.adapter.expandablelist.enablestate;
 
+import de.mrapp.android.adapter.ExpandableListAdapter;
+
 /**
  * Defines the interface, all listeners, which should be notified, when a group
  * or child item of a {@link ExpandableListAdapter} has been enabled or
@@ -38,6 +40,9 @@ public interface ExpandableListEnableStateListener<GroupType, ChildType> {
 	/**
 	 * The method, which is invoked, when a group item has been enabled.
 	 * 
+	 * @param adapter
+	 *            The observed adapter as an instance of the type
+	 *            {@link ExpandableListAdapter}. The adapter may not be null
 	 * @param group
 	 *            The group item, which has been enabled, as an instance of the
 	 *            generic type GroupType. The group item may not be null
@@ -45,11 +50,15 @@ public interface ExpandableListEnableStateListener<GroupType, ChildType> {
 	 *            The index of the group item, which has been enabled, as an
 	 *            {@link Integer} value
 	 */
-	void onGroupEnabled(GroupType group, int index);
+	void onGroupEnabled(ExpandableListAdapter<GroupType, ChildType> adapter,
+			GroupType group, int index);
 
 	/**
 	 * The method, which is invoked, when a group item has been disabled.
 	 * 
+	 * @param adapter
+	 *            The observed adapter as an instance of the type
+	 *            {@link ExpandableListAdapter}. The adapter may not be null
 	 * @param group
 	 *            The group item, which has been disabled, as an instance of the
 	 *            generic type GroupType. The group item may not be null
@@ -57,11 +66,15 @@ public interface ExpandableListEnableStateListener<GroupType, ChildType> {
 	 *            The index of the group item, which has been disabled, as an
 	 *            {@link Integer} value
 	 */
-	void onGroupDisabled(GroupType group, int index);
+	void onGroupDisabled(ExpandableListAdapter<GroupType, ChildType> adapter,
+			GroupType group, int index);
 
 	/**
 	 * The method, which is invoked, when a child item has been enabled.
 	 * 
+	 * @param adapter
+	 *            The observed adapter as an instance of the type
+	 *            {@link ExpandableListAdapter}. The adapter may not be null
 	 * @param child
 	 *            The child item, which has been enabled, as an instance of the
 	 *            generic type ChildType. The child item may not be null
@@ -77,12 +90,15 @@ public interface ExpandableListEnableStateListener<GroupType, ChildType> {
 	 *            The index of the group item, the child, which has been
 	 *            enabled, belongs to, as an {@link Integer} value
 	 */
-	void onChildEnabled(ChildType child, int childIndex, GroupType group,
-			int groupIndex);
+	void onChildEnabled(ExpandableListAdapter<GroupType, ChildType> adapter,
+			ChildType child, int childIndex, GroupType group, int groupIndex);
 
 	/**
 	 * The method, which is invoked, when a child item has been disabled.
 	 * 
+	 * @param adapter
+	 *            The observed adapter as an instance of the type
+	 *            {@link ExpandableListAdapter}. The adapter may not be null
 	 * @param child
 	 *            The child item, which has been disabled, as an instance of the
 	 *            generic type ChildType. The child item may not be null
@@ -98,7 +114,7 @@ public interface ExpandableListEnableStateListener<GroupType, ChildType> {
 	 *            The index of the group item, the child, which has been
 	 *            disabled, belongs to, as an {@link Integer} value
 	 */
-	void onChildDisabled(ChildType child, int childIndex, GroupType group,
-			int groupIndex);
+	void onChildDisabled(ExpandableListAdapter<GroupType, ChildType> adapter,
+			ChildType child, int childIndex, GroupType group, int groupIndex);
 
 }

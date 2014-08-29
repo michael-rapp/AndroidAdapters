@@ -17,6 +17,8 @@
  */
 package de.mrapp.android.adapter.list.itemstate;
 
+import de.mrapp.android.adapter.ListAdapter;
+
 /**
  * Defines the interface, all listeners, which should be notified, when the
  * state of an item of a {@link ListAdapter} has been changed, must implement.
@@ -33,6 +35,9 @@ public interface ListItemStateListener<DataType> {
 	/**
 	 * The method, which is invoked, when the state of an item has been changed.
 	 * 
+	 * @param adapter
+	 *            The observed adapters as an instance of the type
+	 *            {@link ListAdapter}. The adapter may not be null
 	 * @param item
 	 *            The item, whose state has been changed, as an instance of the
 	 *            generic type DataType. The item may not be null
@@ -43,6 +48,7 @@ public interface ListItemStateListener<DataType> {
 	 *            The new state of the item, whose state has been changed, as an
 	 *            {@link Integer} value
 	 */
-	void onItemStateChanged(DataType item, int index, int state);
+	void onItemStateChanged(ListAdapter<DataType> adapter, DataType item,
+			int index, int state);
 
 }
