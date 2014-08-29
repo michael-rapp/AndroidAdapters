@@ -17,6 +17,7 @@
  */
 package de.mrapp.android.adapter.expandablelist;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import android.content.Context;
@@ -57,6 +58,13 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType>
 			final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners) {
 		super(context, groupInflater, childInflater, decorator,
 				allowDuplicateGroups, allowDuplicateChildren, adapterListeners);
+	}
+
+	public ExpandableListAdapterImplementation(final Context context,
+			final Inflater groupInflater, final Inflater childInflater,
+			final ExpandableListDecorator<GroupType, ChildType> decorator) {
+		this(context, groupInflater, childInflater, decorator, false, false,
+				new LinkedHashSet<ExpandableListAdapterListener<GroupType, ChildType>>());
 	}
 
 	@Override
