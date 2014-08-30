@@ -107,11 +107,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	private transient Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners;
 
 	/**
-	 * True, if duplicate group items are allowed, false otherwise.
-	 */
-	private boolean allowDuplicateGroups;
-
-	/**
 	 * True, if duplicate children, regardless from the group they belong to,
 	 * are allowed, false otherwise.
 	 */
@@ -361,9 +356,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	 *            The adapter, which should manage the adapter's group items, as
 	 *            an instance of the type {@link MultipleChoiceListAdapter}. The
 	 *            adapter may not be null
-	 * @param allowDuplicateGroups
-	 *            True, if duplicate group items should be allowed, false
-	 *            otherwise
 	 * @param allowDuplicateChildren
 	 *            True, if duplicate group items, regardless from the group they
 	 *            belong to, should be allowed, false otherwise
@@ -380,7 +372,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 			final DecoratorType decorator,
 			final LogLevel logLevel,
 			final MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter,
-			final boolean allowDuplicateGroups,
 			final boolean allowDuplicateChildren,
 			final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners) {
 		ensureNotNull(context, "The context may not be null");
@@ -395,6 +386,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		this.logger = new Logger(logLevel);
 		this.groupAdapter = groupAdapter;
 		this.groupAdapter.setLogLevel(LogLevel.OFF);
+		this.allowDuplicateChildren = allowDuplicateChildren;
 		this.adapterListeners = adapterListeners;
 	}
 
@@ -424,12 +416,12 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 	@Override
 	public final boolean areDuplicateGroupsAllowed() {
-		return allowDuplicateGroups;
+		return groupAdapter.areDuplicatesAllowed();
 	}
 
 	@Override
 	public final void allowDuplicateGroups(final boolean allowDuplicateGroups) {
-		this.allowDuplicateGroups = allowDuplicateGroups;
+		groupAdapter.allowDuplicates(allowDuplicateGroups);
 	}
 
 	@Override
