@@ -194,6 +194,23 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	}
 
 	/**
+	 * Returns, whether the adapter's underlying data implements the interface
+	 * {@link Serializable}, or not.
+	 * 
+	 * @return True, if the adapter's underlying data implements the interface
+	 *         {@link Serializable}, false otherwise
+	 */
+	private boolean isUnderlyingDataSerializable() {
+		if (!isEmpty()) {
+			if (!Serializable.class.isAssignableFrom(getItem(0).getClass())) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Returns, the context, the adapter belongs to.
 	 * 
 	 * @return The context, the adapter belongs to, as an instance of the class
@@ -690,8 +707,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 
 	@Override
 	public void onSaveInstanceState(final Bundle outState) {
-		if (!isEmpty()
-				&& Serializable.class.isAssignableFrom(getItem(0).getClass())) {
+		if (isUnderlyingDataSerializable()) {
 			SerializableWrapper<List<Item<DataType>>> wrappedItems = new SerializableWrapper<List<Item<DataType>>>(
 					getItems());
 			outState.putSerializable(ITEMS_BUNDLE_KEY, wrappedItems);
