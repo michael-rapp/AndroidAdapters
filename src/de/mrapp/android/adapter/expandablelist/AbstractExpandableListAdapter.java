@@ -1498,6 +1498,34 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	}
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (allowDuplicateChildren ? 1231 : 1237);
+		result = prime * result + groupAdapter.hashCode();
+		result = prime * result + getLogLevel().getRank();
+		return result;
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AbstractExpandableListAdapter<?, ?, ?> other = (AbstractExpandableListAdapter<?, ?, ?>) obj;
+		if (allowDuplicateChildren != other.allowDuplicateChildren)
+			return false;
+		if (!groupAdapter.equals(other.groupAdapter))
+			return false;
+		if (!getLogLevel().equals(other.getLogLevel()))
+			return false;
+		return true;
+	}
+
+	@Override
 	public abstract AbstractExpandableListAdapter<GroupType, ChildType, DecoratorType> clone()
 			throws CloneNotSupportedException;
 
