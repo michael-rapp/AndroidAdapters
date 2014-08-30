@@ -101,6 +101,12 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	private final transient Logger logger;
 
 	/**
+	 * A set, which contains the listeners, which should be notified, when the
+	 * adapter's underlying data has been modified.
+	 */
+	private transient Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners;
+
+	/**
 	 * True, if duplicate group items are allowed, false otherwise.
 	 */
 	private boolean allowDuplicateGroups;
@@ -110,12 +116,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	 * are allowed, false otherwise.
 	 */
 	private boolean allowDuplicateChildren;
-
-	/**
-	 * A set, which contains the listeners, which should be notified, when the
-	 * adapter's underlying data has been modified.
-	 */
-	private Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners;
 
 	/**
 	 * An adapter, which manages the adapter's group items.
