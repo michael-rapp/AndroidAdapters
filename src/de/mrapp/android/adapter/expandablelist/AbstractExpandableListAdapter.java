@@ -130,8 +130,10 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	 *         {@link MultipleChoiceListAdapter}. The adapter may not be null
 	 */
 	private MultipleChoiceListAdapter<ChildType> createChildAdapter() {
-		return new MultipleChoiceListAdapterImplementation<ChildType>(context,
-				childInflater, new NullObjectDecorator<ChildType>());
+		MultipleChoiceListAdapter<ChildType> childAdapter = new MultipleChoiceListAdapterImplementation<ChildType>(
+				context, childInflater, new NullObjectDecorator<ChildType>());
+		childAdapter.setLogLevel(LogLevel.OFF);
+		return childAdapter;
 	}
 
 	/**
