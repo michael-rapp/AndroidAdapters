@@ -44,6 +44,7 @@ import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.selectable.MultipleChoiceListAdapterImplementation;
 import de.mrapp.android.adapter.logging.LogLevel;
 import de.mrapp.android.adapter.logging.Logger;
+import de.mrapp.android.adapter.util.VisibleForTesting;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
@@ -72,6 +73,22 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	 * The constant serial version UID.
 	 */
 	private static final long serialVersionUID = 1L;
+
+	/**
+	 * The key, which is used to store, whether duplicate child items should be
+	 * allowed, or not, within a bundle.
+	 */
+	@VisibleForTesting
+	protected static final String ALLOW_DUPLICATE_CHILDREN_BUNDLE_KEY = AbstractExpandableListAdapter.class
+			.getSimpleName() + "::AllowDuplicateChildren";
+
+	/**
+	 * The key, which is used to store the log level, which is used for logging,
+	 * within a bundle.
+	 */
+	@VisibleForTesting
+	protected static final String LOG_LEVEL_BUNDLE_KEY = AbstractExpandableListAdapter.class
+			.getSimpleName() + "::LogLevel";
 
 	/**
 	 * The context, the adapter belongs to.
@@ -1405,6 +1422,11 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 			groupAdapter.onSaveInstanceState(outState);
 		}
 
+		outState.putBoolean(ALLOW_DUPLICATE_CHILDREN_BUNDLE_KEY,
+				areDuplicateChildrenAllowed());
+
+		outState.putInt(LOG_LEVEL_BUNDLE_KEY, getLogLevel().getRank());
+
 		getLogger().logDebug(getClass(), "Saved instance state");
 	}
 
@@ -1412,6 +1434,12 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	public void onRestoreInstanceState(final Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
 			groupAdapter.onRestoreInstanceState(savedInstanceState);
+
+			allowDuplicateChildren(savedInstanceState
+					.getBoolean(ALLOW_DUPLICATE_CHILDREN_BUNDLE_KEY));
+
+			setLogLevel(LogLevel.fromRank(savedInstanceState
+					.getInt(LOG_LEVEL_BUNDLE_KEY)));
 
 			notifyDataSetChanged();
 			getLogger().logDebug(getClass(), "Restored instance state");
