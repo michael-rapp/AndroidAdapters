@@ -392,6 +392,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		this.decorator = decorator;
 		this.logger = new Logger(logLevel);
 		this.groupAdapter = groupAdapter;
+		this.groupAdapter.setLogLevel(LogLevel.OFF);
 		this.adapterListeners = adapterListeners;
 	}
 
