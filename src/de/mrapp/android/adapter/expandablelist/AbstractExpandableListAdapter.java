@@ -40,6 +40,8 @@ import de.mrapp.android.adapter.datastructure.group.GroupIterator;
 import de.mrapp.android.adapter.datastructure.group.GroupListIterator;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.selectable.MultipleChoiceListAdapterImplementation;
+import de.mrapp.android.adapter.logging.LogLevel;
+import de.mrapp.android.adapter.logging.Logger;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
@@ -91,6 +93,11 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	 * which are used to visualize the group and child items of the adapter.
 	 */
 	private final transient DecoratorType decorator;
+
+	/**
+	 * The logger, which is used for logging.
+	 */
+	private final transient Logger logger;
 
 	/**
 	 * True, if duplicate group items are allowed, false otherwise.
@@ -188,6 +195,16 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	}
 
 	/**
+	 * Returns the logger, which is used for logging.
+	 * 
+	 * @return The logger, which is used for logging, as an instance of the
+	 *         class {@link Logger}. The logger may not be null
+	 */
+	protected final Logger getLogger() {
+		return logger;
+	}
+
+	/**
 	 * Returns a set, which contains the listeners, which should be notified,
 	 * when the adapter's underlying data has been modified.
 	 * 
@@ -259,6 +276,9 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	 *            appearance of the views, which are used to visualize the group
 	 *            and child items of the adapter, as an instance of the generic
 	 *            type DecoratorType. The decorator may not be null
+	 * @param logLevel
+	 *            The log level, which should be used for logging, as a value of
+	 *            the enum {@link LogLevel}. The log level may not be null
 	 * @param allowDuplicateGroups
 	 *            True, if duplicate group items should be allowed, false
 	 *            otherwise
@@ -276,6 +296,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 			final Inflater groupInflater,
 			final Inflater childInflater,
 			final DecoratorType decorator,
+			final LogLevel logLevel,
 			final boolean allowDuplicateGroups,
 			final boolean allowDuplicateChildren,
 			final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners) {
@@ -288,8 +309,19 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		this.groupInflater = groupInflater;
 		this.childInflater = childInflater;
 		this.decorator = decorator;
+		this.logger = new Logger(logLevel);
 		this.adapterListeners = adapterListeners;
 		this.groupAdapter = createGroupAdapter();
+	}
+
+	@Override
+	public final LogLevel getLogLevel() {
+		return getLogger().getLogLevel();
+	}
+
+	@Override
+	public final void setLogLevel(final LogLevel logLevel) {
+		getLogger().setLogLevel(logLevel);
 	}
 
 	@Override

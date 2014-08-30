@@ -24,6 +24,7 @@ import java.util.ListIterator;
 import de.mrapp.android.adapter.datastructure.DataStructure;
 import de.mrapp.android.adapter.datastructure.Restorable;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterListener;
+import de.mrapp.android.adapter.logging.Loggable;
 
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a list
@@ -41,7 +42,8 @@ import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterListener;
  * @since 1.0.0
  */
 public interface ExpandableListAdapter<GroupType, ChildType> extends
-		DataStructure, Restorable, android.widget.ExpandableListAdapter {
+		DataStructure, Restorable, Loggable,
+		android.widget.ExpandableListAdapter {
 
 	/**
 	 * Returns, whether duplicate group items are allowed, or not.
