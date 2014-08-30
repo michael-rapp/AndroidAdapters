@@ -22,9 +22,9 @@ import java.util.Set;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.ExpandableListView;
 import de.mrapp.android.adapter.ExpandableListDecorator;
 import de.mrapp.android.adapter.inflater.Inflater;
+import de.mrapp.android.adapter.logging.LogLevel;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
@@ -55,10 +55,11 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType>
 			final Inflater groupInflater,
 			final Inflater childInflater,
 			final ExpandableListDecorator<GroupType, ChildType> decorator,
+			final LogLevel logLevel,
 			final boolean allowDuplicateGroups,
 			final boolean allowDuplicateChildren,
 			final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners) {
-		super(context, groupInflater, childInflater, decorator,
+		super(context, groupInflater, childInflater, decorator, logLevel,
 				allowDuplicateGroups, allowDuplicateChildren, adapterListeners);
 	}
 
@@ -70,6 +71,7 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType>
 				groupInflater,
 				childInflater,
 				decorator,
+				LogLevel.ALL,
 				false,
 				false,
 				new LinkedHashSet<ExpandableListAdapterListener<GroupType, ChildType>>());
@@ -103,7 +105,7 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType>
 			throws CloneNotSupportedException {
 		return new ExpandableListAdapterImplementation<GroupType, ChildType>(
 				getContext(), getGroupInflater(), getChildInflater(),
-				getDecorator(), areDuplicateGroupsAllowed(),
+				getDecorator(), getLogLevel(), areDuplicateGroupsAllowed(),
 				areDuplicateChildrenAllowed(), getAdapterListeners());
 	}
 
