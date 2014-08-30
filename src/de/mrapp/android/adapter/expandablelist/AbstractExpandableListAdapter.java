@@ -32,6 +32,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.BaseExpandableListAdapter;
 import de.mrapp.android.adapter.ExpandableListAdapter;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
@@ -134,6 +135,53 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	}
 
 	/**
+	 * Creates and returns an {@link OnClickListener}, which is invoked, when a
+	 * specific group item has been clicked.
+	 * 
+	 * @param index
+	 *            The index of the group item, which should cause the listener
+	 *            to be invoked, when clicked, as an {@link Integer} value
+	 * @return The listener, which has been created as an instance of the type
+	 *         {@link OnClickListener}
+	 */
+	private OnClickListener createGroupItemOnClickListener(final int index) {
+		return new OnClickListener() {
+
+			@Override
+			public void onClick(final View v) {
+				onGroupItemClicked(index);
+			}
+
+		};
+	}
+
+	/**
+	 * Creates and returns an {@link OnClickListener}, which is invoked, when a
+	 * specific child item has been clicked.
+	 * 
+	 * @param groupIndex
+	 *            The index of the group, the child item, which should cause the
+	 *            listener to be invoked, when clicked, belongs to, as an
+	 *            {@link Integer} value
+	 * @param childIndex
+	 *            The index of the child item, which should cause the listener
+	 *            to be invoked, when clicked, as an {@link Integer} value
+	 * @return The listener, which has been created as an instance of the type
+	 *         {@link OnClickListener}
+	 */
+	private OnClickListener createChildItemOnClickListener(
+			final int groupIndex, final int childIndex) {
+		return new OnClickListener() {
+
+			@Override
+			public void onClick(final View v) {
+				onChildItemClicked(groupIndex, childIndex);
+			}
+
+		};
+	}
+
+	/**
 	 * Returns, the context, the adapter belongs to.
 	 * 
 	 * @return The context, the adapter belongs to, as an instance of the class
@@ -218,6 +266,31 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	 */
 	protected final Set<ExpandableListAdapterListener<GroupType, ChildType>> getAdapterListeners() {
 		return adapterListeners;
+	}
+
+	/**
+	 * The method, which is invoked, when a group item has been clicked.
+	 * 
+	 * @param index
+	 *            The index of the group item, which has been clicked, as an
+	 *            {@link Integer} value
+	 */
+	protected void onGroupItemClicked(final int index) {
+		return;
+	}
+
+	/**
+	 * The method, which is invoked, when a child item has been clicked.
+	 * 
+	 * @param groupIndex
+	 *            The index of the group, the child item, which has been
+	 *            clicked, belongs to, as an {@link Integer} value
+	 * @param childIndex
+	 *            The index of the child item, which has been clicked, as an
+	 *            {@link Integer} value
+	 */
+	protected void onChildItemClicked(final int groupIndex, final int childIndex) {
+		return;
 	}
 
 	/**
@@ -1260,8 +1333,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 		if (view == null) {
 			view = getGroupInflater().inflate(getContext(), parent, false);
-			// TODO: Click listener
-			// TODO: Logging
+			view.setOnClickListener(createGroupItemOnClickListener(groupIndex));
 		}
 
 		applyDecoratorOnGroup(getContext(), view, groupIndex);
@@ -1276,8 +1348,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 		if (view == null) {
 			view = getChildInflater().inflate(getContext(), parent, false);
-			// TODO: Click listener
-			// TODO: Logging
+			view.setOnClickListener(createChildItemOnClickListener(groupIndex,
+					childIndex));
 		}
 
 		applyDecoratorOnChild(getContext(), view, groupIndex, childIndex);
