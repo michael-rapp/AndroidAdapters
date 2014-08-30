@@ -45,7 +45,7 @@ public class Group<GroupType, ChildType> extends Item<GroupType> {
 	/**
 	 * The adapter, which manages the group's child items.
 	 */
-	private MultipleChoiceListAdapter<ChildType> childAdapter;
+	private transient MultipleChoiceListAdapter<ChildType> childAdapter;
 
 	/**
 	 * Creates a new data structure, which categorizes multiple items of an
@@ -114,28 +114,6 @@ public class Group<GroupType, ChildType> extends Item<GroupType> {
 		return "Group [data=" + getData() + ", selected=" + isSelected()
 				+ ", enabled=" + isEnabled() + ", state=" + getState()
 				+ ", childAdapter=" + childAdapter + "]";
-	}
-
-	@Override
-	public final int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + childAdapter.hashCode();
-		return result;
-	}
-
-	@Override
-	public final boolean equals(final Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Group<?, ?> other = (Group<?, ?>) obj;
-		if (!childAdapter.equals(other.childAdapter))
-			return false;
-		return true;
 	}
 
 }
