@@ -134,19 +134,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	}
 
 	/**
-	 * Creates and returns an adapter, which may be used to manage the adapter's
-	 * group items.
-	 * 
-	 * @return The adapter, which has been created, as an instance of the type
-	 *         {@link MultipleChoiceListAdapter}. The adapter may not be null
-	 */
-	private MultipleChoiceListAdapter<Group<GroupType, ChildType>> createGroupAdapter() {
-		return new MultipleChoiceListAdapterImplementation<Group<GroupType, ChildType>>(
-				context, groupInflater,
-				new NullObjectDecorator<Group<GroupType, ChildType>>());
-	}
-
-	/**
 	 * Returns, the context, the adapter belongs to.
 	 * 
 	 * @return The context, the adapter belongs to, as an instance of the class
@@ -202,6 +189,22 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	 */
 	protected final Logger getLogger() {
 		return logger;
+	}
+
+	/**
+	 * Creates and returns a deep copy of the adapter, which manages the
+	 * adapter's group items.
+	 * 
+	 * @return A deep copy of the adapter, which manages the adapter's group
+	 *         items, as an instance of the type
+	 *         {@link MultipleChoiceListAdapter}. The adapter may not be null
+	 * @throws CloneNotSupportedException
+	 *             The exception, which is thrown, if cloning is not supported
+	 *             by the adapter's underlying data
+	 */
+	protected final MultipleChoiceListAdapter<Group<GroupType, ChildType>> cloneGroupAdapter()
+			throws CloneNotSupportedException {
+		return groupAdapter.clone();
 	}
 
 	/**
@@ -279,6 +282,10 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	 * @param logLevel
 	 *            The log level, which should be used for logging, as a value of
 	 *            the enum {@link LogLevel}. The log level may not be null
+	 * @param groupAdapter
+	 *            The adapter, which should manage the adapter's group items, as
+	 *            an instance of the type {@link MultipleChoiceListAdapter}. The
+	 *            adapter may not be null
 	 * @param allowDuplicateGroups
 	 *            True, if duplicate group items should be allowed, false
 	 *            otherwise
@@ -297,6 +304,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 			final Inflater childInflater,
 			final DecoratorType decorator,
 			final LogLevel logLevel,
+			final MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter,
 			final boolean allowDuplicateGroups,
 			final boolean allowDuplicateChildren,
 			final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners) {
@@ -310,8 +318,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		this.childInflater = childInflater;
 		this.decorator = decorator;
 		this.logger = new Logger(logLevel);
+		this.groupAdapter = groupAdapter;
 		this.adapterListeners = adapterListeners;
-		this.groupAdapter = createGroupAdapter();
 	}
 
 	@Override
