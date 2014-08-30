@@ -23,7 +23,10 @@ import java.util.Set;
 import android.content.Context;
 import android.view.View;
 import de.mrapp.android.adapter.ExpandableListDecorator;
+import de.mrapp.android.adapter.MultipleChoiceListAdapter;
+import de.mrapp.android.adapter.datastructure.group.Group;
 import de.mrapp.android.adapter.inflater.Inflater;
+import de.mrapp.android.adapter.list.selectable.MultipleChoiceListAdapterImplementation;
 import de.mrapp.android.adapter.logging.LogLevel;
 
 /**
@@ -56,11 +59,13 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType>
 			final Inflater childInflater,
 			final ExpandableListDecorator<GroupType, ChildType> decorator,
 			final LogLevel logLevel,
+			final MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter,
 			final boolean allowDuplicateGroups,
 			final boolean allowDuplicateChildren,
 			final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners) {
 		super(context, groupInflater, childInflater, decorator, logLevel,
-				allowDuplicateGroups, allowDuplicateChildren, adapterListeners);
+				groupAdapter, allowDuplicateGroups, allowDuplicateChildren,
+				adapterListeners);
 	}
 
 	public ExpandableListAdapterImplementation(final Context context,
@@ -72,6 +77,9 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType>
 				childInflater,
 				decorator,
 				LogLevel.ALL,
+				new MultipleChoiceListAdapterImplementation<Group<GroupType, ChildType>>(
+						context, groupInflater,
+						new NullObjectDecorator<Group<GroupType, ChildType>>()),
 				false,
 				false,
 				new LinkedHashSet<ExpandableListAdapterListener<GroupType, ChildType>>());
@@ -105,8 +113,9 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType>
 			throws CloneNotSupportedException {
 		return new ExpandableListAdapterImplementation<GroupType, ChildType>(
 				getContext(), getGroupInflater(), getChildInflater(),
-				getDecorator(), getLogLevel(), areDuplicateGroupsAllowed(),
-				areDuplicateChildrenAllowed(), getAdapterListeners());
+				getDecorator(), getLogLevel(), cloneGroupAdapter(),
+				areDuplicateGroupsAllowed(), areDuplicateChildrenAllowed(),
+				getAdapterListeners());
 	}
 
 }
