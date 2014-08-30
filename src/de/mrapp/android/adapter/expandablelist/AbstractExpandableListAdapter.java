@@ -114,33 +114,88 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	 */
 	private MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter;
 
+	/**
+	 * Creates and returns an adapter, which may be used to manage the adapter's
+	 * child items.
+	 * 
+	 * @return The adapter, which has been created, as an instance of the type
+	 *         {@link MultipleChoiceListAdapter}. The adapter may not be null
+	 */
 	private MultipleChoiceListAdapter<ChildType> createChildAdapter() {
 		return new MultipleChoiceListAdapterImplementation<ChildType>(context,
 				childInflater, new NullObjectDecorator<ChildType>());
 	}
 
+	/**
+	 * Creates and returns an adapter, which may be used to manage the adapter's
+	 * group items.
+	 * 
+	 * @return The adapter, which has been created, as an instance of the type
+	 *         {@link MultipleChoiceListAdapter}. The adapter may not be null
+	 */
 	private MultipleChoiceListAdapter<Group<GroupType, ChildType>> createGroupAdapter() {
 		return new MultipleChoiceListAdapterImplementation<Group<GroupType, ChildType>>(
 				context, groupInflater,
 				new NullObjectDecorator<Group<GroupType, ChildType>>());
 	}
 
+	/**
+	 * Returns, the context, the adapter belongs to.
+	 * 
+	 * @return The context, the adapter belongs to, as an instance of the class
+	 *         {@link Context}. The context may not be null
+	 */
 	protected final Context getContext() {
 		return context;
 	}
 
+	/**
+	 * Returns the inflater, which is used to inflate the views, which are used
+	 * to visualize the adapter's group items.
+	 * 
+	 * @return The inflater, which is used to inflate views, which are used to
+	 *         visualize the adapter's group items, as an instance of the type
+	 *         {@link Inflater}. The inflater may not be null
+	 */
 	protected final Inflater getGroupInflater() {
 		return groupInflater;
 	}
 
+	/**
+	 * Returns the inflater, which is used to inflate the views, which are used
+	 * to visualize the adapter's child items.
+	 * 
+	 * @return The inflater, which is used to inflate views, which are used to
+	 *         visualize the adapter's child items, as an instance of the type
+	 *         {@link Inflater}. The inflater may not be null
+	 */
 	protected final Inflater getChildInflater() {
 		return childInflater;
 	}
 
+	/**
+	 * Returns the decorator, which allows to customize the appearance of the
+	 * views, which are used to visualize the group and child items of the
+	 * adapter.
+	 * 
+	 * @return The decorator, which allows to customize the appearance of the
+	 *         views, which are used to visualize the group and child items of
+	 *         the adapter, as an instance of the generic type DecoratorType.
+	 *         The decorator may not be null
+	 */
 	protected final DecoratorType getDecorator() {
 		return decorator;
 	}
 
+	/**
+	 * Returns a set, which contains the listeners, which should be notified,
+	 * when the adapter's underlying data has been modified.
+	 * 
+	 * @return A set, which contains the listeners, which should be notified,
+	 *         when the adapter's underlying data has been modified, as an
+	 *         instance of the type {@link Set} or an empty set, if no listeners
+	 *         should be notified
+	 */
 	protected final Set<ExpandableListAdapterListener<GroupType, ChildType>> getAdapterListeners() {
 		return adapterListeners;
 	}
@@ -182,6 +237,40 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	protected abstract void applyDecoratorOnChild(final Context context,
 			final View view, final int groupIndex, final int childIndex);
 
+	/**
+	 * Creates a new adapter, whose underlying data is managed as a list of
+	 * arbitrary group and child items.
+	 * 
+	 * @param context
+	 *            The context, the adapter belongs to, as an instance of the
+	 *            class {@link Context}. The context may not be null
+	 * @param groupInflater
+	 *            The inflater, which should be used to inflate the views, which
+	 *            are used to visualize the adapter's group items, as an
+	 *            instance of the type {@link Inflater}. The inflater may not be
+	 *            null
+	 * @param childInflater
+	 *            The inflater, which should be used to inflate the views, which
+	 *            are used to visualize the adapter's child items, as an
+	 *            instance of the type {@link Inflater}. The inflater may not be
+	 *            null
+	 * @param decorator
+	 *            The decorator, which should be used to customize the
+	 *            appearance of the views, which are used to visualize the group
+	 *            and child items of the adapter, as an instance of the generic
+	 *            type DecoratorType. The decorator may not be null
+	 * @param allowDuplicateGroups
+	 *            True, if duplicate group items should be allowed, false
+	 *            otherwise
+	 * @param allowDuplicateChildren
+	 *            True, if duplicate group items, regardless from the group they
+	 *            belong to, should be allowed, false otherwise
+	 * @param adapterListeners
+	 *            A set, which contains the listeners, which should be notified,
+	 *            when the adapter's underlying data has been modified, as an
+	 *            instance of the type {@link Set} or an empty set, if no
+	 *            listeners should be notified
+	 */
 	protected AbstractExpandableListAdapter(
 			final Context context,
 			final Inflater groupInflater,
