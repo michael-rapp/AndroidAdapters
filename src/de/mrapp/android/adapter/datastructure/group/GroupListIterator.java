@@ -26,6 +26,7 @@ import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.expandablelist.NullObjectDecorator;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.selectable.MultipleChoiceListAdapterImplementation;
+import de.mrapp.android.adapter.logging.LogLevel;
 
 /**
  * A list iterator, which allows to iterate the data of groups, which can be
@@ -67,8 +68,10 @@ public class GroupListIterator<GroupType, ChildType> implements
 	 *         {@link MultipleChoiceListAdapter}. The adapter may not be null
 	 */
 	private MultipleChoiceListAdapter<ChildType> createChildAdapter() {
-		return new MultipleChoiceListAdapterImplementation<ChildType>(context,
-				childInflater, new NullObjectDecorator<ChildType>());
+		MultipleChoiceListAdapter<ChildType> childAdapter = new MultipleChoiceListAdapterImplementation<ChildType>(
+				context, childInflater, new NullObjectDecorator<ChildType>());
+		childAdapter.setLogLevel(LogLevel.OFF);
+		return childAdapter;
 	}
 
 	/**
