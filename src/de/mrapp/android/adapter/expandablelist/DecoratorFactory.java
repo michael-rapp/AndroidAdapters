@@ -35,7 +35,7 @@ import de.mrapp.android.adapter.SelectableListDecorator;
  * 
  * @since 1.0.0
  */
-public interface ChildDecoratorFactory<ChildType> {
+public interface DecoratorFactory<ChildType> {
 
 	/**
 	 * Creates a decorator, which allows to customize the appearance, of the
@@ -46,6 +46,6 @@ public interface ChildDecoratorFactory<ChildType> {
 	 *         class {@link SelectableListDecorator}. The decorator may not be
 	 *         null
 	 */
-	SelectableListDecorator<ChildType> createChildDecorator();
+	SelectableListDecorator<ChildType> createDecorator();
 
 }

@@ -33,7 +33,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListView;
 import de.mrapp.android.adapter.ExpandableListAdapter;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.datastructure.group.Group;
@@ -117,8 +116,13 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 	private MultipleChoiceListAdapter<ChildType> createChildAdapter() {
 		return new MultipleChoiceListAdapterImplementation<ChildType>(context,
-				childInflater, getChildDecoratorFactory()
-						.createChildDecorator());
+				childInflater, new NullObjectDecorator<ChildType>());
+	}
+
+	private MultipleChoiceListAdapter<Group<GroupType, ChildType>> createGroupAdapter() {
+		return new MultipleChoiceListAdapterImplementation<Group<GroupType, ChildType>>(
+				context, groupInflater,
+				new NullObjectDecorator<Group<GroupType, ChildType>>());
 	}
 
 	protected final Context getContext() {
@@ -133,11 +137,11 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		return childInflater;
 	}
 
-	protected DecoratorType getDecorator() {
+	protected final DecoratorType getDecorator() {
 		return decorator;
 	}
 
-	protected Set<ExpandableListAdapterListener<GroupType, ChildType>> getAdapterListeners() {
+	protected final Set<ExpandableListAdapterListener<GroupType, ChildType>> getAdapterListeners() {
 		return adapterListeners;
 	}
 
@@ -178,8 +182,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	protected abstract void applyDecoratorOnChild(final Context context,
 			final View view, final int groupIndex, final int childIndex);
 
-	protected abstract ChildDecoratorFactory<ChildType> getChildDecoratorFactory();
-
 	protected AbstractExpandableListAdapter(
 			final Context context,
 			final Inflater groupInflater,
@@ -198,6 +200,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		this.childInflater = childInflater;
 		this.decorator = decorator;
 		this.adapterListeners = adapterListeners;
+		this.groupAdapter = createGroupAdapter();
 	}
 
 	@Override
@@ -350,15 +353,13 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	@Override
 	public final ListIterator<GroupType> groupListIterator() {
 		return new GroupListIterator<GroupType, ChildType>(
-				groupAdapter.listIterator(), context, childInflater,
-				getChildDecoratorFactory());
+				groupAdapter.listIterator(), context, childInflater);
 	}
 
 	@Override
 	public final ListIterator<GroupType> groupListIterator(final int index) {
 		return new GroupListIterator<GroupType, ChildType>(
-				groupAdapter.listIterator(index), context, childInflater,
-				getChildDecoratorFactory());
+				groupAdapter.listIterator(index), context, childInflater);
 	}
 
 	@Override
@@ -1135,7 +1136,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		}
 
 		applyDecoratorOnGroup(getContext(), view, groupIndex);
-		return null;
+		return view;
 	}
 
 	@Override

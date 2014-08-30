@@ -22,10 +22,9 @@ import java.util.Set;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.ExpandableListView;
 import de.mrapp.android.adapter.ExpandableListDecorator;
-import de.mrapp.android.adapter.SelectableListDecorator;
 import de.mrapp.android.adapter.inflater.Inflater;
-import de.mrapp.android.adapter.list.selectable.SelectableListAdapter;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
@@ -45,29 +44,6 @@ import de.mrapp.android.adapter.list.selectable.SelectableListAdapter;
 public class ExpandableListAdapterImplementation<GroupType, ChildType>
 		extends
 		AbstractExpandableListAdapter<GroupType, ChildType, ExpandableListDecorator<GroupType, ChildType>> {
-
-	/**
-	 * An implementation of the abstract class {@link SelectableListDecorator},
-	 * which is used to customize the appearance of the views, which are used to
-	 * visualize the adapter's child items. The decorator's method calls are
-	 * therefore delegated to the adapter's actual decorator.
-	 */
-	private class ChildDecorator extends SelectableListDecorator<ChildType> {
-
-		@Override
-		protected void onShowItem(final Context context,
-				final SelectableListAdapter<ChildType> adapter,
-				final View view, final ChildType item, final int index,
-				final boolean enabled, final int state, final boolean filtered,
-				final boolean selected) {
-			int groupIndex = indexOfChild(item);
-			GroupType group = getGroup(groupIndex);
-			getDecorator().applyDecoratorOnChild(context,
-					ExpandableListAdapterImplementation.this, view, item,
-					index, group, groupIndex, enabled, state, filtered);
-		}
-
-	}
 
 	/**
 	 * The constant serial version UID.
@@ -120,17 +96,6 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType>
 		ChildType child = getChild(groupIndex, childIndex);
 		getDecorator().applyDecoratorOnChild(context, this, view, child,
 				childIndex, group, groupIndex, true, 0, false);
-	}
-
-	@Override
-	protected final ChildDecoratorFactory<ChildType> getChildDecoratorFactory() {
-		return new ChildDecoratorFactory<ChildType>() {
-
-			@Override
-			public SelectableListDecorator<ChildType> createChildDecorator() {
-				return new ChildDecorator();
-			}
-		};
 	}
 
 	@Override
