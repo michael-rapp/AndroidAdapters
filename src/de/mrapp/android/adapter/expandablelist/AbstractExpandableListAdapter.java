@@ -19,6 +19,7 @@ package de.mrapp.android.adapter.expandablelist;
 
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -176,6 +177,43 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 			}
 
 		};
+	}
+
+	/**
+	 * Returns, whether the underlying data of the adapter's group items
+	 * implements the interface {@link Serializable}, or not.
+	 * 
+	 * @return True, if the underlying data of the adapter's group items
+	 *         implements the interface {@link Serializable}, false otherwise
+	 */
+	private boolean isGroupDataSerializable() {
+		if (!isEmpty()) {
+			if (!Serializable.class.isAssignableFrom(getGroup(0).getClass())) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Returns, whether the underlying data of the adapter's child items
+	 * implements the interface {@link Serializable}, or not.
+	 * 
+	 * @return True, if the underlying data of the adapter's child items
+	 *         implements the interface {@link Serializable}, false otherwise
+	 */
+	private boolean isChildDataSerializable() {
+		List<ChildType> children = getAllChildren();
+
+		if (!children.isEmpty()) {
+			if (!Serializable.class
+					.isAssignableFrom(children.get(0).getClass())) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/**
@@ -1353,14 +1391,31 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 	@Override
 	public void onSaveInstanceState(final Bundle outState) {
-		// TODO Auto-generated method stub
+		if (!isGroupDataSerializable()) {
+			String message = "The adapter's items can not be stored, because the "
+					+ "underlying data of the group items does not implement the "
+					+ "interface \"" + Serializable.class.getName() + "\"";
+			getLogger().logWarn(getClass(), message);
+		} else if (!isChildDataSerializable()) {
+			String message = "The adapter's items can not be stored, because the "
+					+ "underlying data of the child items does not implement the "
+					+ "interface \"" + Serializable.class.getName() + "\"";
+			getLogger().logWarn(getClass(), message);
+		} else {
+			groupAdapter.onSaveInstanceState(outState);
+		}
 
+		getLogger().logDebug(getClass(), "Saved instance state");
 	}
 
 	@Override
 	public void onRestoreInstanceState(final Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+		if (savedInstanceState != null) {
+			groupAdapter.onRestoreInstanceState(savedInstanceState);
 
+			notifyDataSetChanged();
+			getLogger().logDebug(getClass(), "Restored instance state");
+		}
 	}
 
 	@Override
