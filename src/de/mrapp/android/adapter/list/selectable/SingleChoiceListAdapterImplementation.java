@@ -105,7 +105,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 			@Override
 			public void onItemEnabled(final ListAdapter<DataType> adapter,
 					final DataType item, final int index) {
-				if (getNumberOfItems() == 1) {
+				if (getNumberOfEnabledItems() == 1) {
 					select(index);
 				}
 			}
