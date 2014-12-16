@@ -87,6 +87,14 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 			.getSimpleName() + "::AllowDuplicates";
 
 	/**
+	 * The key, which is used to store the key value pairs, which are stored
+	 * within the adapter, within a bundle.
+	 */
+	@VisibleForTesting
+	protected static final String PARAMETERS_BUNDLE_KEY = AbstractListAdapter.class
+			.getSimpleName() + "::Parameters";
+
+	/**
 	 * The key, which is used to store the log level, which is used for logging,
 	 * within a bundle.
 	 */
@@ -121,6 +129,12 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	 * adapter's underlying data has been modified.
 	 */
 	private transient Set<ListAdapterListener<DataType>> adapterListeners;
+
+	/**
+	 * A bundle, which contains key value pairs, which are stored within the
+	 * adapter.
+	 */
+	private Bundle parameters;
 
 	/**
 	 * True, if duplicate items are allowed, false otherwise.
@@ -388,6 +402,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		this.decorator = decorator;
 		this.logger = new Logger(logLevel);
 		this.items = items;
+		this.parameters = null;
 		this.allowDuplicates = allowDuplicates;
 		this.adapterListeners = adapterListeners;
 	}
@@ -400,6 +415,16 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	@Override
 	public final void setLogLevel(final LogLevel logLevel) {
 		getLogger().setLogLevel(logLevel);
+	}
+
+	@Override
+	public final Bundle getParameters() {
+		return parameters;
+	}
+
+	@Override
+	public final void setParameters(final Bundle parameters) {
+		this.parameters = parameters;
 	}
 
 	@Override
@@ -718,6 +743,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 			getLogger().logWarn(getClass(), message);
 		}
 
+		outState.putBundle(PARAMETERS_BUNDLE_KEY, getParameters());
+
 		outState.putBoolean(ALLOW_DUPLICATES_BUNDLE_KEY, areDuplicatesAllowed());
 
 		outState.putInt(LOG_LEVEL_BUNDLE_KEY, getLogLevel().getRank());
@@ -734,6 +761,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 						.getSerializable(ITEMS_BUNDLE_KEY);
 				items = wrappedItems.getWrappedInstance();
 			}
+
+			setParameters(savedInstanceState.getBundle(PARAMETERS_BUNDLE_KEY));
 
 			allowDuplicates(savedInstanceState
 					.getBoolean(ALLOW_DUPLICATES_BUNDLE_KEY));
