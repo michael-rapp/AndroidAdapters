@@ -20,6 +20,7 @@ package de.mrapp.android.adapter.datastructure;
 import java.util.regex.Pattern;
 
 import de.mrapp.android.adapter.Filter;
+import de.mrapp.android.adapter.util.ClassUtil;
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 /**
@@ -49,7 +50,7 @@ public class AppliedFilter<DataType> implements DataStructure {
 	 * The filter, which has been used to match the adapter's single items to
 	 * the regular expression.
 	 */
-	private final transient Filter<DataType> filter;
+	private final Filter<DataType> filter;
 
 	/**
 	 * Creates a new representation of a filter, which has been applied on an
@@ -113,13 +114,21 @@ public class AppliedFilter<DataType> implements DataStructure {
 
 	@Override
 	public final String toString() {
-		return "AppliedFilter [regularExpression=" + regularExpression + "]";
+		return "AppliedFilter [regularExpression="
+				+ regularExpression
+				+ (filter != null ? ", filter="
+						+ ClassUtil.getTruncatedName(filter.getClass()) : "")
+				+ "]";
 	}
 
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime
+				* result
+				+ ((filter == null) ? 0 : filter.getClass().getName()
+						.hashCode());
 		result = prime * result + regularExpression.pattern().hashCode();
 		return result;
 	}
@@ -133,6 +142,14 @@ public class AppliedFilter<DataType> implements DataStructure {
 		if (getClass() != obj.getClass())
 			return false;
 		AppliedFilter<?> other = (AppliedFilter<?>) obj;
+		if (filter == null) {
+			if (other.filter != null)
+				return false;
+		} else if (other.filter == null) {
+			return false;
+		} else if (!filter.getClass().getName()
+				.equals(other.filter.getClass().getName()))
+			return false;
 		if (!regularExpression.pattern().equals(
 				other.regularExpression.pattern()))
 			return false;
