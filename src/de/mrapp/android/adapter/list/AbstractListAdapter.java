@@ -720,12 +720,12 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 
 		if (view == null) {
 			view = getInflater().inflate(getContext(), parent, false);
-			view.setOnClickListener(createItemOnClickListener(index));
 			String message = "Inflated view to visualize the item at index "
 					+ index;
 			getLogger().logVerbose(getClass(), message);
 		}
 
+		view.setOnClickListener(createItemOnClickListener(index));
 		applyDecorator(getContext(), view, index);
 		return view;
 	}
