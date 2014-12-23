@@ -17,11 +17,13 @@
  */
 package de.mrapp.android.adapter.datastructure.item;
 
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
+import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 import java.util.regex.Pattern;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import de.mrapp.android.adapter.Filterable;
 import de.mrapp.android.adapter.FilteringNotSupportedException;
 import de.mrapp.android.adapter.SortingNotSupportedException;
@@ -38,13 +40,38 @@ import de.mrapp.android.adapter.datastructure.DataStructure;
  * 
  * @since 1.0.0
  */
-public class Item<DataType> implements DataStructure,
+public class Item<DataType> implements DataStructure, Parcelable,
 		Comparable<Item<DataType>>, Filterable {
+
+	/**
+	 * A creator, which allows to create instances of the class {@link Item}
+	 * from parcels.
+	 */
+	@SuppressWarnings("rawtypes")
+	public static final Creator<Item> CREATOR = new Creator<Item>() {
+
+		@Override
+		public Item createFromParcel(final Parcel source) {
+			return new Item(source);
+		}
+
+		@Override
+		public Item[] newArray(final int size) {
+			return new Item[size];
+		}
+
+	};
 
 	/**
 	 * The constant serial version UID.
 	 */
 	private static final long serialVersionUID = 1L;
+
+	/**
+	 * The class loader, which is used to create instances of the item's generic
+	 * type.
+	 */
+	private static ClassLoader classLoader;
 
 	/**
 	 * The item's data.
@@ -65,6 +92,22 @@ public class Item<DataType> implements DataStructure,
 	 * The item's state.
 	 */
 	private int state;
+
+	/**
+	 * Creates a new data structure, which holds the data on an item of an
+	 * adapter.
+	 * 
+	 * @param source
+	 *            The source, the item should be created from, as an instance of
+	 *            the class {@link Parcel}
+	 */
+	@SuppressWarnings("unchecked")
+	private Item(final Parcel source) {
+		setData((DataType) source.readParcelable(classLoader));
+		setSelected(source.readInt() == 1);
+		setEnabled(source.readInt() == 1);
+		setState(source.readInt());
+	}
 
 	/**
 	 * Creates a new data structure, which holds the data of an item of an
@@ -101,6 +144,7 @@ public class Item<DataType> implements DataStructure,
 	public final void setData(final DataType data) {
 		ensureNotNull(data, "The data may not be null");
 		this.data = data;
+		Item.classLoader = data.getClass().getClassLoader();
 	}
 
 	/**
@@ -235,6 +279,19 @@ public class Item<DataType> implements DataStructure,
 		if (state != other.state)
 			return false;
 		return true;
+	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(final Parcel dest, final int flags) {
+		dest.writeParcelable((Parcelable) getData(), flags);
+		dest.writeInt(isSelected() ? 1 : 0);
+		dest.writeInt(isEnabled() ? 1 : 0);
+		dest.writeInt(getState());
 	}
 
 }
