@@ -98,7 +98,7 @@ public abstract class AbstractDecorator {
 			currentParentView.setTag(viewHolder);
 		}
 
-		return (ViewType) viewHolder.getView(currentParentView, viewId);
+		return (ViewType) viewHolder.getView(currentParentView, viewId, 0);
 	}
 
 }

@@ -31,16 +31,16 @@ import android.view.View;
 public class ViewHolder {
 
 	/**
-	 * A sparse array, which maps the resource IDs of already referenced views
-	 * to the views themselves.
+	 * A sparse array, which maps view types to sparse arrays, which map the
+	 * resource IDs of already referenced views to the views themselves.
 	 */
-	private SparseArray<View> views;
+	private SparseArray<SparseArray<View>> views;
 
 	/**
 	 * Creates a new view holder.
 	 */
 	public ViewHolder() {
-		this.views = new SparseArray<View>();
+		this.views = new SparseArray<SparseArray<View>>();
 	}
 
 	/**
@@ -58,15 +58,25 @@ public class ViewHolder {
 	 *            The resource ID of the view, which should be returned, as an
 	 *            {@link Integer} value. The ID must be a valid resource ID of a
 	 *            view, which belongs to the given parent view
+	 * @param viewType
+	 *            The view type of the view, which should be returned, as an
+	 *            {@link Integer} value
 	 * @return The view, which belongs to the given resource ID, as an instance
 	 *         of the class {@link View}. The view may not be null
 	 */
-	public final View getView(final View parentView, final int viewId) {
-		View view = views.get(viewId);
+	public final View getView(final View parentView, final int viewId,
+			final int viewType) {
+		SparseArray<View> mapping = views.get(viewType);
+
+		if (mapping == null) {
+			mapping = new SparseArray<View>();
+		}
+
+		View view = mapping.get(viewId);
 
 		if (view == null) {
 			view = parentView.findViewById(viewId);
-			views.put(viewId, view);
+			mapping.put(viewId, view);
 		}
 
 		return view;
