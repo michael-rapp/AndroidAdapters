@@ -70,6 +70,7 @@ public class ViewHolder {
 
 		if (mapping == null) {
 			mapping = new SparseArray<View>();
+			views.put(viewType, mapping);
 		}
 
 		View view = mapping.get(viewId);
