@@ -77,10 +77,50 @@ public abstract class SelectableListDecorator<DataType> extends
 			final DataType item, final int index, final boolean enabled,
 			final int state, final boolean filtered, final boolean selected) {
 		setCurrentParentView(view);
+		setCurrentViewType(getViewType(adapter, item, index, enabled, state,
+				filtered, selected));
 		view.setEnabled(enabled);
 		view.setSelected(selected);
 		onShowItem(context, adapter, view, item, index, enabled, state,
 				filtered, selected);
+	}
+
+	/**
+	 * The method which is invoked in order to retrieve the view type of a
+	 * specific item, which is about to be visualized. This method has to be
+	 * overridden by custom decorators which should be able to visualize some
+	 * items optically divergent from others, returning a different integer
+	 * constant for each type.
+	 * 
+	 * @param adapter
+	 *            The adapter, whose items are visualized by the decorator, as
+	 *            an instance of the type {@link ListAdapter}. The adapter may
+	 *            not be null
+	 * @param item
+	 *            The item, which should be visualized, as an instance of the
+	 *            generic type DataType. The item may not be null
+	 * @param index
+	 *            The index of the item, which should be visualized, as an
+	 *            {@link Integer} value
+	 * @param enabled
+	 *            True, if the item, which should be visualized, is currently
+	 *            enabled, false otherwise
+	 * @param state
+	 *            The current state of the item, which should be visualized, as
+	 *            an {@link Integer} value
+	 * @param filtered
+	 *            True, if at least one filter is currently applied on the
+	 *            adapter, false otherwise
+	 * @return The view type of the item, which is about to be visualized, as an
+	 *         {@link Integer} value
+	 * @param selected
+	 *            True, if the item, which should be visualized, is currently
+	 *            selected, false otherwise
+	 */
+	protected int getViewType(final ListAdapter<DataType> adapter,
+			final DataType item, final int index, final boolean enabled,
+			final int state, final boolean filtered, final boolean selected) {
+		return 0;
 	}
 
 	/**
