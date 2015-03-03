@@ -75,11 +75,12 @@ public abstract class ExpandableListDecorator<GroupType, ChildType> extends
 			final View view, final GroupType group, final int index,
 			final boolean enabled, final int state, final boolean filtered) {
 		setCurrentParentView(view);
-		setCurrentViewType(getGroupViewType(adapter, group, index, enabled,
-				state, filtered));
-		view.setEnabled(enabled);
-		onShowGroup(context, adapter, view, group, index, enabled, state,
+		int viewType = getGroupViewType(adapter, group, index, enabled, state,
 				filtered);
+		setCurrentViewType(viewType);
+		view.setEnabled(enabled);
+		onShowGroup(context, adapter, view, group, viewType, index, enabled,
+				state, filtered);
 	}
 
 	/**
@@ -127,10 +128,11 @@ public abstract class ExpandableListDecorator<GroupType, ChildType> extends
 			final GroupType group, final int groupIndex, final boolean enabled,
 			final int state, final boolean filtered) {
 		setCurrentParentView(view);
-		setCurrentViewType(getChildViewType(adapter, child, childIndex, group,
-				groupIndex, enabled, state, filtered));
+		int viewType = getChildViewType(adapter, child, childIndex, group,
+				groupIndex, enabled, state, filtered);
+		setCurrentViewType(viewType);
 		view.setEnabled(enabled);
-		onShowChild(context, adapter, view, child, childIndex, group,
+		onShowChild(context, adapter, view, child, viewType, childIndex, group,
 				groupIndex, enabled, state, filtered);
 	}
 
@@ -234,6 +236,9 @@ public abstract class ExpandableListDecorator<GroupType, ChildType> extends
 	 * @param group
 	 *            The group item, which should be visualized, as an instance of
 	 *            the generic type GroupType. The group item may not be null
+	 * @param viewType
+	 *            The view type of the group item, which should be visualized,
+	 *            as an {@link Integer} value
 	 * @param index
 	 *            The index of the group item, which should be visualized, as an
 	 *            {@link Integer} value
@@ -249,8 +254,8 @@ public abstract class ExpandableListDecorator<GroupType, ChildType> extends
 	 */
 	protected abstract void onShowGroup(Context context,
 			ExpandableListAdapter<GroupType, ChildType> adapter, View view,
-			GroupType group, int index, boolean enabled, int state,
-			boolean filtered);
+			GroupType group, int viewType, int index, boolean enabled,
+			int state, boolean filtered);
 
 	/**
 	 * The method which is invoked, when the view, which is used to visualize a
@@ -272,6 +277,9 @@ public abstract class ExpandableListDecorator<GroupType, ChildType> extends
 	 * @param child
 	 *            The child item, which should be visualized, as an instance of
 	 *            the generic type ChildType. The child item may not be null
+	 * @param viewType
+	 *            The view type of the child item, which should be visualized,
+	 *            as an {@link Integer} value
 	 * @param childIndex
 	 *            The index of the child item, which should be visualized, as an
 	 *            {@link Integer} value
@@ -294,7 +302,7 @@ public abstract class ExpandableListDecorator<GroupType, ChildType> extends
 	 */
 	protected abstract void onShowChild(Context context,
 			ExpandableListAdapter<GroupType, ChildType> adapter, View view,
-			ChildType child, int childIndex, GroupType group, int groupIndex,
-			boolean enabled, int state, boolean filtered);
+			ChildType child, int viewType, int childIndex, GroupType group,
+			int groupIndex, boolean enabled, int state, boolean filtered);
 
 }
