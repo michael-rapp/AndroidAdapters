@@ -39,8 +39,9 @@ public class NullObjectDecorator<DataType> extends
 	@Override
 	protected final void onShowItem(final Context context,
 			final SelectableListAdapter<DataType> adapter, final View view,
-			final DataType item, final int index, final boolean enabled,
-			final int state, final boolean filtered, final boolean selected) {
+			final DataType item, final int viewType, final int index,
+			final boolean enabled, final int state, final boolean filtered,
+			final boolean selected) {
 		return;
 	}
 
