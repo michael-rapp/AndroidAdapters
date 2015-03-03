@@ -17,6 +17,7 @@
  */
 package de.mrapp.android.adapter;
 
+import java.io.Serializable;
 import java.util.regex.Pattern;
 
 /**
@@ -27,7 +28,7 @@ import java.util.regex.Pattern;
  *
  * @since 1.0.0
  */
-public interface Filterable {
+public interface Filterable extends Serializable {
 
 	/**
 	 * Returns, whether the class does match a specific regular expression, or
