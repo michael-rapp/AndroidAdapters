@@ -744,11 +744,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		}
 
 		outState.putBundle(PARAMETERS_BUNDLE_KEY, getParameters());
-
 		outState.putBoolean(ALLOW_DUPLICATES_BUNDLE_KEY, areDuplicatesAllowed());
-
 		outState.putInt(LOG_LEVEL_BUNDLE_KEY, getLogLevel().getRank());
-
 		getLogger().logDebug(getClass(), "Saved instance state");
 	}
 
@@ -763,13 +760,10 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 			}
 
 			setParameters(savedInstanceState.getBundle(PARAMETERS_BUNDLE_KEY));
-
 			allowDuplicates(savedInstanceState
 					.getBoolean(ALLOW_DUPLICATES_BUNDLE_KEY));
-
 			setLogLevel(LogLevel.fromRank(savedInstanceState
 					.getInt(LOG_LEVEL_BUNDLE_KEY)));
-
 			notifyDataSetChanged();
 			getLogger().logDebug(getClass(), "Restored instance state");
 		}
