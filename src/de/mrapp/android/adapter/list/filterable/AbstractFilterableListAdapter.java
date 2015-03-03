@@ -637,7 +637,6 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	@Override
 	public void onSaveInstanceState(final Bundle outState) {
 		super.onSaveInstanceState(outState);
-
 		SerializableWrapper<Set<AppliedFilter<DataType>>> wrappedAppliedFilters = new SerializableWrapper<Set<AppliedFilter<DataType>>>(
 				getAppliedFilters());
 		outState.putSerializable(APPLIED_FILTERS_BUNDLE_KEY,
@@ -653,7 +652,6 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 			SerializableWrapper<Set<AppliedFilter<DataType>>> wrappedAppliedFilters = (SerializableWrapper<Set<AppliedFilter<DataType>>>) savedInstanceState
 					.getSerializable(APPLIED_FILTERS_BUNDLE_KEY);
 			setAppliedFilters(wrappedAppliedFilters.getWrappedInstance());
-
 			notifyDataSetChanged();
 		}
 	}

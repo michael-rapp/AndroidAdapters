@@ -339,7 +339,6 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	@Override
 	public final void onSaveInstanceState(final Bundle outState) {
 		super.onSaveInstanceState(outState);
-
 		outState.putBoolean(SELECT_ITEM_ON_CLICK_BUNDLE_KEY,
 				isItemSelectedOnClick());
 	}
@@ -351,7 +350,6 @@ public abstract class AbstractSelectableListAdapter<DataType>
 		if (savedInstanceState != null) {
 			selectItemOnClick = savedInstanceState
 					.getBoolean(SELECT_ITEM_ON_CLICK_BUNDLE_KEY);
-
 			notifyDataSetChanged();
 		}
 	}
