@@ -72,11 +72,12 @@ public abstract class ListDecorator<DataType> extends AbstractDecorator {
 			final DataType item, final int index, final boolean enabled,
 			final int state, final boolean filtered) {
 		setCurrentParentView(view);
-		setCurrentViewType(getViewType(adapter, item, index, enabled, state,
-				filtered));
-		view.setEnabled(enabled);
-		onShowItem(context, adapter, view, item, index, enabled, state,
+		int viewType = getViewType(adapter, item, index, enabled, state,
 				filtered);
+		setCurrentViewType(viewType);
+		view.setEnabled(enabled);
+		onShowItem(context, adapter, view, item, viewType, index, enabled,
+				state, filtered);
 	}
 
 	/**
@@ -134,6 +135,9 @@ public abstract class ListDecorator<DataType> extends AbstractDecorator {
 	 * @param item
 	 *            The item, which should be visualized, as an instance of the
 	 *            generic type DataType. The item may not be null
+	 * @param viewType
+	 *            The view type of the item, which should be visualized, as an
+	 *            {@link Integer} value
 	 * @param index
 	 *            The index of the item, which should be visualized, as an
 	 *            {@link Integer} value
@@ -148,7 +152,8 @@ public abstract class ListDecorator<DataType> extends AbstractDecorator {
 	 *            adapter, false otherwise
 	 */
 	protected abstract void onShowItem(Context context,
-			ListAdapter<DataType> adapter, View view, DataType item, int index,
-			boolean enabled, int state, boolean filtered);
+			ListAdapter<DataType> adapter, View view, DataType item,
+			int viewType, int index, boolean enabled, int state,
+			boolean filtered);
 
 }
