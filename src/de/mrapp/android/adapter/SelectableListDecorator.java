@@ -77,12 +77,13 @@ public abstract class SelectableListDecorator<DataType> extends
 			final DataType item, final int index, final boolean enabled,
 			final int state, final boolean filtered, final boolean selected) {
 		setCurrentParentView(view);
-		setCurrentViewType(getViewType(adapter, item, index, enabled, state,
-				filtered, selected));
+		int viewType = getViewType(adapter, item, index, enabled, state,
+				filtered, selected);
+		setCurrentViewType(viewType);
 		view.setEnabled(enabled);
 		view.setSelected(selected);
-		onShowItem(context, adapter, view, item, index, enabled, state,
-				filtered, selected);
+		onShowItem(context, adapter, view, item, viewType, index, enabled,
+				state, filtered, selected);
 	}
 
 	/**
@@ -143,6 +144,9 @@ public abstract class SelectableListDecorator<DataType> extends
 	 * @param item
 	 *            The item, which should be visualized, as an instance of the
 	 *            generic type DataType. The item may not be null
+	 * @param viewType
+	 *            The view type of the item, which should be visualized, as an
+	 *            {@link Integer} value
 	 * @param index
 	 *            The index of the item, which should be visualized, as an
 	 *            {@link Integer} value
@@ -161,7 +165,7 @@ public abstract class SelectableListDecorator<DataType> extends
 	 */
 	protected abstract void onShowItem(Context context,
 			SelectableListAdapter<DataType> adapter, View view, DataType item,
-			int index, boolean enabled, int state, boolean filtered,
-			boolean selected);
+			int viewType, int index, boolean enabled, int state,
+			boolean filtered, boolean selected);
 
 }
