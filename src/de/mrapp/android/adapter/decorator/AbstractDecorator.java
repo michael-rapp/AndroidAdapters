@@ -41,9 +41,15 @@ public abstract class AbstractDecorator {
 	private View currentParentView;
 
 	/**
+	 * The view type of the item, whose appearance should currently be
+	 * customized by the decorator.
+	 */
+	private int currentViewType;
+
+	/**
 	 * Sets the index of the item, whose appearance should currently be
-	 * customized by the decorator. This method should never be called by any
-	 * custom decorator implementation.
+	 * customized by the decorator. This method should never be called or
+	 * overridden by any custom decorator implementation.
 	 * 
 	 * @param currentParentView
 	 *            The parent view, which should be set, as an instance of the
@@ -52,6 +58,19 @@ public abstract class AbstractDecorator {
 	protected final void setCurrentParentView(final View currentParentView) {
 		ensureNotNull(currentParentView, "The parent view may not be null");
 		this.currentParentView = currentParentView;
+	}
+
+	/**
+	 * Sets the view type of the item, whose appearance should currently be
+	 * customized by the decorator. This method should never be called or
+	 * overridden by any custom decorator implementation.
+	 * 
+	 * @param currentViewType
+	 *            The view type, which should be set, as an {@link Integer}
+	 *            value
+	 */
+	protected final void setCurrentViewType(final int currentViewType) {
+		this.currentViewType = currentViewType;
 	}
 
 	/**
@@ -98,7 +117,8 @@ public abstract class AbstractDecorator {
 			currentParentView.setTag(viewHolder);
 		}
 
-		return (ViewType) viewHolder.getView(currentParentView, viewId, 0);
+		return (ViewType) viewHolder.getView(currentParentView, viewId,
+				currentViewType);
 	}
 
 }
