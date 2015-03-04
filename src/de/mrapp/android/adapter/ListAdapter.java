@@ -181,7 +181,7 @@ public interface ListAdapter<DataType> extends DataStructure, Restorable,
 	 *            <code>getNumberOfItems():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @return The item, which has been removed, as an instance of the generic
-	 *         type DataType. The item may not be null
+	 *         type DataType or null, if no item has been removed
 	 */
 	DataType removeItem(int index);
 
