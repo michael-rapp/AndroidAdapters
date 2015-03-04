@@ -386,7 +386,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	 * Notifies, that the adapter's underlying data has been changed, if
 	 * automatically notifying such events is currently enabled.
 	 */
-	protected void notifyOnDataSetChanged() {
+	protected final void notifyOnDataSetChanged() {
 		if (isNotifiedOnChange()) {
 			notifyDataSetChanged();
 		}
@@ -452,7 +452,6 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		ensureNotNull(inflater, "The inflater may not be null");
 		ensureNotNull(decorator, "The decorator may not be null");
 		ensureNotNull(adapterListeners, "The adapter listeners may not be null");
-		setItems(items);
 		this.context = context;
 		this.inflater = inflater;
 		this.decorator = decorator;
