@@ -144,6 +144,10 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 	 *            list, if the adapter should not contain any items
 	 * @param allowDuplicates
 	 *            True, if duplicate items should be allowed, false otherwise
+	 * @param notifyOnChange
+	 *            True, if the method <code>notifyDataSetChanged():void</code>
+	 *            should be automatically called when the adapter's underlying
+	 *            data has been changed, false otherwise
 	 * @param adapterListeners
 	 *            A set, which contains the listeners, which should be notified
 	 *            when the adapter's underlying data has been modified or an
@@ -170,7 +174,7 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 	protected AbstractSortableListAdapter(final Context context,
 			final Inflater inflater, final DecoratorType decorator,
 			final LogLevel logLevel, final ArrayList<Item<DataType>> items,
-			final boolean allowDuplicates,
+			final boolean allowDuplicates, final boolean notifyOnChange,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final int numberOfItemStates,
@@ -178,8 +182,8 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 			final Set<ListItemStateListener<DataType>> itemStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners) {
 		super(context, inflater, decorator, logLevel, items, allowDuplicates,
-				adapterListeners, enableStateListeners, numberOfItemStates,
-				triggerItemStateOnClick, itemStateListeners);
+				notifyOnChange, adapterListeners, enableStateListeners,
+				numberOfItemStates, triggerItemStateOnClick, itemStateListeners);
 		setSortingListeners(sortingListeners);
 	}
 
@@ -203,7 +207,7 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 		}
 
 		notifyOnSorted(getAllItems(), order, null);
-		notifyDataSetChanged();
+		notifyOnDataSetChanged();
 	}
 
 	@Override
@@ -232,7 +236,7 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 		}
 
 		notifyOnSorted(getAllItems(), order, comparator);
-		notifyDataSetChanged();
+		notifyOnDataSetChanged();
 	}
 
 	@Override

@@ -183,6 +183,10 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 	 *            if the adapter should not contain any items
 	 * @param allowDuplicates
 	 *            True, if duplicate items should be allowed, false otherwise
+	 * @param notifyOnChange
+	 *            True, if the method <code>notifyDataSetChanged():void</code>
+	 *            should be automatically called when the adapter's underlying
+	 *            data has been changed, false otherwise
 	 * @param adapterListeners
 	 *            A set, which contains the listeners, which should be notified,
 	 *            when the adapter's underlying data has been modified or an
@@ -205,14 +209,14 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 	protected AbstractItemStateListAdapter(final Context context,
 			final Inflater inflater, final DecoratorType decorator,
 			final LogLevel logLevel, final ArrayList<Item<DataType>> items,
-			final boolean allowDuplicates,
+			final boolean allowDuplicates, final boolean notifyOnChange,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final int numberOfItemStates,
 			final boolean triggerItemStateOnClick,
 			final Set<ListItemStateListener<DataType>> itemStateListeners) {
 		super(context, inflater, decorator, logLevel, items, allowDuplicates,
-				adapterListeners, enableStateListeners);
+				notifyOnChange, adapterListeners, enableStateListeners);
 		setNumberOfItemStates(numberOfItemStates);
 		triggerItemStateOnClick(triggerItemStateOnClick);
 		setItemStateListeners(itemStateListeners);
@@ -275,7 +279,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 				int previousState = item.getState();
 				item.setState(state);
 				notifyOnItemStateChanged(item.getData(), index, state);
-				notifyDataSetChanged();
+				notifyOnDataSetChanged();
 				String message = "Changed state of item \"" + item.getData()
 						+ "\" at index " + index + " from " + previousState
 						+ " to " + state;

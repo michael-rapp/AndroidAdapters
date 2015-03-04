@@ -192,6 +192,10 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	 *            list, if the adapter should not contain any items
 	 * @param allowDuplicates
 	 *            True, if duplicate items should be allowed, false otherwise
+	 * @param notifyOnChange
+	 *            True, if the method <code>notifyDataSetChanged():void</code>
+	 *            should be automatically called when the adapter's underlying
+	 *            data has been changed, false otherwise
 	 * @param adapterListeners
 	 *            A set, which contains the listeners, which should be notified
 	 *            when the adapter's underlying data has been modified or an
@@ -234,7 +238,7 @@ public abstract class AbstractSelectableListAdapter<DataType>
 			final Inflater inflater,
 			final SelectableListDecorator<DataType> decorator,
 			final LogLevel logLevel, final ArrayList<Item<DataType>> items,
-			final boolean allowDuplicates,
+			final boolean allowDuplicates, final boolean notifyOnChange,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final int numberOfItemStates,
@@ -246,9 +250,10 @@ public abstract class AbstractSelectableListAdapter<DataType>
 			final boolean selectItemOnClick,
 			final Set<ListSelectionListener<DataType>> selectionListeners) {
 		super(context, inflater, decorator, logLevel, items, allowDuplicates,
-				adapterListeners, enableStateListeners, numberOfItemStates,
-				triggerItemStateOnClick, itemStateListeners, sortingListeners,
-				filterListeners, appliedFilters);
+				notifyOnChange, adapterListeners, enableStateListeners,
+				numberOfItemStates, triggerItemStateOnClick,
+				itemStateListeners, sortingListeners, filterListeners,
+				appliedFilters);
 		selectItemOnClick(selectItemOnClick);
 		setSelectionListeners(selectionListeners);
 	}

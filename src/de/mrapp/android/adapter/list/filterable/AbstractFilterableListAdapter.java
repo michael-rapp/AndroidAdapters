@@ -461,6 +461,10 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	 *            list, if the adapter should not contain any items
 	 * @param allowDuplicates
 	 *            True, if duplicate items should be allowed, false otherwise
+	 * @param notifyOnChange
+	 *            True, if the method <code>notifyDataSetChanged():void</code>
+	 *            should be automatically called when the adapter's underlying
+	 *            data has been changed, false otherwise
 	 * @param adapterListeners
 	 *            A set, which contains the listeners, which should be notified
 	 *            when the adapter's underlying data has been modified or an
@@ -495,7 +499,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	protected AbstractFilterableListAdapter(final Context context,
 			final Inflater inflater, final DecoratorType decorator,
 			final LogLevel logLevel, final ArrayList<Item<DataType>> items,
-			final boolean allowDuplicates,
+			final boolean allowDuplicates, final boolean notifyOnChange,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final int numberOfItemStates,
@@ -505,8 +509,9 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 			final Set<ListFilterListener<DataType>> filterListeners,
 			final Set<AppliedFilter<DataType>> appliedFilters) {
 		super(context, inflater, decorator, logLevel, items, allowDuplicates,
-				adapterListeners, enableStateListeners, numberOfItemStates,
-				triggerItemStateOnClick, itemStateListeners, sortingListeners);
+				notifyOnChange, adapterListeners, enableStateListeners,
+				numberOfItemStates, triggerItemStateOnClick,
+				itemStateListeners, sortingListeners);
 		setFilterListeners(filterListeners);
 		setAppliedFilters(appliedFilters);
 		addAdapterListener(createAdapterListener());
@@ -522,7 +527,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 		if (added) {
 			applyFilter(appliedFilter);
 			notifyOnApplyFilter(regularExpression, null, getAllItems());
-			notifyDataSetChanged();
+			notifyOnDataSetChanged();
 			String message = "Applied filter using regular expression \""
 					+ regularExpression + "\"";
 			getLogger().logInfo(getClass(), message);
@@ -547,7 +552,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 		if (added) {
 			applyFilter(appliedFilter);
 			notifyOnApplyFilter(regularExpression, filter, getAllItems());
-			notifyDataSetChanged();
+			notifyOnDataSetChanged();
 			String message = "Applied filter using regular expression \""
 					+ regularExpression + "\" and filter \"" + filter + "\"";
 			getLogger().logInfo(getClass(), message);
@@ -575,7 +580,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 			indexMapping = null;
 			applyAllFilters();
 			notifyOnResetFilter(regularExpression, getAllItems());
-			notifyDataSetChanged();
+			notifyOnDataSetChanged();
 			String message = "Reseted filter \"" + appliedFilter + "\"";
 			getLogger().logInfo(getClass(), message);
 			return true;
