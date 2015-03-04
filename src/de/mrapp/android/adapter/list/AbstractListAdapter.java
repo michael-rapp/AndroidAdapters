@@ -451,6 +451,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		ensureNotNull(context, "The context may not be null");
 		ensureNotNull(inflater, "The inflater may not be null");
 		ensureNotNull(decorator, "The decorator may not be null");
+		ensureNotNull(items, "The items may not be null");
 		ensureNotNull(adapterListeners, "The adapter listeners may not be null");
 		this.context = context;
 		this.inflater = inflater;
