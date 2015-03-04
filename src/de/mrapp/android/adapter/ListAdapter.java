@@ -350,7 +350,7 @@ public interface ListAdapter<DataType> extends DataStructure, Restorable,
 	 * @param array
 	 *            The array, which should be used, if it is large enough, as an
 	 *            array of the generic type T. The array may not be null
-	 * @return An array, which contains all of the adapter's item, as an array
+	 * @return An array, which contains all of the adapter's items, as an array
 	 *         of the generic type T or an empty array, if the adapter does not
 	 *         contain any items
 	 */
