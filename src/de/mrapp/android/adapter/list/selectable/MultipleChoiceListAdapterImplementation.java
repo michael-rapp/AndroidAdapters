@@ -81,7 +81,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 					final DataType item, final int index) {
 				getItems().get(index).setSelected(false);
 				notifyOnItemUnselected(item, index);
-				notifyDataSetChanged();
+				notifyOnDataSetChanged();
 			}
 
 		};
@@ -122,6 +122,10 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 	 *            list, if the adapter should not contain any items
 	 * @param allowDuplicates
 	 *            True, if duplicate items should be allowed, false otherwise
+	 * @param notifyOnChange
+	 *            True, if the method <code>notifyDataSetChanged():void</code>
+	 *            should be automatically called when the adapter's underlying
+	 *            data has been changed, false otherwise
 	 * @param adapterListeners
 	 *            A set, which contains the listeners, which should be notified
 	 *            when the adapter's underlying data has been modified or an
@@ -164,7 +168,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 			final Inflater inflater,
 			final SelectableListDecorator<DataType> decorator,
 			final LogLevel logLevel, final ArrayList<Item<DataType>> items,
-			final boolean allowDuplicates,
+			final boolean allowDuplicates, final boolean notifyOnChange,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final int numberOfItemStates,
@@ -176,10 +180,10 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 			final boolean selectItemOnClick,
 			final Set<ListSelectionListener<DataType>> selectionListeners) {
 		super(context, inflater, decorator, logLevel, items, allowDuplicates,
-				adapterListeners, enableStateListeners, numberOfItemStates,
-				triggerItemStateOnClick, itemStateListeners, sortingListeners,
-				filterListeners, appliedFilters, selectItemOnClick,
-				selectionListeners);
+				notifyOnChange, adapterListeners, enableStateListeners,
+				numberOfItemStates, triggerItemStateOnClick,
+				itemStateListeners, sortingListeners, filterListeners,
+				appliedFilters, selectItemOnClick, selectionListeners);
 		addEnableStateListner(createEnableStateListener());
 	}
 
@@ -204,7 +208,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 			final Inflater inflater,
 			final SelectableListDecorator<DataType> decorator) {
 		this(context, inflater, decorator, LogLevel.ALL,
-				new ArrayList<Item<DataType>>(), false,
+				new ArrayList<Item<DataType>>(), false, true,
 				new LinkedHashSet<ListAdapterListener<DataType>>(),
 				new LinkedHashSet<ListEnableStateListener<DataType>>(), 1,
 				false, new LinkedHashSet<ListItemStateListener<DataType>>(),
@@ -366,7 +370,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 			if (!item.isSelected()) {
 				item.setSelected(true);
 				notifyOnItemSelected(item.getData(), index);
-				notifyDataSetChanged();
+				notifyOnDataSetChanged();
 				String message = "Selected item \"" + item + "\" at index "
 						+ index;
 				getLogger().logInfo(getClass(), message);
@@ -405,7 +409,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 			if (item.isSelected()) {
 				item.setSelected(false);
 				notifyOnItemUnselected(item.getData(), index);
-				notifyDataSetChanged();
+				notifyOnDataSetChanged();
 				String message = "Unselected item \"" + item + "\" at index "
 						+ index;
 				getLogger().logInfo(getClass(), message);
@@ -485,18 +489,19 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 	@Override
 	public final String toString() {
 		return "MultipleChoiceListAdapter [logLevel=" + getLogLevel()
-				+ ", sortingListeners=" + getSortingListeners()
-				+ ", itemStateListeners=" + getItemStateListeners()
-				+ ", numberOfItemStates=" + getNumberOfItemStates()
-				+ ", triggerItemStateOnClick=" + isItemStateTriggeredOnClick()
-				+ ", enableStateListeners=" + getEnableStateListeners()
-				+ ", items=" + getItems() + ", adapterListeners="
-				+ getAdapterListeners() + ", allowDuplicates="
-				+ areDuplicatesAllowed() + ", filterListeners="
-				+ getFilterListeners() + ", appliedFilters="
-				+ getAppliedFilters() + ", selectItemOnClick="
-				+ isItemSelectedOnClick() + ", selectionListeners="
-				+ getSelectionListeners() + "]";
+				+ ", parameters=" + getParameters() + ", sortingListeners="
+				+ getSortingListeners() + ", itemStateListeners="
+				+ getItemStateListeners() + ", numberOfItemStates="
+				+ getNumberOfItemStates() + ", triggerItemStateOnClick="
+				+ isItemStateTriggeredOnClick() + ", enableStateListeners="
+				+ getEnableStateListeners() + ", items=" + getItems()
+				+ ", adapterListeners=" + getAdapterListeners()
+				+ ", allowDuplicates=" + areDuplicatesAllowed()
+				+ ", notifyOnChange=" + isNotifiedOnChange()
+				+ ", filterListeners=" + getFilterListeners()
+				+ ", appliedFilters=" + getAppliedFilters()
+				+ ", selectItemOnClick=" + isItemSelectedOnClick()
+				+ ", selectionListeners=" + getSelectionListeners() + "]";
 	}
 
 	@Override
@@ -504,12 +509,12 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 			throws CloneNotSupportedException {
 		return new MultipleChoiceListAdapterImplementation<DataType>(
 				getContext(), getInflater(), getDecorator(), getLogLevel(),
-				cloneItems(), areDuplicatesAllowed(), getAdapterListeners(),
-				getEnableStateListeners(), getNumberOfItemStates(),
-				isItemStateTriggeredOnClick(), getItemStateListeners(),
-				getSortingListeners(), getFilterListeners(),
-				cloneAppliedFilters(), isItemSelectedOnClick(),
-				getSelectionListeners());
+				cloneItems(), areDuplicatesAllowed(), isNotifiedOnChange(),
+				getAdapterListeners(), getEnableStateListeners(),
+				getNumberOfItemStates(), isItemStateTriggeredOnClick(),
+				getItemStateListeners(), getSortingListeners(),
+				getFilterListeners(), cloneAppliedFilters(),
+				isItemSelectedOnClick(), getSelectionListeners());
 	}
 
 }

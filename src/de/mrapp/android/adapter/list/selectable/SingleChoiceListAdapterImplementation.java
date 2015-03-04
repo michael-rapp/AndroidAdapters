@@ -115,7 +115,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 				if (isSelected(index)) {
 					getItems().get(index).setSelected(false);
 					notifyOnItemUnselected(item, index);
-					notifyDataSetChanged();
+					notifyOnDataSetChanged();
 					selectNearestEnabledItem(index);
 				}
 			}
@@ -239,6 +239,10 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 	 *            list, if the adapter should not contain any items
 	 * @param allowDuplicates
 	 *            True, if duplicate items should be allowed, false otherwise
+	 * @param notifyOnChange
+	 *            True, if the method <code>notifyDataSetChanged():void</code>
+	 *            should be automatically called when the adapter's underlying
+	 *            data has been changed, false otherwise
 	 * @param adapterListeners
 	 *            A set, which contains the listeners, which should be notified
 	 *            when the adapter's underlying data has been modified or an
@@ -281,7 +285,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 			final Inflater inflater,
 			final SelectableListDecorator<DataType> decorator,
 			final LogLevel logLevel, final ArrayList<Item<DataType>> items,
-			final boolean allowDuplicates,
+			final boolean allowDuplicates, final boolean notifyOnChange,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final int numberOfItemStates,
@@ -293,10 +297,10 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 			final boolean selectItemOnClick,
 			final Set<ListSelectionListener<DataType>> selectionListeners) {
 		super(context, inflater, decorator, logLevel, items, allowDuplicates,
-				adapterListeners, enableStateListeners, numberOfItemStates,
-				triggerItemStateOnClick, itemStateListeners, sortingListeners,
-				filterListeners, appliedFilters, selectItemOnClick,
-				selectionListeners);
+				notifyOnChange, adapterListeners, enableStateListeners,
+				numberOfItemStates, triggerItemStateOnClick,
+				itemStateListeners, sortingListeners, filterListeners,
+				appliedFilters, selectItemOnClick, selectionListeners);
 		addAdapterListener(createAdapterListener());
 		addEnableStateListner(createEnableStateListener());
 		addFilterListener(createFilterListener());
@@ -323,7 +327,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 			final Inflater inflater,
 			final SelectableListDecorator<DataType> decorator) {
 		this(context, inflater, decorator, LogLevel.ALL,
-				new ArrayList<Item<DataType>>(), false,
+				new ArrayList<Item<DataType>>(), false, true,
 				new LinkedHashSet<ListAdapterListener<DataType>>(),
 				new LinkedHashSet<ListEnableStateListener<DataType>>(), 1,
 				false, new LinkedHashSet<ListItemStateListener<DataType>>(),
@@ -380,7 +384,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 				}
 
 				selectUnfilteredItem(index);
-				notifyDataSetChanged();
+				notifyOnDataSetChanged();
 				return true;
 			} else {
 				String message = "Item \"" + item.getData() + "\" at index "
@@ -411,18 +415,19 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 	@Override
 	public final String toString() {
 		return "SingleChoiceListAdapter [logLevel=" + getLogLevel()
-				+ ", sortingListeners=" + getSortingListeners()
-				+ ", itemStateListeners=" + getItemStateListeners()
-				+ ", numberOfItemStates=" + getNumberOfItemStates()
-				+ ", triggerItemStateOnClick=" + isItemStateTriggeredOnClick()
-				+ ", enableStateListeners=" + getEnableStateListeners()
-				+ ", items=" + getItems() + ", adapterListeners="
-				+ getAdapterListeners() + ", allowDuplicates="
-				+ areDuplicatesAllowed() + ", filterListeners="
-				+ getSelectionListeners() + ", appliedFilters="
-				+ getAppliedFilters() + ", selectItemOnClick="
-				+ isItemSelectedOnClick() + ", selectionListeners="
-				+ getSelectionListeners() + "]";
+				+ ", parameters=" + getParameters() + ", sortingListeners="
+				+ getSortingListeners() + ", itemStateListeners="
+				+ getItemStateListeners() + ", numberOfItemStates="
+				+ getNumberOfItemStates() + ", triggerItemStateOnClick="
+				+ isItemStateTriggeredOnClick() + ", enableStateListeners="
+				+ getEnableStateListeners() + ", items=" + getItems()
+				+ ", adapterListeners=" + getAdapterListeners()
+				+ ", allowDuplicates=" + areDuplicatesAllowed()
+				+ ", notifyOnChange=" + isNotifiedOnChange()
+				+ ", filterListeners=" + getSelectionListeners()
+				+ ", appliedFilters=" + getAppliedFilters()
+				+ ", selectItemOnClick=" + isItemSelectedOnClick()
+				+ ", selectionListeners=" + getSelectionListeners() + "]";
 	}
 
 	@Override
@@ -430,12 +435,12 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 			throws CloneNotSupportedException {
 		return new SingleChoiceListAdapterImplementation<DataType>(
 				getContext(), getInflater(), getDecorator(), getLogLevel(),
-				cloneItems(), areDuplicatesAllowed(), getAdapterListeners(),
-				getEnableStateListeners(), getNumberOfItemStates(),
-				isItemStateTriggeredOnClick(), getItemStateListeners(),
-				getSortingListeners(), getFilterListeners(),
-				cloneAppliedFilters(), isItemSelectedOnClick(),
-				getSelectionListeners());
+				cloneItems(), areDuplicatesAllowed(), isNotifiedOnChange(),
+				getAdapterListeners(), getEnableStateListeners(),
+				getNumberOfItemStates(), isItemStateTriggeredOnClick(),
+				getItemStateListeners(), getSortingListeners(),
+				getFilterListeners(), cloneAppliedFilters(),
+				isItemSelectedOnClick(), getSelectionListeners());
 	}
 
 }

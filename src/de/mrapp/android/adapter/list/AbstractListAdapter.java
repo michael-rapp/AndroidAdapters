@@ -96,6 +96,16 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 			.getSimpleName() + "::AllowDuplicates";
 
 	/**
+	 * The key, which is used to store, whether the method
+	 * <code>notifyDataSetChanged():void</code> should be called automatically
+	 * when the adapter's underlying data has been changed, or not, within a
+	 * bundle.
+	 */
+	@VisibleForTesting
+	protected static final String NOTIFY_ON_CHANGE_BUNDLE_KEY = AbstractListAdapter.class
+			.getSimpleName() + "::NotifyOnChange";
+
+	/**
 	 * The key, which is used to store the key value pairs, which are stored
 	 * within the adapter, within a bundle.
 	 */
@@ -149,6 +159,13 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	 * True, if duplicate items are allowed, false otherwise.
 	 */
 	private boolean allowDuplicates;
+
+	/**
+	 * True, if the method <code>notifyDataSetChanged():void</code> is
+	 * automatically called when the adapter's underlying data has been changed,
+	 * false otherwise.
+	 */
+	private boolean notifyOnChange;
 
 	/**
 	 * A list, which contains the the adapter's underlying data.
@@ -366,6 +383,16 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	}
 
 	/**
+	 * Notifies, that the adapter's underlying data has been changed, if
+	 * automatically notifying such events is currently enabled.
+	 */
+	protected void notifyOnDataSetChanged() {
+		if (isNotifiedOnChange()) {
+			notifyDataSetChanged();
+		}
+	}
+
+	/**
 	 * This method is invoked to apply the decorator, which allows to customize
 	 * the view, which is used to visualize a specific item.
 	 * 
@@ -406,6 +433,10 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	 *            if the adapter should not contain any items
 	 * @param allowDuplicates
 	 *            True, if duplicate items should be allowed, false otherwise
+	 * @param notifyOnChange
+	 *            True, if the method <code>notifyDataSetChanged():void</code>
+	 *            should be automatically called when the adapter's underlying
+	 *            data has been changed, false otherwise
 	 * @param adapterListeners
 	 *            A set, which contains the listeners, which should be notified,
 	 *            when the adapter's underlying data has been modified, as an
@@ -415,7 +446,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	protected AbstractListAdapter(final Context context,
 			final Inflater inflater, final DecoratorType decorator,
 			final LogLevel logLevel, final ArrayList<Item<DataType>> items,
-			final boolean allowDuplicates,
+			final boolean allowDuplicates, final boolean notifyOnChange,
 			final Set<ListAdapterListener<DataType>> adapterListeners) {
 		ensureNotNull(context, "The context may not be null");
 		ensureNotNull(inflater, "The inflater may not be null");
@@ -429,6 +460,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		this.items = items;
 		this.parameters = null;
 		this.allowDuplicates = allowDuplicates;
+		this.notifyOnChange = notifyOnChange;
 		this.adapterListeners = adapterListeners;
 	}
 
@@ -462,6 +494,19 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		this.allowDuplicates = allowDuplicates;
 		String message = "Duplicate items are now "
 				+ (allowDuplicates ? "allowed" : "disallowed");
+		getLogger().logDebug(getClass(), message);
+	}
+
+	@Override
+	public final boolean isNotifiedOnChange() {
+		return notifyOnChange;
+	}
+
+	@Override
+	public final void notifyOnChange(final boolean notifyOnChange) {
+		this.notifyOnChange = notifyOnChange;
+		String message = "Changes of the adapter's underlying data are now "
+				+ (notifyOnChange ? "" : "not ") + "automatically notified";
 		getLogger().logDebug(getClass(), message);
 	}
 
@@ -501,7 +546,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 
 		items.add(index, new Item<DataType>(item));
 		notifyOnItemAdded(item, index);
-		notifyDataSetChanged();
+		notifyOnDataSetChanged();
 		String message = "Item \"" + item + "\" added at index " + index;
 		getLogger().logInfo(getClass(), message);
 		return true;
@@ -546,7 +591,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 				.getData();
 		notifyOnItemRemoved(replacedItem, index);
 		notifyOnItemAdded(item, index);
-		notifyDataSetChanged();
+		notifyOnDataSetChanged();
 		String message = "Replaced item \"" + replacedItem + "\" at index "
 				+ index + " with item \"" + item + "\"";
 		getLogger().logInfo(getClass(), message);
@@ -557,7 +602,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	public final DataType removeItem(final int index) {
 		DataType removedItem = items.remove(index).getData();
 		notifyOnItemRemoved(removedItem, index);
-		notifyDataSetChanged();
+		notifyOnDataSetChanged();
 		String message = "Removed item \"" + removedItem + "\" from index "
 				+ index;
 		getLogger().logInfo(getClass(), message);
@@ -572,7 +617,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		if (index != -1) {
 			items.remove(index);
 			notifyOnItemRemoved(item, index);
-			notifyDataSetChanged();
+			notifyOnDataSetChanged();
 			String message = "Removed item \"" + item + "\" from index "
 					+ index;
 			getLogger().logInfo(getClass(), message);
@@ -775,6 +820,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 
 		outState.putBundle(PARAMETERS_BUNDLE_KEY, getParameters());
 		outState.putBoolean(ALLOW_DUPLICATES_BUNDLE_KEY, areDuplicatesAllowed());
+		outState.putBoolean(NOTIFY_ON_CHANGE_BUNDLE_KEY, isNotifiedOnChange());
 		outState.putInt(LOG_LEVEL_BUNDLE_KEY, getLogLevel().getRank());
 		getLogger().logDebug(getClass(), "Saved instance state");
 	}
@@ -796,6 +842,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 			setParameters(savedInstanceState.getBundle(PARAMETERS_BUNDLE_KEY));
 			allowDuplicates(savedInstanceState
 					.getBoolean(ALLOW_DUPLICATES_BUNDLE_KEY));
+			notifyOnChange(savedInstanceState
+					.getBoolean(NOTIFY_ON_CHANGE_BUNDLE_KEY));
 			setLogLevel(LogLevel.fromRank(savedInstanceState
 					.getInt(LOG_LEVEL_BUNDLE_KEY)));
 			notifyDataSetChanged();
@@ -808,8 +856,11 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (allowDuplicates ? 1231 : 1237);
+		result = prime * result + (notifyOnChange ? 1231 : 1237);
 		result = prime * result + items.hashCode();
 		result = prime * result + getLogLevel().getRank();
+		result = prime * result
+				+ ((parameters == null) ? 0 : parameters.hashCode());
 		return result;
 	}
 
@@ -824,9 +875,16 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		AbstractListAdapter<?, ?> other = (AbstractListAdapter<?, ?>) obj;
 		if (allowDuplicates != other.allowDuplicates)
 			return false;
+		if (notifyOnChange != other.notifyOnChange)
+			return false;
 		if (!items.equals(other.items))
 			return false;
 		if (!getLogLevel().equals(other.getLogLevel()))
+			return false;
+		if (parameters == null) {
+			if (other.parameters != null)
+				return false;
+		} else if (!parameters.equals(other.parameters))
 			return false;
 		return true;
 	}

@@ -154,6 +154,10 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 	 *            if the adapter should not contain any items
 	 * @param allowDuplicates
 	 *            True, if duplicate items should be allowed, false otherwise
+	 * @param notifyOnChange
+	 *            True, if the method <code>notifyDataSetChanged():void</code>
+	 *            should be automatically called when the adapter's underlying
+	 *            data has been changed, false otherwise
 	 * @param adapterListeners
 	 *            A set, which contains the listeners, which should be notified,
 	 *            when the adapter's underlying data has been modified or an
@@ -166,11 +170,11 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 	protected AbstractEnableStateListAdapter(final Context context,
 			final Inflater inflater, final DecoratorType decorator,
 			final LogLevel logLevel, final ArrayList<Item<DataType>> items,
-			final boolean allowDuplicates,
+			final boolean allowDuplicates, final boolean notifyOnChange,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners) {
 		super(context, inflater, decorator, logLevel, items, allowDuplicates,
-				adapterListeners);
+				notifyOnChange, adapterListeners);
 		setEnableStateListeners(enableStateListeners);
 	}
 
@@ -353,7 +357,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 		Item<DataType> item = getItems().get(index);
 		item.setEnabled(true);
 		notifyOnItemEnabled(item.getData(), index);
-		notifyDataSetChanged();
+		notifyOnDataSetChanged();
 		String message = "Enabled item \"" + item + "\" at index " + index;
 		getLogger().logInfo(getClass(), message);
 	}
@@ -374,7 +378,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 		Item<DataType> item = getItems().get(index);
 		item.setEnabled(false);
 		notifyOnItemDisabled(item.getData(), index);
-		notifyDataSetChanged();
+		notifyOnDataSetChanged();
 		String message = "Disabled item \"" + item + "\" at index " + index;
 		getLogger().logInfo(getClass(), message);
 	}

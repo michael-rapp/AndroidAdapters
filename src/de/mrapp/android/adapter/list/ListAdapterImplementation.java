@@ -94,6 +94,10 @@ public class ListAdapterImplementation<DataType> extends
 	 *            list, if the adapter should not contain any items
 	 * @param allowDuplicates
 	 *            True, if duplicate items should be allowed, false otherwise
+	 * @param notifyOnChange
+	 *            True, if the method <code>notifyDataSetChanged():void</code>
+	 *            should be automatically called when the adapter's underlying
+	 *            data has been changed, false otherwise
 	 * @param adapterListeners
 	 *            A set, which contains the listeners, which should be notified
 	 *            when the adapter's underlying data has been modified or an
@@ -128,7 +132,7 @@ public class ListAdapterImplementation<DataType> extends
 	protected ListAdapterImplementation(final Context context,
 			final Inflater inflater, final ListDecorator<DataType> decorator,
 			final LogLevel logLevel, final ArrayList<Item<DataType>> items,
-			final boolean allowDuplicates,
+			final boolean allowDuplicates, final boolean notifyOnChange,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final int numberOfItemStates,
@@ -138,9 +142,10 @@ public class ListAdapterImplementation<DataType> extends
 			final Set<ListFilterListener<DataType>> filterListeners,
 			final Set<AppliedFilter<DataType>> appliedFilters) {
 		super(context, inflater, decorator, logLevel, items, allowDuplicates,
-				adapterListeners, enableStateListeners, numberOfItemStates,
-				triggerItemStateOnClick, itemStateListeners, sortingListeners,
-				filterListeners, appliedFilters);
+				notifyOnChange, adapterListeners, enableStateListeners,
+				numberOfItemStates, triggerItemStateOnClick,
+				itemStateListeners, sortingListeners, filterListeners,
+				appliedFilters);
 	}
 
 	/**
@@ -163,7 +168,7 @@ public class ListAdapterImplementation<DataType> extends
 	public ListAdapterImplementation(final Context context,
 			final Inflater inflater, final ListDecorator<DataType> decorator) {
 		this(context, inflater, decorator, LogLevel.ALL,
-				new ArrayList<Item<DataType>>(), false,
+				new ArrayList<Item<DataType>>(), false, true,
 				new LinkedHashSet<ListAdapterListener<DataType>>(),
 				new LinkedHashSet<ListEnableStateListener<DataType>>(), 1,
 				false, new LinkedHashSet<ListItemStateListener<DataType>>(),
@@ -174,7 +179,8 @@ public class ListAdapterImplementation<DataType> extends
 
 	@Override
 	public final String toString() {
-		return "ListAdapter [logLevel=" + getLogLevel() + ", sortingListeners="
+		return "ListAdapter [logLevel=" + getLogLevel() + ", parameters="
+				+ getParameters() + ", sortingListeners="
 				+ getSortingListeners() + ", itemStateListeners="
 				+ getItemStateListeners() + ", numberOfItemStates="
 				+ getNumberOfItemStates() + ", triggerItemStateOnClick="
@@ -182,6 +188,7 @@ public class ListAdapterImplementation<DataType> extends
 				+ getEnableStateListeners() + ", items=" + getItems()
 				+ ", adapterListeners=" + getAdapterListeners()
 				+ ", allowDuplicates=" + areDuplicatesAllowed()
+				+ ", notifyOnChange=" + isNotifiedOnChange()
 				+ ", filterListeners=" + getFilterListeners()
 				+ ", appliedFilters=" + getAppliedFilters() + "]";
 	}
@@ -191,11 +198,11 @@ public class ListAdapterImplementation<DataType> extends
 			throws CloneNotSupportedException {
 		return new ListAdapterImplementation<DataType>(getContext(),
 				getInflater(), getDecorator(), getLogLevel(), cloneItems(),
-				areDuplicatesAllowed(), getAdapterListeners(),
-				getEnableStateListeners(), getNumberOfItemStates(),
-				isItemStateTriggeredOnClick(), getItemStateListeners(),
-				getSortingListeners(), getFilterListeners(),
-				cloneAppliedFilters());
+				areDuplicatesAllowed(), isNotifiedOnChange(),
+				getAdapterListeners(), getEnableStateListeners(),
+				getNumberOfItemStates(), isItemStateTriggeredOnClick(),
+				getItemStateListeners(), getSortingListeners(),
+				getFilterListeners(), cloneAppliedFilters());
 	}
 
 }
