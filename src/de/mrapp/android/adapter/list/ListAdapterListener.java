@@ -36,7 +36,7 @@ public interface ListAdapterListener<DataType> {
 	 * The method, which is invoked, when an item has been added to the adapter.
 	 * 
 	 * @param adapter
-	 *            The observed adapters as an instance of the type
+	 *            The observed adapter as an instance of the type
 	 *            {@link ListAdapter}. The adapter may not be null
 	 * @param item
 	 *            The item, which has been added, as an instance of the generic
@@ -52,7 +52,7 @@ public interface ListAdapterListener<DataType> {
 	 * adapter.
 	 * 
 	 * @param adapter
-	 *            The observed adapters as an instance of the type
+	 *            The observed adapter as an instance of the type
 	 *            {@link ListAdapter}. The adapter may not be null
 	 * @param item
 	 *            The item, which has been removed, as an instance of the
