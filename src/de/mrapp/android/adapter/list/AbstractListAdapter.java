@@ -32,6 +32,7 @@ import java.util.Set;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -72,11 +73,19 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 
 	/**
 	 * The key, which is used to store the adapter's underlying data within a
-	 * bundle.
+	 * bundle, if it implements the interface {@link Parcelable}.
 	 */
 	@VisibleForTesting
-	protected static final String ITEMS_BUNDLE_KEY = AbstractListAdapter.class
-			.getSimpleName() + "::Items";
+	protected static final String PARCELABLE_ITEMS_BUNDLE_KEY = AbstractListAdapter.class
+			.getSimpleName() + "::ParcelableItems";
+
+	/**
+	 * The key, which is used to store the adapter's underlying data within a
+	 * bundle, if it implements the interface {@link Serializable}.
+	 */
+	@VisibleForTesting
+	protected static final String SERIALIZABLE_ITEMS_BUNDLE_KEY = AbstractListAdapter.class
+			.getSimpleName() + "::SerializableItems";
 
 	/**
 	 * The key, which is used to store, whether duplicate items should be
@@ -144,7 +153,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	/**
 	 * A list, which contains the the adapter's underlying data.
 	 */
-	private List<Item<DataType>> items;
+	private ArrayList<Item<DataType>> items;
 
 	/**
 	 * Notifies all listeners, which have been registered to be notified, when
@@ -187,6 +196,23 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	}
 
 	/**
+	 * Returns, whether the adapter's underlying data implements the interface
+	 * {@link Parcelable}, or not.
+	 * 
+	 * @return True, if the adapter's underlying data implements the interface
+	 *         {@link Parcelable} or if the adapter is empty, false otherwise
+	 */
+	private boolean isUnderlyingDataParcelable() {
+		if (!isEmpty()) {
+			if (!Parcelable.class.isAssignableFrom(getItem(0).getClass())) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Creates and returns an {@link OnClickListener}, which is invoked, when a
 	 * specific item has been clicked.
 	 * 
@@ -212,7 +238,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	 * {@link Serializable}, or not.
 	 * 
 	 * @return True, if the adapter's underlying data implements the interface
-	 *         {@link Serializable}, false otherwise
+	 *         {@link Serializable} or if the adapter is empty, false otherwise
 	 */
 	private boolean isUnderlyingDataSerializable() {
 		if (!isEmpty()) {
@@ -273,10 +299,10 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	 * Returns a list, which contains the adapter's underlying data.
 	 * 
 	 * @return A list, which contains the adapters underlying data, as an
-	 *         instance of the type {@link List} or an empty list, if the
+	 *         instance of the type {@link ArrayList} or an empty list, if the
 	 *         adapter does not contain any data
 	 */
-	protected final List<Item<DataType>> getItems() {
+	protected final ArrayList<Item<DataType>> getItems() {
 		return items;
 	}
 
@@ -285,10 +311,10 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	 * 
 	 * @param items
 	 *            The list, which should be set, as an instance of the type
-	 *            {@link List} or an empty list, if the adapter should not
+	 *            {@link ArrayList} or an empty list, if the adapter should not
 	 *            contain any data
 	 */
-	protected final void setItems(final List<Item<DataType>> items) {
+	protected final void setItems(final ArrayList<Item<DataType>> items) {
 		ensureNotNull(items, "The items may not be null");
 		this.items = items;
 	}
@@ -298,15 +324,15 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	 * underlying data.
 	 * 
 	 * @return A deep copy of the list, which contains the adapter's underlying
-	 *         data, as an instance of the type {@link List}. The list may not
-	 *         be null
+	 *         data, as an instance of the type {@link ArrayList}. The list may
+	 *         not be null
 	 * @throws CloneNotSupportedException
 	 *             The exception, which is thrown, if cloning is not supported
 	 *             by the adapter's underlying data
 	 */
-	protected final List<Item<DataType>> cloneItems()
+	protected final ArrayList<Item<DataType>> cloneItems()
 			throws CloneNotSupportedException {
-		List<Item<DataType>> clonedItems = new ArrayList<Item<DataType>>();
+		ArrayList<Item<DataType>> clonedItems = new ArrayList<Item<DataType>>();
 
 		for (Item<DataType> item : items) {
 			clonedItems.add(item.clone());
@@ -376,9 +402,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	 *            The log level, which should be used for logging, as a value of
 	 *            the enum {@link LogLevel}. The log level may not be null
 	 * @param items
-	 *            A list, which contains the the adapter's underlying data, as
-	 *            an instance of the type {@link List} or an empty list, if the
-	 *            adapter should not contain any data
+	 *            A list, which contains the adapter's items, or an empty list,
+	 *            if the adapter should not contain any items
 	 * @param allowDuplicates
 	 *            True, if duplicate items should be allowed, false otherwise
 	 * @param adapterListeners
@@ -389,7 +414,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	 */
 	protected AbstractListAdapter(final Context context,
 			final Inflater inflater, final DecoratorType decorator,
-			final LogLevel logLevel, final List<Item<DataType>> items,
+			final LogLevel logLevel, final ArrayList<Item<DataType>> items,
 			final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners) {
 		ensureNotNull(context, "The context may not be null");
@@ -732,13 +757,18 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 
 	@Override
 	public void onSaveInstanceState(final Bundle outState) {
-		if (isUnderlyingDataSerializable()) {
-			SerializableWrapper<List<Item<DataType>>> wrappedItems = new SerializableWrapper<List<Item<DataType>>>(
+		if (isUnderlyingDataParcelable()) {
+			outState.putParcelableArrayList(PARCELABLE_ITEMS_BUNDLE_KEY, items);
+		} else if (isUnderlyingDataSerializable()) {
+			SerializableWrapper<ArrayList<Item<DataType>>> wrappedItems = new SerializableWrapper<ArrayList<Item<DataType>>>(
 					getItems());
-			outState.putSerializable(ITEMS_BUNDLE_KEY, wrappedItems);
+			outState.putSerializable(SERIALIZABLE_ITEMS_BUNDLE_KEY,
+					wrappedItems);
 		} else {
 			String message = "The adapter's items can not be stored, because the "
-					+ "underlying data does not implement the interface \""
+					+ "underlying data does neither implement the interface \""
+					+ Parcelable.class.getName()
+					+ "\", nor the interface \""
 					+ Serializable.class.getName() + "\"";
 			getLogger().logWarn(getClass(), message);
 		}
@@ -753,9 +783,13 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	@Override
 	public void onRestoreInstanceState(final Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
-			if (savedInstanceState.containsKey(ITEMS_BUNDLE_KEY)) {
-				SerializableWrapper<List<Item<DataType>>> wrappedItems = (SerializableWrapper<List<Item<DataType>>>) savedInstanceState
-						.getSerializable(ITEMS_BUNDLE_KEY);
+			if (savedInstanceState.containsKey(PARCELABLE_ITEMS_BUNDLE_KEY)) {
+				items = savedInstanceState
+						.getParcelableArrayList(PARCELABLE_ITEMS_BUNDLE_KEY);
+			} else if (savedInstanceState
+					.containsKey(SERIALIZABLE_ITEMS_BUNDLE_KEY)) {
+				SerializableWrapper<ArrayList<Item<DataType>>> wrappedItems = (SerializableWrapper<ArrayList<Item<DataType>>>) savedInstanceState
+						.getSerializable(SERIALIZABLE_ITEMS_BUNDLE_KEY);
 				items = wrappedItems.getWrappedInstance();
 			}
 

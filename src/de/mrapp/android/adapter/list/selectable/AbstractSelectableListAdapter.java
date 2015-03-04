@@ -19,7 +19,7 @@ package de.mrapp.android.adapter.list.selectable;
 
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
@@ -233,7 +233,7 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	protected AbstractSelectableListAdapter(final Context context,
 			final Inflater inflater,
 			final SelectableListDecorator<DataType> decorator,
-			final LogLevel logLevel, final List<Item<DataType>> items,
+			final LogLevel logLevel, final ArrayList<Item<DataType>> items,
 			final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
