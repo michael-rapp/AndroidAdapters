@@ -406,7 +406,7 @@ public interface ListAdapter<DataType> extends DataStructure, Restorable,
 	 * specific collection, or not.
 	 * 
 	 * @param items
-	 *            The collection, which contains the items, which whose presence
+	 *            The collection, which contains the items, whose presence
 	 *            should be checked, as an instance of the type
 	 *            {@link Collection}. The collection may not be null
 	 * @return True, if the adapter contains all items, which are contained by
@@ -419,9 +419,9 @@ public interface ListAdapter<DataType> extends DataStructure, Restorable,
 	 * specific array, or not.
 	 * 
 	 * @param items
-	 *            The array, which contains the items, which whose presence
-	 *            should be checked, as an array of the generic type DataType.
-	 *            The array may not be null
+	 *            The array, which contains the items, whose presence should be
+	 *            checked, as an array of the generic type DataType. The array
+	 *            may not be null
 	 * @return True, if the adapter contains all items, which are contained by
 	 *         the given array, false otherwise
 	 */
