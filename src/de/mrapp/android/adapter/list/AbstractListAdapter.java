@@ -502,7 +502,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		items.add(index, new Item<DataType>(item));
 		notifyOnItemAdded(item, index);
 		notifyDataSetChanged();
-		String message = "Item \"" + item + "\" added";
+		String message = "Item \"" + item + "\" added at index " + index;
 		getLogger().logInfo(getClass(), message);
 		return true;
 	}
