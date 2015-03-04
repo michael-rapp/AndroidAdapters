@@ -165,7 +165,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 	 */
 	protected AbstractEnableStateListAdapter(final Context context,
 			final Inflater inflater, final DecoratorType decorator,
-			final LogLevel logLevel, final List<Item<DataType>> items,
+			final LogLevel logLevel, final ArrayList<Item<DataType>> items,
 			final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners) {

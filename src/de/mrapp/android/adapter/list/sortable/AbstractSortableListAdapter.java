@@ -19,10 +19,10 @@ package de.mrapp.android.adapter.list.sortable;
 
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
@@ -169,7 +169,7 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 	 */
 	protected AbstractSortableListAdapter(final Context context,
 			final Inflater inflater, final DecoratorType decorator,
-			final LogLevel logLevel, final List<Item<DataType>> items,
+			final LogLevel logLevel, final ArrayList<Item<DataType>> items,
 			final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,

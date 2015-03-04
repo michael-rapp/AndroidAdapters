@@ -27,7 +27,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -73,7 +72,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	/**
 	 * A list, which contains the the adapter's unfiltered data.
 	 */
-	private transient List<Item<DataType>> unfilteredItems;
+	private transient ArrayList<Item<DataType>> unfilteredItems;
 
 	/**
 	 * A sparse map, which maps the indices of the adapter's filtered items to
@@ -391,10 +390,10 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	 * Returns a list, which contains the adapter's unfiltered data.
 	 * 
 	 * @return A list, which contains the adapter's unfiltered data as an
-	 *         instance of the type {@link List} or null, if no filters are
+	 *         instance of the type {@link ArrayList} or null, if no filters are
 	 *         currently applied on the adapter
 	 */
-	protected final List<Item<DataType>> getUnfilteredItems() {
+	protected final ArrayList<Item<DataType>> getUnfilteredItems() {
 		return unfilteredItems;
 	}
 
@@ -495,7 +494,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	 */
 	protected AbstractFilterableListAdapter(final Context context,
 			final Inflater inflater, final DecoratorType decorator,
-			final LogLevel logLevel, final List<Item<DataType>> items,
+			final LogLevel logLevel, final ArrayList<Item<DataType>> items,
 			final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,

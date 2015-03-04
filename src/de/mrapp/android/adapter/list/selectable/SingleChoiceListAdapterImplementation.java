@@ -20,7 +20,6 @@ package de.mrapp.android.adapter.list.selectable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -281,7 +280,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 	protected SingleChoiceListAdapterImplementation(final Context context,
 			final Inflater inflater,
 			final SelectableListDecorator<DataType> decorator,
-			final LogLevel logLevel, final List<Item<DataType>> items,
+			final LogLevel logLevel, final ArrayList<Item<DataType>> items,
 			final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,

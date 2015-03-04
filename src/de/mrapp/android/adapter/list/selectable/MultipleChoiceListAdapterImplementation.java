@@ -163,7 +163,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 	protected MultipleChoiceListAdapterImplementation(final Context context,
 			final Inflater inflater,
 			final SelectableListDecorator<DataType> decorator,
-			final LogLevel logLevel, final List<Item<DataType>> items,
+			final LogLevel logLevel, final ArrayList<Item<DataType>> items,
 			final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,

@@ -19,7 +19,6 @@ package de.mrapp.android.adapter.list;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
@@ -128,7 +127,7 @@ public class ListAdapterImplementation<DataType> extends
 	 */
 	protected ListAdapterImplementation(final Context context,
 			final Inflater inflater, final ListDecorator<DataType> decorator,
-			final LogLevel logLevel, final List<Item<DataType>> items,
+			final LogLevel logLevel, final ArrayList<Item<DataType>> items,
 			final boolean allowDuplicates,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
