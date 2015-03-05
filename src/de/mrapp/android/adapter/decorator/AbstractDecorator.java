@@ -121,4 +121,21 @@ public abstract class AbstractDecorator {
 				currentViewType);
 	}
 
+	/**
+	 * Returns, whether the state of a view, which is used to visualize an item
+	 * of the adapter, should be adapted to the item's state, or not. For
+	 * example, if the item is disabled, the according view will also be
+	 * disabled by the decorator by automatically calling its
+	 * <code>setEnabled(boolean):void</code> method. This method may overridden
+	 * by a custom decorator implementation to adapt the behavior of the
+	 * decorator.
+	 * 
+	 * @return True, if the state of a view, which is used to visualized an item
+	 *         of the adapter, should be adapted to the item's state, false
+	 *         otherwise
+	 */
+	protected boolean isViewStateAdapted() {
+		return true;
+	}
+
 }

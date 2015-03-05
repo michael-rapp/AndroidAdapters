@@ -75,7 +75,11 @@ public abstract class ListDecorator<DataType> extends AbstractDecorator {
 		int viewType = getViewType(adapter, item, index, enabled, state,
 				filtered);
 		setCurrentViewType(viewType);
-		view.setEnabled(enabled);
+
+		if (isViewStateAdapted()) {
+			view.setEnabled(enabled);
+		}
+
 		onShowItem(context, adapter, view, item, viewType, index, enabled,
 				state, filtered);
 	}
