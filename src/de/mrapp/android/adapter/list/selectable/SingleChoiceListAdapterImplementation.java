@@ -270,8 +270,8 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 	 *            when the adapter's underlying data has been filtered or an
 	 *            empty set, if no listeners should be notified
 	 * @param appliedFilters
-	 *            A list, which contains the filters, which should be used to
-	 *            filter the adapter's underlying data or an empty list, if the
+	 *            A set, which contains the filters, which should be used to
+	 *            filter the adapter's underlying data or an empty set, if the
 	 *            adapter's underlying data should not be filtered
 	 * @param selectItemOnClick
 	 *            True, if an item should be selected, when it is clicked by the
@@ -293,7 +293,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 			final Set<ListItemStateListener<DataType>> itemStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final Set<ListFilterListener<DataType>> filterListeners,
-			final Set<AppliedFilter<DataType>> appliedFilters,
+			final LinkedHashSet<AppliedFilter<DataType>> appliedFilters,
 			final boolean selectItemOnClick,
 			final Set<ListSelectionListener<DataType>> selectionListeners) {
 		super(context, inflater, decorator, logLevel, items, allowDuplicates,

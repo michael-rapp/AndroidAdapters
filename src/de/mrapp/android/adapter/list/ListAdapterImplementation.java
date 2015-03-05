@@ -125,8 +125,8 @@ public class ListAdapterImplementation<DataType> extends
 	 *            when the adapter's underlying data has been filtered or an
 	 *            empty set, if no listeners should be notified
 	 * @param appliedFilters
-	 *            A list, which contains the filters, which should be used to
-	 *            filter the adapter's underlying data or an empty list, if the
+	 *            A set, which contains the filters, which should be used to
+	 *            filter the adapter's underlying data or an empty set, if the
 	 *            adapter's underlying data should not be filtered
 	 */
 	protected ListAdapterImplementation(final Context context,
@@ -140,7 +140,7 @@ public class ListAdapterImplementation<DataType> extends
 			final Set<ListItemStateListener<DataType>> itemStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final Set<ListFilterListener<DataType>> filterListeners,
-			final Set<AppliedFilter<DataType>> appliedFilters) {
+			final LinkedHashSet<AppliedFilter<DataType>> appliedFilters) {
 		super(context, inflater, decorator, logLevel, items, allowDuplicates,
 				notifyOnChange, adapterListeners, enableStateListeners,
 				numberOfItemStates, triggerItemStateOnClick,
