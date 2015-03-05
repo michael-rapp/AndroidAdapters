@@ -673,8 +673,6 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
 			removeItem(i);
 		}
-
-		getLogger().logInfo(getClass(), "Cleared all items");
 	}
 
 	@Override
