@@ -162,7 +162,7 @@ public abstract class AbstractSelectableListAdapter<DataType>
 		getDecorator().applyDecorator(context, this, view, item, index,
 				enabled, itemState, filtered, selected);
 		String message = "Applied decorator \"" + getDecorator()
-				+ "\" using arguments: item=[" + item + ", index=" + index
+				+ "\" using arguments: Item=[" + item + ", index=" + index
 				+ ", enabled=" + enabled + ", itemState=" + itemState
 				+ ", filtered=" + filtered + "]";
 		getLogger().logVerbose(getClass(), message);
