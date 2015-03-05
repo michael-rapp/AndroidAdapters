@@ -37,7 +37,6 @@ import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
-import de.mrapp.android.adapter.datastructure.SerializableWrapper;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemComparator;
 import de.mrapp.android.adapter.inflater.Inflater;
@@ -642,10 +641,8 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	@Override
 	public void onSaveInstanceState(final Bundle outState) {
 		super.onSaveInstanceState(outState);
-		SerializableWrapper<Set<AppliedFilter<DataType>>> wrappedAppliedFilters = new SerializableWrapper<Set<AppliedFilter<DataType>>>(
-				getAppliedFilters());
 		outState.putSerializable(APPLIED_FILTERS_BUNDLE_KEY,
-				wrappedAppliedFilters);
+				getAppliedFilters());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -654,9 +651,8 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 		super.onRestoreInstanceState(savedInstanceState);
 
 		if (savedInstanceState != null) {
-			SerializableWrapper<LinkedHashSet<AppliedFilter<DataType>>> wrappedAppliedFilters = (SerializableWrapper<LinkedHashSet<AppliedFilter<DataType>>>) savedInstanceState
-					.getSerializable(APPLIED_FILTERS_BUNDLE_KEY);
-			setAppliedFilters(wrappedAppliedFilters.getWrappedInstance());
+			setAppliedFilters((LinkedHashSet<AppliedFilter<DataType>>) savedInstanceState
+					.getSerializable(APPLIED_FILTERS_BUNDLE_KEY));
 			notifyDataSetChanged();
 		}
 	}

@@ -37,7 +37,6 @@ import android.view.View.OnClickListener;
 import android.widget.BaseExpandableListAdapter;
 import de.mrapp.android.adapter.ExpandableListAdapter;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
-import de.mrapp.android.adapter.datastructure.SerializableWrapper;
 import de.mrapp.android.adapter.datastructure.group.Group;
 import de.mrapp.android.adapter.datastructure.group.GroupIterator;
 import de.mrapp.android.adapter.datastructure.group.GroupListIterator;
@@ -1426,10 +1425,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	@Override
 	public void onSaveInstanceState(final Bundle outState) {
 		if (isGroupDataSerializable()) {
-			SerializableWrapper<MultipleChoiceListAdapter<Group<GroupType, ChildType>>> groupAdapterSerializableWrapper = new SerializableWrapper<MultipleChoiceListAdapter<Group<GroupType, ChildType>>>(
-					groupAdapter);
-			outState.putSerializable(CHILD_ADAPTER_BUNDLE_KEY,
-					groupAdapterSerializableWrapper);
+			outState.putSerializable(CHILD_ADAPTER_BUNDLE_KEY, groupAdapter);
 		} else {
 			String message = "The adapter's items can not be stored, because the "
 					+ "underlying data of the group items does not implement the "
@@ -1440,11 +1436,9 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		if (isChildDataSerializable()) {
 			for (int i = 0; i < groupAdapter.getNumberOfItems(); i++) {
 				Group<GroupType, ChildType> group = groupAdapter.getItem(i);
-				SerializableWrapper<MultipleChoiceListAdapter<ChildType>> childAdapterSerializableWrapper = new SerializableWrapper<MultipleChoiceListAdapter<ChildType>>(
-						group.getChildAdapter());
 				outState.putSerializable(
 						String.format(CHILD_ADAPTER_BUNDLE_KEY, i),
-						childAdapterSerializableWrapper);
+						group.getChildAdapter());
 			}
 		} else {
 			String message = "The adapter's items can not be stored, because the "
@@ -1466,21 +1460,20 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	public void onRestoreInstanceState(final Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
 			if (savedInstanceState.containsKey(GROUP_ADAPTER_BUNDLE_KEY)) {
-				SerializableWrapper<MultipleChoiceListAdapter<Group<GroupType, ChildType>>> groupAdapterSerializableWrapper = (SerializableWrapper<MultipleChoiceListAdapter<Group<GroupType, ChildType>>>) savedInstanceState
+				groupAdapter = (MultipleChoiceListAdapter<Group<GroupType, ChildType>>) savedInstanceState
 						.getSerializable(GROUP_ADAPTER_BUNDLE_KEY);
-				groupAdapter = groupAdapterSerializableWrapper
-						.getWrappedInstance();
 			}
 
 			for (int i = 0; i <= Integer.MAX_VALUE; i++) {
-				SerializableWrapper<MultipleChoiceListAdapter<ChildType>> childAdapterSerializableWrapper = (SerializableWrapper<MultipleChoiceListAdapter<ChildType>>) savedInstanceState
+				Serializable childAdapter = savedInstanceState
 						.getSerializable(String.format(
 								CHILD_ADAPTER_BUNDLE_KEY, i));
 
-				if (childAdapterSerializableWrapper != null) {
-					groupAdapter.getItem(i).setChildAdapter(
-							childAdapterSerializableWrapper
-									.getWrappedInstance());
+				if (childAdapter != null) {
+					groupAdapter
+							.getItem(i)
+							.setChildAdapter(
+									(MultipleChoiceListAdapter<ChildType>) childAdapter);
 				} else {
 					break;
 				}

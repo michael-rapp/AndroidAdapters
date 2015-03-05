@@ -38,7 +38,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import de.mrapp.android.adapter.ListAdapter;
-import de.mrapp.android.adapter.datastructure.SerializableWrapper;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemIterator;
 import de.mrapp.android.adapter.datastructure.item.ItemListIterator;
@@ -805,10 +804,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		if (isUnderlyingDataParcelable()) {
 			outState.putParcelableArrayList(PARCELABLE_ITEMS_BUNDLE_KEY, items);
 		} else if (isUnderlyingDataSerializable()) {
-			SerializableWrapper<ArrayList<Item<DataType>>> wrappedItems = new SerializableWrapper<ArrayList<Item<DataType>>>(
-					getItems());
-			outState.putSerializable(SERIALIZABLE_ITEMS_BUNDLE_KEY,
-					wrappedItems);
+			outState.putSerializable(SERIALIZABLE_ITEMS_BUNDLE_KEY, getItems());
 		} else {
 			String message = "The adapter's items can not be stored, because the "
 					+ "underlying data does neither implement the interface \""
@@ -834,9 +830,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 						.getParcelableArrayList(PARCELABLE_ITEMS_BUNDLE_KEY);
 			} else if (savedInstanceState
 					.containsKey(SERIALIZABLE_ITEMS_BUNDLE_KEY)) {
-				SerializableWrapper<ArrayList<Item<DataType>>> wrappedItems = (SerializableWrapper<ArrayList<Item<DataType>>>) savedInstanceState
+				items = (ArrayList<Item<DataType>>) savedInstanceState
 						.getSerializable(SERIALIZABLE_ITEMS_BUNDLE_KEY);
-				items = wrappedItems.getWrappedInstance();
 			}
 
 			setParameters(savedInstanceState.getBundle(PARAMETERS_BUNDLE_KEY));
