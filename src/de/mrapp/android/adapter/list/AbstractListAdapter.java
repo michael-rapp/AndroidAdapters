@@ -482,6 +482,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	@Override
 	public final void setParameters(final Bundle parameters) {
 		this.parameters = parameters;
+		String message = "Set parameters to \"" + parameters + "\"";
+		getLogger().logDebug(getClass(), message);
 	}
 
 	@Override
