@@ -457,8 +457,7 @@ public interface ListAdapter<DataType> extends DataStructure, Restorable,
 	 * 
 	 * @param listener
 	 *            The listener, which should be added, as an instance of the
-	 *            type {@link ListAdapterListener}. The listener may not be
-	 *            null
+	 *            type {@link ListAdapterListener}. The listener may not be null
 	 */
 	void addAdapterListener(ListAdapterListener<DataType> listener);
 
@@ -468,8 +467,7 @@ public interface ListAdapter<DataType> extends DataStructure, Restorable,
 	 * 
 	 * @param listener
 	 *            The listener, which should be removed, as an instance of the
-	 *            type {@link ListAdapterListener}. The listener may not be
-	 *            null
+	 *            type {@link ListAdapterListener}. The listener may not be null
 	 */
 	void removeAdapterListener(ListAdapterListener<DataType> listener);
 
