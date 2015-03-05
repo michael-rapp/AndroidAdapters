@@ -90,7 +90,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	 * A set, which contains the filters, which are used to filter the adapter's
 	 * underlying data.
 	 */
-	private Set<AppliedFilter<DataType>> appliedFilters;
+	private LinkedHashSet<AppliedFilter<DataType>> appliedFilters;
 
 	/**
 	 * The constant serial version UID.
@@ -363,10 +363,11 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	 * adapter's underlying data.
 	 * 
 	 * @return A set, which contains the filters, which are used to filter the
-	 *         adapter's underlying data, as an instance of the type {@link Set}
-	 *         or an empty set, if the adapter's underlying data is not filtered
+	 *         adapter's underlying data, as an instance of the type
+	 *         {@link LinkedHashSet} or an empty set, if the adapter's
+	 *         underlying data is not filtered
 	 */
-	protected final Set<AppliedFilter<DataType>> getAppliedFilters() {
+	protected final LinkedHashSet<AppliedFilter<DataType>> getAppliedFilters() {
 		return appliedFilters;
 	}
 
@@ -376,11 +377,11 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	 * 
 	 * @param appliedFilters
 	 *            The set, which should be set, as an instance of the type
-	 *            {@link Set} or an empty set, if the adapter's underlying data
-	 *            should not be filtered
+	 *            {@link LinkedHashSet} or an empty set, if the adapter's
+	 *            underlying data should not be filtered
 	 */
 	protected final void setAppliedFilters(
-			final Set<AppliedFilter<DataType>> appliedFilters) {
+			final LinkedHashSet<AppliedFilter<DataType>> appliedFilters) {
 		ensureNotNull(appliedFilters, "The applied filters may not be null");
 		this.appliedFilters = appliedFilters;
 		applyAllFilters();
@@ -424,11 +425,11 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	 * which are applied on the adapter.
 	 * 
 	 * @return A deep copy of the set, which contains the filters, which are
-	 *         applied on the adapter, as an instance of the type {@link Set} or
-	 *         an empty set, if no filters are applied
+	 *         applied on the adapter, as an instance of the type
+	 *         {@link LinkedHashSet} or an empty set, if no filters are applied
 	 */
-	protected final Set<AppliedFilter<DataType>> cloneAppliedFilters() {
-		Set<AppliedFilter<DataType>> clonedAppliedFilters = new LinkedHashSet<AppliedFilter<DataType>>();
+	protected final LinkedHashSet<AppliedFilter<DataType>> cloneAppliedFilters() {
+		LinkedHashSet<AppliedFilter<DataType>> clonedAppliedFilters = new LinkedHashSet<AppliedFilter<DataType>>();
 
 		for (AppliedFilter<DataType> filter : appliedFilters) {
 			clonedAppliedFilters.add(filter.clone());
@@ -492,8 +493,8 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	 *            when the adapter's underlying data has been filtered or an
 	 *            empty set, if no listeners should be notified
 	 * @param appliedFilters
-	 *            A list, which contains the filters, which should be used to
-	 *            filter the adapter's underlying data or an empty list, if the
+	 *            A set, which contains the filters, which should be used to
+	 *            filter the adapter's underlying data or an empty set, if the
 	 *            adapter's underlying data should not be filtered
 	 */
 	protected AbstractFilterableListAdapter(final Context context,
@@ -507,7 +508,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 			final Set<ListItemStateListener<DataType>> itemStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final Set<ListFilterListener<DataType>> filterListeners,
-			final Set<AppliedFilter<DataType>> appliedFilters) {
+			final LinkedHashSet<AppliedFilter<DataType>> appliedFilters) {
 		super(context, inflater, decorator, logLevel, items, allowDuplicates,
 				notifyOnChange, adapterListeners, enableStateListeners,
 				numberOfItemStates, triggerItemStateOnClick,
@@ -653,7 +654,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 		super.onRestoreInstanceState(savedInstanceState);
 
 		if (savedInstanceState != null) {
-			SerializableWrapper<Set<AppliedFilter<DataType>>> wrappedAppliedFilters = (SerializableWrapper<Set<AppliedFilter<DataType>>>) savedInstanceState
+			SerializableWrapper<LinkedHashSet<AppliedFilter<DataType>>> wrappedAppliedFilters = (SerializableWrapper<LinkedHashSet<AppliedFilter<DataType>>>) savedInstanceState
 					.getSerializable(APPLIED_FILTERS_BUNDLE_KEY);
 			setAppliedFilters(wrappedAppliedFilters.getWrappedInstance());
 			notifyDataSetChanged();
