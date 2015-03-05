@@ -78,7 +78,11 @@ public abstract class ExpandableListDecorator<GroupType, ChildType> extends
 		int viewType = getGroupViewType(adapter, group, index, enabled, state,
 				filtered);
 		setCurrentViewType(viewType);
-		view.setEnabled(enabled);
+
+		if (isViewStateAdapted()) {
+			view.setEnabled(enabled);
+		}
+
 		onShowGroup(context, adapter, view, group, viewType, index, enabled,
 				state, filtered);
 	}
@@ -131,7 +135,11 @@ public abstract class ExpandableListDecorator<GroupType, ChildType> extends
 		int viewType = getChildViewType(adapter, child, childIndex, group,
 				groupIndex, enabled, state, filtered);
 		setCurrentViewType(viewType);
-		view.setEnabled(enabled);
+
+		if (isViewStateAdapted()) {
+			view.setEnabled(enabled);
+		}
+
 		onShowChild(context, adapter, view, child, viewType, childIndex, group,
 				groupIndex, enabled, state, filtered);
 	}
