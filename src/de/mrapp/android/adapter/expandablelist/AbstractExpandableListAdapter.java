@@ -142,6 +142,12 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	private transient Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners;
 
 	/**
+	 * A set, which contains the listeners, which should be notified, when a
+	 * group item has been expanded or collapsed.
+	 */
+	private transient Set<ExpansionListener<GroupType, ChildType>> expansionListeners;
+
+	/**
 	 * The view, the adapter is currently attached to.
 	 */
 	private transient ExpandableListView adapterView;
@@ -343,6 +349,19 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	}
 
 	/**
+	 * Returns a set, which contains the listeners, which should be notified,
+	 * when a group item has been expanded or collapsed.
+	 * 
+	 * @return A set, which contains the listeners which should be notified,
+	 *         when a group item has been expanded or collapsed, as an instance
+	 *         of the type {@link Set} or an empty set, if no listeners should
+	 *         be notified
+	 */
+	protected final Set<ExpansionListener<GroupType, ChildType>> getExpansionListeners() {
+		return expansionListeners;
+	}
+
+	/**
 	 * Returns the view, the adapter is currently attached to.
 	 * 
 	 * @return The view, the adapter is currently attached to, as an instance of
@@ -453,6 +472,11 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	 *            when the adapter's underlying data has been modified, as an
 	 *            instance of the type {@link Set} or an empty set, if no
 	 *            listeners should be notified
+	 * @param expansionListeners
+	 *            A set, which contains the listeners, which should be notified,
+	 *            when a group item has been expanded or collapsed, as an
+	 *            instance of the type {@link Set} or an empty set, if no
+	 *            listeners should be notified
 	 */
 	protected AbstractExpandableListAdapter(
 			final Context context,
@@ -462,12 +486,15 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 			final LogLevel logLevel,
 			final MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter,
 			final boolean allowDuplicateChildren,
-			final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners) {
+			final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
+			final Set<ExpansionListener<GroupType, ChildType>> expansionListeners) {
 		ensureNotNull(context, "The context may not be null");
 		ensureNotNull(groupInflater, "The group inflater may not be null");
 		ensureNotNull(childInflater, "The child inflater may not be null");
 		ensureNotNull(decorator, "The decorator may not be null");
 		ensureNotNull(adapterListeners, "The adapter listeners may not be null");
+		ensureNotNull(expansionListeners,
+				"The expansion listeners may not be null");
 		this.context = context;
 		this.groupInflater = groupInflater;
 		this.childInflater = childInflater;
@@ -477,6 +504,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		this.groupAdapter.setLogLevel(LogLevel.OFF);
 		this.allowDuplicateChildren = allowDuplicateChildren;
 		this.adapterListeners = adapterListeners;
+		this.expansionListeners = expansionListeners;
 	}
 
 	@Override
@@ -501,6 +529,20 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 			final ExpandableListAdapterListener<GroupType, ChildType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		adapterListeners.remove(listener);
+	}
+
+	@Override
+	public final void addExpansionListener(
+			final ExpansionListener<GroupType, ChildType> listener) {
+		ensureNotNull(listener, "The listener may not be null");
+		expansionListeners.add(listener);
+	}
+
+	@Override
+	public final void removeExpansionListener(
+			final ExpansionListener<GroupType, ChildType> listener) {
+		ensureNotNull(listener, "The listener may not be null");
+		expansionListeners.remove(listener);
 	}
 
 	@Override
