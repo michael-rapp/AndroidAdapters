@@ -32,11 +32,11 @@ import java.util.Set;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.datastructure.item.Item;
@@ -148,6 +148,11 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	 * adapter's underlying data has been modified.
 	 */
 	private transient Set<ListAdapterListener<DataType>> adapterListeners;
+
+	/**
+	 * The view, the adapter is currently attached to.
+	 */
+	private transient AdapterView<android.widget.ListAdapter> adapterView;
 
 	/**
 	 * A bundle, which contains key value pairs, which are stored within the
@@ -369,6 +374,17 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	 */
 	protected final Set<ListAdapterListener<DataType>> getAdapterListeners() {
 		return adapterListeners;
+	}
+
+	/**
+	 * Returns the view, the adapter is currently attached to.
+	 * 
+	 * @return The view, the adapter is currently attached to, as an instance of
+	 *         the class {@link AdapterView}, or null, if the adapter is
+	 *         currently not attached to a view
+	 */
+	protected final AdapterView<android.widget.ListAdapter> getAdapterView() {
+		return adapterView;
 	}
 
 	/**
@@ -767,6 +783,38 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	@Override
 	public final boolean isEmpty() {
 		return items.isEmpty();
+	}
+
+	@Override
+	public final void attach(final AdapterView<android.widget.ListAdapter> view) {
+		ensureNotNull(view, "The view may not be null");
+		this.adapterView = view;
+		view.setAdapter(this);
+		getLogger().logDebug(getClass(),
+				"Attached adapter to view \"" + view + "\"");
+	}
+
+	@Override
+	public final void detach() {
+		if (adapterView != null) {
+			if (adapterView.getAdapter() == this) {
+				adapterView.setAdapter(null);
+				String message = "Detached adapter from view \"" + adapterView
+						+ "\"";
+				getLogger().logDebug(getClass(), message);
+			} else {
+				String message = "Adapter has not been detached, because the "
+						+ "adapter of the corresponding view has been changed "
+						+ "in the meantime";
+				getLogger().logVerbose(getClass(), message);
+			}
+
+			adapterView = null;
+		} else {
+			String message = "Adapter has not been detached, because it has not "
+					+ "been attached to a view yet";
+			getLogger().logVerbose(getClass(), message);
+		}
 	}
 
 	@Override
