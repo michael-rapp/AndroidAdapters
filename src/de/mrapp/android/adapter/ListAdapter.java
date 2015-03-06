@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.ListIterator;
 
+import android.widget.AdapterView;
 import de.mrapp.android.adapter.datastructure.DataStructure;
 import de.mrapp.android.adapter.datastructure.Parameterizable;
 import de.mrapp.android.adapter.datastructure.Restorable;
@@ -450,6 +451,20 @@ public interface ListAdapter<DataType> extends DataStructure, Restorable,
 	 * @return True, if the adapter is empty, false otherwise
 	 */
 	boolean isEmpty();
+
+	/**
+	 * Attaches the adapter to a view.
+	 * 
+	 * @param view
+	 *            The view, the adapter should be attached to, as an instance of
+	 *            the class {@link AdapterView}. The view may not be null
+	 */
+	void attach(final AdapterView<android.widget.ListAdapter> view);
+
+	/**
+	 * Detaches the adapter from the view, it is currently attached to.
+	 */
+	void detach();
 
 	/**
 	 * Adds a new listener, which should be notified, when the adapter's
