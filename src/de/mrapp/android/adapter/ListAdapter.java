@@ -456,22 +456,22 @@ public interface ListAdapter<DataType> extends DataStructure, Restorable,
 	/**
 	 * Attaches the adapter to a list view.
 	 * 
-	 * @param view
+	 * @param listView
 	 *            The list view, the adapter should be attached to, as an
 	 *            instance of the class {@link ListView}. The list view may not
 	 *            be null
 	 */
-	void attach(final ListView view);
+	void attach(final ListView listView);
 
 	/**
 	 * Attaches the adapter to a grid view.
 	 * 
-	 * @param view
+	 * @param gridView
 	 *            The grid view, the adapter should be attached to, as an
 	 *            instance of the class {@link GridView}. The grid view may not
 	 *            be null
 	 */
-	void attach(final GridView view);
+	void attach(final GridView gridView);
 
 	/**
 	 * Detaches the adapter from the view, it is currently attached to.
