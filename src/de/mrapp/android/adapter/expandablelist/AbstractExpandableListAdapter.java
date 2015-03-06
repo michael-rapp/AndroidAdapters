@@ -142,6 +142,11 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	private transient Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners;
 
 	/**
+	 * The view, the adapter is currently attached to.
+	 */
+	private transient ExpandableListView adapterView;
+
+	/**
 	 * True, if duplicate children, regardless from the group they belong to,
 	 * are allowed, false otherwise.
 	 */
@@ -335,6 +340,17 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	 */
 	protected final Set<ExpandableListAdapterListener<GroupType, ChildType>> getAdapterListeners() {
 		return adapterListeners;
+	}
+
+	/**
+	 * Returns the view, the adapter is currently attached to.
+	 * 
+	 * @return The view, the adapter is currently attached to, as an instance of
+	 *         the class {@link ExpandableListView}, or null, if the adapter is
+	 *         currently not attached to a view
+	 */
+	protected final ExpandableListView getAdapterView() {
+		return adapterView;
 	}
 
 	/**
@@ -1352,6 +1368,41 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 			return containsAllChildren(index, children);
 		} else {
 			throw new NoSuchElementException();
+		}
+	}
+
+	@Override
+	public final void attach(final ExpandableListView expandableListView) {
+		ensureNotNull(expandableListView,
+				"The expandable list view may not be null");
+		this.adapterView = expandableListView;
+		expandableListView.setAdapter(this);
+		String message = "Attached adapter to expandable list view \""
+				+ expandableListView + "\"";
+		getLogger().logDebug(getClass(), message);
+	}
+
+	@Override
+	public final void detach() {
+		if (adapterView != null) {
+			if (adapterView.getAdapter() == this) {
+				adapterView
+						.setAdapter((android.widget.ExpandableListAdapter) null);
+				String message = "Detached adapter from view \"" + adapterView
+						+ "\"";
+				getLogger().logDebug(getClass(), message);
+			} else {
+				String message = "Adapter has not been detached, because the "
+						+ "adapter of the corresponding view has been changed "
+						+ "in the meantime";
+				getLogger().logVerbose(getClass(), message);
+			}
+
+			adapterView = null;
+		} else {
+			String message = "Adapter has not been detached, because it has not "
+					+ "been attached to a view yet";
+			getLogger().logVerbose(getClass(), message);
 		}
 	}
 

@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.ListIterator;
 
+import android.widget.ExpandableListView;
 import de.mrapp.android.adapter.datastructure.DataStructure;
 import de.mrapp.android.adapter.datastructure.Restorable;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterListener;
@@ -1802,6 +1803,21 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	 *         by the given array, false otherwise
 	 */
 	boolean containsAllChildren(GroupType group, ChildType... children);
+
+	/**
+	 * Attaches the adapter to an expandable list view.
+	 * 
+	 * @param expandableListView
+	 *            The expandable list view, the adapter should be attached to,
+	 *            as an instance of the class {@link ExpandableListView}. The
+	 *            expandable list view may not be null
+	 */
+	void attach(final ExpandableListView expandableListView);
+
+	/**
+	 * Detaches the adapter from the view, it is currently attached to.
+	 */
+	void detach();
 
 	/**
 	 * Adds a new listener, which should be notified, when the adapter's
