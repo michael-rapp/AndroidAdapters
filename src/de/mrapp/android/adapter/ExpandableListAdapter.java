@@ -25,6 +25,7 @@ import android.widget.ExpandableListView;
 import de.mrapp.android.adapter.datastructure.DataStructure;
 import de.mrapp.android.adapter.datastructure.Restorable;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterListener;
+import de.mrapp.android.adapter.expandablelist.ExpansionListener;
 import de.mrapp.android.adapter.logging.Loggable;
 
 /**
@@ -1842,5 +1843,26 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	 */
 	void removeAdapterListener(
 			ExpandableListAdapterListener<GroupType, ChildType> listener);
+
+	/**
+	 * Adds a specific listener, which should be notified, when a group item has
+	 * been expanded or collapsed.
+	 * 
+	 * @param listener
+	 *            The listener, which should be added, as an instance of the
+	 *            class {@link ExpansionListener}. The listener may not be null
+	 */
+	void addExpansionListener(ExpansionListener<GroupType, ChildType> listener);
+
+	/**
+	 * Removes a specific listener, which should not be notified, when a group
+	 * item has been expanded or collapsed, anymore.
+	 * 
+	 * @param listener
+	 *            The listener, which should be removed, as an instance of the
+	 *            class {@link ExpansionListener}. The listener may not be null
+	 */
+	void removeExpansionListener(
+			ExpansionListener<GroupType, ChildType> listener);
 
 }
