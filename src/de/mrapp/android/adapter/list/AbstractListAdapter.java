@@ -886,17 +886,6 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	}
 
 	@Override
-	public final int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(final Parcel dest, final int flags) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public abstract AbstractListAdapter<DataType, DecoratorType> clone()
 			throws CloneNotSupportedException;
 

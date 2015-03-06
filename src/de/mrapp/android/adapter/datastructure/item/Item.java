@@ -40,7 +40,7 @@ import de.mrapp.android.adapter.datastructure.DataStructure;
  * 
  * @since 1.0.0
  */
-public class Item<DataType> implements DataStructure,
+public class Item<DataType> implements DataStructure, Parcelable,
 		Comparable<Item<DataType>>, Filterable {
 
 	/**

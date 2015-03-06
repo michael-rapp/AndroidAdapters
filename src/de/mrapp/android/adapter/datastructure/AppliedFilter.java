@@ -20,6 +20,7 @@ package de.mrapp.android.adapter.datastructure;
 import java.util.regex.Pattern;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.util.ClassUtil;
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
@@ -35,7 +36,7 @@ import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
  * 
  * @since 1.0.0
  */
-public class AppliedFilter<DataType> implements DataStructure {
+public class AppliedFilter<DataType> implements DataStructure, Parcelable {
 
 	/**
 	 * A creator, which allows to create instances of the class
