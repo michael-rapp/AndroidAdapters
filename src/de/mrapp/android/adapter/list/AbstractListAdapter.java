@@ -32,6 +32,7 @@ import java.util.Set;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -882,6 +883,17 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		} else if (!parameters.equals(other.parameters))
 			return false;
 		return true;
+	}
+
+	@Override
+	public final int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(final Parcel dest, final int flags) {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override

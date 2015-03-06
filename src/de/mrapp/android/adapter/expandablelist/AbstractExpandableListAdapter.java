@@ -31,6 +31,7 @@ import java.util.Set;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -343,7 +344,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	 *            The index of the group item, which has been clicked, as an
 	 *            {@link Integer} value
 	 */
-	protected void onGroupItemClicked(final int index) {
+	protected final void onGroupItemClicked(final int index) {
 		return;
 	}
 
@@ -357,7 +358,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	 *            The index of the child item, which has been clicked, as an
 	 *            {@link Integer} value
 	 */
-	protected void onChildItemClicked(final int groupIndex, final int childIndex) {
+	protected final void onChildItemClicked(final int groupIndex,
+			final int childIndex) {
 		return;
 	}
 
@@ -1423,7 +1425,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	}
 
 	@Override
-	public void onSaveInstanceState(final Bundle outState) {
+	public final void onSaveInstanceState(final Bundle outState) {
 		if (isGroupDataSerializable()) {
 			outState.putSerializable(CHILD_ADAPTER_BUNDLE_KEY, groupAdapter);
 		} else {
@@ -1457,7 +1459,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void onRestoreInstanceState(final Bundle savedInstanceState) {
+	public final void onRestoreInstanceState(final Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
 			if (savedInstanceState.containsKey(GROUP_ADAPTER_BUNDLE_KEY)) {
 				groupAdapter = (MultipleChoiceListAdapter<Group<GroupType, ChildType>>) savedInstanceState
@@ -1491,7 +1493,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	}
 
 	@Override
-	public int hashCode() {
+	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (allowDuplicateChildren ? 1231 : 1237);
@@ -1501,7 +1503,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	}
 
 	@Override
-	public boolean equals(final Object obj) {
+	public final boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -1516,6 +1518,17 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		if (!getLogLevel().equals(other.getLogLevel()))
 			return false;
 		return true;
+	}
+
+	@Override
+	public final int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(final Parcel dest, final int flags) {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
