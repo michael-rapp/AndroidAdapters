@@ -38,6 +38,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ListView;
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemIterator;
@@ -786,12 +788,21 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	}
 
 	@Override
-	public final void attach(final AdapterView<android.widget.ListAdapter> view) {
-		ensureNotNull(view, "The view may not be null");
-		this.adapterView = view;
-		view.setAdapter(this);
+	public final void attach(final ListView listView) {
+		ensureNotNull(listView, "The list view may not be null");
+		this.adapterView = listView;
+		listView.setAdapter(this);
 		getLogger().logDebug(getClass(),
-				"Attached adapter to view \"" + view + "\"");
+				"Attached adapter to list view \"" + listView + "\"");
+	}
+
+	@Override
+	public final void attach(final GridView gridView) {
+		ensureNotNull(gridView, "The grid view may not be null");
+		this.adapterView = gridView;
+		gridView.setAdapter(this);
+		getLogger().logDebug(getClass(),
+				"Attached adapter to grid view \"" + gridView + "\"");
 	}
 
 	@Override
