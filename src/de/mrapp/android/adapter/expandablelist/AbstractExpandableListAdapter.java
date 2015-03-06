@@ -31,11 +31,11 @@ import java.util.Set;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Parcel;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListView;
 import de.mrapp.android.adapter.ExpandableListAdapter;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.datastructure.group.Group;
@@ -1518,17 +1518,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		if (!getLogLevel().equals(other.getLogLevel()))
 			return false;
 		return true;
-	}
-
-	@Override
-	public final int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(final Parcel dest, final int flags) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

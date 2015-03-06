@@ -19,19 +19,17 @@ package de.mrapp.android.adapter.datastructure;
 
 import java.io.Serializable;
 
-import android.os.Parcelable;
-
 /**
  * Defines the interface, all classes, which represent a data structure, must
- * implement. Such data structures therefore must implement the interfaces
- * {@link Parcelable} and {@link Serializable} to support serialization, as well
- * as the interface {@link Cloneable}, to allow deep copies of class instances.
+ * implement. Such data structures therefore must implement the interface
+ * {@link Serializable} to support serialization, as well as the interface
+ * {@link Cloneable}, to allow deep copies of class instances.
  * 
  * @author Michael Rapp
  * 
  * @since 1.0.0
  */
-public interface DataStructure extends Parcelable, Serializable, Cloneable {
+public interface DataStructure extends Serializable, Cloneable {
 
 	/**
 	 * Creates and returns a deep copy of the object.
