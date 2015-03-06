@@ -21,7 +21,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.ListIterator;
 
-import android.widget.AdapterView;
+import android.widget.GridView;
+import android.widget.ListView;
 import de.mrapp.android.adapter.datastructure.DataStructure;
 import de.mrapp.android.adapter.datastructure.Parameterizable;
 import de.mrapp.android.adapter.datastructure.Restorable;
@@ -453,13 +454,24 @@ public interface ListAdapter<DataType> extends DataStructure, Restorable,
 	boolean isEmpty();
 
 	/**
-	 * Attaches the adapter to a view.
+	 * Attaches the adapter to a list view.
 	 * 
 	 * @param view
-	 *            The view, the adapter should be attached to, as an instance of
-	 *            the class {@link AdapterView}. The view may not be null
+	 *            The list view, the adapter should be attached to, as an
+	 *            instance of the class {@link ListView}. The list view may not
+	 *            be null
 	 */
-	void attach(final AdapterView<android.widget.ListAdapter> view);
+	void attach(final ListView view);
+
+	/**
+	 * Attaches the adapter to a grid view.
+	 * 
+	 * @param view
+	 *            The grid view, the adapter should be attached to, as an
+	 *            instance of the class {@link GridView}. The grid view may not
+	 *            be null
+	 */
+	void attach(final GridView view);
 
 	/**
 	 * Detaches the adapter from the view, it is currently attached to.
