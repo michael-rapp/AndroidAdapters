@@ -40,7 +40,7 @@ import de.mrapp.android.adapter.datastructure.DataStructure;
  * 
  * @since 1.0.0
  */
-public class Item<DataType> implements DataStructure, Parcelable,
+public class Item<DataType> implements DataStructure,
 		Comparable<Item<DataType>>, Filterable {
 
 	/**
@@ -99,7 +99,7 @@ public class Item<DataType> implements DataStructure, Parcelable,
 	 * 
 	 * @param source
 	 *            The source, the item should be created from, as an instance of
-	 *            the class {@link Parcel}
+	 *            the class {@link Parcel}. The source may not be null
 	 */
 	@SuppressWarnings("unchecked")
 	private Item(final Parcel source) {

@@ -19,6 +19,7 @@ package de.mrapp.android.adapter.datastructure;
 
 import java.util.regex.Pattern;
 
+import android.os.Parcel;
 import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.util.ClassUtil;
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
@@ -37,6 +38,25 @@ import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 public class AppliedFilter<DataType> implements DataStructure {
 
 	/**
+	 * A creator, which allows to create instances of the class
+	 * {@link AppliedFilter} from parcels.
+	 */
+	@SuppressWarnings("rawtypes")
+	public static final Creator<AppliedFilter> CREATOR = new Creator<AppliedFilter>() {
+
+		@Override
+		public AppliedFilter createFromParcel(final Parcel source) {
+			return new AppliedFilter(source);
+		}
+
+		@Override
+		public AppliedFilter[] newArray(final int size) {
+			return new AppliedFilter[size];
+		}
+
+	};
+
+	/**
 	 * The constant serial version UID.
 	 */
 	private static final long serialVersionUID = 1L;
@@ -51,6 +71,20 @@ public class AppliedFilter<DataType> implements DataStructure {
 	 * the regular expression.
 	 */
 	private final Filter<DataType> filter;
+
+	/**
+	 * Creates a new representation of a filter, which has been applied on an
+	 * adapter's underlying data.
+	 * 
+	 * @param source
+	 *            The source, the filter should be created from, as an instance
+	 *            of the class {@link Parcel}. The source may not be null
+	 */
+	@SuppressWarnings("unchecked")
+	private AppliedFilter(final Parcel source) {
+		this.regularExpression = (Pattern) source.readSerializable();
+		this.filter = (Filter<DataType>) source.readSerializable();
+	}
 
 	/**
 	 * Creates a new representation of a filter, which has been applied on an
@@ -160,6 +194,17 @@ public class AppliedFilter<DataType> implements DataStructure {
 	public final AppliedFilter<DataType> clone() {
 		return new AppliedFilter<DataType>(Pattern.compile(regularExpression
 				.pattern()), filter);
+	}
+
+	@Override
+	public final int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public final void writeToParcel(final Parcel dest, final int flags) {
+		dest.writeSerializable(regularExpression);
+		dest.writeSerializable(filter);
 	}
 
 }
