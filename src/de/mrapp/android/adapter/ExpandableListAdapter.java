@@ -20,6 +20,7 @@ package de.mrapp.android.adapter;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.ListIterator;
+import java.util.NoSuchElementException;
 
 import android.widget.ExpandableListView;
 import de.mrapp.android.adapter.datastructure.DataStructure;
@@ -1804,6 +1805,280 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	 *         by the given array, false otherwise
 	 */
 	boolean containsAllChildren(GroupType group, ChildType... children);
+
+	/**
+	 * Returns, whether the group, which belongs to a specific index, is
+	 * currently expanded, or not.
+	 * 
+	 * @param index
+	 *            The index of the group, whose expansion should be checked, as
+	 *            an {@link Integer} value. The index must be between 0 and the
+	 *            value of the method <code>getNumberOfItems():int</code> - 1,
+	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
+	 * @return True, if the group, which belongs to the given index, is
+	 *         currently expanded, false if the group is collapsed or if the
+	 *         adapter is not attached to a view
+	 */
+	boolean isGroupExpanded(int index);
+
+	/**
+	 * Returns, whether a specific group is currently expanded, or not.
+	 * 
+	 * @param group
+	 *            The group, whose expansion should be checked, as an instance
+	 *            of the generic type GroupType. The group may not be null. If
+	 *            the group does not belong to the adapter, a
+	 *            {@link NoSuchElementException} will be thrown
+	 * @return True, if the given group is currently expanded, false if the
+	 *         group is collapsed or if the adapter is not attached to a view
+	 */
+	boolean isGroupExpanded(GroupType group);
+
+	/**
+	 * Returns, whether the group, which belongs to a specific index, is
+	 * currently collapsed, or not.
+	 * 
+	 * @param index
+	 *            The index of the group, whose expansion should be checked, as
+	 *            an {@link Integer} value. The index must be between 0 and the
+	 *            value of the method <code>getNumberOfGroups():int</code> - 1,
+	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
+	 * @return True, if the group, which belongs to the given index, is
+	 *         currently collapsed, false if the group is expanded or if the
+	 *         adapter is not attached to a view
+	 */
+	boolean isGroupCollapsed(int index);
+
+	/**
+	 * Returns, whether a specific group is currently collapsed, or not.
+	 * 
+	 * @param group
+	 *            The group, whose expansion should be checked, as an instance
+	 *            of the generic type GroupType. The group may not be null. If
+	 *            the group does not belong to the adapter, a
+	 *            {@link NoSuchElementException} will be thrown
+	 * @return True, if the given group is currently collapsed, false if the
+	 *         group is expanded or if the adapter is not attached to a view
+	 */
+	boolean isGroupCollapsed(GroupType group);
+
+	/**
+	 * Returns the first expanded group.
+	 * 
+	 * @return The first expanded group, as an instance of the generic type
+	 *         GroupType or null, if no group is currently expanded or if the
+	 *         adapter is not attached to a view
+	 */
+	GroupType getFirstExpandedGroup();
+
+	/**
+	 * Returns the index of the first expanded group.
+	 * 
+	 * @return The index of the first expanded group, as an {@link Integer}
+	 *         value or -1, if no group is currently expanded or if the adapter
+	 *         is not attached to a view
+	 */
+	int getFirstExpandedGroupIndex();
+
+	/**
+	 * Returns the last expanded group.
+	 * 
+	 * @return The last expanded group, as an instance of the generic type
+	 *         GroupType or null, if no group is currently expanded or if the
+	 *         adapter is not attached to a view
+	 */
+	GroupType getLastExpandedGroup();
+
+	/**
+	 * Returns the index of the last expanded group.
+	 * 
+	 * @return The index of the last expanded group, as an {@link Integer} value
+	 *         or -1, if no group is currently expanded or if the adapter is not
+	 *         attached to a view
+	 */
+	int getLastExpandedGroupIndex();
+
+	/**
+	 * Returns the first collapsed group.
+	 * 
+	 * @return The first collapsed group, as an instance of the generic type
+	 *         GroupType or null, if no group is currently expanded or if the
+	 *         adapter is not attached to a view
+	 */
+	GroupType getFirstCollapsedGroup();
+
+	/**
+	 * Returns the index of the first collapsed group.
+	 * 
+	 * @return The index of the first collapsed group, as an {@link Integer}
+	 *         value or -1, if no group is currently expanded or if the adapter
+	 *         is not attached to a view
+	 */
+	int getFirstCollapsedGroupIndex();
+
+	/**
+	 * Returns the last expanded group.
+	 * 
+	 * @return The last expanded group, as an instance of the generic type
+	 *         GroupType or null, if no group is currently expanded or if the
+	 *         adapter is not attached to a view
+	 */
+	GroupType getLastCollapsedGroup();
+
+	/**
+	 * Returns the index of the last collapsed group.
+	 * 
+	 * @return The index of the last collapsed group, as an {@link Integer}
+	 *         value or -1, if no group is currently expanded or if the adapter
+	 *         is not attached to a view
+	 */
+	int getLastCollapsedGroupIndex();
+
+	/**
+	 * Returns a collection, which contains all currently expanded groups.
+	 * 
+	 * @return A collection, which contains all currently expanded groups, as an
+	 *         instance of the type {@link Collection} or an empty collection,
+	 *         if no group is currently expanded or if the adapter is not
+	 *         attached to a view
+	 */
+	Collection<GroupType> getExpandedGroups();
+
+	/**
+	 * Returns a collection, which contains the indices of all expanded groups.
+	 * 
+	 * @return A collection, which contains the indices of all currently
+	 *         expanded groups, as an instance of the type {@link Collection} or
+	 *         an empty collection, if no group is currently expanded or if the
+	 *         adapter is not attached to a view
+	 */
+	Collection<Integer> getExpandedGroupIndices();
+
+	/**
+	 * Returns a collection, which contains all currently collapsed groups.
+	 * 
+	 * @return A collection, which contains all currently collapsed groups, as
+	 *         an instance of the type {@link Collection} or an empty
+	 *         collection, if no group is currently collapsed or if the adapter
+	 *         is not attached to a view
+	 */
+	Collection<GroupType> getCollapsedGroups();
+
+	/**
+	 * Returns a collection, which contains the indices of all collapsed groups.
+	 * 
+	 * @return A collection, which contains the indices of all currently
+	 *         collapsed groups, as an instance of the type {@link Collection}
+	 *         or an empty collection, if no group is currently collapsed or if
+	 *         the adapter is not attached to a view
+	 */
+	Collection<Integer> getCollapsedGroupIndices();
+
+	/**
+	 * Returns the number of currently expanded groups.
+	 * 
+	 * @return The number of currently expanded groups as an {@link Integer}
+	 *         value or 0 if the adapter is not attached to a view
+	 */
+	int getNumberOfExpandedGroups();
+
+	/**
+	 * Returns the number of the currently collapsed groups.
+	 * 
+	 * @return The number of currently collapsed groups as an {@link Integer}
+	 *         value or 0 if the adapter is not attached to a view
+	 */
+	int getNumberOfCollapsedGroups();
+
+	/**
+	 * Expands a specific group.
+	 * 
+	 * @param group
+	 *            The group, which should be expanded, as an instance of the
+	 *            generic type GroupType. The group may not be null. If the
+	 *            group does not belong to the adapter, a
+	 *            {@link NoSuchElementException} will be thrown
+	 */
+	void expandGroup(GroupType group);
+
+	/**
+	 * Expands the group, which belongs to a specific index.
+	 * 
+	 * @param index
+	 *            The index of the group, which should be expanded, as an
+	 *            {@link Integer} value. The index must be between 0 and the
+	 *            value of the method <code>getNumberOfGroups():int</code> - 1,
+	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
+	 */
+	void expandGroup(int index);
+
+	/**
+	 * Collapses a specific group.
+	 * 
+	 * @param group
+	 *            The group, which should be collapsed, as an instance of the
+	 *            generic type GroupType. The group may not be null. If the
+	 *            group does not belong to the adapter, a
+	 *            {@link NoSuchElementException} will be thrown
+	 */
+	void collapseGroup(GroupType group);
+
+	/**
+	 * Collapses the group, which belongs to a specific index.
+	 * 
+	 * @param index
+	 *            The index of the group, which should be collapsed, as an
+	 *            {@link Integer} value. The index must be between 0 and the
+	 *            value of the method <code>getNumberOfGroups():int</code> - 1,
+	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
+	 */
+	void collapseGroup(int index);
+
+	/**
+	 * Triggers the expansion of a specific group. This causes the group to
+	 * become expanded, if it is currently collapsed and vice versa.
+	 * 
+	 * @param group
+	 *            The group, whose expansion should be triggered, as an instance
+	 *            of the generic type GroupType. The group may not be null. If
+	 *            the group does not belong to the adapter, a
+	 *            {@link NoSuchElementException} will be thrown
+	 * @return True, if the group has been expanded, false, if the item has been
+	 *         collapsed or if the adapter is not attached to a view
+	 */
+	boolean triggerGroupExpansion(GroupType group);
+
+	/**
+	 * Triggers the expansion of the group, which belongs to a specific index.
+	 * This causes the group to become expanded, if it is currently collapsed
+	 * and vice versa.
+	 * 
+	 * @param index
+	 *            The index of the group, whose expansion should be triggered,
+	 *            as an {@link Integer} value. The index must be between 0 and
+	 *            the value of the method <code>getNumberOfGroups():int</code> -
+	 *            1, otherwise an {@link IndexOutOfBoundsException} will be
+	 *            thrown
+	 * @return True, if the group has been expanded, false, if the item has been
+	 *         collapsed or if the adapter is not attached to a view
+	 */
+	boolean triggerGroupExpansion(int index);
+
+	/**
+	 * Expands all groups.
+	 */
+	void expandAllGroups();
+
+	/**
+	 * Collapses all groups.
+	 */
+	void collapseAllGroups();
+
+	/**
+	 * Triggers the expansion of all groups. This causes a group to become
+	 * expanded, if it is currently collapsed and vice versa.
+	 */
+	void triggerAllGroupExpansions();
 
 	/**
 	 * Attaches the adapter to an expandable list view.
