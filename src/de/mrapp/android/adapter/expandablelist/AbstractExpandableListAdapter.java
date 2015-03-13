@@ -1414,6 +1414,343 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	}
 
 	@Override
+	public final boolean isGroupExpanded(final int index) {
+		if (getAdapterView() != null) {
+			return getAdapterView().isGroupExpanded(index);
+		}
+
+		return false;
+	}
+
+	@Override
+	public final boolean isGroupExpanded(final GroupType group) {
+		return isGroupExpanded(indexOfGroup(group));
+	}
+
+	@Override
+	public final boolean isGroupCollapsed(final int index) {
+		return !isGroupExpanded(index);
+	}
+
+	@Override
+	public final boolean isGroupCollapsed(final GroupType group) {
+		return !isGroupExpanded(group);
+	}
+
+	@Override
+	public final GroupType getFirstExpandedGroup() {
+		int index = getFirstExpandedGroupIndex();
+
+		if (index != -1) {
+			return getGroup(index);
+		}
+
+		return null;
+	}
+
+	@Override
+	public final int getFirstExpandedGroupIndex() {
+		if (getAdapterView() != null) {
+			for (int i = 0; i < getNumberOfGroups(); i++) {
+				if (getAdapterView().isGroupExpanded(i)) {
+					return i;
+				}
+			}
+		}
+
+		return -1;
+	}
+
+	@Override
+	public final GroupType getLastExpandedGroup() {
+		int index = getLastExpandedGroupIndex();
+
+		if (index != -1) {
+			return getGroup(index);
+		}
+
+		return null;
+	}
+
+	@Override
+	public final int getLastExpandedGroupIndex() {
+		if (getAdapterView() != null) {
+			for (int i = getNumberOfGroups() - 1; i >= 0; i--) {
+				if (getAdapterView().isGroupExpanded(i)) {
+					return i;
+				}
+			}
+		}
+
+		return -1;
+	}
+
+	@Override
+	public final GroupType getFirstCollapsedGroup() {
+		int index = getFirstCollapsedGroupIndex();
+
+		if (index != -1) {
+			return getGroup(index);
+		}
+
+		return null;
+	}
+
+	@Override
+	public final int getFirstCollapsedGroupIndex() {
+		if (getAdapterView() != null) {
+			for (int i = 0; i < getNumberOfGroups(); i++) {
+				if (!getAdapterView().isGroupExpanded(i)) {
+					return i;
+				}
+			}
+		}
+
+		return -1;
+	}
+
+	@Override
+	public final GroupType getLastCollapsedGroup() {
+		int index = getLastCollapsedGroupIndex();
+
+		if (index != -1) {
+			return getGroup(index);
+		}
+
+		return null;
+	}
+
+	@Override
+	public final int getLastCollapsedGroupIndex() {
+		if (getAdapterView() != null) {
+			for (int i = getNumberOfGroups() - 1; i >= 0; i--) {
+				if (!getAdapterView().isGroupExpanded(i)) {
+					return i;
+				}
+			}
+		}
+
+		return -1;
+	}
+
+	@Override
+	public final Collection<GroupType> getExpandedGroups() {
+		Collection<GroupType> expandedGroups = new ArrayList<GroupType>();
+
+		if (getAdapterView() != null) {
+			for (int i = 0; i < getNumberOfGroups(); i++) {
+				if (getAdapterView().isGroupExpanded(i)) {
+					expandedGroups.add(getGroup(i));
+				}
+			}
+		}
+
+		return expandedGroups;
+	}
+
+	@Override
+	public final Collection<Integer> getExpandedGroupIndices() {
+		Collection<Integer> expandedGroupIndices = new ArrayList<Integer>();
+
+		if (getAdapterView() != null) {
+			for (int i = 0; i < getNumberOfGroups(); i++) {
+				if (getAdapterView().isGroupExpanded(i)) {
+					expandedGroupIndices.add(i);
+				}
+			}
+		}
+
+		return expandedGroupIndices;
+	}
+
+	@Override
+	public final Collection<GroupType> getCollapsedGroups() {
+		Collection<GroupType> collapedGroups = new ArrayList<GroupType>();
+
+		if (getAdapterView() != null) {
+			for (int i = 0; i < getNumberOfGroups(); i++) {
+				if (!getAdapterView().isGroupExpanded(i)) {
+					collapedGroups.add(getGroup(i));
+				}
+			}
+		}
+
+		return collapedGroups;
+	}
+
+	@Override
+	public final Collection<Integer> getCollapsedGroupIndices() {
+		Collection<Integer> collapsedGroupIndices = new ArrayList<Integer>();
+
+		if (getAdapterView() != null) {
+			for (int i = 0; i < getNumberOfGroups(); i++) {
+				if (!getAdapterView().isGroupExpanded(i)) {
+					collapsedGroupIndices.add(i);
+				}
+			}
+		}
+
+		return collapsedGroupIndices;
+	}
+
+	@Override
+	public final int getNumberOfExpandedGroups() {
+		return getExpandedGroups().size();
+	}
+
+	@Override
+	public final int getNumberOfCollapsedGroups() {
+		return getCollapsedGroups().size();
+	}
+
+	@Override
+	public final void expandGroup(final GroupType group) {
+		if (getAdapterView() != null) {
+			int index = indexOfGroup(group);
+
+			if (index == -1) {
+				throw new NoSuchElementException();
+			}
+
+			getAdapterView().expandGroup(index);
+		} else {
+			String message = "The group \"" + group
+					+ "\" has not been expanded, because the "
+					+ "adapter is not attached to a view";
+			getLogger().logWarn(getClass(), message);
+		}
+	}
+
+	@Override
+	public final void expandGroup(final int index) {
+		if (getAdapterView() != null) {
+			getAdapterView().expandGroup(index);
+		} else {
+			String message = "The group at index " + index
+					+ " has not been expanded, because the "
+					+ "adapter is not attached to a view";
+			getLogger().logWarn(getClass(), message);
+		}
+	}
+
+	@Override
+	public final void collapseGroup(final GroupType group) {
+		if (getAdapterView() != null) {
+			int index = indexOfGroup(group);
+
+			if (index == -1) {
+				throw new NoSuchElementException();
+			}
+
+			getAdapterView().collapseGroup(index);
+		} else {
+			String message = "The group \"" + group
+					+ "\" has not been collapsed, because the "
+					+ "adapter is not attached to a view";
+			getLogger().logWarn(getClass(), message);
+		}
+	}
+
+	@Override
+	public final void collapseGroup(final int index) {
+		if (getAdapterView() != null) {
+			getAdapterView().collapseGroup(index);
+		} else {
+			String message = "The group at index " + index
+					+ "has not been collapsed, because the "
+					+ "adapter is not attached to a view";
+			getLogger().logWarn(getClass(), message);
+		}
+	}
+
+	@Override
+	public final boolean triggerGroupExpansion(final GroupType group) {
+		if (getAdapterView() != null) {
+			int index = indexOfGroup(group);
+
+			if (index == -1) {
+				throw new NoSuchElementException();
+			}
+
+			if (getAdapterView().isGroupExpanded(index)) {
+				getAdapterView().collapseGroup(index);
+				return false;
+			} else {
+				getAdapterView().expandGroup(index);
+				return true;
+			}
+		} else {
+			String message = "The expansion of the group \"" + group
+					+ "\" has not been triggered, because the "
+					+ "adapter is not attached to a view";
+			getLogger().logWarn(getClass(), message);
+			return false;
+		}
+	}
+
+	@Override
+	public final boolean triggerGroupExpansion(final int index) {
+		if (getAdapterView() != null) {
+			if (getAdapterView().isGroupExpanded(index)) {
+				getAdapterView().collapseGroup(index);
+				return false;
+			} else {
+				getAdapterView().expandGroup(index);
+				return true;
+			}
+		} else {
+			String message = "The expansion of the group at index " + index
+					+ " has not been triggered, because the "
+					+ "adapter is not attached to a view";
+			getLogger().logWarn(getClass(), message);
+			return false;
+		}
+	}
+
+	@Override
+	public final void expandAllGroups() {
+		if (getAdapterView() != null) {
+			for (int i = 0; i < getNumberOfGroups(); i++) {
+				getAdapterView().expandGroup(i);
+			}
+		} else {
+			String message = "All groups have not been expanded, because the "
+					+ "adapter is not attached to a view";
+			getLogger().logWarn(getClass(), message);
+		}
+	}
+
+	@Override
+	public final void collapseAllGroups() {
+		if (getAdapterView() != null) {
+			for (int i = 0; i < getNumberOfGroups(); i++) {
+				getAdapterView().expandGroup(i);
+			}
+		} else {
+			String message = "All groups have not been collapsed, because the "
+					+ "adapter is not attached to a view";
+			getLogger().logWarn(getClass(), message);
+		}
+	}
+
+	@Override
+	public final void triggerAllGroupExpansions() {
+		if (getAdapterView() != null) {
+			for (int i = 0; i < getNumberOfGroups(); i++) {
+				if (getAdapterView().isGroupExpanded(i)) {
+					getAdapterView().collapseGroup(i);
+				} else {
+					getAdapterView().expandGroup(i);
+				}
+			}
+		} else {
+			String message = "The expansion states of all groups have not been "
+					+ "triggered, because the adapter is not attached to a view";
+			getLogger().logWarn(getClass(), message);
+		}
+	}
+
+	@Override
 	public final void attach(final ExpandableListView expandableListView) {
 		ensureNotNull(expandableListView,
 				"The expandable list view may not be null");
