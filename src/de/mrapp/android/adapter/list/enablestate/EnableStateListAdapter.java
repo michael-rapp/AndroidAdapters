@@ -234,8 +234,8 @@ public interface EnableStateListAdapter<DataType> {
 	 * @param index
 	 *            The index of the item, which should be disabled, as an
 	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>size():int</code> - 1, otherwise an
-	 *            {@link IndexOutOfBoundsException} will be thrown
+	 *            value of the method <code>getNumberOfItems():int</code> - 1,
+	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
 	 */
 	void disable(int index);
 
@@ -258,8 +258,9 @@ public interface EnableStateListAdapter<DataType> {
 	 * @param index
 	 *            The index of the item, whose enable state should be triggered,
 	 *            as an {@link Integer} value. The index must be between 0 and
-	 *            the value of the method <code>size():int</code> - 1, otherwise
-	 *            an {@link IndexOutOfBoundsException} will be thrown
+	 *            the value of the method <code>getNumberOfItems():int</code> -
+	 *            1, otherwise an {@link IndexOutOfBoundsException} will be
+	 *            thrown
 	 * @return True, if the item has been enabled, false, if the item has been
 	 *         disabled
 	 */
