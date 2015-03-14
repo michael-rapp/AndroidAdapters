@@ -21,6 +21,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.View;
 import de.mrapp.android.adapter.ExpandableListDecorator;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
