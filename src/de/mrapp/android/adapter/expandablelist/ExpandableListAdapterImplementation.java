@@ -21,7 +21,6 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.view.View;
 import de.mrapp.android.adapter.ExpandableListDecorator;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
@@ -62,11 +61,12 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType>
 			final LogLevel logLevel,
 			final MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter,
 			final boolean allowDuplicateChildren,
+			final boolean expandGroupOnClick,
 			final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
 			final Set<ExpansionListener<GroupType, ChildType>> expansionListeners) {
 		super(context, groupInflater, childInflater, decorator, logLevel,
-				groupAdapter, allowDuplicateChildren, adapterListeners,
-				expansionListeners);
+				groupAdapter, allowDuplicateChildren, expandGroupOnClick,
+				adapterListeners, expansionListeners);
 	}
 
 	public ExpandableListAdapterImplementation(final Context context,
@@ -82,6 +82,7 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType>
 						context, groupInflater,
 						new NullObjectDecorator<Group<GroupType, ChildType>>()),
 				false,
+				true,
 				new LinkedHashSet<ExpandableListAdapterListener<GroupType, ChildType>>(),
 				new LinkedHashSet<ExpansionListener<GroupType, ChildType>>());
 	}
@@ -122,8 +123,8 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType>
 		return new ExpandableListAdapterImplementation<GroupType, ChildType>(
 				getContext(), getGroupInflater(), getChildInflater(),
 				getDecorator(), getLogLevel(), cloneGroupAdapter(),
-				areDuplicateChildrenAllowed(), getAdapterListeners(),
-				getExpansionListeners());
+				areDuplicateChildrenAllowed(), isGroupExpandedOnClick(),
+				getAdapterListeners(), getExpansionListeners());
 	}
 
 }
