@@ -20,7 +20,6 @@ package de.mrapp.android.adapter;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.ListIterator;
-import java.util.NoSuchElementException;
 
 import android.widget.ExpandableListView;
 import de.mrapp.android.adapter.datastructure.DataStructure;
