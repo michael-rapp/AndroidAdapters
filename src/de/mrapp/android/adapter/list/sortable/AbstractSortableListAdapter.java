@@ -225,13 +225,13 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 		if (order == Order.ASCENDING) {
 			Collections.sort(getItems(), itemComparator);
 			String message = "Sorted items in ascending order using the comparator \""
-					+ itemComparator + "\"";
+					+ itemComparator.getClass().getSimpleName() + "\"";
 			getLogger().logInfo(getClass(), message);
 		} else {
 			Collections.sort(getItems(),
 					Collections.reverseOrder(itemComparator));
 			String message = "Sorted items in descending order using the comparator \""
-					+ itemComparator + "\"";
+					+ itemComparator.getClass().getSimpleName() + "\"";
 			getLogger().logInfo(getClass(), message);
 		}
 
