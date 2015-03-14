@@ -270,7 +270,9 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final int setItemState(final int index, final int state) {
-		ensureAtMaximum(state, maxItemState(), "The state must at maximum "
+		ensureAtLeast(state, minItemState(), "The state must be at minimum "
+				+ minItemState(), IllegalArgumentException.class);
+		ensureAtMaximum(state, maxItemState(), "The state must be at maximum "
 				+ maxItemState(), IllegalArgumentException.class);
 		Item<DataType> item = getItems().get(index);
 
@@ -304,7 +306,14 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final int setItemState(final DataType item, final int state) {
-		return setItemState(indexOf(item), state);
+		ensureNotNull(item, "The item may not be null");
+		int index = indexOf(item);
+
+		if (index != -1) {
+			return setItemState(index, state);
+		} else {
+			throw new NoSuchElementException();
+		}
 	}
 
 	@Override
