@@ -30,7 +30,7 @@ import de.mrapp.android.adapter.ListAdapter;
  * 
  * @since 1.0.0
  */
-public interface ListItemClickListener<DataType> {
+public interface ListAdapterItemClickListener<DataType> {
 
 	/**
 	 * The method, which is invoked, when an item of the adapter has been
