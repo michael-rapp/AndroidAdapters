@@ -69,7 +69,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 		FilterableListAdapter<DataType> {
 
 	/**
-	 * A list, which contains the the adapter's unfiltered data.
+	 * A list, which contains the adapter's unfiltered data.
 	 */
 	private transient ArrayList<Item<DataType>> unfilteredItems;
 
