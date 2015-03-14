@@ -518,6 +518,18 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	}
 
 	@Override
+	public final Bundle getParameters() {
+		return groupAdapter.getParameters();
+	}
+
+	@Override
+	public final void setParameters(final Bundle parameters) {
+		groupAdapter.setParameters(parameters);
+		String message = "Set parameters to \"" + parameters + "\"";
+		getLogger().logDebug(getClass(), message);
+	}
+
+	@Override
 	public final void addAdapterListener(
 			final ExpandableListAdapterListener<GroupType, ChildType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
