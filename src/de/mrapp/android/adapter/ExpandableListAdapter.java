@@ -2081,6 +2081,25 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	void triggerAllGroupExpansions();
 
 	/**
+	 * Returns, whether a group is expanded, when it is clicked by the user, or
+	 * not.
+	 * 
+	 * @return True, if a group is expanded, when it is clicked by the user,
+	 *         false otherwise
+	 */
+	boolean isGroupExpandedOnClick();
+
+	/**
+	 * Sets, whether a group should be expanded, when it is clicked by the user,
+	 * or not.
+	 * 
+	 * @param expandGroupOnClick
+	 *            True, if a group should be expanded, when it is clicked by the
+	 *            user, false otherwise
+	 */
+	void expandGroupOnClick(boolean expandGroupOnClick);
+
+	/**
 	 * Attaches the adapter to an expandable list view.
 	 * 
 	 * @param expandableListView

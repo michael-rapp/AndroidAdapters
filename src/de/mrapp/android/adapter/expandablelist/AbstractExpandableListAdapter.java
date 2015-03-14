@@ -100,6 +100,14 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 			.getSimpleName() + "::AllowDuplicateChildren";
 
 	/**
+	 * The key, which is used to store, whether a group should be expanded, when
+	 * it is clicked by the user, or not, within a bundle.
+	 */
+	@VisibleForTesting
+	protected static final String EXPAND_GROUP_ON_CLICK_BUNDLE_KEY = AbstractExpandableListAdapter.class
+			.getSimpleName() + "::ExpandGroupOnClick";
+
+	/**
 	 * The key, which is used to store the log level, which is used for logging,
 	 * within a bundle.
 	 */
@@ -157,6 +165,12 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	 * are allowed, false otherwise.
 	 */
 	private boolean allowDuplicateChildren;
+
+	/**
+	 * True, if the a group should be expanded, when it is clicked by the user,
+	 * false otherwise.
+	 */
+	private boolean expandGroupOnClick;
 
 	/**
 	 * An adapter, which manages the adapter's group items.
@@ -467,6 +481,9 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	 * @param allowDuplicateChildren
 	 *            True, if duplicate group items, regardless from the group they
 	 *            belong to, should be allowed, false otherwise
+	 * @param expandGroupOnClick
+	 *            True, if a group should be expanded, when it is clicked by the
+	 *            user, false otherwise
 	 * @param adapterListeners
 	 *            A set, which contains the listeners, which should be notified,
 	 *            when the adapter's underlying data has been modified, as an
@@ -486,6 +503,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 			final LogLevel logLevel,
 			final MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter,
 			final boolean allowDuplicateChildren,
+			final boolean expandGroupOnClick,
 			final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
 			final Set<ExpansionListener<GroupType, ChildType>> expansionListeners) {
 		ensureNotNull(context, "The context may not be null");
@@ -503,6 +521,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		this.groupAdapter = groupAdapter;
 		this.groupAdapter.setLogLevel(LogLevel.OFF);
 		this.allowDuplicateChildren = allowDuplicateChildren;
+		this.expandGroupOnClick = expandGroupOnClick;
 		this.adapterListeners = adapterListeners;
 		this.expansionListeners = expansionListeners;
 	}
@@ -1763,6 +1782,19 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	}
 
 	@Override
+	public final boolean isGroupExpandedOnClick() {
+		return expandGroupOnClick;
+	}
+
+	@Override
+	public final void expandGroupOnClick(final boolean expandGroupOnClick) {
+		this.expandGroupOnClick = expandGroupOnClick;
+		String message = "Groups are now " + (expandGroupOnClick ? "" : "not ")
+				+ "expanded on click";
+		getLogger().logDebug(getClass(), message);
+	}
+
+	@Override
 	public final void attach(final ExpandableListView expandableListView) {
 		ensureNotNull(expandableListView,
 				"The expandable list view may not be null");
@@ -1893,9 +1925,9 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 		outState.putBoolean(ALLOW_DUPLICATE_CHILDREN_BUNDLE_KEY,
 				areDuplicateChildrenAllowed());
-
+		outState.putBoolean(EXPAND_GROUP_ON_CLICK_BUNDLE_KEY,
+				isGroupExpandedOnClick());
 		outState.putInt(LOG_LEVEL_BUNDLE_KEY, getLogLevel().getRank());
-
 		getLogger().logDebug(getClass(), "Saved instance state");
 	}
 
@@ -1925,10 +1957,10 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 			allowDuplicateChildren(savedInstanceState
 					.getBoolean(ALLOW_DUPLICATE_CHILDREN_BUNDLE_KEY));
-
+			expandGroupOnClick(savedInstanceState
+					.getBoolean(EXPAND_GROUP_ON_CLICK_BUNDLE_KEY));
 			setLogLevel(LogLevel.fromRank(savedInstanceState
 					.getInt(LOG_LEVEL_BUNDLE_KEY)));
-
 			notifyDataSetChanged();
 			getLogger().logDebug(getClass(), "Restored instance state");
 		}
@@ -1939,6 +1971,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (allowDuplicateChildren ? 1231 : 1237);
+		result = prime * result + (expandGroupOnClick ? 1231 : 1237);
 		result = prime * result + groupAdapter.hashCode();
 		result = prime * result + getLogLevel().getRank();
 		return result;
@@ -1954,6 +1987,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 			return false;
 		AbstractExpandableListAdapter<?, ?, ?> other = (AbstractExpandableListAdapter<?, ?, ?>) obj;
 		if (allowDuplicateChildren != other.allowDuplicateChildren)
+			return false;
+		if (expandGroupOnClick != other.expandGroupOnClick)
 			return false;
 		if (!groupAdapter.equals(other.groupAdapter))
 			return false;
