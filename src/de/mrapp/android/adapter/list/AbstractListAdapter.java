@@ -734,25 +734,45 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	@Override
 	public final int indexOf(final DataType item) {
 		ensureNotNull(item, "The item may not be null");
-		return getAllItems().indexOf(item);
+
+		for (int i = 0; i < getNumberOfItems(); i++) {
+			if (getItem(i) == item) {
+				return i;
+			}
+		}
+
+		return -1;
 	}
 
 	@Override
 	public final int lastIndexOf(final DataType item) {
 		ensureNotNull(item, "The item may not be null");
-		return getAllItems().lastIndexOf(item);
+
+		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
+			if (getItem(i) == item) {
+				return i;
+			}
+		}
+
+		return -1;
 	}
 
 	@Override
 	public final boolean containsItem(final DataType item) {
 		ensureNotNull(item, "The item may not be null");
-		return getAllItems().contains(item);
+		return indexOf(item) != -1;
 	}
 
 	@Override
 	public final boolean containsAllItems(final Collection<DataType> items) {
 		ensureNotNull(items, "The collection may not be null");
-		return getAllItems().containsAll(items);
+		boolean result = true;
+
+		for (DataType item : items) {
+			result &= containsItem(item);
+		}
+
+		return result;
 	}
 
 	@Override
