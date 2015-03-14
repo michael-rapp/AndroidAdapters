@@ -95,8 +95,15 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType>
 	protected final void applyDecoratorOnGroup(final Context context,
 			final View view, final int index) {
 		GroupType group = getGroup(index);
+		boolean expanded = isGroupExpanded(index);
+
+		// TODO: Use actual values
+		boolean enabled = true;
+		int state = 0;
+		boolean filtered = false;
+
 		getDecorator().applyDecoratorOnGroup(context, this, view, group, index,
-				true, 0, false);
+				expanded, enabled, state, filtered);
 	}
 
 	@Override
