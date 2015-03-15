@@ -31,6 +31,7 @@ import de.mrapp.android.adapter.SelectableListDecorator;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
+import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.filterable.ListFilterListener;
@@ -126,6 +127,11 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 	 *            True, if the method <code>notifyDataSetChanged():void</code>
 	 *            should be automatically called when the adapter's underlying
 	 *            data has been changed, false otherwise
+	 * @param itemClickListeners
+	 *            A set, which contains the listeners, which should be notified,
+	 *            when an item of the adapter has been clicked by the user, as
+	 *            an instance of the type {@link Set} or an empty set, if no
+	 *            listeners should be notified
 	 * @param adapterListeners
 	 *            A set, which contains the listeners, which should be notified
 	 *            when the adapter's underlying data has been modified or an
@@ -164,11 +170,15 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 	 *            when an item's selection has been changed or an empty set, if
 	 *            no listeners should be notified
 	 */
-	protected MultipleChoiceListAdapterImplementation(final Context context,
+	protected MultipleChoiceListAdapterImplementation(
+			final Context context,
 			final Inflater inflater,
 			final SelectableListDecorator<DataType> decorator,
-			final LogLevel logLevel, final ArrayList<Item<DataType>> items,
-			final boolean allowDuplicates, final boolean notifyOnChange,
+			final LogLevel logLevel,
+			final ArrayList<Item<DataType>> items,
+			final boolean allowDuplicates,
+			final boolean notifyOnChange,
+			final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final int numberOfItemStates,
@@ -180,10 +190,11 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 			final boolean selectItemOnClick,
 			final Set<ListSelectionListener<DataType>> selectionListeners) {
 		super(context, inflater, decorator, logLevel, items, allowDuplicates,
-				notifyOnChange, adapterListeners, enableStateListeners,
-				numberOfItemStates, triggerItemStateOnClick,
-				itemStateListeners, sortingListeners, filterListeners,
-				appliedFilters, selectItemOnClick, selectionListeners);
+				notifyOnChange, itemClickListeners, adapterListeners,
+				enableStateListeners, numberOfItemStates,
+				triggerItemStateOnClick, itemStateListeners, sortingListeners,
+				filterListeners, appliedFilters, selectItemOnClick,
+				selectionListeners);
 		addEnableStateListner(createEnableStateListener());
 	}
 
@@ -209,6 +220,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 			final SelectableListDecorator<DataType> decorator) {
 		this(context, inflater, decorator, LogLevel.ALL,
 				new ArrayList<Item<DataType>>(), false, true,
+				new LinkedHashSet<ListAdapterItemClickListener<DataType>>(),
 				new LinkedHashSet<ListAdapterListener<DataType>>(),
 				new LinkedHashSet<ListEnableStateListener<DataType>>(), 1,
 				false, new LinkedHashSet<ListItemStateListener<DataType>>(),
@@ -495,6 +507,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 				+ getNumberOfItemStates() + ", triggerItemStateOnClick="
 				+ isItemStateTriggeredOnClick() + ", enableStateListeners="
 				+ getEnableStateListeners() + ", items=" + getItems()
+				+ ", itemClickListeners=" + getItemClickListeners()
 				+ ", adapterListeners=" + getAdapterListeners()
 				+ ", allowDuplicates=" + areDuplicatesAllowed()
 				+ ", notifyOnChange=" + isNotifiedOnChange()
@@ -510,11 +523,12 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 		return new MultipleChoiceListAdapterImplementation<DataType>(
 				getContext(), getInflater(), getDecorator(), getLogLevel(),
 				cloneItems(), areDuplicatesAllowed(), isNotifiedOnChange(),
-				getAdapterListeners(), getEnableStateListeners(),
-				getNumberOfItemStates(), isItemStateTriggeredOnClick(),
-				getItemStateListeners(), getSortingListeners(),
-				getFilterListeners(), cloneAppliedFilters(),
-				isItemSelectedOnClick(), getSelectionListeners());
+				getItemClickListeners(), getAdapterListeners(),
+				getEnableStateListeners(), getNumberOfItemStates(),
+				isItemStateTriggeredOnClick(), getItemStateListeners(),
+				getSortingListeners(), getFilterListeners(),
+				cloneAppliedFilters(), isItemSelectedOnClick(),
+				getSelectionListeners());
 	}
 
 }

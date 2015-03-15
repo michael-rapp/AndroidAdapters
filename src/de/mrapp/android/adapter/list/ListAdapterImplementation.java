@@ -98,6 +98,11 @@ public class ListAdapterImplementation<DataType> extends
 	 *            True, if the method <code>notifyDataSetChanged():void</code>
 	 *            should be automatically called when the adapter's underlying
 	 *            data has been changed, false otherwise
+	 * @param itemClickListeners
+	 *            A set, which contains the listeners, which should be notified,
+	 *            when an item of the adapter has been clicked by the user, as
+	 *            an instance of the type {@link Set} or an empty set, if no
+	 *            listeners should be notified
 	 * @param adapterListeners
 	 *            A set, which contains the listeners, which should be notified
 	 *            when the adapter's underlying data has been modified or an
@@ -129,10 +134,15 @@ public class ListAdapterImplementation<DataType> extends
 	 *            filter the adapter's underlying data or an empty set, if the
 	 *            adapter's underlying data should not be filtered
 	 */
-	protected ListAdapterImplementation(final Context context,
-			final Inflater inflater, final ListDecorator<DataType> decorator,
-			final LogLevel logLevel, final ArrayList<Item<DataType>> items,
-			final boolean allowDuplicates, final boolean notifyOnChange,
+	protected ListAdapterImplementation(
+			final Context context,
+			final Inflater inflater,
+			final ListDecorator<DataType> decorator,
+			final LogLevel logLevel,
+			final ArrayList<Item<DataType>> items,
+			final boolean allowDuplicates,
+			final boolean notifyOnChange,
+			final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final int numberOfItemStates,
@@ -142,10 +152,10 @@ public class ListAdapterImplementation<DataType> extends
 			final Set<ListFilterListener<DataType>> filterListeners,
 			final LinkedHashSet<AppliedFilter<DataType>> appliedFilters) {
 		super(context, inflater, decorator, logLevel, items, allowDuplicates,
-				notifyOnChange, adapterListeners, enableStateListeners,
-				numberOfItemStates, triggerItemStateOnClick,
-				itemStateListeners, sortingListeners, filterListeners,
-				appliedFilters);
+				notifyOnChange, itemClickListeners, adapterListeners,
+				enableStateListeners, numberOfItemStates,
+				triggerItemStateOnClick, itemStateListeners, sortingListeners,
+				filterListeners, appliedFilters);
 	}
 
 	/**
@@ -169,6 +179,7 @@ public class ListAdapterImplementation<DataType> extends
 			final Inflater inflater, final ListDecorator<DataType> decorator) {
 		this(context, inflater, decorator, LogLevel.ALL,
 				new ArrayList<Item<DataType>>(), false, true,
+				new LinkedHashSet<ListAdapterItemClickListener<DataType>>(),
 				new LinkedHashSet<ListAdapterListener<DataType>>(),
 				new LinkedHashSet<ListEnableStateListener<DataType>>(), 1,
 				false, new LinkedHashSet<ListItemStateListener<DataType>>(),
@@ -186,6 +197,7 @@ public class ListAdapterImplementation<DataType> extends
 				+ getNumberOfItemStates() + ", triggerItemStateOnClick="
 				+ isItemStateTriggeredOnClick() + ", enableStateListeners="
 				+ getEnableStateListeners() + ", items=" + getItems()
+				+ ", itemClickListeners=" + getItemClickListeners()
 				+ ", adapterListeners=" + getAdapterListeners()
 				+ ", allowDuplicates=" + areDuplicatesAllowed()
 				+ ", notifyOnChange=" + isNotifiedOnChange()
@@ -199,10 +211,11 @@ public class ListAdapterImplementation<DataType> extends
 		return new ListAdapterImplementation<DataType>(getContext(),
 				getInflater(), getDecorator(), getLogLevel(), cloneItems(),
 				areDuplicatesAllowed(), isNotifiedOnChange(),
-				getAdapterListeners(), getEnableStateListeners(),
-				getNumberOfItemStates(), isItemStateTriggeredOnClick(),
-				getItemStateListeners(), getSortingListeners(),
-				getFilterListeners(), cloneAppliedFilters());
+				getItemClickListeners(), getAdapterListeners(),
+				getEnableStateListeners(), getNumberOfItemStates(),
+				isItemStateTriggeredOnClick(), getItemStateListeners(),
+				getSortingListeners(), getFilterListeners(),
+				cloneAppliedFilters());
 	}
 
 }

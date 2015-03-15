@@ -26,6 +26,7 @@ import android.widget.ListView;
 import de.mrapp.android.adapter.datastructure.DataStructure;
 import de.mrapp.android.adapter.datastructure.Parameterizable;
 import de.mrapp.android.adapter.datastructure.Restorable;
+import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.EnableStateListAdapter;
 import de.mrapp.android.adapter.list.filterable.FilterableListAdapter;
@@ -477,6 +478,28 @@ public interface ListAdapter<DataType> extends DataStructure, Restorable,
 	 * Detaches the adapter from the view, it is currently attached to.
 	 */
 	void detach();
+
+	/**
+	 * Adds a new listener, which should be notified, when an item of the
+	 * adapter has been clicked by the user.
+	 * 
+	 * @param listener
+	 *            The listener, which should be added, as an instance of the
+	 *            type {@link ListAdapterItemClickListener}. The listener may
+	 *            not be null
+	 */
+	void addItemClickListener(ListAdapterItemClickListener<DataType> listener);
+
+	/**
+	 * Removes a specific listener, which should nmot be notified, when an item
+	 * of the adapter has been clicked by the user, anymore.
+	 * 
+	 * @param listener
+	 *            The listener, which should be removed, as an instance of the
+	 *            type {@link ListAdapterItemClickListener}. The listener may
+	 *            not be null
+	 */
+	void removeItemClickListener(ListAdapterItemClickListener<DataType> listener);
 
 	/**
 	 * Adds a new listener, which should be notified, when the adapter's

@@ -146,6 +146,12 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	private final transient Logger logger;
 
 	/**
+	 * A set, which contains the listeners, which should be notified, when an
+	 * item of the adapter has been clicked by the user.
+	 */
+	private transient Set<ListAdapterItemClickListener<DataType>> itemClickListeners;
+
+	/**
 	 * A set, which contains the listeners, which should be notified, when the
 	 * adapter's underlying data has been modified.
 	 */
@@ -178,6 +184,25 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	 * A list, which contains the the adapter's underlying data.
 	 */
 	private ArrayList<Item<DataType>> items;
+
+	/**
+	 * Notifies all listeners, which have been registered to be notified, when
+	 * an item of the adapter has been clicked by the user, about an item, which
+	 * has been clicked.
+	 * 
+	 * @param item
+	 *            The item, which has been clicked by the user, as an instance
+	 *            of the generic type DataType. The item may not be null
+	 * @param index
+	 *            The index of the item, which has been clicked by the user, as
+	 *            an {@link Integer} value. The index must be between 0 and the
+	 *            value of the method <code>getNumberOfItems():int</code> - 1
+	 */
+	private void notifyOnItemClicked(final DataType item, final int index) {
+		for (ListAdapterItemClickListener<DataType> listener : itemClickListeners) {
+			listener.onItemClicked(this, item, index);
+		}
+	}
 
 	/**
 	 * Notifies all listeners, which have been registered to be notified, when
@@ -251,6 +276,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 
 			@Override
 			public void onClick(final View v) {
+				notifyOnItemClicked(getItem(index), index);
 				onItemClicked(index);
 			}
 
@@ -367,6 +393,19 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 
 	/**
 	 * Returns a set, which contains the listeners, which should be notified,
+	 * when an item of the adapter has been clicked by the user.
+	 * 
+	 * @return A set, which contains the listeners, which should be notified,
+	 *         when an item of the adapter has been clicked by the user, as an
+	 *         instance of the type {@link Set} or an empty set, if no listeners
+	 *         should be notified
+	 */
+	protected final Set<ListAdapterItemClickListener<DataType>> getItemClickListeners() {
+		return itemClickListeners;
+	}
+
+	/**
+	 * Returns a set, which contains the listeners, which should be notified,
 	 * when the adapter's underlying data has been modified.
 	 * 
 	 * @return A set, which contains the listeners, which should be notified,
@@ -455,21 +494,33 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	 *            True, if the method <code>notifyDataSetChanged():void</code>
 	 *            should be automatically called when the adapter's underlying
 	 *            data has been changed, false otherwise
+	 * @param itemClickListeners
+	 *            A set, which contains the listeners, which should be notified,
+	 *            when an item of the adapter has been clicked by the user, as
+	 *            an instance of the type {@link Set} or an empty set, if no
+	 *            listeners should be notified
 	 * @param adapterListeners
 	 *            A set, which contains the listeners, which should be notified,
 	 *            when the adapter's underlying data has been modified, as an
 	 *            instance of the type {@link Set} or an empty set, if no
 	 *            listeners should be notified
 	 */
-	protected AbstractListAdapter(final Context context,
-			final Inflater inflater, final DecoratorType decorator,
-			final LogLevel logLevel, final ArrayList<Item<DataType>> items,
-			final boolean allowDuplicates, final boolean notifyOnChange,
+	protected AbstractListAdapter(
+			final Context context,
+			final Inflater inflater,
+			final DecoratorType decorator,
+			final LogLevel logLevel,
+			final ArrayList<Item<DataType>> items,
+			final boolean allowDuplicates,
+			final boolean notifyOnChange,
+			final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
 			final Set<ListAdapterListener<DataType>> adapterListeners) {
 		ensureNotNull(context, "The context may not be null");
 		ensureNotNull(inflater, "The inflater may not be null");
 		ensureNotNull(decorator, "The decorator may not be null");
 		ensureNotNull(items, "The items may not be null");
+		ensureNotNull(itemClickListeners,
+				"The item click listeners may not be null");
 		ensureNotNull(adapterListeners, "The adapter listeners may not be null");
 		this.context = context;
 		this.inflater = inflater;
@@ -479,6 +530,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		this.parameters = null;
 		this.allowDuplicates = allowDuplicates;
 		this.notifyOnChange = notifyOnChange;
+		this.itemClickListeners = itemClickListeners;
 		this.adapterListeners = adapterListeners;
 	}
 
@@ -527,6 +579,24 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		this.notifyOnChange = notifyOnChange;
 		String message = "Changes of the adapter's underlying data are now "
 				+ (notifyOnChange ? "" : "not ") + "automatically notified";
+		getLogger().logDebug(getClass(), message);
+	}
+
+	@Override
+	public final void addItemClickListener(
+			final ListAdapterItemClickListener<DataType> listener) {
+		ensureNotNull(listener, "The listener may not be null");
+		itemClickListeners.add(listener);
+		String message = "Added item click listener \"" + listener + "\"";
+		getLogger().logDebug(getClass(), message);
+	}
+
+	@Override
+	public final void removeItemClickListener(
+			final ListAdapterItemClickListener<DataType> listener) {
+		ensureNotNull(listener, "The listener may not be null");
+		itemClickListeners.remove(listener);
+		String message = "Removed item click listener \"" + listener + "\"";
 		getLogger().logDebug(getClass(), message);
 	}
 
