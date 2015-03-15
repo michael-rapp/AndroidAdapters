@@ -40,6 +40,7 @@ import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemComparator;
 import de.mrapp.android.adapter.inflater.Inflater;
+import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
@@ -465,6 +466,11 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	 *            True, if the method <code>notifyDataSetChanged():void</code>
 	 *            should be automatically called when the adapter's underlying
 	 *            data has been changed, false otherwise
+	 * @param itemClickListeners
+	 *            A set, which contains the listeners, which should be notified,
+	 *            when an item of the adapter has been clicked by the user, as
+	 *            an instance of the type {@link Set} or an empty set, if no
+	 *            listeners should be notified
 	 * @param adapterListeners
 	 *            A set, which contains the listeners, which should be notified
 	 *            when the adapter's underlying data has been modified or an
@@ -496,10 +502,15 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	 *            filter the adapter's underlying data or an empty set, if the
 	 *            adapter's underlying data should not be filtered
 	 */
-	protected AbstractFilterableListAdapter(final Context context,
-			final Inflater inflater, final DecoratorType decorator,
-			final LogLevel logLevel, final ArrayList<Item<DataType>> items,
-			final boolean allowDuplicates, final boolean notifyOnChange,
+	protected AbstractFilterableListAdapter(
+			final Context context,
+			final Inflater inflater,
+			final DecoratorType decorator,
+			final LogLevel logLevel,
+			final ArrayList<Item<DataType>> items,
+			final boolean allowDuplicates,
+			final boolean notifyOnChange,
+			final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners,
 			final int numberOfItemStates,
@@ -509,9 +520,9 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 			final Set<ListFilterListener<DataType>> filterListeners,
 			final LinkedHashSet<AppliedFilter<DataType>> appliedFilters) {
 		super(context, inflater, decorator, logLevel, items, allowDuplicates,
-				notifyOnChange, adapterListeners, enableStateListeners,
-				numberOfItemStates, triggerItemStateOnClick,
-				itemStateListeners, sortingListeners);
+				notifyOnChange, itemClickListeners, adapterListeners,
+				enableStateListeners, numberOfItemStates,
+				triggerItemStateOnClick, itemStateListeners, sortingListeners);
 		setFilterListeners(filterListeners);
 		setAppliedFilters(appliedFilters);
 		addAdapterListener(createAdapterListener());
