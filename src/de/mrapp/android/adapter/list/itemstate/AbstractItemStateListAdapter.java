@@ -29,6 +29,7 @@ import java.util.Set;
 
 import android.content.Context;
 import android.os.Bundle;
+import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
@@ -98,6 +99,29 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 	private boolean triggerItemStateOnClick;
 
 	/**
+	 * Creates and returns a listener, which allows to trigger the state of an
+	 * item, when it is clicked by the user.
+	 * 
+	 * @return The listener, which has been created, as an instance of the type
+	 *         {@link ListAdapterItemClickListener}
+	 */
+	private ListAdapterItemClickListener<DataType> createItemClickListener() {
+		return new ListAdapterItemClickListener<DataType>() {
+
+			@Override
+			public void onItemClicked(final ListAdapter<DataType> adapter,
+					final DataType item, final int index) {
+				if (isItemStateTriggeredOnClick()) {
+					getLogger().logVerbose(getClass(),
+							"Triggering item state on click...");
+					triggerItemState(index);
+				}
+			}
+
+		};
+	}
+
+	/**
 	 * Notifies all listeners, which have registered to be notified, when the
 	 * state of an item of the adapter has been changed.
 	 * 
@@ -147,17 +171,6 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 		ensureNotNull(itemStateListeners,
 				"The item state listeners may not be null");
 		this.itemStateListeners = itemStateListeners;
-	}
-
-	@Override
-	protected void onItemClicked(final int index) {
-		super.onItemClicked(index);
-
-		if (isItemStateTriggeredOnClick()) {
-			getLogger().logVerbose(getClass(),
-					"Triggering item state on click...");
-			triggerItemState(index);
-		}
 	}
 
 	/**
@@ -232,6 +245,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 		setNumberOfItemStates(numberOfItemStates);
 		triggerItemStateOnClick(triggerItemStateOnClick);
 		setItemStateListeners(itemStateListeners);
+		addItemClickListener(createItemClickListener());
 	}
 
 	@Override

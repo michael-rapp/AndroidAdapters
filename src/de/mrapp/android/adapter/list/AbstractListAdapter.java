@@ -277,7 +277,6 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 			@Override
 			public void onClick(final View v) {
 				notifyOnItemClicked(getItem(index), index);
-				onItemClicked(index);
 			}
 
 		};
@@ -426,17 +425,6 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	 */
 	protected final AdapterView<android.widget.ListAdapter> getAdapterView() {
 		return adapterView;
-	}
-
-	/**
-	 * The method, which is invoked, when an item has been clicked.
-	 * 
-	 * @param index
-	 *            The index of the item, which has been clicked, as an
-	 *            {@link Integer} value
-	 */
-	protected void onItemClicked(final int index) {
-		return;
 	}
 
 	/**
