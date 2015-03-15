@@ -184,6 +184,54 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	private MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter;
 
 	/**
+	 * Notifies all listeners, which have been registered to be notified, when
+	 * an item of the adapter has been clicked by the user, about a group, which
+	 * has been clicked.
+	 * 
+	 * @param group
+	 *            The group, which has been clicked by the user, as an instance
+	 *            of the generic type GroupType. The item may not be null
+	 * @param index
+	 *            The index of the group, which has been clicked by the user, as
+	 *            an {@link Integer} value. The index must be between 0 and the
+	 *            value of the method <code>getNumberOfGroups():int</code> - 1
+	 */
+	private void notifyOnGroupClicked(final GroupType group, final int index) {
+		for (ExpandableListAdapterItemClickListener<GroupType, ChildType> listener : itemClickListeners) {
+			listener.onGroupClicked(this, group, index);
+		}
+	}
+
+	/**
+	 * Notifies all listeners, which have been registered to be notified, when
+	 * an item of the adapter has been clicked by the user, about a child, which
+	 * has been clicked.
+	 * 
+	 * @param child
+	 *            The child, which has been clicked by the user, as an instance
+	 *            of the generic type ChildType. The item may not be null
+	 * @param childIndex
+	 *            The index of the child, which has been clicked by the user, as
+	 *            an {@link Integer} value. The index must be between 0 and the
+	 *            value of the method <code>getNumberOfChildren():int</code> - 1
+	 * @param group
+	 *            The group, the child, which has been clicked by the user,
+	 *            belongs to, as an instance of the generic type GroupType. The
+	 *            item may not be null
+	 * @param groupIndex
+	 *            The index of the group, the child, which has been clicked by
+	 *            the user, belongs to, as an {@link Integer} value. The index
+	 *            must be between 0 and the value of the method
+	 *            <code>getNumberOfGroups():int</code> - 1
+	 */
+	private void notifyOnChildClicked(final ChildType child,
+			final int childIndex, final GroupType group, final int groupIndex) {
+		for (ExpandableListAdapterItemClickListener<GroupType, ChildType> listener : itemClickListeners) {
+			listener.onChildClicked(this, child, childIndex, group, groupIndex);
+		}
+	}
+
+	/**
 	 * Creates and returns an adapter, which may be used to manage the adapter's
 	 * child items.
 	 * 
@@ -212,7 +260,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 			@Override
 			public void onClick(final View v) {
-				onGroupItemClicked(index);
+				notifyOnGroupClicked(getGroup(index), index);
 			}
 
 		};
@@ -238,7 +286,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 			@Override
 			public void onClick(final View v) {
-				onChildItemClicked(groupIndex, childIndex);
+				notifyOnChildClicked(getChild(groupIndex, childIndex),
+						childIndex, getGroup(groupIndex), groupIndex);
 			}
 
 		};
@@ -403,32 +452,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	 */
 	protected final ExpandableListView getAdapterView() {
 		return adapterView;
-	}
-
-	/**
-	 * The method, which is invoked, when a group item has been clicked.
-	 * 
-	 * @param index
-	 *            The index of the group item, which has been clicked, as an
-	 *            {@link Integer} value
-	 */
-	protected final void onGroupItemClicked(final int index) {
-		return;
-	}
-
-	/**
-	 * The method, which is invoked, when a child item has been clicked.
-	 * 
-	 * @param groupIndex
-	 *            The index of the group, the child item, which has been
-	 *            clicked, belongs to, as an {@link Integer} value
-	 * @param childIndex
-	 *            The index of the child item, which has been clicked, as an
-	 *            {@link Integer} value
-	 */
-	protected final void onChildItemClicked(final int groupIndex,
-			final int childIndex) {
-		return;
 	}
 
 	/**
