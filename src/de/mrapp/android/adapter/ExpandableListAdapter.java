@@ -25,6 +25,7 @@ import android.widget.ExpandableListView;
 import de.mrapp.android.adapter.datastructure.DataStructure;
 import de.mrapp.android.adapter.datastructure.Parameterizable;
 import de.mrapp.android.adapter.datastructure.Restorable;
+import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemClickListener;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterListener;
 import de.mrapp.android.adapter.expandablelist.ExpansionListener;
 import de.mrapp.android.adapter.logging.Loggable;
@@ -2115,12 +2116,36 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	void detach();
 
 	/**
+	 * Adds a new listener, which should be notified, when an item of the
+	 * adapter has been clicked by the user, anymore.
+	 * 
+	 * @param listener
+	 *            The listener, which should be added, as an instance of the
+	 *            type {@link ExpandableListAdapterItemClickListener}. The
+	 *            listener may not be null
+	 */
+	void addItemClickListener(
+			ExpandableListAdapterItemClickListener<GroupType, ChildType> listener);
+
+	/**
+	 * Removes a specific listener, which should not be notified, when an item
+	 * of the adapter has been clicked by the user.
+	 * 
+	 * @param listener
+	 *            The listener, which should be removed, as an instance of the
+	 *            type {@link ExpandableListAdapterItemClickListener}. The
+	 *            listener may not be null
+	 */
+	void removeItemClickListener(
+			ExpandableListAdapterItemClickListener<GroupType, ChildType> listener);
+
+	/**
 	 * Adds a new listener, which should be notified, when the adapter's
 	 * underlying data has been modified.
 	 * 
 	 * @param listener
 	 *            The listener, which should be added, as an instance of the
-	 *            class {@link ExpandableListAdapterListener}. The listener may
+	 *            type {@link ExpandableListAdapterListener}. The listener may
 	 *            not be null
 	 */
 	void addAdapterListener(
@@ -2132,7 +2157,7 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	 * 
 	 * @param listener
 	 *            The listener, which should be removed, as an instance of the
-	 *            class {@link ExpandableListAdapterListener}. The listener may
+	 *            type {@link ExpandableListAdapterListener}. The listener may
 	 *            not be null
 	 */
 	void removeAdapterListener(

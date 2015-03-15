@@ -144,6 +144,12 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	private final transient Logger logger;
 
 	/**
+	 * A set, which contains the listeners, which should be notified, when an
+	 * item of the adapter has been clicked by the user.
+	 */
+	private transient Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners;
+
+	/**
 	 * A set, which contains the listeners, which should be notified, when the
 	 * adapter's underlying data has been modified.
 	 */
@@ -351,6 +357,19 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 	/**
 	 * Returns a set, which contains the listeners, which should be notified,
+	 * when an item of the adapter has been clicked by the user.
+	 * 
+	 * @return A set, which contains the listeners, which should be notified,
+	 *         when an item of the adapter has been clicked by the user, as an
+	 *         instance of the type {@link Set} or an empty set, if no listeners
+	 *         should be notified
+	 */
+	protected final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> getItemClickListeners() {
+		return itemClickListeners;
+	}
+
+	/**
+	 * Returns a set, which contains the listeners, which should be notified,
 	 * when the adapter's underlying data has been modified.
 	 * 
 	 * @return A set, which contains the listeners, which should be notified,
@@ -484,6 +503,11 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	 * @param expandGroupOnClick
 	 *            True, if a group should be expanded, when it is clicked by the
 	 *            user, false otherwise
+	 * @param itemClickListeners
+	 *            A set, which contains the listeners, which should be notified,
+	 *            when an item of the adapter has been clicked by the user, as
+	 *            an instance of the type {@link Set} or an empty set, if no
+	 *            listeners should be notified
 	 * @param adapterListeners
 	 *            A set, which contains the listeners, which should be notified,
 	 *            when the adapter's underlying data has been modified, as an
@@ -504,12 +528,15 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 			final MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter,
 			final boolean allowDuplicateChildren,
 			final boolean expandGroupOnClick,
+			final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
 			final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
 			final Set<ExpansionListener<GroupType, ChildType>> expansionListeners) {
 		ensureNotNull(context, "The context may not be null");
 		ensureNotNull(groupInflater, "The group inflater may not be null");
 		ensureNotNull(childInflater, "The child inflater may not be null");
 		ensureNotNull(decorator, "The decorator may not be null");
+		ensureNotNull(itemClickListeners,
+				"The item click listeners may not be null");
 		ensureNotNull(adapterListeners, "The adapter listeners may not be null");
 		ensureNotNull(expansionListeners,
 				"The expansion listeners may not be null");
@@ -522,6 +549,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		this.groupAdapter.setLogLevel(LogLevel.OFF);
 		this.allowDuplicateChildren = allowDuplicateChildren;
 		this.expandGroupOnClick = expandGroupOnClick;
+		this.itemClickListeners = itemClickListeners;
 		this.adapterListeners = adapterListeners;
 		this.expansionListeners = expansionListeners;
 	}
@@ -549,10 +577,30 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	}
 
 	@Override
+	public final void addItemClickListener(
+			final ExpandableListAdapterItemClickListener<GroupType, ChildType> listener) {
+		ensureNotNull(listener, "The listener may not be null");
+		itemClickListeners.add(listener);
+		String message = "Added item click listener \"" + listener + "\"";
+		getLogger().logDebug(getClass(), message);
+	}
+
+	@Override
+	public final void removeItemClickListener(
+			final ExpandableListAdapterItemClickListener<GroupType, ChildType> listener) {
+		ensureNotNull(listener, "The listener may not be null");
+		itemClickListeners.remove(listener);
+		String message = "Removed item click listener \"" + listener + "\"";
+		getLogger().logDebug(getClass(), message);
+	}
+
+	@Override
 	public final void addAdapterListener(
 			final ExpandableListAdapterListener<GroupType, ChildType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		adapterListeners.add(listener);
+		String message = "Added adapter listener \"" + listener + "\"";
+		getLogger().logDebug(getClass(), message);
 	}
 
 	@Override
@@ -560,6 +608,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 			final ExpandableListAdapterListener<GroupType, ChildType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		adapterListeners.remove(listener);
+		String message = "Removed adapter listener \"" + listener + "\"";
+		getLogger().logDebug(getClass(), message);
 	}
 
 	@Override
