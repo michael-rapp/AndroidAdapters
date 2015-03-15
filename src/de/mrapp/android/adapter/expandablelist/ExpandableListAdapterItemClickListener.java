@@ -77,7 +77,7 @@ public interface ExpandableListAdapterItemClickListener<GroupType, ChildType> {
 	 *            The index of the group item, the child, which has been clicked
 	 *            by the user, belongs to, as an {@link Integer} value
 	 */
-	void onGroupClicked(ExpandableListAdapter<GroupType, ChildType> adapter,
+	void onChildClicked(ExpandableListAdapter<GroupType, ChildType> adapter,
 			ChildType child, int childIndex, GroupType group, int groupIndex);
 
 }
