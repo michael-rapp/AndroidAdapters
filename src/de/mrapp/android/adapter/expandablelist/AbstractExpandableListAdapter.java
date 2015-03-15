@@ -246,6 +246,38 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	}
 
 	/**
+	 * Creates and returns a listener, which allows to trigger the expansion
+	 * state of a group, when it is clicked by the user.
+	 * 
+	 * @return The listener, which has been created, as an instance of the type
+	 *         {@link ExpandableListAdapterItemClickListener}
+	 */
+	private ExpandableListAdapterItemClickListener<GroupType, ChildType> createGroupClickListener() {
+		return new ExpandableListAdapterItemClickListener<GroupType, ChildType>() {
+
+			@Override
+			public void onGroupClicked(
+					final ExpandableListAdapter<GroupType, ChildType> adapter,
+					final GroupType group, final int index) {
+				if (isGroupExpandedOnClick()) {
+					triggerGroupExpansion(index);
+					getLogger().logVerbose(getClass(),
+							"Triggering group expansion on click...");
+				}
+			}
+
+			@Override
+			public void onChildClicked(
+					final ExpandableListAdapter<GroupType, ChildType> adapter,
+					final ChildType child, final int childIndex,
+					final GroupType group, final int groupIndex) {
+				return;
+			}
+
+		};
+	}
+
+	/**
 	 * Creates and returns an {@link OnClickListener}, which is invoked, when a
 	 * specific group item has been clicked.
 	 * 
@@ -575,6 +607,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		this.itemClickListeners = itemClickListeners;
 		this.adapterListeners = adapterListeners;
 		this.expansionListeners = expansionListeners;
+		addItemClickListener(createGroupClickListener());
 	}
 
 	@Override
