@@ -62,6 +62,29 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * Creates and returns a listener, which allows to trigger the selection of
+	 * an item, when it is clicked by the user.
+	 * 
+	 * @return The listener, which has been created, as an instance of the type
+	 *         {@link ListAdapterItemClickListener}
+	 */
+	private ListAdapterItemClickListener<DataType> createItemClickListener() {
+		return new ListAdapterItemClickListener<DataType>() {
+
+			@Override
+			public void onItemClicked(final ListAdapter<DataType> adapter,
+					final DataType item, final int index) {
+				if (isItemSelectedOnClick()) {
+					getLogger().logVerbose(getClass(),
+							"Triggering item selection on click...");
+					triggerSelection(index);
+				}
+			}
+
+		};
+	}
+
+	/**
 	 * Creates and returns a listener, which allows to adapt the selections of
 	 * the adapter's items, when an item has been enabled or disabled.
 	 * 
@@ -86,17 +109,6 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 			}
 
 		};
-	}
-
-	@Override
-	protected final void onItemClicked(final int index) {
-		super.onItemClicked(index);
-
-		if (isItemSelectedOnClick()) {
-			getLogger().logVerbose(getClass(),
-					"Triggering item selection on click...");
-			triggerSelection(index);
-		}
 	}
 
 	/**
@@ -195,6 +207,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends
 				triggerItemStateOnClick, itemStateListeners, sortingListeners,
 				filterListeners, appliedFilters, selectItemOnClick,
 				selectionListeners);
+		addItemClickListener(createItemClickListener());
 		addEnableStateListner(createEnableStateListener());
 	}
 

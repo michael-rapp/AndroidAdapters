@@ -63,6 +63,29 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * Creates and returns a listener, which allows to select an item, when it
+	 * is clicked by the user.
+	 * 
+	 * @return The listener, which has been created, as an instance of the type
+	 *         {@link ListAdapterItemClickListener}
+	 */
+	private ListAdapterItemClickListener<DataType> createItemClickListener() {
+		return new ListAdapterItemClickListener<DataType>() {
+
+			@Override
+			public void onItemClicked(final ListAdapter<DataType> adapter,
+					final DataType item, final int index) {
+				if (isItemSelectedOnClick()) {
+					getLogger().logVerbose(getClass(),
+							"Selecting item on click...");
+					select(index);
+				}
+			}
+
+		};
+	}
+
+	/**
 	 * Creates and returns a listener, which allows to adapt the selections of
 	 * the adapter's items, when an item has been removed from or added to the
 	 * adapter.
@@ -206,16 +229,6 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 		}
 	}
 
-	@Override
-	protected final void onItemClicked(final int index) {
-		super.onItemClicked(index);
-
-		if (isItemSelectedOnClick()) {
-			getLogger().logVerbose(getClass(), "Selecting item on click...");
-			select(index);
-		}
-	}
-
 	/**
 	 * Creates a new adapter, whose underlying data is managed as a list of
 	 * arbitrary items, of which only one item can be selected at once.
@@ -312,6 +325,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 				triggerItemStateOnClick, itemStateListeners, sortingListeners,
 				filterListeners, appliedFilters, selectItemOnClick,
 				selectionListeners);
+		addItemClickListener(createItemClickListener());
 		addAdapterListener(createAdapterListener());
 		addEnableStateListner(createEnableStateListener());
 		addFilterListener(createFilterListener());
