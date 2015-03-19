@@ -23,16 +23,12 @@ import java.util.ListIterator;
 
 import android.widget.GridView;
 import android.widget.ListView;
-import de.mrapp.android.adapter.datastructure.DataStructure;
-import de.mrapp.android.adapter.datastructure.Parameterizable;
-import de.mrapp.android.adapter.datastructure.Restorable;
 import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.EnableStateListAdapter;
 import de.mrapp.android.adapter.list.filterable.FilterableListAdapter;
 import de.mrapp.android.adapter.list.itemstate.ItemStateListAdapter;
 import de.mrapp.android.adapter.list.sortable.SortableListAdapter;
-import de.mrapp.android.adapter.logging.Loggable;
 
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a list
@@ -46,10 +42,10 @@ import de.mrapp.android.adapter.logging.Loggable;
  * 
  * @since 1.0.0
  */
-public interface ListAdapter<DataType> extends DataStructure, Restorable,
-		Loggable, Parameterizable, android.widget.ListAdapter,
-		EnableStateListAdapter<DataType>, ItemStateListAdapter<DataType>,
-		SortableListAdapter<DataType>, FilterableListAdapter<DataType> {
+public interface ListAdapter<DataType> extends Adapter,
+		android.widget.ListAdapter, EnableStateListAdapter<DataType>,
+		ItemStateListAdapter<DataType>, SortableListAdapter<DataType>,
+		FilterableListAdapter<DataType> {
 
 	/**
 	 * Returns, whether duplicate items are allowed, or not.
