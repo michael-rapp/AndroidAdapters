@@ -17,7 +17,6 @@
  */
 package de.mrapp.android.adapter.datastructure.group;
 
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.datastructure.item.Item;
 
@@ -54,10 +53,23 @@ public class Group<GroupType, ChildType> extends Item<GroupType> {
 	 * @param data
 	 *            The group's data, as an instance of the generic type
 	 *            GroupType. The data may not be null
+	 */
+	public Group(final GroupType data) {
+		this(data, null);
+	}
+
+	/**
+	 * Creates a new data structure, which categorizes multiple items of an
+	 * adapter.
+	 * 
+	 * @param data
+	 *            The group's data, as an instance of the generic type
+	 *            GroupType. The data may not be null
 	 * @param childAdapter
-	 *            The adapter, which manages the group's child items, as an
-	 *            instance of the type {@link MultipleChoiceListAdapter}. The
-	 *            adapter may not be null
+	 *            The adapter, which should be used to manage the group's child
+	 *            items, as an instance of the type
+	 *            {@link MultipleChoiceListAdapter} or null, if no adapter
+	 *            should be set
 	 */
 	public Group(final GroupType data,
 			final MultipleChoiceListAdapter<ChildType> childAdapter) {
@@ -69,8 +81,8 @@ public class Group<GroupType, ChildType> extends Item<GroupType> {
 	 * Returns the adapter, which manages the group's child items.
 	 * 
 	 * @return The adapter, which manages the group's child items, as an
-	 *         instance of the type {@link MultipleChoiceListAdapter}. The
-	 *         adapter may not be null
+	 *         instance of the type {@link MultipleChoiceListAdapter} or null,
+	 *         if no adapter has been set
 	 */
 	public final MultipleChoiceListAdapter<ChildType> getChildAdapter() {
 		return childAdapter;
@@ -81,11 +93,11 @@ public class Group<GroupType, ChildType> extends Item<GroupType> {
 	 * 
 	 * @param childAdapter
 	 *            The adapter, which should be set, as an instance of the type
-	 *            {@link MultipleChoiceListAdapter}. The adapter may not be null
+	 *            {@link MultipleChoiceListAdapter} or null, if no adapter
+	 *            should be set
 	 */
 	public final void setChildAdapter(
 			final MultipleChoiceListAdapter<ChildType> childAdapter) {
-		ensureNotNull(childAdapter, "The child adapter may not be null");
 		this.childAdapter = childAdapter;
 	}
 
@@ -96,10 +108,15 @@ public class Group<GroupType, ChildType> extends Item<GroupType> {
 		try {
 			GroupType clonedData = (GroupType) getData().getClass()
 					.getMethod("clone").invoke(getData());
-			MultipleChoiceListAdapter<ChildType> clonedChildAdapter = childAdapter
-					.clone();
 			Group<GroupType, ChildType> clonedGroup = new Group<GroupType, ChildType>(
-					clonedData, clonedChildAdapter);
+					clonedData);
+			MultipleChoiceListAdapter<ChildType> clonedChildAdapter = null;
+
+			if (childAdapter != null) {
+				clonedChildAdapter = childAdapter.clone();
+			}
+
+			clonedGroup.setChildAdapter(clonedChildAdapter);
 			clonedGroup.setSelected(isSelected());
 			clonedGroup.setEnabled(isEnabled());
 			clonedGroup.setState(getState());
