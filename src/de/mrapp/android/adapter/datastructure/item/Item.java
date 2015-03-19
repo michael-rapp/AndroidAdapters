@@ -251,7 +251,7 @@ public class Item<DataType> implements DataStructure, Parcelable,
 	}
 
 	@Override
-	public final int hashCode() {
+	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + data.hashCode();
@@ -262,7 +262,7 @@ public class Item<DataType> implements DataStructure, Parcelable,
 	}
 
 	@Override
-	public final boolean equals(final Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -282,12 +282,12 @@ public class Item<DataType> implements DataStructure, Parcelable,
 	}
 
 	@Override
-	public int describeContents() {
+	public final int describeContents() {
 		return 0;
 	}
 
 	@Override
-	public void writeToParcel(final Parcel dest, final int flags) {
+	public final void writeToParcel(final Parcel dest, final int flags) {
 		dest.writeParcelable((Parcelable) getData(), flags);
 		dest.writeInt(isSelected() ? 1 : 0);
 		dest.writeInt(isEnabled() ? 1 : 0);

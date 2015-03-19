@@ -116,4 +116,26 @@ public class Group<GroupType, ChildType> extends Item<GroupType> {
 				+ ", childAdapter=" + childAdapter + "]";
 	}
 
+	@Override
+	public final int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + childAdapter.hashCode();
+		return result;
+	}
+
+	@Override
+	public final boolean equals(final Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Group<?, ?> other = (Group<?, ?>) obj;
+		if (!childAdapter.equals(other.childAdapter))
+			return false;
+		return true;
+	}
+
 }
