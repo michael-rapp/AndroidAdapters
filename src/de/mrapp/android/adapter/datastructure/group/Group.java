@@ -112,8 +112,7 @@ public class Group<GroupType, ChildType> extends Item<GroupType> {
 	@Override
 	public final String toString() {
 		return "Group [data=" + getData() + ", selected=" + isSelected()
-				+ ", enabled=" + isEnabled() + ", state=" + getState()
-				+ ", childAdapter=" + childAdapter + "]";
+				+ ", enabled=" + isEnabled() + ", state=" + getState() + "]";
 	}
 
 }
