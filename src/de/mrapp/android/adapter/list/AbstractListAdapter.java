@@ -972,13 +972,13 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 						.getSerializable(SERIALIZABLE_ITEMS_BUNDLE_KEY);
 			}
 
-			setParameters(savedInstanceState.getBundle(PARAMETERS_BUNDLE_KEY));
-			allowDuplicates(savedInstanceState
-					.getBoolean(ALLOW_DUPLICATES_BUNDLE_KEY));
-			notifyOnChange(savedInstanceState
-					.getBoolean(NOTIFY_ON_CHANGE_BUNDLE_KEY));
-			setLogLevel(LogLevel.fromRank(savedInstanceState
-					.getInt(LOG_LEVEL_BUNDLE_KEY)));
+			parameters = savedInstanceState.getBundle(PARAMETERS_BUNDLE_KEY);
+			allowDuplicates = savedInstanceState.getBoolean(
+					ALLOW_DUPLICATES_BUNDLE_KEY, false);
+			notifyOnChange = savedInstanceState.getBoolean(
+					NOTIFY_ON_CHANGE_BUNDLE_KEY, true);
+			setLogLevel(LogLevel.fromRank(savedInstanceState.getInt(
+					LOG_LEVEL_BUNDLE_KEY, LogLevel.ALL.getRank())));
 			notifyDataSetChanged();
 			getLogger().logDebug(getClass(), "Restored instance state");
 		}

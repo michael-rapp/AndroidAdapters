@@ -364,8 +364,8 @@ public abstract class AbstractSelectableListAdapter<DataType>
 		super.onRestoreInstanceState(savedInstanceState);
 
 		if (savedInstanceState != null) {
-			selectItemOnClick = savedInstanceState
-					.getBoolean(SELECT_ITEM_ON_CLICK_BUNDLE_KEY);
+			selectItemOnClick = savedInstanceState.getBoolean(
+					SELECT_ITEM_ON_CLICK_BUNDLE_KEY, true);
 			notifyDataSetChanged();
 		}
 	}
