@@ -102,7 +102,7 @@ public class Item<DataType> implements DataStructure, Parcelable,
 	 *            the class {@link Parcel}. The source may not be null
 	 */
 	@SuppressWarnings("unchecked")
-	private Item(final Parcel source) {
+	protected Item(final Parcel source) {
 		setData((DataType) source.readParcelable(classLoader));
 		setSelected(source.readInt() == 1);
 		setEnabled(source.readInt() == 1);

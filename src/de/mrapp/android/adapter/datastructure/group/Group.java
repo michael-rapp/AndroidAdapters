@@ -17,6 +17,7 @@
  */
 package de.mrapp.android.adapter.datastructure.group;
 
+import android.os.Parcel;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.datastructure.item.Item;
 
@@ -37,6 +38,25 @@ import de.mrapp.android.adapter.datastructure.item.Item;
 public class Group<GroupType, ChildType> extends Item<GroupType> {
 
 	/**
+	 * A creator, which allows to create instances of the class {@link Group}
+	 * from parcels.
+	 */
+	@SuppressWarnings("rawtypes")
+	public static final Creator<Group> CREATOR = new Creator<Group>() {
+
+		@Override
+		public Group createFromParcel(final Parcel source) {
+			return new Group(source);
+		}
+
+		@Override
+		public Group[] newArray(final int size) {
+			return new Group[size];
+		}
+
+	};
+
+	/**
 	 * The constant serial version UID.
 	 */
 	private static final long serialVersionUID = 1L;
@@ -45,6 +65,18 @@ public class Group<GroupType, ChildType> extends Item<GroupType> {
 	 * The adapter, which manages the group's child items.
 	 */
 	private transient MultipleChoiceListAdapter<ChildType> childAdapter;
+
+	/**
+	 * Creates a new data structure, which categorizes multiple items of an
+	 * adapter.
+	 * 
+	 * @param source
+	 *            The source, the group should be created from, as an instance
+	 *            of the class {@link Parcel}. The source may not be null
+	 */
+	private Group(final Parcel source) {
+		super(source);
+	}
 
 	/**
 	 * Creates a new data structure, which categorizes multiple items of an
