@@ -520,10 +520,10 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 		super.onRestoreInstanceState(savedInstanceState);
 
 		if (savedInstanceState != null) {
-			numberOfItemStates = savedInstanceState
-					.getInt(NUMBER_OF_ITEM_STATES_BUNDLE_KEY);
-			triggerItemStateOnClick = savedInstanceState
-					.getBoolean(TRIGGER_ITEM_STATE_ON_CLICK_BUNDLE_KEY);
+			numberOfItemStates = savedInstanceState.getInt(
+					NUMBER_OF_ITEM_STATES_BUNDLE_KEY, 1);
+			triggerItemStateOnClick = savedInstanceState.getBoolean(
+					TRIGGER_ITEM_STATE_ON_CLICK_BUNDLE_KEY, false);
 			notifyDataSetChanged();
 		}
 	}

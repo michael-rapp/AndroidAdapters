@@ -662,8 +662,11 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 		super.onRestoreInstanceState(savedInstanceState);
 
 		if (savedInstanceState != null) {
-			setAppliedFilters((LinkedHashSet<AppliedFilter<DataType>>) savedInstanceState
-					.getSerializable(APPLIED_FILTERS_BUNDLE_KEY));
+			if (savedInstanceState.containsKey(APPLIED_FILTERS_BUNDLE_KEY)) {
+				setAppliedFilters((LinkedHashSet<AppliedFilter<DataType>>) savedInstanceState
+						.getSerializable(APPLIED_FILTERS_BUNDLE_KEY));
+			}
+
 			notifyDataSetChanged();
 		}
 	}
