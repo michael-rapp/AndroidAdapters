@@ -872,7 +872,8 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 
 	/**
 	 * Removes the child item, which belongs to a specific index, from the
-	 * group, which belongs to a specific index.
+	 * group, which belongs to a specific index. The group, the child item
+	 * belongs to, will not be removed, even if it becomes empty.
 	 * 
 	 * @param groupIndex
 	 *            The index of the group, the child item should be removed from,
@@ -891,8 +892,32 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	ChildType removeChild(int groupIndex, int index);
 
 	/**
+	 * Removes the child item, which belongs to a specific index, from the
+	 * group, which belongs to a specific index.
+	 * 
+	 * @param removeEmptyGroup
+	 *            True, if the group, the child item belongs to, should also be
+	 *            removed, if it becomes empty, false otherwise
+	 * @param groupIndex
+	 *            The index of the group, the child item should be removed from,
+	 *            as an {@link Integer} value. The index must be between 0 and
+	 *            the value of the method <code>getNumberOfGroups():int</code>,
+	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
+	 * @param index
+	 *            The index of the child item, which should be removed from the
+	 *            group, as an {@link Integer} value. The index must be between
+	 *            0 and the value of the method
+	 *            <code>getNumberOfChildren(groupIndex):int</code> - 1,
+	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
+	 * @return The child item, which has been removed, as an instance of the
+	 *         generic type ChildType. The item may not be null
+	 */
+	ChildType removeChild(boolean removeEmptyGroup, int groupIndex, int index);
+
+	/**
 	 * Removes the child item, which belongs to a specific index, from a
-	 * specific group.
+	 * specific group. The group, the child item belongs to, will not be
+	 * removed, even if it becomes empty.
 	 * 
 	 * @param group
 	 *            The group, the child item should be removed from, as an
@@ -911,8 +936,32 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	ChildType removeChild(GroupType group, int index);
 
 	/**
+	 * Removes the child item, which belongs to a specific index, from a
+	 * specific group.
+	 * 
+	 * @param removeEmptyGroup
+	 *            True, if the group, the child item belongs to, should also be
+	 *            removed, if it becomes empty, false otherwise
+	 * @param group
+	 *            The group, the child item should be removed from, as an
+	 *            instance of the generic type GroupType. The group may not be
+	 *            null. If the group does not belong to the adapter, a
+	 *            {@link NoSuchElementException} will be thrown
+	 * @param index
+	 *            The index of the child item, which should be removed from the
+	 *            group, as an {@link Integer} value. The index must be between
+	 *            0 and the value of the method
+	 *            <code>getNumberOfChildren(group):int</code> - 1, otherwise an
+	 *            {@link IndexOutOfBoundsException} will be thrown
+	 * @return The child item, which has been removed, as an instance of the
+	 *         generic type ChildType. The item may not be null
+	 */
+	ChildType removeChild(boolean removeEmptyGroup, GroupType group, int index);
+
+	/**
 	 * Removes a specific child item from the group, which belongs to a specific
-	 * index.
+	 * index. The group, the child item belongs to, will not be removed, even if
+	 * it becomes empty.
 	 * 
 	 * @param groupIndex
 	 *            The index of the group, the child item should be removed from,
@@ -929,7 +978,30 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	boolean removeChild(int groupIndex, ChildType child);
 
 	/**
-	 * Removes a specific child item from a specific group.
+	 * Removes a specific child item from the group, which belongs to a specific
+	 * index.
+	 * 
+	 * @param removeEmptyGroup
+	 *            True, if the group, the child item belongs to, should also be
+	 *            removed, if it becomes empty, false otherwise
+	 * @param groupIndex
+	 *            The index of the group, the child item should be removed from,
+	 *            as an {@link Integer} value. The index must be between 0 and
+	 *            the value of the method <code>getNumberOfGroups():int</code>,
+	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
+	 * @param child
+	 *            The child item, which should be removed from the group, as an
+	 *            instance of the generic type ChildType. The child item may not
+	 *            be null
+	 * @return True, if the child item has been removed from the group, false
+	 *         otherwise
+	 */
+	boolean removeChild(boolean removeEmptyGroup, int groupIndex,
+			ChildType child);
+
+	/**
+	 * Removes a specific child item from a specific group. The group, the child
+	 * item belongs to, will not be removed, even if it becomes empty.
 	 * 
 	 * @param group
 	 *            The group, the child item should be removed from, as an
@@ -946,8 +1018,29 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	boolean removeChild(GroupType group, ChildType child);
 
 	/**
+	 * Removes a specific child item from a specific group.
+	 * 
+	 * @param removeEmptyGroup
+	 *            True, if the group, the child item belongs to, should also be
+	 *            removed, if it becomes empty, false otherwise
+	 * @param group
+	 *            The group, the child item should be removed from, as an
+	 *            instance of the generic type GroupType. The group may not be
+	 *            null. If the group does not belong to the adapter, a
+	 *            {@link NoSuchElementException} will be thrown
+	 * @param child
+	 *            The child item, which should be removed from the group, as an
+	 *            instance of the generic type ChildType. The child item may not
+	 *            be null
+	 * @return True, if the child item has been removed from the group, false
+	 *         otherwise
+	 */
+	boolean removeChild(boolean removeEmptyGroup, GroupType group,
+			ChildType child);
+
+	/**
 	 * Removes all child items, which are contained by a specific collection,
-	 * from the adapter.
+	 * from the adapter. No groups will be removed, even if they become empty.
 	 * 
 	 * @param children
 	 *            The collection, which contains the child items, which should
@@ -961,7 +1054,26 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 
 	/**
 	 * Removes all child items, which are contained by a specific collection,
-	 * from the group, which belongs to a specific index.
+	 * from the adapter.
+	 * 
+	 * @param removeEmptyGroups
+	 *            True, if groups, which become empty, should also be removed,
+	 *            false otherwise
+	 * @param children
+	 *            The collection, which contains the child items, which should
+	 *            be removed from the adapter, as an instance of the type
+	 *            {@link Collection} or an empty collection, if no child items
+	 *            should be removed
+	 * @return True, if all child items have been removed from the adapter,
+	 *         false otherwise
+	 */
+	boolean removeAllChildren(boolean removeEmptyGroups,
+			Collection<ChildType> children);
+
+	/**
+	 * Removes all child items, which are contained by a specific collection,
+	 * from the group, which belongs to a specific index. The group, the child
+	 * items belong to, will not be removed, even if it becomes empty.
 	 * 
 	 * @param groupIndex
 	 *            The index of the group, the child items should be removed
@@ -981,7 +1093,32 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 
 	/**
 	 * Removes all child items, which are contained by a specific collection,
-	 * from a specific group.
+	 * from the group, which belongs to a specific index.
+	 * 
+	 * @param removeEmptyGroup
+	 *            True, if the group, the child items belong to, should also be
+	 *            removed, if it becomes empty, false otherwise
+	 * @param groupIndex
+	 *            The index of the group, the child items should be removed
+	 *            from, as an {@link Integer} value. The index must be between 0
+	 *            and the value of the method
+	 *            <code>getNumberOfGroups():int</code>, otherwise an
+	 *            {@link IndexOutOfBoundsException} will be thrown
+	 * @param children
+	 *            The collection, which contains the child items, which should
+	 *            be removed from the group, as an instance of the type
+	 *            {@link Collection} or an empty collection, if no child items
+	 *            should be removed
+	 * @return True, if all child items have been removed from the group, false
+	 *         otherwise
+	 */
+	boolean removeAllChildren(boolean removeEmptyGroup, int groupIndex,
+			Collection<ChildType> children);
+
+	/**
+	 * Removes all child items, which are contained by a specific collection,
+	 * from a specific group. No groups will be removed, even if they become
+	 * empty.
 	 * 
 	 * @param group
 	 *            The group, the child items should be removed from, as an
@@ -999,8 +1136,31 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	boolean removeAllChildren(GroupType group, Collection<ChildType> children);
 
 	/**
+	 * Removes all child items, which are contained by a specific collection,
+	 * from a specific group.
+	 * 
+	 * @param removeEmptyGroup
+	 *            True, if the group, the child items belong to, should also be
+	 *            removed, if it becomes empty, false otherwise
+	 * @param group
+	 *            The group, the child items should be removed from, as an
+	 *            instance of the generic type GroupType. The group may not be
+	 *            null. If the group does not belong to the adapter, a
+	 *            {@link NoSuchElementException} will be thrown
+	 * @param children
+	 *            The collection, which contains the child items, which should
+	 *            be removed from the group, as an instance of the type
+	 *            {@link Collection} or an empty collection, if no child items
+	 *            should be removed
+	 * @return True, if all child items have been removed from the group, false
+	 *         otherwise
+	 */
+	boolean removeAllChildren(boolean removeEmptyGroup, GroupType group,
+			Collection<ChildType> children);
+
+	/**
 	 * Removes all child items, which are contained by a specific array, from
-	 * the adapter.
+	 * the adapter. No groups will be removed, even if they become empty.
 	 * 
 	 * @param children
 	 *            The array, which contains the child items, which should be
@@ -1014,7 +1174,25 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 
 	/**
 	 * Removes all child items, which are contained by a specific array, from
-	 * the group, which belongs to a specific index.
+	 * the adapter.
+	 * 
+	 * @param removeEmptyGroups
+	 *            True, if the groups, which become empty, should also be
+	 *            removed, false otherwise
+	 * @param children
+	 *            The array, which contains the child items, which should be
+	 *            removed from the adapter, as an array of the generic type
+	 *            ChildType or an empty array, if no child items should be
+	 *            removed
+	 * @return True, if all child items have been removed from the adapter,
+	 *         false otherwise
+	 */
+	boolean removeAllChildren(boolean removeEmptyGroups, ChildType... children);
+
+	/**
+	 * Removes all child items, which are contained by a specific array, from
+	 * the group, which belongs to a specific index. The group, the child items
+	 * belong to, will not be removed, even if it becomes empty.
 	 * 
 	 * @param groupIndex
 	 *            The index of the group, the child items should be removed
@@ -1033,8 +1211,33 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	boolean removeAllChildren(int groupIndex, ChildType... children);
 
 	/**
+	 * Removes all child items, which are contained by a specific array, from
+	 * the group, which belongs to a specific index.
+	 * 
+	 * @param removeEmptyGroup
+	 *            True, if the group, the child items belong to, should also be
+	 *            removed, if it becomes empty, false otherwise
+	 * @param groupIndex
+	 *            The index of the group, the child items should be removed
+	 *            from, as an {@link Integer} value. The index must be between 0
+	 *            and the value of the method
+	 *            <code>getNumberOfGroups():int</code>, otherwise an
+	 *            {@link IndexOutOfBoundsException} will be thrown
+	 * @param children
+	 *            The array, which contains the child items, which should be
+	 *            removed from the group, as an array of the generic type
+	 *            ChildType or an empty array, if no child items should be
+	 *            removed
+	 * @return True, if all child items have been removed from the group, false
+	 *         otherwise
+	 */
+	boolean removeAllChildren(boolean removeEmptyGroup, int groupIndex,
+			ChildType... children);
+
+	/**
 	 * Removes all child items, which are contained by a specific array, from a
-	 * specific group.
+	 * specific group. The group, the child items belong to, will not be
+	 * removed, even if it becomes empty.
 	 * 
 	 * @param group
 	 *            The group, the child items should be removed from, as an
@@ -1052,8 +1255,32 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	boolean removeAllChildren(GroupType group, ChildType... children);
 
 	/**
+	 * Removes all child items, which are contained by a specific array, from a
+	 * specific group.
+	 * 
+	 * @param removeEmptyGroup
+	 *            True, if the group, the child items belong to, should also be
+	 *            removed, if it becomes empty, false otherwise
+	 * @param group
+	 *            The group, the child items should be removed from, as an
+	 *            instance of the generic type GroupType. The group may not be
+	 *            null. If the group does not belong to the adapter, a
+	 *            {@link NoSuchElementException} will be thrown
+	 * @param children
+	 *            The array, which contains the child items, which should be
+	 *            removed from the group, as an array of the generic type
+	 *            ChildType or an empty collection, if no child items should be
+	 *            removed
+	 * @return True, if all child items have been removed from the group, false
+	 *         otherwise
+	 */
+	boolean removeAllChildren(boolean removeEmptyGroup, GroupType group,
+			ChildType... children);
+
+	/**
 	 * Removes all child items from the adapter, except of the items, which are
-	 * contained by a specific collection.
+	 * contained by a specific collection. No groups will be removed, even if
+	 * they become empty.
 	 * 
 	 * @param children
 	 *            The collection, which contains the child items, which should
@@ -1063,8 +1290,25 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	void retainAllChildren(Collection<ChildType> children);
 
 	/**
+	 * Removes all child items from the adapter, except of the items, which are
+	 * contained by a specific collection.
+	 * 
+	 * @param removeEmptyGroups
+	 *            True, if groups, which become empty, should be removed, false
+	 *            otherwise
+	 * @param children
+	 *            The collection, which contains the child items, which should
+	 *            be retained, as an instance of the type {@link Collection} or
+	 *            an empty collection, if no child items should be retained
+	 */
+	void retainAllChildren(boolean removeEmptyGroups,
+			Collection<ChildType> children);
+
+	/**
 	 * Removes all child items from the group, which belongs to a specific
 	 * index, except of the items, which are contained by a specific collection.
+	 * The group, the child items belong to, will not be removed, even if it
+	 * becomes empty.
 	 * 
 	 * @param groupIndex
 	 *            The index of the group, the child items should be removed
@@ -1080,8 +1324,30 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	void retainAllChildren(int groupIndex, Collection<ChildType> children);
 
 	/**
+	 * Removes all child items from the group, which belongs to a specific
+	 * index, except of the items, which are contained by a specific collection.
+	 * 
+	 * @param removeEmptyGroup
+	 *            True, if the group, the child items belong to, should be
+	 *            removed, if it becomes empty, false otherwise
+	 * @param groupIndex
+	 *            The index of the group, the child items should be removed
+	 *            from, as an {@link Integer} value. The index must be between 0
+	 *            and the value of the method
+	 *            <code>getNumberOfGroups():int</code>, otherwise an
+	 *            {@link IndexOutOfBoundsException} will be thrown
+	 * @param children
+	 *            The collection, which contains the child items, which should
+	 *            be retained, as an instance of the type {@link Collection} or
+	 *            an empty collection, if no child items should be retained
+	 */
+	void retainAllChildren(boolean removeEmptyGroup, int groupIndex,
+			Collection<ChildType> children);
+
+	/**
 	 * Removes all child items from a specific group, except of the items, which
-	 * are contained by a specific collection.
+	 * are contained by a specific collection. The group, the child items belong
+	 * to, will not be removed, even if it becomes empty.
 	 * 
 	 * @param group
 	 *            The group, the child items should be removed from, as an
@@ -1096,8 +1362,29 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	void retainAllChildren(GroupType group, Collection<ChildType> children);
 
 	/**
+	 * Removes all child items from a specific group, except of the items, which
+	 * are contained by a specific collection.
+	 * 
+	 * @param removeEmptyGroup
+	 *            True, if the group, the child items belong to, should be
+	 *            removed, if it becomes empty, false otherwise
+	 * @param group
+	 *            The group, the child items should be removed from, as an
+	 *            instance of the generic type GroupType. The group may not be
+	 *            null. If the group does not belong to the adapter, a
+	 *            {@link NoSuchElementException} will be thrown
+	 * @param children
+	 *            The collection, which contains the child items, which should
+	 *            be retained, as an instance of the type {@link Collection} or
+	 *            an empty collection, if no child items should be retained
+	 */
+	void retainAllChildren(boolean removeEmptyGroup, GroupType group,
+			Collection<ChildType> children);
+
+	/**
 	 * Removes all child items from the adapter, except of the items, which are
-	 * contained by a specific array.
+	 * contained by a specific array. No groups will be removed, even if they
+	 * become empty.
 	 * 
 	 * @param children
 	 *            The array, which contains the child items, which should be
@@ -1107,8 +1394,24 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	void retainAllChildren(ChildType... children);
 
 	/**
+	 * Removes all child items from the adapter, except of the items, which are
+	 * contained by a specific array.
+	 * 
+	 * @param removeEmptyGroups
+	 *            True, if groups, which become empty, should also be removed,
+	 *            false otherwise
+	 * @param children
+	 *            The array, which contains the child items, which should be
+	 *            retained, as an array of the generic type ChildType or an
+	 *            empty array, if no child items should be retained
+	 */
+	void retainAllChildren(boolean removeEmptyGroups, ChildType... children);
+
+	/**
 	 * Removes all child items from the group, which belongs to a specific
-	 * index, except of the items, which are contained by a specific array.
+	 * index, except of the items, which are contained by a specific array. The
+	 * group, the child items belong to, will not be removed, even if it becomes
+	 * empty.
 	 * 
 	 * @param groupIndex
 	 *            The index of the group, the child items should be removed
@@ -1124,8 +1427,30 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	void retainAllChildren(int groupIndex, ChildType... children);
 
 	/**
+	 * Removes all child items from the group, which belongs to a specific
+	 * index, except of the items, which are contained by a specific array.
+	 * 
+	 * @param removeEmptyGroup
+	 *            True, if the group, the child items belong to, should be
+	 *            removed, if it becomes empty, false otherwise
+	 * @param groupIndex
+	 *            The index of the group, the child items should be removed
+	 *            from, as an {@link Integer} value. The index must be between 0
+	 *            and the value of the method
+	 *            <code>getNumberOfGroups():int</code>, otherwise an
+	 *            {@link IndexOutOfBoundsException} will be thrown
+	 * @param children
+	 *            The array, which contains the child items, which should be
+	 *            retained, as an array of the generic type ChildType or an
+	 *            empty collection, if no child items should be retained
+	 */
+	void retainAllChildren(boolean removeEmptyGroup, int groupIndex,
+			ChildType... children);
+
+	/**
 	 * Removes all child items from a specific group, except of the items, which
-	 * are contained by a specific array.
+	 * are contained by a specific array. The group, the child items belong to,
+	 * will not be removed, even if it becomes empty.
 	 * 
 	 * @param group
 	 *            The group, the child items should be removed from, as an
@@ -1138,6 +1463,26 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	 *            empty collection, if no child items should be retained
 	 */
 	void retainAllChildren(GroupType group, ChildType... children);
+
+	/**
+	 * Removes all child items from a specific group, except of the items, which
+	 * are contained by a specific array.
+	 * 
+	 * @param removeEmptyGroup
+	 *            True, if the group, the child items belong to, should be
+	 *            removed, if it becomes empty, false otherwise
+	 * @param group
+	 *            The group, the child items should be removed from, as an
+	 *            instance of the generic type GroupType. The group may not be
+	 *            null. If the group does not belong to the adapter, a
+	 *            {@link NoSuchElementException} will be thrown
+	 * @param children
+	 *            The array, which contains the child items, which should be
+	 *            retained, as an array of the generic type ChildType or an
+	 *            empty collection, if no child items should be retained
+	 */
+	void retainAllChildren(boolean removeEmptyGroup, GroupType group,
+			ChildType... children);
 
 	/**
 	 * Removes all child items from the adapter.

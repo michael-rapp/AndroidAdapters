@@ -1088,16 +1088,34 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 	@Override
 	public final ChildType removeChild(final int groupIndex, final int index) {
-		return groupAdapter.getItem(groupIndex).getChildAdapter()
-				.removeItem(index);
+		return removeChild(false, groupIndex, index);
+	}
+
+	@Override
+	public final ChildType removeChild(final boolean removeEmptyGroup,
+			final int groupIndex, final int index) {
+		Group<GroupType, ChildType> group = groupAdapter.getItem(groupIndex);
+		ChildType removedChild = group.getChildAdapter().removeItem(index);
+
+		if (removeEmptyGroup && group.getChildAdapter().isEmpty()) {
+			groupAdapter.removeItem(groupIndex);
+		}
+
+		return removedChild;
 	}
 
 	@Override
 	public final ChildType removeChild(final GroupType group, final int index) {
+		return removeChild(false, group, index);
+	}
+
+	@Override
+	public final ChildType removeChild(final boolean removeEmptyGroup,
+			final GroupType group, final int index) {
 		int groupIndex = indexOfGroup(group);
 
 		if (index != -1) {
-			return removeChild(groupIndex, index);
+			return removeChild(removeEmptyGroup, groupIndex, index);
 		} else {
 			throw new NoSuchElementException();
 		}
@@ -1105,17 +1123,35 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 	@Override
 	public final boolean removeChild(final int groupIndex, final ChildType child) {
-		return groupAdapter.getItem(groupIndex).getChildAdapter()
-				.removeItem(child);
+		return removeChild(false, groupIndex, child);
+	}
+
+	@Override
+	public final boolean removeChild(final boolean removeEmptyGroup,
+			final int groupIndex, final ChildType child) {
+		Group<GroupType, ChildType> group = groupAdapter.getItem(groupIndex);
+		boolean removed = group.getChildAdapter().removeItem(child);
+
+		if (removeEmptyGroup && group.getChildAdapter().isEmpty()) {
+			groupAdapter.removeItem(groupIndex);
+		}
+
+		return removed;
 	}
 
 	@Override
 	public final boolean removeChild(final GroupType group,
 			final ChildType child) {
+		return removeChild(false, group, child);
+	}
+
+	@Override
+	public final boolean removeChild(final boolean removeEmptyGroup,
+			final GroupType group, final ChildType child) {
 		int index = indexOfGroup(group);
 
 		if (index != -1) {
-			return removeChild(index, child);
+			return removeChild(removeEmptyGroup, index, child);
 		} else {
 			throw new NoSuchElementException();
 		}
@@ -1123,10 +1159,21 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 	@Override
 	public final boolean removeAllChildren(final Collection<ChildType> children) {
+		return removeAllChildren(false, children);
+	}
+
+	@Override
+	public final boolean removeAllChildren(final boolean removeEmptyGroups,
+			final Collection<ChildType> children) {
 		boolean result = true;
 
-		for (Group<GroupType, ChildType> group : groupAdapter.getAllItems()) {
+		for (int i = groupAdapter.getNumberOfItems() - 1; i >= 0; i--) {
+			Group<GroupType, ChildType> group = groupAdapter.getItem(i);
 			result &= group.getChildAdapter().removeAllItems(children);
+
+			if (removeEmptyGroups && group.getChildAdapter().isEmpty()) {
+				groupAdapter.removeItem(i);
+			}
 		}
 
 		return result;
@@ -1135,17 +1182,35 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	@Override
 	public final boolean removeAllChildren(final int groupIndex,
 			final Collection<ChildType> children) {
-		return groupAdapter.getItem(groupIndex).getChildAdapter()
-				.removeAllItems(children);
+		return removeAllChildren(false, groupIndex, children);
+	}
+
+	@Override
+	public final boolean removeAllChildren(final boolean removeEmptyGroup,
+			final int groupIndex, final Collection<ChildType> children) {
+		Group<GroupType, ChildType> group = groupAdapter.getItem(groupIndex);
+		boolean removedAll = group.getChildAdapter().removeAllItems(children);
+
+		if (removeEmptyGroup && group.getChildAdapter().isEmpty()) {
+			groupAdapter.removeItem(groupIndex);
+		}
+
+		return removedAll;
 	}
 
 	@Override
 	public final boolean removeAllChildren(final GroupType group,
 			final Collection<ChildType> children) {
+		return removeAllChildren(false, group, children);
+	}
+
+	@Override
+	public final boolean removeAllChildren(final boolean removeEmptyGroup,
+			final GroupType group, final Collection<ChildType> children) {
 		int index = indexOfGroup(group);
 
 		if (index != -1) {
-			return removeAllChildren(index, children);
+			return removeAllChildren(removeEmptyGroup, index, children);
 		} else {
 			throw new NoSuchElementException();
 		}
@@ -1153,42 +1218,89 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 	@Override
 	public final boolean removeAllChildren(final ChildType... children) {
-		return removeAllChildren(Arrays.asList(children));
+		return removeAllChildren(false, children);
+	}
+
+	@Override
+	public final boolean removeAllChildren(final boolean removeEmptyGroups,
+			final ChildType... children) {
+		return removeAllChildren(removeEmptyGroups, Arrays.asList(children));
 	}
 
 	@Override
 	public final boolean removeAllChildren(final int groupIndex,
 			final ChildType... children) {
-		return removeAllChildren(groupIndex, Arrays.asList(children));
+		return removeAllChildren(false, groupIndex, children);
+	}
+
+	@Override
+	public final boolean removeAllChildren(final boolean removeEmptyGroup,
+			final int groupIndex, final ChildType... children) {
+		return removeAllChildren(removeEmptyGroup, groupIndex,
+				Arrays.asList(children));
 	}
 
 	@Override
 	public final boolean removeAllChildren(final GroupType group,
 			final ChildType... children) {
-		return removeAllChildren(group, Arrays.asList(children));
+		return removeAllChildren(false, group, children);
+	}
+
+	@Override
+	public final boolean removeAllChildren(final boolean removeEmptyGroup,
+			final GroupType group, final ChildType... children) {
+		return removeAllChildren(removeEmptyGroup, group,
+				Arrays.asList(children));
 	}
 
 	@Override
 	public final void retainAllChildren(final Collection<ChildType> children) {
-		for (Group<GroupType, ChildType> group : groupAdapter.getAllItems()) {
+		retainAllChildren(false, children);
+	}
+
+	@Override
+	public final void retainAllChildren(final boolean removeEmptyGroups,
+			final Collection<ChildType> children) {
+		for (int i = groupAdapter.getNumberOfItems() - 1; i >= 0; i--) {
+			Group<GroupType, ChildType> group = groupAdapter.getItem(i);
 			group.getChildAdapter().retainAllItems(children);
+
+			if (removeEmptyGroups && group.getChildAdapter().isEmpty()) {
+				groupAdapter.removeItem(i);
+			}
 		}
 	}
 
 	@Override
 	public final void retainAllChildren(final int groupIndex,
 			final Collection<ChildType> children) {
-		groupAdapter.getItem(groupIndex).getChildAdapter()
-				.retainAllItems(children);
+		retainAllChildren(false, groupIndex, children);
+	}
+
+	@Override
+	public final void retainAllChildren(final boolean removeEmptyGroup,
+			final int groupIndex, final Collection<ChildType> children) {
+		Group<GroupType, ChildType> group = groupAdapter.getItem(groupIndex);
+		group.getChildAdapter().retainAllItems(children);
+
+		if (removeEmptyGroup && group.getChildAdapter().isEmpty()) {
+			groupAdapter.removeItem(groupIndex);
+		}
 	}
 
 	@Override
 	public final void retainAllChildren(final GroupType group,
 			final Collection<ChildType> children) {
+		retainAllChildren(false, group, children);
+	}
+
+	@Override
+	public final void retainAllChildren(final boolean removeEmptyGroup,
+			final GroupType group, final Collection<ChildType> children) {
 		int index = indexOfGroup(group);
 
 		if (index != -1) {
-			retainAllChildren(index, children);
+			retainAllChildren(removeEmptyGroup, index, children);
 		} else {
 			throw new NoSuchElementException();
 		}
@@ -1196,19 +1308,37 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 	@Override
 	public final void retainAllChildren(final ChildType... children) {
-		retainAllChildren(Arrays.asList(children));
+		retainAllChildren(false, children);
+	}
+
+	@Override
+	public final void retainAllChildren(final boolean removeEmptyGroups,
+			final ChildType... children) {
+		retainAllChildren(removeEmptyGroups, Arrays.asList(children));
 	}
 
 	@Override
 	public final void retainAllChildren(final int groupIndex,
 			final ChildType... children) {
-		retainAllChildren(groupIndex, Arrays.asList(children));
+		retainAllChildren(false, groupIndex, children);
+	}
+
+	@Override
+	public final void retainAllChildren(final boolean removeEmptyGroup,
+			final int groupIndex, final ChildType... children) {
+		retainAllChildren(removeEmptyGroup, groupIndex, Arrays.asList(children));
 	}
 
 	@Override
 	public final void retainAllChildren(final GroupType group,
 			final ChildType... children) {
-		retainAllChildren(group, Arrays.asList(children));
+		retainAllChildren(false, group, children);
+	}
+
+	@Override
+	public final void retainAllChildren(final boolean removeEmptyGroup,
+			final GroupType group, final ChildType... children) {
+		retainAllChildren(removeEmptyGroup, group, Arrays.asList(children));
 	}
 
 	@Override
