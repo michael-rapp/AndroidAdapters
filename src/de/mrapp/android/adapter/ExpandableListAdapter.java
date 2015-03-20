@@ -1485,6 +1485,15 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends Adapter,
 	void clearChildren();
 
 	/**
+	 * Removes all child items from the adapter.
+	 * 
+	 * @param removeEmptyGroups
+	 *            True, if groups, which become empty, should also be removed,
+	 *            false otherwise
+	 */
+	void clearChildren(boolean removeEmptyGroups);
+
+	/**
 	 * Removes all child items from the group, which belongs to a specific
 	 * index.
 	 * 
@@ -1497,6 +1506,21 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends Adapter,
 	void clearChildren(int groupIndex);
 
 	/**
+	 * Removes all child items from the group, which belongs to a specific
+	 * index.
+	 * 
+	 * @param removeEmptyGroup
+	 *            True, if the group, the child items belong to, should also be
+	 *            removed, if it becomes empty, false otherwise
+	 * @param groupIndex
+	 *            The index of the group, whose child item should be removed, as
+	 *            an {@link Integer} value. The index must be between 0 and the
+	 *            value of the method <code>getNumberOfGroups():int</code> - 1,
+	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
+	 */
+	void clearChildren(boolean removeEmptyGroup, int groupIndex);
+
+	/**
 	 * Removes all child items from a specific group.
 	 * 
 	 * @param group
@@ -1506,6 +1530,20 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends Adapter,
 	 *            {@link NoSuchElementException} will be thrown
 	 */
 	void clearChildren(GroupType group);
+
+	/**
+	 * Removes all child items from a specific group.
+	 * 
+	 * @param removeEmptyGroup
+	 *            True, if the group, the child items belong to, should also be
+	 *            removed, if it becomes empty, false otherwise
+	 * @param group
+	 *            The group, whose child items should be removed, as an instance
+	 *            of the generic type GroupType. The group may not be null. If
+	 *            the group does not belong to the adapter, a
+	 *            {@link NoSuchElementException} will be thrown
+	 */
+	void clearChildren(boolean removeEmptyGroup, GroupType group);
 
 	/**
 	 * Returns an iterator, which allows to iterate the adapter's child items.

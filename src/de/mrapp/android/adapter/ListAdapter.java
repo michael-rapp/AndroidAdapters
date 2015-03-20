@@ -63,29 +63,6 @@ public interface ListAdapter<DataType> extends Adapter,
 	void allowDuplicates(boolean allowDuplicates);
 
 	/**
-	 * Returns, whether the method <code>notifyDataSetChanged():void</code> is
-	 * automatically called when the adapter's underlying data has been changed,
-	 * or not.
-	 * 
-	 * @return True, if the method <code>notifyDataSetChanged():void</code> is
-	 *         automatically called when the adapter's underlying data has been
-	 *         changed, false otherwise
-	 */
-	boolean isNotifiedOnChange();
-
-	/**
-	 * Sets, whether the method <code>notifyDataSetChanged():void</code> should
-	 * be automatically called when the adapter's underlying data has been
-	 * changed, or not.
-	 * 
-	 * @param notifyOnChange
-	 *            True, if the method <code>notifyDataSetChanged():void</code>
-	 *            should be automatically called when the adapter's underlying
-	 *            data has been changed, false otherwise
-	 */
-	void notifyOnChange(boolean notifyOnChange);
-
-	/**
 	 * Adds a specific item to the adapter. The item will be added at the end.
 	 * 
 	 * @param item
