@@ -76,6 +76,7 @@ public class Group<GroupType, ChildType> extends Item<GroupType> {
 	 */
 	private Group(final Parcel source) {
 		super(source);
+		setChildAdapter(null);
 	}
 
 	/**
