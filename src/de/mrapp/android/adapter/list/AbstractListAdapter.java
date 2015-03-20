@@ -658,7 +658,6 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 
 	@Override
 	public final boolean addAllItems(final int index, final DataType... items) {
-		ensureNotNull(items, "The array may not be null");
 		return addAllItems(index, Arrays.asList(items));
 	}
 
