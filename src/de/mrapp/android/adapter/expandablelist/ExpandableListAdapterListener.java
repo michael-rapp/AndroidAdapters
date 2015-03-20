@@ -51,8 +51,7 @@ public interface ExpandableListAdapterListener<GroupType, ChildType> {
 	 *            The index of the group item, which has been added, as an
 	 *            {@link Integer} value
 	 */
-	void onGroupAdded(
-			ExpandableListAdapterListener<GroupType, ChildType> adapter,
+	void onGroupAdded(ExpandableListAdapter<GroupType, ChildType> adapter,
 			GroupType group, int index);
 
 	/**
