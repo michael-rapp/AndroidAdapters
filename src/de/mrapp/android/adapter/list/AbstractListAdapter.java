@@ -236,7 +236,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	 *            The index of the item, which has been removed from the
 	 *            adapter, as an {@link Integer} value. The index must be
 	 *            between 0 and the value of the method
-	 *            <code>getNumberOfItems():int</code>
+	 *            <code>getNumberOfItems():int</code> - 1
 	 */
 	private void notifyOnItemRemoved(final DataType item, final int index) {
 		for (ListAdapterListener<DataType> listener : adapterListeners) {
