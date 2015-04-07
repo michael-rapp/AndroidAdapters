@@ -61,13 +61,15 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType>
 			final LogLevel logLevel,
 			final MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter,
 			final boolean allowDuplicateChildren,
+			final boolean notifyOnChange,
 			final boolean expandGroupOnClick,
 			final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
 			final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
 			final Set<ExpansionListener<GroupType, ChildType>> expansionListeners) {
 		super(context, groupInflater, childInflater, decorator, logLevel,
-				groupAdapter, allowDuplicateChildren, expandGroupOnClick,
-				itemClickListeners, adapterListeners, expansionListeners);
+				groupAdapter, allowDuplicateChildren, notifyOnChange,
+				expandGroupOnClick, itemClickListeners, adapterListeners,
+				expansionListeners);
 	}
 
 	public ExpandableListAdapterImplementation(final Context context,
@@ -83,6 +85,7 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType>
 						context, groupInflater,
 						new NullObjectDecorator<Group<GroupType, ChildType>>()),
 				false,
+				true,
 				true,
 				new LinkedHashSet<ExpandableListAdapterItemClickListener<GroupType, ChildType>>(),
 				new LinkedHashSet<ExpandableListAdapterListener<GroupType, ChildType>>(),
@@ -125,9 +128,9 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType>
 		return new ExpandableListAdapterImplementation<GroupType, ChildType>(
 				getContext(), getGroupInflater(), getChildInflater(),
 				getDecorator(), getLogLevel(), cloneGroupAdapter(),
-				areDuplicateChildrenAllowed(), isGroupExpandedOnClick(),
-				getItemClickListeners(), getAdapterListeners(),
-				getExpansionListeners());
+				areDuplicateChildrenAllowed(), isNotifiedOnChange(),
+				isGroupExpandedOnClick(), getItemClickListeners(),
+				getAdapterListeners(), getExpansionListeners());
 	}
 
 }
