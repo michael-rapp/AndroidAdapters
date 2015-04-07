@@ -685,6 +685,10 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	 * @param allowDuplicateChildren
 	 *            True, if duplicate group items, regardless from the group they
 	 *            belong to, should be allowed, false otherwise
+	 * @param notifyOnChange
+	 *            True, if the method <code>notifyDataSetChanged():void</code>
+	 *            should be automatically called when the adapter's underlying
+	 *            data has been changed, false otherwise
 	 * @param expandGroupOnClick
 	 *            True, if a group should be expanded, when it is clicked by the
 	 *            user, false otherwise
@@ -712,6 +716,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 			final LogLevel logLevel,
 			final MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter,
 			final boolean allowDuplicateChildren,
+			final boolean notifyOnChange,
 			final boolean expandGroupOnClick,
 			final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
 			final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
@@ -733,6 +738,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		this.groupAdapter = groupAdapter;
 		this.groupAdapter.setLogLevel(LogLevel.OFF);
 		this.allowDuplicateChildren = allowDuplicateChildren;
+		this.notifyOnChange = notifyOnChange;
 		this.expandGroupOnClick = expandGroupOnClick;
 		this.itemClickListeners = itemClickListeners;
 		this.adapterListeners = adapterListeners;
