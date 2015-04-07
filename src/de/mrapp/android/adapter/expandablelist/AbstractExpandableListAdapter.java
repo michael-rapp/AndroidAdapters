@@ -530,6 +530,17 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	}
 
 	/**
+	 * Returns the adapter, which manages the adapter's group items.
+	 * 
+	 * @return The adapter, which manages the adapter's group items, as an
+	 *         instance of the type {@link MultipleChoiceListAdapter}. The
+	 *         adapter may not be null
+	 */
+	protected final MultipleChoiceListAdapter<Group<GroupType, ChildType>> getGroupAdapter() {
+		return groupAdapter;
+	}
+
+	/**
 	 * Creates and returns a deep copy of the adapter, which manages the
 	 * adapter's group items.
 	 * 
