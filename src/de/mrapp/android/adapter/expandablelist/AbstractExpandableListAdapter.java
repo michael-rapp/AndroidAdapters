@@ -981,7 +981,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		ensureNotNull(groups, "The collection may not be null");
 
 		for (int i = getNumberOfGroups() - 1; i >= 0; i--) {
-			if (!containsGroup(getGroup(i))) {
+			if (!groups.contains(getGroup(i))) {
 				removeGroup(i);
 			}
 		}
