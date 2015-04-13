@@ -1053,19 +1053,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	}
 
 	@Override
-	public final int lastIndexOfGroup(final GroupType group) {
-		ensureNotNull(group, "The group may not be null");
-
-		for (int i = getNumberOfGroups() - 1; i >= 0; i--) {
-			if (getGroup(i) == group) {
-				return i;
-			}
-		}
-
-		return -1;
-	}
-
-	@Override
 	public final boolean containsGroup(final GroupType group) {
 		ensureNotNull(group, "The group may not be null");
 		return indexOfGroup(group) != -1;
