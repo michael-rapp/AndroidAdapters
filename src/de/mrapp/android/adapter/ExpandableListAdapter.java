@@ -371,18 +371,6 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends Adapter,
 	int indexOfGroup(GroupType group);
 
 	/**
-	 * Returns the last index of a specific group item.
-	 * 
-	 * @param group
-	 *            The group item, whose last index should be returned, as an
-	 *            instance of the generic type GroupType. The group item may not
-	 *            be null
-	 * @return The last index of the given group item, as an {@link Integer}
-	 *         value or -1, if the adapter does not contain the given group item
-	 */
-	int lastIndexOfGroup(GroupType group);
-
-	/**
 	 * Returns, whether the adapter contains a specific group item, or not.
 	 * 
 	 * @param group
