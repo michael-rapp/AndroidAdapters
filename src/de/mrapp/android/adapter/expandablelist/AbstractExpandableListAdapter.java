@@ -885,8 +885,12 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		int currentIndex = index;
 
 		for (GroupType group : groups) {
-			result &= addGroup(currentIndex, group);
-			currentIndex++;
+			boolean added = addGroup(currentIndex, group);
+			result &= added;
+
+			if (added) {
+				currentIndex++;
+			}
 		}
 
 		return result;
@@ -1268,7 +1272,12 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		int currentIndex = index;
 
 		for (ChildType child : children) {
-			result &= addChild(groupIndex, currentIndex, child);
+			boolean added = addChild(groupIndex, currentIndex, child);
+			result &= added;
+
+			if (added) {
+				currentIndex++;
+			}
 		}
 
 		return result;
