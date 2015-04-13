@@ -793,7 +793,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		ensureNotNull(item, "The item may not be null");
 
 		for (int i = 0; i < getNumberOfItems(); i++) {
-			if (getItem(i) == item) {
+			if (getItem(i).equals(item)) {
 				return i;
 			}
 		}
@@ -806,7 +806,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		ensureNotNull(item, "The item may not be null");
 
 		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
-			if (getItem(i) == item) {
+			if (getItem(i).equals(item)) {
 				return i;
 			}
 		}
