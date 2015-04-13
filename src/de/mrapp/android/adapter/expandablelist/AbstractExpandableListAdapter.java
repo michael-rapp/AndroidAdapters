@@ -859,16 +859,16 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 				new Group<GroupType, ChildType>(group, createChildAdapter()));
 
 		if (added) {
-			String message = "Group \"" + group + "\" at index " + index
-					+ " not added, because adapter already contains group";
-			getLogger().logDebug(getClass(), message);
-			return false;
-		} else {
 			notifyOnGroupAdded(group, index);
 			notifyOnDataSetChanged();
 			String message = "Group \"" + group + "\" added at index " + index;
 			getLogger().logInfo(getClass(), message);
 			return true;
+		} else {
+			String message = "Group \"" + group + "\" at index " + index
+					+ " not added, because adapter already contains group";
+			getLogger().logDebug(getClass(), message);
+			return false;
 		}
 	}
 
@@ -885,9 +885,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		int currentIndex = index;
 
 		for (GroupType group : groups) {
-			result &= groupAdapter
-					.addItem(currentIndex, new Group<GroupType, ChildType>(
-							group, createChildAdapter()));
+			result &= addGroup(currentIndex, group);
 			currentIndex++;
 		}
 
