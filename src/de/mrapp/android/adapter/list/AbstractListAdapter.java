@@ -644,8 +644,12 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		int currentIndex = index;
 
 		for (DataType item : items) {
-			result &= addItem(currentIndex, item);
-			currentIndex++;
+			boolean added = addItem(currentIndex, item);
+			result &= added;
+
+			if (added) {
+				currentIndex++;
+			}
 		}
 
 		return result;
