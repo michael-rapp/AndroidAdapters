@@ -80,12 +80,7 @@ public abstract class SelectableListDecorator<DataType> extends
 		int viewType = getViewType(adapter, item, index, enabled, state,
 				filtered, selected);
 		setCurrentViewType(viewType);
-
-		if (isViewStateAdapted()) {
-			view.setEnabled(enabled);
-			view.setSelected(selected);
-		}
-
+		adaptViewState(view, enabled, selected);
 		onShowItem(context, adapter, view, item, viewType, index, enabled,
 				state, filtered, selected);
 	}
