@@ -19,6 +19,7 @@ package de.mrapp.android.adapter.decorator;
 
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 import android.view.View;
+import android.view.ViewGroup;
 
 /**
  * An abstract base class for all decorators, which should allow to customize
@@ -45,6 +46,58 @@ public abstract class AbstractDecorator {
 	 * customized by the decorator.
 	 */
 	private int currentViewType;
+
+	/**
+	 * Adapts the children of a view group, which is used to visualize an item.
+	 * 
+	 * @param parent
+	 *            The view group, whose children's states should be adapted, as
+	 *            an instance of the class {@link ViewGroup}. The view group may
+	 *            not be null
+	 * @param enabled
+	 *            True, if the item, which is visualized by the view group, is
+	 *            currently enabled, false otherwise
+	 * @param selected
+	 *            True, if the item, which is visualized by the view group, is
+	 *            currently selected, false otherwise
+	 */
+	private void adaptChildrenViewStates(final ViewGroup parent,
+			final boolean enabled, final boolean selected) {
+		for (int i = 0; i < parent.getChildCount(); i++) {
+			View child = parent.getChildAt(i);
+			adaptViewState(child, enabled, selected);
+		}
+	}
+
+	/**
+	 * Adapts the state of a view, which is used to visualize an item. This
+	 * method should never be called or overridden by any custom decorator
+	 * implementation.
+	 * 
+	 * @param view
+	 *            The view, whose state should be adapted, as an instance of the
+	 *            class {@link View}. The view may not be null
+	 * @param enabled
+	 *            True, if the item, which is visualized by the view, is
+	 *            currently enabled, false otherwise
+	 * @param selected
+	 *            True , if the item, which is visualized by the view, is
+	 *            currently selected, false otherwise
+	 */
+	protected final void adaptViewState(final View view, final boolean enabled,
+			final boolean selected) {
+		if (isViewStateAdapted()) {
+			if (!view.isClickable()) {
+				view.setEnabled(enabled);
+				view.setSelected(selected);
+			}
+
+			if (areChildrenViewStatesAdapted() && view instanceof ViewGroup) {
+				ViewGroup viewGroup = (ViewGroup) view;
+				adaptChildrenViewStates(viewGroup, enabled, selected);
+			}
+		}
+	}
 
 	/**
 	 * Sets the index of the item, whose appearance should currently be
@@ -136,6 +189,24 @@ public abstract class AbstractDecorator {
 	 */
 	protected boolean isViewStateAdapted() {
 		return true;
+	}
+
+	/**
+	 * Returns, whether the state of the children of a view, which is used to
+	 * visualize an item of the adapter, should be adapted to the item's state,
+	 * or not. For example, if the item is disabled, the according view will
+	 * also be disabled by the decorator by automatically calling its
+	 * <code>setEnabled(boolean):void</code> method. The states of children are
+	 * only adapted, if the method <code>isViewStateAdapter</code> returns true
+	 * as well. This method may overridden by a custom decorator implementation
+	 * to adapt the behavior of the decorator.
+	 * 
+	 * @return True, if the state of the children of a view, which is used to
+	 *         visualize an item of the adapter, should be adapter to the item's
+	 *         state, false otherwise
+	 */
+	protected boolean areChildrenViewStatesAdapted() {
+		return false;
 	}
 
 }
