@@ -1198,21 +1198,31 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 			final ChildType child) {
 		ensureNotNull(child, "The child may not be null");
 		Group<GroupType, ChildType> group = groupAdapter.getItem(groupIndex);
-		boolean added = group.getChildAdapter().addItem(index, child);
 
-		if (added) {
-			notifyOnChildAdded(child, index, group.getData(), groupIndex);
-			notifyOnDataSetChanged();
-			String message = "Child \"" + child + "\" added at index " + index
-					+ " to group \"" + group.getData() + "\" at index "
-					+ groupIndex;
-			getLogger().logInfo(getClass(), message);
-			return true;
+		if (areDuplicateChildrenAllowed() || !containsChild(child)) {
+			boolean added = group.getChildAdapter().addItem(index, child);
+
+			if (added) {
+				notifyOnChildAdded(child, index, group.getData(), groupIndex);
+				notifyOnDataSetChanged();
+				String message = "Child \"" + child + "\" added at index "
+						+ index + " to group \"" + group.getData()
+						+ "\" at index " + groupIndex;
+				getLogger().logInfo(getClass(), message);
+				return true;
+			} else {
+				String message = "Child \"" + child + "\" at index " + index
+						+ " not added to group \"" + group.getData()
+						+ "\" at index " + groupIndex
+						+ ", because group already contains child";
+				getLogger().logDebug(getClass(), message);
+				return false;
+			}
 		} else {
 			String message = "Child \"" + child + "\" at index " + index
 					+ " not added to group \"" + group.getData()
 					+ "\" at index " + groupIndex
-					+ ", because group already contains child";
+					+ ", because adapter already contains child";
 			getLogger().logDebug(getClass(), message);
 			return false;
 		}
