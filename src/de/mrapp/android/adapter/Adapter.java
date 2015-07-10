@@ -55,4 +55,7 @@ public interface Adapter extends DataStructure, Restorable, Loggable,
 	 */
 	void notifyOnChange(boolean notifyOnChange);
 
+	@Override
+	Adapter clone() throws CloneNotSupportedException;
+
 }
