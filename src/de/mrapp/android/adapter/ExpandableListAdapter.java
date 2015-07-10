@@ -41,8 +41,8 @@ import de.mrapp.android.adapter.expandablelist.ExpansionListener;
  * 
  * @since 1.0.0
  */
-public interface ExpandableListAdapter<GroupType, ChildType> extends Adapter,
-		android.widget.ExpandableListAdapter {
+public interface ExpandableListAdapter<GroupType, ChildType> extends
+		Adapter<ExpandableListView>, android.widget.ExpandableListAdapter {
 
 	/**
 	 * Returns, whether duplicate group items are allowed, or not.
@@ -2465,21 +2465,6 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends Adapter,
 	 *            user, false otherwise
 	 */
 	void expandGroupOnClick(boolean expandGroupOnClick);
-
-	/**
-	 * Attaches the adapter to an expandable list view.
-	 * 
-	 * @param expandableListView
-	 *            The expandable list view, the adapter should be attached to,
-	 *            as an instance of the class {@link ExpandableListView}. The
-	 *            expandable list view may not be null
-	 */
-	void attach(final ExpandableListView expandableListView);
-
-	/**
-	 * Detaches the adapter from the view, it is currently attached to.
-	 */
-	void detach();
 
 	/**
 	 * Adds a new listener, which should be notified, when an item of the

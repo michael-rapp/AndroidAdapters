@@ -21,8 +21,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.ListIterator;
 
-import android.widget.GridView;
-import android.widget.ListView;
+import android.widget.AbsListView;
 import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.EnableStateListAdapter;
@@ -33,7 +32,7 @@ import de.mrapp.android.adapter.list.sortable.SortableListAdapter;
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a list
  * of arbitrary items, must implement. Such an adapter's purpose is to provide
- * the underlying data for visualization using a {@link ListView} widget.
+ * the underlying data for visualization using a {@link AbsListView} widget.
  * 
  * @param <DataType>
  *            The type of the adapter's underlying data
@@ -42,7 +41,7 @@ import de.mrapp.android.adapter.list.sortable.SortableListAdapter;
  * 
  * @since 1.0.0
  */
-public interface ListAdapter<DataType> extends Adapter,
+public interface ListAdapter<DataType> extends Adapter<AbsListView>,
 		android.widget.ListAdapter, EnableStateListAdapter<DataType>,
 		ItemStateListAdapter<DataType>, SortableListAdapter<DataType>,
 		FilterableListAdapter<DataType> {
@@ -426,31 +425,6 @@ public interface ListAdapter<DataType> extends Adapter,
 	 * @return True, if the adapter is empty, false otherwise
 	 */
 	boolean isEmpty();
-
-	/**
-	 * Attaches the adapter to a list view.
-	 * 
-	 * @param listView
-	 *            The list view, the adapter should be attached to, as an
-	 *            instance of the class {@link ListView}. The list view may not
-	 *            be null
-	 */
-	void attach(final ListView listView);
-
-	/**
-	 * Attaches the adapter to a grid view.
-	 * 
-	 * @param gridView
-	 *            The grid view, the adapter should be attached to, as an
-	 *            instance of the class {@link GridView}. The grid view may not
-	 *            be null
-	 */
-	void attach(final GridView gridView);
-
-	/**
-	 * Detaches the adapter from the view, it is currently attached to.
-	 */
-	void detach();
 
 	/**
 	 * Adds a new listener, which should be notified, when an item of the
