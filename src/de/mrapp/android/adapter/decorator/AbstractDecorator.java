@@ -87,8 +87,9 @@ public abstract class AbstractDecorator {
 	protected final void adaptViewState(final View view, final boolean enabled,
 			final boolean selected) {
 		if (isViewStateAdapted()) {
+			view.setEnabled(enabled);
+
 			if (!view.isClickable()) {
-				view.setEnabled(enabled);
 				view.setSelected(selected);
 			}
 
