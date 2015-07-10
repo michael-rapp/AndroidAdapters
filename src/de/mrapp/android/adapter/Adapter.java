@@ -17,6 +17,7 @@
  */
 package de.mrapp.android.adapter;
 
+import android.widget.AdapterView;
 import de.mrapp.android.adapter.datastructure.DataStructure;
 import de.mrapp.android.adapter.datastructure.Parameterizable;
 import de.mrapp.android.adapter.datastructure.Restorable;
@@ -25,12 +26,29 @@ import de.mrapp.android.adapter.logging.Loggable;
 /**
  * Defines the interface, all adapters must implement.
  * 
+ * @param <AdapterViewType>
+ *            The type of the views, the adapter can be attached to
+ * 
  * @author Michael Rapp
  *
  * @since 1.0.0
  */
-public interface Adapter extends DataStructure, Restorable, Loggable,
-		Parameterizable {
+public interface Adapter<AdapterViewType extends AdapterView<?>> extends
+		DataStructure, Restorable, Loggable, Parameterizable {
+
+	/**
+	 * Attaches the adapter to a view.
+	 * 
+	 * @param adapterView
+	 *            The view, the adapter should be attached to, as an instance of
+	 *            the generic type AdapterViewType. The view may not be null
+	 */
+	void attach(final AdapterViewType adapterView);
+
+	/**
+	 * Detaches the adapter from the view, it is currently attached to.
+	 */
+	void detach();
 
 	/**
 	 * Returns, whether the method <code>notifyDataSetChanged():void</code> is
@@ -56,6 +74,6 @@ public interface Adapter extends DataStructure, Restorable, Loggable,
 	void notifyOnChange(boolean notifyOnChange);
 
 	@Override
-	Adapter clone() throws CloneNotSupportedException;
+	Adapter<AdapterViewType> clone() throws CloneNotSupportedException;
 
 }

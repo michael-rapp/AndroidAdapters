@@ -2349,13 +2349,11 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	}
 
 	@Override
-	public final void attach(final ExpandableListView expandableListView) {
-		ensureNotNull(expandableListView,
-				"The expandable list view may not be null");
-		this.adapterView = expandableListView;
-		expandableListView.setAdapter(this);
-		String message = "Attached adapter to expandable list view \""
-				+ expandableListView + "\"";
+	public final void attach(final ExpandableListView adapterView) {
+		ensureNotNull(adapterView, "The adapter view may not be null");
+		this.adapterView = adapterView;
+		this.adapterView.setAdapter(this);
+		String message = "Attached adapter to view \"" + adapterView + "\"";
 		getLogger().logDebug(getClass(), message);
 	}
 
