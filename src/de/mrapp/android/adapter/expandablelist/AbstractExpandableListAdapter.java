@@ -19,7 +19,6 @@ package de.mrapp.android.adapter.expandablelist;
 
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -432,43 +431,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 			}
 
 		};
-	}
-
-	/**
-	 * Returns, whether the underlying data of the adapter's group items
-	 * implements the interface {@link Serializable}, or not.
-	 * 
-	 * @return True, if the underlying data of the adapter's group items
-	 *         implements the interface {@link Serializable}, false otherwise
-	 */
-	private boolean isGroupDataSerializable() {
-		if (!isEmpty()) {
-			if (!Serializable.class.isAssignableFrom(getGroup(0).getClass())) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Returns, whether the underlying data of the adapter's child items
-	 * implements the interface {@link Serializable}, or not.
-	 * 
-	 * @return True, if the underlying data of the adapter's child items
-	 *         implements the interface {@link Serializable}, false otherwise
-	 */
-	private boolean isChildDataSerializable() {
-		List<ChildType> children = getAllChildren();
-
-		if (!children.isEmpty()) {
-			if (!Serializable.class
-					.isAssignableFrom(children.get(0).getClass())) {
-				return false;
-			}
-		}
-
-		return true;
 	}
 
 	/**
@@ -2456,29 +2418,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 	@Override
 	public final void onSaveInstanceState(final Bundle outState) {
-		if (isGroupDataSerializable()) {
-			outState.putSerializable(CHILD_ADAPTER_BUNDLE_KEY, groupAdapter);
-		} else {
-			String message = "The adapter's items can not be stored, because the "
-					+ "underlying data of the group items does not implement the "
-					+ "interface \"" + Serializable.class.getName() + "\"";
-			getLogger().logWarn(getClass(), message);
-		}
-
-		if (isChildDataSerializable()) {
-			for (int i = 0; i < groupAdapter.getNumberOfItems(); i++) {
-				Group<GroupType, ChildType> group = groupAdapter.getItem(i);
-				outState.putSerializable(
-						String.format(CHILD_ADAPTER_BUNDLE_KEY, i),
-						group.getChildAdapter());
-			}
-		} else {
-			String message = "The adapter's items can not be stored, because the "
-					+ "underlying data of the child items does not implement the "
-					+ "interface \"" + Serializable.class.getName() + "\"";
-			getLogger().logWarn(getClass(), message);
-		}
-
+		groupAdapter.onSaveInstanceState(outState);
 		outState.putBoolean(ALLOW_DUPLICATE_CHILDREN_BUNDLE_KEY,
 				areDuplicateChildrenAllowed());
 		outState.putBoolean(EXPAND_GROUP_ON_CLICK_BUNDLE_KEY,
@@ -2487,30 +2427,10 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		getLogger().logDebug(getClass(), "Saved instance state");
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public final void onRestoreInstanceState(final Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
-			if (savedInstanceState.containsKey(GROUP_ADAPTER_BUNDLE_KEY)) {
-				groupAdapter = (MultipleChoiceListAdapter<Group<GroupType, ChildType>>) savedInstanceState
-						.getSerializable(GROUP_ADAPTER_BUNDLE_KEY);
-			}
-
-			for (int i = 0; i <= Integer.MAX_VALUE; i++) {
-				Serializable childAdapter = savedInstanceState
-						.getSerializable(String.format(
-								CHILD_ADAPTER_BUNDLE_KEY, i));
-
-				if (childAdapter != null) {
-					groupAdapter
-							.getItem(i)
-							.setChildAdapter(
-									(MultipleChoiceListAdapter<ChildType>) childAdapter);
-				} else {
-					break;
-				}
-			}
-
+			groupAdapter.onRestoreInstanceState(savedInstanceState);
 			allowDuplicateChildren(savedInstanceState
 					.getBoolean(ALLOW_DUPLICATE_CHILDREN_BUNDLE_KEY));
 			expandGroupOnClick(savedInstanceState
