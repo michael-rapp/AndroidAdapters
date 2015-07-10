@@ -33,8 +33,8 @@ import de.mrapp.android.adapter.logging.Loggable;
  *
  * @since 1.0.0
  */
-public interface Adapter<AdapterViewType extends AdapterView<?>> extends
-		DataStructure, Restorable, Loggable, Parameterizable {
+public interface Adapter<AdapterViewType extends AdapterView<? extends android.widget.Adapter>>
+		extends DataStructure, Restorable, Loggable, Parameterizable {
 
 	/**
 	 * Attaches the adapter to a view.
