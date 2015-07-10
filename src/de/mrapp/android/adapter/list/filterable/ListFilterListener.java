@@ -18,7 +18,6 @@
 package de.mrapp.android.adapter.list.filterable;
 
 import java.util.Collection;
-import java.util.regex.Pattern;
 
 import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.ListAdapter;
@@ -38,28 +37,29 @@ public interface ListFilterListener<DataType> {
 
 	/**
 	 * The method, which is invoked, when the adapter's items have been filtered
-	 * by using a regular expression.
+	 * by using a query.
 	 * 
 	 * @param adapter
 	 *            The observed adapters as an instance of the type
 	 *            {@link ListAdapter}. The adapter may not be null
-	 * @param regularExpression
-	 *            The regular expression, which has been used, as an instance of
-	 *            the class {@link Pattern}. The regular expression may not be
-	 *            null
+	 * @param query
+	 *            The query, which has been used, as a {@link String}. The query
+	 *            may not be null
+	 * @param flags
+	 *            The flags, which have been used, as an {@link Integer} value,
+	 *            or 0, if no flags have been used
 	 * @param filter
-	 *            The filter, which has been used to apply the regular
-	 *            expression on the single items, as an instance of the type
-	 *            {@link Filter} or null, if the items' implementations of the
-	 *            interface {@link Filterable} have been used instead
+	 *            The filter, which has been used to apply the query on the
+	 *            single items, as an instance of the type {@link Filter} or
+	 *            null, if the items' implementations of the interface
+	 *            {@link Filterable} have been used instead
 	 * @param filteredItems
 	 *            A collection, which contains the adapter's filtered items, as
 	 *            an instance of the type {@link Collection} or an empty
 	 *            collection, if the adapter does not contain any items
 	 */
-	void onApplyFilter(ListAdapter<DataType> adapter,
-			Pattern regularExpression, Filter<DataType> filter,
-			Collection<DataType> filteredItems);
+	void onApplyFilter(ListAdapter<DataType> adapter, String query, int flags,
+			Filter<DataType> filter, Collection<DataType> filteredItems);
 
 	/**
 	 * The method, which is invoked, when a filter has been reseted.
@@ -67,16 +67,19 @@ public interface ListFilterListener<DataType> {
 	 * @param adapter
 	 *            The observed adapters as an instance of the type
 	 *            {@link ListAdapter}. The adapter may not be null
-	 * @param regularExpression
-	 *            The regular expression used by the filter, which has been
-	 *            reseted, as an instance of the class {@link Pattern}. The
-	 *            regular expression may not be null
+	 * @param query
+	 *            The query used by the filter, which has been reseted, as a
+	 *            {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags used by the filter, which has been reseted, as an
+	 *            {@link Integer} value or 0, if no flags have been used by the
+	 *            filter
 	 * @param filteredItems
 	 *            A collection, which contains the adapter's filtered items, as
 	 *            an instance of the type {@link Collection} or an empty
 	 *            collection, if the adapter does not contain any items
 	 */
-	void onResetFilter(ListAdapter<DataType> adapter,
-			Pattern regularExpression, Collection<DataType> filteredItems);
+	void onResetFilter(ListAdapter<DataType> adapter, String query, int flags,
+			Collection<DataType> filteredItems);
 
 }

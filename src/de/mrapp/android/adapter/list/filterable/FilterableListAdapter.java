@@ -17,8 +17,6 @@
  */
 package de.mrapp.android.adapter.list.filterable;
 
-import java.util.regex.Pattern;
-
 import de.mrapp.android.adapter.Filter;
 
 /**
@@ -37,50 +35,56 @@ import de.mrapp.android.adapter.Filter;
 public interface FilterableListAdapter<DataType> {
 
 	/**
-	 * Filters the adapter's items by using a specific regular expression, if no
-	 * filter using the same regular expression has been applied yet. If the
-	 * adapter's underlying data does not implement the interface
-	 * {@link Filterable} a {@link FilteringNotSupportedException} will be
-	 * thrown. This method can be called multiple times without resetting the
-	 * filtering, which causes the filtered item to be filtered once more.
+	 * Filters the adapter's items by using a specific query, if no filter using
+	 * the same query has been applied yet. If the adapter's underlying data
+	 * does not implement the interface {@link Filterable} a
+	 * {@link FilteringNotSupportedException} will be thrown. This method can be
+	 * called multiple times without resetting the filtering, which causes the
+	 * filtered item to be filtered once more.
 	 * 
-	 * @param regularExpression
-	 *            The regular expression, which should be used to filter the
-	 *            items, as an instance of the class {@link Pattern}. The
-	 *            regular expression may not be null
+	 * @param query
+	 *            The query, which should be used to filter the items, as a
+	 *            {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags, which should be used to filter the item, as an
+	 *            {@link Integer} value, or 0, if no flags should be used
 	 * @return True, if the filter has been applied, false otherwise
 	 */
-	boolean applyFilter(Pattern regularExpression);
+	boolean applyFilter(String query, int flags);
 
 	/**
-	 * Filters the adapter's items by using a specific regular expression and a
-	 * filter, which is used to apply the regular expression on the single
-	 * items, if no filter using the same regular expression has been applied
-	 * yet. This method can be called multiple times without resetting the
-	 * filtering, which causes the filtered items to be filtered once more.
+	 * Filters the adapter's items by using a specific query and a filter, which
+	 * is used to apply the query on the single items, if no filter using the
+	 * same query has been applied yet. This method can be called multiple times
+	 * without resetting the filtering, which causes the filtered items to be
+	 * filtered once more.
 	 * 
-	 * @param regularExpression
-	 *            The regular expression, which should be used to filter the
-	 *            items, as an instance of the class {@link Pattern}. The
-	 *            regular expression may not be null
+	 * @param query
+	 *            The query, which should be used to filter the items, as a
+	 *            {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags, which should be used to filter the items, as an
+	 *            {@link Integer} value, or 0, if no flags should be used
 	 * @param filter
-	 *            The filter, which should be used to apply the given regular
-	 *            expression on the adapter's items, as an instance of the type
-	 *            {@link Filter}. The filter may not be null
+	 *            The filter, which should be used to apply the given query on
+	 *            the adapter's items, as an instance of the type {@link Filter}
+	 *            . The filter may not be null
 	 * @return True, if the filter has been applied, false otherwise
 	 */
-	boolean applyFilter(Pattern regularExpression, Filter<DataType> filter);
+	boolean applyFilter(String query, int flags, Filter<DataType> filter);
 
 	/**
-	 * Resets the filter, which uses a specific regular expression.
+	 * Resets the filter, which uses a specific query.
 	 * 
-	 * @param regularExpression
-	 *            The regular expression of the filter, which should be reseted,
-	 *            as an instance of the class {@link Pattern}. The regular
-	 *            expression may not be null
+	 * @param query
+	 *            The query of the filter, which should be reseted, as a
+	 *            {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags of the filter, which should be reseted, as an
+	 *            {@link Integer} value
 	 * @return True, if the filter has been reseted, false otherwise
 	 */
-	boolean resetFilter(Pattern regularExpression);
+	boolean resetFilter(String query, int flags);
 
 	/**
 	 * Resets all applied filters.
@@ -97,18 +101,19 @@ public interface FilterableListAdapter<DataType> {
 	boolean isFiltered();
 
 	/**
-	 * Returns, whether a filter, which uses a specific regular expression, is
-	 * currently applied on the adapter to filter its items, or not.
+	 * Returns, whether a filter, which uses a specific query, is currently
+	 * applied on the adapter to filter its items, or not.
 	 * 
-	 * @param regularExpression
-	 *            The regular expression of the filter, which should be checked,
-	 *            as an instance of the class {@link Pattern}. The regular
-	 *            expression may not be null
-	 * @return True, if a filter, which uses the given regular expression, is
-	 *         currently applied on the adapter to filter its items, false
-	 *         otherwise
+	 * @param query
+	 *            The query of the filter, which should be checked, as a
+	 *            {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags of the filter, which should be checked, as an
+	 *            {@link Integer} value
+	 * @return True, if a filter, which uses the given query, is currently
+	 *         applied on the adapter to filter its items, false otherwise
 	 */
-	boolean isFilterApplied(Pattern regularExpression);
+	boolean isFilterApplied(String query, final int flags);
 
 	/**
 	 * Returns the number of filters, which are currently applied on the adapter

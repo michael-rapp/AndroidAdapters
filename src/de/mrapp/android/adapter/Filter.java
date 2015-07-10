@@ -18,7 +18,6 @@
 package de.mrapp.android.adapter;
 
 import java.io.Serializable;
-import java.util.regex.Pattern;
 
 /**
  * Defines the interface, a class, which should allow to filter instances of a
@@ -40,13 +39,15 @@ public interface Filter<DataType> extends Serializable {
 	 * @param data
 	 *            The instance, which should be filtered, as an instance of the
 	 *            generic type DataType. The instance may not be null
-	 * @param regularExpression
-	 *            The regular expression, which should be used for filtering, as
-	 *            an instance of the class {@link Pattern}. The regular
-	 *            expression may not be null
+	 * @param query
+	 *            The query, which should be used for filtering, as a
+	 *            {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags, which should be used for filtering, as an
+	 *            {@link Integer} value or 0, if no flags should be used
 	 * @return True, if the instance does match the given regular expression,
 	 *         false otherwise
 	 */
-	boolean match(DataType data, Pattern regularExpression);
+	boolean match(DataType data, String query, int flags);
 
 }

@@ -28,7 +28,6 @@ import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -274,10 +273,10 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	private boolean matchFilter(final AppliedFilter<DataType> filter,
 			final Item<DataType> item) {
 		if (filter.getFilter() != null) {
-			return filter.getFilter().match(item.getData(),
-					filter.getRegularExpression());
+			return filter.getFilter().match(item.getData(), filter.getQuery(),
+					filter.getFlags());
 		} else {
-			return item.match(filter.getRegularExpression());
+			return item.match(filter.getQuery(), filter.getFlags());
 		}
 	}
 
@@ -286,26 +285,29 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	 * the adapter's underlying data has been filtered, when a filter has been
 	 * applied.
 	 * 
-	 * @param regularExpression
-	 *            The regular expression, which has been used to filter the
-	 *            adapter's underlying data, as an instance of the class
-	 *            {@link Pattern}. The regular expression may not be null
+	 * @param query
+	 *            The query, which has been used to filter the adapter's
+	 *            underlying data, as a {@link String}. The query may not be
+	 *            null
+	 * @param flags
+	 *            The flags, which have been used to filter the adapter's
+	 *            underlying data, as an {@link Integer} value, or 0, if no
+	 *            flags have been used
 	 * @param filter
-	 *            The filter, which has been used to apply the regular
-	 *            expression on the single items, as an instance of the type
-	 *            {@link Filter} or null, if the items' implementations of the
-	 *            interface {@link Filterable} has been used instead
+	 *            The filter, which has been used to apply the query on the
+	 *            single items, as an instance of the type {@link Filter} or
+	 *            null, if the items' implementations of the interface
+	 *            {@link Filterable} has been used instead
 	 * @param filteredItems
 	 *            A collection, which contains the adapter's filtered items, as
 	 *            an instance of the type {@link Collection} or an empty
 	 *            collection, if the adapter does not contain any items
 	 */
-	private void notifyOnApplyFilter(final Pattern regularExpression,
+	private void notifyOnApplyFilter(final String query, final int flags,
 			final Filter<DataType> filter,
 			final Collection<DataType> filteredItems) {
 		for (ListFilterListener<DataType> listener : filterListeners) {
-			listener.onApplyFilter(this, regularExpression, filter,
-					filteredItems);
+			listener.onApplyFilter(this, query, flags, filter, filteredItems);
 		}
 	}
 
@@ -314,19 +316,21 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	 * the adapter's underlying data has been filtered, when a filter has been
 	 * reseted.
 	 * 
-	 * @param regularExpression
-	 *            The regular expression of the filter, which has been reseted,
-	 *            as an instance of the class {@link Pattern}. The regular
-	 *            expression may not be null
+	 * @param query
+	 *            The query of the filter, which has been reseted, as a
+	 *            {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags of the filter, which has been reseted, as an
+	 *            {@link Integer} value
 	 * @param unfilteredItems
 	 *            A collection, which contains the adapter's filtered items, as
 	 *            an instance of the type {@link Collection} or an empty
 	 *            collection, if the adapter does not contain any items
 	 */
-	private void notifyOnResetFilter(final Pattern regularExpression,
+	private void notifyOnResetFilter(final String query, final int flags,
 			final Collection<DataType> unfilteredItems) {
 		for (ListFilterListener<DataType> listener : filterListeners) {
-			listener.onResetFilter(this, regularExpression, unfilteredItems);
+			listener.onResetFilter(this, query, flags, unfilteredItems);
 		}
 	}
 
@@ -530,59 +534,55 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public final boolean applyFilter(final Pattern regularExpression) {
+	public final boolean applyFilter(final String query, final int flags) {
 		AppliedFilter<DataType> appliedFilter = new AppliedFilter<DataType>(
-				regularExpression);
+				query, flags);
 		boolean added = appliedFilters.add(appliedFilter);
 
 		if (added) {
 			applyFilter(appliedFilter);
-			notifyOnApplyFilter(regularExpression, null, getAllItems());
+			notifyOnApplyFilter(query, flags, null, getAllItems());
 			notifyOnDataSetChanged();
-			String message = "Applied filter using regular expression \""
-					+ regularExpression + "\"";
+			String message = "Applied filter using the query \"" + query + "\"";
 			getLogger().logInfo(getClass(), message);
 			return true;
 		}
 
-		String message = "Filter using regular expression \""
-				+ regularExpression
+		String message = "Filter using the query \"" + query
 				+ "\" not applied, because a filter using the same "
-				+ "regular expression is already applied on the adapter";
+				+ "query is already applied on the adapter";
 		getLogger().logDebug(getClass(), message);
 		return false;
 	}
 
 	@Override
-	public final boolean applyFilter(final Pattern regularExpression,
+	public final boolean applyFilter(final String query, final int flags,
 			final Filter<DataType> filter) {
 		AppliedFilter<DataType> appliedFilter = new AppliedFilter<DataType>(
-				regularExpression, filter);
+				query, flags, filter);
 		boolean added = appliedFilters.add(appliedFilter);
 
 		if (added) {
 			applyFilter(appliedFilter);
-			notifyOnApplyFilter(regularExpression, filter, getAllItems());
+			notifyOnApplyFilter(query, flags, filter, getAllItems());
 			notifyOnDataSetChanged();
-			String message = "Applied filter using regular expression \""
-					+ regularExpression + "\" and filter \"" + filter + "\"";
+			String message = "Applied filter using the query \"" + query
+					+ "\" and filter \"" + filter + "\"";
 			getLogger().logInfo(getClass(), message);
 			return true;
 		}
 
-		String message = "Filter using regular expression \""
-				+ regularExpression
+		String message = "Filter using the query \"" + query
 				+ "\" not applied, because a filter using the same "
-				+ "regular expression and filter is already applied "
-				+ "on the adapter";
+				+ "query and filter is already applied " + "on the adapter";
 		getLogger().logDebug(getClass(), message);
 		return false;
 	}
 
 	@Override
-	public final boolean resetFilter(final Pattern regularExpression) {
+	public final boolean resetFilter(final String query, final int flags) {
 		AppliedFilter<DataType> appliedFilter = new AppliedFilter<DataType>(
-				regularExpression);
+				query, flags);
 		boolean removed = appliedFilters.remove(appliedFilter);
 
 		if (removed) {
@@ -590,15 +590,15 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 			unfilteredItems = null;
 			indexMapping = null;
 			applyAllFilters();
-			notifyOnResetFilter(regularExpression, getAllItems());
+			notifyOnResetFilter(query, flags, getAllItems());
 			notifyOnDataSetChanged();
 			String message = "Reseted filter \"" + appliedFilter + "\"";
 			getLogger().logInfo(getClass(), message);
 			return true;
 		} else {
-			String message = "Filter with regular expression \""
-					+ regularExpression.pattern()
-					+ "\" not reseted, because no such filter is applied on the adapter";
+			String message = "Filter with query \"" + query
+					+ "\" not reseted, because no such "
+					+ "filter is applied on the adapter";
 			getLogger().logDebug(getClass(), message);
 			return false;
 		}
@@ -608,7 +608,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	public final void resetAllFilters() {
 		for (AppliedFilter<DataType> appliedFilter : new LinkedHashSet<AppliedFilter<DataType>>(
 				appliedFilters)) {
-			resetFilter(appliedFilter.getRegularExpression());
+			resetFilter(appliedFilter.getQuery(), appliedFilter.getFlags());
 		}
 
 		String message = "Reseted all previously applied filters";
@@ -621,9 +621,9 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public final boolean isFilterApplied(final Pattern regularExpression) {
-		return appliedFilters.contains(new AppliedFilter<DataType>(
-				regularExpression));
+	public final boolean isFilterApplied(final String query, final int flags) {
+		return appliedFilters
+				.contains(new AppliedFilter<DataType>(query, flags));
 	}
 
 	@Override
