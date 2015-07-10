@@ -18,7 +18,6 @@
 package de.mrapp.android.adapter;
 
 import java.io.Serializable;
-import java.util.regex.Pattern;
 
 /**
  * Defines the interface, a class, which should support filtering by using
@@ -31,15 +30,15 @@ import java.util.regex.Pattern;
 public interface Filterable extends Serializable {
 
 	/**
-	 * Returns, whether the class does match a specific regular expression, or
-	 * not.
+	 * Returns, whether the class does match a specific query, or not.
 	 * 
-	 * @param regularExpression
-	 *            The regular expression, as an instance of the class
-	 *            {@link Pattern}. The regular expression may not be null
-	 * @return True, if the class does match the given regular expression, false
-	 *         otherwise
+	 * @param query
+	 *            The query, as a {@link String}. The query may not be null
+	 * @param flags
+	 *            Optional flags as an {@link Integer} value or 0, if no flags
+	 *            should be used
+	 * @return True, if the class does match the given query, false otherwise
 	 */
-	boolean match(Pattern regularExpression);
+	boolean match(String query, final int flags);
 
 }

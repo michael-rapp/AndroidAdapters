@@ -22,7 +22,6 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import android.content.Context;
 import de.mrapp.android.adapter.Filter;
@@ -160,7 +159,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 
 			@Override
 			public void onApplyFilter(final ListAdapter<DataType> adapter,
-					final Pattern regularExpression,
+					final String query, final int flags,
 					final Filter<DataType> filter,
 					final Collection<DataType> filteredItems) {
 				if (isFiltered() && getSelectedIndex() == -1 && !isEmpty()) {
@@ -170,7 +169,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 
 			@Override
 			public void onResetFilter(final ListAdapter<DataType> adapter,
-					final Pattern regularExpression,
+					final String query, final int flags,
 					final Collection<DataType> filteredItems) {
 				return;
 			}

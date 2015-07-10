@@ -17,8 +17,6 @@
  */
 package de.mrapp.android.adapter.datastructure;
 
-import java.util.regex.Pattern;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 import de.mrapp.android.adapter.Filter;
@@ -63,9 +61,14 @@ public class AppliedFilter<DataType> implements DataStructure, Parcelable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * The regular expression, which has been used to filter the adapter's data.
+	 * The query, which has been used to filter the adapter's data.
 	 */
-	private final Pattern regularExpression;
+	private final String query;
+
+	/**
+	 * The flags, which have been used to filter the adapter's data.
+	 */
+	private final int flags;
 
 	/**
 	 * The filter, which has been used to match the adapter's single items to
@@ -83,7 +86,8 @@ public class AppliedFilter<DataType> implements DataStructure, Parcelable {
 	 */
 	@SuppressWarnings("unchecked")
 	private AppliedFilter(final Parcel source) {
-		this.regularExpression = (Pattern) source.readSerializable();
+		this.query = source.readString();
+		this.flags = source.readInt();
 		this.filter = (Filter<DataType>) source.readSerializable();
 	}
 
@@ -91,47 +95,59 @@ public class AppliedFilter<DataType> implements DataStructure, Parcelable {
 	 * Creates a new representation of a filter, which has been applied on an
 	 * adapter's underlying data.
 	 * 
-	 * @param regularExpression
-	 *            The regular expression, which has been used to filter the
-	 *            adapter's data, as an instance of the class {@link Pattern}.
-	 *            The regular expression may not be null
+	 * @param query
+	 *            The query, which has been used to filter the adapter's data,
+	 *            as a {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags, which have been used to filter the adapter's data
+	 *            or 0, if no flags have been used
 	 */
-	public AppliedFilter(final Pattern regularExpression) {
-		this(regularExpression, null);
+	public AppliedFilter(final String query, final int flags) {
+		this(query, flags, null);
 	}
 
 	/**
 	 * Creates a new representation of a filter, which has been applied on an
 	 * adapter's underlying data.
 	 * 
-	 * @param regularExpression
-	 *            The regular expression, which has been used to filter the
-	 *            adapter's data, as an instance of the class {@link Pattern}.
-	 *            The regular expression may not be null
+	 * @param query
+	 *            The query, which has been used to filter the adapter's data,
+	 *            as a {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags, which have been used to filter the adapter's data
+	 *            as an {@link Integer} value or 0, if no flags have been used
 	 * @param filter
 	 *            The filter, which has been used to match the adapter's single
 	 *            items to the regular expression, as an instance of the type
 	 *            {@link Filter} or null, if the items' implementations of the
 	 *            type {@link Filterable} have been used instead
 	 */
-	public AppliedFilter(final Pattern regularExpression,
+	public AppliedFilter(final String query, final int flags,
 			final Filter<DataType> filter) {
-		ensureNotNull(regularExpression,
-				"The regular expression may not be null");
-		this.regularExpression = regularExpression;
+		ensureNotNull(query, "The query may not be null");
+		this.query = query;
+		this.flags = flags;
 		this.filter = filter;
 	}
 
 	/**
-	 * Returns the regular expression, which has been used to filter the
-	 * adapter's data.
+	 * Returns the query, which has been used to filter the adapter's data.
 	 * 
-	 * @return The regular expression, which has been used to filter the
-	 *         adapter's data, as an instance of the class {@link Pattern}. The
-	 *         regular expression may not be null
+	 * @return The query, which has been used to filter the adapter's data, as a
+	 *         {@link String}. The query may not be null
 	 */
-	public final Pattern getRegularExpression() {
-		return regularExpression;
+	public final String getQuery() {
+		return query;
+	}
+
+	/**
+	 * Returns the flags, which have been used to filter the adapter's data.
+	 * 
+	 * @return The flags, which have been used to filter the adapter's data, as
+	 *         an {@link Integer} value or 0, if no flags have been used
+	 */
+	public final int getFlags() {
+		return flags;
 	}
 
 	/**
@@ -149,8 +165,10 @@ public class AppliedFilter<DataType> implements DataStructure, Parcelable {
 
 	@Override
 	public final String toString() {
-		return "AppliedFilter [regularExpression="
-				+ regularExpression
+		return "AppliedFilter [query="
+				+ query
+				+ ", flags="
+				+ flags
 				+ (filter != null ? ", filter="
 						+ ClassUtil.getTruncatedName(filter.getClass()) : "")
 				+ "]";
@@ -160,11 +178,9 @@ public class AppliedFilter<DataType> implements DataStructure, Parcelable {
 	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime
-				* result
-				+ ((filter == null) ? 0 : filter.getClass().getName()
-						.hashCode());
-		result = prime * result + regularExpression.pattern().hashCode();
+		result = prime * result + ((filter == null) ? 0 : filter.hashCode());
+		result = prime * result + flags;
+		result = prime * result + query.hashCode();
 		return result;
 	}
 
@@ -180,21 +196,18 @@ public class AppliedFilter<DataType> implements DataStructure, Parcelable {
 		if (filter == null) {
 			if (other.filter != null)
 				return false;
-		} else if (other.filter == null) {
+		} else if (!filter.equals(other.filter))
 			return false;
-		} else if (!filter.getClass().getName()
-				.equals(other.filter.getClass().getName()))
+		if (flags != other.flags)
 			return false;
-		if (!regularExpression.pattern().equals(
-				other.regularExpression.pattern()))
+		if (!query.equals(other.query))
 			return false;
 		return true;
 	}
 
 	@Override
 	public final AppliedFilter<DataType> clone() {
-		return new AppliedFilter<DataType>(Pattern.compile(regularExpression
-				.pattern()), filter);
+		return new AppliedFilter<DataType>(new String(query), flags, filter);
 	}
 
 	@Override
@@ -204,7 +217,8 @@ public class AppliedFilter<DataType> implements DataStructure, Parcelable {
 
 	@Override
 	public final void writeToParcel(final Parcel dest, final int flags) {
-		dest.writeSerializable(regularExpression);
+		dest.writeString(query);
+		dest.writeInt(flags);
 		dest.writeSerializable(filter);
 	}
 

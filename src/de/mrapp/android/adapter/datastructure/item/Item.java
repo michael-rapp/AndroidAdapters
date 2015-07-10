@@ -19,9 +19,6 @@ package de.mrapp.android.adapter.datastructure.item;
 
 import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
-
-import java.util.regex.Pattern;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 import de.mrapp.android.adapter.Filterable;
@@ -219,10 +216,10 @@ public class Item<DataType> implements DataStructure, Parcelable,
 	}
 
 	@Override
-	public final boolean match(final Pattern regularExpression) {
+	public final boolean match(final String query, final int flags) {
 		try {
 			Filterable filterable = (Filterable) getData();
-			return filterable.match(regularExpression);
+			return filterable.match(query, flags);
 		} catch (ClassCastException e) {
 			throw new FilteringNotSupportedException();
 		}
