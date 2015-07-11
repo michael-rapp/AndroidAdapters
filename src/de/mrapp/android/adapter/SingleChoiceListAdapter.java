@@ -82,6 +82,27 @@ public interface SingleChoiceListAdapter<DataType> extends
 	@Override
 	boolean select(DataType item);
 
+	/**
+	 * Sets, whether the adapter's selection should be automatically adapted in
+	 * order to ensure that an item is always selected if possible, or not. For
+	 * example this causes the selection to be adapted, when the currently
+	 * selected item has been removed from the adapter.
+	 * 
+	 * @param adaptSelectionAutomatically
+	 *            True, if the adapter's selection should be automatically
+	 *            adapted, false otherwise
+	 */
+	void adaptSelectionAutomatically(boolean adaptSelectionAutomatically);
+
+	/**
+	 * Returns, whether the adapter's selection is automatically adapted in
+	 * order to ensure that an item is always selected if possible, or not.
+	 * 
+	 * @return True, if the adapter's selection is automatically adapted, false
+	 *         otherwise
+	 */
+	boolean isSelectionAdaptedAutomatically();
+
 	@Override
 	SingleChoiceListAdapter<DataType> clone() throws CloneNotSupportedException;
 
