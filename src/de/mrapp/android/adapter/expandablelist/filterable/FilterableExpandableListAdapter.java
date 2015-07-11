@@ -17,8 +17,6 @@
  */
 package de.mrapp.android.adapter.expandablelist.filterable;
 
-import java.util.regex.Pattern;
-
 import de.mrapp.android.adapter.Filter;
 
 /**
@@ -39,54 +37,58 @@ import de.mrapp.android.adapter.Filter;
 public interface FilterableExpandableListAdapter<GroupType, ChildType> {
 
 	/**
-	 * Filters the adapter's group items by using a specific regular expression,
-	 * if no filter using the same regular expression has been applied yet. If
-	 * the underlying data of the adapter's group items does not implement the
-	 * interface {@link Filterable} a {@link FilteringNotSupportedException}
-	 * will be thrown. This method can be called multiple times without
-	 * resetting the filtering, which causes the filtered group item to be
-	 * filtered once more.
+	 * Filters the adapter's group items by using a specific query, if no filter
+	 * using the same query has been applied yet. If the underlying data of the
+	 * adapter's group items does not implement the interface {@link Filterable}
+	 * a {@link FilteringNotSupportedException} will be thrown. This method can
+	 * be called multiple times without resetting the filtering, which causes
+	 * the filtered group item to be filtered once more.
 	 * 
-	 * @param regularExpression
-	 *            The regular expression, which should be used to filter the
-	 *            group items, as an instance of the class {@link Pattern}. The
-	 *            regular expression may not be null
+	 * @param query
+	 *            The query, which should be used to filter the group items, as
+	 *            a {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags, which should be used to filter the group items, as
+	 *            an {@link Integer} value or 0, if no flags should be used
 	 * @return True, if the filter has been applied, false otherwise
 	 */
-	boolean applyFilterOnGroups(Pattern regularExpression);
+	boolean applyFilterOnGroups(String query, int flags);
 
 	/**
-	 * Filters the adapter's group items by using a specific regular expression
-	 * and a filter, which is used to apply the regular expression on the single
-	 * group items, if no filter using the same regular expression has been
-	 * applied yet. This method can be called multiple times without resetting
-	 * the filtering, which causes the filtered group items to be filtered once
-	 * more.
+	 * Filters the adapter's group items by using a specific query and a filter,
+	 * which is used to apply the query on the single group items, if no filter
+	 * using the same query has been applied yet. This method can be called
+	 * multiple times without resetting the filtering, which causes the filtered
+	 * group items to be filtered once more.
 	 * 
-	 * @param regularExpression
-	 *            The regular expression, which should be used to filter the
-	 *            group items, as an instance of the class {@link Pattern}. The
-	 *            regular expression may not be null
+	 * @param query
+	 *            The query, which should be used to filter the group items, as
+	 *            a {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags, which should be used to filter the group items, as
+	 *            an {@link Integer} value or 0, if no flags should be used
 	 * @param filter
-	 *            The filter, which should be used to apply the given regular
-	 *            expression on the adapter's group items, as an instance of the
-	 *            type {@link Filter}. The filter may not be null
+	 *            The filter, which should be used to apply the given query on
+	 *            the adapter's group items, as an instance of the type
+	 *            {@link Filter}. The filter may not be null
 	 * @return True, if the filter has been applied, false otherwise
 	 */
-	boolean applyFilterOnGroups(Pattern regularExpression,
+	boolean applyFilterOnGroups(String query, int flags,
 			Filter<GroupType> filter);
 
 	/**
 	 * Resets the filter, which has been applied on the adapter to filter its
-	 * group items, which uses a specific regular expression.
+	 * group items, which uses a specific query.
 	 * 
-	 * @param regularExpression
-	 *            The regular expression of the filter, which should be reseted,
-	 *            as an instance of the class {@link Pattern}. The regular
-	 *            expression may not be null
+	 * @param query
+	 *            The query of the filter, which should be reseted, as a
+	 *            {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags of the filter, which should be reseted, as an
+	 *            {@link Integer} value
 	 * @return True, if the filter has been reseted, false otherwise
 	 */
-	boolean resetGroupFilter(Pattern regularExpression);
+	boolean resetGroupFilter(String query, int flags);
 
 	/**
 	 * Resets all applied filters, which have been applied on the adapter's
@@ -104,18 +106,19 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
 	boolean areGroupsFiltered();
 
 	/**
-	 * Returns, whether a filter, which uses a specific regular expression, is
-	 * currently applied on the adapter to filter its group items, or not.
+	 * Returns, whether a filter, which uses a specific query, is currently
+	 * applied on the adapter to filter its group items, or not.
 	 * 
-	 * @param regularExpression
-	 *            The regular expression of the filter, which should be checked,
-	 *            as an instance of the class {@link Pattern}. The regular
-	 *            expression may not be null
-	 * @return True, if a filter, which uses the given regular expression, is
-	 *         currently applied on the adapter to filter its group items, false
-	 *         otherwise
+	 * @param query
+	 *            The query of the filter, which should be checked, as a
+	 *            {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags of the filter, which should be checked, as an
+	 *            {@link Integer} value
+	 * @return True, if a filter, which uses the given query, is currently
+	 *         applied on the adapter to filter its group items, false otherwise
 	 */
-	boolean isFilterAppliedOnGroups(Pattern regularExpression);
+	boolean isFilterAppliedOnGroups(String query, int flags);
 
 	/**
 	 * Returns the number of filters, which are currently applied on the adapter
@@ -127,54 +130,58 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
 	int getNumberOfAppliedGroupFilters();
 
 	/**
-	 * Filters the adapter's child items by using a specific regular expression,
-	 * if no filter using the same regular expression has been applied yet. If
-	 * the underlying data of the adapter's child items does not implement the
-	 * interface {@link Filterable} a {@link FilteringNotSupportedException}
-	 * will be thrown. This method can be called multiple times without
-	 * resetting the filtering, which causes the filtered child item to be
-	 * filtered once more.
+	 * Filters the adapter's child items by using a specific query, if no filter
+	 * using the same query has been applied yet. If the underlying data of the
+	 * adapter's child items does not implement the interface {@link Filterable}
+	 * a {@link FilteringNotSupportedException} will be thrown. This method can
+	 * be called multiple times without resetting the filtering, which causes
+	 * the filtered child item to be filtered once more.
 	 * 
-	 * @param regularExpression
-	 *            The regular expression, which should be used to filter the
-	 *            child items, as an instance of the class {@link Pattern}. The
-	 *            regular expression may not be null
+	 * @param query
+	 *            The query, which should be used to filter the child items, as
+	 *            a {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags, which should be used to filter the child items, as
+	 *            an {@link Integer} value or 0, if no flags should be used
 	 * @return True, if the filter has been applied, false otherwise
 	 */
-	boolean applyFilterOnChildren(Pattern regularExpression);
+	boolean applyFilterOnChildren(String query, int flags);
 
 	/**
-	 * Filters the adapter's child items by using a specific regular expression
-	 * and a filter, which is used to apply the regular expression on the single
-	 * child items, if no filter using the same regular expression has been
-	 * applied yet. This method can be called multiple times without resetting
-	 * the filtering, which causes the filtered child items to be filtered once
-	 * more.
+	 * Filters the adapter's child items by using a specific query and a filter,
+	 * which is used to apply the query on the single child items, if no filter
+	 * using the same query has been applied yet. This method can be called
+	 * multiple times without resetting the filtering, which causes the filtered
+	 * child items to be filtered once more.
 	 * 
-	 * @param regularExpression
-	 *            The regular expression, which should be used to filter the
-	 *            child items, as an instance of the class {@link Pattern}. The
-	 *            regular expression may not be null
+	 * @param query
+	 *            The query, which should be used to filter the child items, as
+	 *            a {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags, which should be used to filter the child items, as
+	 *            an {@link Integer} value or 0, if no flags should be used
 	 * @param filter
-	 *            The filter, which should be used to apply the given regular
-	 *            expression on the adapter's child items, as an instance of the
-	 *            type {@link Filter}. The filter may not be null
+	 *            The filter, which should be used to apply the given query on
+	 *            the adapter's child items, as an instance of the type
+	 *            {@link Filter}. The filter may not be null
 	 * @return True, if the filter has been applied, false otherwise
 	 */
-	boolean applyFilterOnChildren(Pattern regularExpression,
+	boolean applyFilterOnChildren(String query, int flags,
 			Filter<ChildType> filter);
 
 	/**
 	 * Resets the filter, which has been applied on the adapter to filter its
-	 * child items, which uses a specific regular expression.
+	 * child items, which uses a specific query.
 	 * 
-	 * @param regularExpression
-	 *            The regular expression of the filter, which should be reseted,
-	 *            as an instance of the class {@link Pattern}. The regular
-	 *            expression may not be null
+	 * @param query
+	 *            The query of the filter, which should be reseted, as a
+	 *            {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags of the filter, which should be reseted, as an
+	 *            {@link Integer} value
 	 * @return True, if the filter has been reseted, false otherwise
 	 */
-	boolean resetChildFilter(Pattern regularExpression);
+	boolean resetChildFilter(String query, int flags);
 
 	/**
 	 * Resets all applied filters, which have been applied on the adapter's
@@ -192,18 +199,19 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
 	boolean areChildrenFiltered();
 
 	/**
-	 * Returns, whether a filter, which uses a specific regular expression, is
-	 * currently applied on the adapter to filter its child items, or not.
+	 * Returns, whether a filter, which uses a specific query, is currently
+	 * applied on the adapter to filter its child items, or not.
 	 * 
-	 * @param regularExpression
-	 *            The regular expression of the filter, which should be checked,
-	 *            as an instance of the class {@link Pattern}. The regular
-	 *            expression may not be null
-	 * @return True, if a filter, which uses the given regular expression, is
-	 *         currently applied on the adapter to filter its child items, false
-	 *         otherwise
+	 * @param query
+	 *            The query of the filter, which should be checked, as a
+	 *            {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags of the filter, which should be checked, as an
+	 *            {@link Integer} value
+	 * @return True, if a filter, which uses the given query, is currently
+	 *         applied on the adapter to filter its child items, false otherwise
 	 */
-	boolean isFilterAppliedOnChildren(Pattern regularExpression);
+	boolean isFilterAppliedOnChildren(String query, int flags);
 
 	/**
 	 * Returns the number of filters, which are currently applied on the adapter
