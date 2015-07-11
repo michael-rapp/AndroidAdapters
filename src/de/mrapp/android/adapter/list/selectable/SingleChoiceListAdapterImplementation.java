@@ -62,6 +62,12 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * True, if the adapter's selection is adapted automatically, false
+	 * otherwise.
+	 */
+	private boolean adaptSelectionAutomatically;
+
+	/**
 	 * Creates and returns a listener, which allows to select an item, when it
 	 * is clicked by the user.
 	 * 
@@ -98,7 +104,8 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 			@Override
 			public void onItemAdded(final ListAdapter<DataType> adapter,
 					final DataType item, final int index) {
-				if (getNumberOfItems() == 1) {
+				if (isSelectionAdaptedAutomatically()
+						&& getNumberOfItems() == 1) {
 					select(index);
 				}
 			}
@@ -106,7 +113,8 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 			@Override
 			public void onItemRemoved(final ListAdapter<DataType> adapter,
 					final DataType item, final int index) {
-				if (getSelectedIndex() == -1) {
+				if (isSelectionAdaptedAutomatically()
+						&& getSelectedIndex() == -1) {
 					selectNearestEnabledItem(index);
 				}
 			}
@@ -127,7 +135,8 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 			@Override
 			public void onItemEnabled(final ListAdapter<DataType> adapter,
 					final DataType item, final int index) {
-				if (getNumberOfEnabledItems() == 1) {
+				if (isSelectionAdaptedAutomatically()
+						&& getNumberOfEnabledItems() == 1) {
 					select(index);
 				}
 			}
@@ -135,7 +144,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 			@Override
 			public void onItemDisabled(final ListAdapter<DataType> adapter,
 					final DataType item, final int index) {
-				if (isSelected(index)) {
+				if (isSelectionAdaptedAutomatically() && isSelected(index)) {
 					getItems().get(index).setSelected(false);
 					notifyOnItemUnselected(item, index);
 					notifyOnDataSetChanged();
@@ -162,7 +171,8 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 					final String query, final int flags,
 					final Filter<DataType> filter,
 					final Collection<DataType> filteredItems) {
-				if (isFiltered() && getSelectedIndex() == -1 && !isEmpty()) {
+				if (isSelectionAdaptedAutomatically() && isFiltered()
+						&& getSelectedIndex() == -1 && !isEmpty()) {
 					select(0);
 				}
 			}
@@ -298,6 +308,9 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 	 *            A set, which contains the listeners, which should be notified,
 	 *            when an item's selection has been changed or an empty set, if
 	 *            no listeners should be notified
+	 * @param adaptSelectionAutomatically
+	 *            True, if the adapter's selection should be adapted
+	 *            automatically, false otherwise
 	 */
 	protected SingleChoiceListAdapterImplementation(
 			final Context context,
@@ -317,7 +330,8 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 			final Set<ListFilterListener<DataType>> filterListeners,
 			final LinkedHashSet<AppliedFilter<DataType>> appliedFilters,
 			final boolean selectItemOnClick,
-			final Set<ListSelectionListener<DataType>> selectionListeners) {
+			final Set<ListSelectionListener<DataType>> selectionListeners,
+			final boolean adaptSelectionAutomatically) {
 		super(context, inflater, decorator, logLevel, items, allowDuplicates,
 				notifyOnChange, itemClickListeners, adapterListeners,
 				enableStateListeners, numberOfItemStates,
@@ -328,6 +342,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 		addAdapterListener(createAdapterListener());
 		addEnableStateListner(createEnableStateListener());
 		addFilterListener(createFilterListener());
+		adaptSelectionAutomatically(adaptSelectionAutomatically);
 	}
 
 	/**
@@ -359,7 +374,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 				new LinkedHashSet<ListSortingListener<DataType>>(),
 				new LinkedHashSet<ListFilterListener<DataType>>(),
 				new LinkedHashSet<AppliedFilter<DataType>>(), true,
-				new LinkedHashSet<ListSelectionListener<DataType>>());
+				new LinkedHashSet<ListSelectionListener<DataType>>(), true);
 	}
 
 	@Override
@@ -438,6 +453,21 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 	}
 
 	@Override
+	public final void adaptSelectionAutomatically(
+			final boolean adaptSelectionAutomatically) {
+		this.adaptSelectionAutomatically = adaptSelectionAutomatically;
+
+		if (!isEmpty() && getSelectedIndex() == -1) {
+			select(0);
+		}
+	}
+
+	@Override
+	public final boolean isSelectionAdaptedAutomatically() {
+		return adaptSelectionAutomatically;
+	}
+
+	@Override
 	public final String toString() {
 		return "SingleChoiceListAdapter [logLevel=" + getLogLevel()
 				+ ", parameters=" + getParameters() + ", sortingListeners="
@@ -453,7 +483,9 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 				+ ", filterListeners=" + getSelectionListeners()
 				+ ", appliedFilters=" + getAppliedFilters()
 				+ ", selectItemOnClick=" + isItemSelectedOnClick()
-				+ ", selectionListeners=" + getSelectionListeners() + "]";
+				+ ", selectionListeners=" + getSelectionListeners()
+				+ ", adaptSelectionAutomatically="
+				+ isSelectionAdaptedAutomatically() + "]";
 	}
 
 	@Override
@@ -467,7 +499,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 				isItemStateTriggeredOnClick(), getItemStateListeners(),
 				getSortingListeners(), getFilterListeners(),
 				cloneAppliedFilters(), isItemSelectedOnClick(),
-				getSelectionListeners());
+				getSelectionListeners(), isSelectionAdaptedAutomatically());
 	}
 
 }
