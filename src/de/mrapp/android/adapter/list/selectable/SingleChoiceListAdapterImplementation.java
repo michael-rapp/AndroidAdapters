@@ -224,12 +224,10 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 	 */
 	private void selectUnfilteredItem(final int filteredIndex) {
 		if (isFiltered()) {
-			int unfilteredIndex = getUnfilteredIndex(filteredIndex);
-
 			for (int i = 0; i < getUnfilteredItems().size(); i++) {
 				Item<DataType> item = getUnfilteredItems().get(i);
 
-				if (i == unfilteredIndex) {
+				if (i == getUnfilteredIndex(filteredIndex)) {
 					item.setSelected(true);
 				} else {
 					item.setSelected(false);
