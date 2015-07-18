@@ -187,6 +187,39 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 	}
 
 	/**
+	 * Creates and returns a listener, which allows to adapt the unfiltered
+	 * items, when an item has been selected.
+	 * 
+	 * @return The listener, which has been created, as an instance of the type
+	 *         {@link ListSelectionListener}
+	 */
+	private ListSelectionListener<DataType> createSelectionListener() {
+		return new ListSelectionListener<DataType>() {
+
+			@Override
+			public void onItemSelected(
+					final SelectableListAdapter<DataType> adapter,
+					final DataType item, final int index) {
+				if (isFiltered()) {
+					for (int i = 0; i < getUnfilteredItems().size(); i++) {
+						if (i != getUnfilteredIndex(index)) {
+							getUnfilteredItems().get(i).setSelected(false);
+						}
+					}
+				}
+			}
+
+			@Override
+			public void onItemUnselected(
+					final SelectableListAdapter<DataType> adapter,
+					final DataType item, final int index) {
+				return;
+			}
+
+		};
+	}
+
+	/**
 	 * Selects the nearest enabled item, starting from a specific index. The
 	 * item is searched alternately by ascending and descending indices. If no
 	 * enabled item is available, no item will be selected.
@@ -211,28 +244,6 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 
 			ascendingIndex++;
 			descendingIndex--;
-		}
-	}
-
-	/**
-	 * Selects the item of the unfiltered data, which corresponds to a specific
-	 * filtered index, if the adapter's data is currently filtered.
-	 * 
-	 * @param filteredIndex
-	 *            The filtered index, which corresponds to the unfiltered item,
-	 *            which should be selected
-	 */
-	private void selectUnfilteredItem(final int filteredIndex) {
-		if (isFiltered()) {
-			for (int i = 0; i < getUnfilteredItems().size(); i++) {
-				Item<DataType> item = getUnfilteredItems().get(i);
-
-				if (i == getUnfilteredIndex(filteredIndex)) {
-					item.setSelected(true);
-				} else {
-					item.setSelected(false);
-				}
-			}
 		}
 	}
 
@@ -341,6 +352,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 		addEnableStateListner(createEnableStateListener());
 		addFilterListener(createFilterListener());
 		adaptSelectionAutomatically(adaptSelectionAutomatically);
+		addSelectionListener(createSelectionListener());
 	}
 
 	/**
@@ -421,7 +433,6 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 					}
 				}
 
-				selectUnfilteredItem(index);
 				notifyOnDataSetChanged();
 				return true;
 			} else {
