@@ -85,6 +85,39 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	private boolean selectItemOnClick;
 
 	/**
+	 * Creates and returns a listener, which allows to adapt the unfiltered
+	 * items, when an item has been selected or unselected.
+	 * 
+	 * @return The listener, which has been created, as an instance of the type
+	 *         {@link ListSelectionListener}
+	 */
+	private ListSelectionListener<DataType> createSelectionListener() {
+		return new ListSelectionListener<DataType>() {
+
+			@Override
+			public void onItemSelected(
+					final SelectableListAdapter<DataType> adapter,
+					final DataType item, final int index) {
+				if (isFiltered()) {
+					getUnfilteredItems().get(getUnfilteredIndex(index))
+							.setSelected(true);
+				}
+			}
+
+			@Override
+			public void onItemUnselected(
+					final SelectableListAdapter<DataType> adapter,
+					final DataType item, final int index) {
+				if (isFiltered()) {
+					getUnfilteredItems().get(getUnfilteredIndex(index))
+							.setSelected(false);
+				}
+			}
+
+		};
+	}
+
+	/**
 	 * Notifies all listeners, which have been registered to be notified when
 	 * the selection of an item of the adapter has been changed, about an item,
 	 * which has been selected.
@@ -267,6 +300,7 @@ public abstract class AbstractSelectableListAdapter<DataType>
 				filterListeners, appliedFilters);
 		selectItemOnClick(selectItemOnClick);
 		setSelectionListeners(selectionListeners);
+		addSelectionListener(createSelectionListener());
 	}
 
 	@Override
