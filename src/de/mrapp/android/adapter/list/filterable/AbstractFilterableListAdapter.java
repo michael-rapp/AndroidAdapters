@@ -135,16 +135,57 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 				}
 			}
 
+		};
+	}
+
+	/**
+	 * Creates and returns a listener, which allows to adapt the unfiltered
+	 * items, when an item has been enabled or disabled.
+	 * 
+	 * @return The listener, which has been created, as an instance of the type
+	 *         {@link ListEnableStateListener}
+	 */
+	private ListEnableStateListener<DataType> createEnableStateListener() {
+		return new ListEnableStateListener<DataType>() {
+
 			@Override
-			public final int hashCode() {
-				return getClass().hashCode();
+			public void onItemEnabled(final ListAdapter<DataType> adapter,
+					final DataType item, final int index) {
+				if (isFiltered()) {
+					unfilteredItems.get(getUnfilteredIndex(index)).setEnabled(
+							true);
+				}
 			}
 
 			@Override
-			public final boolean equals(final Object obj) {
-				if (getClass() == obj.getClass())
-					return true;
-				return false;
+			public void onItemDisabled(final ListAdapter<DataType> adapter,
+					final DataType item, final int index) {
+				if (isFiltered()) {
+					unfilteredItems.get(getUnfilteredIndex(index)).setEnabled(
+							false);
+				}
+			}
+
+		};
+	}
+
+	/**
+	 * Creates and returns a listener, which allows to adapt the unfiltered
+	 * items, when an item's state has been changed.
+	 * 
+	 * @return The listener, which has been created, as an instance of the type
+	 *         {@link ListItemStateListener}
+	 */
+	private ListItemStateListener<DataType> createItemStateListener() {
+		return new ListItemStateListener<DataType>() {
+
+			@Override
+			public void onItemStateChanged(final ListAdapter<DataType> adapter,
+					final DataType item, final int index, final int state) {
+				if (isFiltered()) {
+					unfilteredItems.get(getUnfilteredIndex(index)).setState(
+							state);
+				}
 			}
 
 		};
@@ -183,18 +224,6 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 						}
 					}
 				}
-			}
-
-			@Override
-			public final int hashCode() {
-				return getClass().hashCode();
-			}
-
-			@Override
-			public final boolean equals(final Object obj) {
-				if (getClass() == obj.getClass())
-					return true;
-				return false;
 			}
 
 		};
@@ -530,6 +559,8 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 		setFilterListeners(filterListeners);
 		setAppliedFilters(appliedFilters);
 		addAdapterListener(createAdapterListener());
+		addEnableStateListner(createEnableStateListener());
+		addItemStateListener(createItemStateListener());
 		addSortingListner(createSortingListener());
 	}
 
