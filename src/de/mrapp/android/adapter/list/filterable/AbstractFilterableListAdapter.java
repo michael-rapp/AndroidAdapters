@@ -65,8 +65,7 @@ import de.mrapp.android.adapter.util.VisibleForTesting;
  * @since 1.0.0
  */
 public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
-		extends AbstractSortableListAdapter<DataType, DecoratorType> implements
-		FilterableListAdapter<DataType> {
+		extends AbstractSortableListAdapter<DataType, DecoratorType>implements FilterableListAdapter<DataType> {
 
 	/**
 	 * A list, which contains the adapter's unfiltered data.
@@ -101,8 +100,8 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	 * adapter's underlying data, within a bundle.
 	 */
 	@VisibleForTesting
-	protected static final String APPLIED_FILTERS_BUNDLE_KEY = AbstractFilterableListAdapter.class
-			.getSimpleName() + "::AppliedFilters";
+	protected static final String APPLIED_FILTERS_BUNDLE_KEY = AbstractFilterableListAdapter.class.getSimpleName()
+			+ "::AppliedFilters";
 
 	/**
 	 * Creates and returns a listener, which allows to adapt the unfiltered
@@ -115,8 +114,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 		return new ListAdapterListener<DataType>() {
 
 			@Override
-			public void onItemAdded(final ListAdapter<DataType> adapter,
-					final DataType item, final int index) {
+			public void onItemAdded(final ListAdapter<DataType> adapter, final DataType item, final int index) {
 				if (isFiltered()) {
 					Item<DataType> addedItem = getItems().get(index);
 					unfilteredItems.add(index, addedItem);
@@ -128,8 +126,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 			}
 
 			@Override
-			public void onItemRemoved(final ListAdapter<DataType> adapter,
-					final DataType item, final int index) {
+			public void onItemRemoved(final ListAdapter<DataType> adapter, final DataType item, final int index) {
 				if (isFiltered()) {
 					unfilteredItems.remove(getUnfilteredIndex(index));
 				}
@@ -149,20 +146,16 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 		return new ListEnableStateListener<DataType>() {
 
 			@Override
-			public void onItemEnabled(final ListAdapter<DataType> adapter,
-					final DataType item, final int index) {
+			public void onItemEnabled(final ListAdapter<DataType> adapter, final DataType item, final int index) {
 				if (isFiltered()) {
-					unfilteredItems.get(getUnfilteredIndex(index)).setEnabled(
-							true);
+					unfilteredItems.get(getUnfilteredIndex(index)).setEnabled(true);
 				}
 			}
 
 			@Override
-			public void onItemDisabled(final ListAdapter<DataType> adapter,
-					final DataType item, final int index) {
+			public void onItemDisabled(final ListAdapter<DataType> adapter, final DataType item, final int index) {
 				if (isFiltered()) {
-					unfilteredItems.get(getUnfilteredIndex(index)).setEnabled(
-							false);
+					unfilteredItems.get(getUnfilteredIndex(index)).setEnabled(false);
 				}
 			}
 
@@ -180,11 +173,10 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 		return new ListItemStateListener<DataType>() {
 
 			@Override
-			public void onItemStateChanged(final ListAdapter<DataType> adapter,
-					final DataType item, final int index, final int state) {
+			public void onItemStateChanged(final ListAdapter<DataType> adapter, final DataType item, final int index,
+					final int state) {
 				if (isFiltered()) {
-					unfilteredItems.get(getUnfilteredIndex(index)).setState(
-							state);
+					unfilteredItems.get(getUnfilteredIndex(index)).setState(state);
 				}
 			}
 
@@ -202,25 +194,21 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 		return new ListSortingListener<DataType>() {
 
 			@Override
-			public void onSorted(final ListAdapter<DataType> adapter,
-					final Collection<DataType> sortedItems, final Order order,
-					final Comparator<DataType> comparator) {
+			public void onSorted(final ListAdapter<DataType> adapter, final Collection<DataType> sortedItems,
+					final Order order, final Comparator<DataType> comparator) {
 				if (isFiltered()) {
 					if (order == Order.ASCENDING) {
 						if (comparator != null) {
-							Collections.sort(unfilteredItems,
-									new ItemComparator<DataType>(comparator));
+							Collections.sort(unfilteredItems, new ItemComparator<DataType>(comparator));
 						} else {
 							Collections.sort(unfilteredItems);
 						}
 					} else {
 						if (comparator != null) {
-							Collections.sort(unfilteredItems, Collections
-									.reverseOrder(new ItemComparator<DataType>(
-											comparator)));
-						} else {
 							Collections.sort(unfilteredItems,
-									Collections.reverseOrder());
+									Collections.reverseOrder(new ItemComparator<DataType>(comparator)));
+						} else {
+							Collections.sort(unfilteredItems, Collections.reverseOrder());
 						}
 					}
 				}
@@ -299,11 +287,9 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	 *            {@link Item}. The item may not be null
 	 * @return True, if the given item matches the filter, false otherwise
 	 */
-	private boolean matchFilter(final AppliedFilter<DataType> filter,
-			final Item<DataType> item) {
+	private boolean matchFilter(final AppliedFilter<DataType> filter, final Item<DataType> item) {
 		if (filter.getFilter() != null) {
-			return filter.getFilter().match(item.getData(), filter.getQuery(),
-					filter.getFlags());
+			return filter.getFilter().match(item.getData(), filter.getQuery(), filter.getFlags());
 		} else {
 			return item.match(filter.getQuery(), filter.getFlags());
 		}
@@ -332,8 +318,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	 *            an instance of the type {@link Collection} or an empty
 	 *            collection, if the adapter does not contain any items
 	 */
-	private void notifyOnApplyFilter(final String query, final int flags,
-			final Filter<DataType> filter,
+	private void notifyOnApplyFilter(final String query, final int flags, final Filter<DataType> filter,
 			final Collection<DataType> filteredItems) {
 		for (ListFilterListener<DataType> listener : filterListeners) {
 			listener.onApplyFilter(this, query, flags, filter, filteredItems);
@@ -356,8 +341,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	 *            an instance of the type {@link Collection} or an empty
 	 *            collection, if the adapter does not contain any items
 	 */
-	private void notifyOnResetFilter(final String query, final int flags,
-			final Collection<DataType> unfilteredItems) {
+	private void notifyOnResetFilter(final String query, final int flags, final Collection<DataType> unfilteredItems) {
 		for (ListFilterListener<DataType> listener : filterListeners) {
 			listener.onResetFilter(this, query, flags, unfilteredItems);
 		}
@@ -385,8 +369,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	 *            {@link Set} or an empty set, if no listeners should be
 	 *            notified
 	 */
-	protected final void setFilterListeners(
-			final Set<ListFilterListener<DataType>> filterListeners) {
+	protected final void setFilterListeners(final Set<ListFilterListener<DataType>> filterListeners) {
 		ensureNotNull(filterListeners, "The listeners may not be null");
 		this.filterListeners = filterListeners;
 	}
@@ -413,8 +396,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	 *            {@link LinkedHashSet} or an empty set, if the adapter's
 	 *            underlying data should not be filtered
 	 */
-	protected final void setAppliedFilters(
-			final LinkedHashSet<AppliedFilter<DataType>> appliedFilters) {
+	protected final void setAppliedFilters(final LinkedHashSet<AppliedFilter<DataType>> appliedFilters) {
 		ensureNotNull(appliedFilters, "The applied filters may not be null");
 		this.appliedFilters = appliedFilters;
 		applyAllFilters();
@@ -469,6 +451,23 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 		}
 
 		return clonedAppliedFilters;
+	}
+
+	@Override
+	protected void onSaveInstanceState(final Bundle savedState) {
+		super.onSaveInstanceState(savedState);
+		savedState.putSerializable(APPLIED_FILTERS_BUNDLE_KEY, getAppliedFilters());
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	protected void onRestoreInstanceState(final Bundle savedState) {
+		super.onRestoreInstanceState(savedState);
+
+		if (savedState.containsKey(APPLIED_FILTERS_BUNDLE_KEY)) {
+			setAppliedFilters(
+					(LinkedHashSet<AppliedFilter<DataType>>) savedState.getSerializable(APPLIED_FILTERS_BUNDLE_KEY));
+		}
 	}
 
 	/**
@@ -535,27 +534,19 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	 *            filter the adapter's underlying data or an empty set, if the
 	 *            adapter's underlying data should not be filtered
 	 */
-	protected AbstractFilterableListAdapter(
-			final Context context,
-			final Inflater inflater,
-			final DecoratorType decorator,
-			final LogLevel logLevel,
-			final ArrayList<Item<DataType>> items,
-			final boolean allowDuplicates,
-			final boolean notifyOnChange,
+	protected AbstractFilterableListAdapter(final Context context, final Inflater inflater,
+			final DecoratorType decorator, final LogLevel logLevel, final ArrayList<Item<DataType>> items,
+			final boolean allowDuplicates, final boolean notifyOnChange,
 			final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
-			final Set<ListEnableStateListener<DataType>> enableStateListeners,
-			final int numberOfItemStates,
-			final boolean triggerItemStateOnClick,
-			final Set<ListItemStateListener<DataType>> itemStateListeners,
+			final Set<ListEnableStateListener<DataType>> enableStateListeners, final int numberOfItemStates,
+			final boolean triggerItemStateOnClick, final Set<ListItemStateListener<DataType>> itemStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final Set<ListFilterListener<DataType>> filterListeners,
 			final LinkedHashSet<AppliedFilter<DataType>> appliedFilters) {
-		super(context, inflater, decorator, logLevel, items, allowDuplicates,
-				notifyOnChange, itemClickListeners, adapterListeners,
-				enableStateListeners, numberOfItemStates,
-				triggerItemStateOnClick, itemStateListeners, sortingListeners);
+		super(context, inflater, decorator, logLevel, items, allowDuplicates, notifyOnChange, itemClickListeners,
+				adapterListeners, enableStateListeners, numberOfItemStates, triggerItemStateOnClick, itemStateListeners,
+				sortingListeners);
 		setFilterListeners(filterListeners);
 		setAppliedFilters(appliedFilters);
 		addAdapterListener(createAdapterListener());
@@ -566,8 +557,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final boolean applyFilter(final String query, final int flags) {
-		AppliedFilter<DataType> appliedFilter = new AppliedFilter<DataType>(
-				query, flags);
+		AppliedFilter<DataType> appliedFilter = new AppliedFilter<DataType>(query, flags);
 		boolean added = appliedFilters.add(appliedFilter);
 
 		if (added) {
@@ -579,32 +569,27 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 			return true;
 		}
 
-		String message = "Filter using the query \"" + query
-				+ "\" not applied, because a filter using the same "
+		String message = "Filter using the query \"" + query + "\" not applied, because a filter using the same "
 				+ "query is already applied on the adapter";
 		getLogger().logDebug(getClass(), message);
 		return false;
 	}
 
 	@Override
-	public final boolean applyFilter(final String query, final int flags,
-			final Filter<DataType> filter) {
-		AppliedFilter<DataType> appliedFilter = new AppliedFilter<DataType>(
-				query, flags, filter);
+	public final boolean applyFilter(final String query, final int flags, final Filter<DataType> filter) {
+		AppliedFilter<DataType> appliedFilter = new AppliedFilter<DataType>(query, flags, filter);
 		boolean added = appliedFilters.add(appliedFilter);
 
 		if (added) {
 			applyFilter(appliedFilter);
 			notifyOnApplyFilter(query, flags, filter, getAllItems());
 			notifyOnDataSetChanged();
-			String message = "Applied filter using the query \"" + query
-					+ "\" and filter \"" + filter + "\"";
+			String message = "Applied filter using the query \"" + query + "\" and filter \"" + filter + "\"";
 			getLogger().logInfo(getClass(), message);
 			return true;
 		}
 
-		String message = "Filter using the query \"" + query
-				+ "\" not applied, because a filter using the same "
+		String message = "Filter using the query \"" + query + "\" not applied, because a filter using the same "
 				+ "query and filter is already applied " + "on the adapter";
 		getLogger().logDebug(getClass(), message);
 		return false;
@@ -612,8 +597,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final boolean resetFilter(final String query, final int flags) {
-		AppliedFilter<DataType> appliedFilter = new AppliedFilter<DataType>(
-				query, flags);
+		AppliedFilter<DataType> appliedFilter = new AppliedFilter<DataType>(query, flags);
 		boolean removed = appliedFilters.remove(appliedFilter);
 
 		if (removed) {
@@ -627,8 +611,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 			getLogger().logInfo(getClass(), message);
 			return true;
 		} else {
-			String message = "Filter with query \"" + query
-					+ "\" not reseted, because no such "
+			String message = "Filter with query \"" + query + "\" not reseted, because no such "
 					+ "filter is applied on the adapter";
 			getLogger().logDebug(getClass(), message);
 			return false;
@@ -637,8 +620,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final void resetAllFilters() {
-		for (AppliedFilter<DataType> appliedFilter : new LinkedHashSet<AppliedFilter<DataType>>(
-				appliedFilters)) {
+		for (AppliedFilter<DataType> appliedFilter : new LinkedHashSet<AppliedFilter<DataType>>(appliedFilters)) {
 			resetFilter(appliedFilter.getQuery(), appliedFilter.getFlags());
 		}
 
@@ -653,8 +635,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final boolean isFilterApplied(final String query, final int flags) {
-		return appliedFilters
-				.contains(new AppliedFilter<DataType>(query, flags));
+		return appliedFilters.contains(new AppliedFilter<DataType>(query, flags));
 	}
 
 	@Override
@@ -663,8 +644,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public final void addFilterListener(
-			final ListFilterListener<DataType> listener) {
+	public final void addFilterListener(final ListFilterListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		filterListeners.add(listener);
 		String message = "Added filter listener \"" + listener + "\"";
@@ -672,34 +652,11 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public final void removeFilterListener(
-			final ListFilterListener<DataType> listener) {
+	public final void removeFilterListener(final ListFilterListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		filterListeners.remove(listener);
 		String message = "Removed filter listener \"" + listener + "\"";
 		getLogger().logDebug(getClass(), message);
-	}
-
-	@Override
-	public void onSaveInstanceState(final Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putSerializable(APPLIED_FILTERS_BUNDLE_KEY,
-				getAppliedFilters());
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public void onRestoreInstanceState(final Bundle savedInstanceState) {
-		super.onRestoreInstanceState(savedInstanceState);
-
-		if (savedInstanceState != null) {
-			if (savedInstanceState.containsKey(APPLIED_FILTERS_BUNDLE_KEY)) {
-				setAppliedFilters((LinkedHashSet<AppliedFilter<DataType>>) savedInstanceState
-						.getSerializable(APPLIED_FILTERS_BUNDLE_KEY));
-			}
-
-			notifyDataSetChanged();
-		}
 	}
 
 	@Override
@@ -725,7 +682,6 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public abstract AbstractSortableListAdapter<DataType, DecoratorType> clone()
-			throws CloneNotSupportedException;
+	public abstract AbstractSortableListAdapter<DataType, DecoratorType> clone() throws CloneNotSupportedException;
 
 }

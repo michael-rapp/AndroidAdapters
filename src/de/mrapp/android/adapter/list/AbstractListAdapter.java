@@ -20,6 +20,7 @@ package de.mrapp.android.adapter.list;
 import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
 import static de.mrapp.android.adapter.util.Condition.ensureAtMaximum;
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+import static de.mrapp.android.adapter.util.Condition.ensureNotEmpty;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -64,8 +65,8 @@ import de.mrapp.android.adapter.util.VisibleForTesting;
  * 
  * @since 1.0.0
  */
-public abstract class AbstractListAdapter<DataType, DecoratorType> extends
-		BaseAdapter implements ListAdapter<DataType> {
+public abstract class AbstractListAdapter<DataType, DecoratorType> extends BaseAdapter
+		implements ListAdapter<DataType> {
 
 	/**
 	 * The constant serial version UID.
@@ -77,24 +78,24 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	 * bundle, if it implements the interface {@link Parcelable}.
 	 */
 	@VisibleForTesting
-	protected static final String PARCELABLE_ITEMS_BUNDLE_KEY = AbstractListAdapter.class
-			.getSimpleName() + "::ParcelableItems";
+	protected static final String PARCELABLE_ITEMS_BUNDLE_KEY = AbstractListAdapter.class.getSimpleName()
+			+ "::ParcelableItems";
 
 	/**
 	 * The key, which is used to store the adapter's underlying data within a
 	 * bundle, if it implements the interface {@link Serializable}.
 	 */
 	@VisibleForTesting
-	protected static final String SERIALIZABLE_ITEMS_BUNDLE_KEY = AbstractListAdapter.class
-			.getSimpleName() + "::SerializableItems";
+	protected static final String SERIALIZABLE_ITEMS_BUNDLE_KEY = AbstractListAdapter.class.getSimpleName()
+			+ "::SerializableItems";
 
 	/**
 	 * The key, which is used to store, whether duplicate items should be
 	 * allowed, or not, within a bundle.
 	 */
 	@VisibleForTesting
-	protected static final String ALLOW_DUPLICATES_BUNDLE_KEY = AbstractListAdapter.class
-			.getSimpleName() + "::AllowDuplicates";
+	protected static final String ALLOW_DUPLICATES_BUNDLE_KEY = AbstractListAdapter.class.getSimpleName()
+			+ "::AllowDuplicates";
 
 	/**
 	 * The key, which is used to store, whether the method
@@ -103,24 +104,22 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	 * bundle.
 	 */
 	@VisibleForTesting
-	protected static final String NOTIFY_ON_CHANGE_BUNDLE_KEY = AbstractListAdapter.class
-			.getSimpleName() + "::NotifyOnChange";
+	protected static final String NOTIFY_ON_CHANGE_BUNDLE_KEY = AbstractListAdapter.class.getSimpleName()
+			+ "::NotifyOnChange";
 
 	/**
 	 * The key, which is used to store the key value pairs, which are stored
 	 * within the adapter, within a bundle.
 	 */
 	@VisibleForTesting
-	protected static final String PARAMETERS_BUNDLE_KEY = AbstractListAdapter.class
-			.getSimpleName() + "::Parameters";
+	protected static final String PARAMETERS_BUNDLE_KEY = AbstractListAdapter.class.getSimpleName() + "::Parameters";
 
 	/**
 	 * The key, which is used to store the log level, which is used for logging,
 	 * within a bundle.
 	 */
 	@VisibleForTesting
-	protected static final String LOG_LEVEL_BUNDLE_KEY = AbstractListAdapter.class
-			.getSimpleName() + "::LogLevel";
+	protected static final String LOG_LEVEL_BUNDLE_KEY = AbstractListAdapter.class.getSimpleName() + "::LogLevel";
 
 	/**
 	 * The context, the adapter belongs to.
@@ -378,8 +377,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	 *             The exception, which is thrown, if cloning is not supported
 	 *             by the adapter's underlying data
 	 */
-	protected final ArrayList<Item<DataType>> cloneItems()
-			throws CloneNotSupportedException {
+	protected final ArrayList<Item<DataType>> cloneItems() throws CloneNotSupportedException {
 		ArrayList<Item<DataType>> clonedItems = new ArrayList<Item<DataType>>();
 
 		for (Item<DataType> item : items) {
@@ -437,6 +435,27 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	}
 
 	/**
+	 * This method is invoked to store the state of the adapter within a bundle.
+	 * 
+	 * @param savedState
+	 *            The bundle, which is used to store the state of the adapter
+	 *            within a bundle, as an instance of the class {@link Bundle}.
+	 *            The bundle may not be null
+	 */
+	protected abstract void onSaveInstanceState(final Bundle savedState);
+
+	/**
+	 * This method is invoked to restore the state of the adapter, which has
+	 * previously been stored within a bundle.
+	 * 
+	 * @param savedState
+	 *            The bundle, which has been previously used to store the state
+	 *            of the adapter, as an instance of the class {@link Bundle}.
+	 *            The bundle may not be null
+	 */
+	protected abstract void onRestoreInstanceState(final Bundle savedState);
+
+	/**
 	 * This method is invoked to apply the decorator, which allows to customize
 	 * the view, which is used to visualize a specific item.
 	 * 
@@ -450,8 +469,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	 *            The index of the item, which should be visualized, as an
 	 *            {@link Integer} value
 	 */
-	protected abstract void applyDecorator(final Context context,
-			final View view, final int index);
+	protected abstract void applyDecorator(final Context context, final View view, final int index);
 
 	/**
 	 * Creates a new adapter, whose underlying data is managed as a list of
@@ -492,22 +510,15 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	 *            instance of the type {@link Set} or an empty set, if no
 	 *            listeners should be notified
 	 */
-	protected AbstractListAdapter(
-			final Context context,
-			final Inflater inflater,
-			final DecoratorType decorator,
-			final LogLevel logLevel,
-			final ArrayList<Item<DataType>> items,
-			final boolean allowDuplicates,
-			final boolean notifyOnChange,
-			final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
+	protected AbstractListAdapter(final Context context, final Inflater inflater, final DecoratorType decorator,
+			final LogLevel logLevel, final ArrayList<Item<DataType>> items, final boolean allowDuplicates,
+			final boolean notifyOnChange, final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
 			final Set<ListAdapterListener<DataType>> adapterListeners) {
 		ensureNotNull(context, "The context may not be null");
 		ensureNotNull(inflater, "The inflater may not be null");
 		ensureNotNull(decorator, "The decorator may not be null");
 		ensureNotNull(items, "The items may not be null");
-		ensureNotNull(itemClickListeners,
-				"The item click listeners may not be null");
+		ensureNotNull(itemClickListeners, "The item click listeners may not be null");
 		ensureNotNull(adapterListeners, "The adapter listeners may not be null");
 		this.context = context;
 		this.inflater = inflater;
@@ -551,8 +562,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	@Override
 	public final void allowDuplicates(final boolean allowDuplicates) {
 		this.allowDuplicates = allowDuplicates;
-		String message = "Duplicate items are now "
-				+ (allowDuplicates ? "allowed" : "disallowed");
+		String message = "Duplicate items are now " + (allowDuplicates ? "allowed" : "disallowed");
 		getLogger().logDebug(getClass(), message);
 	}
 
@@ -564,14 +574,13 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	@Override
 	public final void notifyOnChange(final boolean notifyOnChange) {
 		this.notifyOnChange = notifyOnChange;
-		String message = "Changes of the adapter's underlying data are now "
-				+ (notifyOnChange ? "" : "not ") + "automatically notified";
+		String message = "Changes of the adapter's underlying data are now " + (notifyOnChange ? "" : "not ")
+				+ "automatically notified";
 		getLogger().logDebug(getClass(), message);
 	}
 
 	@Override
-	public final void addItemClickListener(
-			final ListAdapterItemClickListener<DataType> listener) {
+	public final void addItemClickListener(final ListAdapterItemClickListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		itemClickListeners.add(listener);
 		String message = "Added item click listener \"" + listener + "\"";
@@ -579,8 +588,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	}
 
 	@Override
-	public final void removeItemClickListener(
-			final ListAdapterItemClickListener<DataType> listener) {
+	public final void removeItemClickListener(final ListAdapterItemClickListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		itemClickListeners.remove(listener);
 		String message = "Removed item click listener \"" + listener + "\"";
@@ -588,8 +596,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	}
 
 	@Override
-	public final void addAdapterListener(
-			final ListAdapterListener<DataType> listener) {
+	public final void addAdapterListener(final ListAdapterListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		adapterListeners.add(listener);
 		String message = "Added adapter listener \"" + listener + "\"";
@@ -597,8 +604,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	}
 
 	@Override
-	public final void removeAdapterListener(
-			final ListAdapterListener<DataType> listener) {
+	public final void removeAdapterListener(final ListAdapterListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		adapterListeners.remove(listener);
 		String message = "Removed adapter listener \"" + listener + "\"";
@@ -636,8 +642,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	}
 
 	@Override
-	public final boolean addAllItems(final int index,
-			final Collection<DataType> items) {
+	public final boolean addAllItems(final int index, final Collection<DataType> items) {
 		ensureNotNull(items, "The collection may not be null");
 		boolean result = true;
 		int currentIndex = index;
@@ -667,13 +672,11 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	@Override
 	public final DataType replaceItem(final int index, final DataType item) {
 		ensureNotNull(item, "The item may not be null");
-		DataType replacedItem = items.set(index, new Item<DataType>(item))
-				.getData();
+		DataType replacedItem = items.set(index, new Item<DataType>(item)).getData();
 		notifyOnItemRemoved(replacedItem, index);
 		notifyOnItemAdded(item, index);
 		notifyOnDataSetChanged();
-		String message = "Replaced item \"" + replacedItem + "\" at index "
-				+ index + " with item \"" + item + "\"";
+		String message = "Replaced item \"" + replacedItem + "\" at index " + index + " with item \"" + item + "\"";
 		getLogger().logInfo(getClass(), message);
 		return replacedItem;
 	}
@@ -683,8 +686,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		DataType removedItem = items.remove(index).getData();
 		notifyOnItemRemoved(removedItem, index);
 		notifyOnDataSetChanged();
-		String message = "Removed item \"" + removedItem + "\" from index "
-				+ index;
+		String message = "Removed item \"" + removedItem + "\" from index " + index;
 		getLogger().logInfo(getClass(), message);
 		return removedItem;
 	}
@@ -698,14 +700,12 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 			items.remove(index);
 			notifyOnItemRemoved(item, index);
 			notifyOnDataSetChanged();
-			String message = "Removed item \"" + item + "\" from index "
-					+ index;
+			String message = "Removed item \"" + item + "\" from index " + index;
 			getLogger().logInfo(getClass(), message);
 			return true;
 		}
 
-		String message = "Item \"" + item
-				+ "\" not removed, because adapter does not contain item";
+		String message = "Item \"" + item + "\" not removed, because adapter does not contain item";
 		getLogger().logDebug(getClass(), message);
 		return false;
 	}
@@ -872,8 +872,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		ensureNotNull(adapterView, "The adapter view may not be null");
 		this.adapterView = adapterView;
 		this.adapterView.setAdapter(this);
-		getLogger().logDebug(getClass(),
-				"Attached adapter to view \"" + adapterView + "\"");
+		getLogger().logDebug(getClass(), "Attached adapter to view \"" + adapterView + "\"");
 	}
 
 	@Override
@@ -881,20 +880,17 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		if (adapterView != null) {
 			if (adapterView.getAdapter() == this) {
 				adapterView.setAdapter(null);
-				String message = "Detached adapter from view \"" + adapterView
-						+ "\"";
+				String message = "Detached adapter from view \"" + adapterView + "\"";
 				getLogger().logDebug(getClass(), message);
 			} else {
 				String message = "Adapter has not been detached, because the "
-						+ "adapter of the corresponding view has been changed "
-						+ "in the meantime";
+						+ "adapter of the corresponding view has been changed " + "in the meantime";
 				getLogger().logVerbose(getClass(), message);
 			}
 
 			adapterView = null;
 		} else {
-			String message = "Adapter has not been detached, because it has not "
-					+ "been attached to a view yet";
+			String message = "Adapter has not been detached, because it has not " + "been attached to a view yet";
 			getLogger().logVerbose(getClass(), message);
 		}
 	}
@@ -908,20 +904,17 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	public final long getItemId(final int index) {
 		ensureAtLeast(index, 0, "The index must be at least 0");
 		ensureAtMaximum(index, items.size() - 1,
-				isEmpty() ? "The index must be at maximum "
-						+ (items.size() - 1) : "The adapter is empty");
+				isEmpty() ? "The index must be at maximum " + (items.size() - 1) : "The adapter is empty");
 		return index;
 	}
 
 	@Override
-	public final View getView(final int index, final View convertView,
-			final ViewGroup parent) {
+	public final View getView(final int index, final View convertView, final ViewGroup parent) {
 		View view = convertView;
 
 		if (view == null) {
 			view = getInflater().inflate(getContext(), parent, false);
-			String message = "Inflated view to visualize the item at index "
-					+ index;
+			String message = "Inflated view to visualize the item at index " + index;
 			getLogger().logVerbose(getClass(), message);
 		}
 
@@ -931,49 +924,56 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	}
 
 	@Override
-	public void onSaveInstanceState(final Bundle outState) {
+	public final void onSaveInstanceState(final Bundle outState, final String key) {
+		ensureNotNull(outState, "The bundle may not be null");
+		ensureNotNull(key, "The key may not be null");
+		ensureNotEmpty(key, "The key may not be null");
+		Bundle savedState = new Bundle();
+
 		if (isUnderlyingDataParcelable()) {
-			outState.putParcelableArrayList(PARCELABLE_ITEMS_BUNDLE_KEY, items);
+			savedState.putParcelableArrayList(PARCELABLE_ITEMS_BUNDLE_KEY, getItems());
 		} else if (isUnderlyingDataSerializable()) {
-			outState.putSerializable(SERIALIZABLE_ITEMS_BUNDLE_KEY, getItems());
+			savedState.putSerializable(SERIALIZABLE_ITEMS_BUNDLE_KEY, getItems());
 		} else {
 			String message = "The adapter's items can not be stored, because the "
-					+ "underlying data does neither implement the interface \""
-					+ Parcelable.class.getName()
-					+ "\", nor the interface \""
-					+ Serializable.class.getName() + "\"";
+					+ "underlying data does neither implement the interface \"" + Parcelable.class.getName()
+					+ "\", nor the interface \"" + Serializable.class.getName() + "\"";
 			getLogger().logWarn(getClass(), message);
 		}
 
-		outState.putBundle(PARAMETERS_BUNDLE_KEY, getParameters());
-		outState.putBoolean(ALLOW_DUPLICATES_BUNDLE_KEY, areDuplicatesAllowed());
-		outState.putBoolean(NOTIFY_ON_CHANGE_BUNDLE_KEY, isNotifiedOnChange());
-		outState.putInt(LOG_LEVEL_BUNDLE_KEY, getLogLevel().getRank());
+		savedState.putBundle(PARAMETERS_BUNDLE_KEY, getParameters());
+		savedState.putBoolean(ALLOW_DUPLICATES_BUNDLE_KEY, areDuplicatesAllowed());
+		savedState.putBoolean(NOTIFY_ON_CHANGE_BUNDLE_KEY, isNotifiedOnChange());
+		savedState.putInt(LOG_LEVEL_BUNDLE_KEY, getLogLevel().getRank());
+		onSaveInstanceState(savedState);
+		outState.putBundle(key, savedState);
 		getLogger().logDebug(getClass(), "Saved instance state");
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void onRestoreInstanceState(final Bundle savedInstanceState) {
-		if (savedInstanceState != null) {
-			if (savedInstanceState.containsKey(PARCELABLE_ITEMS_BUNDLE_KEY)) {
-				items = savedInstanceState
-						.getParcelableArrayList(PARCELABLE_ITEMS_BUNDLE_KEY);
-			} else if (savedInstanceState
-					.containsKey(SERIALIZABLE_ITEMS_BUNDLE_KEY)) {
-				items = (ArrayList<Item<DataType>>) savedInstanceState
-						.getSerializable(SERIALIZABLE_ITEMS_BUNDLE_KEY);
+	public final void onRestoreInstanceState(final Bundle savedInstanceState, final String key) {
+		ensureNotNull(savedInstanceState, "The bundle may not be null");
+		ensureNotNull(key, "The key may not be null");
+		ensureNotEmpty(key, "The key may not be null");
+		Bundle savedState = savedInstanceState.getBundle(key);
+
+		if (savedState != null) {
+			if (savedState.containsKey(PARCELABLE_ITEMS_BUNDLE_KEY)) {
+				items = savedState.getParcelableArrayList(PARCELABLE_ITEMS_BUNDLE_KEY);
+			} else if (savedState.containsKey(SERIALIZABLE_ITEMS_BUNDLE_KEY)) {
+				items = (ArrayList<Item<DataType>>) savedState.getSerializable(SERIALIZABLE_ITEMS_BUNDLE_KEY);
 			}
 
-			parameters = savedInstanceState.getBundle(PARAMETERS_BUNDLE_KEY);
-			allowDuplicates = savedInstanceState.getBoolean(
-					ALLOW_DUPLICATES_BUNDLE_KEY, false);
-			notifyOnChange = savedInstanceState.getBoolean(
-					NOTIFY_ON_CHANGE_BUNDLE_KEY, true);
-			setLogLevel(LogLevel.fromRank(savedInstanceState.getInt(
-					LOG_LEVEL_BUNDLE_KEY, LogLevel.ALL.getRank())));
+			parameters = savedState.getBundle(PARAMETERS_BUNDLE_KEY);
+			allowDuplicates = savedState.getBoolean(ALLOW_DUPLICATES_BUNDLE_KEY, false);
+			notifyOnChange = savedState.getBoolean(NOTIFY_ON_CHANGE_BUNDLE_KEY, true);
+			setLogLevel(LogLevel.fromRank(savedState.getInt(LOG_LEVEL_BUNDLE_KEY, LogLevel.ALL.getRank())));
+			onRestoreInstanceState(savedState);
 			notifyDataSetChanged();
 			getLogger().logDebug(getClass(), "Restored instance state");
+		} else {
+			getLogger().logWarn(getClass(), "Saved instance state does not contain bundle with key \"" + key + "\"");
 		}
 	}
 
@@ -985,8 +985,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 		result = prime * result + (notifyOnChange ? 1231 : 1237);
 		result = prime * result + items.hashCode();
 		result = prime * result + getLogLevel().getRank();
-		result = prime * result
-				+ ((parameters == null) ? 0 : parameters.hashCode());
+		result = prime * result + ((parameters == null) ? 0 : parameters.hashCode());
 		return result;
 	}
 
@@ -1016,7 +1015,6 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends
 	}
 
 	@Override
-	public abstract AbstractListAdapter<DataType, DecoratorType> clone()
-			throws CloneNotSupportedException;
+	public abstract AbstractListAdapter<DataType, DecoratorType> clone() throws CloneNotSupportedException;
 
 }

@@ -55,8 +55,7 @@ import de.mrapp.android.adapter.util.VisibleForTesting;
  * @since 1.0.0
  */
 public abstract class AbstractSelectableListAdapter<DataType>
-		extends
-		AbstractFilterableListAdapter<DataType, SelectableListDecorator<DataType>>
+		extends AbstractFilterableListAdapter<DataType, SelectableListDecorator<DataType>>
 		implements SelectableListAdapter<DataType> {
 
 	/**
@@ -69,8 +68,8 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	 * it is clicked by the user, or not, within a bundle.
 	 */
 	@VisibleForTesting
-	protected static final String SELECT_ITEM_ON_CLICK_BUNDLE_KEY = AbstractSelectableListAdapter.class
-			.getSimpleName() + "::SelectItemOnClick";
+	protected static final String SELECT_ITEM_ON_CLICK_BUNDLE_KEY = AbstractSelectableListAdapter.class.getSimpleName()
+			+ "::SelectItemOnClick";
 
 	/**
 	 * A set, which contains the listeners, which should be notified, when an
@@ -95,22 +94,18 @@ public abstract class AbstractSelectableListAdapter<DataType>
 		return new ListSelectionListener<DataType>() {
 
 			@Override
-			public void onItemSelected(
-					final SelectableListAdapter<DataType> adapter,
-					final DataType item, final int index) {
+			public void onItemSelected(final SelectableListAdapter<DataType> adapter, final DataType item,
+					final int index) {
 				if (isFiltered()) {
-					getUnfilteredItems().get(getUnfilteredIndex(index))
-							.setSelected(true);
+					getUnfilteredItems().get(getUnfilteredIndex(index)).setSelected(true);
 				}
 			}
 
 			@Override
-			public void onItemUnselected(
-					final SelectableListAdapter<DataType> adapter,
-					final DataType item, final int index) {
+			public void onItemUnselected(final SelectableListAdapter<DataType> adapter, final DataType item,
+					final int index) {
 				if (isFiltered()) {
-					getUnfilteredItems().get(getUnfilteredIndex(index))
-							.setSelected(false);
+					getUnfilteredItems().get(getUnfilteredIndex(index)).setSelected(false);
 				}
 			}
 
@@ -130,8 +125,7 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	 *            {@link Integer} value. The index must be between 0 and the
 	 *            value of the method <code>size():int</code> - 1
 	 */
-	protected final void notifyOnItemSelected(final DataType item,
-			final int index) {
+	protected final void notifyOnItemSelected(final DataType item, final int index) {
 		for (ListSelectionListener<DataType> listener : selectionListeners) {
 			listener.onItemSelected(this, item, index);
 		}
@@ -150,8 +144,7 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	 *            {@link Integer} value. The index must be between 0 and the
 	 *            value of the method <code>size():int</code> - 1
 	 */
-	protected final void notifyOnItemUnselected(final DataType item,
-			final int index) {
+	protected final void notifyOnItemUnselected(final DataType item, final int index) {
 		for (ListSelectionListener<DataType> listener : selectionListeners) {
 			listener.onItemUnselected(this, item, index);
 		}
@@ -179,28 +172,34 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	 *            {@link Set} or an empty set, if no listeners should be
 	 *            notified
 	 */
-	protected final void setSelectionListeners(
-			final Set<ListSelectionListener<DataType>> selectionListeners) {
-		ensureNotNull(selectionListeners,
-				"The selection listeners may not be null");
+	protected final void setSelectionListeners(final Set<ListSelectionListener<DataType>> selectionListeners) {
+		ensureNotNull(selectionListeners, "The selection listeners may not be null");
 		this.selectionListeners = selectionListeners;
 	}
 
 	@Override
-	protected final void applyDecorator(final Context context, final View view,
-			final int index) {
+	protected final void applyDecorator(final Context context, final View view, final int index) {
 		DataType item = getItem(index);
 		boolean enabled = isEnabled(index);
 		int itemState = getItemState(index);
 		boolean filtered = isFiltered();
 		boolean selected = isSelected(index);
-		getDecorator().applyDecorator(context, this, view, item, index,
-				enabled, itemState, filtered, selected);
-		String message = "Applied decorator \"" + getDecorator()
-				+ "\" using arguments: Item=[" + item + ", index=" + index
-				+ ", enabled=" + enabled + ", itemState=" + itemState
-				+ ", filtered=" + filtered + "]";
+		getDecorator().applyDecorator(context, this, view, item, index, enabled, itemState, filtered, selected);
+		String message = "Applied decorator \"" + getDecorator() + "\" using arguments: Item=[" + item + ", index="
+				+ index + ", enabled=" + enabled + ", itemState=" + itemState + ", filtered=" + filtered + "]";
 		getLogger().logVerbose(getClass(), message);
+	}
+
+	@Override
+	protected void onSaveInstanceState(final Bundle savedState) {
+		super.onSaveInstanceState(savedState);
+		savedState.putBoolean(SELECT_ITEM_ON_CLICK_BUNDLE_KEY, isItemSelectedOnClick());
+	}
+
+	@Override
+	protected void onRestoreInstanceState(final Bundle savedState) {
+		super.onRestoreInstanceState(savedState);
+		selectItemOnClick = savedState.getBoolean(SELECT_ITEM_ON_CLICK_BUNDLE_KEY, true);
 	}
 
 	/**
@@ -274,38 +273,27 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	 *            when an item's selection has been changed or an empty set, if
 	 *            no listeners should be notified
 	 */
-	protected AbstractSelectableListAdapter(
-			final Context context,
-			final Inflater inflater,
-			final SelectableListDecorator<DataType> decorator,
-			final LogLevel logLevel,
-			final ArrayList<Item<DataType>> items,
-			final boolean allowDuplicates,
-			final boolean notifyOnChange,
+	protected AbstractSelectableListAdapter(final Context context, final Inflater inflater,
+			final SelectableListDecorator<DataType> decorator, final LogLevel logLevel,
+			final ArrayList<Item<DataType>> items, final boolean allowDuplicates, final boolean notifyOnChange,
 			final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
-			final Set<ListEnableStateListener<DataType>> enableStateListeners,
-			final int numberOfItemStates,
-			final boolean triggerItemStateOnClick,
-			final Set<ListItemStateListener<DataType>> itemStateListeners,
+			final Set<ListEnableStateListener<DataType>> enableStateListeners, final int numberOfItemStates,
+			final boolean triggerItemStateOnClick, final Set<ListItemStateListener<DataType>> itemStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final Set<ListFilterListener<DataType>> filterListeners,
-			final LinkedHashSet<AppliedFilter<DataType>> appliedFilters,
-			final boolean selectItemOnClick,
+			final LinkedHashSet<AppliedFilter<DataType>> appliedFilters, final boolean selectItemOnClick,
 			final Set<ListSelectionListener<DataType>> selectionListeners) {
-		super(context, inflater, decorator, logLevel, items, allowDuplicates,
-				notifyOnChange, itemClickListeners, adapterListeners,
-				enableStateListeners, numberOfItemStates,
-				triggerItemStateOnClick, itemStateListeners, sortingListeners,
-				filterListeners, appliedFilters);
+		super(context, inflater, decorator, logLevel, items, allowDuplicates, notifyOnChange, itemClickListeners,
+				adapterListeners, enableStateListeners, numberOfItemStates, triggerItemStateOnClick, itemStateListeners,
+				sortingListeners, filterListeners, appliedFilters);
 		selectItemOnClick(selectItemOnClick);
 		setSelectionListeners(selectionListeners);
 		addSelectionListener(createSelectionListener());
 	}
 
 	@Override
-	public final void addSelectionListener(
-			final ListSelectionListener<DataType> listener) {
+	public final void addSelectionListener(final ListSelectionListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		selectionListeners.add(listener);
 		String message = "Added selection listener \"" + listener + "\"";
@@ -313,8 +301,7 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	}
 
 	@Override
-	public final void removeSelectionListener(
-			final ListSelectionListener<DataType> listener) {
+	public final void removeSelectionListener(final ListSelectionListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		selectionListeners.remove(listener);
 		String message = "Removed selection listener \"" + listener + "\"";
@@ -381,27 +368,8 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	@Override
 	public final void selectItemOnClick(final boolean selectItemOnClick) {
 		this.selectItemOnClick = selectItemOnClick;
-		String message = "Items are now " + (selectItemOnClick ? "" : "not ")
-				+ "selected on click";
+		String message = "Items are now " + (selectItemOnClick ? "" : "not ") + "selected on click";
 		getLogger().logDebug(getClass(), message);
-	}
-
-	@Override
-	public final void onSaveInstanceState(final Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putBoolean(SELECT_ITEM_ON_CLICK_BUNDLE_KEY,
-				isItemSelectedOnClick());
-	}
-
-	@Override
-	public final void onRestoreInstanceState(final Bundle savedInstanceState) {
-		super.onRestoreInstanceState(savedInstanceState);
-
-		if (savedInstanceState != null) {
-			selectItemOnClick = savedInstanceState.getBoolean(
-					SELECT_ITEM_ON_CLICK_BUNDLE_KEY, true);
-			notifyDataSetChanged();
-		}
 	}
 
 	@Override
@@ -427,7 +395,6 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	}
 
 	@Override
-	public abstract AbstractSelectableListAdapter<DataType> clone()
-			throws CloneNotSupportedException;
+	public abstract AbstractSelectableListAdapter<DataType> clone() throws CloneNotSupportedException;
 
 }
