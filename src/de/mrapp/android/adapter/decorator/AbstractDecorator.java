@@ -18,6 +18,8 @@
 package de.mrapp.android.adapter.decorator;
 
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+
+import android.annotation.SuppressLint;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -61,8 +63,7 @@ public abstract class AbstractDecorator {
 	 *            True, if the item, which is visualized by the view group, is
 	 *            currently selected, false otherwise
 	 */
-	private void adaptChildrenViewStates(final ViewGroup parent,
-			final boolean enabled, final boolean selected) {
+	private void adaptChildrenViewStates(final ViewGroup parent, final boolean enabled, final boolean selected) {
 		for (int i = 0; i < parent.getChildCount(); i++) {
 			View child = parent.getChildAt(i);
 			adaptViewState(child, enabled, selected);
@@ -84,14 +85,11 @@ public abstract class AbstractDecorator {
 	 *            True , if the item, which is visualized by the view, is
 	 *            currently selected, false otherwise
 	 */
-	protected final void adaptViewState(final View view, final boolean enabled,
-			final boolean selected) {
+	@SuppressLint("NewApi")
+	protected final void adaptViewState(final View view, final boolean enabled, final boolean selected) {
 		if (isViewStateAdapted()) {
 			view.setEnabled(enabled);
-
-			if (!view.isClickable()) {
-				view.setSelected(selected);
-			}
+			view.setSelected(selected);
 
 			if (areChildrenViewStatesAdapted() && view instanceof ViewGroup) {
 				ViewGroup viewGroup = (ViewGroup) view;
@@ -171,8 +169,7 @@ public abstract class AbstractDecorator {
 			currentParentView.setTag(viewHolder);
 		}
 
-		return (ViewType) viewHolder.getView(currentParentView, viewId,
-				currentViewType);
+		return (ViewType) viewHolder.getView(currentParentView, viewId, currentViewType);
 	}
 
 	/**
