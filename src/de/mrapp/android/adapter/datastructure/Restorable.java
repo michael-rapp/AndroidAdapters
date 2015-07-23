@@ -31,24 +31,35 @@ import android.os.Bundle;
 public interface Restorable {
 
 	/**
-	 * This method may be called to store the state of the adapter before an
-	 * activity is killed.
+	 * This method may be called to store the state of the adapter within a
+	 * bundle. For example, this method may be used to store the state of the
+	 * adapter before an activity is destroyed in its
+	 * <code>onSaveInstanceState</code> method.
 	 * 
 	 * @param outState
-	 *            The bundle, which is used to store the saved state, as an
-	 *            instance of the class {@link Bundle}. The bundle may not be
+	 *            The bundle, which should be used to store the saved state, as
+	 *            an instance of the class {@link Bundle}. The bundle may not be
 	 *            null
+	 * @param key
+	 *            The key, which should be used to store the saved state, as a
+	 *            {@link String}. The string may neither be null, nor null
 	 */
-	void onSaveInstanceState(Bundle outState);
+	void onSaveInstanceState(Bundle outState, String key);
 
 	/**
 	 * This method may be called to restore a previously saved state of the
-	 * adapter after an activity has been reinitialized.
+	 * adapter after an activity has been reinitialized. For example, this
+	 * method may be used to restore the state of the adapter within an
+	 * activity's <code>onRestoreInstanceState</code> method.
 	 * 
 	 * @param savedInstanceState
 	 *            The bundle, which contains the previously saved state, as an
 	 *            instance of the class {@link Bundle}. The bundle may be null
+	 * @param key
+	 *            The key, which previously has been used to store the saved
+	 *            state, as a {@link String}. The key may neither be null, nor
+	 *            null
 	 */
-	void onRestoreInstanceState(Bundle savedInstanceState);
+	void onRestoreInstanceState(Bundle savedInstanceState, String key);
 
 }

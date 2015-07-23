@@ -57,8 +57,7 @@ import de.mrapp.android.adapter.util.VisibleForTesting;
  * @since 1.0.0
  */
 public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
-		extends AbstractEnableStateListAdapter<DataType, DecoratorType>
-		implements ItemStateListAdapter<DataType> {
+		extends AbstractEnableStateListAdapter<DataType, DecoratorType>implements ItemStateListAdapter<DataType> {
 
 	/**
 	 * The constant serial version UID.
@@ -70,8 +69,8 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 	 * may have, within a bundle.
 	 */
 	@VisibleForTesting
-	protected static final String NUMBER_OF_ITEM_STATES_BUNDLE_KEY = AbstractItemStateListAdapter.class
-			.getSimpleName() + "::NumberOfItemStates";
+	protected static final String NUMBER_OF_ITEM_STATES_BUNDLE_KEY = AbstractItemStateListAdapter.class.getSimpleName()
+			+ "::NumberOfItemStates";
 
 	/**
 	 * The key, which is used to store, whether the state of an item should be
@@ -109,11 +108,9 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 		return new ListAdapterItemClickListener<DataType>() {
 
 			@Override
-			public void onItemClicked(final ListAdapter<DataType> adapter,
-					final DataType item, final int index) {
+			public void onItemClicked(final ListAdapter<DataType> adapter, final DataType item, final int index) {
 				if (isItemStateTriggeredOnClick()) {
-					getLogger().logVerbose(getClass(),
-							"Triggering item state on click...");
+					getLogger().logVerbose(getClass(), "Triggering item state on click...");
 					triggerItemState(index);
 				}
 			}
@@ -137,8 +134,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 	 *            {@link Integer} value. The state must be between 0 and the
 	 *            value of the method <code>getNumberOfStates():int</code> - 1
 	 */
-	private void notifyOnItemStateChanged(final DataType item, final int index,
-			final int state) {
+	private void notifyOnItemStateChanged(final DataType item, final int index, final int state) {
 		for (ListItemStateListener<DataType> listener : itemStateListeners) {
 			listener.onItemStateChanged(this, item, index, state);
 		}
@@ -166,11 +162,21 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 	 *            {@link Set} or an empty set, if no listeners should be
 	 *            notified
 	 */
-	protected final void setItemStateListeners(
-			final Set<ListItemStateListener<DataType>> itemStateListeners) {
-		ensureNotNull(itemStateListeners,
-				"The item state listeners may not be null");
+	protected final void setItemStateListeners(final Set<ListItemStateListener<DataType>> itemStateListeners) {
+		ensureNotNull(itemStateListeners, "The item state listeners may not be null");
 		this.itemStateListeners = itemStateListeners;
+	}
+
+	@Override
+	protected void onSaveInstanceState(final Bundle savedState) {
+		savedState.putInt(NUMBER_OF_ITEM_STATES_BUNDLE_KEY, getNumberOfItemStates());
+		savedState.putBoolean(TRIGGER_ITEM_STATE_ON_CLICK_BUNDLE_KEY, isItemStateTriggeredOnClick());
+	}
+
+	@Override
+	protected void onRestoreInstanceState(final Bundle savedState) {
+		numberOfItemStates = savedState.getInt(NUMBER_OF_ITEM_STATES_BUNDLE_KEY, 1);
+		triggerItemStateOnClick = savedState.getBoolean(TRIGGER_ITEM_STATE_ON_CLICK_BUNDLE_KEY, false);
 	}
 
 	/**
@@ -225,23 +231,15 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 	 *            when the state of an item has been changed or an empty set, if
 	 *            no listeners should be notified
 	 */
-	protected AbstractItemStateListAdapter(
-			final Context context,
-			final Inflater inflater,
-			final DecoratorType decorator,
-			final LogLevel logLevel,
-			final ArrayList<Item<DataType>> items,
-			final boolean allowDuplicates,
-			final boolean notifyOnChange,
+	protected AbstractItemStateListAdapter(final Context context, final Inflater inflater,
+			final DecoratorType decorator, final LogLevel logLevel, final ArrayList<Item<DataType>> items,
+			final boolean allowDuplicates, final boolean notifyOnChange,
 			final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
-			final Set<ListEnableStateListener<DataType>> enableStateListeners,
-			final int numberOfItemStates,
-			final boolean triggerItemStateOnClick,
-			final Set<ListItemStateListener<DataType>> itemStateListeners) {
-		super(context, inflater, decorator, logLevel, items, allowDuplicates,
-				notifyOnChange, itemClickListeners, adapterListeners,
-				enableStateListeners);
+			final Set<ListEnableStateListener<DataType>> enableStateListeners, final int numberOfItemStates,
+			final boolean triggerItemStateOnClick, final Set<ListItemStateListener<DataType>> itemStateListeners) {
+		super(context, inflater, decorator, logLevel, items, allowDuplicates, notifyOnChange, itemClickListeners,
+				adapterListeners, enableStateListeners);
 		setNumberOfItemStates(numberOfItemStates);
 		triggerItemStateOnClick(triggerItemStateOnClick);
 		setItemStateListeners(itemStateListeners);
@@ -255,8 +253,8 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final void setNumberOfItemStates(final int numberOfItemStates) {
-		ensureAtLeast(numberOfItemStates, 1, "The number of items states "
-				+ "must be at least 1", IllegalArgumentException.class);
+		ensureAtLeast(numberOfItemStates, 1, "The number of items states " + "must be at least 1",
+				IllegalArgumentException.class);
 		this.numberOfItemStates = numberOfItemStates;
 		String message = "Set number of item state to " + numberOfItemStates;
 		getLogger().logDebug(getClass(), message);
@@ -296,10 +294,10 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final int setItemState(final int index, final int state) {
-		ensureAtLeast(state, minItemState(), "The state must be at minimum "
-				+ minItemState(), IllegalArgumentException.class);
-		ensureAtMaximum(state, maxItemState(), "The state must be at maximum "
-				+ maxItemState(), IllegalArgumentException.class);
+		ensureAtLeast(state, minItemState(), "The state must be at minimum " + minItemState(),
+				IllegalArgumentException.class);
+		ensureAtMaximum(state, maxItemState(), "The state must be at maximum " + maxItemState(),
+				IllegalArgumentException.class);
 		Item<DataType> item = getItems().get(index);
 
 		if (item.isEnabled()) {
@@ -308,22 +306,18 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 				item.setState(state);
 				notifyOnItemStateChanged(item.getData(), index, state);
 				notifyOnDataSetChanged();
-				String message = "Changed state of item \"" + item.getData()
-						+ "\" at index " + index + " from " + previousState
-						+ " to " + state;
+				String message = "Changed state of item \"" + item.getData() + "\" at index " + index + " from "
+						+ previousState + " to " + state;
 				getLogger().logInfo(getClass(), message);
 				return previousState;
 			} else {
-				String message = "The state of item \"" + item.getData()
-						+ "\" at index " + index
-						+ " has not been changed, because state " + state
-						+ " is already set";
+				String message = "The state of item \"" + item.getData() + "\" at index " + index
+						+ " has not been changed, because state " + state + " is already set";
 				getLogger().logDebug(getClass(), message);
 				return -1;
 			}
 		} else {
-			String message = "The state of item \"" + item.getData()
-					+ "\" at index " + index
+			String message = "The state of item \"" + item.getData() + "\" at index " + index
 					+ " has not been changed, because the item is disabled";
 			getLogger().logDebug(getClass(), message);
 			return -1;
@@ -344,10 +338,10 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final boolean setAllItemStates(final int state) {
-		ensureAtLeast(state, minItemState(), "The state must be at least "
-				+ minItemState(), IllegalArgumentException.class);
-		ensureAtMaximum(state, maxItemState(), "The state must be at maximum "
-				+ maxItemState(), IllegalArgumentException.class);
+		ensureAtLeast(state, minItemState(), "The state must be at least " + minItemState(),
+				IllegalArgumentException.class);
+		ensureAtMaximum(state, maxItemState(), "The state must be at maximum " + maxItemState(),
+				IllegalArgumentException.class);
 		boolean result = true;
 
 		for (int i = 0; i < getNumberOfItems(); i++) {
@@ -479,18 +473,14 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public final void triggerItemStateOnClick(
-			final boolean triggerItemStateOnClick) {
+	public final void triggerItemStateOnClick(final boolean triggerItemStateOnClick) {
 		this.triggerItemStateOnClick = triggerItemStateOnClick;
-		String message = "Item states are now "
-				+ (triggerItemStateOnClick ? "" : "not ")
-				+ "triggered on click";
+		String message = "Item states are now " + (triggerItemStateOnClick ? "" : "not ") + "triggered on click";
 		getLogger().logDebug(getClass(), message);
 	}
 
 	@Override
-	public final void addItemStateListener(
-			final ListItemStateListener<DataType> listener) {
+	public final void addItemStateListener(final ListItemStateListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		itemStateListeners.add(listener);
 		String message = "Added item state listener \"" + listener + "\"";
@@ -498,34 +488,11 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public final void removeItemStateListener(
-			final ListItemStateListener<DataType> listener) {
+	public final void removeItemStateListener(final ListItemStateListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		itemStateListeners.remove(listener);
 		String message = "Removed item state listener \"" + listener + "\"";
 		getLogger().logDebug(getClass(), message);
-	}
-
-	@Override
-	public void onSaveInstanceState(final Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putInt(NUMBER_OF_ITEM_STATES_BUNDLE_KEY,
-				getNumberOfItemStates());
-		outState.putBoolean(TRIGGER_ITEM_STATE_ON_CLICK_BUNDLE_KEY,
-				isItemStateTriggeredOnClick());
-	}
-
-	@Override
-	public void onRestoreInstanceState(final Bundle savedInstanceState) {
-		super.onRestoreInstanceState(savedInstanceState);
-
-		if (savedInstanceState != null) {
-			numberOfItemStates = savedInstanceState.getInt(
-					NUMBER_OF_ITEM_STATES_BUNDLE_KEY, 1);
-			triggerItemStateOnClick = savedInstanceState.getBoolean(
-					TRIGGER_ITEM_STATE_ON_CLICK_BUNDLE_KEY, false);
-			notifyDataSetChanged();
-		}
 	}
 
 	@Override
@@ -554,7 +521,6 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public abstract AbstractItemStateListAdapter<DataType, DecoratorType> clone()
-			throws CloneNotSupportedException;
+	public abstract AbstractItemStateListAdapter<DataType, DecoratorType> clone() throws CloneNotSupportedException;
 
 }
