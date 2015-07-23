@@ -20,6 +20,7 @@ package de.mrapp.android.adapter.decorator;
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -90,6 +91,10 @@ public abstract class AbstractDecorator {
 		if (isViewStateAdapted()) {
 			view.setEnabled(enabled);
 			view.setSelected(selected);
+
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+				view.setActivated(selected);
+			}
 
 			if (areChildrenViewStatesAdapted() && view instanceof ViewGroup) {
 				ViewGroup viewGroup = (ViewGroup) view;
