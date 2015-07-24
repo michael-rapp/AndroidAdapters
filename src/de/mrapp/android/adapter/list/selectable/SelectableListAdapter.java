@@ -102,35 +102,6 @@ public interface SelectableListAdapter<DataType> extends ListAdapter<DataType> {
 	int getNumberOfUnselectedItems();
 
 	/**
-	 * Selects the item, which belongs to a specific index, if it is currently
-	 * enabled. Depending on the adapter's behavior, this may affect the
-	 * selections of other items as well.
-	 * 
-	 * @param index
-	 *            The index of the item, which should be selected, as an
-	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfItems():int</code> - 1,
-	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
-	 * @return True, if the item, which belongs to the given index, has been
-	 *         selected, false otherwise
-	 */
-	boolean select(int index);
-
-	/**
-	 * Selects a specific item, if it is currently enabled. Depending on the
-	 * adapter's behavior, this may affect the selections of other items as
-	 * well.
-	 * 
-	 * @param item
-	 *            The item, which should be selected, as an instance of the
-	 *            generic type DataType. The item may not be null. If the item
-	 *            does not belong to the adapter, a
-	 *            {@link NoSuchElementException} will be thrown
-	 * @return True, if the given item has been selected, false otherwise
-	 */
-	boolean select(DataType item);
-
-	/**
 	 * Returns, whether an item is selected, when it is clicked by the user, or
 	 * not.
 	 * 

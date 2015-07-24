@@ -152,7 +152,6 @@ public interface MultipleChoiceListAdapter<DataType> extends SelectableListAdapt
 	 * @return True, if the selection of the item, which belongs to the given
 	 *         index, has been changed, false otherwise
 	 */
-	@Override
 	boolean select(int index);
 
 	/**
@@ -166,7 +165,6 @@ public interface MultipleChoiceListAdapter<DataType> extends SelectableListAdapt
 	 * @return True, if the selection of the given item has been changed, false
 	 *         otherwise
 	 */
-	@Override
 	boolean select(DataType item);
 
 	/**
