@@ -17,13 +17,16 @@
  */
 package de.mrapp.android.adapter;
 
+import java.util.NoSuchElementException;
+
+import android.widget.AbsListView;
 import de.mrapp.android.adapter.list.selectable.SelectableListAdapter;
 
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a list
  * of arbitrary items, of which only one single item can be selected at once,
  * must implement. Such an adapter's purpose is to provide the underlying data
- * for visualization using a {@link ListView} widget.
+ * for visualization using a {@link AbsListView} widget.
  * 
  * @param <DataType>
  *            The type of the adapter's underlying data
@@ -32,8 +35,7 @@ import de.mrapp.android.adapter.list.selectable.SelectableListAdapter;
  * 
  * @since 1.0.0
  */
-public interface SingleChoiceListAdapter<DataType> extends
-		SelectableListAdapter<DataType> {
+public interface SingleChoiceListAdapter<DataType> extends SelectableListAdapter<DataType> {
 
 	/**
 	 * Returns the index of the currently selected item.

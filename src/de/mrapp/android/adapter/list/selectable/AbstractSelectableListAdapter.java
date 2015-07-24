@@ -27,6 +27,7 @@ import java.util.Set;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AbsListView;
 import de.mrapp.android.adapter.SelectableListDecorator;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.item.Item;
@@ -45,7 +46,7 @@ import de.mrapp.android.adapter.util.VisibleForTesting;
  * An abstract base class for all adapters, whose underlying data is managed as
  * a list of arbitrary items, of which one or multiple items can be selected.
  * Such an adapter's purpose is to provide the underlying data for visualization
- * using a {@link ListView} widget.
+ * using a {@link AbsListView} widget.
  * 
  * @param <DataType>
  *            The type of the adapter's underlying data

@@ -19,11 +19,13 @@ package de.mrapp.android.adapter.list.enablestate;
 
 import java.util.Collection;
 
+import android.widget.AbsListView;
+
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a list
  * of arbitrary items, which may be enabled or disabled, must implement. Such an
  * adapter's purpose is to provide the underlying data for visualization using a
- * {@link ListView} widget.
+ * {@link AbsListView} widget.
  * 
  * @param <DataType>
  *            The type of the adapter's underlying data
