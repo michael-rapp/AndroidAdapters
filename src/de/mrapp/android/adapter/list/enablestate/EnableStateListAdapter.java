@@ -64,33 +64,6 @@ public interface EnableStateListAdapter<DataType> {
 	boolean isEnabled(DataType item);
 
 	/**
-	 * Returns, whether the item, which belongs to a specific index, is
-	 * currently disabled, or not.
-	 * 
-	 * @param index
-	 *            The index of the item, whose enable state should be checked,
-	 *            as an {@link Integer} value. The index must be between 0 and
-	 *            the value of the method <code>getNumberOfItems():int</code> -
-	 *            1, otherwise an {@link IndexOutOfBoundsException} will be
-	 *            thrown
-	 * @return True, if the item, which belongs to the given index, is currently
-	 *         disabled, false otherwise
-	 */
-	boolean isDisabled(int index);
-
-	/**
-	 * Returns, whether a specific item is currently disabled, or not.
-	 * 
-	 * @param item
-	 *            The item, whose enable state should be checked, as an instance
-	 *            of the generic type DataType. The item may not be null. If the
-	 *            item does not belong to the adapter, a
-	 *            {@link NoSuchElementException} will be thrown
-	 * @return True, if the given item is currently disabled, false otherwise
-	 */
-	boolean isDisabled(DataType item);
-
-	/**
 	 * Returns the index of the first enabled item.
 	 * 
 	 * @return The index of the first enabled item, as an {@link Integer} value

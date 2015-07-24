@@ -193,16 +193,6 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public final boolean isDisabled(final int index) {
-		return !isEnabled(index);
-	}
-
-	@Override
-	public final boolean isDisabled(final DataType item) {
-		return !isEnabled(item);
-	}
-
-	@Override
 	public final int getFirstEnabledIndex() {
 		for (int i = 0; i < getNumberOfItems(); i++) {
 			if (getItems().get(i).isEnabled()) {
