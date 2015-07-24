@@ -347,42 +347,27 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public final void enable(final int index) {
+	public final void setEnabled(final int index, final boolean enabled) {
 		Item<DataType> item = getItems().get(index);
-		item.setEnabled(true);
-		notifyOnItemEnabled(item.getData(), index);
+		item.setEnabled(enabled);
+
+		if (enabled) {
+			notifyOnItemEnabled(item.getData(), index);
+		} else {
+			notifyOnItemDisabled(item.getData(), index);
+		}
+
 		notifyOnDataSetChanged();
 		String message = "Enabled item \"" + item + "\" at index " + index;
 		getLogger().logInfo(getClass(), message);
 	}
 
 	@Override
-	public final void enable(final DataType item) {
+	public final void setEnabled(final DataType item, final boolean enabled) {
 		int index = indexOf(item);
 
 		if (index != -1) {
-			enable(index);
-		} else {
-			throw new NoSuchElementException();
-		}
-	}
-
-	@Override
-	public final void disable(final int index) {
-		Item<DataType> item = getItems().get(index);
-		item.setEnabled(false);
-		notifyOnItemDisabled(item.getData(), index);
-		notifyOnDataSetChanged();
-		String message = "Disabled item \"" + item + "\" at index " + index;
-		getLogger().logInfo(getClass(), message);
-	}
-
-	@Override
-	public final void disable(final DataType item) {
-		int index = indexOf(item);
-
-		if (index != -1) {
-			disable(index);
+			setEnabled(index, enabled);
 		} else {
 			throw new NoSuchElementException();
 		}
@@ -391,10 +376,10 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 	@Override
 	public final boolean triggerEnableState(final int index) {
 		if (isEnabled(index)) {
-			disable(index);
+			setEnabled(index, false);
 			return false;
 		} else {
-			enable(index);
+			setEnabled(index, true);
 			return true;
 		}
 	}
@@ -411,16 +396,9 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public final void enableAll() {
+	public final void setAllEnabled(final boolean enabled) {
 		for (int i = 0; i < getNumberOfItems(); i++) {
-			enable(i);
-		}
-	}
-
-	@Override
-	public final void disableAll() {
-		for (int i = 0; i < getNumberOfItems(); i++) {
-			disable(i);
+			setEnabled(i, enabled);
 		}
 	}
 
