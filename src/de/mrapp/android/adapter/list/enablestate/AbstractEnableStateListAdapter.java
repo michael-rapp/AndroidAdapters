@@ -410,7 +410,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public final void addEnableStateListner(final ListEnableStateListener<DataType> listener) {
+	public final void addEnableStateListener(final ListEnableStateListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		enableStateListeners.add(listener);
 		String message = "Added enable state listener \"" + listener + "\"";

@@ -551,7 +551,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 		setFilterListeners(filterListeners);
 		setAppliedFilters(appliedFilters);
 		addAdapterListener(createAdapterListener());
-		addEnableStateListner(createEnableStateListener());
+		addEnableStateListener(createEnableStateListener());
 		addItemStateListener(createItemStateListener());
 		addSortingListner(createSortingListener());
 	}

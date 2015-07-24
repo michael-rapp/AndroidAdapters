@@ -193,7 +193,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends AbstractS
 				adapterListeners, enableStateListeners, numberOfItemStates, triggerItemStateOnClick, itemStateListeners,
 				sortingListeners, filterListeners, appliedFilters, selectItemOnClick, selectionListeners);
 		addItemClickListener(createItemClickListener());
-		addEnableStateListner(createEnableStateListener());
+		addEnableStateListener(createEnableStateListener());
 	}
 
 	/**
