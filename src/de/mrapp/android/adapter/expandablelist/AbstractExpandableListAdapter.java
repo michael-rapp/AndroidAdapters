@@ -512,6 +512,36 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	}
 
 	/**
+	 * Adds a new listener, which should be notified, when an item of the
+	 * adapter has been clicked by the user, anymore.
+	 * 
+	 * @param listener
+	 *            The listener, which should be added, as an instance of the
+	 *            type {@link ExpandableListAdapterItemClickListener}. The
+	 *            listener may not be null
+	 */
+	protected final void addItemClickListener(
+			final ExpandableListAdapterItemClickListener<GroupType, ChildType> listener) {
+		ensureNotNull(listener, "The listener may not be null");
+		itemClickListeners.add(listener);
+	}
+
+	/**
+	 * Removes a specific listener, which should not be notified, when an item
+	 * of the adapter has been clicked by the user.
+	 * 
+	 * @param listener
+	 *            The listener, which should be removed, as an instance of the
+	 *            type {@link ExpandableListAdapterItemClickListener}. The
+	 *            listener may not be null
+	 */
+	protected final void removeItemClickListener(
+			final ExpandableListAdapterItemClickListener<GroupType, ChildType> listener) {
+		ensureNotNull(listener, "The listener may not be null");
+		itemClickListeners.remove(listener);
+	}
+	
+	/**
 	 * Returns a set, which contains the listeners, which should be notified,
 	 * when an item of the adapter has been clicked by the user.
 	 * 
@@ -711,24 +741,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	public final void setParameters(final Bundle parameters) {
 		groupAdapter.setParameters(parameters);
 		String message = "Set parameters to \"" + parameters + "\"";
-		getLogger().logDebug(getClass(), message);
-	}
-
-	@Override
-	public final void addItemClickListener(
-			final ExpandableListAdapterItemClickListener<GroupType, ChildType> listener) {
-		ensureNotNull(listener, "The listener may not be null");
-		itemClickListeners.add(listener);
-		String message = "Added item click listener \"" + listener + "\"";
-		getLogger().logDebug(getClass(), message);
-	}
-
-	@Override
-	public final void removeItemClickListener(
-			final ExpandableListAdapterItemClickListener<GroupType, ChildType> listener) {
-		ensureNotNull(listener, "The listener may not be null");
-		itemClickListeners.remove(listener);
-		String message = "Removed item click listener \"" + listener + "\"";
 		getLogger().logDebug(getClass(), message);
 	}
 

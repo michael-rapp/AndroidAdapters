@@ -20,9 +20,9 @@ package de.mrapp.android.adapter;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.ListIterator;
+import java.util.NoSuchElementException;
 
 import android.widget.ExpandableListView;
-import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemClickListener;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterListener;
 import de.mrapp.android.adapter.expandablelist.ExpansionListener;
 
@@ -41,8 +41,8 @@ import de.mrapp.android.adapter.expandablelist.ExpansionListener;
  * 
  * @since 1.0.0
  */
-public interface ExpandableListAdapter<GroupType, ChildType> extends
-		Adapter<ExpandableListView>, android.widget.ExpandableListAdapter {
+public interface ExpandableListAdapter<GroupType, ChildType>
+		extends Adapter<ExpandableListView>, android.widget.ExpandableListAdapter {
 
 	/**
 	 * Returns, whether duplicate group items are allowed, or not.
@@ -686,8 +686,7 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	 * @return True, if all child items have been added to the group, false
 	 *         otherwise
 	 */
-	boolean addAllChildren(int groupIndex, int index,
-			Collection<ChildType> children);
+	boolean addAllChildren(int groupIndex, int index, Collection<ChildType> children);
 
 	/**
 	 * Adds all child items, which are contained by a specific collection, to a
@@ -713,8 +712,7 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	 * @return True, if all child items have been added to the group, false
 	 *         otherwise
 	 */
-	boolean addAllChildren(GroupType group, int index,
-			Collection<ChildType> children);
+	boolean addAllChildren(GroupType group, int index, Collection<ChildType> children);
 
 	/**
 	 * Adds all child items, which are contained by a specific array, to the
@@ -979,8 +977,7 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	 * @return True, if the child item has been removed from the group, false
 	 *         otherwise
 	 */
-	boolean removeChild(boolean removeEmptyGroup, int groupIndex,
-			ChildType child);
+	boolean removeChild(boolean removeEmptyGroup, int groupIndex, ChildType child);
 
 	/**
 	 * Removes a specific child item from a specific group. The group, the child
@@ -1018,8 +1015,7 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	 * @return True, if the child item has been removed from the group, false
 	 *         otherwise
 	 */
-	boolean removeChild(boolean removeEmptyGroup, GroupType group,
-			ChildType child);
+	boolean removeChild(boolean removeEmptyGroup, GroupType group, ChildType child);
 
 	/**
 	 * Removes all child items, which are contained by a specific collection,
@@ -1050,8 +1046,7 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	 * @return True, if all child items have been removed from the adapter,
 	 *         false otherwise
 	 */
-	boolean removeAllChildren(boolean removeEmptyGroups,
-			Collection<ChildType> children);
+	boolean removeAllChildren(boolean removeEmptyGroups, Collection<ChildType> children);
 
 	/**
 	 * Removes all child items, which are contained by a specific collection,
@@ -1095,8 +1090,7 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	 * @return True, if all child items have been removed from the group, false
 	 *         otherwise
 	 */
-	boolean removeAllChildren(boolean removeEmptyGroup, int groupIndex,
-			Collection<ChildType> children);
+	boolean removeAllChildren(boolean removeEmptyGroup, int groupIndex, Collection<ChildType> children);
 
 	/**
 	 * Removes all child items, which are contained by a specific collection,
@@ -1138,8 +1132,7 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	 * @return True, if all child items have been removed from the group, false
 	 *         otherwise
 	 */
-	boolean removeAllChildren(boolean removeEmptyGroup, GroupType group,
-			Collection<ChildType> children);
+	boolean removeAllChildren(boolean removeEmptyGroup, GroupType group, Collection<ChildType> children);
 
 	/**
 	 * Removes all child items, which are contained by a specific array, from
@@ -1214,8 +1207,7 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	 * @return True, if all child items have been removed from the group, false
 	 *         otherwise
 	 */
-	boolean removeAllChildren(boolean removeEmptyGroup, int groupIndex,
-			ChildType... children);
+	boolean removeAllChildren(boolean removeEmptyGroup, int groupIndex, ChildType... children);
 
 	/**
 	 * Removes all child items, which are contained by a specific array, from a
@@ -1257,8 +1249,7 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	 * @return True, if all child items have been removed from the group, false
 	 *         otherwise
 	 */
-	boolean removeAllChildren(boolean removeEmptyGroup, GroupType group,
-			ChildType... children);
+	boolean removeAllChildren(boolean removeEmptyGroup, GroupType group, ChildType... children);
 
 	/**
 	 * Removes all child items from the adapter, except of the items, which are
@@ -1284,8 +1275,7 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	 *            be retained, as an instance of the type {@link Collection} or
 	 *            an empty collection, if no child items should be retained
 	 */
-	void retainAllChildren(boolean removeEmptyGroups,
-			Collection<ChildType> children);
+	void retainAllChildren(boolean removeEmptyGroups, Collection<ChildType> children);
 
 	/**
 	 * Removes all child items from the group, which belongs to a specific
@@ -1324,8 +1314,7 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	 *            be retained, as an instance of the type {@link Collection} or
 	 *            an empty collection, if no child items should be retained
 	 */
-	void retainAllChildren(boolean removeEmptyGroup, int groupIndex,
-			Collection<ChildType> children);
+	void retainAllChildren(boolean removeEmptyGroup, int groupIndex, Collection<ChildType> children);
 
 	/**
 	 * Removes all child items from a specific group, except of the items, which
@@ -1361,8 +1350,7 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	 *            be retained, as an instance of the type {@link Collection} or
 	 *            an empty collection, if no child items should be retained
 	 */
-	void retainAllChildren(boolean removeEmptyGroup, GroupType group,
-			Collection<ChildType> children);
+	void retainAllChildren(boolean removeEmptyGroup, GroupType group, Collection<ChildType> children);
 
 	/**
 	 * Removes all child items from the adapter, except of the items, which are
@@ -1427,8 +1415,7 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	 *            retained, as an array of the generic type ChildType or an
 	 *            empty collection, if no child items should be retained
 	 */
-	void retainAllChildren(boolean removeEmptyGroup, int groupIndex,
-			ChildType... children);
+	void retainAllChildren(boolean removeEmptyGroup, int groupIndex, ChildType... children);
 
 	/**
 	 * Removes all child items from a specific group, except of the items, which
@@ -1464,8 +1451,7 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	 *            retained, as an array of the generic type ChildType or an
 	 *            empty collection, if no child items should be retained
 	 */
-	void retainAllChildren(boolean removeEmptyGroup, GroupType group,
-			ChildType... children);
+	void retainAllChildren(boolean removeEmptyGroup, GroupType group, ChildType... children);
 
 	/**
 	 * Removes all child items from the adapter.
@@ -2467,30 +2453,6 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	void expandGroupOnClick(boolean expandGroupOnClick);
 
 	/**
-	 * Adds a new listener, which should be notified, when an item of the
-	 * adapter has been clicked by the user, anymore.
-	 * 
-	 * @param listener
-	 *            The listener, which should be added, as an instance of the
-	 *            type {@link ExpandableListAdapterItemClickListener}. The
-	 *            listener may not be null
-	 */
-	void addItemClickListener(
-			ExpandableListAdapterItemClickListener<GroupType, ChildType> listener);
-
-	/**
-	 * Removes a specific listener, which should not be notified, when an item
-	 * of the adapter has been clicked by the user.
-	 * 
-	 * @param listener
-	 *            The listener, which should be removed, as an instance of the
-	 *            type {@link ExpandableListAdapterItemClickListener}. The
-	 *            listener may not be null
-	 */
-	void removeItemClickListener(
-			ExpandableListAdapterItemClickListener<GroupType, ChildType> listener);
-
-	/**
 	 * Adds a new listener, which should be notified, when the adapter's
 	 * underlying data has been modified.
 	 * 
@@ -2499,8 +2461,7 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	 *            type {@link ExpandableListAdapterListener}. The listener may
 	 *            not be null
 	 */
-	void addAdapterListener(
-			ExpandableListAdapterListener<GroupType, ChildType> listener);
+	void addAdapterListener(ExpandableListAdapterListener<GroupType, ChildType> listener);
 
 	/**
 	 * Removes a specific listener, which should not be notified, when the
@@ -2511,8 +2472,7 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	 *            type {@link ExpandableListAdapterListener}. The listener may
 	 *            not be null
 	 */
-	void removeAdapterListener(
-			ExpandableListAdapterListener<GroupType, ChildType> listener);
+	void removeAdapterListener(ExpandableListAdapterListener<GroupType, ChildType> listener);
 
 	/**
 	 * Adds a specific listener, which should be notified, when a group item has
@@ -2532,7 +2492,6 @@ public interface ExpandableListAdapter<GroupType, ChildType> extends
 	 *            The listener, which should be removed, as an instance of the
 	 *            class {@link ExpansionListener}. The listener may not be null
 	 */
-	void removeExpansionListener(
-			ExpansionListener<GroupType, ChildType> listener);
+	void removeExpansionListener(ExpansionListener<GroupType, ChildType> listener);
 
 }
