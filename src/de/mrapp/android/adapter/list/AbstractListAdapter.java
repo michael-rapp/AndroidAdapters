@@ -388,6 +388,34 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends BaseA
 	}
 
 	/**
+	 * Adds a new listener, which should be notified, when an item of the
+	 * adapter has been clicked by the user.
+	 * 
+	 * @param listener
+	 *            The listener, which should be added, as an instance of the
+	 *            type {@link ListAdapterItemClickListener}. The listener may
+	 *            not be null
+	 */
+	protected final void addItemClickListener(final ListAdapterItemClickListener<DataType> listener) {
+		ensureNotNull(listener, "The listener may not be null");
+		itemClickListeners.add(listener);
+	}
+
+	/**
+	 * Removes a specific listener, which should not be notified, when an item
+	 * of the adapter has been clicked by the user, anymore.
+	 * 
+	 * @param listener
+	 *            The listener, which should be removed, as an instance of the
+	 *            type {@link ListAdapterItemClickListener}. The listener may
+	 *            not be null
+	 */
+	protected final void removeItemClickListener(final ListAdapterItemClickListener<DataType> listener) {
+		ensureNotNull(listener, "The listener may not be null");
+		itemClickListeners.remove(listener);
+	}
+
+	/**
 	 * Returns a set, which contains the listeners, which should be notified,
 	 * when an item of the adapter has been clicked by the user.
 	 * 
@@ -576,22 +604,6 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends BaseA
 		this.notifyOnChange = notifyOnChange;
 		String message = "Changes of the adapter's underlying data are now " + (notifyOnChange ? "" : "not ")
 				+ "automatically notified";
-		getLogger().logDebug(getClass(), message);
-	}
-
-	@Override
-	public final void addItemClickListener(final ListAdapterItemClickListener<DataType> listener) {
-		ensureNotNull(listener, "The listener may not be null");
-		itemClickListeners.add(listener);
-		String message = "Added item click listener \"" + listener + "\"";
-		getLogger().logDebug(getClass(), message);
-	}
-
-	@Override
-	public final void removeItemClickListener(final ListAdapterItemClickListener<DataType> listener) {
-		ensureNotNull(listener, "The listener may not be null");
-		itemClickListeners.remove(listener);
-		String message = "Removed item click listener \"" + listener + "\"";
 		getLogger().logDebug(getClass(), message);
 	}
 
