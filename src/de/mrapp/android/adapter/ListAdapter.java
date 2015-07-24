@@ -22,7 +22,6 @@ import java.util.Iterator;
 import java.util.ListIterator;
 
 import android.widget.AbsListView;
-import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.EnableStateListAdapter;
 import de.mrapp.android.adapter.list.filterable.FilterableListAdapter;
@@ -41,10 +40,9 @@ import de.mrapp.android.adapter.list.sortable.SortableListAdapter;
  * 
  * @since 1.0.0
  */
-public interface ListAdapter<DataType> extends Adapter<AbsListView>,
-		android.widget.ListAdapter, EnableStateListAdapter<DataType>,
-		ItemStateListAdapter<DataType>, SortableListAdapter<DataType>,
-		FilterableListAdapter<DataType> {
+public interface ListAdapter<DataType>
+		extends Adapter<AbsListView>, android.widget.ListAdapter, EnableStateListAdapter<DataType>,
+		ItemStateListAdapter<DataType>, SortableListAdapter<DataType>, FilterableListAdapter<DataType> {
 
 	/**
 	 * Returns, whether duplicate items are allowed, or not.
@@ -425,28 +423,6 @@ public interface ListAdapter<DataType> extends Adapter<AbsListView>,
 	 * @return True, if the adapter is empty, false otherwise
 	 */
 	boolean isEmpty();
-
-	/**
-	 * Adds a new listener, which should be notified, when an item of the
-	 * adapter has been clicked by the user.
-	 * 
-	 * @param listener
-	 *            The listener, which should be added, as an instance of the
-	 *            type {@link ListAdapterItemClickListener}. The listener may
-	 *            not be null
-	 */
-	void addItemClickListener(ListAdapterItemClickListener<DataType> listener);
-
-	/**
-	 * Removes a specific listener, which should nmot be notified, when an item
-	 * of the adapter has been clicked by the user, anymore.
-	 * 
-	 * @param listener
-	 *            The listener, which should be removed, as an instance of the
-	 *            type {@link ListAdapterItemClickListener}. The listener may
-	 *            not be null
-	 */
-	void removeItemClickListener(ListAdapterItemClickListener<DataType> listener);
 
 	/**
 	 * Adds a new listener, which should be notified, when the adapter's
