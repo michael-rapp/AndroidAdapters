@@ -540,7 +540,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		ensureNotNull(listener, "The listener may not be null");
 		itemClickListeners.remove(listener);
 	}
-	
+
 	/**
 	 * Returns a set, which contains the listeners, which should be notified,
 	 * when an item of the adapter has been clicked by the user.
