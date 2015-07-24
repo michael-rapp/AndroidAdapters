@@ -261,7 +261,7 @@ public interface EnableStateListAdapter<DataType> {
 	 *            type {@link ListEnableStateListener}. The listener may not be
 	 *            null
 	 */
-	void addEnableStateListner(ListEnableStateListener<DataType> listener);
+	void addEnableStateListener(ListEnableStateListener<DataType> listener);
 
 	/**
 	 * Removes a specific listener, which should not be notified, when an item

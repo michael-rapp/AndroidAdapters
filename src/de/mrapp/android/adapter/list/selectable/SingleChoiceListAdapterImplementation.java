@@ -321,7 +321,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends AbstractSel
 				sortingListeners, filterListeners, appliedFilters, selectItemOnClick, selectionListeners);
 		addItemClickListener(createItemClickListener());
 		addAdapterListener(createAdapterListener());
-		addEnableStateListner(createEnableStateListener());
+		addEnableStateListener(createEnableStateListener());
 		addFilterListener(createFilterListener());
 		adaptSelectionAutomatically(adaptSelectionAutomatically);
 		addSelectionListener(createSelectionListener());
