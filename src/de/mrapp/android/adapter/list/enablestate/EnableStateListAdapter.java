@@ -182,48 +182,31 @@ public interface EnableStateListAdapter<DataType> {
 	int getNumberOfDisabledItems();
 
 	/**
-	 * Enables the item, which belongs to a specific index.
+	 * Sets the enable state of the item, which belongs to a specific index.
 	 * 
 	 * @param index
-	 *            The index of the item, which should be enabled, as an
+	 *            The index of the item, whose enable state should be set, as an
 	 *            {@link Integer} value. The index must be between 0 and the
 	 *            value of the method <code>getNumberOfItems():int</code> - 1,
 	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
+	 * @param enabled
+	 *            True, if the item, which belongs to the given index, should be
+	 *            enabled, false otherwise
 	 */
-	void enable(int index);
+	void setEnabled(int index, boolean enabled);
 
 	/**
-	 * Enables a specific item.
+	 * Sets the enable state of a specific item.
 	 * 
 	 * @param item
 	 *            The item, which should be enabled, as an instance of the
 	 *            generic type DataType. The item may not be null. If the item
 	 *            does not belong to the adapter, a
 	 *            {@link NoSuchElementException} will be thrown
+	 * @param enabled
+	 *            True, if the given item should be enabled, false otherwise
 	 */
-	void enable(DataType item);
-
-	/**
-	 * Disables the item, which belongs to a specific index.
-	 * 
-	 * @param index
-	 *            The index of the item, which should be disabled, as an
-	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfItems():int</code> - 1,
-	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
-	 */
-	void disable(int index);
-
-	/**
-	 * Disables a specific item.
-	 * 
-	 * @param item
-	 *            The item, which should be disabled, as an instance of the
-	 *            generic type DataType. The item may not be null. If the item
-	 *            does not belong to the adapter, a
-	 *            {@link NoSuchElementException} will be thrown
-	 */
-	void disable(DataType item);
+	void setEnabled(DataType item, boolean enabled);
 
 	/**
 	 * Triggers the enable state of the item, which belongs to a specific index.
@@ -256,14 +239,12 @@ public interface EnableStateListAdapter<DataType> {
 	boolean triggerEnableState(DataType item);
 
 	/**
-	 * Enables all items.
+	 * Sets the enable states of all items.
+	 * 
+	 * @param enabled
+	 *            True, if all items should be enabled, false otherwise
 	 */
-	void enableAll();
-
-	/**
-	 * Disables all items.
-	 */
-	void disableAll();
+	void setAllEnabled(boolean enabled);
 
 	/**
 	 * Triggers the enable states of all items. This causes an item to become
