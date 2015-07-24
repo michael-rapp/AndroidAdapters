@@ -326,16 +326,6 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	}
 
 	@Override
-	public final boolean isUnselected(final int index) {
-		return !isSelected(index);
-	}
-
-	@Override
-	public final boolean isUnselected(final DataType item) {
-		return !isSelected(item);
-	}
-
-	@Override
 	public final int getNumberOfSelectedItems() {
 		int result = 0;
 
