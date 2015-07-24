@@ -17,13 +17,14 @@
  */
 package de.mrapp.android.adapter.list.filterable;
 
+import android.widget.AbsListView;
 import de.mrapp.android.adapter.Filter;
 
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a
  * filterable list of arbitrary items, must implement. Such an adapter's purpose
- * is to provide the underlying data for visualization using a {@link ListView}
- * widget.
+ * is to provide the underlying data for visualization using a
+ * {@link AbsListView} widget.
  * 
  * @param <DataType>
  *            The type of the adapter's underlying data

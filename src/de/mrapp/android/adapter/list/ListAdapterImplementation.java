@@ -23,6 +23,7 @@ import java.util.Set;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.AbsListView;
 import de.mrapp.android.adapter.ListDecorator;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.item.Item;
@@ -37,7 +38,7 @@ import de.mrapp.android.adapter.logging.LogLevel;
 /**
  * An adapter, whose underlying data is managed as a list of arbitrary items.
  * Such an adapter's purpose is to provide the underlying data for visualization
- * using a {@link ListView} widget.
+ * using a {@link AbsListView} widget.
  * 
  * @param <DataType>
  *            The type of the adapter's underlying data
@@ -46,8 +47,8 @@ import de.mrapp.android.adapter.logging.LogLevel;
  * 
  * @since 1.0.0
  */
-public class ListAdapterImplementation<DataType> extends
-		AbstractFilterableListAdapter<DataType, ListDecorator<DataType>> {
+public class ListAdapterImplementation<DataType>
+		extends AbstractFilterableListAdapter<DataType, ListDecorator<DataType>> {
 
 	/**
 	 * The constant serial version UID.
@@ -55,18 +56,14 @@ public class ListAdapterImplementation<DataType> extends
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	protected final void applyDecorator(final Context context, final View view,
-			final int index) {
+	protected final void applyDecorator(final Context context, final View view, final int index) {
 		DataType item = getItem(index);
 		boolean enabled = isEnabled(index);
 		int itemState = getItemState(index);
 		boolean filtered = isFiltered();
-		getDecorator().applyDecorator(context, this, view, item, index,
-				enabled, itemState, filtered);
-		String message = "Applied decorator \"" + getDecorator()
-				+ "\" using arguments: Item=[" + item + ", index=" + index
-				+ ", enabled=" + enabled + ", itemState=" + itemState
-				+ ", filtered=" + filtered + "]";
+		getDecorator().applyDecorator(context, this, view, item, index, enabled, itemState, filtered);
+		String message = "Applied decorator \"" + getDecorator() + "\" using arguments: Item=[" + item + ", index="
+				+ index + ", enabled=" + enabled + ", itemState=" + itemState + ", filtered=" + filtered + "]";
 		getLogger().logVerbose(getClass(), message);
 	}
 
@@ -134,28 +131,19 @@ public class ListAdapterImplementation<DataType> extends
 	 *            filter the adapter's underlying data or an empty set, if the
 	 *            adapter's underlying data should not be filtered
 	 */
-	protected ListAdapterImplementation(
-			final Context context,
-			final Inflater inflater,
-			final ListDecorator<DataType> decorator,
-			final LogLevel logLevel,
-			final ArrayList<Item<DataType>> items,
-			final boolean allowDuplicates,
-			final boolean notifyOnChange,
+	protected ListAdapterImplementation(final Context context, final Inflater inflater,
+			final ListDecorator<DataType> decorator, final LogLevel logLevel, final ArrayList<Item<DataType>> items,
+			final boolean allowDuplicates, final boolean notifyOnChange,
 			final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
-			final Set<ListEnableStateListener<DataType>> enableStateListeners,
-			final int numberOfItemStates,
-			final boolean triggerItemStateOnClick,
-			final Set<ListItemStateListener<DataType>> itemStateListeners,
+			final Set<ListEnableStateListener<DataType>> enableStateListeners, final int numberOfItemStates,
+			final boolean triggerItemStateOnClick, final Set<ListItemStateListener<DataType>> itemStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final Set<ListFilterListener<DataType>> filterListeners,
 			final LinkedHashSet<AppliedFilter<DataType>> appliedFilters) {
-		super(context, inflater, decorator, logLevel, items, allowDuplicates,
-				notifyOnChange, itemClickListeners, adapterListeners,
-				enableStateListeners, numberOfItemStates,
-				triggerItemStateOnClick, itemStateListeners, sortingListeners,
-				filterListeners, appliedFilters);
+		super(context, inflater, decorator, logLevel, items, allowDuplicates, notifyOnChange, itemClickListeners,
+				adapterListeners, enableStateListeners, numberOfItemStates, triggerItemStateOnClick, itemStateListeners,
+				sortingListeners, filterListeners, appliedFilters);
 	}
 
 	/**
@@ -175,46 +163,34 @@ public class ListAdapterImplementation<DataType> extends
 	 *            of the adapter, as an instance of the type
 	 *            {@link ListDecorator}. The decorator may not be null
 	 */
-	public ListAdapterImplementation(final Context context,
-			final Inflater inflater, final ListDecorator<DataType> decorator) {
-		this(context, inflater, decorator, LogLevel.ALL,
-				new ArrayList<Item<DataType>>(), false, true,
+	public ListAdapterImplementation(final Context context, final Inflater inflater,
+			final ListDecorator<DataType> decorator) {
+		this(context, inflater, decorator, LogLevel.ALL, new ArrayList<Item<DataType>>(), false, true,
 				new LinkedHashSet<ListAdapterItemClickListener<DataType>>(),
 				new LinkedHashSet<ListAdapterListener<DataType>>(),
-				new LinkedHashSet<ListEnableStateListener<DataType>>(), 1,
-				false, new LinkedHashSet<ListItemStateListener<DataType>>(),
-				new LinkedHashSet<ListSortingListener<DataType>>(),
-				new LinkedHashSet<ListFilterListener<DataType>>(),
+				new LinkedHashSet<ListEnableStateListener<DataType>>(), 1, false,
+				new LinkedHashSet<ListItemStateListener<DataType>>(),
+				new LinkedHashSet<ListSortingListener<DataType>>(), new LinkedHashSet<ListFilterListener<DataType>>(),
 				new LinkedHashSet<AppliedFilter<DataType>>());
 	}
 
 	@Override
 	public final String toString() {
-		return "ListAdapter [logLevel=" + getLogLevel() + ", parameters="
-				+ getParameters() + ", sortingListeners="
-				+ getSortingListeners() + ", itemStateListeners="
-				+ getItemStateListeners() + ", numberOfItemStates="
-				+ getNumberOfItemStates() + ", triggerItemStateOnClick="
-				+ isItemStateTriggeredOnClick() + ", enableStateListeners="
-				+ getEnableStateListeners() + ", items=" + getItems()
-				+ ", itemClickListeners=" + getItemClickListeners()
-				+ ", adapterListeners=" + getAdapterListeners()
-				+ ", allowDuplicates=" + areDuplicatesAllowed()
-				+ ", notifyOnChange=" + isNotifiedOnChange()
-				+ ", filterListeners=" + getFilterListeners()
-				+ ", appliedFilters=" + getAppliedFilters() + "]";
+		return "ListAdapter [logLevel=" + getLogLevel() + ", parameters=" + getParameters() + ", sortingListeners="
+				+ getSortingListeners() + ", itemStateListeners=" + getItemStateListeners() + ", numberOfItemStates="
+				+ getNumberOfItemStates() + ", triggerItemStateOnClick=" + isItemStateTriggeredOnClick()
+				+ ", enableStateListeners=" + getEnableStateListeners() + ", items=" + getItems()
+				+ ", itemClickListeners=" + getItemClickListeners() + ", adapterListeners=" + getAdapterListeners()
+				+ ", allowDuplicates=" + areDuplicatesAllowed() + ", notifyOnChange=" + isNotifiedOnChange()
+				+ ", filterListeners=" + getFilterListeners() + ", appliedFilters=" + getAppliedFilters() + "]";
 	}
 
 	@Override
-	public final ListAdapterImplementation<DataType> clone()
-			throws CloneNotSupportedException {
-		return new ListAdapterImplementation<DataType>(getContext(),
-				getInflater(), getDecorator(), getLogLevel(), cloneItems(),
-				areDuplicatesAllowed(), isNotifiedOnChange(),
-				getItemClickListeners(), getAdapterListeners(),
-				getEnableStateListeners(), getNumberOfItemStates(),
-				isItemStateTriggeredOnClick(), getItemStateListeners(),
-				getSortingListeners(), getFilterListeners(),
+	public final ListAdapterImplementation<DataType> clone() throws CloneNotSupportedException {
+		return new ListAdapterImplementation<DataType>(getContext(), getInflater(), getDecorator(), getLogLevel(),
+				cloneItems(), areDuplicatesAllowed(), isNotifiedOnChange(), getItemClickListeners(),
+				getAdapterListeners(), getEnableStateListeners(), getNumberOfItemStates(),
+				isItemStateTriggeredOnClick(), getItemStateListeners(), getSortingListeners(), getFilterListeners(),
 				cloneAppliedFilters());
 	}
 

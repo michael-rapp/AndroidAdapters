@@ -25,6 +25,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 import android.content.Context;
+import android.widget.AbsListView;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.AbstractListAdapter;
@@ -36,7 +37,7 @@ import de.mrapp.android.adapter.logging.LogLevel;
  * An abstract base class for all adapters, whose underlying data is managed as
  * a list of arbitrary items, which may be disabled or enabled. Such an
  * adapter's purpose is to provide the underlying data for visualization using a
- * {@link ListView} widget.
+ * {@link AbsListView} widget.
  * 
  * @param <DataType>
  *            The type of the adapter's underlying data
@@ -50,8 +51,7 @@ import de.mrapp.android.adapter.logging.LogLevel;
  * @since 1.0.0
  */
 public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
-		extends AbstractListAdapter<DataType, DecoratorType> implements
-		EnableStateListAdapter<DataType> {
+		extends AbstractListAdapter<DataType, DecoratorType>implements EnableStateListAdapter<DataType> {
 
 	/**
 	 * The constant serial version UID.
@@ -124,10 +124,8 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 	 *            {@link Set} or an empty set, if no listeners should be
 	 *            notified
 	 */
-	protected final void setEnableStateListeners(
-			final Set<ListEnableStateListener<DataType>> enableStateListeners) {
-		ensureNotNull(enableStateListeners,
-				"The enable state listeners may not be null");
+	protected final void setEnableStateListeners(final Set<ListEnableStateListener<DataType>> enableStateListeners) {
+		ensureNotNull(enableStateListeners, "The enable state listeners may not be null");
 		this.enableStateListeners = enableStateListeners;
 	}
 
@@ -173,19 +171,14 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 	 *            when an item has been disabled or enabled or an empty set, if
 	 *            no listeners should be notified
 	 */
-	protected AbstractEnableStateListAdapter(
-			final Context context,
-			final Inflater inflater,
-			final DecoratorType decorator,
-			final LogLevel logLevel,
-			final ArrayList<Item<DataType>> items,
-			final boolean allowDuplicates,
-			final boolean notifyOnChange,
+	protected AbstractEnableStateListAdapter(final Context context, final Inflater inflater,
+			final DecoratorType decorator, final LogLevel logLevel, final ArrayList<Item<DataType>> items,
+			final boolean allowDuplicates, final boolean notifyOnChange,
 			final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
 			final Set<ListEnableStateListener<DataType>> enableStateListeners) {
-		super(context, inflater, decorator, logLevel, items, allowDuplicates,
-				notifyOnChange, itemClickListeners, adapterListeners);
+		super(context, inflater, decorator, logLevel, items, allowDuplicates, notifyOnChange, itemClickListeners,
+				adapterListeners);
 		setEnableStateListeners(enableStateListeners);
 	}
 
@@ -449,8 +442,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public final void addEnableStateListner(
-			final ListEnableStateListener<DataType> listener) {
+	public final void addEnableStateListner(final ListEnableStateListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		enableStateListeners.add(listener);
 		String message = "Added enable state listener \"" + listener + "\"";
@@ -458,8 +450,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public final void removeEnableStateListener(
-			final ListEnableStateListener<DataType> listener) {
+	public final void removeEnableStateListener(final ListEnableStateListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		enableStateListeners.remove(listener);
 		String message = "Removed enable state listener \"" + listener + "\"";
@@ -467,7 +458,6 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public abstract AbstractEnableStateListAdapter<DataType, DecoratorType> clone()
-			throws CloneNotSupportedException;
+	public abstract AbstractEnableStateListAdapter<DataType, DecoratorType> clone() throws CloneNotSupportedException;
 
 }

@@ -26,6 +26,7 @@ import java.util.Comparator;
 import java.util.Set;
 
 import android.content.Context;
+import android.widget.AbsListView;
 import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemComparator;
@@ -40,7 +41,7 @@ import de.mrapp.android.adapter.logging.LogLevel;
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
  * a sortable list of arbitrary items. Such an adapter's purpose is to provide
- * the underlying data for visualization using a {@link ListView} widget.
+ * the underlying data for visualization using a {@link AbsListView} widget.
  * 
  * @param <DataType>
  *            The type of the adapter's underlying data
@@ -54,8 +55,7 @@ import de.mrapp.android.adapter.logging.LogLevel;
  * @since 1.0.0
  */
 public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
-		extends AbstractItemStateListAdapter<DataType, DecoratorType> implements
-		SortableListAdapter<DataType> {
+		extends AbstractItemStateListAdapter<DataType, DecoratorType>implements SortableListAdapter<DataType> {
 
 	/**
 	 * The constant serial version UID.
@@ -86,8 +86,8 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 	 *            if the items' implementation of the type {@link Comparable}
 	 *            has been used instead
 	 */
-	private void notifyOnSorted(final Collection<DataType> sortedItems,
-			final Order order, final Comparator<DataType> comparator) {
+	private void notifyOnSorted(final Collection<DataType> sortedItems, final Order order,
+			final Comparator<DataType> comparator) {
 		for (ListSortingListener<DataType> listener : sortingListeners) {
 			listener.onSorted(this, sortedItems, order, comparator);
 		}
@@ -115,8 +115,7 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 	 *            {@link Set} or an empty set, if no listeners should be
 	 *            notified
 	 */
-	protected final void setSortingListeners(
-			final Set<ListSortingListener<DataType>> sortingListeners) {
+	protected final void setSortingListeners(final Set<ListSortingListener<DataType>> sortingListeners) {
 		ensureNotNull(sortingListeners, "The sorting listeners may not be null");
 		this.sortingListeners = sortingListeners;
 	}
@@ -177,25 +176,16 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 	 *            when the adapter's underlying data has been sorted or an empty
 	 *            set, if no listeners should be notified
 	 */
-	protected AbstractSortableListAdapter(
-			final Context context,
-			final Inflater inflater,
-			final DecoratorType decorator,
-			final LogLevel logLevel,
-			final ArrayList<Item<DataType>> items,
-			final boolean allowDuplicates,
-			final boolean notifyOnChange,
-			final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
+	protected AbstractSortableListAdapter(final Context context, final Inflater inflater, final DecoratorType decorator,
+			final LogLevel logLevel, final ArrayList<Item<DataType>> items, final boolean allowDuplicates,
+			final boolean notifyOnChange, final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
-			final Set<ListEnableStateListener<DataType>> enableStateListeners,
-			final int numberOfItemStates,
-			final boolean triggerItemStateOnClick,
-			final Set<ListItemStateListener<DataType>> itemStateListeners,
+			final Set<ListEnableStateListener<DataType>> enableStateListeners, final int numberOfItemStates,
+			final boolean triggerItemStateOnClick, final Set<ListItemStateListener<DataType>> itemStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners) {
-		super(context, inflater, decorator, logLevel, items, allowDuplicates,
-				notifyOnChange, itemClickListeners, adapterListeners,
-				enableStateListeners, numberOfItemStates,
-				triggerItemStateOnClick, itemStateListeners);
+		super(context, inflater, decorator, logLevel, items, allowDuplicates, notifyOnChange, itemClickListeners,
+				adapterListeners, enableStateListeners, numberOfItemStates, triggerItemStateOnClick,
+				itemStateListeners);
 		setSortingListeners(sortingListeners);
 	}
 
@@ -228,11 +218,9 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public final void sort(final Order order,
-			final Comparator<DataType> comparator) {
+	public final void sort(final Order order, final Comparator<DataType> comparator) {
 		ensureNotNull(order, "The order may not be null");
-		Comparator<Item<DataType>> itemComparator = new ItemComparator<DataType>(
-				comparator);
+		Comparator<Item<DataType>> itemComparator = new ItemComparator<DataType>(comparator);
 
 		if (order == Order.ASCENDING) {
 			Collections.sort(getItems(), itemComparator);
@@ -240,8 +228,7 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 					+ itemComparator.getClass().getSimpleName() + "\"";
 			getLogger().logInfo(getClass(), message);
 		} else {
-			Collections.sort(getItems(),
-					Collections.reverseOrder(itemComparator));
+			Collections.sort(getItems(), Collections.reverseOrder(itemComparator));
 			String message = "Sorted items in descending order using the comparator \""
 					+ itemComparator.getClass().getSimpleName() + "\"";
 			getLogger().logInfo(getClass(), message);
@@ -252,8 +239,7 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public final void addSortingListner(
-			final ListSortingListener<DataType> listener) {
+	public final void addSortingListner(final ListSortingListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		sortingListeners.add(listener);
 		String message = "Added sorting listener \"" + listener + "\"";
@@ -261,8 +247,7 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public final void removeSortingListener(
-			final ListSortingListener<DataType> listener) {
+	public final void removeSortingListener(final ListSortingListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		sortingListeners.remove(listener);
 		String message = "Removed sorting listener \"" + listener + "\"";
@@ -270,7 +255,6 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public abstract AbstractSortableListAdapter<DataType, DecoratorType> clone()
-			throws CloneNotSupportedException;
+	public abstract AbstractSortableListAdapter<DataType, DecoratorType> clone() throws CloneNotSupportedException;
 
 }

@@ -52,7 +52,7 @@ import de.mrapp.android.adapter.util.VisibleForTesting;
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
  * a list of arbitrary items. Such an adapter's purpose is to provide the
- * underlying data for visualization using a {@link ListView} widget.
+ * underlying data for visualization using a {@link AbsListView} widget.
  * 
  * @param <DataType>
  *            The type of the adapter's underlying data

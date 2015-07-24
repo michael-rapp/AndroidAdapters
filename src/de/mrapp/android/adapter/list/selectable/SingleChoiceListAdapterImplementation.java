@@ -24,6 +24,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 import android.content.Context;
+import android.widget.AbsListView;
 import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.SelectableListDecorator;
@@ -42,7 +43,7 @@ import de.mrapp.android.adapter.logging.LogLevel;
 /**
  * An adapter, whose underlying data is managed as a list of arbitrary items, of
  * which only item can be selected at once. Such an adapter's purpose is to
- * provide the underlying data for visualization using a {@link ListView}
+ * provide the underlying data for visualization using a {@link AbsListView}
  * widget.
  * 
  * @param <DataType>
@@ -52,9 +53,8 @@ import de.mrapp.android.adapter.logging.LogLevel;
  * 
  * @since 1.0.0
  */
-public class SingleChoiceListAdapterImplementation<DataType> extends
-		AbstractSelectableListAdapter<DataType> implements
-		SingleChoiceListAdapter<DataType> {
+public class SingleChoiceListAdapterImplementation<DataType> extends AbstractSelectableListAdapter<DataType>
+		implements SingleChoiceListAdapter<DataType> {
 
 	/**
 	 * The constant serial version UID.
@@ -78,11 +78,9 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 		return new ListAdapterItemClickListener<DataType>() {
 
 			@Override
-			public void onItemClicked(final ListAdapter<DataType> adapter,
-					final DataType item, final int index) {
+			public void onItemClicked(final ListAdapter<DataType> adapter, final DataType item, final int index) {
 				if (isItemSelectedOnClick()) {
-					getLogger().logVerbose(getClass(),
-							"Selecting item on click...");
+					getLogger().logVerbose(getClass(), "Selecting item on click...");
 					select(index);
 				}
 			}
@@ -102,19 +100,15 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 		return new ListAdapterListener<DataType>() {
 
 			@Override
-			public void onItemAdded(final ListAdapter<DataType> adapter,
-					final DataType item, final int index) {
-				if (isSelectionAdaptedAutomatically()
-						&& getNumberOfItems() == 1) {
+			public void onItemAdded(final ListAdapter<DataType> adapter, final DataType item, final int index) {
+				if (isSelectionAdaptedAutomatically() && getNumberOfItems() == 1) {
 					select(index);
 				}
 			}
 
 			@Override
-			public void onItemRemoved(final ListAdapter<DataType> adapter,
-					final DataType item, final int index) {
-				if (isSelectionAdaptedAutomatically()
-						&& getSelectedIndex() == -1) {
+			public void onItemRemoved(final ListAdapter<DataType> adapter, final DataType item, final int index) {
+				if (isSelectionAdaptedAutomatically() && getSelectedIndex() == -1) {
 					selectNearestEnabledItem(index);
 				}
 			}
@@ -133,17 +127,14 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 		return new ListEnableStateListener<DataType>() {
 
 			@Override
-			public void onItemEnabled(final ListAdapter<DataType> adapter,
-					final DataType item, final int index) {
-				if (isSelectionAdaptedAutomatically()
-						&& getNumberOfEnabledItems() == 1) {
+			public void onItemEnabled(final ListAdapter<DataType> adapter, final DataType item, final int index) {
+				if (isSelectionAdaptedAutomatically() && getNumberOfEnabledItems() == 1) {
 					select(index);
 				}
 			}
 
 			@Override
-			public void onItemDisabled(final ListAdapter<DataType> adapter,
-					final DataType item, final int index) {
+			public void onItemDisabled(final ListAdapter<DataType> adapter, final DataType item, final int index) {
 				if (isSelectionAdaptedAutomatically() && isSelected(index)) {
 					getItems().get(index).setSelected(false);
 					notifyOnItemUnselected(item, index);
@@ -167,19 +158,15 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 		return new ListFilterListener<DataType>() {
 
 			@Override
-			public void onApplyFilter(final ListAdapter<DataType> adapter,
-					final String query, final int flags,
-					final Filter<DataType> filter,
-					final Collection<DataType> filteredItems) {
-				if (isSelectionAdaptedAutomatically() && isFiltered()
-						&& getSelectedIndex() == -1 && !isEmpty()) {
+			public void onApplyFilter(final ListAdapter<DataType> adapter, final String query, final int flags,
+					final Filter<DataType> filter, final Collection<DataType> filteredItems) {
+				if (isSelectionAdaptedAutomatically() && isFiltered() && getSelectedIndex() == -1 && !isEmpty()) {
 					select(0);
 				}
 			}
 
 			@Override
-			public void onResetFilter(final ListAdapter<DataType> adapter,
-					final String query, final int flags,
+			public void onResetFilter(final ListAdapter<DataType> adapter, final String query, final int flags,
 					final Collection<DataType> filteredItems) {
 				return;
 			}
@@ -197,9 +184,8 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 		return new ListSelectionListener<DataType>() {
 
 			@Override
-			public void onItemSelected(
-					final SelectableListAdapter<DataType> adapter,
-					final DataType item, final int index) {
+			public void onItemSelected(final SelectableListAdapter<DataType> adapter, final DataType item,
+					final int index) {
 				if (isFiltered()) {
 					for (int i = 0; i < getUnfilteredItems().size(); i++) {
 						if (i != getUnfilteredIndex(index)) {
@@ -210,9 +196,8 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 			}
 
 			@Override
-			public void onItemUnselected(
-					final SelectableListAdapter<DataType> adapter,
-					final DataType item, final int index) {
+			public void onItemUnselected(final SelectableListAdapter<DataType> adapter, final DataType item,
+					final int index) {
 				return;
 			}
 
@@ -233,8 +218,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 		int descendingIndex = index - 1;
 
 		while (ascendingIndex < getNumberOfItems() || descendingIndex >= 0) {
-			if (ascendingIndex < getNumberOfItems()
-					&& isEnabled(ascendingIndex)) {
+			if (ascendingIndex < getNumberOfItems() && isEnabled(ascendingIndex)) {
 				select(ascendingIndex);
 				return;
 			} else if (descendingIndex >= 0 && isEnabled(descendingIndex)) {
@@ -321,32 +305,20 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 	 *            True, if the adapter's selection should be adapted
 	 *            automatically, false otherwise
 	 */
-	protected SingleChoiceListAdapterImplementation(
-			final Context context,
-			final Inflater inflater,
-			final SelectableListDecorator<DataType> decorator,
-			final LogLevel logLevel,
-			final ArrayList<Item<DataType>> items,
-			final boolean allowDuplicates,
-			final boolean notifyOnChange,
+	protected SingleChoiceListAdapterImplementation(final Context context, final Inflater inflater,
+			final SelectableListDecorator<DataType> decorator, final LogLevel logLevel,
+			final ArrayList<Item<DataType>> items, final boolean allowDuplicates, final boolean notifyOnChange,
 			final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
 			final Set<ListAdapterListener<DataType>> adapterListeners,
-			final Set<ListEnableStateListener<DataType>> enableStateListeners,
-			final int numberOfItemStates,
-			final boolean triggerItemStateOnClick,
-			final Set<ListItemStateListener<DataType>> itemStateListeners,
+			final Set<ListEnableStateListener<DataType>> enableStateListeners, final int numberOfItemStates,
+			final boolean triggerItemStateOnClick, final Set<ListItemStateListener<DataType>> itemStateListeners,
 			final Set<ListSortingListener<DataType>> sortingListeners,
 			final Set<ListFilterListener<DataType>> filterListeners,
-			final LinkedHashSet<AppliedFilter<DataType>> appliedFilters,
-			final boolean selectItemOnClick,
-			final Set<ListSelectionListener<DataType>> selectionListeners,
-			final boolean adaptSelectionAutomatically) {
-		super(context, inflater, decorator, logLevel, items, allowDuplicates,
-				notifyOnChange, itemClickListeners, adapterListeners,
-				enableStateListeners, numberOfItemStates,
-				triggerItemStateOnClick, itemStateListeners, sortingListeners,
-				filterListeners, appliedFilters, selectItemOnClick,
-				selectionListeners);
+			final LinkedHashSet<AppliedFilter<DataType>> appliedFilters, final boolean selectItemOnClick,
+			final Set<ListSelectionListener<DataType>> selectionListeners, final boolean adaptSelectionAutomatically) {
+		super(context, inflater, decorator, logLevel, items, allowDuplicates, notifyOnChange, itemClickListeners,
+				adapterListeners, enableStateListeners, numberOfItemStates, triggerItemStateOnClick, itemStateListeners,
+				sortingListeners, filterListeners, appliedFilters, selectItemOnClick, selectionListeners);
 		addItemClickListener(createItemClickListener());
 		addAdapterListener(createAdapterListener());
 		addEnableStateListner(createEnableStateListener());
@@ -372,17 +344,14 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 	 *            of the adapter, as an instance of the generic type
 	 *            DecoratorType. The decorator may not be null
 	 */
-	public SingleChoiceListAdapterImplementation(final Context context,
-			final Inflater inflater,
+	public SingleChoiceListAdapterImplementation(final Context context, final Inflater inflater,
 			final SelectableListDecorator<DataType> decorator) {
-		this(context, inflater, decorator, LogLevel.ALL,
-				new ArrayList<Item<DataType>>(), false, true,
+		this(context, inflater, decorator, LogLevel.ALL, new ArrayList<Item<DataType>>(), false, true,
 				new LinkedHashSet<ListAdapterItemClickListener<DataType>>(),
 				new LinkedHashSet<ListAdapterListener<DataType>>(),
-				new LinkedHashSet<ListEnableStateListener<DataType>>(), 1,
-				false, new LinkedHashSet<ListItemStateListener<DataType>>(),
-				new LinkedHashSet<ListSortingListener<DataType>>(),
-				new LinkedHashSet<ListFilterListener<DataType>>(),
+				new LinkedHashSet<ListEnableStateListener<DataType>>(), 1, false,
+				new LinkedHashSet<ListItemStateListener<DataType>>(),
+				new LinkedHashSet<ListSortingListener<DataType>>(), new LinkedHashSet<ListFilterListener<DataType>>(),
 				new LinkedHashSet<AppliedFilter<DataType>>(), true,
 				new LinkedHashSet<ListSelectionListener<DataType>>(), true);
 	}
@@ -421,14 +390,12 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 					if (i == index && !currentItem.isSelected()) {
 						currentItem.setSelected(true);
 						notifyOnItemSelected(currentItem.getData(), i);
-						String message = "Selected item \"" + currentItem
-								+ "\" at index " + i;
+						String message = "Selected item \"" + currentItem + "\" at index " + i;
 						getLogger().logInfo(getClass(), message);
 					} else if (i != index && currentItem.isSelected()) {
 						currentItem.setSelected(false);
 						notifyOnItemUnselected(currentItem.getData(), i);
-						String message = "Unselected item \"" + currentItem
-								+ "\" at index " + i;
+						String message = "Unselected item \"" + currentItem + "\" at index " + i;
 						getLogger().logInfo(getClass(), message);
 					}
 				}
@@ -436,15 +403,14 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 				notifyOnDataSetChanged();
 				return true;
 			} else {
-				String message = "Item \"" + item.getData() + "\" at index "
-						+ index
+				String message = "Item \"" + item.getData() + "\" at index " + index
 						+ " not selected, because it is already selected";
 				getLogger().logDebug(getClass(), message);
 				return false;
 			}
 		} else {
-			String message = "Item \"" + item.getData() + "\" at index "
-					+ index + " not selected, because it is disabled";
+			String message = "Item \"" + item.getData() + "\" at index " + index
+					+ " not selected, because it is disabled";
 			getLogger().logDebug(getClass(), message);
 			return false;
 		}
@@ -462,8 +428,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 	}
 
 	@Override
-	public final void adaptSelectionAutomatically(
-			final boolean adaptSelectionAutomatically) {
+	public final void adaptSelectionAutomatically(final boolean adaptSelectionAutomatically) {
 		this.adaptSelectionAutomatically = adaptSelectionAutomatically;
 
 		if (!isEmpty() && getSelectedIndex() == -1) {
@@ -478,37 +443,25 @@ public class SingleChoiceListAdapterImplementation<DataType> extends
 
 	@Override
 	public final String toString() {
-		return "SingleChoiceListAdapter [logLevel=" + getLogLevel()
-				+ ", parameters=" + getParameters() + ", sortingListeners="
-				+ getSortingListeners() + ", itemStateListeners="
-				+ getItemStateListeners() + ", numberOfItemStates="
-				+ getNumberOfItemStates() + ", triggerItemStateOnClick="
-				+ isItemStateTriggeredOnClick() + ", enableStateListeners="
-				+ getEnableStateListeners() + ", items=" + getItems()
-				+ ", itemClickListeners=" + getItemClickListeners()
-				+ ", adapterListeners=" + getAdapterListeners()
-				+ ", allowDuplicates=" + areDuplicatesAllowed()
-				+ ", notifyOnChange=" + isNotifiedOnChange()
-				+ ", filterListeners=" + getSelectionListeners()
-				+ ", appliedFilters=" + getAppliedFilters()
-				+ ", selectItemOnClick=" + isItemSelectedOnClick()
-				+ ", selectionListeners=" + getSelectionListeners()
-				+ ", adaptSelectionAutomatically="
-				+ isSelectionAdaptedAutomatically() + "]";
+		return "SingleChoiceListAdapter [logLevel=" + getLogLevel() + ", parameters=" + getParameters()
+				+ ", sortingListeners=" + getSortingListeners() + ", itemStateListeners=" + getItemStateListeners()
+				+ ", numberOfItemStates=" + getNumberOfItemStates() + ", triggerItemStateOnClick="
+				+ isItemStateTriggeredOnClick() + ", enableStateListeners=" + getEnableStateListeners() + ", items="
+				+ getItems() + ", itemClickListeners=" + getItemClickListeners() + ", adapterListeners="
+				+ getAdapterListeners() + ", allowDuplicates=" + areDuplicatesAllowed() + ", notifyOnChange="
+				+ isNotifiedOnChange() + ", filterListeners=" + getSelectionListeners() + ", appliedFilters="
+				+ getAppliedFilters() + ", selectItemOnClick=" + isItemSelectedOnClick() + ", selectionListeners="
+				+ getSelectionListeners() + ", adaptSelectionAutomatically=" + isSelectionAdaptedAutomatically() + "]";
 	}
 
 	@Override
-	public final SingleChoiceListAdapterImplementation<DataType> clone()
-			throws CloneNotSupportedException {
-		return new SingleChoiceListAdapterImplementation<DataType>(
-				getContext(), getInflater(), getDecorator(), getLogLevel(),
-				cloneItems(), areDuplicatesAllowed(), isNotifiedOnChange(),
-				getItemClickListeners(), getAdapterListeners(),
-				getEnableStateListeners(), getNumberOfItemStates(),
-				isItemStateTriggeredOnClick(), getItemStateListeners(),
-				getSortingListeners(), getFilterListeners(),
-				cloneAppliedFilters(), isItemSelectedOnClick(),
-				getSelectionListeners(), isSelectionAdaptedAutomatically());
+	public final SingleChoiceListAdapterImplementation<DataType> clone() throws CloneNotSupportedException {
+		return new SingleChoiceListAdapterImplementation<DataType>(getContext(), getInflater(), getDecorator(),
+				getLogLevel(), cloneItems(), areDuplicatesAllowed(), isNotifiedOnChange(), getItemClickListeners(),
+				getAdapterListeners(), getEnableStateListeners(), getNumberOfItemStates(),
+				isItemStateTriggeredOnClick(), getItemStateListeners(), getSortingListeners(), getFilterListeners(),
+				cloneAppliedFilters(), isItemSelectedOnClick(), getSelectionListeners(),
+				isSelectionAdaptedAutomatically());
 	}
 
 }

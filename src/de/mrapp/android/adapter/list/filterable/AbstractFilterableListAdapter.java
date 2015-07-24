@@ -32,6 +32,7 @@ import java.util.Set;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.SparseIntArray;
+import android.widget.AbsListView;
 import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.Order;
@@ -51,7 +52,7 @@ import de.mrapp.android.adapter.util.VisibleForTesting;
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
  * a filterable list of arbitrary items. Such an adapter's purpose is to provide
- * the underlying data for visualization using a {@link ListView} widget.
+ * the underlying data for visualization using a {@link AbsListView} widget.
  * 
  * @param <DataType>
  *            The type of the adapter's underlying data

@@ -18,14 +18,16 @@
 package de.mrapp.android.adapter;
 
 import java.util.Collection;
+import java.util.NoSuchElementException;
 
+import android.widget.AbsListView;
 import de.mrapp.android.adapter.list.selectable.SelectableListAdapter;
 
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a list
  * of arbitrary items, of which multiple items can be selected at once, must
  * implement. Such an adapter's purpose is to provide the underlying data for
- * visualization using a {@link ListView} widget.
+ * visualization using a {@link AbsListView} widget.
  * 
  * @param <DataType>
  *            The type of the adapter's underlying data
@@ -34,8 +36,7 @@ import de.mrapp.android.adapter.list.selectable.SelectableListAdapter;
  * 
  * @since 1.0.0
  */
-public interface MultipleChoiceListAdapter<DataType> extends
-		SelectableListAdapter<DataType> {
+public interface MultipleChoiceListAdapter<DataType> extends SelectableListAdapter<DataType> {
 
 	/**
 	 * Returns the index of the first selected item.
@@ -252,7 +253,6 @@ public interface MultipleChoiceListAdapter<DataType> extends
 	boolean triggerAllSelections();
 
 	@Override
-	MultipleChoiceListAdapter<DataType> clone()
-			throws CloneNotSupportedException;
+	MultipleChoiceListAdapter<DataType> clone() throws CloneNotSupportedException;
 
 }
