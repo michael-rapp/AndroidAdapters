@@ -849,11 +849,13 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		return result;
 	}
 
+	@SafeVarargs
 	@Override
 	public final boolean addAllGroups(final GroupType... groups) {
 		return addAllGroups(getNumberOfGroups(), groups);
 	}
 
+	@SafeVarargs
 	@Override
 	public final boolean addAllGroups(final int index, final GroupType... groups) {
 		ensureNotNull(groups, "The array may not be null");
@@ -917,6 +919,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		return numberOfRemovedGroups == groups.size();
 	}
 
+	@SafeVarargs
 	@Override
 	public final boolean removeAllGroups(final GroupType... groups) {
 		ensureNotNull(groups, "The array may not be null");
@@ -934,6 +937,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		}
 	}
 
+	@SafeVarargs
 	@Override
 	public final void retainAllGroups(final GroupType... groups) {
 		ensureNotNull(groups, "The array may not be null");
@@ -1014,6 +1018,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		return result;
 	}
 
+	@SafeVarargs
 	@Override
 	public final boolean containsAllGroups(final GroupType... groups) {
 		ensureNotNull(groups, "The array may not be null");
@@ -1221,24 +1226,28 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		}
 	}
 
+	@SafeVarargs
 	@Override
 	public final boolean addAllChildren(final int groupIndex, final ChildType... children) {
 		ensureNotNull(children, "The array may not be null");
 		return addAllChildren(groupIndex, Arrays.asList(children));
 	}
 
+	@SafeVarargs
 	@Override
 	public final boolean addAllChildren(final GroupType group, final ChildType... children) {
 		ensureNotNull(children, "The array may not be null");
 		return addAllChildren(group, Arrays.asList(children));
 	}
 
+	@SafeVarargs
 	@Override
 	public final boolean addAllChildren(final int groupIndex, final int index, final ChildType... children) {
 		ensureNotNull(children, "The array may not be null");
 		return addAllChildren(groupIndex, index, Arrays.asList(children));
 	}
 
+	@SafeVarargs
 	@Override
 	public final boolean addAllChildren(final GroupType group, final int index, final ChildType... children) {
 		ensureNotNull(children, "The array may not be null");
@@ -1398,22 +1407,26 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		}
 	}
 
+	@SafeVarargs
 	@Override
 	public final boolean removeAllChildren(final ChildType... children) {
 		return removeAllChildren(false, children);
 	}
 
+	@SafeVarargs
 	@Override
 	public final boolean removeAllChildren(final boolean removeEmptyGroups, final ChildType... children) {
 		ensureNotNull(children, "The array may not be null");
 		return removeAllChildren(removeEmptyGroups, Arrays.asList(children));
 	}
 
+	@SafeVarargs
 	@Override
 	public final boolean removeAllChildren(final int groupIndex, final ChildType... children) {
 		return removeAllChildren(false, groupIndex, children);
 	}
 
+	@SafeVarargs
 	@Override
 	public final boolean removeAllChildren(final boolean removeEmptyGroup, final int groupIndex,
 			final ChildType... children) {
@@ -1421,11 +1434,13 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		return removeAllChildren(removeEmptyGroup, groupIndex, Arrays.asList(children));
 	}
 
+	@SafeVarargs
 	@Override
 	public final boolean removeAllChildren(final GroupType group, final ChildType... children) {
 		return removeAllChildren(false, group, children);
 	}
 
+	@SafeVarargs
 	@Override
 	public final boolean removeAllChildren(final boolean removeEmptyGroup, final GroupType group,
 			final ChildType... children) {
@@ -1481,22 +1496,26 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		}
 	}
 
+	@SafeVarargs
 	@Override
 	public final void retainAllChildren(final ChildType... children) {
 		retainAllChildren(false, children);
 	}
 
+	@SafeVarargs
 	@Override
 	public final void retainAllChildren(final boolean removeEmptyGroups, final ChildType... children) {
 		ensureNotNull(children, "The array may not be null");
 		retainAllChildren(removeEmptyGroups, Arrays.asList(children));
 	}
 
+	@SafeVarargs
 	@Override
 	public final void retainAllChildren(final int groupIndex, final ChildType... children) {
 		retainAllChildren(false, groupIndex, children);
 	}
 
+	@SafeVarargs
 	@Override
 	public final void retainAllChildren(final boolean removeEmptyGroup, final int groupIndex,
 			final ChildType... children) {
@@ -1504,11 +1523,13 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		retainAllChildren(removeEmptyGroup, groupIndex, Arrays.asList(children));
 	}
 
+	@SafeVarargs
 	@Override
 	public final void retainAllChildren(final GroupType group, final ChildType... children) {
 		retainAllChildren(false, group, children);
 	}
 
+	@SafeVarargs
 	@Override
 	public final void retainAllChildren(final boolean removeEmptyGroup, final GroupType group,
 			final ChildType... children) {
@@ -1792,6 +1813,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		}
 	}
 
+	@SafeVarargs
 	@Override
 	public final boolean containsAllChildren(final ChildType... children) {
 		ensureNotNull(children, "The array may not be null");
@@ -1864,12 +1886,14 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		}
 	}
 
+	@SafeVarargs
 	@Override
 	public final boolean containsAllChildren(final int groupIndex, final ChildType... children) {
 		ensureNotNull(children, "The children may not be null");
 		return groupAdapter.getItem(groupIndex).getChildAdapter().containsAllItems(children);
 	}
 
+	@SafeVarargs
 	@Override
 	public final boolean containsAllChildren(final GroupType group, final ChildType... children) {
 		ensureNotNull(group, "The group may not be null");
