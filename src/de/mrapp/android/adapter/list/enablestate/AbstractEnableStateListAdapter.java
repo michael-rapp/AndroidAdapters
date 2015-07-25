@@ -363,7 +363,8 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 			String message = enabled ? "Enabled" : "Disabled" + " item \"" + item + "\" at index " + index;
 			getLogger().logInfo(getClass(), message);
 		} else {
-			String message = "Enable state of item \"" + item.getData() + "\" at index " + index + " did not change";
+			String message = "The enable state of item \"" + item.getData() + "\" at index " + index
+					+ " has not been changed, because it is already " + (enabled ? "enabled" : "disabled");
 			getLogger().logDebug(getClass(), message);
 		}
 	}
