@@ -65,12 +65,6 @@ public class Item<DataType> implements DataStructure, Parcelable, Comparable<Ite
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * The class loader, which is used to create instances of the item's generic
-	 * type.
-	 */
-	// private static ClassLoader classLoader;
-
-	/**
 	 * The item's data.
 	 */
 	private DataType data;
