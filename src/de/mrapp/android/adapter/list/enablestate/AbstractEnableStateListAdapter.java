@@ -204,13 +204,13 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final DataType getFirstEnabledItem() {
-		for (Item<DataType> item : getItems()) {
-			if (item.isEnabled()) {
-				return item.getData();
-			}
-		}
+		int index = getFirstEnabledIndex();
 
-		return null;
+		if (index != -1) {
+			return getItem(index);
+		} else {
+			return null;
+		}
 	}
 
 	@Override
@@ -226,15 +226,13 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final DataType getLastEnabledItem() {
-		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
-			Item<DataType> item = getItems().get(i);
+		int index = getLastEnabledIndex();
 
-			if (item.isEnabled()) {
-				return item.getData();
-			}
+		if (index != -1) {
+			return getItem(index);
+		} else {
+			return null;
 		}
-
-		return null;
 	}
 
 	@Override
@@ -250,13 +248,13 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final DataType getFirstDisabledItem() {
-		for (Item<DataType> item : getItems()) {
-			if (!item.isEnabled()) {
-				return item.getData();
-			}
-		}
+		int index = getFirstDisabledIndex();
 
-		return null;
+		if (index != -1) {
+			return getItem(index);
+		} else {
+			return null;
+		}
 	}
 
 	@Override
@@ -272,15 +270,13 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final DataType getLastDisabledItem() {
-		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
-			Item<DataType> item = getItems().get(i);
+		int index = getLastDisabledIndex();
 
-			if (!item.isEnabled()) {
-				return item.getData();
-			}
+		if (index != -1) {
+			return getItem(index);
+		} else {
+			return null;
 		}
-
-		return null;
 	}
 
 	@Override
