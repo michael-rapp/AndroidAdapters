@@ -136,6 +136,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 * @return True, if all group items have been added to the adapter, false
 	 *         otherwise
 	 */
+	@SuppressWarnings("unchecked")
 	boolean addAllGroups(GroupType... groups);
 
 	/**
@@ -155,6 +156,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 * @return True, if all group items have been added to the adapter, false
 	 *         otherwise
 	 */
+	@SuppressWarnings("unchecked")
 	boolean addAllGroups(int index, GroupType... groups);
 
 	/**
@@ -228,6 +230,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 * @return True, if all group items have been removed from the adapter,
 	 *         false otherwise
 	 */
+	@SuppressWarnings("unchecked")
 	boolean removeAllGroups(GroupType... groups);
 
 	/**
@@ -252,6 +255,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 *            retained, as an array of the generic type DataType or an empty
 	 *            array, if no group items should be retained
 	 */
+	@SuppressWarnings("unchecked")
 	void retainAllGroups(GroupType... groups);
 
 	/**
@@ -405,6 +409,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 * @return True, if the adapter contains all group items, which are
 	 *         contained by the given array, false otherwise
 	 */
+	@SuppressWarnings("unchecked")
 	boolean containsAllGroups(GroupType... groups);
 
 	/**
@@ -730,6 +735,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 * @return True, if all child items have been added to the group, false
 	 *         otherwise
 	 */
+	@SuppressWarnings("unchecked")
 	boolean addAllChildren(int groupIndex, ChildType... children);
 
 	/**
@@ -749,6 +755,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 * @return True, if all child items have been added to the group, false
 	 *         otherwise
 	 */
+	@SuppressWarnings("unchecked")
 	boolean addAllChildren(GroupType group, ChildType... children);
 
 	/**
@@ -774,6 +781,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 * @return True, if all child items have been added to the group, false
 	 *         otherwise
 	 */
+	@SuppressWarnings("unchecked")
 	boolean addAllChildren(int groupIndex, int index, ChildType... children);
 
 	/**
@@ -799,6 +807,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 * @return True, if all child items have been added to the group, false
 	 *         otherwise
 	 */
+	@SuppressWarnings("unchecked")
 	boolean addAllChildren(GroupType group, int index, ChildType... children);
 
 	/**
@@ -1145,6 +1154,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 * @return True, if all child items have been removed from the adapter,
 	 *         false otherwise
 	 */
+	@SuppressWarnings("unchecked")
 	boolean removeAllChildren(ChildType... children);
 
 	/**
@@ -1162,6 +1172,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 * @return True, if all child items have been removed from the adapter,
 	 *         false otherwise
 	 */
+	@SuppressWarnings("unchecked")
 	boolean removeAllChildren(boolean removeEmptyGroups, ChildType... children);
 
 	/**
@@ -1183,6 +1194,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 * @return True, if all child items have been removed from the group, false
 	 *         otherwise
 	 */
+	@SuppressWarnings("unchecked")
 	boolean removeAllChildren(int groupIndex, ChildType... children);
 
 	/**
@@ -1206,6 +1218,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 * @return True, if all child items have been removed from the group, false
 	 *         otherwise
 	 */
+	@SuppressWarnings("unchecked")
 	boolean removeAllChildren(boolean removeEmptyGroup, int groupIndex, ChildType... children);
 
 	/**
@@ -1226,6 +1239,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 * @return True, if all child items have been removed from the group, false
 	 *         otherwise
 	 */
+	@SuppressWarnings("unchecked")
 	boolean removeAllChildren(GroupType group, ChildType... children);
 
 	/**
@@ -1248,6 +1262,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 * @return True, if all child items have been removed from the group, false
 	 *         otherwise
 	 */
+	@SuppressWarnings("unchecked")
 	boolean removeAllChildren(boolean removeEmptyGroup, GroupType group, ChildType... children);
 
 	/**
@@ -1361,6 +1376,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 *            retained, as an array of the generic type ChildType or an
 	 *            empty array, if no child items should be retained
 	 */
+	@SuppressWarnings("unchecked")
 	void retainAllChildren(ChildType... children);
 
 	/**
@@ -1375,6 +1391,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 *            retained, as an array of the generic type ChildType or an
 	 *            empty array, if no child items should be retained
 	 */
+	@SuppressWarnings("unchecked")
 	void retainAllChildren(boolean removeEmptyGroups, ChildType... children);
 
 	/**
@@ -1394,6 +1411,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 *            retained, as an array of the generic type ChildType or an
 	 *            empty collection, if no child items should be retained
 	 */
+	@SuppressWarnings("unchecked")
 	void retainAllChildren(int groupIndex, ChildType... children);
 
 	/**
@@ -1414,6 +1432,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 *            retained, as an array of the generic type ChildType or an
 	 *            empty collection, if no child items should be retained
 	 */
+	@SuppressWarnings("unchecked")
 	void retainAllChildren(boolean removeEmptyGroup, int groupIndex, ChildType... children);
 
 	/**
@@ -1431,6 +1450,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 *            retained, as an array of the generic type ChildType or an
 	 *            empty collection, if no child items should be retained
 	 */
+	@SuppressWarnings("unchecked")
 	void retainAllChildren(GroupType group, ChildType... children);
 
 	/**
@@ -1450,6 +1470,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 *            retained, as an array of the generic type ChildType or an
 	 *            empty collection, if no child items should be retained
 	 */
+	@SuppressWarnings("unchecked")
 	void retainAllChildren(boolean removeEmptyGroup, GroupType group, ChildType... children);
 
 	/**
@@ -2042,6 +2063,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 * @return True, if the adapter contains all child items, which are
 	 *         contained by the given array, false otherwise
 	 */
+	@SuppressWarnings("unchecked")
 	boolean containsAllChildren(ChildType... children);
 
 	/**
@@ -2138,6 +2160,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 * @return True, if the group contains all child items, which are contained
 	 *         by the given array, false otherwise
 	 */
+	@SuppressWarnings("unchecked")
 	boolean containsAllChildren(int groupIndex, ChildType... children);
 
 	/**
@@ -2156,6 +2179,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 * @return True, if the group contains all child items, which are contained
 	 *         by the given array, false otherwise
 	 */
+	@SuppressWarnings("unchecked")
 	boolean containsAllChildren(GroupType group, ChildType... children);
 
 	/**
