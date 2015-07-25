@@ -372,13 +372,9 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final boolean triggerEnableState(final int index) {
-		if (isEnabled(index)) {
-			setEnabled(index, false);
-			return false;
-		} else {
-			setEnabled(index, true);
-			return true;
-		}
+		boolean enabled = !isEnabled(index);
+		setEnabled(index, enabled);
+		return enabled;
 	}
 
 	@Override
