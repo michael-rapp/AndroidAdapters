@@ -141,58 +141,36 @@ public interface MultipleChoiceListAdapter<DataType> extends SelectableListAdapt
 	Collection<DataType> getUnselectedItems();
 
 	/**
-	 * Selects the item, which belongs to a specific index, if it is currently
-	 * enabled.
+	 * Sets the selection of the item, which belongs to a specific index, if it
+	 * is currently enabled.
 	 * 
 	 * @param index
-	 *            The index of the item, which should be selected, as an
+	 *            The index of the item, whose selection should be set, as an
 	 *            {@link Integer} value. The index must be between 0 and the
 	 *            value of the method <code>getNumberOfItems():int</code> - 1,
 	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
+	 * @param selected
+	 *            True, if the item, which belongs to the given index, should be
+	 *            selected, false otherwise
 	 * @return True, if the selection of the item, which belongs to the given
 	 *         index, has been changed, false otherwise
 	 */
-	boolean select(int index);
+	boolean setSelected(int index, boolean selected);
 
 	/**
-	 * Selects a specific item, if it is currently enabled.
+	 * Sets the selection of a specific item, if it is currently enabled.
 	 * 
 	 * @param item
-	 *            The item, which should be selected, as an instance of the
+	 *            The item, whose selection should be set, as an instance of the
 	 *            generic type DataType. The item may not be null. If the item
 	 *            does not belong to the adapter, a
 	 *            {@link NoSuchElementException} will be thrown
+	 * @param selected
+	 *            True, if the given item should be selected, false otherwise
 	 * @return True, if the selection of the given item has been changed, false
 	 *         otherwise
 	 */
-	boolean select(DataType item);
-
-	/**
-	 * Unselects the item, which belongs to a specific index, if it is currently
-	 * enabled.
-	 * 
-	 * @param index
-	 *            The index of the item, which should be unselected, as an
-	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfItems():int</code> - 1,
-	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
-	 * @return True, if the selection of the item, which belongs to the given
-	 *         index, has been changed, false otherwise
-	 */
-	boolean unselect(int index);
-
-	/**
-	 * Unselects a specific item, if it is currently enabled.
-	 * 
-	 * @param item
-	 *            The item, which should be unselected, as an instance of the
-	 *            generic type DataType. The item may not be null. If the item
-	 *            does not belong to the adapter, a
-	 *            {@link NoSuchElementException} will be thrown
-	 * @return True, if the selection of the given item has been changed, false
-	 *         otherwise
-	 */
-	boolean unselect(DataType item);
+	boolean setSelected(DataType item, boolean selected);
 
 	/**
 	 * Triggers the selection of the item, which belongs to a specific index, it
@@ -225,20 +203,14 @@ public interface MultipleChoiceListAdapter<DataType> extends SelectableListAdapt
 	boolean triggerSelection(DataType item);
 
 	/**
-	 * Selects all items, if they are currently enabled.
+	 * Sets the selection of all items, if they are currently enabled.
 	 * 
+	 * @param selected
+	 *            True, if all items should be selected, false otherwise
 	 * @return True, if the selections of all items have been changed, false
 	 *         otherwise
 	 */
-	boolean selectAll();
-
-	/**
-	 * Unselects all items, if they are currently enabled.
-	 * 
-	 * @return True, if the selections of all items have been changed, false
-	 *         otherwise
-	 */
-	boolean unselectAll();
+	boolean setAllSelected(boolean selected);
 
 	/**
 	 * Triggers the selections of all items, if they are currently enabled. This

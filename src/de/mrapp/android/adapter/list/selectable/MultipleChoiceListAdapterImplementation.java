@@ -370,20 +370,25 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends AbstractS
 	}
 
 	@Override
-	public final boolean select(final int index) {
+	public final boolean setSelected(final int index, final boolean selected) {
 		Item<DataType> item = getItems().get(index);
 
 		if (item.isEnabled()) {
-			if (!item.isSelected()) {
-				item.setSelected(true);
-				notifyOnItemSelected(item.getData(), index);
+			if (item.isSelected() != selected) {
+				item.setSelected(selected);
+
+				if (selected) {
+					notifyOnItemSelected(item.getData(), index);
+				} else {
+					notifyOnItemUnselected(item.getData(), index);
+				}
+
 				notifyOnDataSetChanged();
-				String message = "Selected item \"" + item + "\" at index " + index;
+				String message = selected ? "Selected" : "Unselected" + " item \"" + item + "\" at index " + index;
 				getLogger().logInfo(getClass(), message);
 				return true;
 			} else {
-				String message = "Item \"" + item.getData() + " at index " + index
-						+ " not selected, because it is already selected";
+				String message = "Selection of item \"" + item.getData() + " at index " + index + " not changed";
 				getLogger().logDebug(getClass(), message);
 				return false;
 			}
@@ -396,52 +401,22 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends AbstractS
 	}
 
 	@Override
-	public final boolean select(final DataType item) {
+	public final boolean setSelected(final DataType item, final boolean selected) {
 		int index = indexOf(item);
 
 		if (index != -1) {
-			return select(index);
+			return setSelected(index, selected);
 		} else {
 			throw new NoSuchElementException();
 		}
 	}
 
 	@Override
-	public final boolean unselect(final int index) {
-		Item<DataType> item = getItems().get(index);
-
-		if (item.isEnabled()) {
-			if (item.isSelected()) {
-				item.setSelected(false);
-				notifyOnItemUnselected(item.getData(), index);
-				notifyOnDataSetChanged();
-				String message = "Unselected item \"" + item + "\" at index " + index;
-				getLogger().logInfo(getClass(), message);
-				return true;
-			} else {
-				String message = "Item \"" + item + " at index " + index
-						+ " not unselected, because it is already unselected";
-				getLogger().logDebug(getClass(), message);
-				return false;
-			}
-		} else {
-			String message = "Item \"" + item + " at index " + index + " not unselected, because it is disabled";
-			getLogger().logDebug(getClass(), message);
-			return false;
-		}
-	}
-
-	@Override
-	public final boolean unselect(final DataType item) {
-		return unselect(indexOf(item));
-	}
-
-	@Override
 	public final boolean triggerSelection(final int index) {
 		if (isSelected(index)) {
-			return unselect(index);
+			return setSelected(index, false);
 		} else {
-			return select(index);
+			return setSelected(index, true);
 		}
 	}
 
@@ -457,22 +432,11 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends AbstractS
 	}
 
 	@Override
-	public final boolean selectAll() {
+	public final boolean setAllSelected(final boolean selected) {
 		boolean result = true;
 
 		for (int i = 0; i < getNumberOfItems(); i++) {
-			result &= select(i);
-		}
-
-		return result;
-	}
-
-	@Override
-	public final boolean unselectAll() {
-		boolean result = true;
-
-		for (int i = 0; i < getNumberOfItems(); i++) {
-			result &= unselect(i);
+			result &= setSelected(i, selected);
 		}
 
 		return result;
