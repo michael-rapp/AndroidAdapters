@@ -388,7 +388,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends AbstractS
 				getLogger().logInfo(getClass(), message);
 				return true;
 			} else {
-				String message = "Selection of item \"" + item.getData() + " at index " + index + " not changed";
+				String message = "Selection of item \"" + item.getData() + " at index " + index + " did not change";
 				getLogger().logDebug(getClass(), message);
 				return false;
 			}
