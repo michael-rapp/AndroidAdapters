@@ -94,14 +94,6 @@ public interface SelectableListAdapter<DataType> extends ListAdapter<DataType> {
 	int getNumberOfSelectedItems();
 
 	/**
-	 * Returns the number currently unselected items.
-	 * 
-	 * @return The number of currently unselected items, as an {@link Integer}
-	 *         value
-	 */
-	int getNumberOfUnselectedItems();
-
-	/**
 	 * Returns, whether an item is selected, when it is clicked by the user, or
 	 * not.
 	 * 
