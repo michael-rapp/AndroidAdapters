@@ -244,7 +244,7 @@ public interface EnableStateListAdapter<DataType> {
 
 	/**
 	 * Adds a new listener, which should be notified, when an item has been
-	 * disable or enabled.
+	 * disabled or enabled.
 	 * 
 	 * @param listener
 	 *            The listener, which should be added, as an instance of the
@@ -255,7 +255,7 @@ public interface EnableStateListAdapter<DataType> {
 
 	/**
 	 * Removes a specific listener, which should not be notified, when an item
-	 * has been disable or enabled, anymore.
+	 * has been disabled or enabled, anymore.
 	 * 
 	 * @param listener
 	 *            The listener, which should be removed, as an instance of the
