@@ -17,7 +17,6 @@
  */
 package de.mrapp.android.adapter.list.filterable;
 
-import android.widget.AbsListView;
 import de.mrapp.android.adapter.Filter;
 
 /**

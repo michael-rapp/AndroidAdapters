@@ -26,7 +26,6 @@ import java.util.Comparator;
 import java.util.Set;
 
 import android.content.Context;
-import android.widget.AbsListView;
 import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemComparator;

@@ -19,8 +19,6 @@ package de.mrapp.android.adapter.list.itemstate;
 
 import java.util.Collection;
 
-import android.widget.AbsListView;
-
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a list
  * of arbitrary items, which may have different states, must implement. Such an

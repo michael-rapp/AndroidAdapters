@@ -32,7 +32,6 @@ import java.util.Set;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.SparseIntArray;
-import android.widget.AbsListView;
 import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.Order;

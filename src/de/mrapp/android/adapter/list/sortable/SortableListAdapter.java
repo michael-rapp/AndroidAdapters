@@ -19,7 +19,6 @@ package de.mrapp.android.adapter.list.sortable;
 
 import java.util.Comparator;
 
-import android.widget.AbsListView;
 import de.mrapp.android.adapter.Order;
 
 /**

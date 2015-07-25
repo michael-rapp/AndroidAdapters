@@ -19,8 +19,6 @@ package de.mrapp.android.adapter.list.enablestate;
 
 import java.util.Collection;
 
-import android.widget.AbsListView;
-
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a list
  * of arbitrary items, which may be enabled or disabled, must implement. Such an

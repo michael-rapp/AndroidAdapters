@@ -24,7 +24,6 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 import android.content.Context;
-import android.widget.AbsListView;
 import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.SelectableListDecorator;
