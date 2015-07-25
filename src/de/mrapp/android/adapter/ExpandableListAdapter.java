@@ -68,10 +68,10 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 *            The group item, which should be added to the adapter, as an
 	 *            instance of the generic type GroupType. The group item may not
 	 *            be null
-	 * @return True, if the group item has been added to the adapter, false
-	 *         otherwise
+	 * @return The index of the group, which has been added to the adapter, as
+	 *         an {@link Integer} value or -1, if the group has not been added
 	 */
-	boolean addGroup(GroupType group);
+	int addGroup(GroupType group);
 
 	/**
 	 * Adds a specific group item to the adapter. The group item will be added
@@ -550,10 +550,10 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 *            The child item, which should be added to the group, as an
 	 *            instance of the generic type ChildType. The child item may not
 	 *            be null
-	 * @return True, if the child item has been added to the group, false
-	 *         otherwise
+	 * @return The index of the child, which has been added, as an
+	 *         {@link Integer} value or -1, if the child has not been added
 	 */
-	boolean addChild(int groupIndex, ChildType child);
+	int addChild(int groupIndex, ChildType child);
 
 	/**
 	 * Adds a specific child item to a specific group. The child item will be
@@ -568,10 +568,10 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 *            The child item, which should be added to the group, as an
 	 *            instance of the generic type ChildType. The child item may not
 	 *            be null
-	 * @return True, if the child item has been added to the group, false
-	 *         otherwise
+	 * @return The index of the child, which has been added, as an
+	 *         {@link Integer} value or -1, if the child has not been added
 	 */
-	boolean addChild(GroupType group, ChildType child);
+	int addChild(GroupType group, ChildType child);
 
 	/**
 	 * Adds a specific child item to the group, which belongs to a specific

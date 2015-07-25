@@ -65,9 +65,10 @@ public interface ListAdapter<DataType>
 	 * @param item
 	 *            The item, which should be added to the adapter, as an instance
 	 *            of the generic type DataType. The item may not be null
-	 * @return True, if the item has been added to the adapter, false otherwise
+	 * @return The index of the the item, which has been added to the adapter,
+	 *         as an {@link Integer} value or -1, if the item has not been added
 	 */
-	boolean addItem(DataType item);
+	int addItem(DataType item);
 
 	/**
 	 * Adds a specific item to the adapter. The item will be added at a specific
