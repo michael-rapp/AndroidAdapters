@@ -403,8 +403,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends AbstractSel
 				notifyOnDataSetChanged();
 				return true;
 			} else {
-				String message = "Item \"" + item.getData() + "\" at index " + index
-						+ " not selected, because it is already selected";
+				String message = "Selection of item \"" + item.getData() + "\" at index " + index + " did not change";
 				getLogger().logDebug(getClass(), message);
 				return false;
 			}
