@@ -802,8 +802,10 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	}
 
 	@Override
-	public final boolean addGroup(final GroupType group) {
-		return addGroup(getNumberOfGroups(), group);
+	public final int addGroup(final GroupType group) {
+		int index = getNumberOfGroups();
+		boolean added = addGroup(index, group);
+		return added ? index : -1;
 	}
 
 	@Override
@@ -1111,17 +1113,21 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	}
 
 	@Override
-	public final boolean addChild(final int groupIndex, final ChildType child) {
-		return addChild(groupIndex, getNumberOfChildren(groupIndex), child);
+	public final int addChild(final int groupIndex, final ChildType child) {
+		int index = getNumberOfChildren(groupIndex);
+		boolean added = addChild(groupIndex, getNumberOfChildren(groupIndex), child);
+		return added ? index : -1;
 	}
 
 	@Override
-	public final boolean addChild(final GroupType group, final ChildType child) {
+	public final int addChild(final GroupType group, final ChildType child) {
 		ensureNotNull(group, "The group may not be null");
-		int index = indexOfGroup(group);
+		int groupIndex = indexOfGroup(group);
 
-		if (index != -1) {
-			return addChild(index, child);
+		if (groupIndex != -1) {
+			int index = getNumberOfChildren(groupIndex);
+			boolean added = addChild(groupIndex, index, child);
+			return added ? index : -1;
 		} else {
 			throw new NoSuchElementException();
 		}

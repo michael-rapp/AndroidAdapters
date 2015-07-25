@@ -624,8 +624,10 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends BaseA
 	}
 
 	@Override
-	public final boolean addItem(final DataType item) {
-		return addItem(getNumberOfItems(), item);
+	public final int addItem(final DataType item) {
+		int index = getNumberOfItems();
+		boolean added = addItem(index, item);
+		return added ? index : -1;
 	}
 
 	@Override
