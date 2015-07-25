@@ -27,7 +27,6 @@ import java.util.Set;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AbsListView;
 import de.mrapp.android.adapter.SelectableListDecorator;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.item.Item;
@@ -192,13 +191,13 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	}
 
 	@Override
-	protected void onSaveInstanceState(final Bundle savedState) {
+	protected final void onSaveInstanceState(final Bundle savedState) {
 		super.onSaveInstanceState(savedState);
 		savedState.putBoolean(SELECT_ITEM_ON_CLICK_BUNDLE_KEY, isItemSelectedOnClick());
 	}
 
 	@Override
-	protected void onRestoreInstanceState(final Bundle savedState) {
+	protected final void onRestoreInstanceState(final Bundle savedState) {
 		super.onRestoreInstanceState(savedState);
 		selectItemOnClick = savedState.getBoolean(SELECT_ITEM_ON_CLICK_BUNDLE_KEY, true);
 	}

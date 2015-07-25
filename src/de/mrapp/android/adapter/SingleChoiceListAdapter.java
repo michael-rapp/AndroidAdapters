@@ -17,9 +17,6 @@
  */
 package de.mrapp.android.adapter;
 
-import java.util.NoSuchElementException;
-
-import android.widget.AbsListView;
 import de.mrapp.android.adapter.list.selectable.SelectableListAdapter;
 
 /**

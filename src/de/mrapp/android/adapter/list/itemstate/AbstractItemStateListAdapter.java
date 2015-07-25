@@ -29,7 +29,6 @@ import java.util.Set;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.widget.AbsListView;
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;

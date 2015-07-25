@@ -25,7 +25,6 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 import android.content.Context;
-import android.widget.AbsListView;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.AbstractListAdapter;
