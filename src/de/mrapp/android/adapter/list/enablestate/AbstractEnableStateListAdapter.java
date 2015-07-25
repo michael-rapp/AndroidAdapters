@@ -342,11 +342,6 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public final int getNumberOfDisabledItems() {
-		return getDisabledItems().size();
-	}
-
-	@Override
 	public final void setEnabled(final int index, final boolean enabled) {
 		Item<DataType> item = getItems().get(index);
 

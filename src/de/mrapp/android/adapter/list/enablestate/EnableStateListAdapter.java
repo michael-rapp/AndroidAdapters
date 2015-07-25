@@ -174,14 +174,6 @@ public interface EnableStateListAdapter<DataType> {
 	int getNumberOfEnabledItems();
 
 	/**
-	 * Returns the number of currently disabled items.
-	 * 
-	 * @return The number of currently disabled items, as an {@link Integer}
-	 *         value.
-	 */
-	int getNumberOfDisabledItems();
-
-	/**
 	 * Sets the enable state of the item, which belongs to a specific index.
 	 * 
 	 * @param index
