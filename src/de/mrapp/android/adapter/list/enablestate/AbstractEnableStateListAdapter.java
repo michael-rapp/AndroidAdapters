@@ -358,7 +358,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 		}
 
 		notifyOnDataSetChanged();
-		String message = "Enabled item \"" + item + "\" at index " + index;
+		String message = enabled ? "Enabled" : "Disabled" + " item \"" + item + "\" at index " + index;
 		getLogger().logInfo(getClass(), message);
 	}
 
