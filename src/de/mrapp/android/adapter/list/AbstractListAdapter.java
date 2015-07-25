@@ -673,11 +673,13 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends BaseA
 		return result;
 	}
 
+	@SafeVarargs
 	@Override
 	public final boolean addAllItems(final DataType... items) {
 		return addAllItems(getNumberOfItems(), items);
 	}
 
+	@SafeVarargs
 	@Override
 	public final boolean addAllItems(final int index, final DataType... items) {
 		return addAllItems(index, Arrays.asList(items));
@@ -739,6 +741,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends BaseA
 		return numberOfRemovedItems == items.size();
 	}
 
+	@SafeVarargs
 	@Override
 	public final boolean removeAllItems(final DataType... items) {
 		ensureNotNull(items, "The array may not be null");
@@ -756,6 +759,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends BaseA
 		}
 	}
 
+	@SafeVarargs
 	@Override
 	public final void retainAllItems(final DataType... items) {
 		ensureNotNull(items, "The array may not be null");
@@ -849,6 +853,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends BaseA
 		return result;
 	}
 
+	@SafeVarargs
 	@Override
 	public final boolean containsAllItems(final DataType... items) {
 		ensureNotNull(items, "The array may not be null");
