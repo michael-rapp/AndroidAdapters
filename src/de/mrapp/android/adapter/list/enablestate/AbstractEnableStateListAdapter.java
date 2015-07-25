@@ -349,17 +349,23 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 	@Override
 	public final void setEnabled(final int index, final boolean enabled) {
 		Item<DataType> item = getItems().get(index);
-		item.setEnabled(enabled);
 
-		if (enabled) {
-			notifyOnItemEnabled(item.getData(), index);
+		if (item.isEnabled() != enabled) {
+			item.setEnabled(enabled);
+
+			if (enabled) {
+				notifyOnItemEnabled(item.getData(), index);
+			} else {
+				notifyOnItemDisabled(item.getData(), index);
+			}
+
+			notifyOnDataSetChanged();
+			String message = enabled ? "Enabled" : "Disabled" + " item \"" + item + "\" at index " + index;
+			getLogger().logInfo(getClass(), message);
 		} else {
-			notifyOnItemDisabled(item.getData(), index);
+			String message = "Enable state of item \"" + item.getData() + "\" at index " + index + " did not change";
+			getLogger().logDebug(getClass(), message);
 		}
-
-		notifyOnDataSetChanged();
-		String message = enabled ? "Enabled" : "Disabled" + " item \"" + item + "\" at index " + index;
-		getLogger().logInfo(getClass(), message);
 	}
 
 	@Override
