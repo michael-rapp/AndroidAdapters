@@ -131,6 +131,7 @@ public interface ListAdapter<DataType>
 	 * @return True, if all items have been added to the adapter, false
 	 *         otherwise
 	 */
+	@SuppressWarnings("unchecked")
 	boolean addAllItems(DataType... items);
 
 	/**
@@ -149,6 +150,7 @@ public interface ListAdapter<DataType>
 	 * @return True, if all items have been added to the adapter, false
 	 *         otherwise
 	 */
+	@SuppressWarnings("unchecked")
 	boolean addAllItems(int index, DataType... items);
 
 	/**
@@ -217,6 +219,7 @@ public interface ListAdapter<DataType>
 	 * @return True, if all items have been removed from the adapter, false
 	 *         otherwise
 	 */
+	@SuppressWarnings("unchecked")
 	boolean removeAllItems(DataType... items);
 
 	/**
@@ -239,6 +242,7 @@ public interface ListAdapter<DataType>
 	 *            as an array of the generic type DataType or an empty array, if
 	 *            no items should be retained
 	 */
+	@SuppressWarnings("unchecked")
 	void retainAllItems(DataType... items);
 
 	/**
@@ -399,6 +403,7 @@ public interface ListAdapter<DataType>
 	 * @return True, if the adapter contains all items, which are contained by
 	 *         the given array, false otherwise
 	 */
+	@SuppressWarnings("unchecked")
 	boolean containsAllItems(DataType... items);
 
 	/**
