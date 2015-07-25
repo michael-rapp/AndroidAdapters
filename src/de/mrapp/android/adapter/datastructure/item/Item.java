@@ -19,6 +19,7 @@ package de.mrapp.android.adapter.datastructure.item;
 
 import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 import de.mrapp.android.adapter.Filterable;
@@ -37,8 +38,7 @@ import de.mrapp.android.adapter.datastructure.DataStructure;
  * 
  * @since 1.0.0
  */
-public class Item<DataType> implements DataStructure, Parcelable,
-		Comparable<Item<DataType>>, Filterable {
+public class Item<DataType> implements DataStructure, Parcelable, Comparable<Item<DataType>>, Filterable {
 
 	/**
 	 * A creator, which allows to create instances of the class {@link Item}
@@ -68,7 +68,7 @@ public class Item<DataType> implements DataStructure, Parcelable,
 	 * The class loader, which is used to create instances of the item's generic
 	 * type.
 	 */
-	private static ClassLoader classLoader;
+	// private static ClassLoader classLoader;
 
 	/**
 	 * The item's data.
@@ -100,6 +100,8 @@ public class Item<DataType> implements DataStructure, Parcelable,
 	 */
 	@SuppressWarnings("unchecked")
 	protected Item(final Parcel source) {
+		Class<DataType> clazz = (Class<DataType>) source.readSerializable();
+		ClassLoader classLoader = clazz.getClassLoader();
 		setData((DataType) source.readParcelable(classLoader));
 		setSelected(source.readInt() == 1);
 		setEnabled(source.readInt() == 1);
@@ -141,7 +143,6 @@ public class Item<DataType> implements DataStructure, Parcelable,
 	public final void setData(final DataType data) {
 		ensureNotNull(data, "The data may not be null");
 		this.data = data;
-		Item.classLoader = data.getClass().getClassLoader();
 	}
 
 	/**
@@ -199,8 +200,7 @@ public class Item<DataType> implements DataStructure, Parcelable,
 	 *            The value must be at least 0
 	 */
 	public final void setState(final int state) {
-		ensureAtLeast(state, 0, "The state must be at least 0",
-				IllegalArgumentException.class);
+		ensureAtLeast(state, 0, "The state must be at least 0", IllegalArgumentException.class);
 		this.state = state;
 	}
 
@@ -229,8 +229,7 @@ public class Item<DataType> implements DataStructure, Parcelable,
 	@Override
 	public Item<DataType> clone() throws CloneNotSupportedException {
 		try {
-			DataType clonedData = (DataType) data.getClass().getMethod("clone")
-					.invoke(data);
+			DataType clonedData = (DataType) data.getClass().getMethod("clone").invoke(data);
 			Item<DataType> clonedItem = new Item<DataType>(clonedData);
 			clonedItem.setSelected(isSelected());
 			clonedItem.setEnabled(isEnabled());
@@ -243,8 +242,7 @@ public class Item<DataType> implements DataStructure, Parcelable,
 
 	@Override
 	public String toString() {
-		return "Item [data=" + data + ", selected=" + selected + ", enabled="
-				+ enabled + ", state=" + state + "]";
+		return "Item [data=" + data + ", selected=" + selected + ", enabled=" + enabled + ", state=" + state + "]";
 	}
 
 	@Override
@@ -285,6 +283,7 @@ public class Item<DataType> implements DataStructure, Parcelable,
 
 	@Override
 	public final void writeToParcel(final Parcel dest, final int flags) {
+		dest.writeSerializable(getData().getClass());
 		dest.writeParcelable((Parcelable) getData(), flags);
 		dest.writeInt(isSelected() ? 1 : 0);
 		dest.writeInt(isEnabled() ? 1 : 0);
