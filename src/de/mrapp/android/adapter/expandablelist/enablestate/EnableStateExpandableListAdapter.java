@@ -42,7 +42,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 * Returns, whether the group item, which belongs to a specific index, is
 	 * currently enabled, or not.
 	 * 
-	 * @param index
+	 * @param groupIndex
 	 *            The index of the group item, whose enable state should be
 	 *            checked, as an {@link Integer} value. The index must be
 	 *            between 0 and the value of the method
@@ -51,7 +51,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 * @return True, if the group item, which belongs to the given index, is
 	 *         currently enabled, false otherwise
 	 */
-	boolean isGroupEnabled(int index);
+	boolean isGroupEnabled(int groupIndex);
 
 	/**
 	 * Returns, whether a specific group item is currently enabled, or not.
@@ -181,7 +181,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 * Sets the enable state of the group item, which belongs to a specific
 	 * index.
 	 * 
-	 * @param index
+	 * @param groupIndex
 	 *            The index of the group item, whose enable state should be set,
 	 *            as an {@link Integer} value. The index must be between 0 and
 	 *            the value of the method <code>getNumberOfGroups():int</code> -
@@ -191,7 +191,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            True, if the group item, which belongs to the given index,
 	 *            should be enabled, false otherwise
 	 */
-	void setGroupEnabled(int index, boolean enabled);
+	void setGroupEnabled(int groupIndex, boolean enabled);
 
 	/**
 	 * Sets the enable state of a specific group item.
@@ -212,7 +212,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 * index. This causes the group item to become disabled, if it is currently
 	 * enabled and vice versa.
 	 * 
-	 * @param index
+	 * @param groupIndex
 	 *            The index of the group item, whose enable state should be
 	 *            triggered, as an {@link Integer} value. The index must be
 	 *            between 0 and the value of the method
@@ -221,7 +221,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 * @return True, if the group item has been enabled, false, if the group
 	 *         item has been disabled
 	 */
-	boolean triggerGroupEnableState(int index);
+	boolean triggerGroupEnableState(int groupIndex);
 
 	/**
 	 * Triggers the enable state of a specific group item. This causes the group
