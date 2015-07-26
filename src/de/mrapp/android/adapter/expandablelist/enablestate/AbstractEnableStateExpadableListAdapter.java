@@ -22,7 +22,6 @@ import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Set;
 
 import android.content.Context;
@@ -275,13 +274,7 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 
 	@Override
 	public final boolean isGroupEnabled(final GroupType group) {
-		int index = indexOfGroup(group);
-
-		if (index != -1) {
-			return isGroupEnabled(index);
-		} else {
-			throw new NoSuchElementException();
-		}
+		return isGroupEnabled(indexOfGroupOrThrowException(group));
 	}
 
 	@Override
@@ -395,13 +388,7 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 
 	@Override
 	public final void setGroupEnabled(final GroupType group, final boolean enabled) {
-		int index = indexOfGroup(group);
-
-		if (index != -1) {
-			setGroupEnabled(index, enabled);
-		} else {
-			throw new NoSuchElementException();
-		}
+		setGroupEnabled(indexOfGroupOrThrowException(group), enabled);
 	}
 
 	@Override
@@ -413,13 +400,7 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 
 	@Override
 	public final boolean triggerGroupEnableState(final GroupType group) {
-		int index = indexOfGroup(group);
-
-		if (index != -1) {
-			return triggerGroupEnableState(index);
-		} else {
-			throw new NoSuchElementException();
-		}
+		return triggerGroupEnableState(indexOfGroupOrThrowException(group));
 	}
 
 	@Override
@@ -438,24 +419,12 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 
 	@Override
 	public final boolean isChildEnabled(final GroupType group, final int childIndex) {
-		int groupIndex = indexOfGroup(group);
-
-		if (groupIndex != -1) {
-			return isChildEnabled(groupIndex, childIndex);
-		} else {
-			throw new NoSuchElementException();
-		}
+		return isChildEnabled(indexOfGroupOrThrowException(group), childIndex);
 	}
 
 	@Override
 	public final boolean isChildEnabled(final GroupType group, final ChildType child) {
-		int groupIndex = indexOfGroup(group);
-
-		if (groupIndex != -1) {
-			return isChildEnabled(groupIndex, child);
-		} else {
-			throw new NoSuchElementException();
-		}
+		return isChildEnabled(indexOfGroupOrThrowException(group), child);
 	}
 
 	@Override
@@ -465,35 +434,17 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 
 	@Override
 	public final boolean isChildEnabled(final int groupIndex, final ChildType child) {
-		int childIndex = indexOfChild(child);
-
-		if (childIndex != -1) {
-			return isChildEnabled(groupIndex, childIndex);
-		} else {
-			throw new NoSuchElementException();
-		}
+		return isChildEnabled(groupIndex, indexOfChildOrThrowException(groupIndex, child));
 	}
 
 	@Override
 	public final int getFirstEnabledChildIndex(final GroupType group) {
-		int groupIndex = indexOfGroup(group);
-
-		if (groupIndex != -1) {
-			return getFirstEnabledChildIndex(groupIndex);
-		} else {
-			throw new NoSuchElementException();
-		}
+		return getFirstEnabledChildIndex(indexOfGroupOrThrowException(group));
 	}
 
 	@Override
 	public final ChildType getFirstEnabledChild(final GroupType group) {
-		int groupIndex = indexOfGroup(group);
-
-		if (groupIndex != -1) {
-			return getFirstEnabledChild(groupIndex);
-		} else {
-			throw new NoSuchElementException();
-		}
+		return getFirstEnabledChild(indexOfGroupOrThrowException(group));
 	}
 
 	@Override
@@ -508,24 +459,12 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 
 	@Override
 	public final int getLastEnabledChildIndex(final GroupType group) {
-		int groupIndex = indexOfGroup(group);
-
-		if (groupIndex != -1) {
-			return getLastEnabledChildIndex(groupIndex);
-		} else {
-			throw new NoSuchElementException();
-		}
+		return getLastEnabledChildIndex(indexOfGroupOrThrowException(group));
 	}
 
 	@Override
 	public final ChildType getLastEnabledChild(final GroupType group) {
-		int groupIndex = indexOfGroup(group);
-
-		if (groupIndex != -1) {
-			return getLastEnabledChild(groupIndex);
-		} else {
-			throw new NoSuchElementException();
-		}
+		return getLastEnabledChild(indexOfGroupOrThrowException(group));
 	}
 
 	@Override
@@ -540,24 +479,12 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 
 	@Override
 	public final int getFirstDisabledChildIndex(final GroupType group) {
-		int groupIndex = indexOfGroup(group);
-
-		if (groupIndex != -1) {
-			return getFirstDisabledChildIndex(groupIndex);
-		} else {
-			throw new NoSuchElementException();
-		}
+		return getFirstDisabledChildIndex(indexOfGroupOrThrowException(group));
 	}
 
 	@Override
 	public final ChildType getFirstDisabledChild(final GroupType group) {
-		int groupIndex = indexOfGroup(group);
-
-		if (groupIndex != -1) {
-			return getFirstDisabledChild(groupIndex);
-		} else {
-			throw new NoSuchElementException();
-		}
+		return getFirstDisabledChild(indexOfGroupOrThrowException(group));
 	}
 
 	@Override
@@ -572,24 +499,12 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 
 	@Override
 	public final int getLastDisabledChildIndex(final GroupType group) {
-		int groupIndex = indexOfGroup(group);
-
-		if (groupIndex != -1) {
-			return getLastDisabledChildIndex(groupIndex);
-		} else {
-			throw new NoSuchElementException();
-		}
+		return getLastDisabledChildIndex(indexOfGroupOrThrowException(group));
 	}
 
 	@Override
 	public final ChildType getLastDisabledChild(final GroupType group) {
-		int groupIndex = indexOfGroup(group);
-
-		if (groupIndex != -1) {
-			return getLastDisabledChild(groupIndex);
-		} else {
-			throw new NoSuchElementException();
-		}
+		return getLastDisabledChild(indexOfGroupOrThrowException(group));
 	}
 
 	@Override
@@ -615,24 +530,12 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 
 	@Override
 	public final Collection<Integer> getEnabledChildIndices(final GroupType group) {
-		int groupIndex = indexOfGroup(group);
-
-		if (groupIndex != -1) {
-			return getEnabledChildIndices(groupIndex);
-		} else {
-			throw new NoSuchElementException();
-		}
+		return getEnabledChildIndices(indexOfGroupOrThrowException(group));
 	}
 
 	@Override
 	public final Collection<ChildType> getEnabledChildren(final GroupType group) {
-		int groupIndex = indexOfGroup(group);
-
-		if (groupIndex != -1) {
-			return getEnabledChildren(groupIndex);
-		} else {
-			throw new NoSuchElementException();
-		}
+		return getEnabledChildren(indexOfGroupOrThrowException(group));
 	}
 
 	@Override
@@ -658,24 +561,12 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 
 	@Override
 	public final Collection<Integer> getDisabledChildIndices(final GroupType group) {
-		int groupIndex = indexOfGroup(group);
-
-		if (groupIndex != -1) {
-			return getDisabledChildIndices(groupIndex);
-		} else {
-			throw new NoSuchElementException();
-		}
+		return getDisabledChildIndices(indexOfGroupOrThrowException(group));
 	}
 
 	@Override
 	public final Collection<ChildType> getDisabledChildren(final GroupType group) {
-		int groupIndex = indexOfGroup(group);
-
-		if (groupIndex != -1) {
-			return getDisabledChildren(groupIndex);
-		} else {
-			throw new NoSuchElementException();
-		}
+		return getDisabledChildren(indexOfGroupOrThrowException(group));
 	}
 
 	@Override
@@ -705,24 +596,12 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 
 	@Override
 	public final void setChildEnabled(final GroupType group, final int childIndex, final boolean enabled) {
-		int groupIndex = indexOfGroup(group);
-
-		if (groupIndex != -1) {
-			setChildEnabled(groupIndex, childIndex, enabled);
-		} else {
-			throw new NoSuchElementException();
-		}
+		setChildEnabled(indexOfGroupOrThrowException(group), childIndex, enabled);
 	}
 
 	@Override
 	public final void setChildEnabled(final GroupType group, final ChildType child, final boolean enabled) {
-		int groupIndex = indexOfGroup(group);
-
-		if (groupIndex != -1) {
-			setChildEnabled(groupIndex, child, enabled);
-		} else {
-			throw new NoSuchElementException();
-		}
+		setChildEnabled(indexOfGroupOrThrowException(group), child, enabled);
 	}
 
 	@Override
@@ -754,35 +633,17 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 
 	@Override
 	public final void setChildEnabled(final int groupIndex, final ChildType child, final boolean enabled) {
-		int childIndex = indexOfChild(groupIndex, child);
-
-		if (childIndex != -1) {
-			setChildEnabled(groupIndex, childIndex, enabled);
-		} else {
-			throw new NoSuchElementException();
-		}
+		setChildEnabled(groupIndex, indexOfChildOrThrowException(groupIndex, child), enabled);
 	}
 
 	@Override
 	public final boolean triggerChildEnableState(final GroupType group, final int childIndex) {
-		int groupIndex = indexOfGroup(group);
-
-		if (groupIndex != -1) {
-			return triggerChildEnableState(groupIndex, childIndex);
-		} else {
-			throw new NoSuchElementException();
-		}
+		return triggerChildEnableState(indexOfGroupOrThrowException(group), childIndex);
 	}
 
 	@Override
 	public final boolean triggerChildEnableState(final GroupType group, final ChildType child) {
-		int groupIndex = indexOfGroup(group);
-
-		if (groupIndex != -1) {
-			return triggerChildEnableState(groupIndex, child);
-		} else {
-			throw new NoSuchElementException();
-		}
+		return triggerChildEnableState(indexOfGroupOrThrowException(group), child);
 	}
 
 	@Override
@@ -794,13 +655,7 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 
 	@Override
 	public final boolean triggerChildEnableState(final int groupIndex, final ChildType child) {
-		int childIndex = indexOfChild(groupIndex, child);
-
-		if (childIndex != -1) {
-			return triggerChildEnableState(groupIndex, childIndex);
-		} else {
-			throw new NoSuchElementException();
-		}
+		return triggerChildEnableState(groupIndex, indexOfChildOrThrowException(groupIndex, child));
 	}
 
 	@Override
@@ -812,13 +667,7 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 
 	@Override
 	public final void setAllChildrenEnabled(final GroupType group, final boolean enabled) {
-		int groupIndex = indexOfGroup(group);
-
-		if (groupIndex != -1) {
-			setAllChildrenEnabled(groupIndex, enabled);
-		} else {
-			throw new NoSuchElementException();
-		}
+		setAllChildrenEnabled(indexOfGroupOrThrowException(group), enabled);
 	}
 
 	@Override
@@ -837,11 +686,7 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 
 	@Override
 	public final void triggerAllChildEnableStates(final GroupType group) {
-		int groupIndex = indexOfGroup(group);
-
-		if (groupIndex != -1) {
-			triggerAllChildEnableStates(groupIndex);
-		}
+		triggerAllChildEnableStates(indexOfGroupOrThrowException(group));
 	}
 
 	@Override
