@@ -19,8 +19,6 @@ package de.mrapp.android.adapter.expandablelist.enablestate;
 
 import java.util.Collection;
 
-import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
-
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a list
  * of arbitrary group and child items, which may be enabled or disabled, must
@@ -1006,10 +1004,10 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 * 
 	 * @param listener
 	 *            The listener, which should be added, as an instance of the
-	 *            type {@link ListEnableStateListener}. The listener may not be
-	 *            null
+	 *            type {@link ExpandableListEnableStateListener}. The listener
+	 *            may not be null
 	 */
-	void addEnableStateListener(ListEnableStateListener<GroupType> listener);
+	void addEnableStateListener(ExpandableListEnableStateListener<GroupType, ChildType> listener);
 
 	/**
 	 * Removes a specific listener, which should not be notified, when a group
@@ -1017,9 +1015,9 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 * 
 	 * @param listener
 	 *            The listener, which should be removed, as an instance of the
-	 *            type {@link ListEnableStateListener}. The listener may not be
-	 *            null
+	 *            type {@link ExpandableListEnableStateListener}. The listener
+	 *            may not be null
 	 */
-	void removeEnableStateListener(ListEnableStateListener<GroupType> listener);
+	void removeEnableStateListener(ExpandableListEnableStateListener<GroupType, ChildType> listener);
 
 }
