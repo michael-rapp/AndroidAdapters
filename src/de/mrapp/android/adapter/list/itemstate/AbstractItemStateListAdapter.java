@@ -24,7 +24,6 @@ import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Set;
 
 import android.content.Context;
@@ -283,13 +282,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final int getItemState(final DataType item) {
-		int index = indexOf(item);
-
-		if (index != -1) {
-			return getItemState(index);
-		} else {
-			throw new NoSuchElementException();
-		}
+		return getItemState(indexOfOrThrowException(item));
 	}
 
 	@Override
@@ -327,13 +320,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 	@Override
 	public final int setItemState(final DataType item, final int state) {
 		ensureNotNull(item, "The item may not be null");
-		int index = indexOf(item);
-
-		if (index != -1) {
-			return setItemState(index, state);
-		} else {
-			throw new NoSuchElementException();
-		}
+		return setItemState(indexOfOrThrowException(item), state);
 	}
 
 	@Override
@@ -370,13 +357,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final int triggerItemState(final DataType item) {
-		int index = indexOf(item);
-
-		if (index != -1) {
-			return triggerItemState(index);
-		} else {
-			throw new NoSuchElementException();
-		}
+		return triggerItemState(indexOfOrThrowException(item));
 	}
 
 	@Override

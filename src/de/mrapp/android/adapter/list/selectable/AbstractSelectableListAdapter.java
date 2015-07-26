@@ -21,7 +21,6 @@ import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.NoSuchElementException;
 import java.util.Set;
 
 import android.content.Context;
@@ -315,13 +314,7 @@ public abstract class AbstractSelectableListAdapter<DataType>
 
 	@Override
 	public final boolean isSelected(final DataType item) {
-		int index = indexOf(item);
-
-		if (index != -1) {
-			return isSelected(index);
-		} else {
-			throw new NoSuchElementException();
-		}
+		return isSelected(indexOfOrThrowException(item));
 	}
 
 	@Override
