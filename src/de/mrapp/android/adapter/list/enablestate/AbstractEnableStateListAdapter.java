@@ -21,7 +21,6 @@ import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Set;
 
 import android.content.Context;
@@ -361,13 +360,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final void setEnabled(final DataType item, final boolean enabled) {
-		int index = indexOf(item);
-
-		if (index != -1) {
-			setEnabled(index, enabled);
-		} else {
-			throw new NoSuchElementException();
-		}
+		setEnabled(indexOfOrThrowException(item), enabled);
 	}
 
 	@Override
@@ -379,13 +372,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final boolean triggerEnableState(final DataType item) {
-		int index = indexOf(item);
-
-		if (index != -1) {
-			return triggerEnableState(indexOf(item));
-		} else {
-			throw new NoSuchElementException();
-		}
+		return triggerEnableState(indexOfOrThrowException(item));
 	}
 
 	@Override

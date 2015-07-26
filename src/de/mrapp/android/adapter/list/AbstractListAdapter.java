@@ -29,6 +29,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import android.content.Context;
@@ -459,6 +460,25 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends BaseA
 	protected final void notifyOnDataSetChanged() {
 		if (isNotifiedOnChange()) {
 			notifyDataSetChanged();
+		}
+	}
+
+	/**
+	 * Returns the index of a specific item or throws a
+	 * {@link NoSuchElementException}, if the adapter does not contain the item.
+	 * 
+	 * @param item
+	 *            The item, whose index should be returned, as an instance of
+	 *            the generic type DataType. The item may not be null
+	 * @return The index of the the given item, as an {@link Integer} value
+	 */
+	protected final int indexOfOrThrowException(final DataType item) {
+		int index = indexOf(item);
+
+		if (index != -1) {
+			return index;
+		} else {
+			throw new NoSuchElementException("Adapter does not contain item \"" + item + "\"");
 		}
 	}
 

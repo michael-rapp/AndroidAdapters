@@ -20,7 +20,6 @@ package de.mrapp.android.adapter.list.selectable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
-import java.util.NoSuchElementException;
 import java.util.Set;
 
 import android.content.Context;
@@ -417,13 +416,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends AbstractSel
 
 	@Override
 	public final boolean select(final DataType item) {
-		int index = indexOf(item);
-
-		if (index != -1) {
-			return select(index);
-		} else {
-			throw new NoSuchElementException();
-		}
+		return select(indexOfOrThrowException(item));
 	}
 
 	@Override

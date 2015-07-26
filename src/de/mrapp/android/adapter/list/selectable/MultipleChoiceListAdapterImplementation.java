@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Set;
 
 import android.content.Context;
@@ -402,13 +401,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends AbstractS
 
 	@Override
 	public final boolean setSelected(final DataType item, final boolean selected) {
-		int index = indexOf(item);
-
-		if (index != -1) {
-			return setSelected(index, selected);
-		} else {
-			throw new NoSuchElementException();
-		}
+		return setSelected(indexOfOrThrowException(item), selected);
 	}
 
 	@Override
@@ -422,13 +415,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends AbstractS
 
 	@Override
 	public final boolean triggerSelection(final DataType item) {
-		int index = indexOf(item);
-
-		if (index != -1) {
-			return triggerSelection(index);
-		} else {
-			throw new NoSuchElementException();
-		}
+		return triggerSelection(indexOfOrThrowException(item));
 	}
 
 	@Override
