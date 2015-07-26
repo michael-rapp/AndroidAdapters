@@ -311,7 +311,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 * @return True, if the child item, which belongs to the given index, is
 	 *         currently enabled, false otherwise
 	 */
-	ChildType isChildEnabled(int groupIndex, int childIndex);
+	boolean isChildEnabled(int groupIndex, int childIndex);
 
 	/**
 	 * Returns, whether a specific child item, which belongs to the group, which
