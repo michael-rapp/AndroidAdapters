@@ -119,7 +119,8 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 
 	/**
 	 * Notifies all listeners, which have registered to be notified, when the
-	 * state of an item of the adapter has been changed.
+	 * state of an item of the adapter has been changed, about an item whose
+	 * state has been changed.
 	 * 
 	 * @param item
 	 *            The item, whose state has been changed, as an instance of the
