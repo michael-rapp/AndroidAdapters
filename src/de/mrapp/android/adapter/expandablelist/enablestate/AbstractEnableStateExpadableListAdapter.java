@@ -364,6 +364,11 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 
 	@Override
 	public final void setGroupEnabled(final int groupIndex, final boolean enabled) {
+		setGroupEnabled(false, groupIndex, enabled);
+	}
+
+	@Override
+	public final void setGroupEnabled(final boolean enableChildren, final int groupIndex, final boolean enabled) {
 		Group<GroupType, ChildType> group = getGroupAdapter().getItem(groupIndex);
 
 		if (group.isEnabled() != enabled) {
@@ -379,6 +384,10 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 			String message = enabled ? "Enabled"
 					: "Disabled" + " group \"" + group.getData() + "\" at index " + groupIndex;
 			getLogger().logInfo(getClass(), message);
+
+			if (enableChildren) {
+				setAllChildrenEnabled(groupIndex, enabled);
+			}
 		} else {
 			String message = "The enable state of group \"" + group.getData() + "\" at index " + groupIndex
 					+ " has not been changed, because it is already " + (enabled ? "enabled" : "disabled");
@@ -388,32 +397,62 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 
 	@Override
 	public final void setGroupEnabled(final GroupType group, final boolean enabled) {
-		setGroupEnabled(indexOfGroupOrThrowException(group), enabled);
+		setGroupEnabled(false, group, enabled);
+	}
+
+	@Override
+	public final void setGroupEnabled(final boolean enableChildren, final GroupType group, final boolean enabled) {
+		setGroupEnabled(enableChildren, indexOfGroupOrThrowException(group), enabled);
 	}
 
 	@Override
 	public final boolean triggerGroupEnableState(final int groupIndex) {
+		return triggerGroupEnableState(false, groupIndex);
+	}
+
+	@Override
+	public final boolean triggerGroupEnableState(final boolean triggerChildStates, final int groupIndex) {
 		boolean enabled = !isGroupEnabled(groupIndex);
 		setGroupEnabled(groupIndex, enabled);
+
+		if (triggerChildStates) {
+			triggerAllChildEnableStates(groupIndex);
+		}
+
 		return enabled;
 	}
 
 	@Override
 	public final boolean triggerGroupEnableState(final GroupType group) {
-		return triggerGroupEnableState(indexOfGroupOrThrowException(group));
+		return triggerGroupEnableState(false, group);
+	}
+
+	@Override
+	public final boolean triggerGroupEnableState(final boolean triggerChildStates, final GroupType group) {
+		return triggerGroupEnableState(triggerChildStates, indexOfGroupOrThrowException(group));
 	}
 
 	@Override
 	public final void setAllGroupsEnabled(final boolean enabled) {
+		setAllGroupsEnabled(false, enabled);
+	}
+
+	@Override
+	public final void setAllGroupsEnabled(final boolean enableChildren, final boolean enabled) {
 		for (int i = 0; i < getNumberOfGroups(); i++) {
-			setGroupEnabled(i, enabled);
+			setGroupEnabled(enableChildren, i, enabled);
 		}
 	}
 
 	@Override
 	public final void triggerAllGroupEnableStates() {
+		triggerAllGroupEnableStates(false);
+	}
+
+	@Override
+	public final void triggerAllGroupEnableStates(final boolean triggerChildStates) {
 		for (int i = 0; i < getNumberOfGroups(); i++) {
-			triggerGroupEnableState(i);
+			triggerGroupEnableState(triggerChildStates, i);
 		}
 	}
 
