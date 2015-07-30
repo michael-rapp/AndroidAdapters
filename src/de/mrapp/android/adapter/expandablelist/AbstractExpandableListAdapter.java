@@ -650,6 +650,28 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	}
 
 	/**
+	 * This method is invoked when the state of the adapter is about to be
+	 * stored within a bundle.
+	 * 
+	 * @param savedState
+	 *            The bundle, which is used to store the state of the adapter
+	 *            within a bundle, as an instance of the class {@link Bundle}.
+	 *            The bundle may not be null
+	 */
+	protected abstract void onSaveInstanceState(final Bundle savedState);
+
+	/**
+	 * This method is invoked when the state of the adapter, which has
+	 * previously been stored within a bundle, is about to be restored.
+	 * 
+	 * @param savedState
+	 *            The bundle, which has been previously used to store the state
+	 *            of the adapter, as an instance of the class {@link Bundle}.
+	 *            The bundle may not be null
+	 */
+	protected abstract void onRestoreInstanceState(final Bundle savedState);
+
+	/**
 	 * This method is invoked to apply the decorator, which allows to customize
 	 * the view, which is used to visualize a specific group item.
 	 * 
