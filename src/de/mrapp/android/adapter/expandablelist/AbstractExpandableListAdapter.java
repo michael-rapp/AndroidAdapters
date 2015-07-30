@@ -2228,7 +2228,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	}
 
 	@Override
-	public final int hashCode() {
+	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (allowDuplicateChildren ? 1231 : 1237);
@@ -2239,7 +2239,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	}
 
 	@Override
-	public final boolean equals(final Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
