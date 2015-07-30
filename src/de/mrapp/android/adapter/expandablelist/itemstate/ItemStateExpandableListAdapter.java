@@ -963,7 +963,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 * @return True, if the state of a child item is triggered, when it is
 	 *         clicked by the user, false otherwise
 	 */
-	int isChildStateTriggeredOnClick();
+	boolean isChildStateTriggeredOnClick();
 
 	/**
 	 * Sets, whether the state of a child item should be triggered, when it is
