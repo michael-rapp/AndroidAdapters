@@ -483,7 +483,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends BaseA
 	}
 
 	/**
-	 * This method is invoked to store the state of the adapter within a bundle.
+	 * This method is invoked when the state of the adapter is about to be
+	 * stored within a bundle.
 	 * 
 	 * @param savedState
 	 *            The bundle, which is used to store the state of the adapter
@@ -493,8 +494,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends BaseA
 	protected abstract void onSaveInstanceState(final Bundle savedState);
 
 	/**
-	 * This method is invoked to restore the state of the adapter, which has
-	 * previously been stored within a bundle.
+	 * This method is invoked when the state of the adapter, which has
+	 * previously been stored within a bundle, is about to be restored.
 	 * 
 	 * @param savedState
 	 *            The bundle, which has been previously used to store the state
