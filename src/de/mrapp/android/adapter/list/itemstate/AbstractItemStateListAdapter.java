@@ -253,7 +253,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final void setNumberOfItemStates(final int numberOfItemStates) {
-		ensureAtLeast(numberOfItemStates, 1, "The number of items states " + "must be at least 1",
+		ensureAtLeast(numberOfItemStates, 1, "The number of items states must be at least 1",
 				IllegalArgumentException.class);
 		this.numberOfItemStates = numberOfItemStates;
 		String message = "Set number of item states to " + numberOfItemStates;
