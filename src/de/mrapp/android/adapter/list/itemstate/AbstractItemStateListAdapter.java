@@ -319,7 +319,6 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final int setItemState(final DataType item, final int state) {
-		ensureNotNull(item, "The item may not be null");
 		return setItemState(indexOfOrThrowException(item), state);
 	}
 

@@ -671,7 +671,6 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends BaseA
 
 	@Override
 	public final boolean addAllItems(final Collection<DataType> items) {
-		ensureNotNull(items, "The collection may not be null");
 		return addAllItems(getNumberOfItems(), items);
 	}
 
