@@ -1220,7 +1220,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 	@Override
 	public final boolean addAllChildren(final GroupType group, final Collection<ChildType> children) {
-		return addAllChildren(indexOfGroup(group), children);
+		return addAllChildren(indexOfGroupOrThrowException(group), children);
 	}
 
 	@Override
