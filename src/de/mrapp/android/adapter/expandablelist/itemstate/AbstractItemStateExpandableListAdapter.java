@@ -365,11 +365,20 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 
 	@Override
 	public final int setGroupState(final int groupIndex, final int state) {
+		return setGroupState(false, groupIndex, state);
+	}
+
+	@Override
+	public final int setGroupState(final boolean setChildStates, final int groupIndex, final int state) {
 		ensureAtLeast(state, minGroupState(), "The group state must be at minimum " + minGroupState(),
 				IllegalArgumentException.class);
 		ensureAtMaximum(state, maxGroupState(), "The group state must be at maximum " + maxGroupState(),
 				IllegalArgumentException.class);
 		Group<GroupType, ChildType> group = getGroupAdapter().getItem(groupIndex);
+
+		if (setChildStates) {
+			setAllChildStates(groupIndex, state);
+		}
 
 		if (group.isEnabled()) {
 			int previousState = group.getState();
@@ -398,27 +407,80 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 
 	@Override
 	public final int setGroupState(final GroupType group, final int state) {
-		return setGroupState(indexOfGroup(group), state);
+		return setGroupState(false, group, state);
+	}
+
+	@Override
+	public final int setGroupState(final boolean setChildStates, final GroupType group, final int state) {
+		return setGroupState(setChildStates, indexOfGroup(group), state);
 	}
 
 	@Override
 	public final boolean setAllGroupStates(final int state) {
-		return getGroupAdapter().setAllItemStates(state);
+		return setAllGroupStates(false, state);
+	}
+
+	@Override
+	public final boolean setAllGroupStates(final boolean setChildStates, final int state) {
+		boolean result = true;
+
+		for (int i = 0; i < getNumberOfGroups(); i++) {
+			result &= (setGroupState(setChildStates, i, state) != -1);
+		}
+
+		return result;
 	}
 
 	@Override
 	public final int triggerGroupState(final int groupIndex) {
-		return getGroupAdapter().triggerItemState(groupIndex);
+		return triggerGroupState(false, groupIndex);
+	}
+
+	@Override
+	public final int triggerGroupState(final boolean triggerChildStates, final int groupIndex) {
+		if (triggerChildStates) {
+			triggerAllChildStates(groupIndex);
+		}
+
+		if (isGroupEnabled(groupIndex)) {
+			int previousState = getGroupState(groupIndex);
+
+			if (previousState == maxGroupState()) {
+				setGroupState(groupIndex, 0);
+			} else {
+				setGroupState(groupIndex, previousState + 1);
+			}
+
+			return previousState;
+		} else {
+			return -1;
+		}
 	}
 
 	@Override
 	public final int triggerGroupState(final GroupType group) {
-		return triggerGroupState(indexOfGroupOrThrowException(group));
+		return triggerGroupState(false, group);
+	}
+
+	@Override
+	public final int triggerGroupState(final boolean triggerChildStates, final GroupType group) {
+		return triggerGroupState(triggerChildStates, indexOfGroupOrThrowException(group));
 	}
 
 	@Override
 	public final boolean triggerAllGroupStates() {
-		return getGroupAdapter().triggerAllItemStates();
+		return triggerAllGroupStates(false);
+	}
+
+	@Override
+	public final boolean triggerAllGroupStates(final boolean triggerChildStates) {
+		boolean result = true;
+
+		for (int i = 0; i < getNumberOfGroups(); i++) {
+			result &= (triggerGroupState(triggerChildStates, i) != -1);
+		}
+
+		return result;
 	}
 
 	@Override

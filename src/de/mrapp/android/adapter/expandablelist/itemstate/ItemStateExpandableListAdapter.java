@@ -121,6 +121,29 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	int setGroupState(int groupIndex, int state);
 
 	/**
+	 * Sets the state of the group item, which belongs to a specific index, to a
+	 * specific state, if it is currently enabled.
+	 * 
+	 * @param setChildStates
+	 *            True, if the states of the group's children should also be
+	 *            set, false otherwise
+	 * @param groupIndex
+	 *            The index of the group item, whose state should be set, as an
+	 *            {@link Integer} value. The index must be between 0 and the
+	 *            value of the method <code>getNumberOfGroups():int</code> - 1,
+	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
+	 * @param state
+	 *            The state, which should be set, as an {@link Integer} value.
+	 *            The state must be between 0 and the value of the method
+	 *            <code>getNumberOfGroupStates():int</code> - 1, otherwise an
+	 *            {@link IllegalArgumentException} will be thrown
+	 * @return The previous state of the group item, which belongs to the given
+	 *         index, as an {@link Integer} value or -1, if the state has not
+	 *         been changed
+	 */
+	int setGroupState(boolean setChildStates, int groupIndex, int state);
+
+	/**
 	 * Sets the state of a specific group item to a specific state, if it is
 	 * currently enabled.
 	 * 
@@ -140,6 +163,28 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	int setGroupState(GroupType group, int state);
 
 	/**
+	 * Sets the state of a specific group item to a specific state, if it is
+	 * currently enabled.
+	 * 
+	 * @param setChildStates
+	 *            True, if the states of the group's children should also be
+	 *            set, false otherwise
+	 * @param group
+	 *            The group item, whose state should be set, as an instance of
+	 *            the generic type GroupType. The group item may not be null. If
+	 *            the group item does not belong to the adapter, a
+	 *            {@link NoSuchElementException} will be thrown
+	 * @param state
+	 *            The state, which should be set, as an {@link Integer} value.
+	 *            The state must be between 0 and the value of the method
+	 *            <code>getNumberOfGroupStates():int</code> - 1, otherwise an
+	 *            {@link IllegalArgumentException} will be thrown
+	 * @return The previous state of the given group item as an {@link Integer}
+	 *         value or -1, if the state has not been changed
+	 */
+	int setGroupState(boolean setChildStates, GroupType group, int state);
+
+	/**
 	 * Sets the states of all group items to a specific state, if they are
 	 * currently enabled.
 	 * 
@@ -152,6 +197,23 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 *         otherwise
 	 */
 	boolean setAllGroupStates(int state);
+
+	/**
+	 * Sets the states of all group items to a specific state, if they are
+	 * currently enabled.
+	 * 
+	 * @param setChildStates
+	 *            True, if the states of the groups' children should also be
+	 *            set, false otherwise
+	 * @param state
+	 *            The state, which should be set, as an {@link Integer} value.
+	 *            The state must be between 0 and the value of the method
+	 *            <code>getNumberOfGroupStates():int</code> - 1, otherwise an
+	 *            {@link IllegalArgumentException} will be thrown
+	 * @return True, if the states of all group items have been changed, false
+	 *         otherwise
+	 */
+	boolean setAllGroupStates(boolean setChildStates, int state);
 
 	/**
 	 * Triggers the state of the group item, which belongs to a specific index,
@@ -172,6 +234,27 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	int triggerGroupState(int groupIndex);
 
 	/**
+	 * Triggers the state of the group item, which belongs to a specific index,
+	 * if it is currently enabled. This causes the state to be increased by one.
+	 * If the state is already the maximum state, the state will be set to 0
+	 * instead.
+	 * 
+	 * @param triggerChildStates
+	 *            True, if the states of the group's children should also be
+	 *            triggered, false otherwise
+	 * @param groupIndex
+	 *            The index of the group item, whose state should be triggered,
+	 *            as an {@link Integer} value. The index must be between 0 and
+	 *            the value of the method <code>getNumberOfGroups():int</code> -
+	 *            1, otherwise an {@link IndexOutOfBoundsException} will be
+	 *            thrown
+	 * @return The previous state of the group item, which belongs to the given
+	 *         index, as an {@link Integer} value or -1, if the state has not
+	 *         been changed
+	 */
+	int triggerGroupState(boolean triggerChildStates, int groupIndex);
+
+	/**
 	 * Triggers the state of a specific group item, if it is currently enabled.
 	 * This causes the state to be increased by one. If the state is already the
 	 * maximum state, the state will be set to 0 instead.
@@ -187,14 +270,47 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	int triggerGroupState(GroupType group);
 
 	/**
-	 * Triggers the states of all group items. if they are currently enabled.
-	 * This causes the states to be increased by one. If a state is already the
+	 * Triggers the state of a specific group item, if it is currently enabled.
+	 * This causes the state to be increased by one. If the state is already the
 	 * maximum state, the state will be set to 0 instead.
+	 * 
+	 * @param triggerChildStates
+	 *            True, if the states of the group's children should also be
+	 *            triggered, false otherwise
+	 * @param group
+	 *            The group item, whose state should be triggered, as an
+	 *            instance of the generic type GroupType. The group item may not
+	 *            be null. If the group item does not belong to the adapter, a
+	 *            {@link NoSuchElementException} will be thrown
+	 * @return The previous state of the given group item, as an {@link Integer}
+	 *         value or -1, if the state has not been changed
+	 */
+	int triggerGroupState(boolean triggerChildStates, GroupType group);
+
+	/**
+	 * Triggers the states of all group items, regardless of the group they
+	 * belong to, if they are currently enabled. This causes the states to be
+	 * increased by one. If a state is already the maximum state, the state will
+	 * be set to 0 instead.
 	 * 
 	 * @return True, if the states of all group items have been changed, false
 	 *         otherwise
 	 */
 	boolean triggerAllGroupStates();
+
+	/**
+	 * Triggers the states of all group items, regardless of the group they
+	 * belong to, if they are currently enabled. This causes the states to be
+	 * increased by one. If a state is already the maximum state, the state will
+	 * be set to 0 instead.
+	 * 
+	 * @param triggerChildStates
+	 *            True, if the states of the groups' children should also be
+	 *            triggered, false otherwise
+	 * @return True, if the states of all group items have been changed, false
+	 *         otherwise
+	 */
+	boolean triggerAllGroupStates(boolean triggerChildStates);
 
 	/**
 	 * Returns the index of the first group item, which currently has a specific
