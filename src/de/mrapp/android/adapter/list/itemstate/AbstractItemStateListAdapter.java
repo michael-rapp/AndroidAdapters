@@ -304,7 +304,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 				String message = "Changed state of item \"" + item.getData() + "\" at index " + index + " from "
 						+ previousState + " to " + state;
 				getLogger().logInfo(getClass(), message);
-				return state;
+				return previousState;
 			} else {
 				String message = "The state of item \"" + item.getData() + "\" at index " + index
 						+ " has not been changed, because state " + state + " is already set";
