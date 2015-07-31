@@ -275,7 +275,7 @@ public interface SortableExpandableListAdapter<GroupType, ChildType> {
 	 *            class {@link ExpandableListSortingListener}. The listener may
 	 *            not be null
 	 */
-	void addSortingListner(ExpandableListSortingListener<GroupType, ChildType> listener);
+	void addSortingListener(ExpandableListSortingListener<GroupType, ChildType> listener);
 
 	/**
 	 * Removes a specific listener, which should not be notified, when the
