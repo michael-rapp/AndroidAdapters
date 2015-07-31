@@ -25,6 +25,9 @@ import android.view.View;
 import de.mrapp.android.adapter.ExpandableListDecorator;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.datastructure.group.Group;
+import de.mrapp.android.adapter.expandablelist.enablestate.ExpandableListEnableStateListener;
+import de.mrapp.android.adapter.expandablelist.itemstate.AbstractItemStateExpandableListAdapter;
+import de.mrapp.android.adapter.expandablelist.itemstate.ExpandableListItemStateListener;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.selectable.MultipleChoiceListAdapterImplementation;
 import de.mrapp.android.adapter.logging.LogLevel;
@@ -44,63 +47,50 @@ import de.mrapp.android.adapter.logging.LogLevel;
  * 
  * @since 1.0.0
  */
-public class ExpandableListAdapterImplementation<GroupType, ChildType>
-		extends
-		AbstractExpandableListAdapter<GroupType, ChildType, ExpandableListDecorator<GroupType, ChildType>> {
+public class ExpandableListAdapterImplementation<GroupType, ChildType> extends
+		AbstractItemStateExpandableListAdapter<GroupType, ChildType, ExpandableListDecorator<GroupType, ChildType>> {
 
 	/**
 	 * The constant serial version UID.
 	 */
 	private static final long serialVersionUID = 1L;
 
-	protected ExpandableListAdapterImplementation(
-			final Context context,
-			final Inflater groupInflater,
-			final Inflater childInflater,
-			final ExpandableListDecorator<GroupType, ChildType> decorator,
-			final LogLevel logLevel,
-			final MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter,
-			final boolean allowDuplicateChildren,
-			final boolean notifyOnChange,
-			final boolean expandGroupOnClick,
+	protected ExpandableListAdapterImplementation(final Context context, final Inflater groupInflater,
+			final Inflater childInflater, final ExpandableListDecorator<GroupType, ChildType> decorator,
+			final LogLevel logLevel, final MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter,
+			final boolean allowDuplicateChildren, final boolean notifyOnChange, final boolean expandGroupOnClick,
 			final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
 			final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
-			final Set<ExpansionListener<GroupType, ChildType>> expansionListeners) {
-		super(context, groupInflater, childInflater, decorator, logLevel,
-				groupAdapter, allowDuplicateChildren, notifyOnChange,
-				expandGroupOnClick, itemClickListeners, adapterListeners,
-				expansionListeners);
+			final Set<ExpansionListener<GroupType, ChildType>> expansionListeners,
+			final Set<ExpandableListEnableStateListener<GroupType, ChildType>> enableStateListeners,
+			final int numberOfGroupStates, final int numberOfChildStates, final boolean triggerGroupStateOnClick,
+			final boolean triggerChildStateOnClick,
+			final Set<ExpandableListItemStateListener<GroupType, ChildType>> itemStateListeners) {
+		super(context, groupInflater, childInflater, decorator, logLevel, groupAdapter, allowDuplicateChildren,
+				notifyOnChange, expandGroupOnClick, itemClickListeners, adapterListeners, expansionListeners,
+				enableStateListeners, numberOfGroupStates, numberOfChildStates, triggerGroupStateOnClick,
+				triggerChildStateOnClick, itemStateListeners);
 	}
 
-	public ExpandableListAdapterImplementation(final Context context,
-			final Inflater groupInflater, final Inflater childInflater,
-			final ExpandableListDecorator<GroupType, ChildType> decorator) {
-		this(
-				context,
-				groupInflater,
-				childInflater,
-				decorator,
-				LogLevel.ALL,
-				new MultipleChoiceListAdapterImplementation<Group<GroupType, ChildType>>(
-						context, groupInflater,
+	public ExpandableListAdapterImplementation(final Context context, final Inflater groupInflater,
+			final Inflater childInflater, final ExpandableListDecorator<GroupType, ChildType> decorator) {
+		this(context, groupInflater, childInflater, decorator, LogLevel.ALL,
+				new MultipleChoiceListAdapterImplementation<Group<GroupType, ChildType>>(context, groupInflater,
 						new NullObjectDecorator<Group<GroupType, ChildType>>()),
-				false,
-				true,
-				true,
-				new LinkedHashSet<ExpandableListAdapterItemClickListener<GroupType, ChildType>>(),
+				false, true, true, new LinkedHashSet<ExpandableListAdapterItemClickListener<GroupType, ChildType>>(),
 				new LinkedHashSet<ExpandableListAdapterListener<GroupType, ChildType>>(),
-				new LinkedHashSet<ExpansionListener<GroupType, ChildType>>());
+				new LinkedHashSet<ExpansionListener<GroupType, ChildType>>(),
+				new LinkedHashSet<ExpandableListEnableStateListener<GroupType, ChildType>>(), 0, 0, false, false,
+				new LinkedHashSet<ExpandableListItemStateListener<GroupType, ChildType>>());
 	}
 
 	@Override
-	public final boolean isChildSelectable(final int groupPosition,
-			final int childPosition) {
+	public final boolean isChildSelectable(final int groupPosition, final int childPosition) {
 		return false;
 	}
 
 	@Override
-	protected final void applyDecoratorOnGroup(final Context context,
-			final View view, final int index) {
+	protected final void applyDecoratorOnGroup(final Context context, final View view, final int index) {
 		GroupType group = getGroup(index);
 		boolean expanded = isGroupExpanded(index);
 
@@ -109,28 +99,24 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType>
 		int state = 0;
 		boolean filtered = false;
 
-		getDecorator().applyDecoratorOnGroup(context, this, view, group, index,
-				expanded, enabled, state, filtered);
+		getDecorator().applyDecoratorOnGroup(context, this, view, group, index, expanded, enabled, state, filtered);
 	}
 
 	@Override
-	protected final void applyDecoratorOnChild(final Context context,
-			final View view, final int groupIndex, final int childIndex) {
+	protected final void applyDecoratorOnChild(final Context context, final View view, final int groupIndex,
+			final int childIndex) {
 		GroupType group = getGroup(groupIndex);
 		ChildType child = getChild(groupIndex, childIndex);
-		getDecorator().applyDecoratorOnChild(context, this, view, child,
-				childIndex, group, groupIndex, true, 0, false);
+		getDecorator().applyDecoratorOnChild(context, this, view, child, childIndex, group, groupIndex, true, 0, false);
 	}
 
 	@Override
-	public final AbstractExpandableListAdapter<GroupType, ChildType, ExpandableListDecorator<GroupType, ChildType>> clone()
-			throws CloneNotSupportedException {
-		return new ExpandableListAdapterImplementation<GroupType, ChildType>(
-				getContext(), getGroupInflater(), getChildInflater(),
-				getDecorator(), getLogLevel(), cloneGroupAdapter(),
-				areDuplicateChildrenAllowed(), isNotifiedOnChange(),
-				isGroupExpandedOnClick(), getItemClickListeners(),
-				getAdapterListeners(), getExpansionListeners());
+	public final ExpandableListAdapterImplementation<GroupType, ChildType> clone() throws CloneNotSupportedException {
+		return new ExpandableListAdapterImplementation<GroupType, ChildType>(getContext(), getGroupInflater(),
+				getChildInflater(), getDecorator(), getLogLevel(), cloneGroupAdapter(), areDuplicateChildrenAllowed(),
+				isNotifiedOnChange(), isGroupExpandedOnClick(), getItemClickListeners(), getAdapterListeners(),
+				getExpansionListeners(), getEnableStateListeners(), getNumberOfGroupStates(), getNumberOfChildStates(),
+				isGroupStateTriggeredOnClick(), isChildStateTriggeredOnClick(), getItemStateListeners());
 	}
 
 }

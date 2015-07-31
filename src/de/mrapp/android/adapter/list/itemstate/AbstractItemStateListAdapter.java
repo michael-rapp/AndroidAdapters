@@ -295,20 +295,21 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 		Item<DataType> item = getItems().get(index);
 
 		if (item.isEnabled()) {
-			if (item.getState() != state) {
-				int previousState = item.getState();
+			int previousState = item.getState();
+
+			if (previousState != state) {
 				item.setState(state);
 				notifyOnItemStateChanged(item.getData(), index, state);
 				notifyOnDataSetChanged();
 				String message = "Changed state of item \"" + item.getData() + "\" at index " + index + " from "
 						+ previousState + " to " + state;
 				getLogger().logInfo(getClass(), message);
-				return previousState;
+				return state;
 			} else {
 				String message = "The state of item \"" + item.getData() + "\" at index " + index
 						+ " has not been changed, because state " + state + " is already set";
 				getLogger().logDebug(getClass(), message);
-				return -1;
+				return previousState;
 			}
 		} else {
 			String message = "The state of item \"" + item.getData() + "\" at index " + index
