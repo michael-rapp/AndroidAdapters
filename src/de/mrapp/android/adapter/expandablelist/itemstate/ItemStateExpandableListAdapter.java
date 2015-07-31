@@ -77,7 +77,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 * Returns the current state of the group item, which belongs to a specific
 	 * index.
 	 * 
-	 * @param index
+	 * @param groupIndex
 	 *            The index of the group item, whose state should be returned,
 	 *            as an {@link Integer} value. The index must be between 0 and
 	 *            the value of the method
@@ -86,7 +86,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 * @return The state of the group item, which belongs to the given index, as
 	 *         a {@link Integer} value
 	 */
-	int getGroupState(int index);
+	int getGroupState(int groupIndex);
 
 	/**
 	 * Returns the current state of a specific group item.
@@ -104,7 +104,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 * Sets the state of the group item, which belongs to a specific index, to a
 	 * specific state, if it is currently enabled.
 	 * 
-	 * @param index
+	 * @param groupIndex
 	 *            The index of the group item, whose state should be set, as an
 	 *            {@link Integer} value. The index must be between 0 and the
 	 *            value of the method <code>getNumberOfGroups():int</code> - 1,
@@ -118,7 +118,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 *         index, as an {@link Integer} value or -1, if the state has not
 	 *         been changed
 	 */
-	int setGroupState(int index, int state);
+	int setGroupState(int groupIndex, int state);
 
 	/**
 	 * Sets the state of a specific group item to a specific state, if it is
@@ -159,7 +159,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 * If the state is already the maximum state, the state will be set to 0
 	 * instead.
 	 * 
-	 * @param index
+	 * @param groupIndex
 	 *            The index of the group item, whose state should be triggered,
 	 *            as an {@link Integer} value. The index must be between 0 and
 	 *            the value of the method <code>getNumberOfGroups():int</code> -
@@ -169,7 +169,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 *         index, as an {@link Integer} value or -1, if the state has not
 	 *         been changed
 	 */
-	int triggerGroupState(int index);
+	int triggerGroupState(int groupIndex);
 
 	/**
 	 * Triggers the state of a specific group item, if it is currently enabled.
@@ -244,7 +244,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 *         instance of the generic type GroupType or null, if the adapter
 	 *         does not contain a group item with the given state
 	 */
-	GroupType getLastItemWithSpecificState(int state);
+	GroupType getLastGroupWithSpecificState(int state);
 
 	/**
 	 * Returns a collection, which contains the indices of all group items,
@@ -525,6 +525,20 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	int setChildState(int groupIndex, ChildType child, int state);
 
 	/**
+	 * Sets the states of all child items, regardless of the group the belong
+	 * to, if they are currently enabled.
+	 * 
+	 * @param state
+	 *            The state, which should be set, as an {@link Integer} value.
+	 *            The state must be between 0 and the value of the method
+	 *            <code>getNumberOfChildStates():int</code> - 1, otherwise an
+	 *            {@link IllegalArgumentException} will be thrown
+	 * @return True, if the states of all child items have been changed, false
+	 *         otherwise
+	 */
+	boolean setAllChildStates(int state);
+
+	/**
 	 * Sets the states of all child items, which belong to a specific group, to
 	 * a specific state, if they are currently enabled.
 	 * 
@@ -533,10 +547,15 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 *            to, as an instance of the generic type GroupType. The group
 	 *            may not be null. If the group does not belong to the adapter,
 	 *            a {@link NoSuchElementException} will be thrown
+	 * @param state
+	 *            The state, which should be set, as an {@link Integer} value.
+	 *            The state must be between 0 and the value of the method
+	 *            <code>getNumberOfChildStates():int</code> - 1, otherwise an
+	 *            {@link IllegalArgumentException} will be thrown
 	 * @return True, if the states of all child items of the given group have
 	 *         been changed, false otherwise
 	 */
-	boolean setAllChildStates(GroupType group);
+	boolean setAllChildStates(GroupType group, int state);
 
 	/**
 	 * Sets the states of all child items, which belong to the group, which
@@ -549,10 +568,15 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 *            be between 0 and the value of the method
 	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
+	 * @param state
+	 *            The state, which should be set, as an {@link Integer} value.
+	 *            The state must be between 0 and the value of the method
+	 *            <code>getNumberOfChildStates():int</code> - 1, otherwise an
+	 *            {@link IllegalArgumentException} will be thrown
 	 * @return True, if the states of all child items of the given group have
 	 *         been changed, false otherwise
 	 */
-	boolean setAllChildStates(int groupIndex);
+	boolean setAllChildStates(int groupIndex, int state);
 
 	/**
 	 * Triggers the state of the child item, which belongs to a specific index
@@ -643,6 +667,17 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 *         value or -1, if the state has not been changed
 	 */
 	int triggerChildState(int groupIndex, ChildType child);
+
+	/**
+	 * Triggers the states of all child items, regardless of the group they
+	 * belong to, if they are currently enabled. This causes the states to be
+	 * increase by one. If a state is already the maximum state, the state will
+	 * be set to 0 instead.
+	 * 
+	 * @return True, if the states of all child items have been changed, false
+	 *         otherwise
+	 */
+	boolean triggerAllChildStates();
 
 	/**
 	 * Triggers the states of all child items, which belong to a specific group,
@@ -747,10 +782,11 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The state of the child item, which should be returned, as an
 	 *            {@link Integer} value
 	 * @return The first child item of the given group, which currently has the
-	 *         given state, as an instance of the generic type ChildType or -1,
-	 *         if the group does not contain a child item with the given state
+	 *         given state, as an instance of the generic type ChildType or
+	 *         null, if the group does not contain a child item with the given
+	 *         state
 	 */
-	int getFirstChildWithSpecificState(int groupIndex, int state);
+	ChildType getFirstChildWithSpecificState(int groupIndex, int state);
 
 	/**
 	 * Returns the index of the last child item of a specific group, which
@@ -822,10 +858,11 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The state of the child item, which should be returned, as an
 	 *            {@link Integer} value
 	 * @return The last child item of the given group, which currently has the
-	 *         given state, as an instance of the generic type ChildType or -1,
-	 *         if the group does not contain a child item with the given state
+	 *         given state, as an instance of the generic type ChildType or
+	 *         null, if the group does not contain a child item with the given
+	 *         state
 	 */
-	int getLastChildWithSpecificState(int groupIndex, int state);
+	ChildType getLastChildWithSpecificState(int groupIndex, int state);
 
 	/**
 	 * Returns a collection, which contains the indices of all child items of a
@@ -842,11 +879,10 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 * @return A collection, which contains the indices of all child items of
 	 *         the given group, which currently have a specific state, as an
 	 *         instance of the type {@link Collection} or an empty collection,
-	 *         if the adapter does not contain any child items with the given
+	 *         if the group does not contain any child items with the given
 	 *         state
 	 */
-	Collection<Integer> getChildIndicesWithSpecificState(GroupType group,
-			int state);
+	Collection<Integer> getChildIndicesWithSpecificState(GroupType group, int state);
 
 	/**
 	 * Returns a collection, which contains the indices of all child items of
@@ -865,11 +901,24 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 * @return A collection, which contains the indices of all child items of
 	 *         the given group, which currently have a specific state, as an
 	 *         instance of the type {@link Collection} or an empty collection,
-	 *         if the adapter does not contain any child items with the given
+	 *         if the group does not contain any child items with the given
 	 *         state
 	 */
-	Collection<Integer> getChildIndicesWithSpecificState(int groupIndex,
-			int state);
+	Collection<Integer> getChildIndicesWithSpecificState(int groupIndex, int state);
+
+	/**
+	 * Returns a collection, which contains all child items, regardless of the
+	 * group they belong to, which currently have a specific state.
+	 * 
+	 * @param state
+	 *            The state of the child items, which should be returned, as an
+	 *            {@link Integer} value
+	 * @return A collection, which contains all child items, which currently
+	 *         have a specific state, as an instance of the type
+	 *         {@link Collection} or an empty collection, if the adapter does
+	 *         not contain any child items with the given state
+	 */
+	Collection<ChildType> getChildrenWithSpecificState(int state);
 
 	/**
 	 * Returns a collection, which contains all child items of a specific group,
@@ -885,10 +934,10 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 *            {@link Integer} value
 	 * @return A collection, which contains the all child items of the given
 	 *         group, which currently have a specific state, as an instance of
-	 *         the type {@link Collection} or an empty collection, if the
-	 *         adapter does not contain any child items with the given state
+	 *         the type {@link Collection} or an empty collection, if the group
+	 *         does not contain any child items with the given state
 	 */
-	Collection<Integer> getChildrenWithSpecificState(GroupType group, int state);
+	Collection<ChildType> getChildrenWithSpecificState(GroupType group, int state);
 
 	/**
 	 * Returns a collection, which contains all child items of the group, which
@@ -905,10 +954,10 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 *            {@link Integer} value
 	 * @return A collection, which contains the all child items of the given
 	 *         group, which currently have a specific state, as an instance of
-	 *         the type {@link Collection} or an empty collection, if the
-	 *         adapter does not contain any child items with the given state
+	 *         the type {@link Collection} or an empty collection, if the group
+	 *         does not contain any child items with the given state
 	 */
-	Collection<Integer> getChildrenWithSpecificState(int groupIndex, int state);
+	Collection<ChildType> getChildrenWithSpecificState(int groupIndex, int state);
 
 	/**
 	 * Returns the number of child items, which currently have a specific state.
@@ -984,8 +1033,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 *            class {@link ExpandableListItemStateListener}. The listener
 	 *            may not be null
 	 */
-	void addItemStateListener(
-			final ExpandableListItemStateListener<GroupType, ChildType> listener);
+	void addItemStateListener(final ExpandableListItemStateListener<GroupType, ChildType> listener);
 
 	/**
 	 * Removes a specific listener, which should not be notified, when the state
@@ -996,7 +1044,6 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 *            class {@link ExpandableListItemStateListener}. The listener
 	 *            may not be null
 	 */
-	void removeItemStateListener(
-			ExpandableListItemStateListener<GroupType, ChildType> listener);
+	void removeItemStateListener(ExpandableListItemStateListener<GroupType, ChildType> listener);
 
 }
