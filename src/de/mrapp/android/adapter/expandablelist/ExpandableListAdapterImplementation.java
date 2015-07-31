@@ -26,8 +26,9 @@ import de.mrapp.android.adapter.ExpandableListDecorator;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.datastructure.group.Group;
 import de.mrapp.android.adapter.expandablelist.enablestate.ExpandableListEnableStateListener;
-import de.mrapp.android.adapter.expandablelist.itemstate.AbstractItemStateExpandableListAdapter;
 import de.mrapp.android.adapter.expandablelist.itemstate.ExpandableListItemStateListener;
+import de.mrapp.android.adapter.expandablelist.sortable.AbstractSortableExpandableListAdapter;
+import de.mrapp.android.adapter.expandablelist.sortable.ExpandableListSortingListener;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.selectable.MultipleChoiceListAdapterImplementation;
 import de.mrapp.android.adapter.logging.LogLevel;
@@ -48,7 +49,7 @@ import de.mrapp.android.adapter.logging.LogLevel;
  * @since 1.0.0
  */
 public class ExpandableListAdapterImplementation<GroupType, ChildType> extends
-		AbstractItemStateExpandableListAdapter<GroupType, ChildType, ExpandableListDecorator<GroupType, ChildType>> {
+		AbstractSortableExpandableListAdapter<GroupType, ChildType, ExpandableListDecorator<GroupType, ChildType>> {
 
 	/**
 	 * The constant serial version UID.
@@ -65,11 +66,12 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType> extends
 			final Set<ExpandableListEnableStateListener<GroupType, ChildType>> enableStateListeners,
 			final int numberOfGroupStates, final int numberOfChildStates, final boolean triggerGroupStateOnClick,
 			final boolean triggerChildStateOnClick,
-			final Set<ExpandableListItemStateListener<GroupType, ChildType>> itemStateListeners) {
+			final Set<ExpandableListItemStateListener<GroupType, ChildType>> itemStateListeners,
+			final Set<ExpandableListSortingListener<GroupType, ChildType>> sortingListeners) {
 		super(context, groupInflater, childInflater, decorator, logLevel, groupAdapter, allowDuplicateChildren,
 				notifyOnChange, expandGroupOnClick, itemClickListeners, adapterListeners, expansionListeners,
 				enableStateListeners, numberOfGroupStates, numberOfChildStates, triggerGroupStateOnClick,
-				triggerChildStateOnClick, itemStateListeners);
+				triggerChildStateOnClick, itemStateListeners, sortingListeners);
 	}
 
 	public ExpandableListAdapterImplementation(final Context context, final Inflater groupInflater,
@@ -81,7 +83,8 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType> extends
 				new LinkedHashSet<ExpandableListAdapterListener<GroupType, ChildType>>(),
 				new LinkedHashSet<ExpansionListener<GroupType, ChildType>>(),
 				new LinkedHashSet<ExpandableListEnableStateListener<GroupType, ChildType>>(), 1, 1, false, false,
-				new LinkedHashSet<ExpandableListItemStateListener<GroupType, ChildType>>());
+				new LinkedHashSet<ExpandableListItemStateListener<GroupType, ChildType>>(),
+				new LinkedHashSet<ExpandableListSortingListener<GroupType, ChildType>>());
 	}
 
 	@Override
@@ -116,7 +119,8 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType> extends
 				getChildInflater(), getDecorator(), getLogLevel(), cloneGroupAdapter(), areDuplicateChildrenAllowed(),
 				isNotifiedOnChange(), isGroupExpandedOnClick(), getItemClickListeners(), getAdapterListeners(),
 				getExpansionListeners(), getEnableStateListeners(), getNumberOfGroupStates(), getNumberOfChildStates(),
-				isGroupStateTriggeredOnClick(), isChildStateTriggeredOnClick(), getItemStateListeners());
+				isGroupStateTriggeredOnClick(), isChildStateTriggeredOnClick(), getItemStateListeners(),
+				getSortingListeners());
 	}
 
 }
