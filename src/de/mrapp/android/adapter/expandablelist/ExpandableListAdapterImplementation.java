@@ -80,7 +80,7 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType> extends
 				false, true, true, new LinkedHashSet<ExpandableListAdapterItemClickListener<GroupType, ChildType>>(),
 				new LinkedHashSet<ExpandableListAdapterListener<GroupType, ChildType>>(),
 				new LinkedHashSet<ExpansionListener<GroupType, ChildType>>(),
-				new LinkedHashSet<ExpandableListEnableStateListener<GroupType, ChildType>>(), 0, 0, false, false,
+				new LinkedHashSet<ExpandableListEnableStateListener<GroupType, ChildType>>(), 1, 1, false, false,
 				new LinkedHashSet<ExpandableListItemStateListener<GroupType, ChildType>>());
 	}
 
