@@ -43,31 +43,30 @@ public interface ExpandableListFilterListener<GroupType, ChildType> {
 
 	/**
 	 * The method, which is invoked, when the adapter's group items have been
-	 * filtered by using a regular expression.
+	 * filtered by using a query.
 	 * 
 	 * @param adapter
 	 *            The observed adapter as an instance of the type
 	 *            {@link ExpandableListAdapter}. The adapter may not be null
-	 * @param regularExpression
-	 *            The regular expression, which has been used, as an instance of
-	 *            the class {@link Pattern}. The regular expression may not be
-	 *            null
+	 * @param query
+	 *            The query, which has been used, as a {@link String}. The query
+	 *            may not be null
+	 * @param flags
+	 *            The flags, which have been used, as an {@link Integer} value,
+	 *            or 0, if no flags have been used instead
 	 * @param filter
-	 *            The filter, which has been used to apply the regular
-	 *            expression on the single group items, as an instance of the
-	 *            type {@link Filter} or null, if the group items'
-	 *            implementations of the interface {@link Filterable} have been
-	 *            used instead
+	 *            The filter, which has been used to apply the query on the
+	 *            single group items, as an instance of the type {@link Filter}
+	 *            or null, if the group items' implementations of the interface
+	 *            {@link Filterable} have been used instead
 	 * @param filteredGroups
 	 *            A collection, which contains the adapter's filtered group
 	 *            items, as an instance of the type {@link Collection} or an
 	 *            empty collection, if the adapter does not contain any group
 	 *            items
 	 */
-	void onApplyGroupFilter(
-			ExpandableListAdapter<GroupType, ChildType> adapter,
-			Pattern regularExpression, Filter<GroupType> filter,
-			Collection<GroupType> filteredGroups);
+	void onApplyGroupFilter(ExpandableListAdapter<GroupType, ChildType> adapter, Pattern query, int flags,
+			Filter<GroupType> filter, Collection<GroupType> filteredGroups);
 
 	/**
 	 * The method, which is invoked, when a filter, which has been used to
@@ -76,67 +75,81 @@ public interface ExpandableListFilterListener<GroupType, ChildType> {
 	 * @param adapter
 	 *            The observed adapter as an instance of the type
 	 *            {@link ExpandableListAdapter}. The adapter may not be null
-	 * @param regularExpression
-	 *            The regular expression used by the filter, which has been
-	 *            reseted, as an instance of the class {@link Pattern}. The
-	 *            regular expression may not be null
+	 * @param query
+	 *            The query used by the filter, which has been reseted, as a
+	 *            {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags used by the filter, which has been reseted, as an
+	 *            {@link Integer} value or 0, if no flags have been used by the
+	 *            filter
 	 * @param filteredGroups
 	 *            A collection, which contains the adapter's filtered group
 	 *            items, as an instance of the type {@link Collection} or an
 	 *            empty collection, if the adapter does not contain any group
 	 *            items
 	 */
-	void onResetGroupFilter(
-			ExpandableListAdapter<GroupType, ChildType> adapter,
-			Pattern regularExpression, Collection<GroupType> filteredGroups);
-
-	/**
-	 * The method, which is invoked, when the adapter's child items have been
-	 * filtered by using a regular expression.
-	 * 
-	 * @param adapter
-	 *            The observed adapter as an instance of the type
-	 *            {@link ExpandableListAdapter}. The adapter may not be null
-	 * @param regularExpression
-	 *            The regular expression, which has been used, as an instance of
-	 *            the class {@link Pattern}. The regular expression may not be
-	 *            null
-	 * @param filter
-	 *            The filter, which has been used to apply the regular
-	 *            expression on the single child items, as an instance of the
-	 *            type {@link Filter} or null, if the child items'
-	 *            implementations of the interface {@link Filterable} have been
-	 *            used instead
-	 * @param filteredGroups
-	 *            A collection, which contains the adapter's filtered child
-	 *            items, as an instance of the type {@link Collection} or an
-	 *            empty collection, if the adapter does not contain any child
-	 *            items
-	 */
-	void onApplyChildFilter(
-			ExpandableListAdapter<GroupType, ChildType> adapter,
-			Pattern regularExpression, Filter<GroupType> filter,
+	void onResetGroupFilter(ExpandableListAdapter<GroupType, ChildType> adapter, String query, int flags,
 			Collection<GroupType> filteredGroups);
 
 	/**
-	 * The method, which is invoked, when a filter, which has been used to
-	 * filter the adapter's child items, has been reseted.
+	 * The method, which is invoked, when the child items of a specific group
+	 * have been filtered by using a query.
 	 * 
 	 * @param adapter
 	 *            The observed adapter as an instance of the type
 	 *            {@link ExpandableListAdapter}. The adapter may not be null
-	 * @param regularExpression
-	 *            The regular expression used by the filter, which has been
-	 *            reseted, as an instance of the class {@link Pattern}. The
-	 *            regular expression may not be null
-	 * @param filteredGroups
-	 *            A collection, which contains the adapter's filtered child
-	 *            items, as an instance of the type {@link Collection} or an
-	 *            empty collection, if the adapter does not contain any group
-	 *            items
+	 * @param query
+	 *            The query, which has been used, as a {@link String}. The query
+	 *            may not be null
+	 * @param flags
+	 *            The flags, which have been used, as an {@link Integer} value,
+	 *            or 0, if no flags have been used instead
+	 * @param filter
+	 *            The filter, which has been used to apply the query on the
+	 *            single child items, as an instance of the type {@link Filter}
+	 *            or null, if the child items' implementations of the interface
+	 *            {@link Filterable} have been used instead
+	 * @param group
+	 *            The group, whose child items have been filtered, as an
+	 *            instance of the generic type GroupType. The group may not be
+	 *            null
+	 * @param groupIndex
+	 *            The index of the group, whose child items have been filtered,
+	 *            as an {@link Integer} value
+	 * @param filteredChildren
+	 *            A collection, which contains the group's filtered child items,
+	 *            as an instance of the type {@link Collection} or an empty
+	 *            collection, if the group does not contain any child items
 	 */
-	void onResetChildFilter(
-			ExpandableListAdapter<GroupType, ChildType> adapter,
-			Pattern regularExpression, Collection<GroupType> filteredGroups);
+	void onApplyChildFilter(ExpandableListAdapter<GroupType, ChildType> adapter, Pattern query, int flags,
+			Filter<ChildType> filter, GroupType group, int groupIndex, Collection<ChildType> filteredChildren);
+
+	/**
+	 * The method, which is invoked, when a filter, which has been used to
+	 * filter the child items of a specific group, has been reseted.
+	 * 
+	 * @param adapter
+	 *            The observed adapter as an instance of the type
+	 *            {@link ExpandableListAdapter}. The adapter may not be null
+	 * @param query
+	 *            The query used by the filter, which has been reseted, as a
+	 *            {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags used by the filter, which has been reseted, as an
+	 *            {@link Integer} value or 0, if no flags have been used
+	 * @param group
+	 *            The group, whose child items have been filtered, as an
+	 *            instance of the generic type GroupType. The group may not be
+	 *            null
+	 * @param groupIndex
+	 *            The index of the group, whose child items have been filtered,
+	 *            as an {@link Integer} value
+	 * @param filteredChildren
+	 *            A collection, which contains the group's filtered child items,
+	 *            as an instance of the type {@link Collection} or an empty
+	 *            collection, if the group does not contain any child items
+	 */
+	void onResetChildFilter(ExpandableListAdapter<GroupType, ChildType> adapter, String query, int flags,
+			GroupType group, int groupIndex, Collection<ChildType> filteredChildren);
 
 }
