@@ -196,8 +196,7 @@ public interface SortableExpandableListAdapter<GroupType, ChildType> {
 	 *            value of the enum {@link Order}. The order may either be
 	 *            <code>ASCENDING</code> or <code>DESCENDING</code>
 	 */
-	void sortChildren(int groupIndex, Order order,
-			Comparator<ChildType> comparator);
+	void sortChildren(int groupIndex, Order order, Comparator<ChildType> comparator);
 
 	/**
 	 * Sorts the child items of a specific group in an ascending order. If the
@@ -265,8 +264,7 @@ public interface SortableExpandableListAdapter<GroupType, ChildType> {
 	 *            value of the enum {@link Order}. The order may either be
 	 *            <code>ASCENDING</code> or <code>DESCENDING</code>
 	 */
-	void sortChildren(GroupType group, Order order,
-			Comparator<ChildType> comparator);
+	void sortChildren(GroupType group, Order order, Comparator<ChildType> comparator);
 
 	/**
 	 * Adds a new listener, which should be notified, when the adapter's
@@ -277,8 +275,7 @@ public interface SortableExpandableListAdapter<GroupType, ChildType> {
 	 *            class {@link ExpandableListSortingListener}. The listener may
 	 *            not be null
 	 */
-	void addSortingListner(
-			ExpandableListSortingListener<GroupType, ChildType> listener);
+	void addSortingListner(ExpandableListSortingListener<GroupType, ChildType> listener);
 
 	/**
 	 * Removes a specific listener, which should not be notified, when the
@@ -289,7 +286,6 @@ public interface SortableExpandableListAdapter<GroupType, ChildType> {
 	 *            class {@link ExpandableListSortingListener}. The listener may
 	 *            not be null
 	 */
-	void removeSortingListener(
-			ExpandableListSortingListener<GroupType, ChildType> listener);
+	void removeSortingListener(ExpandableListSortingListener<GroupType, ChildType> listener);
 
 }
