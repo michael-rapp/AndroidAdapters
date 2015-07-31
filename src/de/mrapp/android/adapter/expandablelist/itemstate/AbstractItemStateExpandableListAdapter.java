@@ -123,7 +123,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 			@Override
 			public void onChildClicked(final ExpandableListAdapter<GroupType, ChildType> adapter, final ChildType child,
 					final int childIndex, final GroupType group, final int groupIndex) {
-				if (isChildStateTriggeredOnClick()) {	
+				if (isChildStateTriggeredOnClick()) {
 					getLogger().logVerbose(getClass(), "Triggering child state on click...");
 					triggerChildState(groupIndex, childIndex);
 				}
@@ -558,7 +558,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 						+ childIndex + " of group \"" + group.getData() + "\" at index " + groupIndex + " from "
 						+ previousState + " to " + state;
 				getLogger().logInfo(getClass(), message);
-				return state;
+				return previousState;
 			} else {
 				String message = "The state of child \"" + childAdapter.getItem(childIndex) + "\" at index "
 						+ childIndex + " of group \"" + group.getData() + "\" at index " + groupIndex
