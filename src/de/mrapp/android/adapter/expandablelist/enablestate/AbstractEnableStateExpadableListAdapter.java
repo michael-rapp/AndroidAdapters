@@ -384,14 +384,14 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 			String message = enabled ? "Enabled"
 					: "Disabled" + " group \"" + group.getData() + "\" at index " + groupIndex;
 			getLogger().logInfo(getClass(), message);
-
-			if (enableChildren) {
-				setAllChildrenEnabled(groupIndex, enabled);
-			}
 		} else {
 			String message = "The enable state of group \"" + group.getData() + "\" at index " + groupIndex
 					+ " has not been changed, because it is already " + (enabled ? "enabled" : "disabled");
 			getLogger().logDebug(getClass(), message);
+		}
+
+		if (enableChildren) {
+			setAllChildrenEnabled(groupIndex, enabled);
 		}
 	}
 
