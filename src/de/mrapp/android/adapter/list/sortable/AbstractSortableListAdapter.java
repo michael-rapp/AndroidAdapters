@@ -76,8 +76,8 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 	 *            instance of the type {@link Collection} or an empty
 	 *            collection, if the adapter does not contain any items
 	 * @param order
-	 *            The order, which has been used to sort the list, as a value of
-	 *            the enum {@link Order}. The order may either be
+	 *            The order, which has been used to sort the adapter's items, as
+	 *            a value of the enum {@link Order}. The order may either be
 	 *            <code>ASCENDING</code> or <code>DESCENDING</code>
 	 * @param comparator
 	 *            The comparator, which has been used to compare the single
