@@ -564,13 +564,14 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 			applyFilter(appliedFilter);
 			notifyOnApplyFilter(query, flags, null, getAllItems());
 			notifyOnDataSetChanged();
-			String message = "Applied filter using the query \"" + query + "\"";
+			String message = "Applied filter using the query \"" + query + "\" and flags \"" + flags + "\"";
 			getLogger().logInfo(getClass(), message);
 			return true;
 		}
 
-		String message = "Filter using the query \"" + query + "\" not applied, because a filter using the same "
-				+ "query is already applied on the adapter";
+		String message = "Filter using the query \"" + query + "\" and flags \"" + flags
+				+ "\" not applied, because a filter using the same "
+				+ "query and flags is already applied on the adapter";
 		getLogger().logDebug(getClass(), message);
 		return false;
 	}
@@ -584,13 +585,15 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 			applyFilter(appliedFilter);
 			notifyOnApplyFilter(query, flags, filter, getAllItems());
 			notifyOnDataSetChanged();
-			String message = "Applied filter using the query \"" + query + "\" and filter \"" + filter + "\"";
+			String message = "Applied filter using the query \"" + query + "\", flags \"" + flags + "\" and filter \""
+					+ filter + "\"";
 			getLogger().logInfo(getClass(), message);
 			return true;
 		}
 
-		String message = "Filter using the query \"" + query + "\" not applied, because a filter using the same "
-				+ "query and filter is already applied " + "on the adapter";
+		String message = "Filter using the query \"" + query + "\" flags \"" + flags + "\" and filter \"" + filter
+				+ "\" not applied, because a filter using the same query, flags and filter is already applied "
+				+ "on the adapter";
 		getLogger().logDebug(getClass(), message);
 		return false;
 	}
@@ -607,12 +610,12 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 			applyAllFilters();
 			notifyOnResetFilter(query, flags, getAllItems());
 			notifyOnDataSetChanged();
-			String message = "Reseted filter \"" + appliedFilter + "\"";
+			String message = "Reseted filter with query \"" + query + "\" and flags \"" + flags + "\"";
 			getLogger().logInfo(getClass(), message);
 			return true;
 		} else {
-			String message = "Filter with query \"" + query + "\" not reseted, because no such "
-					+ "filter is applied on the adapter";
+			String message = "Filter with query \"" + query + "\" and flags \"" + flags
+					+ "\" not reseted, because no such filter is applied on the adapter";
 			getLogger().logDebug(getClass(), message);
 			return false;
 		}
