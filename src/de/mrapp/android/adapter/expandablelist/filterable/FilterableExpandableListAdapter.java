@@ -73,8 +73,7 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
 	 *            {@link Filter}. The filter may not be null
 	 * @return True, if the filter has been applied, false otherwise
 	 */
-	boolean applyFilterOnGroups(String query, int flags,
-			Filter<GroupType> filter);
+	boolean applyFilterOnGroups(String query, int flags, Filter<GroupType> filter);
 
 	/**
 	 * Resets the filter, which has been applied on the adapter to filter its
@@ -106,36 +105,13 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
 	boolean areGroupsFiltered();
 
 	/**
-	 * Returns, whether a filter, which uses a specific query, is currently
-	 * applied on the adapter to filter its group items, or not.
-	 * 
-	 * @param query
-	 *            The query of the filter, which should be checked, as a
-	 *            {@link String}. The query may not be null
-	 * @param flags
-	 *            The flags of the filter, which should be checked, as an
-	 *            {@link Integer} value
-	 * @return True, if a filter, which uses the given query, is currently
-	 *         applied on the adapter to filter its group items, false otherwise
-	 */
-	boolean isFilterAppliedOnGroups(String query, int flags);
-
-	/**
-	 * Returns the number of filters, which are currently applied on the adapter
-	 * to filter its group items.
-	 * 
-	 * @return The number of filters, which are currently applied on the adapter
-	 *         to filter its group items, as an {@link Integer} value
-	 */
-	int getNumberOfAppliedGroupFilters();
-
-	/**
-	 * Filters the adapter's child items by using a specific query, if no filter
-	 * using the same query has been applied yet. If the underlying data of the
-	 * adapter's child items does not implement the interface {@link Filterable}
-	 * a {@link FilteringNotSupportedException} will be thrown. This method can
-	 * be called multiple times without resetting the filtering, which causes
-	 * the filtered child item to be filtered once more.
+	 * Filters the adapter's child items, regardless of the group they belong
+	 * to, by using a specific query, if no filter using the same query has been
+	 * applied yet. If the underlying data of the adapter's child items does not
+	 * implement the interface {@link Filterable} a
+	 * {@link FilteringNotSupportedException} will be thrown. This method can be
+	 * called multiple times without resetting the filtering, which causes the
+	 * filtered child item to be filtered once more.
 	 * 
 	 * @param query
 	 *            The query, which should be used to filter the child items, as
@@ -148,11 +124,60 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
 	boolean applyFilterOnChildren(String query, int flags);
 
 	/**
-	 * Filters the adapter's child items by using a specific query and a filter,
-	 * which is used to apply the query on the single child items, if no filter
-	 * using the same query has been applied yet. This method can be called
-	 * multiple times without resetting the filtering, which causes the filtered
-	 * child items to be filtered once more.
+	 * Filters the child items of a specific group, by using a specific query,
+	 * if no filter using the same query has been applied yet. If the underlying
+	 * data of the adapter's child items does not implement the interface
+	 * {@link Filterable} a {@link FilteringNotSupportedException} will be
+	 * thrown. This method can be called multiple times without resetting the
+	 * filtering, which causes the filtered child item to be filtered once more.
+	 * 
+	 * @param group
+	 *            The group, the child items, which should be filtered, belong
+	 *            to, as an instance of the generic type GroupType. The group
+	 *            may not be null. If the group does not belong to the adapter,
+	 *            a {@link NoSuchElementException} will be thrown
+	 * @param query
+	 *            The query, which should be used to filter the child items, as
+	 *            a {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags, which should be used to filter the child items, as
+	 *            an {@link Integer} value or 0, if no flags should be used
+	 * @return True, if the filter has been applied, false otherwise
+	 */
+	boolean applyFilterOnChildren(GroupType group, String query, int flags);
+
+	/**
+	 * Filters the child items of the group, which belongs to a specific index,
+	 * by using a specific query, if no filter using the same query has been
+	 * applied yet. If the underlying data of the adapter's child items does not
+	 * implement the interface {@link Filterable} a
+	 * {@link FilteringNotSupportedException} will be thrown. This method can be
+	 * called multiple times without resetting the filtering, which causes the
+	 * filtered child item to be filtered once more.
+	 * 
+	 * @param groupIndex
+	 *            The index of the group, the child items, which should be
+	 *            filtered, belong to, as an {@link Integer} value. The value
+	 *            must be between 0 and the value of the method
+	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            {@link IndexOutOfBoundsException} will be thrown
+	 * @param query
+	 *            The query, which should be used to filter the child items, as
+	 *            a {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags, which should be used to filter the child items, as
+	 *            an {@link Integer} value or 0, if no flags should be used
+	 * @return True, if the filter has been applied, false otherwise
+	 */
+	boolean applyFilterOnChildren(int groupIndex, String query, int flags);
+
+	/**
+	 * Filters the adapter's child items, regardless of the group they belong
+	 * to, by using a specific query and a filter, which is used to apply the
+	 * query on the single child items, if no filter using the same query has
+	 * been applied yet. This method can be called multiple times without
+	 * resetting the filtering, which causes the filtered child items to be
+	 * filtered once more.
 	 * 
 	 * @param query
 	 *            The query, which should be used to filter the child items, as
@@ -166,12 +191,66 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
 	 *            {@link Filter}. The filter may not be null
 	 * @return True, if the filter has been applied, false otherwise
 	 */
-	boolean applyFilterOnChildren(String query, int flags,
-			Filter<ChildType> filter);
+	boolean applyFilterOnChildren(String query, int flags, Filter<ChildType> filter);
+
+	/**
+	 * Filters the child items of a specific group by using a specific query and
+	 * a filter, which is used to apply the query on the single child items, if
+	 * no filter using the same query has been applied yet. This method can be
+	 * called multiple times without resetting the filtering, which causes the
+	 * filtered child items to be filtered once more.
+	 * 
+	 * @param group
+	 *            The group, the child items, which should be filtered, belong
+	 *            to, as an instance of the generic type GroupType. The group
+	 *            may not be null. If the group does not belong to the adapter,
+	 *            a {@link NoSuchElementException} will be thrown
+	 * @param query
+	 *            The query, which should be used to filter the child items, as
+	 *            a {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags, which should be used to filter the child items, as
+	 *            an {@link Integer} value or 0, if no flags should be used
+	 * @param filter
+	 *            The filter, which should be used to apply the given query on
+	 *            the group's child items, as an instance of the type
+	 *            {@link Filter}. The filter may not be null
+	 * @return True, if the filter has been applied, false otherwise
+	 */
+	boolean applyFilterOnChildren(GroupType group, String query, int flags, Filter<ChildType> filter);
+
+	/**
+	 * Filters the child items of the group, which belongs to a specific index,
+	 * by using a specific query and a filter, which is used to apply the query
+	 * on the single child items, if no filter using the same query has been
+	 * applied yet. This method can be called multiple times without resetting
+	 * the filtering, which causes the filtered child items to be filtered once
+	 * more.
+	 * 
+	 * @param groupIndex
+	 *            The index of the group, the child items, which should be
+	 *            filtered, belong to, as an {@link Integer} value. The value
+	 *            must be between 0 and the value of the method
+	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            {@link IndexOutOfBoundsException} will be thrown
+	 * @param query
+	 *            The query, which should be used to filter the child items, as
+	 *            a {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags, which should be used to filter the child items, as
+	 *            an {@link Integer} value or 0, if no flags should be used
+	 * @param filter
+	 *            The filter, which should be used to apply the given query on
+	 *            the group's child items, as an instance of the type
+	 *            {@link Filter}. The filter may not be null
+	 * @return True, if the filter has been applied, false otherwise
+	 */
+	boolean applyFilterOnChildren(int groupIndex, String query, int flags, Filter<ChildType> filter);
 
 	/**
 	 * Resets the filter, which has been applied on the adapter to filter its
-	 * child items, which uses a specific query.
+	 * child items, regardless of the group they belong to, which uses a
+	 * specific query.
 	 * 
 	 * @param query
 	 *            The query of the filter, which should be reseted, as a
@@ -184,43 +263,111 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
 	boolean resetChildFilter(String query, int flags);
 
 	/**
+	 * Resets the filter, which has been applied on a group to filter its child
+	 * items, which uses a specific query.
+	 * 
+	 * @param group
+	 *            The group, the child items, which have been filtered, belong
+	 *            to, as an instance of the generic type GroupType. The group
+	 *            may not be null. If the group does not belong to the adapter,
+	 *            a {@link NoSuchElementException} will be thrown
+	 * @param query
+	 *            The query of the filter, which should be reseted, as a
+	 *            {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags of the filter, which should be reseted, as an
+	 *            {@link Integer} value
+	 * @return True, if the filter has been reseted, false otherwise
+	 */
+	boolean resetChildFilter(GroupType group, String query, int flags);
+
+	/**
+	 * Resets the filter, which has been applied on the group, which belongs to
+	 * a specific index, to filter its child items, which uses a specific query.
+	 * 
+	 * @param groupIndex
+	 *            The index of the group, the child items, which have been
+	 *            filtered, belong to, as an {@link Integer} value. The value
+	 *            must be between 0 and the value of the method
+	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            {@link IndexOutOfBoundsException} will be thrown
+	 * @param query
+	 *            The query of the filter, which should be reseted, as a
+	 *            {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags of the filter, which should be reseted, as an
+	 *            {@link Integer} value
+	 * @return True, if the filter has been reseted, false otherwise
+	 */
+	boolean resetChildFilter(int groupIndex, String query, int flags);
+
+	/**
 	 * Resets all applied filters, which have been applied on the adapter's
-	 * child items.
+	 * child items, regardless of the groups they belong to.
 	 */
 	void resetAllChildFilters();
 
 	/**
+	 * Resets all applied filters, which have been applied on the child items of
+	 * a specific group.
+	 * 
+	 * @param group
+	 *            The group, the child items, which have been filtered, belong
+	 *            to, as an instance of the generic type GroupType. The group
+	 *            may not be null. If the group does not belong to the adapter,
+	 *            a {@link NoSuchElementException} will be thrown
+	 */
+	void resetAllChildFilters(GroupType group);
+
+	/**
+	 * Resets all applied filters, which have been applied on the child items of
+	 * the group, which belongs to a specific index.
+	 * 
+	 * @param groupIndex
+	 *            The index of the group, the child items, which have been
+	 *            filtered, belong to, as an {@link Integer} value. The value
+	 *            must be between 0 and the value of the method
+	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            {@link IndexOutOfBoundsException} will be thrown
+	 */
+	void resetAllChildFilters(int groupIndex);
+
+	/**
 	 * Returns, whether at least one filter is currently applied on the adapter
-	 * to filter its child items, or not.
+	 * to filter any of its child items, or not.
 	 * 
 	 * @return True, if at least one filter is currently applied on the adapter
-	 *         to filter its child items, false otherwise.
+	 *         to filter any of its child items, false otherwise.
 	 */
 	boolean areChildrenFiltered();
 
 	/**
-	 * Returns, whether a filter, which uses a specific query, is currently
-	 * applied on the adapter to filter its child items, or not.
+	 * Returns, whether at least one filter is currently applied on a specific
+	 * group to filter its child items, or not.
 	 * 
-	 * @param query
-	 *            The query of the filter, which should be checked, as a
-	 *            {@link String}. The query may not be null
-	 * @param flags
-	 *            The flags of the filter, which should be checked, as an
-	 *            {@link Integer} value
-	 * @return True, if a filter, which uses the given query, is currently
-	 *         applied on the adapter to filter its child items, false otherwise
+	 * @param group
+	 *            The group, whose filters should be checked, as an instance of
+	 *            the generic type GroupType. The group may not be null. If the
+	 *            group does not belong to the adapter, a
+	 *            {@link NoSuchElementException} will be thrown
+	 * @return True, if at least one filter is currently applied on the group to
+	 *         filter its child items, false otherwise
 	 */
-	boolean isFilterAppliedOnChildren(String query, int flags);
+	boolean areChildrenFiltered(GroupType group);
 
 	/**
-	 * Returns the number of filters, which are currently applied on the adapter
-	 * to filter its child items.
+	 * Returns, whether at least one filter is currently applied on a specific
+	 * group to filter its child items, or not.
 	 * 
-	 * @return The number of filters, which are currently applied on the adapter
-	 *         to filter its child items, as an {@link Integer} value
+	 * @param groupIndex
+	 *            The index of the group, whose filters should be checked, as an
+	 *            {@link Integer} value. The value must be between 0 and the
+	 *            value of the method <code>getNumberOfGroups():int</code> - 1,
+	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
+	 * @return True, if at least one filter is currently applied on the group to
+	 *         filter its child items, false otherwise
 	 */
-	int getNumberOfAppliedChildFilters();
+	boolean areChildrenFiltered(int groupIndex);
 
 	/**
 	 * Adds a new listener, which should be notified, when the adapter's
@@ -231,8 +378,7 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
 	 *            class {@link ExpandableListFilterListener}. The listener may
 	 *            not be null
 	 */
-	void addFilterListener(
-			ExpandableListFilterListener<GroupType, ChildType> listener);
+	void addFilterListener(ExpandableListFilterListener<GroupType, ChildType> listener);
 
 	/**
 	 * Removes a specific listener, which should not be notified, when the
@@ -243,7 +389,6 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
 	 *            class {@link ExpandableListFilterListener}. The listener may
 	 *            not be null
 	 */
-	void removeFilterListener(
-			ExpandableListFilterListener<GroupType, ChildType> listener);
+	void removeFilterListener(ExpandableListFilterListener<GroupType, ChildType> listener);
 
 }
