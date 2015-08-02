@@ -187,7 +187,7 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
 	 *            an instance of the type {@link MultipleChoiceListAdapter}. The
 	 *            adapter may not be null
 	 * @param allowDuplicateChildren
-	 *            True, if duplicate group items, regardless from the group they
+	 *            True, if duplicate child items, regardless from the group they
 	 *            belong to, should be allowed, false otherwise
 	 * @param notifyOnChange
 	 *            True, if the method <code>notifyDataSetChanged():void</code>
@@ -199,22 +199,22 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
 	 * @param itemClickListeners
 	 *            A set, which contains the listeners, which should be notified,
 	 *            when an item of the adapter has been clicked by the user, as
-	 *            an instance of the type {@link Set} or an empty set, if no
+	 *            an instance of the type {@link Set}, or an empty set, if no
 	 *            listeners should be notified
 	 * @param adapterListeners
 	 *            A set, which contains the listeners, which should be notified,
 	 *            when the adapter's underlying data has been modified, as an
-	 *            instance of the type {@link Set} or an empty set, if no
+	 *            instance of the type {@link Set}, or an empty set, if no
 	 *            listeners should be notified
 	 * @param expansionListeners
 	 *            A set, which contains the listeners, which should be notified,
 	 *            when a group item has been expanded or collapsed, as an
-	 *            instance of the type {@link Set} or an empty set, if no
+	 *            instance of the type {@link Set}, or an empty set, if no
 	 *            listeners should be notified
 	 * @param enableStateListeners
 	 *            A set, which contains the listeners, which should be notified,
 	 *            when an item has been disabled or enabled, as an instance of
-	 *            the type {@link Set} or an empty set, if no listeners should
+	 *            the type {@link Set}, or an empty set, if no listeners should
 	 *            be notified
 	 * @param numberOfGroupStates
 	 *            The number of states, the adapter's group items may have, as
@@ -230,12 +230,12 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
 	 *            it is clicked by the user, false otherwise
 	 * @param itemStateListeners
 	 *            A set, which contains the listeners, which should be notified,
-	 *            when the state of an item has been changed or an empty set, if
-	 *            no listeners should be notified
+	 *            when the state of an item has been changed, or an empty set,
+	 *            if no listeners should be notified
 	 * @param sortingListeners
 	 *            A set, which contains the listeners, which should be notified,
-	 *            when the adapter's underlying data has been sorted or an empty
-	 *            set, if no listeners should be notified
+	 *            when the adapter's underlying data has been sorted, or an
+	 *            empty set, if no listeners should be notified
 	 */
 	protected AbstractSortableExpandableListAdapter(final Context context, final Inflater groupInflater,
 			final Inflater childInflater, final DecoratorType decorator, final LogLevel logLevel,
