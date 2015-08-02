@@ -119,7 +119,8 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
 	 * @param flags
 	 *            The flags, which should be used to filter the child items, as
 	 *            an {@link Integer} value or 0, if no flags should be used
-	 * @return True, if the filter has been applied, false otherwise
+	 * @return True, if the filter has been applied on all groups, false
+	 *         otherwise
 	 */
 	boolean applyChildFilter(String query, int flags);
 
