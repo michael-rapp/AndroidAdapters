@@ -259,7 +259,8 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
 	 * @param flags
 	 *            The flags of the filter, which should be reseted, as an
 	 *            {@link Integer} value
-	 * @return True, if the filter has been reseted, false otherwise
+	 * @return True, if the filter has been reseted at all groups, false
+	 *         otherwise
 	 */
 	boolean resetChildFilter(String query, int flags);
 
