@@ -830,12 +830,16 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 	public final void addItemStateListener(final ExpandableListItemStateListener<GroupType, ChildType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		itemStateListeners.add(listener);
+		String message = "Added item state listener \"" + listener + "\"";
+		getLogger().logDebug(getClass(), message);
 	}
 
 	@Override
 	public final void removeItemStateListener(final ExpandableListItemStateListener<GroupType, ChildType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		itemStateListeners.remove(listener);
+		String message = "Removed item state listener \"" + listener + "\"";
+		getLogger().logDebug(getClass(), message);
 	}
 
 	@Override
