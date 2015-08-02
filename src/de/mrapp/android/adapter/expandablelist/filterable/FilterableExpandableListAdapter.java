@@ -52,7 +52,7 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
 	 *            an {@link Integer} value or 0, if no flags should be used
 	 * @return True, if the filter has been applied, false otherwise
 	 */
-	boolean applyFilterOnGroups(String query, int flags);
+	boolean applyGroupFilter(String query, int flags);
 
 	/**
 	 * Filters the adapter's group items by using a specific query and a filter,
@@ -73,7 +73,7 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
 	 *            {@link Filter}. The filter may not be null
 	 * @return True, if the filter has been applied, false otherwise
 	 */
-	boolean applyFilterOnGroups(String query, int flags, Filter<GroupType> filter);
+	boolean applyGroupFilter(String query, int flags, Filter<GroupType> filter);
 
 	/**
 	 * Resets the filter, which has been applied on the adapter to filter its
@@ -121,7 +121,7 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
 	 *            an {@link Integer} value or 0, if no flags should be used
 	 * @return True, if the filter has been applied, false otherwise
 	 */
-	boolean applyFilterOnChildren(String query, int flags);
+	boolean applyChildFilter(String query, int flags);
 
 	/**
 	 * Filters the child items of a specific group, by using a specific query,
@@ -144,7 +144,7 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
 	 *            an {@link Integer} value or 0, if no flags should be used
 	 * @return True, if the filter has been applied, false otherwise
 	 */
-	boolean applyFilterOnChildren(GroupType group, String query, int flags);
+	boolean applyChildFilter(GroupType group, String query, int flags);
 
 	/**
 	 * Filters the child items of the group, which belongs to a specific index,
@@ -169,7 +169,7 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
 	 *            an {@link Integer} value or 0, if no flags should be used
 	 * @return True, if the filter has been applied, false otherwise
 	 */
-	boolean applyFilterOnChildren(int groupIndex, String query, int flags);
+	boolean applyChildFilter(int groupIndex, String query, int flags);
 
 	/**
 	 * Filters the adapter's child items, regardless of the group they belong
@@ -191,7 +191,7 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
 	 *            {@link Filter}. The filter may not be null
 	 * @return True, if the filter has been applied, false otherwise
 	 */
-	boolean applyFilterOnChildren(String query, int flags, Filter<ChildType> filter);
+	boolean applyChildFilter(String query, int flags, Filter<ChildType> filter);
 
 	/**
 	 * Filters the child items of a specific group by using a specific query and
@@ -217,7 +217,7 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
 	 *            {@link Filter}. The filter may not be null
 	 * @return True, if the filter has been applied, false otherwise
 	 */
-	boolean applyFilterOnChildren(GroupType group, String query, int flags, Filter<ChildType> filter);
+	boolean applyChildFilter(GroupType group, String query, int flags, Filter<ChildType> filter);
 
 	/**
 	 * Filters the child items of the group, which belongs to a specific index,
@@ -245,7 +245,7 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
 	 *            {@link Filter}. The filter may not be null
 	 * @return True, if the filter has been applied, false otherwise
 	 */
-	boolean applyFilterOnChildren(int groupIndex, String query, int flags, Filter<ChildType> filter);
+	boolean applyChildFilter(int groupIndex, String query, int flags, Filter<ChildType> filter);
 
 	/**
 	 * Resets the filter, which has been applied on the adapter to filter its
