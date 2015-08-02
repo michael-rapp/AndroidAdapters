@@ -634,16 +634,6 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public final boolean isFilterApplied(final String query, final int flags) {
-		return appliedFilters.contains(new AppliedFilter<DataType>(query, flags));
-	}
-
-	@Override
-	public final int getNumberOfAppliedFilters() {
-		return appliedFilters.size();
-	}
-
-	@Override
 	public final void addFilterListener(final ListFilterListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		filterListeners.add(listener);
