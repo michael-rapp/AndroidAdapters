@@ -158,8 +158,8 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
 	}
 
 	/**
-	 * Creates a new adapter, whose underlying data is managed as a list of
-	 * arbitrary group and child items, which may have multiple states.
+	 * Creates a new adapter, whose underlying data is managed as a sortable
+	 * list of arbitrary group and child items.
 	 * 
 	 * @param context
 	 *            The context, the adapter belongs to, as an instance of the
