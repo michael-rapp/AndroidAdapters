@@ -101,30 +101,6 @@ public interface FilterableListAdapter<DataType> {
 	boolean isFiltered();
 
 	/**
-	 * Returns, whether a filter, which uses a specific query, is currently
-	 * applied on the adapter to filter its items, or not.
-	 * 
-	 * @param query
-	 *            The query of the filter, which should be checked, as a
-	 *            {@link String}. The query may not be null
-	 * @param flags
-	 *            The flags of the filter, which should be checked, as an
-	 *            {@link Integer} value
-	 * @return True, if a filter, which uses the given query, is currently
-	 *         applied on the adapter to filter its items, false otherwise
-	 */
-	boolean isFilterApplied(String query, final int flags);
-
-	/**
-	 * Returns the number of filters, which are currently applied on the adapter
-	 * to filter its items.
-	 * 
-	 * @return The number of filters, which are currently applied on the adapter
-	 *         to filter its items, as an {@link Integer} value
-	 */
-	int getNumberOfAppliedFilters();
-
-	/**
 	 * Adds a new listener, which should be notified, when the adapter's
 	 * underlying data has been filtered.
 	 * 
