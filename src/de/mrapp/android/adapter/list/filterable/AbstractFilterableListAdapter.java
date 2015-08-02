@@ -68,6 +68,19 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 		extends AbstractSortableListAdapter<DataType, DecoratorType>implements FilterableListAdapter<DataType> {
 
 	/**
+	 * The constant serial version UID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * The key, which is used to store the filters, which are used to filter the
+	 * adapter's underlying data, within a bundle.
+	 */
+	@VisibleForTesting
+	protected static final String APPLIED_FILTERS_BUNDLE_KEY = AbstractFilterableListAdapter.class.getSimpleName()
+			+ "::AppliedFilters";
+
+	/**
 	 * A list, which contains the adapter's unfiltered data.
 	 */
 	private transient ArrayList<Item<DataType>> unfilteredItems;
@@ -89,19 +102,6 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	 * underlying data.
 	 */
 	private LinkedHashSet<AppliedFilter<DataType>> appliedFilters;
-
-	/**
-	 * The constant serial version UID.
-	 */
-	private static final long serialVersionUID = 1L;
-
-	/**
-	 * The key, which is used to store the filters, which are used to filter the
-	 * adapter's underlying data, within a bundle.
-	 */
-	@VisibleForTesting
-	protected static final String APPLIED_FILTERS_BUNDLE_KEY = AbstractFilterableListAdapter.class.getSimpleName()
-			+ "::AppliedFilters";
 
 	/**
 	 * Creates and returns a listener, which allows to adapt the unfiltered
