@@ -739,6 +739,8 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 	public final void addEnableStateListener(final ExpandableListEnableStateListener<GroupType, ChildType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		enableStateListeners.add(listener);
+		String message = "Added enable state listener \"" + listener + "\"";
+		getLogger().logDebug(getClass(), message);
 	}
 
 	@Override
@@ -746,6 +748,8 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 			final ExpandableListEnableStateListener<GroupType, ChildType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		enableStateListeners.remove(listener);
+		String message = "Removed enable state listener \"" + listener + "\"";
+		getLogger().logDebug(getClass(), message);
 	}
 
 	@Override
