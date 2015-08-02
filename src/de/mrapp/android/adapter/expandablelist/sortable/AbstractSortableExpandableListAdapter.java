@@ -391,12 +391,16 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
 	public final void addSortingListener(final ExpandableListSortingListener<GroupType, ChildType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		sortingListeners.add(listener);
+		String message = "Added sorting listener \"" + listener + "\"";
+		getLogger().logDebug(getClass(), message);
 	}
 
 	@Override
 	public final void removeSortingListener(final ExpandableListSortingListener<GroupType, ChildType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		sortingListeners.remove(listener);
+		String message = "Removed sorting listener \"" + listener + "\"";
+		getLogger().logDebug(getClass(), message);
 	}
 
 	@Override
