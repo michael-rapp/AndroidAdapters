@@ -398,12 +398,16 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
 	public final void addFilterListener(final ExpandableListFilterListener<GroupType, ChildType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		filterListeners.add(listener);
+		String message = "Added filter listener \"" + listener + "\"";
+		getLogger().logDebug(getClass(), message);
 	}
 
 	@Override
 	public final void removeFilterListener(final ExpandableListFilterListener<GroupType, ChildType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		filterListeners.remove(listener);
+		String message = "Removed filter listener \"" + listener + "\"";
+		getLogger().logDebug(getClass(), message);
 	}
 
 	@Override
