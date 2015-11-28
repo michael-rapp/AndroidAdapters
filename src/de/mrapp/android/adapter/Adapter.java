@@ -51,6 +51,19 @@ public interface Adapter<AdapterViewType extends AdapterView<? extends android.w
 	void detach();
 
 	/**
+	 * Notifies all attached observers about the underlying data of the adapter
+	 * having changed. This causes the adapter's views to be refreshed.
+	 */
+	void notifyDataSetChanged();
+
+	/**
+	 * Notifies all attached observers about the underlying data being no longer
+	 * valid or available. Once invoked this adapter is no longer valid and
+	 * should not report further data set changes.
+	 */
+	void notifyDataSetInvalidated();
+
+	/**
 	 * Returns, whether the method <code>notifyDataSetChanged():void</code> is
 	 * automatically called when the adapter's underlying data has been changed,
 	 * or not.

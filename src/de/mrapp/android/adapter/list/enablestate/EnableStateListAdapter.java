@@ -35,6 +35,13 @@ import java.util.Collection;
 public interface EnableStateListAdapter<DataType> {
 
 	/**
+	 * Returns, whether all items are currently enabled, or not.
+	 * 
+	 * @return True, if all items are currently enabled, false otherwise
+	 */
+	boolean areAllItemsEnabled();
+
+	/**
 	 * Returns, whether the item, which belongs to a specific index, is
 	 * currently enabled, or not.
 	 * 

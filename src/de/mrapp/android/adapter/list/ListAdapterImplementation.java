@@ -174,6 +174,17 @@ public class ListAdapterImplementation<DataType>
 	}
 
 	@Override
+	public final int getViewTypeCount() {
+		return getDecorator().getViewTypeCount();
+	}
+
+	@Override
+	public final int getItemViewType(final int index) {
+		return getDecorator().getViewType(this, getItem(index), index, isEnabled(index), getItemState(index),
+				isFiltered());
+	}
+
+	@Override
 	public final String toString() {
 		return "ListAdapter [logLevel=" + getLogLevel() + ", parameters=" + getParameters() + ", sortingListeners="
 				+ getSortingListeners() + ", itemStateListeners=" + getItemStateListeners() + ", numberOfItemStates="

@@ -19,8 +19,8 @@ package de.mrapp.android.adapter.list;
 
 import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
 import static de.mrapp.android.adapter.util.Condition.ensureAtMaximum;
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 import static de.mrapp.android.adapter.util.Condition.ensureNotEmpty;
+import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -33,6 +33,8 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 import android.content.Context;
+import android.database.DataSetObservable;
+import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
@@ -40,7 +42,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemIterator;
@@ -66,8 +67,7 @@ import de.mrapp.android.adapter.util.VisibleForTesting;
  * 
  * @since 1.0.0
  */
-public abstract class AbstractListAdapter<DataType, DecoratorType> extends BaseAdapter
-		implements ListAdapter<DataType> {
+public abstract class AbstractListAdapter<DataType, DecoratorType> implements ListAdapter<DataType> {
 
 	/**
 	 * The constant serial version UID.
@@ -138,6 +138,12 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends BaseA
 	 * which are used to visualize the items of the adapter.
 	 */
 	private final transient DecoratorType decorator;
+
+	/**
+	 * The data set observable, which allows to register observers, which are
+	 * notified, when the underlying data of the adapter changes.
+	 */
+	private final DataSetObservable dataSetObservable;
 
 	/**
 	 * The logger, which is used for logging.
@@ -572,6 +578,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends BaseA
 		this.context = context;
 		this.inflater = inflater;
 		this.decorator = decorator;
+		this.dataSetObservable = new DataSetObservable();
 		this.logger = new Logger(logLevel);
 		this.items = items;
 		this.parameters = null;
@@ -579,6 +586,41 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends BaseA
 		this.notifyOnChange = notifyOnChange;
 		this.itemClickListeners = itemClickListeners;
 		this.adapterListeners = adapterListeners;
+	}
+
+	@Override
+	public void registerDataSetObserver(final DataSetObserver observer) {
+		ensureNotNull(observer, "The observer may not ben null");
+		dataSetObservable.registerObserver(observer);
+	}
+
+	@Override
+	public void unregisterDataSetObserver(final DataSetObserver observer) {
+		ensureNotNull(observer, "The observer may not be null");
+		dataSetObservable.unregisterObserver(observer);
+	}
+
+	@Override
+	public final void notifyDataSetChanged() {
+		dataSetObservable.notifyChanged();
+	}
+
+	@Override
+	public final void notifyDataSetInvalidated() {
+		dataSetObservable.notifyInvalidated();
+	}
+
+	@Override
+	public final boolean isNotifiedOnChange() {
+		return notifyOnChange;
+	}
+
+	@Override
+	public final void notifyOnChange(final boolean notifyOnChange) {
+		this.notifyOnChange = notifyOnChange;
+		String message = "Changes of the adapter's underlying data are now " + (notifyOnChange ? "" : "not ")
+				+ "automatically notified";
+		getLogger().logDebug(getClass(), message);
 	}
 
 	@Override
@@ -612,19 +654,6 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends BaseA
 	public final void allowDuplicates(final boolean allowDuplicates) {
 		this.allowDuplicates = allowDuplicates;
 		String message = "Duplicate items are now " + (allowDuplicates ? "allowed" : "disallowed");
-		getLogger().logDebug(getClass(), message);
-	}
-
-	@Override
-	public final boolean isNotifiedOnChange() {
-		return notifyOnChange;
-	}
-
-	@Override
-	public final void notifyOnChange(final boolean notifyOnChange) {
-		this.notifyOnChange = notifyOnChange;
-		String message = "Changes of the adapter's underlying data are now " + (notifyOnChange ? "" : "not ")
-				+ "automatically notified";
 		getLogger().logDebug(getClass(), message);
 	}
 
@@ -945,6 +974,11 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> extends BaseA
 		ensureAtMaximum(index, items.size() - 1,
 				isEmpty() ? "The index must be at maximum " + (items.size() - 1) : "The adapter is empty");
 		return index;
+	}
+
+	@Override
+	public final boolean hasStableIds() {
+		return false;
 	}
 
 	@Override
