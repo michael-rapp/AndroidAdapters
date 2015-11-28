@@ -67,17 +67,13 @@ public abstract class ListDecorator<DataType> extends AbstractDecorator {
 	 *            True, if at least one filter is currently applied on the
 	 *            adapter, false otherwise
 	 */
-	public final void applyDecorator(final Context context,
-			final ListAdapter<DataType> adapter, final View view,
-			final DataType item, final int index, final boolean enabled,
-			final int state, final boolean filtered) {
+	public final void applyDecorator(final Context context, final ListAdapter<DataType> adapter, final View view,
+			final DataType item, final int index, final boolean enabled, final int state, final boolean filtered) {
 		setCurrentParentView(view);
-		int viewType = getViewType(adapter, item, index, enabled, state,
-				filtered);
+		int viewType = getViewType(adapter, item, index, enabled, state, filtered);
 		setCurrentViewType(viewType);
 		adaptViewState(view, enabled, false);
-		onShowItem(context, adapter, view, item, viewType, index, enabled,
-				state, filtered);
+		onShowItem(context, adapter, view, item, viewType, index, enabled, state, filtered);
 	}
 
 	/**
@@ -109,9 +105,8 @@ public abstract class ListDecorator<DataType> extends AbstractDecorator {
 	 * @return The view type of the item, which is about to be visualized, as an
 	 *         {@link Integer} value
 	 */
-	protected int getViewType(final ListAdapter<DataType> adapter,
-			final DataType item, final int index, final boolean enabled,
-			final int state, final boolean filtered) {
+	public int getViewType(final ListAdapter<DataType> adapter, final DataType item, final int index,
+			final boolean enabled, final int state, final boolean filtered) {
 		return 0;
 	}
 
@@ -151,9 +146,7 @@ public abstract class ListDecorator<DataType> extends AbstractDecorator {
 	 *            True, if at least one filter is currently applied on the
 	 *            adapter, false otherwise
 	 */
-	protected abstract void onShowItem(Context context,
-			ListAdapter<DataType> adapter, View view, DataType item,
-			int viewType, int index, boolean enabled, int state,
-			boolean filtered);
+	protected abstract void onShowItem(Context context, ListAdapter<DataType> adapter, View view, DataType item,
+			int viewType, int index, boolean enabled, int state, boolean filtered);
 
 }

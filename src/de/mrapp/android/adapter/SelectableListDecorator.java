@@ -117,7 +117,7 @@ public abstract class SelectableListDecorator<DataType> extends
 	 *            True, if the item, which should be visualized, is currently
 	 *            selected, false otherwise
 	 */
-	protected int getViewType(final ListAdapter<DataType> adapter,
+	public int getViewType(final ListAdapter<DataType> adapter,
 			final DataType item, final int index, final boolean enabled,
 			final int state, final boolean filtered, final boolean selected) {
 		return 0;

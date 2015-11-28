@@ -49,7 +49,7 @@ import de.mrapp.android.adapter.logging.LogLevel;
  * @since 1.0.0
  */
 public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
-		extends AbstractListAdapter<DataType, DecoratorType>implements EnableStateListAdapter<DataType> {
+		extends AbstractListAdapter<DataType, DecoratorType> implements EnableStateListAdapter<DataType> {
 
 	/**
 	 * The constant serial version UID.
@@ -178,6 +178,11 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 		super(context, inflater, decorator, logLevel, items, allowDuplicates, notifyOnChange, itemClickListeners,
 				adapterListeners);
 		setEnableStateListeners(enableStateListeners);
+	}
+
+	@Override
+	public final boolean areAllItemsEnabled() {
+		return getNumberOfEnabledItems() == getNumberOfItems();
 	}
 
 	@Override

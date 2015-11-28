@@ -343,6 +343,17 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	}
 
 	@Override
+	public final int getViewTypeCount() {
+		return getDecorator().getViewTypeCount();
+	}
+
+	@Override
+	public final int getItemViewType(final int index) {
+		return getDecorator().getViewType(this, getItem(index), index, isEnabled(index), getItemState(index),
+				isFiltered(), isSelected(index));
+	}
+
+	@Override
 	public final int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
