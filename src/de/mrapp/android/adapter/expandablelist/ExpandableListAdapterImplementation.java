@@ -224,6 +224,29 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType> extends
 	}
 
 	@Override
+	public final int getChildTypeCount() {
+		return getDecorator().getChildTypeCount();
+	}
+
+	@Override
+	public final int getChildType(final int groupIndex, final int childIndex) {
+		return getDecorator().getChildType(this, getChild(groupIndex, childIndex), childIndex, getGroup(groupIndex),
+				groupIndex, isChildEnabled(groupIndex, childIndex), getChildState(groupIndex, childIndex),
+				isFiltered());
+	}
+
+	@Override
+	public final int getGroupTypeCount() {
+		return getDecorator().getGroupTypeCount();
+	}
+
+	@Override
+	public final int getGroupType(final int groupIndex) {
+		return getDecorator().getGroupType(this, getGroup(groupIndex), groupIndex, isGroupEnabled(groupIndex),
+				getGroupState(groupIndex), isFiltered());
+	}
+
+	@Override
 	public final ExpandableListAdapterImplementation<GroupType, ChildType> clone() throws CloneNotSupportedException {
 		return new ExpandableListAdapterImplementation<GroupType, ChildType>(getContext(), getGroupInflater(),
 				getChildInflater(), getDecorator(), getLogLevel(), cloneGroupAdapter(), areDuplicateChildrenAllowed(),

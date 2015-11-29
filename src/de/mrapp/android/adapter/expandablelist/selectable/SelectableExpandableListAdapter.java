@@ -78,7 +78,7 @@ public interface SelectableExpandableListAdapter<GroupType, ChildType>
 	/**
 	 * Returns, whether a specific group item is currently selected, or not.
 	 * 
-	 * @param groupItem
+	 * @param group
 	 *            The group item, whose selection state should be returned, as
 	 *            an instance of the generic type GroupType. The item may not be
 	 *            null. If the item does not belong to the adapter, a
@@ -86,7 +86,7 @@ public interface SelectableExpandableListAdapter<GroupType, ChildType>
 	 * @return True, if the given group item is currently selected, false
 	 *         otherwise
 	 */
-	boolean isGroupSelected(GroupType groupItem);
+	boolean isGroupSelected(GroupType group);
 
 	/**
 	 * Returns the number of currently selected group items.
@@ -100,7 +100,7 @@ public interface SelectableExpandableListAdapter<GroupType, ChildType>
 	 * Returns, whether the child item, which belongs to a specific index of a
 	 * specific group, is currently selected, or not.
 	 * 
-	 * @param groupItem
+	 * @param group
 	 *            The group, the child item, whose selection state should be
 	 *            returned, belongs to, as an instance of the generic type
 	 *            GroupType. The item may not be null. If the item does not
@@ -115,19 +115,19 @@ public interface SelectableExpandableListAdapter<GroupType, ChildType>
 	 * @return True, if the given group item is currently selected, false
 	 *         otherwise
 	 */
-	boolean isChildSelected(GroupType groupItem, int childIndex);
+	boolean isChildSelected(GroupType group, int childIndex);
 
 	/**
 	 * Returns, whether a specific child item, which belongs to a specific
 	 * group, is currently selected, or not.
 	 * 
-	 * @param groupItem
+	 * @param group
 	 *            The group, the child item, whose selection state should be
 	 *            returned, belongs to, as an instance of the generic type
 	 *            GroupType. The item may not be null. If the item does not
 	 *            belong to the adapter, a {@link NoSuchElementException} will
 	 *            be thrown
-	 * @param childItem
+	 * @param child
 	 *            The child item, whose selection state should be returned, as
 	 *            an instance of the generic type ChildType. The item may not be
 	 *            null. If the item does not belong to the adapter, a
@@ -135,7 +135,7 @@ public interface SelectableExpandableListAdapter<GroupType, ChildType>
 	 * @return True, if the given group item is currently selected, false
 	 *         otherwise
 	 */
-	boolean isChildSelected(GroupType groupItem, ChildType childItem);
+	boolean isChildSelected(GroupType group, ChildType child);
 
 	/**
 	 * Returns, whether the child item, which belongs to a specific index of a
@@ -168,7 +168,7 @@ public interface SelectableExpandableListAdapter<GroupType, ChildType>
 	 *            The value must be between 0 and the value of the method
 	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
-	 * @param childItem
+	 * @param child
 	 *            The child item, whose selection state should be returned, as
 	 *            an instance of the generic type ChildType. The item may not be
 	 *            null. If the item does not belong to the adapter, a
@@ -176,15 +176,7 @@ public interface SelectableExpandableListAdapter<GroupType, ChildType>
 	 * @return True, if the given group item is currently selected, false
 	 *         otherwise
 	 */
-	boolean isChildSelected(int groupIndex, ChildType childItem);
-
-	/**
-	 * Returns the number of currently selected child items.
-	 * 
-	 * @return The number of currently selected child items, as an
-	 *         {@link Integer} value
-	 */
-	int getSelectedChildCount();
+	boolean isChildSelected(int groupIndex, ChildType child);
 
 	/**
 	 * Returns, whether a group item is selected, when it is clicked by the

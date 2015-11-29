@@ -280,18 +280,6 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	}
 
 	@Override
-	protected final void onSaveInstanceState(final Bundle savedState) {
-		super.onSaveInstanceState(savedState);
-		savedState.putBoolean(SELECT_ITEM_ON_CLICK_BUNDLE_KEY, isItemSelectedOnClick());
-	}
-
-	@Override
-	protected final void onRestoreInstanceState(final Bundle savedState) {
-		super.onRestoreInstanceState(savedState);
-		selectItemOnClick = savedState.getBoolean(SELECT_ITEM_ON_CLICK_BUNDLE_KEY, true);
-	}
-
-	@Override
 	public final void addSelectionListener(final ListSelectionListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		selectionListeners.add(listener);
@@ -338,6 +326,18 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	public final int getItemViewType(final int index) {
 		return getDecorator().getViewType(this, getItem(index), index, isEnabled(index), getItemState(index),
 				isFiltered(), isSelected(index));
+	}
+	
+	@Override
+	protected final void onSaveInstanceState(final Bundle savedState) {
+		super.onSaveInstanceState(savedState);
+		savedState.putBoolean(SELECT_ITEM_ON_CLICK_BUNDLE_KEY, isItemSelectedOnClick());
+	}
+
+	@Override
+	protected final void onRestoreInstanceState(final Bundle savedState) {
+		super.onRestoreInstanceState(savedState);
+		selectItemOnClick = savedState.getBoolean(SELECT_ITEM_ON_CLICK_BUNDLE_KEY, true);
 	}
 
 	@Override
