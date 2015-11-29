@@ -77,7 +77,7 @@ public interface ListAdapter<DataType>
 	 * @param index
 	 *            The index, the item should be added at, as an {@link Integer}
 	 *            value. The index must be between 0 and the value of the method
-	 *            <code>getNumberOfItems():int</code>, otherwise an
+	 *            <code>getCount():int</code>, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @param item
 	 *            The item, which should be added to the adapter, as an instance
@@ -108,7 +108,7 @@ public interface ListAdapter<DataType>
 	 * @param index
 	 *            The index, the items should be added at, as an {@link Integer}
 	 *            value. The index must be between 0 and the value of the method
-	 *            <code>getNumberOfItems():int</code>, otherwise an
+	 *            <code>getCount():int</code>, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @param items
 	 *            The collection, which contains the items, which should be
@@ -141,7 +141,7 @@ public interface ListAdapter<DataType>
 	 * @param index
 	 *            The index, the items should be added at, as an {@link Integer}
 	 *            value. The index must be between 0 and the value of the method
-	 *            <code>getNumberOfItems():int</code>, otherwise an
+	 *            <code>getCount():int</code>, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @param items
 	 *            The array, which contains the items, which should be added to
@@ -159,8 +159,8 @@ public interface ListAdapter<DataType>
 	 * @param index
 	 *            The index of the item, which should be replaced, as an
 	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfItems():int</code> - 1,
-	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
+	 *            value of the method <code>getCount():int</code> - 1, otherwise
+	 *            an {@link IndexOutOfBoundsException} will be thrown
 	 * @param item
 	 *            The item, which should replace the item at the given index, as
 	 *            an instance of the generic type DataType. The item may not be
@@ -177,7 +177,7 @@ public interface ListAdapter<DataType>
 	 *            The index of the item, which should be removed from the
 	 *            adapter, as an {@link Integer} value. The index must be
 	 *            between 0 and the value of the method
-	 *            <code>getNumberOfItems():int</code> - 1, otherwise an
+	 *            <code>getCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @return The item, which has been removed, as an instance of the generic
 	 *         type DataType or null, if no item has been removed
@@ -275,7 +275,7 @@ public interface ListAdapter<DataType>
 	 * @param index
 	 *            The index, the iterator should start at, as an {@link Integer}
 	 *            value. The index must be between 0 and the value of the method
-	 *            <code>getNumberOfItems():int</code> - 1, otherwise an
+	 *            <code>getCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @return A list iterator, which allows to iterate the adapter's items,
 	 *         starting at the given index, as an instance of the type
@@ -291,14 +291,14 @@ public interface ListAdapter<DataType>
 	 *            The start index of the items, which should be returned, as an
 	 *            {@link Integer} value. The item, which belongs to the start
 	 *            index will be included. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfItems():int</code> - 1,
-	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
+	 *            value of the method <code>getCount():int</code> - 1, otherwise
+	 *            an {@link IndexOutOfBoundsException} will be thrown
 	 * @param end
 	 *            The end index of the items, which should be returned, as an
 	 *            {@link Integer} value. The item, which belongs to the end
 	 *            index, will be excluded. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfItems():int</code> -1 and
-	 *            it must be greater than the start index, otherwise an
+	 *            value of the method <code>getCount():int</code> -1 and it must
+	 *            be greater than the start index, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @return A collection, which contains the adapter's items, between a
 	 *         specific start end end index, as an instance of the type
@@ -340,8 +340,8 @@ public interface ListAdapter<DataType>
 	 * @param index
 	 *            The index of the item, which should be returned, as an
 	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfItems():int</code> - 1,
-	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
+	 *            value of the method <code>getCount():int</code> - 1, otherwise
+	 *            an {@link IndexOutOfBoundsException} will be thrown
 	 * @return The item, which belongs to the given index, as an instance of the
 	 *         generic type DataType. The item may not be null
 	 */

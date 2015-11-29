@@ -143,7 +143,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 	 * @param index
 	 *            The index of the group item, whose state has been changed, as
 	 *            an {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfGroups():int</code> - 1
+	 *            value of the method <code>getGroupCount():int</code> - 1
 	 * @param state
 	 *            The new state of the group item, whose state has been changed,
 	 *            as an {@link Integer} value. The state must be between 0 and
@@ -167,8 +167,8 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 	 * @param childIndex
 	 *            The index of the child item, whose state has been changed, as
 	 *            an {@link Integer} value. The index must be between 0 and the
-	 *            value of the method
-	 *            <code>getNumberOfChildren(groupIndex):int</code> - 1
+	 *            value of the method <code>getChildCount(groupIndex):int</code>
+	 *            - 1
 	 * @param group
 	 *            The group item, the child, whose state has been changed,
 	 *            belongs to, as an instance of the generic type GroupType. The
@@ -177,7 +177,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 	 *            The index of the group item, the child, whose state has been
 	 *            changed, belongs to, as an {@link Integer} value. The index
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1
+	 *            <code>getGroupCount():int</code> - 1
 	 * @param state
 	 *            The new state of the child item, whose state has been changed,
 	 *            as an {@link Integer} value. The state must be between 0 and

@@ -145,8 +145,8 @@ public interface MultipleChoiceListAdapter<DataType> extends SelectableListAdapt
 	 * @param index
 	 *            The index of the item, whose selection should be set, as an
 	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfItems():int</code> - 1,
-	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
+	 *            value of the method <code>getCount():int</code> - 1, otherwise
+	 *            an {@link IndexOutOfBoundsException} will be thrown
 	 * @param selected
 	 *            True, if the item, which belongs to the given index, should be
 	 *            selected, false otherwise
@@ -178,8 +178,8 @@ public interface MultipleChoiceListAdapter<DataType> extends SelectableListAdapt
 	 * @param index
 	 *            The index of the item, whose selection should be triggered, as
 	 *            an {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfItems():int</code> - 1,
-	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
+	 *            value of the method <code>getCount():int</code> - 1, otherwise
+	 *            an {@link IndexOutOfBoundsException} will be thrown
 	 * @return True, if the selection of the item, which belongs to the given
 	 *         index, has been changed, false otherwise
 	 */

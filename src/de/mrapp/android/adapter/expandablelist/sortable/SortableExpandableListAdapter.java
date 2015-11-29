@@ -139,7 +139,7 @@ public interface SortableExpandableListAdapter<GroupType, ChildType> {
 	 * @param groupIndex
 	 *            The index of the group, whose child items should be sorted, as
 	 *            an {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfGroups():int</code>,
+	 *            value of the method <code>getGroupCount():int</code>,
 	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
 	 */
 	void sortChildren(int groupIndex);
@@ -153,7 +153,7 @@ public interface SortableExpandableListAdapter<GroupType, ChildType> {
 	 * @param groupIndex
 	 *            The index of the group, whose child items should be sorted, as
 	 *            an {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfGroups():int</code>,
+	 *            value of the method <code>getGroupCount():int</code>,
 	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
 	 * @param order
 	 *            The order, which should be used to sort the child items, as a
@@ -169,7 +169,7 @@ public interface SortableExpandableListAdapter<GroupType, ChildType> {
 	 * @param groupIndex
 	 *            The index of the group, whose child items should be sorted, as
 	 *            an {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfGroups():int</code>,
+	 *            value of the method <code>getGroupCount():int</code>,
 	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
 	 * @param comparator
 	 *            The comparator, which should be used to sort the child items,
@@ -185,7 +185,7 @@ public interface SortableExpandableListAdapter<GroupType, ChildType> {
 	 * @param groupIndex
 	 *            The index of the group, whose child items should be sorted, as
 	 *            an {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfGroups():int</code>,
+	 *            value of the method <code>getGroupCount():int</code>,
 	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
 	 * @param comparator
 	 *            The comparator, which should be used to sort the child items,

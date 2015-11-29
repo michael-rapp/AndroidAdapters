@@ -76,8 +76,8 @@ public interface ItemStateListAdapter<DataType> {
 	 * @param index
 	 *            The index of the item, whose state should be returned, as an
 	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfItems():int</code> - 1,
-	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
+	 *            value of the method <code>getCount():int</code> - 1, otherwise
+	 *            an {@link IndexOutOfBoundsException} will be thrown
 	 * @return The state of the item, which belongs to the given index, as a
 	 *         {@link Integer} value
 	 */
@@ -102,8 +102,8 @@ public interface ItemStateListAdapter<DataType> {
 	 * @param index
 	 *            The index of the item, whose state should be set, as an
 	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfItems():int</code> - 1,
-	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
+	 *            value of the method <code>getCount():int</code> - 1, otherwise
+	 *            an {@link IndexOutOfBoundsException} will be thrown
 	 * @param state
 	 *            The state, which should be set, as an {@link Integer} value.
 	 *            The state must be between 0 and the value of the method
@@ -157,8 +157,8 @@ public interface ItemStateListAdapter<DataType> {
 	 * @param index
 	 *            The index of the item, whose state should be triggered, as an
 	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfItems():int</code> - 1,
-	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
+	 *            value of the method <code>getCount():int</code> - 1, otherwise
+	 *            an {@link IndexOutOfBoundsException} will be thrown
 	 * @return The previous state of the item, which belongs to the given index,
 	 *         as an {@link Integer} value or -1, if the state has not been
 	 *         changed

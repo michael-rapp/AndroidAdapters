@@ -201,7 +201,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> implements Li
 	 * @param index
 	 *            The index of the item, which has been clicked by the user, as
 	 *            an {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfItems():int</code> - 1
+	 *            value of the method <code>getCount():int</code> - 1
 	 */
 	private void notifyOnItemClicked(final DataType item, final int index) {
 		for (ListAdapterItemClickListener<DataType> listener : itemClickListeners) {
@@ -220,7 +220,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> implements Li
 	 * @param index
 	 *            The index of the item, which has been added to the adapter, as
 	 *            an {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfItems():int</code> - 1
+	 *            value of the method <code>getCount():int</code> - 1
 	 */
 	private void notifyOnItemAdded(final DataType item, final int index) {
 		for (ListAdapterListener<DataType> listener : adapterListeners) {
@@ -241,7 +241,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> implements Li
 	 *            The index of the item, which has been removed from the
 	 *            adapter, as an {@link Integer} value. The index must be
 	 *            between 0 and the value of the method
-	 *            <code>getNumberOfItems():int</code> - 1
+	 *            <code>getCount():int</code> - 1
 	 */
 	private void notifyOnItemRemoved(final DataType item, final int index) {
 		for (ListAdapterListener<DataType> listener : adapterListeners) {

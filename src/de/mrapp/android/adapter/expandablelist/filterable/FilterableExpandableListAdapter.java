@@ -160,7 +160,7 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child items, which should be
 	 *            filtered, belong to, as an {@link Integer} value. The value
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @param query
 	 *            The query, which should be used to filter the child items, as
@@ -232,7 +232,7 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child items, which should be
 	 *            filtered, belong to, as an {@link Integer} value. The value
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @param query
 	 *            The query, which should be used to filter the child items, as
@@ -291,7 +291,7 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child items, which have been
 	 *            filtered, belong to, as an {@link Integer} value. The value
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @param query
 	 *            The query of the filter, which should be reseted, as a
@@ -329,7 +329,7 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child items, which have been
 	 *            filtered, belong to, as an {@link Integer} value. The value
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 */
 	void resetAllChildFilters(int groupIndex);
@@ -364,7 +364,7 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
 	 * @param groupIndex
 	 *            The index of the group, whose filters should be checked, as an
 	 *            {@link Integer} value. The value must be between 0 and the
-	 *            value of the method <code>getNumberOfGroups():int</code> - 1,
+	 *            value of the method <code>getGroupCount():int</code> - 1,
 	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
 	 * @return True, if at least one filter is currently applied on the group to
 	 *         filter its child items, false otherwise
