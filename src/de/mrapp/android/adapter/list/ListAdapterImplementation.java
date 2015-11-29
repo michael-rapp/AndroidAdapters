@@ -180,7 +180,7 @@ public class ListAdapterImplementation<DataType>
 
 	@Override
 	public final int getItemViewType(final int index) {
-		return getDecorator().getItemViewType(this, getItem(index), index, isEnabled(index), getItemState(index),
+		return getDecorator().getViewType(this, getItem(index), index, isEnabled(index), getItemState(index),
 				isFiltered());
 	}
 
