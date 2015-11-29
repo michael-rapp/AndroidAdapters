@@ -73,7 +73,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 	 * @param index
 	 *            The index of the item, which has been enabled, as an
 	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfItems():int</code> - 1
+	 *            value of the method <code>getCount():int</code> - 1
 	 */
 	private void notifyOnItemEnabled(final DataType item, final int index) {
 		for (ListEnableStateListener<DataType> listener : enableStateListeners) {
@@ -92,7 +92,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 	 * @param index
 	 *            The index of the item, which has been disabled, as an
 	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfItems():int</code> - 1
+	 *            value of the method <code>getCount():int</code> - 1
 	 */
 	private void notifyOnItemDisabled(final DataType item, final int index) {
 		for (ListEnableStateListener<DataType> listener : enableStateListeners) {

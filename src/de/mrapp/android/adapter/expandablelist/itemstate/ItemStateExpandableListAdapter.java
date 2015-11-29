@@ -80,9 +80,8 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 * @param groupIndex
 	 *            The index of the group item, whose state should be returned,
 	 *            as an {@link Integer} value. The index must be between 0 and
-	 *            the value of the method
-	 *            <code>getNumberOfGroupItems():int</code> - 1, otherwise an
-	 *            {@link IndexOutOfBoundsException} will be thrown
+	 *            the value of the method <code>getGroupCount():int</code> - 1,
+	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
 	 * @return The state of the group item, which belongs to the given index, as
 	 *         a {@link Integer} value
 	 */
@@ -107,7 +106,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 * @param groupIndex
 	 *            The index of the group item, whose state should be set, as an
 	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfGroups():int</code> - 1,
+	 *            value of the method <code>getGroupCount():int</code> - 1,
 	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
 	 * @param state
 	 *            The state, which should be set, as an {@link Integer} value.
@@ -130,7 +129,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 * @param groupIndex
 	 *            The index of the group item, whose state should be set, as an
 	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfGroups():int</code> - 1,
+	 *            value of the method <code>getGroupCount():int</code> - 1,
 	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
 	 * @param state
 	 *            The state, which should be set, as an {@link Integer} value.
@@ -224,9 +223,8 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 * @param groupIndex
 	 *            The index of the group item, whose state should be triggered,
 	 *            as an {@link Integer} value. The index must be between 0 and
-	 *            the value of the method <code>getNumberOfGroups():int</code> -
-	 *            1, otherwise an {@link IndexOutOfBoundsException} will be
-	 *            thrown
+	 *            the value of the method <code>getGroupCount():int</code> - 1,
+	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
 	 * @return The previous state of the group item, which belongs to the given
 	 *         index, as an {@link Integer} value or -1, if the state has not
 	 *         been changed
@@ -245,9 +243,8 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 * @param groupIndex
 	 *            The index of the group item, whose state should be triggered,
 	 *            as an {@link Integer} value. The index must be between 0 and
-	 *            the value of the method <code>getNumberOfGroups():int</code> -
-	 *            1, otherwise an {@link IndexOutOfBoundsException} will be
-	 *            thrown
+	 *            the value of the method <code>getGroupCount():int</code> - 1,
+	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
 	 * @return The previous state of the group item, which belongs to the given
 	 *         index, as an {@link Integer} value or -1, if the state has not
 	 *         been changed
@@ -469,9 +466,9 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 * @param childIndex
 	 *            The index of the child item, whose state should be returned,
 	 *            as an {@link Integer} value. The index must be between 0 and
-	 *            the value of the method
-	 *            <code>getNumberOfChildren(group):int</code> - 1, otherwise an
-	 *            {@link IndexOutOfBoundsException} will be thrown
+	 *            the value of the method <code>getChildCount(group):int</code>
+	 *            - 1, otherwise an {@link IndexOutOfBoundsException} will be
+	 *            thrown
 	 * @return The state of the child item, which belongs to the given index, as
 	 *         an {@link Integer} value
 	 */
@@ -503,14 +500,14 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child item, whose state should be
 	 *            returned, belongs to, as an {@link Integer} value. The value
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @param childIndex
 	 *            The index of the child item, whose state should be returned,
 	 *            as an {@link Integer} value. The index must be between 0 and
 	 *            the value of the method
-	 *            <code>getNumberOfChildren(groupIndex):int</code> - 1,
-	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
+	 *            <code>getChildCount(groupIndex):int</code> - 1, otherwise an
+	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @return The state of the child item, which belongs to the given index, as
 	 *         an {@link Integer} value
 	 */
@@ -524,7 +521,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child item, whose state should be
 	 *            returned, belongs to, as an {@link Integer} value. The value
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @param child
 	 *            The child item, whose state should be returned, as an instance
@@ -548,9 +545,8 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 * @param childIndex
 	 *            The index of the child item, whose state should be set, as an
 	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method
-	 *            <code>getNumberOfChildren(group):int</code> - 1, otherwise an
-	 *            {@link IndexOutOfBoundsException} will be thrown
+	 *            value of the method <code>getChildCount(group):int</code> - 1,
+	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
 	 * @param state
 	 *            The state, which should be set, as an {@link Integer} value.
 	 *            The state must be between 0 and the value of the method
@@ -595,14 +591,13 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child item, whose state should be
 	 *            set, belongs to, as an {@link Integer} value. The value must
 	 *            be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @param childIndex
 	 *            The index of the child item, whose state should be set, as an
 	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method
-	 *            <code>getNumberOfChildren(group):int</code> - 1, otherwise an
-	 *            {@link IndexOutOfBoundsException} will be thrown
+	 *            value of the method <code>getChildCount(group):int</code> - 1,
+	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
 	 * @param state
 	 *            The state, which should be set, as an {@link Integer} value.
 	 *            The state must be between 0 and the value of the method
@@ -623,7 +618,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child item, whose state should be
 	 *            set, belongs to, as an {@link Integer} value. The value must
 	 *            be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @param child
 	 *            The child item, whose state should be set, as an instance of
@@ -682,7 +677,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child items, whose states should
 	 *            be set, belong to, as an {@link Integer} value. The value must
 	 *            be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @param state
 	 *            The state, which should be set, as an {@link Integer} value.
@@ -708,9 +703,9 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 * @param childIndex
 	 *            The index of the child item, whose state should be triggered,
 	 *            as an {@link Integer} value. The index must be between 0 and
-	 *            the value of the method
-	 *            <code>getNumberOfChildren(group):int</code> - 1, otherwise an
-	 *            {@link IndexOutOfBoundsException} will be thrown
+	 *            the value of the method <code>getChildCount(group):int</code>
+	 *            - 1, otherwise an {@link IndexOutOfBoundsException} will be
+	 *            thrown
 	 * @return The previous state of the child item, which belongs to the given
 	 *         index, as an {@link Integer} value or -1, if the state has not
 	 *         been changed
@@ -748,14 +743,14 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child item, whose state should be
 	 *            triggered, belongs to, as an {@link Integer} value. The value
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @param childIndex
 	 *            The index of the child item, whose state should be triggered,
 	 *            as an {@link Integer} value. The index must be between 0 and
-	 *            the value of the method
-	 *            <code>getNumberOfChildren(group):int</code> - 1, otherwise an
-	 *            {@link IndexOutOfBoundsException} will be thrown
+	 *            the value of the method <code>getChildCount(group):int</code>
+	 *            - 1, otherwise an {@link IndexOutOfBoundsException} will be
+	 *            thrown
 	 * @return The previous state of the child item, which belongs to the given
 	 *         index, as an {@link Integer} value or -1, if the state has not
 	 *         been changed
@@ -772,7 +767,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child item, whose state should be
 	 *            triggered, belongs to, as an {@link Integer} value. The value
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @param child
 	 *            The child item, whose state should be triggered, as an
@@ -821,7 +816,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child items, whose states should
 	 *            be triggered, belong to, as an {@link Integer} value. The
 	 *            value must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @return True, if the states of all child items of the given group have
 	 *         been changed, false otherwise
@@ -854,7 +849,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child item, whose index should be
 	 *            returned, belongs to, as an {@link Integer} value. The value
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @param state
 	 *            The state of the child item, whose index should be returned,
@@ -892,7 +887,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child item, which should be
 	 *            returned, belongs to, as an {@link Integer} value. The value
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @param state
 	 *            The state of the child item, which should be returned, as an
@@ -930,7 +925,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child item, whose index should be
 	 *            returned, belongs to, as an {@link Integer} value. The value
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @param state
 	 *            The state of the child item, whose index should be returned,
@@ -968,7 +963,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child item, which should be
 	 *            returned, belongs to, as an {@link Integer} value. The value
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @param state
 	 *            The state of the child item, which should be returned, as an
@@ -1009,7 +1004,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child items, whose indices should
 	 *            be returned, belong to, as an {@link Integer} value. The value
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @param state
 	 *            The state of the child items, whose indices should be
@@ -1063,7 +1058,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child items, which should be
 	 *            returned, belong to, as an {@link Integer} value. The value
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @param state
 	 *            The state of the child items, which should be returned, as an
@@ -1111,7 +1106,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child items, which should be
 	 *            counted, belong to, as an {@link Integer} value. The value
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @param state
 	 *            The state of the child items, which should be counted, as an

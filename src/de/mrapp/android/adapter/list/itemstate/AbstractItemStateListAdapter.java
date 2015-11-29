@@ -128,7 +128,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 	 * @param index
 	 *            The index of the item, whose state has been changed, as an
 	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfItems():int</code> - 1
+	 *            value of the method <code>getCount():int</code> - 1
 	 * @param state
 	 *            The new state of the item, whose state has been changed, as an
 	 *            {@link Integer} value. The state must be between 0 and the

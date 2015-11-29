@@ -79,7 +79,7 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 	 * @param index
 	 *            The index of the group item, which has been enabled, as an
 	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfGroups():int</code> - 1
+	 *            value of the method <code>getGroupCount():int</code> - 1
 	 */
 	private void notifyOnGroupEnabled(final GroupType group, final int index) {
 		for (ExpandableListEnableStateListener<GroupType, ChildType> listener : enableStateListeners) {
@@ -98,7 +98,7 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 	 * @param index
 	 *            The index of the group item, which has been disabled, as an
 	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfGroups():int</code> - 1
+	 *            value of the method <code>getGroupCount():int</code> - 1
 	 */
 	private void notifyOnGroupDisabled(final GroupType group, final int index) {
 		for (ExpandableListEnableStateListener<GroupType, ChildType> listener : enableStateListeners) {
@@ -117,8 +117,8 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 	 * @param childIndex
 	 *            The index of the child item, which has been enabled, as an
 	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method
-	 *            <code>getNumberOfChildren(groupIndex):int</code> - 1
+	 *            value of the method <code>getChildCount(groupIndex):int</code>
+	 *            - 1
 	 * @param group
 	 *            The group, the child item, which has been enabled, belongs to,
 	 *            as an instance of the generic type GroupType. The group may
@@ -127,7 +127,7 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 	 *            The index of the group, the child item, which has been
 	 *            enabled, belongs to, as an {@link Integer} value. The index
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1
+	 *            <code>getGroupCount():int</code> - 1
 	 */
 	private void notifyOnChildEnabled(final ChildType child, final int childIndex, final GroupType group,
 			final int groupIndex) {
@@ -147,8 +147,8 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 	 * @param childIndex
 	 *            The index of the child item, which has been disabled, as an
 	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method
-	 *            <code>getNumberOfChildren(groupIndex):int</code> - 1
+	 *            value of the method <code>getChildCount(groupIndex):int</code>
+	 *            - 1
 	 * @param group
 	 *            The group, the child item, which has been disabled, belongs
 	 *            to, as an instance of the generic type GroupType. The group
@@ -157,7 +157,7 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 	 *            The index of the group, the child item, which has been
 	 *            disabled, belongs to, as an {@link Integer} value. The index
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1
+	 *            <code>getGroupCount():int</code> - 1
 	 */
 	private void notifyOnChildDisabled(final ChildType child, final int childIndex, final GroupType group,
 			final int groupIndex) {

@@ -199,7 +199,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	 * @param index
 	 *            The index of the group, which has been clicked by the user, as
 	 *            an {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfGroups():int</code> - 1
+	 *            value of the method <code>getGroupCount():int</code> - 1
 	 */
 	private void notifyOnGroupClicked(final GroupType group, final int index) {
 		for (ExpandableListAdapterItemClickListener<GroupType, ChildType> listener : itemClickListeners) {
@@ -218,7 +218,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	 * @param childIndex
 	 *            The index of the child, which has been clicked by the user, as
 	 *            an {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getNumberOfChildren():int</code> - 1
+	 *            value of the method <code>getChildCount(groupIndex):int</code>
+	 *            - 1
 	 * @param group
 	 *            The group, the child, which has been clicked by the user,
 	 *            belongs to, as an instance of the generic type GroupType. The
@@ -227,7 +228,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	 *            The index of the group, the child, which has been clicked by
 	 *            the user, belongs to, as an {@link Integer} value. The index
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1
+	 *            <code>getGroupCount():int</code> - 1
 	 */
 	private void notifyOnChildClicked(final ChildType child, final int childIndex, final GroupType group,
 			final int groupIndex) {
@@ -247,8 +248,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	 * @param index
 	 *            The index of the group, which has been added to the adapter,
 	 *            as an {@link Integer} value. The index must be between 0 and
-	 *            the value of the method <code>getNumberOfGroups():int</code> -
-	 *            1
+	 *            the value of the method <code>getGroupCount():int</code> - 1
 	 */
 	private void notifyOnGroupAdded(final GroupType group, final int index) {
 		for (ExpandableListAdapterListener<GroupType, ChildType> listener : adapterListeners) {
@@ -269,7 +269,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	 *            The index of the group, which has been removed from the
 	 *            adapter, as an {@link Integer} value. The index must be
 	 *            between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1
+	 *            <code>getGroupCount():int</code> - 1
 	 */
 	private void notifyOnGroupRemoved(final GroupType group, final int index) {
 		for (ExpandableListAdapterListener<GroupType, ChildType> listener : adapterListeners) {
@@ -289,7 +289,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	 *            The index of the child, which has been added to the adapter,
 	 *            as an {@link Integer} value. The index must be between 0 and
 	 *            the value of the method
-	 *            <code>getNumberOfChildren(groupIndex):int</code> - 1
+	 *            <code>getChildCount(groupIndex):int</code> - 1
 	 * @param group
 	 *            The group, the child, which has been added to the adapter,
 	 *            belongs to, as an instance of the generic type GroupType. The
@@ -298,7 +298,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	 *            The index of the group, the child, which has been added to the
 	 *            adapter, belongs to, as an {@link Integer} value. The index
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1
+	 *            <code>getGroupCount():int</code> - 1
 	 */
 	private void notifyOnChildAdded(final ChildType child, final int childIndex, final GroupType group,
 			final int groupIndex) {
@@ -320,7 +320,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	 *            The index of the child, which has been removed from the
 	 *            adapter, as an {@link Integer} value. The index must be
 	 *            between 0 and the value of the method
-	 *            <code>getNumberOfChildren(groupIndex):int</code> - 1
+	 *            <code>getChildCount(groupIndex):int</code> - 1
 	 * @param group
 	 *            The group, the child, which has been removed from the adapter,
 	 *            belongs to, as an instance of the generic type GroupType. The
@@ -329,7 +329,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	 *            The index of the group, the child, which has been removed from
 	 *            the adapter, belongs to, as an {@link Integer} value. The
 	 *            index must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1
+	 *            <code>getGroupCount():int</code> - 1
 	 */
 	private void notifyOnChildRemoved(final ChildType child, final int childIndex, final GroupType group,
 			final int groupIndex) {
@@ -631,7 +631,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	 *            The index of the group, the child item, whose index should be
 	 *            returned, belongs to, as an {@link Integer} value. The value
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @param child
 	 *            The child item, whose index should be returned, as an instance

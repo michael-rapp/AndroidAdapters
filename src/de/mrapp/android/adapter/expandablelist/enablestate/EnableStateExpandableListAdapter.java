@@ -44,7 +44,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group item, whose enable state should be
 	 *            checked, as an {@link Integer} value. The index must be
 	 *            between 0 and the value of the method
-	 *            <code>getNumberOfGroupItems():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @return True, if the group item, which belongs to the given index, is
 	 *         currently enabled, false otherwise
@@ -182,9 +182,8 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 * @param groupIndex
 	 *            The index of the group item, whose enable state should be set,
 	 *            as an {@link Integer} value. The index must be between 0 and
-	 *            the value of the method <code>getNumberOfGroups():int</code> -
-	 *            1, otherwise an {@link IndexOutOfBoundsException} will be
-	 *            thrown
+	 *            the value of the method <code>getGroupCount():int</code> - 1,
+	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
 	 * @param enabled
 	 *            True, if the group item, which belongs to the given index,
 	 *            should be enabled, false otherwise
@@ -201,9 +200,8 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 * @param groupIndex
 	 *            The index of the group item, whose enable state should be set,
 	 *            as an {@link Integer} value. The index must be between 0 and
-	 *            the value of the method <code>getNumberOfGroups():int</code> -
-	 *            1, otherwise an {@link IndexOutOfBoundsException} will be
-	 *            thrown
+	 *            the value of the method <code>getGroupCount():int</code> - 1,
+	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
 	 * @param enabled
 	 *            True, if the group item, which belongs to the given index,
 	 *            should be enabled, false otherwise
@@ -250,7 +248,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group item, whose enable state should be
 	 *            triggered, as an {@link Integer} value. The index must be
 	 *            between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @return True, if the group item has been enabled, false, if the group
 	 *         item has been disabled
@@ -269,7 +267,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group item, whose enable state should be
 	 *            triggered, as an {@link Integer} value. The index must be
 	 *            between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @return True, if the group item has been enabled, false, if the group
 	 *         item has been disabled
@@ -356,7 +354,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the child item, whose enable state should be
 	 *            checked, as an {@link Integer} value. The index must be
 	 *            between 0 and the value of the method
-	 *            <code>getNumberOfChildren(group):int</code> - 1, otherwise an
+	 *            <code>getChildCount(group):int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @return True, if the child item, which belongs to the given index, is
 	 *         currently enabled, false otherwise
@@ -391,14 +389,14 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child item, whose enable state
 	 *            should be checked, belongs to, as an {@link Integer} value.
 	 *            The value must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @param childIndex
 	 *            The index of the child item, whose enable state should be
 	 *            checked, as an {@link Integer} value. The index must be
 	 *            between 0 and the value of the method
-	 *            <code>getNumberOfChildren(groupIndex):int</code> - 1,
-	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
+	 *            <code>getChildCount(groupIndex):int</code> - 1, otherwise an
+	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @return True, if the child item, which belongs to the given index, is
 	 *         currently enabled, false otherwise
 	 */
@@ -412,7 +410,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child item, whose enable state
 	 *            should be checked, belongs to, as an {@link Integer} value.
 	 *            The value must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @param child
 	 *            The child item, whose enable state should be checked, as an
@@ -460,7 +458,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child item, whose index should be
 	 *            returned, belongs to, as an {@link Integer} value. The value
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @return The index of the first enabled child item of the given group, as
 	 *         an {@link Integer} value or -1, if no child item is currently
@@ -476,7 +474,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child item, which should be
 	 *            returned, belongs to, as an {@link Integer} value. The value
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @return The first enabled child item of the given group, as an instance
 	 *         of the generic type ChildType or null, if no child item is
@@ -520,7 +518,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child item, whose index should be
 	 *            returned, belongs to, as an {@link Integer} value. The value
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @return The index of the last enabled child item of the given group, as
 	 *         an {@link Integer} value or -1, if no child item is currently
@@ -536,7 +534,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child item, which should be
 	 *            returned, belongs to, as an {@link Integer} value. The value
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @return The last enabled child item of the given group, as an instance of
 	 *         the generic type ChildType or null, if no child item is currently
@@ -580,7 +578,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child item, whose index should be
 	 *            returned, belongs to, as an {@link Integer} value. The value
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @return The index of the first disabled child item of the given group, as
 	 *         an {@link Integer} value or -1, if no child item is currently
@@ -596,7 +594,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child item, which should be
 	 *            returned, belongs to, as an {@link Integer} value. The value
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @return The first disabled child item of the given group, as an instance
 	 *         of the generic type ChildType or null, if no child item is
@@ -640,7 +638,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child item, whose index should be
 	 *            returned, belongs to, as an {@link Integer} value. The value
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @return The index of the last disabled child item of the given group, as
 	 *         an {@link Integer} value or -1, if no child item is currently
@@ -656,7 +654,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child item, which should be
 	 *            returned, belongs to, as an {@link Integer} value. The value
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @return The last disabled child item of the given group, as an instance
 	 *         of the generic type ChildType or null, if no child item is
@@ -713,7 +711,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child items, whose indices should
 	 *            be returned, belong to, as an {@link Integer} value. The value
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @return A collection, which contains the indices of all currently enabled
 	 *         child items of the given group, as an instance of the type
@@ -730,7 +728,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child items, which should be
 	 *            returned, belong to, as an {@link Integer} value. The value
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @return A collection, which contains all currently enabled child items of
 	 *         the given group, as an instance of the type {@link Collection} or
@@ -787,7 +785,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child items, whose indices should
 	 *            be returned, belong to, as an {@link Integer} value. The value
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @return A collection, which contains the indices of all currently
 	 *         disabled child items of the given group, as an instance of the
@@ -804,7 +802,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child items, which should be
 	 *            returned, belong to, as an {@link Integer} value. The value
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @return A collection, which contains all currently disabled child items
 	 *         of the given group, as an instance of the type {@link Collection}
@@ -842,7 +840,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child items, which should be
 	 *            counted, belong to, as an {@link Integer} value. The value
 	 *            must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @return The number of currently enabled children of the given group, as
 	 *         an {@link Integer} value
@@ -861,9 +859,9 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 * @param childIndex
 	 *            The index of the child item, whose enable state should be set,
 	 *            as an {@link Integer} value. The index must be between 0 and
-	 *            the value of the method
-	 *            <code>getNumberOfChildren(group):int</code> - 1, otherwise an
-	 *            {@link IndexOutOfBoundsException} will be thrown
+	 *            the value of the method <code>getChildCount(group):int</code>
+	 *            - 1, otherwise an {@link IndexOutOfBoundsException} will be
+	 *            thrown
 	 * @param enabled
 	 *            True, if the child item, which belongs to the given index,
 	 *            should be enabled, false otherwise
@@ -897,14 +895,14 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child item, whose enable state
 	 *            should be set, belongs to, as an {@link Integer} value. The
 	 *            value must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @param childIndex
 	 *            The index of the child item, whose enable state should be set,
 	 *            as an {@link Integer} value. The index must be between 0 and
 	 *            the value of the method
-	 *            <code>getNumberOfChildren(groupIndex):int</code> - 1,
-	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
+	 *            <code>getChildCount(groupIndex):int</code> - 1, otherwise an
+	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @param enabled
 	 *            True, if the child item, which belongs to the given index,
 	 *            should be enabled, false otherwise
@@ -918,7 +916,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child item, whose enable state
 	 *            should be set, belongs to, as an {@link Integer} value. The
 	 *            value must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @param child
 	 *            The child item, which should be enabled, as an instance of the
@@ -946,7 +944,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the child item, whose enable state should be
 	 *            triggered, as an {@link Integer} value. The index must be
 	 *            between 0 and the value of the method
-	 *            <code>getNumberOfChildren(group):int</code> - 1, otherwise an
+	 *            <code>getChildCount(group):int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @return True, if the child item has been enabled, false, if the child
 	 *         item has been disabled
@@ -983,14 +981,14 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child item, whose enable state
 	 *            should be triggered, belongs to, as an {@link Integer} value.
 	 *            The value must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @param childIndex
 	 *            The index of the child item, whose enable state should be
 	 *            triggered, as an {@link Integer} value. The index must be
 	 *            between 0 and the value of the method
-	 *            <code>getNumberOfChildren(groupIndex):int</code> - 1,
-	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
+	 *            <code>getChildCount(groupIndex):int</code> - 1, otherwise an
+	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @return True, if the child item has been enabled, false, if the child
 	 *         item has been disabled
 	 */
@@ -1005,7 +1003,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child item, whose enable state
 	 *            should be triggered, belongs to, as an {@link Integer} value.
 	 *            The value must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @param childItem
 	 *            The child item, whose enable state should be triggered, as an
@@ -1048,7 +1046,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child items, whose enable states
 	 *            should be set, belong to, as an {@link Integer} value. The
 	 *            value must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @param enabled
 	 *            True, if all child items of the given group should be enabled,
@@ -1086,7 +1084,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            The index of the group, the child items, whose enable states
 	 *            should be triggered, belong to, as an {@link Integer} value.
 	 *            The value must be between 0 and the value of the method
-	 *            <code>getNumberOfGroups():int</code> - 1, otherwise an
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 */
 	void triggerAllChildEnableStates(int groupIndex);
