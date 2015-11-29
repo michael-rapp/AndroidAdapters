@@ -2164,8 +2164,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 * @param index
 	 *            The index of the group, whose expansion should be checked, as
 	 *            an {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getCount():int</code> - 1,
-	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
+	 *            value of the method <code>getCount():int</code> - 1, otherwise
+	 *            an {@link IndexOutOfBoundsException} will be thrown
 	 * @return True, if the group, which belongs to the given index, is
 	 *         currently expanded, false if the group is collapsed or if the
 	 *         adapter is not attached to a view
