@@ -310,6 +310,27 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
 	}
 
 	@Override
+	public final int getSelectedChildCount() {
+		int result = 0;
+
+		for (int i = 0; i < getGroupCount(); i++) {
+			result += getSelectedChildCount(i);
+		}
+
+		return result;
+	}
+
+	@Override
+	public final int getSelectedChildCount(final int groupIndex) {
+		return getGroupAdapter().getItem(groupIndex).getChildAdapter().getSelectedItemCount();
+	}
+
+	@Override
+	public final int getSelectedChildCount(final GroupType group) {
+		return getSelectedChildCount(indexOfGroupOrThrowException(group));
+	}
+
+	@Override
 	public final boolean isGroupSelectedOnClick() {
 		return selectGroupOnClick;
 	}

@@ -179,6 +179,42 @@ public interface SelectableExpandableListAdapter<GroupType, ChildType>
 	boolean isChildSelected(int groupIndex, ChildType child);
 
 	/**
+	 * Returns the number of currently selected child items.
+	 * 
+	 * @return The number of currently selected child items, as an
+	 *         {@link Integer} value
+	 */
+	int getSelectedChildCount();
+
+	/**
+	 * Returns the number of currently selected child items of the group, which
+	 * belongs to a specific index.
+	 * 
+	 * @param groupIndex
+	 *            The index of the group, the child items, which should be
+	 *            counted, belong to, as an {@link Integer} value. The value
+	 *            must be between 0 and the value of the method
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
+	 *            {@link IndexOutOfBoundsException} will be thrown
+	 * @return The number of currently selected child items of the group, which
+	 *         belongs to the given index, as an {@link Integer} value
+	 */
+	int getSelectedChildCount(int groupIndex);
+
+	/**
+	 * Returns the number of currently selected child items of a specific group.
+	 * 
+	 * @param group
+	 *            The group, the child items, which should be counted, belong
+	 *            to, as an instance of the generic type GroupType. The item may
+	 *            not be null. If the item does not belong to the adapter, a
+	 *            {@link NoSuchElementException} will be thrown
+	 * @return The number of the currently selected child items of the given
+	 *         group, as an {@link Integer} value
+	 */
+	int getSelectedChildCount(GroupType group);
+
+	/**
 	 * Returns, whether a group item is selected, when it is clicked by the
 	 * user, or not.
 	 * 
