@@ -176,31 +176,6 @@ public abstract class AbstractSelectableListAdapter<DataType>
 		this.selectionListeners = selectionListeners;
 	}
 
-	@Override
-	protected final void applyDecorator(final Context context, final View view, final int index) {
-		DataType item = getItem(index);
-		boolean enabled = isEnabled(index);
-		int itemState = getItemState(index);
-		boolean filtered = isFiltered();
-		boolean selected = isSelected(index);
-		getDecorator().applyDecorator(context, this, view, item, index, enabled, itemState, filtered, selected);
-		String message = "Applied decorator \"" + getDecorator() + "\" using arguments: Item=[" + item + ", index="
-				+ index + ", enabled=" + enabled + ", itemState=" + itemState + ", filtered=" + filtered + "]";
-		getLogger().logVerbose(getClass(), message);
-	}
-
-	@Override
-	protected final void onSaveInstanceState(final Bundle savedState) {
-		super.onSaveInstanceState(savedState);
-		savedState.putBoolean(SELECT_ITEM_ON_CLICK_BUNDLE_KEY, isItemSelectedOnClick());
-	}
-
-	@Override
-	protected final void onRestoreInstanceState(final Bundle savedState) {
-		super.onRestoreInstanceState(savedState);
-		selectItemOnClick = savedState.getBoolean(SELECT_ITEM_ON_CLICK_BUNDLE_KEY, true);
-	}
-
 	/**
 	 * Creates a new adapter, whose underlying data is managed as a list of
 	 * arbitrary items, of which one or multiple items can be selected.
@@ -289,6 +264,31 @@ public abstract class AbstractSelectableListAdapter<DataType>
 		selectItemOnClick(selectItemOnClick);
 		setSelectionListeners(selectionListeners);
 		addSelectionListener(createSelectionListener());
+	}
+
+	@Override
+	protected final void applyDecorator(final Context context, final View view, final int index) {
+		DataType item = getItem(index);
+		boolean enabled = isEnabled(index);
+		int itemState = getItemState(index);
+		boolean filtered = isFiltered();
+		boolean selected = isSelected(index);
+		getDecorator().applyDecorator(context, this, view, item, index, enabled, itemState, filtered, selected);
+		String message = "Applied decorator \"" + getDecorator() + "\" using arguments: Item=[" + item + ", index="
+				+ index + ", enabled=" + enabled + ", itemState=" + itemState + ", filtered=" + filtered + "]";
+		getLogger().logVerbose(getClass(), message);
+	}
+
+	@Override
+	protected final void onSaveInstanceState(final Bundle savedState) {
+		super.onSaveInstanceState(savedState);
+		savedState.putBoolean(SELECT_ITEM_ON_CLICK_BUNDLE_KEY, isItemSelectedOnClick());
+	}
+
+	@Override
+	protected final void onRestoreInstanceState(final Bundle savedState) {
+		super.onRestoreInstanceState(savedState);
+		selectItemOnClick = savedState.getBoolean(SELECT_ITEM_ON_CLICK_BUNDLE_KEY, true);
 	}
 
 	@Override
