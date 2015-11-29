@@ -44,7 +44,7 @@ import de.mrapp.android.adapter.logging.LogLevel;
  * 
  * @author Michael Rapp
  * 
- * @since 1.0.0
+ * @since 0.1.0
  */
 public class ListAdapterImplementation<DataType>
 		extends AbstractFilterableListAdapter<DataType, ListDecorator<DataType>> {

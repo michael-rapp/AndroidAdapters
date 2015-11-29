@@ -33,7 +33,7 @@ import de.mrapp.android.adapter.datastructure.item.Item;
  * 
  * @author Michael Rapp
  * 
- * @since 1.0.0
+ * @since 0.1.0
  */
 public class Group<GroupType, ChildType> extends Item<GroupType> {
 
