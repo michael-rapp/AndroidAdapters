@@ -85,14 +85,6 @@ public interface SelectableListAdapter<DataType> extends ListAdapter<DataType> {
 	boolean isSelected(DataType item);
 
 	/**
-	 * Returns the number of currently selected items.
-	 * 
-	 * @return The number of currently selected items, as an {@link Integer}
-	 *         value
-	 */
-	int getSelectedItemCount();
-
-	/**
 	 * Returns, whether an item is selected, when it is clicked by the user, or
 	 * not.
 	 * 

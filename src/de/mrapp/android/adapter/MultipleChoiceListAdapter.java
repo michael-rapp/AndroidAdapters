@@ -139,6 +139,14 @@ public interface MultipleChoiceListAdapter<DataType> extends SelectableListAdapt
 	Collection<DataType> getUnselectedItems();
 
 	/**
+	 * Returns the number of currently selected items.
+	 * 
+	 * @return The number of currently selected items, as an {@link Integer}
+	 *         value
+	 */
+	int getSelectedItemCount();
+
+	/**
 	 * Sets the selection of the item, which belongs to a specific index, if it
 	 * is currently enabled.
 	 * 

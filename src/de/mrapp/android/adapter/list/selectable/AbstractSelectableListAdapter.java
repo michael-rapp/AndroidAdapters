@@ -318,19 +318,6 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	}
 
 	@Override
-	public final int getSelectedItemCount() {
-		int result = 0;
-
-		for (Item<DataType> item : getItems()) {
-			if (item.isSelected()) {
-				result++;
-			}
-		}
-
-		return result;
-	}
-
-	@Override
 	public final boolean isItemSelectedOnClick() {
 		return selectItemOnClick;
 	}
