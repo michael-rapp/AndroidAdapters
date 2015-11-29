@@ -75,7 +75,7 @@ public abstract class SelectableListDecorator<DataType> extends AbstractDecorato
 			final View view, final DataType item, final int index, final boolean enabled, final int state,
 			final boolean filtered, final boolean selected) {
 		setCurrentParentView(view);
-		int viewType = getItemViewType(adapter, item, index, enabled, state, filtered, selected);
+		int viewType = getViewType(adapter, item, index, enabled, state, filtered, selected);
 		setCurrentViewType(viewType);
 		adaptViewState(view, enabled, selected);
 		onShowItem(context, adapter, view, item, viewType, index, enabled, state, filtered, selected);
@@ -113,7 +113,7 @@ public abstract class SelectableListDecorator<DataType> extends AbstractDecorato
 	 *            True, if the item, which should be visualized, is currently
 	 *            selected, false otherwise
 	 */
-	public int getItemViewType(final ListAdapter<DataType> adapter, final DataType item, final int index,
+	public int getViewType(final ListAdapter<DataType> adapter, final DataType item, final int index,
 			final boolean enabled, final int state, final boolean filtered, final boolean selected) {
 		return 0;
 	}
