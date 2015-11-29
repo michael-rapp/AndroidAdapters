@@ -418,7 +418,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 * @return The number of group items, which are contained by the adapter, as
 	 *         an {@link Integer} value
 	 */
-	int getNumberOfGroups();
+	int getGroupCount();
 
 	/**
 	 * Returns a collection, which contains all of the adapter's group items.
@@ -2073,7 +2073,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 * @return The total number of child items, which are contained by the
 	 *         adapter, as an {@link Integer} value
 	 */
-	int getNumberOfChildren();
+	int getChildCount();
 
 	/**
 	 * Returns the number of child items, which are contained by the group,
@@ -2088,7 +2088,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 * @return The number of child items, which are contained by the group, as
 	 *         an {@link Integer} value
 	 */
-	int getNumberOfChildren(int groupIndex);
+	int getChildCount(int groupIndex);
 
 	/**
 	 * Returns the number of child items, which are contained by a specific
@@ -2102,7 +2102,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 * @return The number of child items, which are contained by the group, as
 	 *         an {@link Integer} value
 	 */
-	int getNumberOfChildren(GroupType group);
+	int getChildCount(GroupType group);
 
 	/**
 	 * Returns a collection, which contains all of the adapter's child items.
@@ -2356,7 +2356,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 * @return The number of currently expanded groups as an {@link Integer}
 	 *         value or 0 if the adapter is not attached to a view
 	 */
-	int getNumberOfExpandedGroups();
+	int getExpandedGroupCount();
 
 	/**
 	 * Returns the number of the currently collapsed groups.
@@ -2364,7 +2364,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 * @return The number of currently collapsed groups as an {@link Integer}
 	 *         value or 0 if the adapter is not attached to a view
 	 */
-	int getNumberOfCollapsedGroups();
+	int getCollapsedGroupCount();
 
 	/**
 	 * Expands a specific group.

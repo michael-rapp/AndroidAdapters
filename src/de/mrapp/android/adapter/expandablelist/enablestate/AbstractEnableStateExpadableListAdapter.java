@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
-import android.widget.ExpandableListView;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.datastructure.group.Group;
 import de.mrapp.android.adapter.expandablelist.AbstractExpandableListAdapter;
@@ -327,7 +326,7 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 	public final Collection<GroupType> getEnabledGroups() {
 		List<GroupType> enabledGroups = new ArrayList<>();
 
-		for (int i = 0; i < getNumberOfGroups(); i++) {
+		for (int i = 0; i < getGroupCount(); i++) {
 			Group<GroupType, ChildType> group = getGroupAdapter().getItem(i);
 
 			if (group.isEnabled()) {
@@ -347,7 +346,7 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 	public final Collection<GroupType> getDisabledGroups() {
 		List<GroupType> disabledGroups = new ArrayList<>();
 
-		for (int i = 0; i < getNumberOfGroups(); i++) {
+		for (int i = 0; i < getGroupCount(); i++) {
 			Group<GroupType, ChildType> group = getGroupAdapter().getItem(i);
 
 			if (!group.isEnabled()) {
@@ -440,7 +439,7 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 
 	@Override
 	public final void setAllGroupsEnabled(final boolean enableChildren, final boolean enabled) {
-		for (int i = 0; i < getNumberOfGroups(); i++) {
+		for (int i = 0; i < getGroupCount(); i++) {
 			setGroupEnabled(enableChildren, i, enabled);
 		}
 	}
@@ -452,7 +451,7 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 
 	@Override
 	public final void triggerAllGroupEnableStates(final boolean triggerChildStates) {
-		for (int i = 0; i < getNumberOfGroups(); i++) {
+		for (int i = 0; i < getGroupCount(); i++) {
 			triggerGroupEnableState(triggerChildStates, i);
 		}
 	}
@@ -561,7 +560,7 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 	public final Collection<ChildType> getEnabledChildren() {
 		List<ChildType> enabledChildren = new ArrayList<>();
 
-		for (int i = 0; i < getNumberOfGroups(); i++) {
+		for (int i = 0; i < getGroupCount(); i++) {
 			enabledChildren.addAll(getEnabledChildren(i));
 		}
 
@@ -592,7 +591,7 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 	public final Collection<ChildType> getDisabledChildren() {
 		List<ChildType> disabledChildren = new ArrayList<>();
 
-		for (int i = 0; i < getNumberOfGroups(); i++) {
+		for (int i = 0; i < getGroupCount(); i++) {
 			disabledChildren.addAll(getDisabledChildren(i));
 		}
 
@@ -700,7 +699,7 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 
 	@Override
 	public final void setAllChildrenEnabled(final boolean enabled) {
-		for (int i = 0; i < getNumberOfGroups(); i++) {
+		for (int i = 0; i < getGroupCount(); i++) {
 			setAllChildrenEnabled(i, enabled);
 		}
 	}
@@ -712,14 +711,14 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 
 	@Override
 	public final void setAllChildrenEnabled(final int groupIndex, final boolean enabled) {
-		for (int i = 0; i < getNumberOfChildren(groupIndex); i++) {
+		for (int i = 0; i < getChildCount(groupIndex); i++) {
 			setChildEnabled(groupIndex, i, enabled);
 		}
 	}
 
 	@Override
 	public final void triggerAllChildEnableStates() {
-		for (int i = 0; i < getNumberOfGroups(); i++) {
+		for (int i = 0; i < getGroupCount(); i++) {
 			triggerAllChildEnableStates(i);
 		}
 	}
@@ -731,7 +730,7 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 
 	@Override
 	public final void triggerAllChildEnableStates(final int groupIndex) {
-		for (int i = 0; i < getNumberOfChildren(groupIndex); i++) {
+		for (int i = 0; i < getChildCount(groupIndex); i++) {
 			triggerChildEnableState(groupIndex, i);
 		}
 	}

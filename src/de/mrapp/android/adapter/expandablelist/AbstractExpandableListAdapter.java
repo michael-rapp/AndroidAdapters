@@ -873,7 +873,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 	@Override
 	public final int addGroup(final GroupType group) {
-		int index = getNumberOfGroups();
+		int index = getGroupCount();
 		boolean added = addGroup(index, group);
 		return added ? index : -1;
 	}
@@ -898,7 +898,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 	@Override
 	public final boolean addAllGroups(final Collection<GroupType> groups) {
-		return addAllGroups(getNumberOfGroups(), groups);
+		return addAllGroups(getGroupCount(), groups);
 	}
 
 	@Override
@@ -922,7 +922,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	@SafeVarargs
 	@Override
 	public final boolean addAllGroups(final GroupType... groups) {
-		return addAllGroups(getNumberOfGroups(), groups);
+		return addAllGroups(getGroupCount(), groups);
 	}
 
 	@SafeVarargs
@@ -978,7 +978,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		ensureNotNull(groups, "The collection may not be null");
 		int numberOfRemovedGroups = 0;
 
-		for (int i = getNumberOfGroups() - 1; i >= 0; i--) {
+		for (int i = getGroupCount() - 1; i >= 0; i--) {
 			if (groups.contains(getGroup(i))) {
 				removeGroup(i);
 				numberOfRemovedGroups++;
@@ -998,7 +998,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	public final void retainAllGroups(final Collection<GroupType> groups) {
 		ensureNotNull(groups, "The collection may not be null");
 
-		for (int i = getNumberOfGroups() - 1; i >= 0; i--) {
+		for (int i = getGroupCount() - 1; i >= 0; i--) {
 			if (!groups.contains(getGroup(i))) {
 				removeGroup(i);
 			}
@@ -1014,7 +1014,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 	@Override
 	public final void clearGroups() {
-		for (int i = getNumberOfGroups() - 1; i >= 0; i--) {
+		for (int i = getGroupCount() - 1; i >= 0; i--) {
 			removeGroup(i);
 		}
 	}
@@ -1059,7 +1059,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	public final int indexOfGroup(final GroupType group) {
 		ensureNotNull(group, "The group may not be null");
 
-		for (int i = 0; i < getNumberOfGroups(); i++) {
+		for (int i = 0; i < getGroupCount(); i++) {
 			if (getGroup(i) == group) {
 				return i;
 			}
@@ -1089,11 +1089,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	@Override
 	public final boolean containsAllGroups(final GroupType... groups) {
 		return containsAllGroups(Arrays.asList(groups));
-	}
-
-	@Override
-	public final int getNumberOfGroups() {
-		return groupAdapter.getCount();
 	}
 
 	@Override
@@ -1167,15 +1162,15 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 	@Override
 	public final int addChild(final int groupIndex, final ChildType child) {
-		int index = getNumberOfChildren(groupIndex);
-		boolean added = addChild(groupIndex, getNumberOfChildren(groupIndex), child);
+		int index = getChildCount(groupIndex);
+		boolean added = addChild(groupIndex, getChildCount(groupIndex), child);
 		return added ? index : -1;
 	}
 
 	@Override
 	public final int addChild(final GroupType group, final ChildType child) {
 		int groupIndex = indexOfGroupOrThrowException(group);
-		int childIndex = getNumberOfChildren(groupIndex);
+		int childIndex = getChildCount(groupIndex);
 		boolean added = addChild(groupIndex, childIndex, child);
 		return added ? childIndex : -1;
 	}
@@ -1215,7 +1210,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 	@Override
 	public final boolean addAllChildren(final int groupIndex, final Collection<ChildType> children) {
-		return addAllChildren(groupIndex, getNumberOfChildren(groupIndex), children);
+		return addAllChildren(groupIndex, getChildCount(groupIndex), children);
 	}
 
 	@Override
@@ -1730,18 +1725,18 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	}
 
 	@Override
-	public final int getNumberOfChildren() {
+	public final int getChildCount() {
 		return getAllChildren().size();
 	}
 
 	@Override
-	public final int getNumberOfChildren(final int groupIndex) {
+	public final int getChildCount(final int groupIndex) {
 		return groupAdapter.getItem(groupIndex).getChildAdapter().getCount();
 	}
 
 	@Override
-	public final int getNumberOfChildren(final GroupType group) {
-		return getNumberOfChildren(indexOfGroupOrThrowException(group));
+	public final int getChildCount(final GroupType group) {
+		return getChildCount(indexOfGroupOrThrowException(group));
 	}
 
 	@Override
@@ -1826,7 +1821,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	@Override
 	public final int getFirstExpandedGroupIndex() {
 		if (getAdapterView() != null) {
-			for (int i = 0; i < getNumberOfGroups(); i++) {
+			for (int i = 0; i < getChildCount(); i++) {
 				if (getAdapterView().isGroupExpanded(i)) {
 					return i;
 				}
@@ -1850,7 +1845,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	@Override
 	public final int getLastExpandedGroupIndex() {
 		if (getAdapterView() != null) {
-			for (int i = getNumberOfGroups() - 1; i >= 0; i--) {
+			for (int i = getChildCount() - 1; i >= 0; i--) {
 				if (getAdapterView().isGroupExpanded(i)) {
 					return i;
 				}
@@ -1874,7 +1869,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	@Override
 	public final int getFirstCollapsedGroupIndex() {
 		if (getAdapterView() != null) {
-			for (int i = 0; i < getNumberOfGroups(); i++) {
+			for (int i = 0; i < getChildCount(); i++) {
 				if (!getAdapterView().isGroupExpanded(i)) {
 					return i;
 				}
@@ -1898,7 +1893,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	@Override
 	public final int getLastCollapsedGroupIndex() {
 		if (getAdapterView() != null) {
-			for (int i = getNumberOfGroups() - 1; i >= 0; i--) {
+			for (int i = getChildCount() - 1; i >= 0; i--) {
 				if (!getAdapterView().isGroupExpanded(i)) {
 					return i;
 				}
@@ -1913,7 +1908,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		Collection<GroupType> expandedGroups = new ArrayList<GroupType>();
 
 		if (getAdapterView() != null) {
-			for (int i = 0; i < getNumberOfGroups(); i++) {
+			for (int i = 0; i < getChildCount(); i++) {
 				if (getAdapterView().isGroupExpanded(i)) {
 					expandedGroups.add(getGroup(i));
 				}
@@ -1928,7 +1923,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		Collection<Integer> expandedGroupIndices = new ArrayList<Integer>();
 
 		if (getAdapterView() != null) {
-			for (int i = 0; i < getNumberOfGroups(); i++) {
+			for (int i = 0; i < getChildCount(); i++) {
 				if (getAdapterView().isGroupExpanded(i)) {
 					expandedGroupIndices.add(i);
 				}
@@ -1943,7 +1938,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		Collection<GroupType> collapedGroups = new ArrayList<GroupType>();
 
 		if (getAdapterView() != null) {
-			for (int i = 0; i < getNumberOfGroups(); i++) {
+			for (int i = 0; i < getChildCount(); i++) {
 				if (!getAdapterView().isGroupExpanded(i)) {
 					collapedGroups.add(getGroup(i));
 				}
@@ -1958,7 +1953,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		Collection<Integer> collapsedGroupIndices = new ArrayList<Integer>();
 
 		if (getAdapterView() != null) {
-			for (int i = 0; i < getNumberOfGroups(); i++) {
+			for (int i = 0; i < getChildCount(); i++) {
 				if (!getAdapterView().isGroupExpanded(i)) {
 					collapsedGroupIndices.add(i);
 				}
@@ -1969,12 +1964,12 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	}
 
 	@Override
-	public final int getNumberOfExpandedGroups() {
+	public final int getExpandedGroupCount() {
 		return getExpandedGroups().size();
 	}
 
 	@Override
-	public final int getNumberOfCollapsedGroups() {
+	public final int getCollapsedGroupCount() {
 		return getCollapsedGroups().size();
 	}
 
@@ -2063,7 +2058,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	@Override
 	public final void expandAllGroups() {
 		if (getAdapterView() != null) {
-			for (int i = 0; i < getNumberOfGroups(); i++) {
+			for (int i = 0; i < getGroupCount(); i++) {
 				getAdapterView().expandGroup(i);
 			}
 		} else {
@@ -2075,7 +2070,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	@Override
 	public final void collapseAllGroups() {
 		if (getAdapterView() != null) {
-			for (int i = 0; i < getNumberOfGroups(); i++) {
+			for (int i = 0; i < getGroupCount(); i++) {
 				getAdapterView().expandGroup(i);
 			}
 		} else {
@@ -2087,7 +2082,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	@Override
 	public final void triggerAllGroupExpansions() {
 		if (getAdapterView() != null) {
-			for (int i = 0; i < getNumberOfGroups(); i++) {
+			for (int i = 0; i < getGroupCount(); i++) {
 				if (getAdapterView().isGroupExpanded(i)) {
 					getAdapterView().collapseGroup(i);
 				} else {
