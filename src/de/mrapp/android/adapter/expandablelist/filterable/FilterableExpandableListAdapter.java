@@ -37,6 +37,15 @@ import de.mrapp.android.adapter.Filter;
 public interface FilterableExpandableListAdapter<GroupType, ChildType> {
 
 	/**
+	 * Returns, whether at least one filter is currently applied on the adapter
+	 * to filter its group or child items, or not.
+	 * 
+	 * @return True, if at least one filter is currently applied on the adapter
+	 *         to filter its group or child items, false otherwise.
+	 */
+	boolean isFiltered();
+
+	/**
 	 * Filters the adapter's group items by using a specific query, if no filter
 	 * using the same query has been applied yet. If the underlying data of the
 	 * adapter's group items does not implement the interface {@link Filterable}
