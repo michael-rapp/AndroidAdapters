@@ -90,7 +90,7 @@ public interface SelectableListAdapter<DataType> extends ListAdapter<DataType> {
 	 * @return The number of currently selected items, as an {@link Integer}
 	 *         value
 	 */
-	int getNumberOfSelectedItems();
+	int getSelectedItemCount();
 
 	/**
 	 * Returns, whether an item is selected, when it is clicked by the user, or
