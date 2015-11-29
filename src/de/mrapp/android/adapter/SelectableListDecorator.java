@@ -34,8 +34,7 @@ import de.mrapp.android.adapter.list.selectable.SelectableListAdapter;
  * 
  * @since 0.1.0
  */
-public abstract class SelectableListDecorator<DataType> extends
-		AbstractDecorator {
+public abstract class SelectableListDecorator<DataType> extends AbstractDecorator {
 
 	/**
 	 * The method, which is invoked by an adapter to apply the decorator. It
@@ -72,17 +71,14 @@ public abstract class SelectableListDecorator<DataType> extends
 	 *            True, if the item, which should be visualized, is currently
 	 *            selected, false otherwise
 	 */
-	public final void applyDecorator(final Context context,
-			final SelectableListAdapter<DataType> adapter, final View view,
-			final DataType item, final int index, final boolean enabled,
-			final int state, final boolean filtered, final boolean selected) {
+	public final void applyDecorator(final Context context, final SelectableListAdapter<DataType> adapter,
+			final View view, final DataType item, final int index, final boolean enabled, final int state,
+			final boolean filtered, final boolean selected) {
 		setCurrentParentView(view);
-		int viewType = getViewType(adapter, item, index, enabled, state,
-				filtered, selected);
+		int viewType = getViewType(adapter, item, index, enabled, state, filtered, selected);
 		setCurrentViewType(viewType);
 		adaptViewState(view, enabled, selected);
-		onShowItem(context, adapter, view, item, viewType, index, enabled,
-				state, filtered, selected);
+		onShowItem(context, adapter, view, item, viewType, index, enabled, state, filtered, selected);
 	}
 
 	/**
@@ -117,10 +113,22 @@ public abstract class SelectableListDecorator<DataType> extends
 	 *            True, if the item, which should be visualized, is currently
 	 *            selected, false otherwise
 	 */
-	public int getViewType(final ListAdapter<DataType> adapter,
-			final DataType item, final int index, final boolean enabled,
-			final int state, final boolean filtered, final boolean selected) {
+	public int getViewType(final ListAdapter<DataType> adapter, final DataType item, final int index,
+			final boolean enabled, final int state, final boolean filtered, final boolean selected) {
 		return 0;
+	}
+
+	/**
+	 * Returns the number of views types, which are visualized by the decorator.
+	 * This method has to be overridden by custom decorators in order to return
+	 * a value, which is consistent with the implementation of the
+	 * <code>getViewType</code>-method.
+	 * 
+	 * @return The number of view types, which are visualized by the decorator,
+	 *         as an {@link Integer} value
+	 */
+	public int getViewTypeCount() {
+		return 1;
 	}
 
 	/**
@@ -162,9 +170,7 @@ public abstract class SelectableListDecorator<DataType> extends
 	 *            True, if the item, which should be visualized, is currently
 	 *            selected, false otherwise
 	 */
-	protected abstract void onShowItem(Context context,
-			SelectableListAdapter<DataType> adapter, View view, DataType item,
-			int viewType, int index, boolean enabled, int state,
-			boolean filtered, boolean selected);
+	protected abstract void onShowItem(Context context, SelectableListAdapter<DataType> adapter, View view,
+			DataType item, int viewType, int index, boolean enabled, int state, boolean filtered, boolean selected);
 
 }

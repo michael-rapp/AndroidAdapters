@@ -111,6 +111,19 @@ public abstract class ListDecorator<DataType> extends AbstractDecorator {
 	}
 
 	/**
+	 * Returns the number of views types, which are visualized by the decorator.
+	 * This method has to be overridden by custom decorators in order to return
+	 * a value, which is consistent with the implementation of the
+	 * <code>getViewType</code>-method.
+	 * 
+	 * @return The number of view types, which are visualized by the decorator,
+	 *         as an {@link Integer} value
+	 */
+	public int getViewTypeCount() {
+		return 1;
+	}
+
+	/**
 	 * The method which is invoked, when the view, which is used to visualize an
 	 * item, should be shown, respectively when it should be refreshed. The
 	 * purpose of this method is to customize the appearance of the view, which

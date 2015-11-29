@@ -212,17 +212,4 @@ public abstract class AbstractDecorator {
 		return false;
 	}
 
-	/**
-	 * Returns the number of views types, which are visualized by the decorator.
-	 * This method has to be overridden by custom decorators in order to return
-	 * a value, which is consistent with the implementation of the
-	 * <code>getViewType</code>-method.
-	 * 
-	 * @return The number of view types, which are visualized by the decorator,
-	 *         as an {@link Integer} value
-	 */
-	public int getViewTypeCount() {
-		return 1;
-	}
-
 }
