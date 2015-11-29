@@ -54,18 +54,6 @@ public class ListAdapterImplementation<DataType>
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@Override
-	protected final void applyDecorator(final Context context, final View view, final int index) {
-		DataType item = getItem(index);
-		boolean enabled = isEnabled(index);
-		int itemState = getItemState(index);
-		boolean filtered = isFiltered();
-		getDecorator().applyDecorator(context, this, view, item, index, enabled, itemState, filtered);
-		String message = "Applied decorator \"" + getDecorator() + "\" using arguments: Item=[" + item + ", index="
-				+ index + ", enabled=" + enabled + ", itemState=" + itemState + ", filtered=" + filtered + "]";
-		getLogger().logVerbose(getClass(), message);
-	}
-
 	/**
 	 * Creates a new adapter, whose underlying data is managed as a list of
 	 * arbitrary items.
@@ -171,6 +159,18 @@ public class ListAdapterImplementation<DataType>
 				new LinkedHashSet<ListItemStateListener<DataType>>(),
 				new LinkedHashSet<ListSortingListener<DataType>>(), new LinkedHashSet<ListFilterListener<DataType>>(),
 				new LinkedHashSet<AppliedFilter<DataType>>());
+	}
+
+	@Override
+	protected final void applyDecorator(final Context context, final View view, final int index) {
+		DataType item = getItem(index);
+		boolean enabled = isEnabled(index);
+		int itemState = getItemState(index);
+		boolean filtered = isFiltered();
+		getDecorator().applyDecorator(context, this, view, item, index, enabled, itemState, filtered);
+		String message = "Applied decorator \"" + getDecorator() + "\" using arguments: Item=[" + item + ", index="
+				+ index + ", enabled=" + enabled + ", itemState=" + itemState + ", filtered=" + filtered + "]";
+		getLogger().logVerbose(getClass(), message);
 	}
 
 	@Override
