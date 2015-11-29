@@ -276,7 +276,7 @@ public interface ItemStateListAdapter<DataType> {
 	 * @return The number of items, which currently have the given state, as an
 	 *         {@link Integer} value
 	 */
-	int getNumberOfItemsWithSpecificState(int state);
+	int getItemStateCount(int state);
 
 	/**
 	 * Returns, whether the state of an item is triggered, when it is clicked by
