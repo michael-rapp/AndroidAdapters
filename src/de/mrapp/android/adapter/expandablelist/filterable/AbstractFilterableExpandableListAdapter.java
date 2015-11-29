@@ -269,7 +269,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
 	public final boolean applyChildFilter(final String query, final int flags) {
 		boolean result = true;
 
-		for (int i = 0; i < getNumberOfGroups(); i++) {
+		for (int i = 0; i < getGroupCount(); i++) {
 			result &= applyChildFilter(i, query, flags);
 		}
 
@@ -304,7 +304,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
 	public final boolean applyChildFilter(final String query, final int flags, final Filter<ChildType> filter) {
 		boolean result = true;
 
-		for (int i = 0; i < getNumberOfGroups(); i++) {
+		for (int i = 0; i < getGroupCount(); i++) {
 			result &= applyChildFilter(i, query, flags, filter);
 		}
 
@@ -342,7 +342,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
 	public final boolean resetChildFilter(final String query, final int flags) {
 		boolean result = true;
 
-		for (int i = 0; i < getNumberOfGroups(); i++) {
+		for (int i = 0; i < getGroupCount(); i++) {
 			result &= resetChildFilter(i, query, flags);
 		}
 
@@ -375,7 +375,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
 
 	@Override
 	public final void resetAllChildFilters() {
-		for (int i = 0; i < getNumberOfGroups(); i++) {
+		for (int i = 0; i < getGroupCount(); i++) {
 			resetAllChildFilters(i);
 		}
 	}
@@ -412,7 +412,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
 
 	@Override
 	public final boolean areChildrenFiltered() {
-		for (int i = 0; i < getNumberOfGroups(); i++) {
+		for (int i = 0; i < getGroupCount(); i++) {
 			if (areChildrenFiltered(i)) {
 				return true;
 			}

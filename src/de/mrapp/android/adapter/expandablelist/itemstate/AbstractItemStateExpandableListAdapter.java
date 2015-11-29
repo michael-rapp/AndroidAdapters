@@ -424,7 +424,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 	public final boolean setAllGroupStates(final boolean setChildStates, final int state) {
 		boolean result = true;
 
-		for (int i = 0; i < getNumberOfGroups(); i++) {
+		for (int i = 0; i < getGroupCount(); i++) {
 			result &= (setGroupState(setChildStates, i, state) != -1);
 		}
 
@@ -476,7 +476,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 	public final boolean triggerAllGroupStates(final boolean triggerChildStates) {
 		boolean result = true;
 
-		for (int i = 0; i < getNumberOfGroups(); i++) {
+		for (int i = 0; i < getGroupCount(); i++) {
 			result &= (triggerGroupState(triggerChildStates, i) != -1);
 		}
 
@@ -512,7 +512,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 	public final Collection<GroupType> getGroupsWithSpecificState(final int state) {
 		List<GroupType> groups = new ArrayList<>();
 
-		for (int i = 0; i < getNumberOfGroups(); i++) {
+		for (int i = 0; i < getGroupCount(); i++) {
 			Group<GroupType, ChildType> group = getGroupAdapter().getItem(i);
 
 			if (group.getState() == state) {
@@ -553,7 +553,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 		String message = "Set number of child states to " + numberOfChildStates;
 		getLogger().logDebug(getClass(), message);
 
-		for (int i = 0; i < getNumberOfGroups(); i++) {
+		for (int i = 0; i < getGroupCount(); i++) {
 			Group<GroupType, ChildType> group = getGroupAdapter().getItem(i);
 			group.getChildAdapter().setNumberOfItemStates(numberOfChildStates);
 		}
@@ -646,7 +646,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 	public final boolean setAllChildStates(final int state) {
 		boolean result = true;
 
-		for (int i = 0; i < getNumberOfGroups(); i++) {
+		for (int i = 0; i < getGroupCount(); i++) {
 			result &= setAllChildStates(i, state);
 		}
 
@@ -662,7 +662,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 	public final boolean setAllChildStates(final int groupIndex, final int state) {
 		boolean result = true;
 
-		for (int i = 0; i < getNumberOfChildren(groupIndex); i++) {
+		for (int i = 0; i < getChildCount(groupIndex); i++) {
 			result &= (setChildState(groupIndex, i, state) != -1);
 		}
 
@@ -705,7 +705,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 	public final boolean triggerAllChildStates() {
 		boolean result = false;
 
-		for (int i = 0; i < getNumberOfGroups(); i++) {
+		for (int i = 0; i < getGroupCount(); i++) {
 			result &= triggerAllChildStates(i);
 		}
 
@@ -716,7 +716,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 	public final boolean triggerAllChildStates(final int groupIndex) {
 		boolean result = true;
 
-		for (int i = 0; i < getNumberOfChildren(groupIndex); i++) {
+		for (int i = 0; i < getChildCount(groupIndex); i++) {
 			result &= (triggerChildState(groupIndex, i) != -1);
 		}
 
@@ -782,7 +782,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 	public final Collection<ChildType> getChildrenWithSpecificState(final int state) {
 		List<ChildType> children = new ArrayList<>();
 
-		for (int i = 0; i < getNumberOfGroups(); i++) {
+		for (int i = 0; i < getGroupCount(); i++) {
 			children.addAll(getChildrenWithSpecificState(i, state));
 		}
 
