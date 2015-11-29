@@ -38,7 +38,7 @@ import de.mrapp.android.adapter.list.sortable.SortableListAdapter;
  * 
  * @author Michael Rapp
  * 
- * @since 1.0.0
+ * @since 0.1.0
  */
 public interface ListAdapter<DataType>
 		extends Adapter<AbsListView>, android.widget.ListAdapter, EnableStateListAdapter<DataType>,

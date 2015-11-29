@@ -28,7 +28,7 @@ import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
  * 
  * @author Michael Rapp
  * 
- * @since 1.0.0
+ * @since 0.1.0
  */
 public class InstanceInflater implements Inflater {
 
