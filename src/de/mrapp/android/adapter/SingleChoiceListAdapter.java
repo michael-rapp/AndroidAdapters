@@ -38,7 +38,7 @@ public interface SingleChoiceListAdapter<DataType> extends SelectableListAdapter
 	 * Returns the index of the currently selected item.
 	 * 
 	 * @return The index of the currently selected item, as an {@link Integer}
-	 *         value or -1, if the adapter does not contain any enabled items
+	 *         value or -1, if no item is currently selected
 	 */
 	int getSelectedIndex();
 
@@ -46,8 +46,7 @@ public interface SingleChoiceListAdapter<DataType> extends SelectableListAdapter
 	 * Returns the currently selected item.
 	 * 
 	 * @return The currently selected item, as an instance of the generic type
-	 *         DataType or null, if the adapter does not contain any enabled
-	 *         items
+	 *         DataType or null, if no item is currently selected
 	 */
 	DataType getSelectedItem();
 
