@@ -99,7 +99,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends AbstractSel
 
 			@Override
 			public void onItemAdded(final ListAdapter<DataType> adapter, final DataType item, final int index) {
-				if (isSelectionAdaptedAutomatically() && getNumberOfItems() == 1) {
+				if (isSelectionAdaptedAutomatically() && getCount() == 1) {
 					select(index);
 				}
 			}
@@ -215,8 +215,8 @@ public class SingleChoiceListAdapterImplementation<DataType> extends AbstractSel
 		int ascendingIndex = index;
 		int descendingIndex = index - 1;
 
-		while (ascendingIndex < getNumberOfItems() || descendingIndex >= 0) {
-			if (ascendingIndex < getNumberOfItems() && isEnabled(ascendingIndex)) {
+		while (ascendingIndex < getCount() || descendingIndex >= 0) {
+			if (ascendingIndex < getCount() && isEnabled(ascendingIndex)) {
 				select(ascendingIndex);
 				return;
 			} else if (descendingIndex >= 0 && isEnabled(descendingIndex)) {
@@ -356,7 +356,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends AbstractSel
 
 	@Override
 	public final int getSelectedIndex() {
-		for (int i = 0; i < getNumberOfItems(); i++) {
+		for (int i = 0; i < getCount(); i++) {
 			if (getItems().get(i).isSelected()) {
 				return i;
 			}
@@ -382,7 +382,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends AbstractSel
 
 		if (item.isEnabled()) {
 			if (!item.isSelected()) {
-				for (int i = 0; i < getNumberOfItems(); i++) {
+				for (int i = 0; i < getCount(); i++) {
 					Item<DataType> currentItem = getItems().get(i);
 
 					if (i == index && !currentItem.isSelected()) {

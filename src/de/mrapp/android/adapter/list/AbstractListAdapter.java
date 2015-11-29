@@ -675,7 +675,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> implements Li
 
 	@Override
 	public final int addItem(final DataType item) {
-		int index = getNumberOfItems();
+		int index = getCount();
 		boolean added = addItem(index, item);
 		return added ? index : -1;
 	}
@@ -701,7 +701,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> implements Li
 
 	@Override
 	public final boolean addAllItems(final Collection<DataType> items) {
-		return addAllItems(getNumberOfItems(), items);
+		return addAllItems(getCount(), items);
 	}
 
 	@Override
@@ -725,7 +725,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> implements Li
 	@SafeVarargs
 	@Override
 	public final boolean addAllItems(final DataType... items) {
-		return addAllItems(getNumberOfItems(), items);
+		return addAllItems(getCount(), items);
 	}
 
 	@SafeVarargs
@@ -780,7 +780,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> implements Li
 		ensureNotNull(items, "The collection may not be null");
 		int numberOfRemovedItems = 0;
 
-		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
+		for (int i = getCount() - 1; i >= 0; i--) {
 			if (items.contains(getItem(i))) {
 				removeItem(i);
 				numberOfRemovedItems++;
@@ -801,7 +801,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> implements Li
 	public final void retainAllItems(final Collection<DataType> items) {
 		ensureNotNull(items, "The collection may not be null");
 
-		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
+		for (int i = getCount() - 1; i >= 0; i--) {
 			if (!items.contains(getItem(i))) {
 				removeItem(i);
 			}
@@ -817,7 +817,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> implements Li
 
 	@Override
 	public final void clearItems() {
-		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
+		for (int i = getCount() - 1; i >= 0; i--) {
 			removeItem(i);
 		}
 	}
@@ -862,7 +862,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> implements Li
 	public final int indexOf(final DataType item) {
 		ensureNotNull(item, "The item may not be null");
 
-		for (int i = 0; i < getNumberOfItems(); i++) {
+		for (int i = 0; i < getCount(); i++) {
 			if (getItem(i).equals(item)) {
 				return i;
 			}
@@ -875,7 +875,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> implements Li
 	public final int lastIndexOf(final DataType item) {
 		ensureNotNull(item, "The item may not be null");
 
-		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
+		for (int i = getCount() - 1; i >= 0; i--) {
 			if (getItem(i).equals(item)) {
 				return i;
 			}
@@ -907,11 +907,6 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> implements Li
 	public final boolean containsAllItems(final DataType... items) {
 		ensureNotNull(items, "The array may not be null");
 		return containsAllItems(Arrays.asList(items));
-	}
-
-	@Override
-	public final int getNumberOfItems() {
-		return items.size();
 	}
 
 	@Override
@@ -965,7 +960,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> implements Li
 
 	@Override
 	public final int getCount() {
-		return getNumberOfItems();
+		return items.size();
 	}
 
 	@Override
