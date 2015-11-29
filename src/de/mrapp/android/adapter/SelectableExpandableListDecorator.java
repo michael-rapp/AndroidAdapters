@@ -172,7 +172,7 @@ public abstract class SelectableExpandableListDecorator<GroupType, ChildType> ex
 	 * @return The view type of the group item, which is about to be visualized,
 	 *         as an {@link Integer} value
 	 */
-	protected int getGroupType(final ExpandableListAdapter<GroupType, ChildType> adapter, final GroupType group,
+	public int getGroupType(final ExpandableListAdapter<GroupType, ChildType> adapter, final GroupType group,
 			final int index, final boolean enabled, final int state, final boolean filtered, final boolean selected) {
 		return 0;
 	}
@@ -229,7 +229,7 @@ public abstract class SelectableExpandableListDecorator<GroupType, ChildType> ex
 	 * @return The view type of the child item, which is about to be visualized,
 	 *         as an {@link Integer} value
 	 */
-	protected int getChildType(final ExpandableListAdapter<GroupType, ChildType> adapter, final ChildType child,
+	public int getChildType(final ExpandableListAdapter<GroupType, ChildType> adapter, final ChildType child,
 			final int childIndex, final GroupType group, final int groupIndex, final boolean enabled, final int state,
 			final boolean filtered, final boolean selected) {
 		return 0;

@@ -220,13 +220,13 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 	}
 
 	@Override
-	protected final void onSaveInstanceState(final Bundle savedState) {
+	protected void onSaveInstanceState(final Bundle savedState) {
 		savedState.putInt(NUMBER_OF_CHILD_STATES_BUNDLE_KEY, getNumberOfChildStates());
 		savedState.putBoolean(TRIGGER_CHILD_STATE_ON_CLICK_BUNDLE_KEY, isChildStateTriggeredOnClick());
 	}
 
 	@Override
-	protected final void onRestoreInstanceState(final Bundle savedState) {
+	protected void onRestoreInstanceState(final Bundle savedState) {
 		numberOfChildStates = savedState.getInt(NUMBER_OF_CHILD_STATES_BUNDLE_KEY);
 		triggerChildStateOnClick = savedState.getBoolean(TRIGGER_CHILD_STATE_ON_CLICK_BUNDLE_KEY);
 	}
@@ -843,7 +843,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 	}
 
 	@Override
-	public final int hashCode() {
+	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + numberOfChildStates;
@@ -852,7 +852,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 	}
 
 	@Override
-	public final boolean equals(final Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (!super.equals(obj))
