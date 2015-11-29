@@ -126,7 +126,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends AbstractSel
 
 			@Override
 			public void onItemEnabled(final ListAdapter<DataType> adapter, final DataType item, final int index) {
-				if (isSelectionAdaptedAutomatically() && getNumberOfEnabledItems() == 1) {
+				if (isSelectionAdaptedAutomatically() && getEnabledItemCount() == 1) {
 					select(index);
 				}
 			}

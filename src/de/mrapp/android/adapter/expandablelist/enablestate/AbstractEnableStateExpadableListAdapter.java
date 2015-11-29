@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
+import android.widget.ExpandableListView;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.datastructure.group.Group;
 import de.mrapp.android.adapter.expandablelist.AbstractExpandableListAdapter;
@@ -359,7 +360,7 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 
 	@Override
 	public final int getNumberOfEnabledGroups() {
-		return getGroupAdapter().getNumberOfEnabledItems();
+		return getGroupAdapter().getEnabledItemCount();
 	}
 
 	@Override

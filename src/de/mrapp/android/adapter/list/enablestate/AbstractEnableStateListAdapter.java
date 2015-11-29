@@ -182,7 +182,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final boolean areAllItemsEnabled() {
-		return getNumberOfEnabledItems() == getCount();
+		return getEnabledItemCount() == getCount();
 	}
 
 	@Override
@@ -336,7 +336,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public final int getNumberOfEnabledItems() {
+	public final int getEnabledItemCount() {
 		return getEnabledItems().size();
 	}
 

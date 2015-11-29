@@ -176,7 +176,7 @@ public interface EnableStateListAdapter<DataType> {
 	 * @return The number of currently enabled items, as an {@link Integer}
 	 *         value
 	 */
-	int getNumberOfEnabledItems();
+	int getEnabledItemCount();
 
 	/**
 	 * Sets the enable state of the item, which belongs to a specific index.
