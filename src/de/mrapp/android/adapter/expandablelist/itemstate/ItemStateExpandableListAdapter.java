@@ -399,7 +399,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 * @return The number of group items, which currently have the given state,
 	 *         as an {@link Integer} value
 	 */
-	int getNumberOfGroupsWithSpecificState(int state);
+	int getGroupStateCount(int state);
 
 	/**
 	 * Returns, whether the state of a group item is triggered, when it is
@@ -1084,7 +1084,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 * @return The number of child items, which currently have the given state,
 	 *         as an {@link Integer} value
 	 */
-	int getNumberOfChildrenWithSpecificState(int state);
+	int getChildStateCount(int state);
 
 	/**
 	 * Returns the number of child items of a specific group, which currently
@@ -1101,7 +1101,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 * @return The number of child items of the given group, which currently
 	 *         have the given state, as an {@link Integer} value
 	 */
-	int getNumberOfChildrenWithSpecificState(GroupType group, int state);
+	int getChildStateCount(GroupType group, int state);
 
 	/**
 	 * Returns the number of child items of the group, which belongs to a
@@ -1119,7 +1119,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 * @return The number of child items of the given group, which currently
 	 *         have the given state, as an {@link Integer} value
 	 */
-	int getNumberOfChildrenWithSpecificState(int groupIndex, int state);
+	int getChildStateCount(int groupIndex, int state);
 
 	/**
 	 * Returns, whether the state of a child item is triggered, when it is
