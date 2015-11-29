@@ -225,7 +225,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends AbstractS
 
 	@Override
 	public final int getFirstSelectedIndex() {
-		for (int i = 0; i < getNumberOfItems(); i++) {
+		for (int i = 0; i < getCount(); i++) {
 			if (getItems().get(i).isSelected()) {
 				return i;
 			}
@@ -247,7 +247,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends AbstractS
 
 	@Override
 	public final int getLastSelectedIndex() {
-		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
+		for (int i = getCount() - 1; i >= 0; i--) {
 			if (getItems().get(i).isSelected()) {
 				return i;
 			}
@@ -258,7 +258,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends AbstractS
 
 	@Override
 	public final DataType getLastSelectedItem() {
-		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
+		for (int i = getCount() - 1; i >= 0; i--) {
 			Item<DataType> item = getItems().get(i);
 
 			if (item.isSelected()) {
@@ -271,7 +271,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends AbstractS
 
 	@Override
 	public final int getFirstUnselectedIndex() {
-		for (int i = 0; i < getNumberOfItems(); i++) {
+		for (int i = 0; i < getCount(); i++) {
 			if (!getItems().get(i).isSelected()) {
 				return i;
 			}
@@ -293,7 +293,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends AbstractS
 
 	@Override
 	public final int getLastUnselectedIndex() {
-		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
+		for (int i = getCount() - 1; i >= 0; i--) {
 			if (!getItems().get(i).isSelected()) {
 				return i;
 			}
@@ -304,7 +304,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends AbstractS
 
 	@Override
 	public final DataType getLastUnselectedItem() {
-		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
+		for (int i = getCount() - 1; i >= 0; i--) {
 			Item<DataType> item = getItems().get(i);
 
 			if (!item.isSelected()) {
@@ -319,7 +319,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends AbstractS
 	public final Collection<Integer> getSelectedIndices() {
 		List<Integer> selectedIndices = new ArrayList<Integer>();
 
-		for (int i = 0; i < getNumberOfItems(); i++) {
+		for (int i = 0; i < getCount(); i++) {
 			if (getItems().get(i).isSelected()) {
 				selectedIndices.add(i);
 			}
@@ -345,7 +345,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends AbstractS
 	public final Collection<Integer> getUnselectedIndices() {
 		List<Integer> unselectedIndices = new ArrayList<Integer>();
 
-		for (int i = 0; i < getNumberOfItems(); i++) {
+		for (int i = 0; i < getCount(); i++) {
 			if (!getItems().get(i).isSelected()) {
 				unselectedIndices.add(i);
 			}
@@ -422,7 +422,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends AbstractS
 	public final boolean setAllSelected(final boolean selected) {
 		boolean result = true;
 
-		for (int i = 0; i < getNumberOfItems(); i++) {
+		for (int i = 0; i < getCount(); i++) {
 			result &= setSelected(i, selected);
 		}
 
@@ -433,7 +433,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends AbstractS
 	public final boolean triggerAllSelections() {
 		boolean result = true;
 
-		for (int i = 0; i < getNumberOfItems(); i++) {
+		for (int i = 0; i < getCount(); i++) {
 			result &= triggerSelection(i);
 		}
 

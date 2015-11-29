@@ -182,7 +182,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final boolean areAllItemsEnabled() {
-		return getNumberOfEnabledItems() == getNumberOfItems();
+		return getNumberOfEnabledItems() == getCount();
 	}
 
 	@Override
@@ -197,7 +197,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final int getFirstEnabledIndex() {
-		for (int i = 0; i < getNumberOfItems(); i++) {
+		for (int i = 0; i < getCount(); i++) {
 			if (getItems().get(i).isEnabled()) {
 				return i;
 			}
@@ -219,7 +219,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final int getLastEnabledIndex() {
-		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
+		for (int i = getCount() - 1; i >= 0; i--) {
 			if (getItems().get(i).isEnabled()) {
 				return i;
 			}
@@ -241,7 +241,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final int getFirstDisabledIndex() {
-		for (int i = 0; i < getNumberOfItems(); i++) {
+		for (int i = 0; i < getCount(); i++) {
 			if (!getItems().get(i).isEnabled()) {
 				return i;
 			}
@@ -263,7 +263,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final int getLastDisabledIndex() {
-		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
+		for (int i = getCount() - 1; i >= 0; i--) {
 			if (!getItems().get(i).isEnabled()) {
 				return i;
 			}
@@ -287,7 +287,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 	public final List<Integer> getEnabledIndices() {
 		List<Integer> enabledIndices = new ArrayList<Integer>();
 
-		for (int i = 0; i < getNumberOfItems(); i++) {
+		for (int i = 0; i < getCount(); i++) {
 			if (getItems().get(i).isEnabled()) {
 				enabledIndices.add(i);
 			}
@@ -313,7 +313,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 	public final List<Integer> getDisabledIndices() {
 		List<Integer> disabledIndices = new ArrayList<Integer>();
 
-		for (int i = 0; i < getNumberOfItems(); i++) {
+		for (int i = 0; i < getCount(); i++) {
 			if (!getItems().get(i).isEnabled()) {
 				disabledIndices.add(i);
 			}
@@ -382,14 +382,14 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final void setAllEnabled(final boolean enabled) {
-		for (int i = 0; i < getNumberOfItems(); i++) {
+		for (int i = 0; i < getCount(); i++) {
 			setEnabled(i, enabled);
 		}
 	}
 
 	@Override
 	public final void triggerAllEnableStates() {
-		for (int i = 0; i < getNumberOfItems(); i++) {
+		for (int i = 0; i < getCount(); i++) {
 			triggerEnableState(i);
 		}
 	}

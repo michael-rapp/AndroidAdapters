@@ -56,7 +56,7 @@ import de.mrapp.android.adapter.util.VisibleForTesting;
  * @since 1.0.0
  */
 public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
-		extends AbstractEnableStateListAdapter<DataType, DecoratorType>implements ItemStateListAdapter<DataType> {
+		extends AbstractEnableStateListAdapter<DataType, DecoratorType> implements ItemStateListAdapter<DataType> {
 
 	/**
 	 * The constant serial version UID.
@@ -259,7 +259,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 		String message = "Set number of item states to " + numberOfItemStates;
 		getLogger().logDebug(getClass(), message);
 
-		for (int i = 0; i < getNumberOfItems(); i++) {
+		for (int i = 0; i < getCount(); i++) {
 			if (getItemState(i) > maxItemState()) {
 				setItemState(i, maxItemState());
 			}
@@ -332,7 +332,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 				IllegalArgumentException.class);
 		boolean result = true;
 
-		for (int i = 0; i < getNumberOfItems(); i++) {
+		for (int i = 0; i < getCount(); i++) {
 			result &= (setItemState(i, state) != -1);
 		}
 
@@ -365,7 +365,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 	public final boolean triggerAllItemStates() {
 		boolean result = true;
 
-		for (int i = 0; i < getNumberOfItems(); i++) {
+		for (int i = 0; i < getCount(); i++) {
 			result &= (triggerItemState(i) != -1);
 		}
 
@@ -374,7 +374,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final int getFirstIndexWithSpecificState(final int state) {
-		for (int i = 0; i < getNumberOfItems(); i++) {
+		for (int i = 0; i < getCount(); i++) {
 			if (getItems().get(i).getState() == state) {
 				return i;
 			}
@@ -396,7 +396,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final int getLastIndexWithSpecificState(final int state) {
-		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
+		for (int i = getCount() - 1; i >= 0; i--) {
 			if (getItems().get(i).getState() == state) {
 				return i;
 			}
@@ -407,7 +407,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 
 	@Override
 	public final DataType getLastItemWithSpecificState(final int state) {
-		for (int i = getNumberOfItems() - 1; i >= 0; i--) {
+		for (int i = getCount() - 1; i >= 0; i--) {
 			Item<DataType> item = getItems().get(i);
 
 			if (item.getState() == state) {
@@ -422,7 +422,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 	public final Collection<Integer> getIndicesWithSpecificState(final int state) {
 		List<Integer> indices = new ArrayList<Integer>();
 
-		for (int i = 0; i < getNumberOfItems(); i++) {
+		for (int i = 0; i < getCount(); i++) {
 			if (getItems().get(i).getState() == state) {
 				indices.add(i);
 			}

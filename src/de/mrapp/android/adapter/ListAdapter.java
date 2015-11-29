@@ -412,7 +412,7 @@ public interface ListAdapter<DataType>
 	 * @return The number of items, which are contained by the adapter, as an
 	 *         {@link Integer} value
 	 */
-	int getNumberOfItems();
+	int getCount();
 
 	/**
 	 * Returns a collection, which contains all of the adapter's items.

@@ -1093,7 +1093,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 	@Override
 	public final int getNumberOfGroups() {
-		return groupAdapter.getNumberOfItems();
+		return groupAdapter.getCount();
 	}
 
 	@Override
@@ -1363,7 +1363,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	public final boolean removeAllChildren(final boolean removeEmptyGroups, final Collection<ChildType> children) {
 		boolean result = true;
 
-		for (int i = groupAdapter.getNumberOfItems() - 1; i >= 0; i--) {
+		for (int i = groupAdapter.getCount() - 1; i >= 0; i--) {
 			result &= removeAllChildren(removeEmptyGroups, i, children);
 		}
 
@@ -1382,7 +1382,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		boolean result = true;
 		Group<GroupType, ChildType> group = groupAdapter.getItem(groupIndex);
 
-		for (int i = group.getChildAdapter().getNumberOfItems() - 1; i >= 0; i--) {
+		for (int i = group.getChildAdapter().getCount() - 1; i >= 0; i--) {
 			result &= removeChild(removeEmptyGroup, groupIndex, i) != null;
 		}
 
@@ -1448,7 +1448,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 	@Override
 	public final void retainAllChildren(final boolean removeEmptyGroups, final Collection<ChildType> children) {
-		for (int i = groupAdapter.getNumberOfItems() - 1; i >= 0; i--) {
+		for (int i = groupAdapter.getCount() - 1; i >= 0; i--) {
 			retainAllChildren(removeEmptyGroups, i, children);
 		}
 	}
@@ -1464,7 +1464,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		ensureNotNull(children, "The collection may not be null");
 		Group<GroupType, ChildType> group = groupAdapter.getItem(groupIndex);
 
-		for (int i = group.getChildAdapter().getNumberOfItems() - 1; i >= 0; i--) {
+		for (int i = group.getChildAdapter().getCount() - 1; i >= 0; i--) {
 			if (!children.contains(group.getChildAdapter().getItem(i))) {
 				removeChild(removeEmptyGroup, groupIndex, i);
 			}
@@ -1530,7 +1530,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 	@Override
 	public final void clearChildren(final boolean removeEmptyGroups) {
-		for (int i = groupAdapter.getNumberOfItems() - 1; i >= 0; i--) {
+		for (int i = groupAdapter.getCount() - 1; i >= 0; i--) {
 			clearChildren(removeEmptyGroups, i);
 		}
 	}
@@ -1544,7 +1544,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	public final void clearChildren(final boolean removeEmptyGroup, final int groupIndex) {
 		Group<GroupType, ChildType> group = groupAdapter.getItem(groupIndex);
 
-		for (int i = group.getChildAdapter().getNumberOfItems() - 1; i >= 0; i--) {
+		for (int i = group.getChildAdapter().getCount() - 1; i >= 0; i--) {
 			removeChild(removeEmptyGroup, groupIndex, i);
 		}
 	}
@@ -1638,7 +1638,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	public final int indexOfChild(final ChildType child) {
 		ensureNotNull(child, "The child may not be null");
 
-		for (int i = 0; i < groupAdapter.getNumberOfItems(); i++) {
+		for (int i = 0; i < groupAdapter.getCount(); i++) {
 			if (groupAdapter.getItem(i).getChildAdapter().containsItem(child)) {
 				return i;
 			}
@@ -1662,7 +1662,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	public final int lastIndexOfChild(final ChildType child) {
 		ensureNotNull(child, "The child may not be null");
 
-		for (int i = groupAdapter.getNumberOfItems() - 1; i >= 0; i--) {
+		for (int i = groupAdapter.getCount() - 1; i >= 0; i--) {
 			if (groupAdapter.getItem(i).getChildAdapter().containsItem(child)) {
 				return i;
 			}
@@ -1736,7 +1736,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 	@Override
 	public final int getNumberOfChildren(final int groupIndex) {
-		return groupAdapter.getItem(groupIndex).getChildAdapter().getNumberOfItems();
+		return groupAdapter.getItem(groupIndex).getChildAdapter().getCount();
 	}
 
 	@Override
@@ -2144,10 +2144,10 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 	@Override
 	public final long getChildId(final int groupIndex, final int childIndex) {
-		int id = groupAdapter.getNumberOfItems() + childIndex;
+		int id = groupAdapter.getCount() + childIndex;
 
 		for (int i = 0; i < groupIndex; i++) {
-			id += groupAdapter.getItem(i).getChildAdapter().getNumberOfItems();
+			id += groupAdapter.getItem(i).getChildAdapter().getCount();
 		}
 
 		return id;
@@ -2155,12 +2155,12 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 	@Override
 	public final int getChildrenCount(final int groupIndex) {
-		return groupAdapter.getItem(groupIndex).getChildAdapter().getNumberOfItems();
+		return groupAdapter.getItem(groupIndex).getChildAdapter().getCount();
 	}
 
 	@Override
 	public final int getGroupCount() {
-		return groupAdapter.getNumberOfItems();
+		return groupAdapter.getCount();
 	}
 
 	@Override

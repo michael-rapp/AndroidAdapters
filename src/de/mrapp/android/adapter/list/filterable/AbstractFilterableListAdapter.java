@@ -65,7 +65,7 @@ import de.mrapp.android.adapter.util.VisibleForTesting;
  * @since 1.0.0
  */
 public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
-		extends AbstractSortableListAdapter<DataType, DecoratorType>implements FilterableListAdapter<DataType> {
+		extends AbstractSortableListAdapter<DataType, DecoratorType> implements FilterableListAdapter<DataType> {
 
 	/**
 	 * The constant serial version UID.
@@ -243,7 +243,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 		Collection<Item<DataType>> itemsToRemove = new LinkedList<Item<DataType>>();
 		int counter = 0;
 
-		for (int i = 0; i < getNumberOfItems(); i++) {
+		for (int i = 0; i < getCount(); i++) {
 			Item<DataType> item = getItems().get(i);
 
 			if (!matchFilter(filter, item)) {
@@ -425,8 +425,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	 */
 	protected final int getUnfilteredIndex(final int filteredIndex) {
 		ensureAtLeast(filteredIndex, 0, "The index must be at least 0");
-		ensureAtMaximum(filteredIndex, getNumberOfItems() - 1,
-				"The index must be at maximum " + (getNumberOfItems() - 1));
+		ensureAtMaximum(filteredIndex, getCount() - 1, "The index must be at maximum " + (getCount() - 1));
 
 		if (!isFiltered()) {
 			return filteredIndex;
