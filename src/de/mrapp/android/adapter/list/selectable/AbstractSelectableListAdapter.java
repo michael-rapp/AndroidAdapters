@@ -318,7 +318,7 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	}
 
 	@Override
-	public final int getNumberOfSelectedItems() {
+	public final int getSelectedItemCount() {
 		int result = 0;
 
 		for (Item<DataType> item : getItems()) {
