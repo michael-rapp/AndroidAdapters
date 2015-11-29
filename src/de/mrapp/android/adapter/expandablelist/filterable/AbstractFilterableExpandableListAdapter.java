@@ -203,6 +203,11 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
 	}
 
 	@Override
+	public final boolean isFiltered() {
+		return areGroupsFiltered() || areChildrenFiltered();
+	}
+
+	@Override
 	public final boolean applyGroupFilter(final String query, final int flags) {
 		boolean result = getGroupAdapter().applyFilter(query, flags);
 
