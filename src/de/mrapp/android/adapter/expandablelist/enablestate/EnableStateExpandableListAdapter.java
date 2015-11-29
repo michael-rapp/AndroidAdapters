@@ -173,7 +173,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 * @return The number of currently enabled groups, as an {@link Integer}
 	 *         value
 	 */
-	int getNumberOfEnabledGroups();
+	int getEnabledGroupCount();
 
 	/**
 	 * Sets the enable state of the group item, which belongs to a specific
@@ -819,7 +819,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 * @return The number of currently enabled children, as an {@link Integer}
 	 *         value
 	 */
-	int getNumberOfEnabledChildren();
+	int getEnabledChildCount();
 
 	/**
 	 * Returns the number of currently enabled children of a specific group.
@@ -832,7 +832,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 * @return The number of currently enabled children of the given group, as
 	 *         an {@link Integer} value
 	 */
-	int getNumberOfEnabledChildren(GroupType group);
+	int getEnabledChildCount(GroupType group);
 
 	/**
 	 * Returns the number of currently enabled children of the group, which
@@ -847,7 +847,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 * @return The number of currently enabled children of the given group, as
 	 *         an {@link Integer} value
 	 */
-	int getNumberOfEnabledChildren(int groupIndex);
+	int getEnabledChildCount(int groupIndex);
 
 	/**
 	 * Sets the enable state of the child item, which belongs to a specific

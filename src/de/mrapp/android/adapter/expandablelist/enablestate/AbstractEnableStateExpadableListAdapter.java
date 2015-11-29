@@ -358,7 +358,7 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 	}
 
 	@Override
-	public final int getNumberOfEnabledGroups() {
+	public final int getEnabledGroupCount() {
 		return getGroupAdapter().getEnabledItemCount();
 	}
 
@@ -619,17 +619,17 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 	}
 
 	@Override
-	public final int getNumberOfEnabledChildren() {
+	public final int getEnabledChildCount() {
 		return getEnabledChildren().size();
 	}
 
 	@Override
-	public final int getNumberOfEnabledChildren(final GroupType group) {
+	public final int getEnabledChildCount(final GroupType group) {
 		return getEnabledChildren(group).size();
 	}
 
 	@Override
-	public final int getNumberOfEnabledChildren(final int groupIndex) {
+	public final int getEnabledChildCount(final int groupIndex) {
 		return getEnabledChildren(groupIndex).size();
 	}
 
