@@ -296,6 +296,19 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	}
 
 	@Override
+	public final int getSelectedItemCount() {
+		int result = 0;
+
+		for (Item<DataType> item : getItems()) {
+			if (item.isSelected()) {
+				result++;
+			}
+		}
+
+		return result;
+	}
+
+	@Override
 	public final boolean isSelected(final int index) {
 		return getItems().get(index).isSelected();
 	}
@@ -327,7 +340,7 @@ public abstract class AbstractSelectableListAdapter<DataType>
 		return getDecorator().getViewType(this, getItem(index), index, isEnabled(index), getItemState(index),
 				isFiltered(), isSelected(index));
 	}
-	
+
 	@Override
 	protected final void onSaveInstanceState(final Bundle savedState) {
 		super.onSaveInstanceState(savedState);

@@ -57,6 +57,14 @@ public interface SelectableListAdapter<DataType> extends ListAdapter<DataType> {
 	void removeSelectionListener(ListSelectionListener<DataType> listener);
 
 	/**
+	 * Returns the number of currently selected items.
+	 * 
+	 * @return The number of currently selected items, as an {@link Integer}
+	 *         value
+	 */
+	int getSelectedItemCount();
+
+	/**
 	 * Returns, whether the item, which belongs to a specific index, is
 	 * currently selected, or not.
 	 * 
