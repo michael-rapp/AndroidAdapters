@@ -525,7 +525,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 
 	@Override
 	public final int getNumberOfGroupsWithSpecificState(final int state) {
-		return getGroupAdapter().getNumberOfItemsWithSpecificState(state);
+		return getGroupAdapter().getItemStateCount(state);
 	}
 
 	@Override

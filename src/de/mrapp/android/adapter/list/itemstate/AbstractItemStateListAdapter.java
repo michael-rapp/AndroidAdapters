@@ -445,7 +445,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public final int getNumberOfItemsWithSpecificState(final int state) {
+	public final int getItemStateCount(final int state) {
 		return getItemsWithSpecificState(state).size();
 	}
 
