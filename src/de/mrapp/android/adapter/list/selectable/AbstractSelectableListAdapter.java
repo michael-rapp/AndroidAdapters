@@ -267,13 +267,13 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	}
 
 	@Override
-	protected final void onSaveInstanceState(final Bundle savedState) {
+	protected void onSaveInstanceState(final Bundle savedState) {
 		super.onSaveInstanceState(savedState);
 		savedState.putBoolean(SELECT_ITEM_ON_CLICK_BUNDLE_KEY, isItemSelectedOnClick());
 	}
 
 	@Override
-	protected final void onRestoreInstanceState(final Bundle savedState) {
+	protected void onRestoreInstanceState(final Bundle savedState) {
 		super.onRestoreInstanceState(savedState);
 		selectItemOnClick = savedState.getBoolean(SELECT_ITEM_ON_CLICK_BUNDLE_KEY, true);
 	}

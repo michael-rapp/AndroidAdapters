@@ -263,7 +263,7 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
 	}
 
 	@Override
-	protected final void onSaveInstanceState(final Bundle savedState) {
+	protected void onSaveInstanceState(final Bundle savedState) {
 		super.onSaveInstanceState(savedState);
 		savedState.putBoolean(SELECT_GROUP_ON_CLICK_BUNDLE_KEY, isGroupSelectedOnClick());
 		savedState.putBoolean(SELECT_CHILD_ON_CLICK_BUNDLE_KEY, isChildSelectedOnClick());
@@ -271,7 +271,7 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
 	}
 
 	@Override
-	protected final void onRestoreInstanceState(final Bundle savedState) {
+	protected void onRestoreInstanceState(final Bundle savedState) {
 		super.onRestoreInstanceState(savedState);
 		selectGroupOnClick = savedState.getBoolean(SELECT_GROUP_ON_CLICK_BUNDLE_KEY, isGroupSelectedOnClick());
 		selectChildOnClick = savedState.getBoolean(SELECT_CHILD_ON_CLICK_BUNDLE_KEY, isChildSelectedOnClick());
