@@ -437,7 +437,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends AbstractSel
 			for (int i = 0; i < getCount(); i++) {
 				if (isEnabled(i)) {
 					select(i);
-					break;
+					return;
 				}
 			}
 		}
