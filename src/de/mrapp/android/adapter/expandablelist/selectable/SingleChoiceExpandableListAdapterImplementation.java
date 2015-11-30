@@ -349,9 +349,9 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 	public final void adaptSelectionAutomatically(final boolean adaptSelectionAutomatically) {
 		this.adaptSelectionAutomatically = adaptSelectionAutomatically;
 
-		if (adaptSelectionAutomatically) {
+		if (adaptSelectionAutomatically && !isEmpty()) {
 			if (getChoiceMode() != ExpandableListChoiceMode.CHILDREN_ONLY && getSelectedGroupIndex() == -1) {
-				if (!isEmpty() && getSelectedGroupIndex() == -1) {
+				if (getSelectedGroupIndex() == -1) {
 					selectGroup(0);
 				}
 			} else if (getSelectedChildIndex() == -1) {
