@@ -23,6 +23,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import android.content.Context;
+import android.os.Bundle;
 import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.SelectableListDecorator;
@@ -37,6 +38,7 @@ import de.mrapp.android.adapter.list.filterable.ListFilterListener;
 import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 import de.mrapp.android.adapter.logging.LogLevel;
+import de.mrapp.android.adapter.util.VisibleForTesting;
 
 /**
  * An adapter, whose underlying data is managed as a list of arbitrary items, of
@@ -58,6 +60,14 @@ public class SingleChoiceListAdapterImplementation<DataType> extends AbstractSel
 	 * The constant serial version UID.
 	 */
 	private static final long serialVersionUID = 1L;
+
+	/**
+	 * The key, which is used to store, whether the adapter's selection is
+	 * adapted automatically, or not, within a bundle.
+	 */
+	@VisibleForTesting
+	protected static final String ADAPT_SELECTION_AUTOMATICALLY_BUNDLE_KEY = SingleChoiceListAdapterImplementation.class
+			.getSimpleName() + "::AdaptSelectionAutomatically";
 
 	/**
 	 * True, if the adapter's selection is adapted automatically, false
@@ -431,6 +441,18 @@ public class SingleChoiceListAdapterImplementation<DataType> extends AbstractSel
 	@Override
 	public final boolean isSelectionAdaptedAutomatically() {
 		return adaptSelectionAutomatically;
+	}
+
+	@Override
+	protected final void onSaveInstanceState(final Bundle savedState) {
+		super.onSaveInstanceState(savedState);
+		savedState.putBoolean(ADAPT_SELECTION_AUTOMATICALLY_BUNDLE_KEY, isSelectionAdaptedAutomatically());
+	}
+
+	@Override
+	protected final void onRestoreInstanceState(final Bundle savedState) {
+		super.onRestoreInstanceState(savedState);
+		adaptSelectionAutomatically = savedState.getBoolean(ADAPT_SELECTION_AUTOMATICALLY_BUNDLE_KEY, true);
 	}
 
 	@Override
