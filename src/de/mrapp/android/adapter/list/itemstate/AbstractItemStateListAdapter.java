@@ -167,18 +167,6 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 		this.itemStateListeners = itemStateListeners;
 	}
 
-	@Override
-	protected void onSaveInstanceState(final Bundle savedState) {
-		savedState.putInt(NUMBER_OF_ITEM_STATES_BUNDLE_KEY, getNumberOfItemStates());
-		savedState.putBoolean(TRIGGER_ITEM_STATE_ON_CLICK_BUNDLE_KEY, isItemStateTriggeredOnClick());
-	}
-
-	@Override
-	protected void onRestoreInstanceState(final Bundle savedState) {
-		numberOfItemStates = savedState.getInt(NUMBER_OF_ITEM_STATES_BUNDLE_KEY, 1);
-		triggerItemStateOnClick = savedState.getBoolean(TRIGGER_ITEM_STATE_ON_CLICK_BUNDLE_KEY, false);
-	}
-
 	/**
 	 * Creates a new adapter, whose underlying data is managed as a list of
 	 * arbitrary items, which may have multiple states.
@@ -244,6 +232,18 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 		triggerItemStateOnClick(triggerItemStateOnClick);
 		setItemStateListeners(itemStateListeners);
 		addItemClickListener(createItemClickListener());
+	}
+
+	@Override
+	protected void onSaveInstanceState(final Bundle savedState) {
+		savedState.putInt(NUMBER_OF_ITEM_STATES_BUNDLE_KEY, getNumberOfItemStates());
+		savedState.putBoolean(TRIGGER_ITEM_STATE_ON_CLICK_BUNDLE_KEY, isItemStateTriggeredOnClick());
+	}
+
+	@Override
+	protected void onRestoreInstanceState(final Bundle savedState) {
+		numberOfItemStates = savedState.getInt(NUMBER_OF_ITEM_STATES_BUNDLE_KEY, 1);
+		triggerItemStateOnClick = savedState.getBoolean(TRIGGER_ITEM_STATE_ON_CLICK_BUNDLE_KEY, false);
 	}
 
 	@Override
