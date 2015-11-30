@@ -267,6 +267,18 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	}
 
 	@Override
+	protected final void onSaveInstanceState(final Bundle savedState) {
+		super.onSaveInstanceState(savedState);
+		savedState.putBoolean(SELECT_ITEM_ON_CLICK_BUNDLE_KEY, isItemSelectedOnClick());
+	}
+
+	@Override
+	protected final void onRestoreInstanceState(final Bundle savedState) {
+		super.onRestoreInstanceState(savedState);
+		selectItemOnClick = savedState.getBoolean(SELECT_ITEM_ON_CLICK_BUNDLE_KEY, true);
+	}
+
+	@Override
 	protected final void applyDecorator(final Context context, final View view, final int index) {
 		DataType item = getItem(index);
 		boolean enabled = isEnabled(index);
@@ -339,18 +351,6 @@ public abstract class AbstractSelectableListAdapter<DataType>
 	public final int getItemViewType(final int index) {
 		return getDecorator().getViewType(this, getItem(index), index, isEnabled(index), getItemState(index),
 				isFiltered(), isSelected(index));
-	}
-
-	@Override
-	protected final void onSaveInstanceState(final Bundle savedState) {
-		super.onSaveInstanceState(savedState);
-		savedState.putBoolean(SELECT_ITEM_ON_CLICK_BUNDLE_KEY, isItemSelectedOnClick());
-	}
-
-	@Override
-	protected final void onRestoreInstanceState(final Bundle savedState) {
-		super.onRestoreInstanceState(savedState);
-		selectItemOnClick = savedState.getBoolean(SELECT_ITEM_ON_CLICK_BUNDLE_KEY, true);
 	}
 
 	@Override

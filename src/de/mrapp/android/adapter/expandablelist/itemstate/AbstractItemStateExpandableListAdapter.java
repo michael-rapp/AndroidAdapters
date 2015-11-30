@@ -219,18 +219,6 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 		this.itemStateListeners = itemStateListeners;
 	}
 
-	@Override
-	protected void onSaveInstanceState(final Bundle savedState) {
-		savedState.putInt(NUMBER_OF_CHILD_STATES_BUNDLE_KEY, getNumberOfChildStates());
-		savedState.putBoolean(TRIGGER_CHILD_STATE_ON_CLICK_BUNDLE_KEY, isChildStateTriggeredOnClick());
-	}
-
-	@Override
-	protected void onRestoreInstanceState(final Bundle savedState) {
-		numberOfChildStates = savedState.getInt(NUMBER_OF_CHILD_STATES_BUNDLE_KEY);
-		triggerChildStateOnClick = savedState.getBoolean(TRIGGER_CHILD_STATE_ON_CLICK_BUNDLE_KEY);
-	}
-
 	/**
 	 * Creates a new adapter, whose underlying data is managed as a list of
 	 * arbitrary group and child items, which may have multiple states.
@@ -327,6 +315,18 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 		triggerChildStateOnClick(triggerChildStateOnClick);
 		setItemStateListeners(itemStateListeners);
 		addItemClickListener(createItemClickListener());
+	}
+
+	@Override
+	protected void onSaveInstanceState(final Bundle savedState) {
+		savedState.putInt(NUMBER_OF_CHILD_STATES_BUNDLE_KEY, getNumberOfChildStates());
+		savedState.putBoolean(TRIGGER_CHILD_STATE_ON_CLICK_BUNDLE_KEY, isChildStateTriggeredOnClick());
+	}
+
+	@Override
+	protected void onRestoreInstanceState(final Bundle savedState) {
+		numberOfChildStates = savedState.getInt(NUMBER_OF_CHILD_STATES_BUNDLE_KEY);
+		triggerChildStateOnClick = savedState.getBoolean(TRIGGER_CHILD_STATE_ON_CLICK_BUNDLE_KEY);
 	}
 
 	@Override

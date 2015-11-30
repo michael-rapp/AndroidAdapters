@@ -452,23 +452,6 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 		return clonedAppliedFilters;
 	}
 
-	@Override
-	protected void onSaveInstanceState(final Bundle savedState) {
-		super.onSaveInstanceState(savedState);
-		savedState.putSerializable(APPLIED_FILTERS_BUNDLE_KEY, getAppliedFilters());
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	protected void onRestoreInstanceState(final Bundle savedState) {
-		super.onRestoreInstanceState(savedState);
-
-		if (savedState.containsKey(APPLIED_FILTERS_BUNDLE_KEY)) {
-			setAppliedFilters(
-					(LinkedHashSet<AppliedFilter<DataType>>) savedState.getSerializable(APPLIED_FILTERS_BUNDLE_KEY));
-		}
-	}
-
 	/**
 	 * Creates a new adapter, whose underlying data is managed as a filterable
 	 * list of arbitrary items.
@@ -552,6 +535,23 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 		addEnableStateListener(createEnableStateListener());
 		addItemStateListener(createItemStateListener());
 		addSortingListner(createSortingListener());
+	}
+
+	@Override
+	protected void onSaveInstanceState(final Bundle savedState) {
+		super.onSaveInstanceState(savedState);
+		savedState.putSerializable(APPLIED_FILTERS_BUNDLE_KEY, getAppliedFilters());
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	protected void onRestoreInstanceState(final Bundle savedState) {
+		super.onRestoreInstanceState(savedState);
+
+		if (savedState.containsKey(APPLIED_FILTERS_BUNDLE_KEY)) {
+			setAppliedFilters(
+					(LinkedHashSet<AppliedFilter<DataType>>) savedState.getSerializable(APPLIED_FILTERS_BUNDLE_KEY));
+		}
 	}
 
 	@Override
