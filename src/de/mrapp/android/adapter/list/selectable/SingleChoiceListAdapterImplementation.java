@@ -433,7 +433,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends AbstractSel
 	public final void adaptSelectionAutomatically(final boolean adaptSelectionAutomatically) {
 		this.adaptSelectionAutomatically = adaptSelectionAutomatically;
 
-		if (adaptSelectionAutomatically && getSelectedIndex() == -1) {
+		if (adaptSelectionAutomatically && !isEmpty() && getSelectedIndex() == -1) {
 			for (int i = 0; i < getCount(); i++) {
 				if (isEnabled(i)) {
 					select(i);
