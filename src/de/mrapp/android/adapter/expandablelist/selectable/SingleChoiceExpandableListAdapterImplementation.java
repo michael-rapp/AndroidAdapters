@@ -348,6 +348,25 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 	@Override
 	public final void adaptSelectionAutomatically(final boolean adaptSelectionAutomatically) {
 		this.adaptSelectionAutomatically = adaptSelectionAutomatically;
+
+		if (adaptSelectionAutomatically) {
+			if (getChoiceMode() != ExpandableListChoiceMode.CHILDREN_ONLY && getSelectedGroupIndex() == -1) {
+				if (!isEmpty() && getSelectedGroupIndex() == -1) {
+					selectGroup(0);
+				}
+			} else if (getSelectedChildIndex() == -1) {
+				for (int i = 0; i < getGroupCount(); i++) {
+					if (!isGroupEmpty(i)) {
+						for (int j = 0; j < getChildCount(i); j++) {
+							if (isChildEnabled(i, j)) {
+								selectChild(j, 0);
+								return;
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	@Override
