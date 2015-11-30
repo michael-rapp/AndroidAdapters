@@ -40,20 +40,6 @@ public interface SingleChoiceExpandableListAdapter<GroupType, ChildType>
 		extends SelectableExpandableListAdapter<GroupType, ChildType> {
 
 	/**
-	 * Returns, whether a group item is currently selected, or not.
-	 * 
-	 * @return True, if a group item is currently selected, false otherwise
-	 */
-	boolean isGroupSelected();
-
-	/**
-	 * Returns, whether a child item is currently selected, or not.
-	 * 
-	 * @return True, if a child item is currently selected, false otherwise
-	 */
-	boolean isChildSelected();
-
-	/**
 	 * Returns the index of the currently selected group item or the index of
 	 * the group item, the currently selected child belongs to.
 	 * 
