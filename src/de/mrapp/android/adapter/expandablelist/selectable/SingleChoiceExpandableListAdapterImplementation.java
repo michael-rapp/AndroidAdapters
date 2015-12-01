@@ -1,12 +1,33 @@
+/*
+ * AndroidAdapters Copyright 2014 Michael Rapp
+ *
+ * This program is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU Lesser General Public License as published 
+ * by the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but 
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public 
+ * License along with this program.  If not, see
+ * <http://www.gnu.org/licenses/>. 
+ */
 package de.mrapp.android.adapter.expandablelist.selectable;
 
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import de.mrapp.android.adapter.ExpandableListAdapter;
 import de.mrapp.android.adapter.ExpandableListChoiceMode;
+import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.SelectableExpandableListDecorator;
 import de.mrapp.android.adapter.SingleChoiceExpandableListAdapter;
@@ -61,6 +82,245 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 	 * otherwise.
 	 */
 	private boolean adaptSelectionAutomatically;
+
+	/**
+	 * Selects the nearest enabled group or child item, starting at a specific
+	 * group index and optionally child index. If a child index is given, the
+	 * item is searched within the group, which belongs to the given index, at
+	 * first. Otherwise, an enabled group item is searched at first.If neither a
+	 * child, nor a group item could be selected in this initial step, the
+	 * search is continued amongst the children, which have not been considered
+	 * yet.
+	 * 
+	 * @param groupIndex
+	 *            The index of the group, the search for the nearest enabled
+	 *            item should be started at, as an {@link Integer} value
+	 * @param childIndex
+	 *            The index of the child, the search for the nearest enabled
+	 *            item should be started at, as an {@link Integer} value or -1,
+	 *            if no child index is available
+	 */
+	private void selectNearestEnabledItem(final int groupIndex, final int childIndex) {
+		boolean selected = false;
+
+		if (childIndex != -1) {
+			selected = selectNearestEnabledChildItem(groupIndex, childIndex);
+
+			if (!selected) {
+				selected = selectNearestEnabledGroupItem(groupIndex);
+			}
+		} else {
+			selected = selectNearestEnabledGroupItem(groupIndex);
+		}
+
+		if (!selected) {
+			int i = 0;
+
+			while (i < getGroupCount() && !selected) {
+				if (i != childIndex) {
+					selected = selectNearestEnabledChildItem(i, 0);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Selects the nearest enabled group item, starting at a specific group
+	 * index. The group item is searched alternately by ascending and descending
+	 * indices. If no enabled group item is available, no item will be selected.
+	 * 
+	 * @param groupIndex
+	 *            The index of the group, the search for the nearest enabled
+	 *            group item should be started at, as an {@link Integer} value
+	 * @return True, if a group item has been selected, false otherwise
+	 */
+	private boolean selectNearestEnabledGroupItem(final int groupIndex) {
+		if (getChoiceMode() != ExpandableListChoiceMode.CHILDREN_ONLY) {
+			int ascendingIndex = groupIndex;
+			int descendingIndex = groupIndex - 1;
+
+			while (ascendingIndex < getGroupCount() || descendingIndex >= 0) {
+				if (ascendingIndex < getGroupCount() && isGroupEnabled(ascendingIndex)) {
+					selectGroup(ascendingIndex);
+					return true;
+				} else if (descendingIndex >= 0 && isGroupEnabled(descendingIndex)) {
+					selectGroup(descendingIndex);
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Selects the nearest enabled child item of a group, starting at a specific
+	 * child index. The child item is searched alternately by ascending and
+	 * descending indices. If no enabled child item is available, no item will
+	 * be selected.
+	 * 
+	 * @param groupIndex
+	 *            The index of the group, the child item, which should be
+	 *            selected, belongs to, as an {@link Integer} value
+	 * @param childIndex
+	 *            The index of the child, the search for the nearest enabled
+	 *            child item should be started at, as an {@link Integer} value
+	 * @return True, if a child item has been selected, false otherwise
+	 */
+	private boolean selectNearestEnabledChildItem(final int groupIndex, final int childIndex) {
+		if (getChoiceMode() != ExpandableListChoiceMode.GROUPS_ONLY) {
+			int ascendingIndex = childIndex;
+			int descendingIndex = childIndex - 1;
+
+			while (ascendingIndex < getChildCount(groupIndex) || descendingIndex >= 0) {
+				if (ascendingIndex < getChildCount(groupIndex) && isChildEnabled(groupIndex, ascendingIndex)) {
+					selectChild(groupIndex, ascendingIndex);
+					return true;
+				} else if (descendingIndex >= 0 && isChildEnabled(groupIndex, descendingIndex)) {
+					selectChild(groupIndex, descendingIndex);
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Creates and returns a listener, which allows to adapt the selections of
+	 * the adapter's items, when an item has been removed from or added to the
+	 * adapter.
+	 * 
+	 * @return The listener, which has been created, as an instance of the type
+	 *         {@link ExpandableListAdapterListener}
+	 */
+	private ExpandableListAdapterListener<GroupType, ChildType> createAdapterListener() {
+		return new ExpandableListAdapterListener<GroupType, ChildType>() {
+
+			@Override
+			public void onGroupAdded(final ExpandableListAdapter<GroupType, ChildType> adapter, final GroupType group,
+					final int index) {
+				if (isSelectionAdaptedAutomatically() && getGroupCount() == 1) {
+					selectGroup(0);
+				}
+			}
+
+			@Override
+			public void onGroupRemoved(final ExpandableListAdapter<GroupType, ChildType> adapter, final GroupType group,
+					final int index) {
+				if (isSelectionAdaptedAutomatically() && getSelectedGroupIndex() == -1) {
+					selectNearestEnabledItem(index, -1);
+				}
+			}
+
+			@Override
+			public void onChildAdded(final ExpandableListAdapter<GroupType, ChildType> adapter, final ChildType child,
+					final int childIndex, final GroupType group, final int groupIndex) {
+				return;
+			}
+
+			@Override
+			public void onChildRemoved(final ExpandableListAdapter<GroupType, ChildType> adapter, final ChildType child,
+					final int childIndex, final GroupType group, final int groupIndex) {
+				if (isSelectionAdaptedAutomatically() && getSelectedGroupIndex() == -1) {
+					selectNearestEnabledItem(groupIndex, childIndex);
+				}
+			}
+
+		};
+	}
+
+	/**
+	 * Creates and returns a listener, which allows to adapt the selections of
+	 * the adapter's items, when an item has been enabled or disabled.
+	 * 
+	 * @return The listener, which has been created, as an instance of the type
+	 *         {@link ExpandableListEnableStateListener}
+	 */
+	private ExpandableListEnableStateListener<GroupType, ChildType> createEnableStateListener() {
+		return new ExpandableListEnableStateListener<GroupType, ChildType>() {
+
+			@Override
+			public void onGroupEnabled(final ExpandableListAdapter<GroupType, ChildType> adapter, final GroupType group,
+					final int index) {
+				if (isSelectionAdaptedAutomatically() && getSelectedGroupIndex() == -1) {
+					selectGroup(index);
+				}
+			}
+
+			@Override
+			public void onGroupDisabled(final ExpandableListAdapter<GroupType, ChildType> adapter,
+					final GroupType group, final int index) {
+				if (isSelectionAdaptedAutomatically() && isGroupSelected(index)) {
+					selectNearestEnabledItem(index, -1);
+				}
+			}
+
+			@Override
+			public void onChildEnabled(final ExpandableListAdapter<GroupType, ChildType> adapter, final ChildType child,
+					final int childIndex, final GroupType group, final int groupIndex) {
+				if (isSelectionAdaptedAutomatically() && getSelectedGroupIndex() == -1) {
+					selectChild(groupIndex, childIndex);
+				}
+			}
+
+			@Override
+			public void onChildDisabled(final ExpandableListAdapter<GroupType, ChildType> adapter,
+					final ChildType child, final int childIndex, final GroupType group, final int groupIndex) {
+				if (isSelectionAdaptedAutomatically() && isChildSelected(groupIndex, childIndex)) {
+					selectNearestEnabledItem(groupIndex, childIndex);
+				}
+			}
+
+		};
+	}
+
+	/**
+	 * Creates and returns a listener, which allows to adapt the selections of
+	 * the adapter's items, when an the adapter's underlying data has been
+	 * filtered.
+	 * 
+	 * @return The listener, which has been created, as an instance of the type
+	 *         {@link ExpandableListFilterListener}
+	 */
+	private ExpandableListFilterListener<GroupType, ChildType> createFilterListener() {
+		return new ExpandableListFilterListener<GroupType, ChildType>() {
+
+			@Override
+			public void onApplyGroupFilter(final ExpandableListAdapter<GroupType, ChildType> adapter,
+					final Pattern query, final int flags, final Filter<GroupType> filter,
+					final Collection<GroupType> filteredGroups) {
+				if (isSelectionAdaptedAutomatically() && !isEmpty() && areGroupsFiltered()
+						&& getSelectedGroupIndex() == -1) {
+					selectGroup(0);
+				}
+			}
+
+			@Override
+			public void onResetGroupFilter(final ExpandableListAdapter<GroupType, ChildType> adapter,
+					final String query, final int flags, final Collection<GroupType> filteredGroups) {
+				return;
+			}
+
+			@Override
+			public void onApplyChildFilter(final ExpandableListAdapter<GroupType, ChildType> adapter,
+					final Pattern query, final int flags, final Filter<ChildType> filter, final GroupType group,
+					final int groupIndex, final Collection<ChildType> filteredChildren) {
+				if (isSelectionAdaptedAutomatically() && areChildrenFiltered(groupIndex)
+						&& getSelectedGroupIndex() == -1) {
+					selectNearestEnabledItem(groupIndex, 0);
+				}
+			}
+
+			@Override
+			public void onResetChildFilter(final ExpandableListAdapter<GroupType, ChildType> adapter,
+					final String query, final int flags, final GroupType group, final int groupIndex,
+					final Collection<ChildType> filteredChildren) {
+				return;
+			}
+
+		};
+	}
 
 	/**
 	 * Creates a new adapter, whose underlying data is managed as a list of
@@ -159,6 +419,9 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 	 * @param choiceMode
 	 *            The choice mode of the adapter as a value of the enum
 	 *            {@link ExpandableListChoiceMode}
+	 * @param adaptSelectionAutomatically
+	 *            True, if the adapter's selection should be automatically
+	 *            adapted, false otherwise
 	 */
 	protected SingleChoiceExpandableListAdapterImplementation(final Context context, final Inflater groupInflater,
 			final Inflater childInflater, final SelectableExpandableListDecorator<GroupType, ChildType> decorator,
@@ -175,12 +438,16 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 			final Set<ExpandableListFilterListener<GroupType, ChildType>> filterListeners,
 			final boolean selectGroupOnClick, final boolean selectChildOnClick,
 			final Set<ExpandableListSelectionListener<GroupType, ChildType>> selectionListeners,
-			final ExpandableListChoiceMode choiceMode) {
+			final ExpandableListChoiceMode choiceMode, final boolean adaptSelectionAutomatically) {
 		super(context, groupInflater, childInflater, decorator, logLevel, groupAdapter, allowDuplicateChildren,
 				notifyOnChange, expandGroupOnClick, itemClickListeners, adapterListeners, expansionListeners,
 				enableStateListeners, numberOfGroupStates, numberOfChildStates, triggerGroupStateOnClick,
 				triggerChildStateOnClick, itemStateListeners, sortingListeners, filterListeners, selectGroupOnClick,
 				selectChildOnClick, selectionListeners, choiceMode);
+		addAdapterListener(createAdapterListener());
+		addEnableStateListener(createEnableStateListener());
+		addFilterListener(createFilterListener());
+		adaptSelectionAutomatically(adaptSelectionAutomatically);
 	}
 
 	/**
@@ -223,7 +490,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 				new LinkedHashSet<ExpandableListItemStateListener<GroupType, ChildType>>(),
 				new LinkedHashSet<ExpandableListSortingListener<GroupType, ChildType>>(),
 				new LinkedHashSet<ExpandableListFilterListener<GroupType, ChildType>>(), true, true,
-				new LinkedHashSet<ExpandableListSelectionListener<GroupType, ChildType>>(), choiceMode);
+				new LinkedHashSet<ExpandableListSelectionListener<GroupType, ChildType>>(), choiceMode, true);
 	}
 
 	@Override
@@ -249,6 +516,16 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 		boolean selected = isChildSelected(groupIndex, childIndex);
 		getDecorator().applyDecoratorOnChild(context, this, view, child, childIndex, group, groupIndex, enabled, state,
 				filtered, selected);
+	}
+
+	@Override
+	public final boolean isGroupSelected() {
+		return getGroupAdapter().getSelectedItemCount() > 0;
+	}
+
+	@Override
+	public final boolean isChildSelected() {
+		return getSelectedChildIndex() != -1;
 	}
 
 	@Override
@@ -349,23 +626,8 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 	public final void adaptSelectionAutomatically(final boolean adaptSelectionAutomatically) {
 		this.adaptSelectionAutomatically = adaptSelectionAutomatically;
 
-		if (adaptSelectionAutomatically && !isEmpty()) {
-			if (getChoiceMode() != ExpandableListChoiceMode.CHILDREN_ONLY && getSelectedGroupIndex() == -1) {
-				if (getSelectedGroupIndex() == -1) {
-					selectGroup(0);
-				}
-			} else if (getSelectedChildIndex() == -1) {
-				for (int i = 0; i < getGroupCount(); i++) {
-					if (!isGroupEmpty(i)) {
-						for (int j = 0; j < getChildCount(i); j++) {
-							if (isChildEnabled(i, j)) {
-								selectChild(j, 0);
-								return;
-							}
-						}
-					}
-				}
-			}
+		if (adaptSelectionAutomatically && !isEmpty() && getSelectedGroupIndex() == -1) {
+			selectNearestEnabledItem(0, -1);
 		}
 	}
 
@@ -395,7 +657,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 				getExpansionListeners(), getEnableStateListeners(), getNumberOfGroupStates(), getNumberOfChildStates(),
 				isGroupStateTriggeredOnClick(), isChildStateTriggeredOnClick(), getItemStateListeners(),
 				getSortingListeners(), getFilterListeners(), isGroupSelectedOnClick(), isChildSelectedOnClick(),
-				getSelectionListeners(), getChoiceMode());
+				getSelectionListeners(), getChoiceMode(), isSelectionAdaptedAutomatically());
 	}
 
 }
