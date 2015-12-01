@@ -213,8 +213,8 @@ public class SingleChoiceListAdapterImplementation<DataType> extends AbstractSel
 	}
 
 	/**
-	 * Selects the nearest enabled item, starting from a specific index. The
-	 * item is searched alternately by ascending and descending indices. If no
+	 * Selects the nearest enabled item, starting at a specific index. The item
+	 * is searched alternately by ascending and descending indices. If no
 	 * enabled item is available, no item will be selected.
 	 * 
 	 * @param index
