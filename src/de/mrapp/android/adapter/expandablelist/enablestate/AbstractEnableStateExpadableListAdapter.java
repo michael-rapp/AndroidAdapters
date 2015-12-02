@@ -763,12 +763,8 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 
 		if (setChildEnableStatesImplicitly) {
 			for (int i = 0; i < getGroupCount(); i++) {
-				boolean groupEnabled = isGroupEnabled(i);
-
 				for (int j = 0; j < getChildCount(i); j++) {
-					if (isChildEnabled(i, j) != groupEnabled) {
-						setChildEnabled(i, j, groupEnabled);
-					}
+					setChildEnabled(i, j, isGroupEnabled(i));
 				}
 			}
 		}
