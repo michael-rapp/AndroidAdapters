@@ -120,29 +120,6 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	int setGroupState(int groupIndex, int state);
 
 	/**
-	 * Sets the state of the group item, which belongs to a specific index, to a
-	 * specific state, if it is currently enabled.
-	 * 
-	 * @param setChildStates
-	 *            True, if the states of the group's children should also be
-	 *            set, false otherwise
-	 * @param groupIndex
-	 *            The index of the group item, whose state should be set, as an
-	 *            {@link Integer} value. The index must be between 0 and the
-	 *            value of the method <code>getGroupCount():int</code> - 1,
-	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
-	 * @param state
-	 *            The state, which should be set, as an {@link Integer} value.
-	 *            The state must be between 0 and the value of the method
-	 *            <code>getNumberOfGroupStates():int</code> - 1, otherwise an
-	 *            {@link IllegalArgumentException} will be thrown
-	 * @return The previous state of the group item, which belongs to the given
-	 *         index, as an {@link Integer} value or -1, if the state has not
-	 *         been changed
-	 */
-	int setGroupState(boolean setChildStates, int groupIndex, int state);
-
-	/**
 	 * Sets the state of a specific group item to a specific state, if it is
 	 * currently enabled.
 	 * 
@@ -162,28 +139,6 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	int setGroupState(GroupType group, int state);
 
 	/**
-	 * Sets the state of a specific group item to a specific state, if it is
-	 * currently enabled.
-	 * 
-	 * @param setChildStates
-	 *            True, if the states of the group's children should also be
-	 *            set, false otherwise
-	 * @param group
-	 *            The group item, whose state should be set, as an instance of
-	 *            the generic type GroupType. The group item may not be null. If
-	 *            the group item does not belong to the adapter, a
-	 *            {@link NoSuchElementException} will be thrown
-	 * @param state
-	 *            The state, which should be set, as an {@link Integer} value.
-	 *            The state must be between 0 and the value of the method
-	 *            <code>getNumberOfGroupStates():int</code> - 1, otherwise an
-	 *            {@link IllegalArgumentException} will be thrown
-	 * @return The previous state of the given group item as an {@link Integer}
-	 *         value or -1, if the state has not been changed
-	 */
-	int setGroupState(boolean setChildStates, GroupType group, int state);
-
-	/**
 	 * Sets the states of all group items to a specific state, if they are
 	 * currently enabled.
 	 * 
@@ -196,23 +151,6 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 *         otherwise
 	 */
 	boolean setAllGroupStates(int state);
-
-	/**
-	 * Sets the states of all group items to a specific state, if they are
-	 * currently enabled.
-	 * 
-	 * @param setChildStates
-	 *            True, if the states of the groups' children should also be
-	 *            set, false otherwise
-	 * @param state
-	 *            The state, which should be set, as an {@link Integer} value.
-	 *            The state must be between 0 and the value of the method
-	 *            <code>getNumberOfGroupStates():int</code> - 1, otherwise an
-	 *            {@link IllegalArgumentException} will be thrown
-	 * @return True, if the states of all group items have been changed, false
-	 *         otherwise
-	 */
-	boolean setAllGroupStates(boolean setChildStates, int state);
 
 	/**
 	 * Triggers the state of the group item, which belongs to a specific index,
@@ -1134,6 +1072,25 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 *            it is clicked by the user, false otherwise
 	 */
 	void triggerChildStateOnClick(boolean triggerChildStateOnClick);
+
+	/**
+	 * Returns, whether the states of children are also set, when the state of
+	 * the group, they belong to, is set.
+	 * 
+	 * @return True, if the states of children are also set, when the state of
+	 *         the group, they belong to, is set, false otherwise
+	 */
+	boolean areChildStatesSetImplicitly();
+
+	/**
+	 * Sets, whether the states of children should also be set, when the state
+	 * of the group, they belong to, is set.
+	 * 
+	 * @param setChildStatesImplicitly
+	 *            True, if the states of children should balso be set, when the
+	 *            state of the group, they belong to, is set, false otherwise
+	 */
+	void setChildStatesImplicitly(boolean setChildStatesImplicitly);
 
 	/**
 	 * Adds a new listener, which should be notified, when the state of an item

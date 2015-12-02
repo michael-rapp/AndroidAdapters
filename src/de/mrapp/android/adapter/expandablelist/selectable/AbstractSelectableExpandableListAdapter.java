@@ -212,6 +212,9 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
 	 * @param triggerChildStateOnClick
 	 *            True, if the state of a child item should be triggered, when
 	 *            it is clicked by the user, false otherwise
+	 * @param setChildStatesImplicitly
+	 *            True, if the states of children should be also set, when the
+	 *            state of the group, they belong to, is set, false otherwise
 	 * @param itemStateListeners
 	 *            A set, which contains the listeners, which should be notified,
 	 *            when the state of an item has been changed, or an empty set,
@@ -248,7 +251,7 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
 			final boolean setChildEnableStatesImplicitly,
 			final Set<ExpandableListEnableStateListener<GroupType, ChildType>> enableStateListeners,
 			final int numberOfGroupStates, final int numberOfChildStates, final boolean triggerGroupStateOnClick,
-			final boolean triggerChildStateOnClick,
+			final boolean triggerChildStateOnClick, final boolean setChildStatesImplicitly,
 			final Set<ExpandableListItemStateListener<GroupType, ChildType>> itemStateListeners,
 			final Set<ExpandableListSortingListener<GroupType, ChildType>> sortingListeners,
 			final Set<ExpandableListFilterListener<GroupType, ChildType>> filterListeners,
@@ -258,8 +261,8 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
 		super(context, groupInflater, childInflater, decorator, logLevel, groupAdapter, allowDuplicateChildren,
 				notifyOnChange, expandGroupOnClick, itemClickListeners, adapterListeners, expansionListeners,
 				setChildEnableStatesImplicitly, enableStateListeners, numberOfGroupStates, numberOfChildStates,
-				triggerGroupStateOnClick, triggerChildStateOnClick, itemStateListeners, sortingListeners,
-				filterListeners);
+				triggerGroupStateOnClick, triggerChildStateOnClick, setChildStatesImplicitly, itemStateListeners,
+				sortingListeners, filterListeners);
 		ensureNotNull(choiceMode, "The choice mode may not be null");
 		this.choiceMode = choiceMode;
 		selectGroupOnClick(selectGroupOnClick);

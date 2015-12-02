@@ -397,6 +397,9 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 	 * @param triggerChildStateOnClick
 	 *            True, if the state of a child item should be triggered, when
 	 *            it is clicked by the user, false otherwise
+	 * @param setChildStatesImplicitly
+	 *            True, if the states of children should be also set, when the
+	 *            state of the group, they belong to, is set, false otherwise
 	 * @param itemStateListeners
 	 *            A set, which contains the listeners, which should be notified,
 	 *            when the state of an item has been changed, or an empty set,
@@ -436,7 +439,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 			final boolean setChildEnableStatesImplicitly,
 			final Set<ExpandableListEnableStateListener<GroupType, ChildType>> enableStateListeners,
 			final int numberOfGroupStates, final int numberOfChildStates, final boolean triggerGroupStateOnClick,
-			final boolean triggerChildStateOnClick,
+			final boolean triggerChildStateOnClick, final boolean setChildStatesImplicitly,
 			final Set<ExpandableListItemStateListener<GroupType, ChildType>> itemStateListeners,
 			final Set<ExpandableListSortingListener<GroupType, ChildType>> sortingListeners,
 			final Set<ExpandableListFilterListener<GroupType, ChildType>> filterListeners,
@@ -446,8 +449,9 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 		super(context, groupInflater, childInflater, decorator, logLevel, groupAdapter, allowDuplicateChildren,
 				notifyOnChange, expandGroupOnClick, itemClickListeners, adapterListeners, expansionListeners,
 				setChildEnableStatesImplicitly, enableStateListeners, numberOfGroupStates, numberOfChildStates,
-				triggerGroupStateOnClick, triggerChildStateOnClick, itemStateListeners, sortingListeners,
-				filterListeners, selectGroupOnClick, selectChildOnClick, selectionListeners, choiceMode);
+				triggerGroupStateOnClick, triggerChildStateOnClick, setChildStatesImplicitly, itemStateListeners,
+				sortingListeners, filterListeners, selectGroupOnClick, selectChildOnClick, selectionListeners,
+				choiceMode);
 		addAdapterListener(createAdapterListener());
 		addEnableStateListener(createEnableStateListener());
 		addFilterListener(createFilterListener());
@@ -490,7 +494,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 				false, true, true, new LinkedHashSet<ExpandableListAdapterItemClickListener<GroupType, ChildType>>(),
 				new LinkedHashSet<ExpandableListAdapterListener<GroupType, ChildType>>(),
 				new LinkedHashSet<ExpansionListener<GroupType, ChildType>>(), true,
-				new LinkedHashSet<ExpandableListEnableStateListener<GroupType, ChildType>>(), 1, 1, false, false,
+				new LinkedHashSet<ExpandableListEnableStateListener<GroupType, ChildType>>(), 1, 1, false, false, false,
 				new LinkedHashSet<ExpandableListItemStateListener<GroupType, ChildType>>(),
 				new LinkedHashSet<ExpandableListSortingListener<GroupType, ChildType>>(),
 				new LinkedHashSet<ExpandableListFilterListener<GroupType, ChildType>>(), true, true,
@@ -660,9 +664,9 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 				isNotifiedOnChange(), isGroupExpandedOnClick(), getItemClickListeners(), getAdapterListeners(),
 				getExpansionListeners(), areChildEnableStatesSetImplicitly(), getEnableStateListeners(),
 				getNumberOfGroupStates(), getNumberOfChildStates(), isGroupStateTriggeredOnClick(),
-				isChildStateTriggeredOnClick(), getItemStateListeners(), getSortingListeners(), getFilterListeners(),
-				isGroupSelectedOnClick(), isChildSelectedOnClick(), getSelectionListeners(), getChoiceMode(),
-				isSelectionAdaptedAutomatically());
+				isChildStateTriggeredOnClick(), areChildStatesSetImplicitly(), getItemStateListeners(),
+				getSortingListeners(), getFilterListeners(), isGroupSelectedOnClick(), isChildSelectedOnClick(),
+				getSelectionListeners(), getChoiceMode(), isSelectionAdaptedAutomatically());
 	}
 
 }
