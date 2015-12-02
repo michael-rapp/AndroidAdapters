@@ -273,6 +273,9 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 	 *            when a group item has been expanded or collapsed, as an
 	 *            instance of the type {@link Set}, or an empty set, if no
 	 *            listeners should be notified
+	 * @param setChildEnableStatesImplicitly
+	 *            True, if the enable states of children should be also set,
+	 *            when the enable state of the group, they belong to, is set
 	 * @param enableStateListeners
 	 *            A set, which contains the listeners, which should be notified,
 	 *            when an item has been disabled or enabled, as an instance of
@@ -302,13 +305,14 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 			final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
 			final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
 			final Set<ExpansionListener<GroupType, ChildType>> expansionListeners,
+			final boolean setChildEnableStatesImplicitly,
 			final Set<ExpandableListEnableStateListener<GroupType, ChildType>> enableStateListeners,
 			final int numberOfGroupStates, final int numberOfChildStates, final boolean triggerGroupStateOnClick,
 			final boolean triggerChildStateOnClick,
 			final Set<ExpandableListItemStateListener<GroupType, ChildType>> itemStateListeners) {
 		super(context, groupInflater, childInflater, decorator, logLevel, groupAdapter, allowDuplicateChildren,
 				notifyOnChange, expandGroupOnClick, itemClickListeners, adapterListeners, expansionListeners,
-				enableStateListeners);
+				setChildEnableStatesImplicitly, enableStateListeners);
 		setNumberOfGroupStates(numberOfGroupStates);
 		setNumberOfChildStates(numberOfChildStates);
 		triggerGroupStateOnClick(triggerGroupStateOnClick);
@@ -318,13 +322,15 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 	}
 
 	@Override
-	protected void onSaveInstanceState(final Bundle savedState) {
-		savedState.putInt(NUMBER_OF_CHILD_STATES_BUNDLE_KEY, getNumberOfChildStates());
-		savedState.putBoolean(TRIGGER_CHILD_STATE_ON_CLICK_BUNDLE_KEY, isChildStateTriggeredOnClick());
+	protected void onSaveInstanceState(final Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putInt(NUMBER_OF_CHILD_STATES_BUNDLE_KEY, getNumberOfChildStates());
+		outState.putBoolean(TRIGGER_CHILD_STATE_ON_CLICK_BUNDLE_KEY, isChildStateTriggeredOnClick());
 	}
 
 	@Override
 	protected void onRestoreInstanceState(final Bundle savedState) {
+		super.onRestoreInstanceState(savedState);
 		numberOfChildStates = savedState.getInt(NUMBER_OF_CHILD_STATES_BUNDLE_KEY);
 		triggerChildStateOnClick = savedState.getBoolean(TRIGGER_CHILD_STATE_ON_CLICK_BUNDLE_KEY);
 	}

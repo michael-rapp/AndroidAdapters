@@ -377,6 +377,9 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 	 *            when a group item has been expanded or collapsed, as an
 	 *            instance of the type {@link Set}, or an empty set, if no
 	 *            listeners should be notified
+	 * @param setChildEnableStatesImplicitly
+	 *            True, if the enable states of children should be also set,
+	 *            when the enable state of the group, they belong to, is set
 	 * @param enableStateListeners
 	 *            A set, which contains the listeners, which should be notified,
 	 *            when an item has been disabled or enabled, as an instance of
@@ -430,6 +433,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 			final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
 			final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
 			final Set<ExpansionListener<GroupType, ChildType>> expansionListeners,
+			final boolean setChildEnableStatesImplicitly,
 			final Set<ExpandableListEnableStateListener<GroupType, ChildType>> enableStateListeners,
 			final int numberOfGroupStates, final int numberOfChildStates, final boolean triggerGroupStateOnClick,
 			final boolean triggerChildStateOnClick,
@@ -441,9 +445,9 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 			final ExpandableListChoiceMode choiceMode, final boolean adaptSelectionAutomatically) {
 		super(context, groupInflater, childInflater, decorator, logLevel, groupAdapter, allowDuplicateChildren,
 				notifyOnChange, expandGroupOnClick, itemClickListeners, adapterListeners, expansionListeners,
-				enableStateListeners, numberOfGroupStates, numberOfChildStates, triggerGroupStateOnClick,
-				triggerChildStateOnClick, itemStateListeners, sortingListeners, filterListeners, selectGroupOnClick,
-				selectChildOnClick, selectionListeners, choiceMode);
+				setChildEnableStatesImplicitly, enableStateListeners, numberOfGroupStates, numberOfChildStates,
+				triggerGroupStateOnClick, triggerChildStateOnClick, itemStateListeners, sortingListeners,
+				filterListeners, selectGroupOnClick, selectChildOnClick, selectionListeners, choiceMode);
 		addAdapterListener(createAdapterListener());
 		addEnableStateListener(createEnableStateListener());
 		addFilterListener(createFilterListener());
@@ -485,7 +489,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 						new NullObjectDecorator<Group<GroupType, ChildType>>()),
 				false, true, true, new LinkedHashSet<ExpandableListAdapterItemClickListener<GroupType, ChildType>>(),
 				new LinkedHashSet<ExpandableListAdapterListener<GroupType, ChildType>>(),
-				new LinkedHashSet<ExpansionListener<GroupType, ChildType>>(),
+				new LinkedHashSet<ExpansionListener<GroupType, ChildType>>(), true,
 				new LinkedHashSet<ExpandableListEnableStateListener<GroupType, ChildType>>(), 1, 1, false, false,
 				new LinkedHashSet<ExpandableListItemStateListener<GroupType, ChildType>>(),
 				new LinkedHashSet<ExpandableListSortingListener<GroupType, ChildType>>(),
@@ -637,9 +641,9 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 	}
 
 	@Override
-	protected final void onSaveInstanceState(final Bundle savedState) {
-		super.onSaveInstanceState(savedState);
-		savedState.putBoolean(ADAPT_SELECTION_AUTOMATICALLY_BUNDLE_KEY, isSelectionAdaptedAutomatically());
+	protected final void onSaveInstanceState(final Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putBoolean(ADAPT_SELECTION_AUTOMATICALLY_BUNDLE_KEY, isSelectionAdaptedAutomatically());
 	}
 
 	@Override
@@ -654,10 +658,11 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 		return new SingleChoiceExpandableListAdapterImplementation<>(getContext(), getGroupInflater(),
 				getChildInflater(), getDecorator(), getLogLevel(), cloneGroupAdapter(), areDuplicateChildrenAllowed(),
 				isNotifiedOnChange(), isGroupExpandedOnClick(), getItemClickListeners(), getAdapterListeners(),
-				getExpansionListeners(), getEnableStateListeners(), getNumberOfGroupStates(), getNumberOfChildStates(),
-				isGroupStateTriggeredOnClick(), isChildStateTriggeredOnClick(), getItemStateListeners(),
-				getSortingListeners(), getFilterListeners(), isGroupSelectedOnClick(), isChildSelectedOnClick(),
-				getSelectionListeners(), getChoiceMode(), isSelectionAdaptedAutomatically());
+				getExpansionListeners(), areChildEnableStatesSetImplicitly(), getEnableStateListeners(),
+				getNumberOfGroupStates(), getNumberOfChildStates(), isGroupStateTriggeredOnClick(),
+				isChildStateTriggeredOnClick(), getItemStateListeners(), getSortingListeners(), getFilterListeners(),
+				isGroupSelectedOnClick(), isChildSelectedOnClick(), getSelectionListeners(), getChoiceMode(),
+				isSelectionAdaptedAutomatically());
 	}
 
 }
