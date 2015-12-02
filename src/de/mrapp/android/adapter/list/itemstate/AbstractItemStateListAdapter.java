@@ -235,9 +235,9 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	protected void onSaveInstanceState(final Bundle savedState) {
-		savedState.putInt(NUMBER_OF_ITEM_STATES_BUNDLE_KEY, getNumberOfItemStates());
-		savedState.putBoolean(TRIGGER_ITEM_STATE_ON_CLICK_BUNDLE_KEY, isItemStateTriggeredOnClick());
+	protected void onSaveInstanceState(final Bundle outState) {
+		outState.putInt(NUMBER_OF_ITEM_STATES_BUNDLE_KEY, getNumberOfItemStates());
+		outState.putBoolean(TRIGGER_ITEM_STATE_ON_CLICK_BUNDLE_KEY, isItemStateTriggeredOnClick());
 	}
 
 	@Override

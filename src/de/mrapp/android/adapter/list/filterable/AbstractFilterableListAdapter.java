@@ -538,9 +538,9 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	protected void onSaveInstanceState(final Bundle savedState) {
-		super.onSaveInstanceState(savedState);
-		savedState.putSerializable(APPLIED_FILTERS_BUNDLE_KEY, getAppliedFilters());
+	protected void onSaveInstanceState(final Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putSerializable(APPLIED_FILTERS_BUNDLE_KEY, getAppliedFilters());
 	}
 
 	@SuppressWarnings("unchecked")
