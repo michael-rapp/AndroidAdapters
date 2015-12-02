@@ -191,24 +191,6 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	void setGroupEnabled(int groupIndex, boolean enabled);
 
 	/**
-	 * Sets the enable state of the group item, which belongs to a specific
-	 * index.
-	 * 
-	 * @param enableChildren
-	 *            True, if the enable states of the group item's children should
-	 *            also be set, false otherwise
-	 * @param groupIndex
-	 *            The index of the group item, whose enable state should be set,
-	 *            as an {@link Integer} value. The index must be between 0 and
-	 *            the value of the method <code>getGroupCount():int</code> - 1,
-	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
-	 * @param enabled
-	 *            True, if the group item, which belongs to the given index,
-	 *            should be enabled, false otherwise
-	 */
-	void setGroupEnabled(boolean enableChildren, int groupIndex, boolean enabled);
-
-	/**
 	 * Sets the enable state of a specific group item.
 	 * 
 	 * @param item
@@ -221,23 +203,6 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            otherwise
 	 */
 	void setGroupEnabled(GroupType item, boolean enabled);
-
-	/**
-	 * Sets the enable state of a specific group item.
-	 * 
-	 * @param enableChildren
-	 *            True, if the enable states of the group item's children should
-	 *            also be set, false otherwise
-	 * @param item
-	 *            The group item, which should be enabled, as an instance of the
-	 *            generic type GroupType. The group item may not be null. If the
-	 *            group item does not belong to the adapter, a
-	 *            {@link NoSuchElementException} will be thrown
-	 * @param enabled
-	 *            True, if the given group item should be enabled, false
-	 *            otherwise
-	 */
-	void setGroupEnabled(boolean enableChildren, GroupType item, boolean enabled);
 
 	/**
 	 * Triggers the enable state of the group item, which belongs to a specific
@@ -312,17 +277,6 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            True, if all group items should be enabled, false otherwise
 	 */
 	void setAllGroupsEnabled(boolean enabled);
-
-	/**
-	 * Sets the enable states of all group items.
-	 * 
-	 * @param enableChildren
-	 *            True, if the enable states of the group items' children should
-	 *            be also set, false otherwise
-	 * @param enabled
-	 *            True, if all group items should be enabled, false otherwise
-	 */
-	void setAllGroupsEnabled(boolean enableChildren, boolean enabled);
 
 	/**
 	 * Triggers the enable states of all group items. This causes a group item
@@ -1088,6 +1042,27 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 */
 	void triggerAllChildEnableStates(int groupIndex);
+
+	/**
+	 * Returns, whether the enable states of children are also set, when the
+	 * enable state of the group, they belong to, is set.
+	 * 
+	 * @return True, if the enable states of children are also set, when the
+	 *         enable state of the group, they belong to, is set, false
+	 *         otherwise
+	 */
+	boolean areChildEnableStatesSetImplicitly();
+
+	/**
+	 * Sets, whether the enable states of children should also be set, when the
+	 * enable state of the group, they belong to, is set.
+	 * 
+	 * @param setChildEnableStatesImplicitly
+	 *            True, if the enable states of children should also be set,
+	 *            when the enable state of the group, they belong to, is set,
+	 *            false otherwise
+	 */
+	void setChildEnableStatesImplicitly(boolean setChildEnableStatesImplicitly);
 
 	/**
 	 * Adds a new listener, which should be notified, when a group item has been

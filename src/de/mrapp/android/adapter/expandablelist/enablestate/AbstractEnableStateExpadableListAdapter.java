@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
+import android.os.Bundle;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.datastructure.group.Group;
 import de.mrapp.android.adapter.expandablelist.AbstractExpandableListAdapter;
@@ -33,6 +34,7 @@ import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterListener;
 import de.mrapp.android.adapter.expandablelist.ExpansionListener;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.logging.LogLevel;
+import de.mrapp.android.adapter.util.VisibleForTesting;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
@@ -63,10 +65,25 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * The key, which is used to store, whether the enable states of children
+	 * are also set, when the enable state of the group, they belong to, is set,
+	 * within a bundle.
+	 */
+	@VisibleForTesting
+	protected static final String SET_CHILD_ENABLE_STATES_IMPLICITLY_BUNDLE_KEY = AbstractEnableStateExpadableListAdapter.class
+			.getSimpleName() + "::SetChildEnableStatesImplicitly";
+
+	/**
 	 * A set, which contains the listeners, which should be notified, when an
 	 * item has been disabled or enabled.
 	 */
 	private transient Set<ExpandableListEnableStateListener<GroupType, ChildType>> enableStateListeners;
+
+	/**
+	 * True, if the enable states of children are also set, when the enable
+	 * state of the group, they belong to, is set, false otherwise.
+	 */
+	private boolean setChildEnableStatesImplicitly;
 
 	/**
 	 * Notifies all listeners, which have been registered to be notified, when
@@ -248,6 +265,9 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 	 *            when a group item has been expanded or collapsed, as an
 	 *            instance of the type {@link Set}, or an empty set, if no
 	 *            listeners should be notified
+	 * @param setChildEnableStatesImplicitly
+	 *            True, if the enable states of children should be also set,
+	 *            when the enable state of the group, they belong to, is set
 	 * @param enableStateListeners
 	 *            A set, which contains the listeners, which should be notified,
 	 *            when an item has been disabled or enabled, as an instance of
@@ -261,10 +281,22 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 			final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
 			final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
 			final Set<ExpansionListener<GroupType, ChildType>> expansionListeners,
+			final boolean setChildEnableStatesImplicitly,
 			final Set<ExpandableListEnableStateListener<GroupType, ChildType>> enableStateListeners) {
 		super(context, groupInflater, childInflater, decorator, logLevel, groupAdapter, allowDuplicateChildren,
 				notifyOnChange, expandGroupOnClick, itemClickListeners, adapterListeners, expansionListeners);
 		setEnableStateListeners(enableStateListeners);
+		setChildEnableStatesImplicitly(setChildEnableStatesImplicitly);
+	}
+
+	@Override
+	protected void onSaveInstanceState(final Bundle outState) {
+		outState.putBoolean(SET_CHILD_ENABLE_STATES_IMPLICITLY_BUNDLE_KEY, areChildEnableStatesSetImplicitly());
+	}
+
+	@Override
+	protected void onRestoreInstanceState(final Bundle savedState) {
+		setChildEnableStatesImplicitly = savedState.getBoolean(SET_CHILD_ENABLE_STATES_IMPLICITLY_BUNDLE_KEY, true);
 	}
 
 	@Override
@@ -364,11 +396,6 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 
 	@Override
 	public final void setGroupEnabled(final int groupIndex, final boolean enabled) {
-		setGroupEnabled(false, groupIndex, enabled);
-	}
-
-	@Override
-	public final void setGroupEnabled(final boolean enableChildren, final int groupIndex, final boolean enabled) {
 		Group<GroupType, ChildType> group = getGroupAdapter().getItem(groupIndex);
 
 		if (group.isEnabled() != enabled) {
@@ -390,19 +417,14 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 			getLogger().logDebug(getClass(), message);
 		}
 
-		if (enableChildren) {
+		if (areChildEnableStatesSetImplicitly()) {
 			setAllChildrenEnabled(groupIndex, enabled);
 		}
 	}
 
 	@Override
 	public final void setGroupEnabled(final GroupType group, final boolean enabled) {
-		setGroupEnabled(false, group, enabled);
-	}
-
-	@Override
-	public final void setGroupEnabled(final boolean enableChildren, final GroupType group, final boolean enabled) {
-		setGroupEnabled(enableChildren, indexOfGroupOrThrowException(group), enabled);
+		setGroupEnabled(group, enabled);
 	}
 
 	@Override
@@ -434,13 +456,8 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 
 	@Override
 	public final void setAllGroupsEnabled(final boolean enabled) {
-		setAllGroupsEnabled(false, enabled);
-	}
-
-	@Override
-	public final void setAllGroupsEnabled(final boolean enableChildren, final boolean enabled) {
 		for (int i = 0; i < getGroupCount(); i++) {
-			setGroupEnabled(enableChildren, i, enabled);
+			setGroupEnabled(i, enabled);
 		}
 	}
 
@@ -732,6 +749,28 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 	public final void triggerAllChildEnableStates(final int groupIndex) {
 		for (int i = 0; i < getChildCount(groupIndex); i++) {
 			triggerChildEnableState(groupIndex, i);
+		}
+	}
+
+	@Override
+	public final boolean areChildEnableStatesSetImplicitly() {
+		return setChildEnableStatesImplicitly;
+	}
+
+	@Override
+	public final void setChildEnableStatesImplicitly(final boolean setChildEnableStatesImplicitly) {
+		this.setChildEnableStatesImplicitly = setChildEnableStatesImplicitly;
+
+		if (setChildEnableStatesImplicitly) {
+			for (int i = 0; i < getGroupCount(); i++) {
+				boolean groupEnabled = isGroupEnabled(i);
+
+				for (int j = 0; j < getChildCount(i); j++) {
+					if (isChildEnabled(i, j) != groupEnabled) {
+						setChildEnabled(i, j, groupEnabled);
+					}
+				}
+			}
 		}
 	}
 

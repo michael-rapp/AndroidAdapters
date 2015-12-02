@@ -192,6 +192,9 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
 	 *            when a group item has been expanded or collapsed, as an
 	 *            instance of the type {@link Set}, or an empty set, if no
 	 *            listeners should be notified
+	 * @param setChildEnableStatesImplicitly
+	 *            True, if the enable states of children should be also set,
+	 *            when the enable state of the group, they belong to, is set
 	 * @param enableStateListeners
 	 *            A set, which contains the listeners, which should be notified,
 	 *            when an item has been disabled or enabled, as an instance of
@@ -242,6 +245,7 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
 			final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
 			final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
 			final Set<ExpansionListener<GroupType, ChildType>> expansionListeners,
+			final boolean setChildEnableStatesImplicitly,
 			final Set<ExpandableListEnableStateListener<GroupType, ChildType>> enableStateListeners,
 			final int numberOfGroupStates, final int numberOfChildStates, final boolean triggerGroupStateOnClick,
 			final boolean triggerChildStateOnClick,
@@ -253,8 +257,9 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
 			final ExpandableListChoiceMode choiceMode) {
 		super(context, groupInflater, childInflater, decorator, logLevel, groupAdapter, allowDuplicateChildren,
 				notifyOnChange, expandGroupOnClick, itemClickListeners, adapterListeners, expansionListeners,
-				enableStateListeners, numberOfGroupStates, numberOfChildStates, triggerGroupStateOnClick,
-				triggerChildStateOnClick, itemStateListeners, sortingListeners, filterListeners);
+				setChildEnableStatesImplicitly, enableStateListeners, numberOfGroupStates, numberOfChildStates,
+				triggerGroupStateOnClick, triggerChildStateOnClick, itemStateListeners, sortingListeners,
+				filterListeners);
 		ensureNotNull(choiceMode, "The choice mode may not be null");
 		this.choiceMode = choiceMode;
 		selectGroupOnClick(selectGroupOnClick);
@@ -263,11 +268,11 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
 	}
 
 	@Override
-	protected void onSaveInstanceState(final Bundle savedState) {
-		super.onSaveInstanceState(savedState);
-		savedState.putBoolean(SELECT_GROUP_ON_CLICK_BUNDLE_KEY, isGroupSelectedOnClick());
-		savedState.putBoolean(SELECT_CHILD_ON_CLICK_BUNDLE_KEY, isChildSelectedOnClick());
-		savedState.putSerializable(CHOICE_MODE_BUNDLE_KEY, getChoiceMode());
+	protected void onSaveInstanceState(final Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putBoolean(SELECT_GROUP_ON_CLICK_BUNDLE_KEY, isGroupSelectedOnClick());
+		outState.putBoolean(SELECT_CHILD_ON_CLICK_BUNDLE_KEY, isChildSelectedOnClick());
+		outState.putSerializable(CHOICE_MODE_BUNDLE_KEY, getChoiceMode());
 	}
 
 	@Override
