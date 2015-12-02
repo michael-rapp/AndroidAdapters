@@ -85,6 +85,15 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 			.getSimpleName() + "::TriggerChildStateOnClick";
 
 	/**
+	 * The key, which is used to store, whether the states of children are also
+	 * set, when the state of the group, they belong to, is set, within a
+	 * bundle.
+	 */
+	@VisibleForTesting
+	protected static final String SET_CHILD_STATES_IMPLICITLY_BUNDLE_KEY = AbstractItemStateExpandableListAdapter.class
+			.getSimpleName() + "::SetChildStatesImplicitly";
+
+	/**
 	 * A set, which contains the listeners, which should be notified, when the
 	 * state of an item of the adapter has been changed.
 	 */
@@ -100,6 +109,12 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 	 * clicked by the user, false otherwise.
 	 */
 	private boolean triggerChildStateOnClick;
+
+	/**
+	 * True, if the states of children is also set, when the state of the group,
+	 * they belong to, is set, false otherwise.
+	 */
+	private boolean setChildStatesImplicitly;
 
 	/**
 	 * Creates and returns a listener, which allows to trigger the state on an
@@ -293,6 +308,9 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 	 * @param triggerChildStateOnClick
 	 *            True, if the state of a child item should be triggered, when
 	 *            it is clicked by the user, false otherwise
+	 * @param setChildStatesImplicitly
+	 *            True, if the states of children should be also set, when the
+	 *            state of the group, they belong to, is set, false otherwise
 	 * @param itemStateListeners
 	 *            A set, which contains the listeners, which should be notified,
 	 *            when the state of an item has been changed, or an empty set,
@@ -308,13 +326,14 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 			final boolean setChildEnableStatesImplicitly,
 			final Set<ExpandableListEnableStateListener<GroupType, ChildType>> enableStateListeners,
 			final int numberOfGroupStates, final int numberOfChildStates, final boolean triggerGroupStateOnClick,
-			final boolean triggerChildStateOnClick,
+			final boolean triggerChildStateOnClick, final boolean setChildStatesImplicitly,
 			final Set<ExpandableListItemStateListener<GroupType, ChildType>> itemStateListeners) {
 		super(context, groupInflater, childInflater, decorator, logLevel, groupAdapter, allowDuplicateChildren,
 				notifyOnChange, expandGroupOnClick, itemClickListeners, adapterListeners, expansionListeners,
 				setChildEnableStatesImplicitly, enableStateListeners);
 		setNumberOfGroupStates(numberOfGroupStates);
 		setNumberOfChildStates(numberOfChildStates);
+		setChildStatesImplicitly(setChildEnableStatesImplicitly);
 		triggerGroupStateOnClick(triggerGroupStateOnClick);
 		triggerChildStateOnClick(triggerChildStateOnClick);
 		setItemStateListeners(itemStateListeners);
@@ -326,6 +345,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 		super.onSaveInstanceState(outState);
 		outState.putInt(NUMBER_OF_CHILD_STATES_BUNDLE_KEY, getNumberOfChildStates());
 		outState.putBoolean(TRIGGER_CHILD_STATE_ON_CLICK_BUNDLE_KEY, isChildStateTriggeredOnClick());
+		outState.putBoolean(SET_CHILD_STATES_IMPLICITLY_BUNDLE_KEY, areChildStatesSetImplicitly());
 	}
 
 	@Override
@@ -333,6 +353,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 		super.onRestoreInstanceState(savedState);
 		numberOfChildStates = savedState.getInt(NUMBER_OF_CHILD_STATES_BUNDLE_KEY);
 		triggerChildStateOnClick = savedState.getBoolean(TRIGGER_CHILD_STATE_ON_CLICK_BUNDLE_KEY);
+		setChildStatesImplicitly = savedState.getBoolean(SET_CHILD_STATES_IMPLICITLY_BUNDLE_KEY);
 	}
 
 	@Override
@@ -371,18 +392,13 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 
 	@Override
 	public final int setGroupState(final int groupIndex, final int state) {
-		return setGroupState(false, groupIndex, state);
-	}
-
-	@Override
-	public final int setGroupState(final boolean setChildStates, final int groupIndex, final int state) {
 		ensureAtLeast(state, minGroupState(), "The group state must be at minimum " + minGroupState(),
 				IllegalArgumentException.class);
 		ensureAtMaximum(state, maxGroupState(), "The group state must be at maximum " + maxGroupState(),
 				IllegalArgumentException.class);
 		Group<GroupType, ChildType> group = getGroupAdapter().getItem(groupIndex);
 
-		if (setChildStates) {
+		if (areChildStatesSetImplicitly()) {
 			setAllChildStates(groupIndex, state);
 		}
 
@@ -413,25 +429,15 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 
 	@Override
 	public final int setGroupState(final GroupType group, final int state) {
-		return setGroupState(false, group, state);
-	}
-
-	@Override
-	public final int setGroupState(final boolean setChildStates, final GroupType group, final int state) {
-		return setGroupState(setChildStates, indexOfGroup(group), state);
+		return setGroupState(group, state);
 	}
 
 	@Override
 	public final boolean setAllGroupStates(final int state) {
-		return setAllGroupStates(false, state);
-	}
-
-	@Override
-	public final boolean setAllGroupStates(final boolean setChildStates, final int state) {
 		boolean result = true;
 
 		for (int i = 0; i < getGroupCount(); i++) {
-			result &= (setGroupState(setChildStates, i, state) != -1);
+			result &= (setGroupState(i, state) != -1);
 		}
 
 		return result;
@@ -830,6 +836,24 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 		this.triggerChildStateOnClick = triggerChildStateOnClick;
 		String message = "Child states are now " + (triggerChildStateOnClick ? "" : "not ") + "triggered on click";
 		getLogger().logDebug(getClass(), message);
+	}
+
+	@Override
+	public final boolean areChildStatesSetImplicitly() {
+		return setChildStatesImplicitly;
+	}
+
+	@Override
+	public final void setChildStatesImplicitly(final boolean setChildStatesImplicitly) {
+		this.setChildStatesImplicitly = setChildStatesImplicitly;
+
+		if (setChildStatesImplicitly) {
+			for (int i = 0; i < getGroupCount(); i++) {
+				for (int j = 0; j < getChildCount(i); j++) {
+					setChildState(i, j, getGroupState(i));
+				}
+			}
+		}
 	}
 
 	@Override
