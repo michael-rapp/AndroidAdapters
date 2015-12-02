@@ -492,12 +492,12 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> implements Li
 	 * This method is invoked when the state of the adapter is about to be
 	 * stored within a bundle.
 	 * 
-	 * @param savedState
+	 * @param outState
 	 *            The bundle, which is used to store the state of the adapter
 	 *            within a bundle, as an instance of the class {@link Bundle}.
 	 *            The bundle may not be null
 	 */
-	protected abstract void onSaveInstanceState(final Bundle savedState);
+	protected abstract void onSaveInstanceState(final Bundle outState);
 
 	/**
 	 * This method is invoked when the state of the adapter, which has

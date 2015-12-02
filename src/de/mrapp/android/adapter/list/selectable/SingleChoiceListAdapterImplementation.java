@@ -444,9 +444,9 @@ public class SingleChoiceListAdapterImplementation<DataType> extends AbstractSel
 	}
 
 	@Override
-	protected final void onSaveInstanceState(final Bundle savedState) {
-		super.onSaveInstanceState(savedState);
-		savedState.putBoolean(ADAPT_SELECTION_AUTOMATICALLY_BUNDLE_KEY, isSelectionAdaptedAutomatically());
+	protected final void onSaveInstanceState(final Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putBoolean(ADAPT_SELECTION_AUTOMATICALLY_BUNDLE_KEY, isSelectionAdaptedAutomatically());
 	}
 
 	@Override
