@@ -23,9 +23,7 @@ import de.mrapp.android.adapter.expandablelist.selectable.SelectableExpandableLi
  * Defines the interface, an adapter, whose underlying data is managed as a list
  * of arbitrary group and child items, of which only one single item can be
  * selected at once, must implement. Such an adapter's purpose is to provide the
- * underlying data for visualization using a {@link AbsListView} widget. Such an
- * adapter's purpose is to provide the underlying data for visualization using a
- * {@link ExpandableListView} widget.
+ * underlying data for visualization using a {@link ExpandableListView} widget.
  * 
  * @param <GroupType>
  *            The type of the underlying data of the adapter's group items
