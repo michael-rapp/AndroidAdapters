@@ -152,7 +152,7 @@ public class ListAdapterImplementation<DataType>
 	 */
 	public ListAdapterImplementation(final Context context, final Inflater inflater,
 			final ListDecorator<DataType> decorator) {
-		this(context, inflater, decorator, LogLevel.ALL, new ArrayList<Item<DataType>>(), false, true,
+		this(context, inflater, decorator, LogLevel.INFO, new ArrayList<Item<DataType>>(), false, true,
 				new LinkedHashSet<ListAdapterItemClickListener<DataType>>(),
 				new LinkedHashSet<ListAdapterListener<DataType>>(),
 				new LinkedHashSet<ListEnableStateListener<DataType>>(), 1, false,

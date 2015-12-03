@@ -354,7 +354,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends AbstractSel
 	 */
 	public SingleChoiceListAdapterImplementation(final Context context, final Inflater inflater,
 			final SelectableListDecorator<DataType> decorator) {
-		this(context, inflater, decorator, LogLevel.ALL, new ArrayList<Item<DataType>>(), false, true,
+		this(context, inflater, decorator, LogLevel.INFO, new ArrayList<Item<DataType>>(), false, true,
 				new LinkedHashSet<ListAdapterItemClickListener<DataType>>(),
 				new LinkedHashSet<ListAdapterListener<DataType>>(),
 				new LinkedHashSet<ListEnableStateListener<DataType>>(), 1, false,
