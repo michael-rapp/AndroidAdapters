@@ -83,6 +83,53 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 	private boolean adaptSelectionAutomatically;
 
 	/**
+	 * Unselects a specific group and all of its children.
+	 * 
+	 * @param groupIndex
+	 *            The index of the group, which should be unselected, as an
+	 *            {@link Integer} value
+	 * @param group
+	 *            The group, which should be unselected, as an instance of the
+	 *            class {@link Group}
+	 */
+	private void unselectGroupAndChildren(final int groupIndex, final Group<GroupType, ChildType> group) {
+		if (group.isSelected()) {
+			group.setSelected(false);
+			notifyOnGroupUnselected(group.getData(), groupIndex);
+			String message = "Unselected group \"" + group.getData() + "\" at index " + groupIndex;
+			getLogger().logInfo(getClass(), message);
+		}
+
+		unselectChildren(groupIndex, group);
+	}
+
+	/**
+	 * Unselects all children of a specific group.
+	 * 
+	 * @param groupIndex
+	 *            The index of the group, whose children should be unselected,
+	 *            as an {@link Integer} value
+	 * @param group
+	 *            The group, whose children should be unselected, as an instance
+	 *            of the class {@link Group}
+	 */
+	private void unselectChildren(final int groupIndex, final Group<GroupType, ChildType> group) {
+		if (getChoiceMode() != ExpandableListChoiceMode.GROUPS_ONLY) {
+			MultipleChoiceListAdapter<ChildType> childAdapter = group.getChildAdapter();
+
+			for (int i = 0; i < childAdapter.getCount(); i++) {
+				if (childAdapter.isSelected(i)) {
+					childAdapter.setSelected(i, false);
+					notifyOnChildUnselected(group.getData(), groupIndex, childAdapter.getItem(i), i);
+					String message = "Unselected child \"" + childAdapter.getItem(i) + "\" at index " + i + " of group "
+							+ group.getData() + " at index " + groupIndex;
+					getLogger().logInfo(getClass(), message);
+				}
+			}
+		}
+	}
+
+	/**
 	 * Selects the nearest enabled group or child item, starting at a specific
 	 * group index and optionally child index. If a child index is given, the
 	 * item is searched within the group, which belongs to the given index, at
@@ -583,7 +630,38 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 					"Groups are not allowed to be selected when using the choice mode " + getChoiceMode());
 		}
 
-		return getGroupAdapter().setSelected(groupIndex, true);
+		Group<GroupType, ChildType> group = getGroupAdapter().getItem(groupIndex);
+
+		if (group.isEnabled()) {
+			if (!group.isSelected()) {
+				for (int i = 0; i < getGroupCount(); i++) {
+					Group<GroupType, ChildType> currentGroup = getGroupAdapter().getItem(i);
+
+					if (i == groupIndex) {
+						currentGroup.setSelected(true);
+						notifyOnGroupSelected(currentGroup.getData(), i);
+						String message = "Selected group \"" + currentGroup.getData() + "\" at index " + i;
+						getLogger().logInfo(getClass(), message);
+						unselectChildren(groupIndex, currentGroup);
+					} else {
+						unselectGroupAndChildren(groupIndex, currentGroup);
+					}
+				}
+
+				notifyOnDataSetChanged();
+				return true;
+			} else {
+				String message = "The selection of group \"" + group.getData() + "\" at index " + groupIndex
+						+ " has not been changed, because it is already selected";
+				getLogger().logDebug(getClass(), message);
+				return false;
+			}
+		} else {
+			String message = "The selectionn of group \"" + group.getData() + "\" at index " + groupIndex
+					+ " has not been changed, because it is disabled";
+			getLogger().logDebug(getClass(), message);
+			return false;
+		}
 	}
 
 	@Override
@@ -608,7 +686,49 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 					"Children are not allowed to be selected when using the choice mode " + getChoiceMode());
 		}
 
-		return getGroupAdapter().getItem(groupIndex).getChildAdapter().setSelected(childIndex, true);
+		Group<GroupType, ChildType> group = getGroupAdapter().getItem(groupIndex);
+		MultipleChoiceListAdapter<ChildType> childAdapter = group.getChildAdapter();
+
+		if (childAdapter.isEnabled(childIndex)) {
+			if (!childAdapter.isSelected(childIndex)) {
+				for (int i = 0; i < getGroupCount(); i++) {
+					if (i != groupIndex) {
+						unselectGroupAndChildren(i, getGroupAdapter().getItem(i));
+					}
+				}
+
+				for (int i = 0; i < childAdapter.getCount(); i++) {
+					if (i == childIndex) {
+						childAdapter.setSelected(i, true);
+						notifyOnChildSelected(group.getData(), groupIndex, childAdapter.getItem(i), i);
+						String message = "Selected child \"" + childAdapter.getItemId(i) + "\" at index " + i
+								+ " of group \"" + group.getData() + "\" at index " + groupIndex;
+						getLogger().logInfo(getClass(), message);
+					} else if (childAdapter.isSelected(i)) {
+						childAdapter.setSelected(i, false);
+						notifyOnChildUnselected(group.getData(), groupIndex, childAdapter.getItem(i), i);
+						String message = "Unselected child \"" + childAdapter.getItem(i) + "\" at index " + i
+								+ " of group \"" + group.getData() + " at index " + groupIndex;
+						getLogger().logInfo(getClass(), message);
+					}
+				}
+
+				notifyOnDataSetChanged();
+				return true;
+			} else {
+				String message = "The selection of child \"" + childAdapter.getItem(childIndex) + "\" at index "
+						+ childIndex + " of group \"" + group.getData() + " at index " + groupIndex
+						+ " has not been changed, because it is already selected";
+				getLogger().logDebug(getClass(), message);
+				return false;
+			}
+		} else {
+			String message = "The selection of child \"" + childAdapter.getItem(childIndex) + "\" at index "
+					+ childIndex + " of group \"" + group.getData() + " at index " + groupIndex
+					+ " has not been changed, because it is disabled";
+			getLogger().logDebug(getClass(), message);
+			return false;
+		}
 	}
 
 	@Override
