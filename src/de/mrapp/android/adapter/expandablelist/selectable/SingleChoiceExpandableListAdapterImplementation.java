@@ -502,28 +502,15 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 	}
 
 	@Override
-	protected final void applyDecoratorOnGroup(final Context context, final View view, final int index) {
-		GroupType group = getGroup(index);
-		boolean expanded = isGroupExpanded(index);
-		boolean enabled = isGroupEnabled(index);
-		int state = getGroupState(index);
-		boolean filtered = areGroupsFiltered();
-		boolean selected = isGroupSelected(index);
-		getDecorator().applyDecoratorOnGroup(context, this, view, group, index, expanded, enabled, state, filtered,
-				selected);
+	protected final void onSaveInstanceState(final Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putBoolean(ADAPT_SELECTION_AUTOMATICALLY_BUNDLE_KEY, isSelectionAdaptedAutomatically());
 	}
 
 	@Override
-	protected final void applyDecoratorOnChild(final Context context, final View view, final int groupIndex,
-			final int childIndex) {
-		GroupType group = getGroup(groupIndex);
-		ChildType child = getChild(groupIndex, childIndex);
-		boolean enabled = isChildEnabled(groupIndex, childIndex);
-		int state = getChildState(groupIndex, childIndex);
-		boolean filtered = areChildrenFiltered();
-		boolean selected = isChildSelected(groupIndex, childIndex);
-		getDecorator().applyDecoratorOnChild(context, this, view, child, childIndex, group, groupIndex, enabled, state,
-				filtered, selected);
+	protected final void onRestoreInstanceState(final Bundle savedState) {
+		super.onRestoreInstanceState(savedState);
+		adaptSelectionAutomatically = savedState.getBoolean(ADAPT_SELECTION_AUTOMATICALLY_BUNDLE_KEY, true);
 	}
 
 	@Override
@@ -642,18 +629,6 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 	@Override
 	public final boolean isSelectionAdaptedAutomatically() {
 		return adaptSelectionAutomatically;
-	}
-
-	@Override
-	protected final void onSaveInstanceState(final Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putBoolean(ADAPT_SELECTION_AUTOMATICALLY_BUNDLE_KEY, isSelectionAdaptedAutomatically());
-	}
-
-	@Override
-	protected final void onRestoreInstanceState(final Bundle savedState) {
-		super.onRestoreInstanceState(savedState);
-		adaptSelectionAutomatically = savedState.getBoolean(ADAPT_SELECTION_AUTOMATICALLY_BUNDLE_KEY, true);
 	}
 
 	@Override

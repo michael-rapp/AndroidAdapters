@@ -23,6 +23,7 @@ import java.util.Set;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 import de.mrapp.android.adapter.ExpandableListChoiceMode;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.SelectableExpandableListDecorator;
@@ -36,6 +37,7 @@ import de.mrapp.android.adapter.expandablelist.filterable.ExpandableListFilterLi
 import de.mrapp.android.adapter.expandablelist.itemstate.ExpandableListItemStateListener;
 import de.mrapp.android.adapter.expandablelist.sortable.ExpandableListSortingListener;
 import de.mrapp.android.adapter.inflater.Inflater;
+import de.mrapp.android.adapter.list.selectable.ListSelectionListener;
 import de.mrapp.android.adapter.logging.LogLevel;
 import de.mrapp.android.adapter.util.VisibleForTesting;
 
@@ -135,6 +137,104 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
 			final Set<ExpandableListSelectionListener<GroupType, ChildType>> selectionListeners) {
 		ensureNotNull(selectionListeners, "The selection listeners may not be null");
 		this.selectionListeners = selectionListeners;
+	}
+
+	/**
+	 * Notifies all listeners, which have been registered to be notified when
+	 * the selection of an item of the adapter has been changed, about a group,
+	 * which has been selected.
+	 * 
+	 * @param group
+	 *            The group item, which has been selected, as an instance of the
+	 *            generic type GroupType. The group item may not be null
+	 * @param groupIndex
+	 *            The index of the group item, which has been selected, as an
+	 *            {@link Integer} value. The index must be between 0 and the
+	 *            value of the method <code>getGroupCount():int</code> - 1
+	 */
+	protected final void notifyOnGroupSelected(final GroupType group, final int groupIndex) {
+		for (ExpandableListSelectionListener<GroupType, ChildType> listener : selectionListeners) {
+			listener.onGroupSelected(this, group, groupIndex);
+		}
+	}
+
+	/**
+	 * Notifies all listeners, which have been registered to be notified when
+	 * the selection of an item of the adapter has been changed, about a group,
+	 * which has been unselected.
+	 * 
+	 * @param group
+	 *            The group item, which has been unselected, as an instance of
+	 *            the generic type GroupType. The group item may not be null
+	 * @param groupIndex
+	 *            The index of the group item, which has been unselected, as an
+	 *            {@link Integer} value. The index must be between 0 and the
+	 *            value of the method <code>getGroupCount():int</code> - 1
+	 */
+	protected final void notifyOnGroupUnselected(final GroupType group, final int groupIndex) {
+		for (ExpandableListSelectionListener<GroupType, ChildType> listener : selectionListeners) {
+			listener.onGroupUnselected(this, group, groupIndex);
+		}
+	}
+
+	/**
+	 * Notifies all listeners, which have been registered to be notified when
+	 * the selection of an item of the adapter has been changed, about a child,
+	 * which has been selected.
+	 * 
+	 * @param group
+	 *            The group group, the child item, which has been selected,
+	 *            belongs to, as an instance of the generic type GroupType. The
+	 *            group item may not be null
+	 * @param groupIndex
+	 *            The index of the group, the child item, which has been
+	 *            selected, belongs to, as an {@link Integer} value. The index
+	 *            must be between 0 and the value of the method
+	 *            <code>getGroupCount():int</code> - 1
+	 * @param child
+	 *            The child item, which has been selected, as an instance of the
+	 *            generic type ChildType. The child item may not be null
+	 * @param childIndex
+	 *            The index of the child item, which has been selected, as an
+	 *            {@link Integer} value. The index must be between 0 ad the
+	 *            value of the method <code>getChildCount(groupIndex):int</code>
+	 *            - 1
+	 */
+	protected final void notifyOnChildSelected(final GroupType group, final int groupIndex, final ChildType child,
+			final int childIndex) {
+		for (ExpandableListSelectionListener<GroupType, ChildType> listener : selectionListeners) {
+			listener.onChildSelected(this, child, childIndex, group, groupIndex);
+		}
+	}
+
+	/**
+	 * Notifies all listeners, which have been registered to be notified when
+	 * the selection of an item of the adapter has been changed, about a child,
+	 * which has been unselected.
+	 * 
+	 * @param group
+	 *            The group group, the child item, which has been unselected,
+	 *            belongs to, as an instance of the generic type GroupType. The
+	 *            group item may not be null
+	 * @param groupIndex
+	 *            The index of the group, the child item, which has been
+	 *            unselected, belongs to, as an {@link Integer} value. The index
+	 *            must be between 0 and the value of the method
+	 *            <code>getGroupCount():int</code> - 1
+	 * @param child
+	 *            The child item, which has been unselected, as an instance of
+	 *            the generic type ChildType. The child item may not be null
+	 * @param childIndex
+	 *            The index of the child item, which has been unselected, as an
+	 *            {@link Integer} value. The index must be between 0 ad the
+	 *            value of the method <code>getChildCount(groupIndex):int</code>
+	 *            - 1
+	 */
+	protected final void notifyOnChildUnselected(final GroupType group, final int groupIndex, final ChildType child,
+			final int childIndex) {
+		for (ExpandableListSelectionListener<GroupType, ChildType> listener : selectionListeners) {
+			listener.onChildUnselected(this, child, childIndex, group, groupIndex);
+		}
 	}
 
 	/**
@@ -268,6 +368,31 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
 		selectGroupOnClick(selectGroupOnClick);
 		selectChildOnClick(selectChildOnClick);
 		setSelectionListeners(selectionListeners);
+	}
+
+	@Override
+	protected final void applyDecoratorOnGroup(final Context context, final View view, final int index) {
+		GroupType group = getGroup(index);
+		boolean expanded = isGroupExpanded(index);
+		boolean enabled = isGroupEnabled(index);
+		int state = getGroupState(index);
+		boolean filtered = areGroupsFiltered();
+		boolean selected = isGroupSelected(index);
+		getDecorator().applyDecoratorOnGroup(context, this, view, group, index, expanded, enabled, state, filtered,
+				selected);
+	}
+
+	@Override
+	protected final void applyDecoratorOnChild(final Context context, final View view, final int groupIndex,
+			final int childIndex) {
+		GroupType group = getGroup(groupIndex);
+		ChildType child = getChild(groupIndex, childIndex);
+		boolean enabled = isChildEnabled(groupIndex, childIndex);
+		int state = getChildState(groupIndex, childIndex);
+		boolean filtered = areChildrenFiltered();
+		boolean selected = isChildSelected(groupIndex, childIndex);
+		getDecorator().applyDecoratorOnChild(context, this, view, child, childIndex, group, groupIndex, enabled, state,
+				filtered, selected);
 	}
 
 	@Override

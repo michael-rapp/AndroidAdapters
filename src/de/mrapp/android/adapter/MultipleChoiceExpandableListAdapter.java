@@ -828,6 +828,44 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
 	 */
 	boolean triggerAllChildSelections(int groupIndex);
 
+	/**
+	 * Returns, whether children are also selected, when the group, they belong
+	 * to, is selected, or not.
+	 * 
+	 * @return True, if children are also selected, when the group, they belong
+	 *         to, is selected, false otherwise
+	 */
+	boolean areChildrenSelectedImplicitly();
+
+	/**
+	 * Sets, whether children should also be selected, when the group, they
+	 * belong to, is selected, or not.
+	 * 
+	 * @param selectChildrenImplicitly
+	 *            True, if children should also be selected, when the group,
+	 *            they belong to, is selected, false otherwise
+	 */
+	void selectChildrenImplicitly(boolean selectChildrenImplicitly);
+
+	/**
+	 * Returns, whether groups are also selected, when one of their children is
+	 * selected, or not.
+	 * 
+	 * @return True, if groups are also selected, when one of their children is
+	 *         selected, false otherwise
+	 */
+	boolean areGroupsSelectedImplicitly();
+
+	/**
+	 * Sets, whether groups should also be selected, when one of their children
+	 * is selected, or not.
+	 * 
+	 * @param selectGroupsImplicitly
+	 *            True, if groups should also be selected, when one of their
+	 *            children is selected, false otherwise
+	 */
+	void selectGroupsImplicitly(boolean selectGroupsImplicitly);
+
 	@Override
 	MultipleChoiceExpandableListAdapter<GroupType, ChildType> clone() throws CloneNotSupportedException;
 
