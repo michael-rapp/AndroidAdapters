@@ -192,7 +192,7 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType> extends
 	 */
 	public ExpandableListAdapterImplementation(final Context context, final Inflater groupInflater,
 			final Inflater childInflater, final ExpandableListDecorator<GroupType, ChildType> decorator) {
-		this(context, groupInflater, childInflater, decorator, LogLevel.ALL,
+		this(context, groupInflater, childInflater, decorator, LogLevel.INFO,
 				new MultipleChoiceListAdapterImplementation<Group<GroupType, ChildType>>(context, groupInflater,
 						new NullObjectDecorator<Group<GroupType, ChildType>>()),
 				false, true, true, new LinkedHashSet<ExpandableListAdapterItemClickListener<GroupType, ChildType>>(),
