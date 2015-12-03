@@ -2491,4 +2491,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 */
 	void removeExpansionListener(ExpansionListener<GroupType, ChildType> listener);
 
+	@Override
+	ExpandableListAdapter<GroupType, ChildType> clone() throws CloneNotSupportedException;
+
 }
