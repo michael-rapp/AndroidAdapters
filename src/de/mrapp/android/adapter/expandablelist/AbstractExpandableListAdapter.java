@@ -783,6 +783,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		this.logger = new Logger(logLevel);
 		this.groupAdapter = groupAdapter;
 		this.groupAdapter.setLogLevel(LogLevel.OFF);
+		this.groupAdapter.notifyOnChange(false);
 		this.allowDuplicateChildren = allowDuplicateChildren;
 		this.notifyOnChange = notifyOnChange;
 		this.expandGroupOnClick = expandGroupOnClick;
