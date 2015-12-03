@@ -877,6 +877,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + numberOfChildStates;
+		result = prime * result + (setChildStatesImplicitly ? 1231 : 1237);
 		result = prime * result + (triggerChildStateOnClick ? 1231 : 1237);
 		return result;
 	}
@@ -891,6 +892,8 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 			return false;
 		AbstractItemStateExpandableListAdapter<?, ?, ?> other = (AbstractItemStateExpandableListAdapter<?, ?, ?>) obj;
 		if (numberOfChildStates != other.numberOfChildStates)
+			return false;
+		if (setChildStatesImplicitly != other.setChildStatesImplicitly)
 			return false;
 		if (triggerChildStateOnClick != other.triggerChildStateOnClick)
 			return false;

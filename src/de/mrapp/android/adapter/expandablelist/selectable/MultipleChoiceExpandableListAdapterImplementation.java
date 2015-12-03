@@ -731,6 +731,31 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 	}
 
 	@Override
+	public final int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + (selectChildrenImplicitly ? 1231 : 1237);
+		result = prime * result + (selectGroupsImplicitly ? 1231 : 1237);
+		return result;
+	}
+
+	@Override
+	public final boolean equals(final Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MultipleChoiceExpandableListAdapterImplementation<?, ?> other = (MultipleChoiceExpandableListAdapterImplementation<?, ?>) obj;
+		if (selectChildrenImplicitly != other.selectChildrenImplicitly)
+			return false;
+		if (selectGroupsImplicitly != other.selectGroupsImplicitly)
+			return false;
+		return true;
+	}
+
+	@Override
 	public final MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildType> clone()
 			throws CloneNotSupportedException {
 		return new MultipleChoiceExpandableListAdapterImplementation<>(getContext(), getGroupInflater(),
