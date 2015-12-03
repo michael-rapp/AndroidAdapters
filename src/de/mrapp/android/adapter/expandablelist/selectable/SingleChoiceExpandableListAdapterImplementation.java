@@ -24,7 +24,6 @@ import java.util.regex.Pattern;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.view.View;
 import de.mrapp.android.adapter.ExpandableListAdapter;
 import de.mrapp.android.adapter.ExpandableListChoiceMode;
 import de.mrapp.android.adapter.Filter;
@@ -629,6 +628,28 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 	@Override
 	public final boolean isSelectionAdaptedAutomatically() {
 		return adaptSelectionAutomatically;
+	}
+
+	@Override
+	public final int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + (adaptSelectionAutomatically ? 1231 : 1237);
+		return result;
+	}
+
+	@Override
+	public final boolean equals(final Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SingleChoiceExpandableListAdapterImplementation<?, ?> other = (SingleChoiceExpandableListAdapterImplementation<?, ?>) obj;
+		if (adaptSelectionAutomatically != other.adaptSelectionAutomatically)
+			return false;
+		return true;
 	}
 
 	@Override
