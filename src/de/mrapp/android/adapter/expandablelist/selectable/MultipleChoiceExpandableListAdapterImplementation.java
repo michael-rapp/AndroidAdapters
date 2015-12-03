@@ -24,6 +24,7 @@ import java.util.Set;
 
 import android.content.Context;
 import android.os.Bundle;
+import de.mrapp.android.adapter.ExpandableListAdapter;
 import de.mrapp.android.adapter.ExpandableListChoiceMode;
 import de.mrapp.android.adapter.MultipleChoiceExpandableListAdapter;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
@@ -94,6 +95,37 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 	 * selected, false otherwise.
 	 */
 	private boolean selectGroupsImplicitly;
+
+	/**
+	 * Creates and returns a listener, which allows to select an item, when it
+	 * is clicked by the user.
+	 * 
+	 * @return The listener, which has been created, as an instance of the type
+	 *         {@link ExpandableListAdapterItemClickListener}
+	 */
+	private ExpandableListAdapterItemClickListener<GroupType, ChildType> createItemClickListener() {
+		return new ExpandableListAdapterItemClickListener<GroupType, ChildType>() {
+
+			@Override
+			public void onGroupClicked(final ExpandableListAdapter<GroupType, ChildType> adapter, final GroupType group,
+					final int index) {
+				if (isGroupSelectedOnClick()) {
+					getLogger().logVerbose(getClass(), "Triggering group selection on click...");
+					triggerGroupSelection(index);
+				}
+			}
+
+			@Override
+			public void onChildClicked(final ExpandableListAdapter<GroupType, ChildType> adapter, final ChildType child,
+					final int childIndex, final GroupType group, final int groupIndex) {
+				if (isChildSelectedOnClick()) {
+					getLogger().logVerbose(getClass(), "Triggering child selection on click...");
+					triggerChildSelection(groupIndex, childIndex);
+				}
+			}
+
+		};
+	}
 
 	/**
 	 * Creates a new adapter, whose underlying data is managed as a list of
@@ -229,6 +261,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 				triggerGroupStateOnClick, triggerChildStateOnClick, setChildStatesImplicitly, itemStateListeners,
 				sortingListeners, filterListeners, selectGroupOnClick, selectChildOnClick, selectionListeners,
 				choiceMode);
+		addItemClickListener(createItemClickListener());
 		selectChildrenImplicitly(selectChildrenImplicitly);
 		selectGroupsImplicitly(selectGroupsImplicitly);
 	}
