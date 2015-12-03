@@ -83,6 +83,37 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 	private boolean adaptSelectionAutomatically;
 
 	/**
+	 * Creates and returns a listener, which allows to select an item, when it
+	 * is clicked by the user.
+	 * 
+	 * @return The listener, which has been created, as an instance of the type
+	 *         {@link ExpandableListAdapterItemClickListener}
+	 */
+	private ExpandableListAdapterItemClickListener<GroupType, ChildType> createItemClickListener() {
+		return new ExpandableListAdapterItemClickListener<GroupType, ChildType>() {
+
+			@Override
+			public void onGroupClicked(final ExpandableListAdapter<GroupType, ChildType> adapter, final GroupType group,
+					final int index) {
+				if (isGroupSelectedOnClick()) {
+					getLogger().logVerbose(getClass(), "Selecting group on click...");
+					selectGroup(index);
+				}
+			}
+
+			@Override
+			public void onChildClicked(final ExpandableListAdapter<GroupType, ChildType> adapter, final ChildType child,
+					final int childIndex, final GroupType group, final int groupIndex) {
+				if (isChildSelectedOnClick()) {
+					getLogger().logVerbose(getClass(), "Selecting child on click...");
+					selectChild(groupIndex, childIndex);
+				}
+			}
+
+		};
+	}
+
+	/**
 	 * Unselects a specific group and all of its children.
 	 * 
 	 * @param groupIndex
@@ -498,6 +529,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 				triggerGroupStateOnClick, triggerChildStateOnClick, setChildStatesImplicitly, itemStateListeners,
 				sortingListeners, filterListeners, selectGroupOnClick, selectChildOnClick, selectionListeners,
 				choiceMode);
+		addItemClickListener(createItemClickListener());
 		addAdapterListener(createAdapterListener());
 		addEnableStateListener(createEnableStateListener());
 		addFilterListener(createFilterListener());
