@@ -19,6 +19,7 @@ package de.mrapp.android.adapter;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.ListIterator;
 
 import android.widget.AbsListView;
@@ -284,8 +285,8 @@ public interface ListAdapter<DataType>
 	ListIterator<DataType> listIterator(int index);
 
 	/**
-	 * Returns a collection, which contains the adapter's items between a
-	 * specific start and end index.
+	 * Returns a list, which contains the adapter's items between a specific
+	 * start and end index.
 	 * 
 	 * @param start
 	 *            The start index of the items, which should be returned, as an
@@ -300,12 +301,11 @@ public interface ListAdapter<DataType>
 	 *            value of the method <code>getCount():int</code> -1 and it must
 	 *            be greater than the start index, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
-	 * @return A collection, which contains the adapter's items, between a
-	 *         specific start end end index, as an instance of the type
-	 *         {@link Collection} or an empty collection, if the adapter does
-	 *         not contain any items
+	 * @return A list, which contains the adapter's items, between a specific
+	 *         start end end index, as an instance of the type {@link List} or
+	 *         an empty list, if the adapter does not contain any items
 	 */
-	Collection<DataType> subList(int start, int end);
+	List<DataType> subList(int start, int end);
 
 	/**
 	 * Returns an array, which contains the adapter's items.
@@ -415,13 +415,13 @@ public interface ListAdapter<DataType>
 	int getCount();
 
 	/**
-	 * Returns a collection, which contains all of the adapter's items.
+	 * Returns a list, which contains all of the adapter's items.
 	 * 
-	 * @return A collection, which contains all of the adapter's items, as an
-	 *         instance of the type {@link Collection} or an empty collection,
-	 *         if the adapter does not contain any items
+	 * @return A list, which contains all of the adapter's items, as an instance
+	 *         of the type {@link List} or an empty list, if the adapter does
+	 *         not contain any items
 	 */
-	Collection<DataType> getAllItems();
+	List<DataType> getAllItems();
 
 	/**
 	 * Returns, whether the adapter is empty, or not.

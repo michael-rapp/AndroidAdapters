@@ -17,7 +17,7 @@
  */
 package de.mrapp.android.adapter.list.enablestate;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a list
@@ -132,42 +132,42 @@ public interface EnableStateListAdapter<DataType> {
 	DataType getLastDisabledItem();
 
 	/**
-	 * Returns a collection, which contains the indices of all currently enabled
+	 * Returns a list, which contains the indices of all currently enabled
 	 * items.
 	 * 
-	 * @return A collection, which contains the indices of all currently enabled
-	 *         items, as an instance of the type {@link Collection} or an empty
-	 *         collection, if no item is currently enabled
-	 */
-	Collection<Integer> getEnabledIndices();
-
-	/**
-	 * Returns a collection, which contains all currently enabled items.
-	 * 
-	 * @return A collection, which contains all currently enabled items, as an
-	 *         instance of the type {@link Collection} or an empty collection,
+	 * @return A list, which contains the indices of all currently enabled
+	 *         items, as an instance of the type {@link List} or an empty list,
 	 *         if no item is currently enabled
 	 */
-	Collection<DataType> getEnabledItems();
+	List<Integer> getEnabledIndices();
 
 	/**
-	 * Returns a collection, which contains the indices of all currently
-	 * disabled items.
+	 * Returns a list, which contains all currently enabled items.
 	 * 
-	 * @return A collection, which contains the indices of all currently
-	 *         disabled items, as an instance of the type {@link Collection} or
-	 *         an empty collection, if no item is currently disabled
+	 * @return A list, which contains all currently enabled items, as an
+	 *         instance of the type {@link List} or an empty list, if no item is
+	 *         currently enabled
 	 */
-	Collection<Integer> getDisabledIndices();
+	List<DataType> getEnabledItems();
 
 	/**
-	 * Returns a collection, which contains all currently disabled items.
+	 * Returns a list, which contains the indices of all currently disabled
+	 * items.
 	 * 
-	 * @return A collection, which contains all currently disabled items, as an
-	 *         instance of the type {@link Collection} or an empty collection,
+	 * @return A list, which contains the indices of all currently disabled
+	 *         items, as an instance of the type {@link List} or an empty list,
 	 *         if no item is currently disabled
 	 */
-	Collection<DataType> getDisabledItems();
+	List<Integer> getDisabledIndices();
+
+	/**
+	 * Returns a list, which contains all currently disabled items.
+	 * 
+	 * @return A list, which contains all currently disabled items, as an
+	 *         instance of the type {@link List} or an empty list, if no item is
+	 *         currently disabled
+	 */
+	List<DataType> getDisabledItems();
 
 	/**
 	 * Returns the number of currently enabled items.

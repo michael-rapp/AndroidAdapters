@@ -17,7 +17,7 @@
  */
 package de.mrapp.android.adapter.list.itemstate;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a list
@@ -240,32 +240,31 @@ public interface ItemStateListAdapter<DataType> {
 	DataType getLastItemWithSpecificState(int state);
 
 	/**
-	 * Returns a collection, which contains the indices of all items, which
-	 * currently have a specific state.
+	 * Returns a list, which contains the indices of all items, which currently
+	 * have a specific state.
 	 * 
 	 * @param state
 	 *            The state of the items, whose indices should be returned, as
 	 *            an {@link Integer} value
-	 * @return A collection, which contains the indices of all items, which
-	 *         currently have a specific state, as an instance of the type
-	 *         {@link Collection} or an empty collection, if the adapter does
-	 *         not contain any items with the given state
+	 * @return A list, which contains the indices of all items, which currently
+	 *         have a specific state, as an instance of the type {@link List} or
+	 *         an empty list, if the adapter does not contain any items with the
+	 *         given state
 	 */
-	Collection<Integer> getIndicesWithSpecificState(int state);
+	List<Integer> getIndicesWithSpecificState(int state);
 
 	/**
-	 * Returns a collection, which contains all items, which currently have a
-	 * specific state.
+	 * Returns a list, which contains all items, which currently have a specific
+	 * state.
 	 * 
 	 * @param state
 	 *            The state of the items, which should be returned, as an
 	 *            {@link Integer} value
-	 * @return A collection, which contains the items, which currently have the
-	 *         given state, as an instance of the type {@link Collection} or an
-	 *         empty collection, if the adapter contains no items with the given
-	 *         state
+	 * @return A list, which contains the items, which currently have the given
+	 *         state, as an instance of the type {@link List} or an empty list,
+	 *         if the adapter contains no items with the given state
 	 */
-	Collection<DataType> getItemsWithSpecificState(int state);
+	List<DataType> getItemsWithSpecificState(int state);
 
 	/**
 	 * Returns the number of items, which currently have a specific state.

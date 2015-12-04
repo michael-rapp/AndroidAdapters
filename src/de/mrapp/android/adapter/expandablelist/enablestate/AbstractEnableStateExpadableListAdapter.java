@@ -20,7 +20,6 @@ package de.mrapp.android.adapter.expandablelist.enablestate;
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -350,12 +349,12 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 	}
 
 	@Override
-	public final Collection<Integer> getEnabledGroupIndices() {
+	public final List<Integer> getEnabledGroupIndices() {
 		return getGroupAdapter().getEnabledIndices();
 	}
 
 	@Override
-	public final Collection<GroupType> getEnabledGroups() {
+	public final List<GroupType> getEnabledGroups() {
 		List<GroupType> enabledGroups = new ArrayList<>();
 
 		for (int i = 0; i < getGroupCount(); i++) {
@@ -370,12 +369,12 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 	}
 
 	@Override
-	public final Collection<Integer> getDisabledGroupIndices() {
+	public final List<Integer> getDisabledGroupIndices() {
 		return getGroupAdapter().getDisabledIndices();
 	}
 
 	@Override
-	public final Collection<GroupType> getDisabledGroups() {
+	public final List<GroupType> getDisabledGroups() {
 		List<GroupType> disabledGroups = new ArrayList<>();
 
 		for (int i = 0; i < getGroupCount(); i++) {
@@ -574,7 +573,7 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 	}
 
 	@Override
-	public final Collection<ChildType> getEnabledChildren() {
+	public final List<ChildType> getEnabledChildren() {
 		List<ChildType> enabledChildren = new ArrayList<>();
 
 		for (int i = 0; i < getGroupCount(); i++) {
@@ -585,27 +584,27 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 	}
 
 	@Override
-	public final Collection<Integer> getEnabledChildIndices(final GroupType group) {
+	public final List<Integer> getEnabledChildIndices(final GroupType group) {
 		return getEnabledChildIndices(indexOfGroupOrThrowException(group));
 	}
 
 	@Override
-	public final Collection<ChildType> getEnabledChildren(final GroupType group) {
+	public final List<ChildType> getEnabledChildren(final GroupType group) {
 		return getEnabledChildren(indexOfGroupOrThrowException(group));
 	}
 
 	@Override
-	public final Collection<Integer> getEnabledChildIndices(final int groupIndex) {
+	public final List<Integer> getEnabledChildIndices(final int groupIndex) {
 		return getGroupAdapter().getItem(groupIndex).getChildAdapter().getEnabledIndices();
 	}
 
 	@Override
-	public final Collection<ChildType> getEnabledChildren(final int groupIndex) {
+	public final List<ChildType> getEnabledChildren(final int groupIndex) {
 		return getGroupAdapter().getItem(groupIndex).getChildAdapter().getEnabledItems();
 	}
 
 	@Override
-	public final Collection<ChildType> getDisabledChildren() {
+	public final List<ChildType> getDisabledChildren() {
 		List<ChildType> disabledChildren = new ArrayList<>();
 
 		for (int i = 0; i < getGroupCount(); i++) {
@@ -616,22 +615,22 @@ public abstract class AbstractEnableStateExpadableListAdapter<GroupType, ChildTy
 	}
 
 	@Override
-	public final Collection<Integer> getDisabledChildIndices(final GroupType group) {
+	public final List<Integer> getDisabledChildIndices(final GroupType group) {
 		return getDisabledChildIndices(indexOfGroupOrThrowException(group));
 	}
 
 	@Override
-	public final Collection<ChildType> getDisabledChildren(final GroupType group) {
+	public final List<ChildType> getDisabledChildren(final GroupType group) {
 		return getDisabledChildren(indexOfGroupOrThrowException(group));
 	}
 
 	@Override
-	public final Collection<Integer> getDisabledChildIndices(final int groupIndex) {
+	public final List<Integer> getDisabledChildIndices(final int groupIndex) {
 		return getGroupAdapter().getItem(groupIndex).getChildAdapter().getDisabledIndices();
 	}
 
 	@Override
-	public final Collection<ChildType> getDisabledChildren(final int groupIndex) {
+	public final List<ChildType> getDisabledChildren(final int groupIndex) {
 		return getGroupAdapter().getItem(groupIndex).getChildAdapter().getDisabledItems();
 	}
 

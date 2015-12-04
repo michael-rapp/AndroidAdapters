@@ -17,7 +17,7 @@
  */
 package de.mrapp.android.adapter.expandablelist.itemstate;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a list
@@ -298,32 +298,31 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	GroupType getLastGroupWithSpecificState(int state);
 
 	/**
-	 * Returns a collection, which contains the indices of all group items,
-	 * which currently have a specific state.
+	 * Returns a list, which contains the indices of all group items, which
+	 * currently have a specific state.
 	 * 
 	 * @param state
 	 *            The state of the group items, whose indices should be
 	 *            returned, as an {@link Integer} value
-	 * @return A collection, which contains the indices of all group items,
-	 *         which currently have a specific state, as an instance of the type
-	 *         {@link Collection} or an empty collection, if the adapter does
-	 *         not contain any group items with the given state
+	 * @return A list, which contains the indices of all group items, which
+	 *         currently have a specific state, as an instance of the type
+	 *         {@link List} or an empty list, if the adapter does not contain
+	 *         any group items with the given state
 	 */
-	Collection<Integer> getGroupIndicesWithSpecificState(int state);
+	List<Integer> getGroupIndicesWithSpecificState(int state);
 
 	/**
-	 * Returns a collection, which contains all group items, which currently
-	 * have a specific state.
+	 * Returns a list, which contains all group items, which currently have a
+	 * specific state.
 	 * 
 	 * @param state
 	 *            The state of the group items, which should be returned, as an
 	 *            {@link Integer} value
-	 * @return A collection, which contains the group items, which currently
-	 *         have the given state, as an instance of the type
-	 *         {@link Collection} or an empty collection, if the adapter
-	 *         contains no group items with the given state
+	 * @return A list, which contains the group items, which currently have the
+	 *         given state, as an instance of the type {@link List} or an empty
+	 *         list, if the adapter contains no group items with the given state
 	 */
-	Collection<GroupType> getGroupsWithSpecificState(int state);
+	List<GroupType> getGroupsWithSpecificState(int state);
 
 	/**
 	 * Returns the number of group items, which currently have a specific state.
@@ -914,7 +913,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	ChildType getLastChildWithSpecificState(int groupIndex, int state);
 
 	/**
-	 * Returns a collection, which contains the indices of all child items of a
+	 * Returns a list, which contains the indices of all child items of a
 	 * specific group, which currently have a specific state.
 	 * 
 	 * @param group
@@ -925,18 +924,17 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 * @param state
 	 *            The state of the child items, whose indices should be
 	 *            returned, as an {@link Integer} value
-	 * @return A collection, which contains the indices of all child items of
-	 *         the given group, which currently have a specific state, as an
-	 *         instance of the type {@link Collection} or an empty collection,
-	 *         if the group does not contain any child items with the given
-	 *         state
+	 * @return A list, which contains the indices of all child items of the
+	 *         given group, which currently have a specific state, as an
+	 *         instance of the type {@link List} or an empty list, if the group
+	 *         does not contain any child items with the given state
 	 */
-	Collection<Integer> getChildIndicesWithSpecificState(GroupType group, int state);
+	List<Integer> getChildIndicesWithSpecificState(GroupType group, int state);
 
 	/**
-	 * Returns a collection, which contains the indices of all child items of
-	 * the group, which belongs to a specific index, which currently have a
-	 * specific state.
+	 * Returns a list, which contains the indices of all child items of the
+	 * group, which belongs to a specific index, which currently have a specific
+	 * state.
 	 * 
 	 * @param groupIndex
 	 *            The index of the group, the child items, whose indices should
@@ -947,31 +945,30 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 * @param state
 	 *            The state of the child items, whose indices should be
 	 *            returned, as an {@link Integer} value
-	 * @return A collection, which contains the indices of all child items of
-	 *         the given group, which currently have a specific state, as an
-	 *         instance of the type {@link Collection} or an empty collection,
-	 *         if the group does not contain any child items with the given
-	 *         state
+	 * @return A list, which contains the indices of all child items of the
+	 *         given group, which currently have a specific state, as an
+	 *         instance of the type {@link List} or an empty list, if the group
+	 *         does not contain any child items with the given state
 	 */
-	Collection<Integer> getChildIndicesWithSpecificState(int groupIndex, int state);
+	List<Integer> getChildIndicesWithSpecificState(int groupIndex, int state);
 
 	/**
-	 * Returns a collection, which contains all child items, regardless of the
-	 * group they belong to, which currently have a specific state.
+	 * Returns a list, which contains all child items, regardless of the group
+	 * they belong to, which currently have a specific state.
 	 * 
 	 * @param state
 	 *            The state of the child items, which should be returned, as an
 	 *            {@link Integer} value
-	 * @return A collection, which contains all child items, which currently
-	 *         have a specific state, as an instance of the type
-	 *         {@link Collection} or an empty collection, if the adapter does
-	 *         not contain any child items with the given state
+	 * @return A list, which contains all child items, which currently have a
+	 *         specific state, as an instance of the type {@link List} or an
+	 *         empty list, if the adapter does not contain any child items with
+	 *         the given state
 	 */
-	Collection<ChildType> getChildrenWithSpecificState(int state);
+	List<ChildType> getChildrenWithSpecificState(int state);
 
 	/**
-	 * Returns a collection, which contains all child items of a specific group,
-	 * which currently have a specific state.
+	 * Returns a list, which contains all child items of a specific group, which
+	 * currently have a specific state.
 	 * 
 	 * @param group
 	 *            The group, the child items, which should be returned, belong
@@ -981,15 +978,15 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 * @param state
 	 *            The state of the child items, which should be returned, as an
 	 *            {@link Integer} value
-	 * @return A collection, which contains the all child items of the given
-	 *         group, which currently have a specific state, as an instance of
-	 *         the type {@link Collection} or an empty collection, if the group
-	 *         does not contain any child items with the given state
+	 * @return A list, which contains the all child items of the given group,
+	 *         which currently have a specific state, as an instance of the type
+	 *         {@link List} or an empty list, if the group does not contain any
+	 *         child items with the given state
 	 */
-	Collection<ChildType> getChildrenWithSpecificState(GroupType group, int state);
+	List<ChildType> getChildrenWithSpecificState(GroupType group, int state);
 
 	/**
-	 * Returns a collection, which contains all child items of the group, which
+	 * Returns a list, which contains all child items of the group, which
 	 * belongs to a specific index, which currently have a specific state.
 	 * 
 	 * @param groupIndex
@@ -1001,12 +998,12 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
 	 * @param state
 	 *            The state of the child items, which should be returned, as an
 	 *            {@link Integer} value
-	 * @return A collection, which contains the all child items of the given
-	 *         group, which currently have a specific state, as an instance of
-	 *         the type {@link Collection} or an empty collection, if the group
-	 *         does not contain any child items with the given state
+	 * @return A list, which contains the all child items of the given group,
+	 *         which currently have a specific state, as an instance of the type
+	 *         {@link List} or an empty list, if the group does not contain any
+	 *         child items with the given state
 	 */
-	Collection<ChildType> getChildrenWithSpecificState(int groupIndex, int state);
+	List<ChildType> getChildrenWithSpecificState(int groupIndex, int state);
 
 	/**
 	 * Returns the number of child items, which currently have a specific state.

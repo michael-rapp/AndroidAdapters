@@ -17,7 +17,7 @@
  */
 package de.mrapp.android.adapter.expandablelist.enablestate;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a list
@@ -129,43 +129,42 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	GroupType getLastDisabledGroup();
 
 	/**
-	 * Returns a collection, which contains the indices of all currently enabled
+	 * Returns a list, which contains the indices of all currently enabled group
+	 * items.
+	 * 
+	 * @return A list, which contains the indices of all currently enabled group
+	 *         items, as an instance of the type {@link List} or an empty list,
+	 *         if no group item is currently enabled
+	 */
+	List<Integer> getEnabledGroupIndices();
+
+	/**
+	 * Returns a list, which contains all currently enabled group items.
+	 * 
+	 * @return A list, which contains all currently enabled group items, as an
+	 *         instance of the type {@link List} or an empty list, if no group
+	 *         item is currently enabled
+	 */
+	List<GroupType> getEnabledGroups();
+
+	/**
+	 * Returns a list, which contains the indices of all currently disabled
 	 * group items.
 	 * 
-	 * @return A collection, which contains the indices of all currently enabled
-	 *         group items, as an instance of the type {@link Collection} or an
-	 *         empty collection, if no group item is currently enabled
+	 * @return A list, which contains the indices of all currently disabled
+	 *         group items, as an instance of the type {@link List} or an empty
+	 *         list, if no group item is currently disabled
 	 */
-	Collection<Integer> getEnabledGroupIndices();
+	List<Integer> getDisabledGroupIndices();
 
 	/**
-	 * Returns a collection, which contains all currently enabled group items.
+	 * Returns a list, which contains all currently disabled group items.
 	 * 
-	 * @return A collection, which contains all currently enabled group items,
-	 *         as an instance of the type {@link Collection} or an empty
-	 *         collection, if no group item is currently enabled
+	 * @return A list, which contains all currently disabled group items, as an
+	 *         instance of the type {@link List} or an empty list, if no group
+	 *         item is currently disabled
 	 */
-	Collection<GroupType> getEnabledGroups();
-
-	/**
-	 * Returns a collection, which contains the indices of all currently
-	 * disabled group items.
-	 * 
-	 * @return A collection, which contains the indices of all currently
-	 *         disabled group items, as an instance of the type
-	 *         {@link Collection} or an empty collection, if no group item is
-	 *         currently disabled
-	 */
-	Collection<Integer> getDisabledGroupIndices();
-
-	/**
-	 * Returns a collection, which contains all currently disabled group items.
-	 * 
-	 * @return A collection, which contains all currently disabled group items,
-	 *         as an instance of the type {@link Collection} or an empty
-	 *         collection, if no group item is currently disabled
-	 */
-	Collection<GroupType> getDisabledGroups();
+	List<GroupType> getDisabledGroups();
 
 	/**
 	 * Returns the number of currently enabled groups.
@@ -617,17 +616,89 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	ChildType getLastDisabledChild(int groupIndex);
 
 	/**
-	 * Returns a collection, which contains all currently enabled child items,
+	 * Returns a list, which contains all currently enabled child items,
 	 * regardless of the group they belong to.
 	 * 
-	 * @return A collection, which contains all currently enabled child items,
-	 *         as an instance of the type {@link Collection} or an empty
-	 *         collection, if no child item is currently enabled
+	 * @return A list, which contains all currently enabled child items, as an
+	 *         instance of the type {@link List} or an empty list, if no child
+	 *         item is currently enabled
 	 */
-	Collection<ChildType> getEnabledChildren();
+	List<ChildType> getEnabledChildren();
 
 	/**
-	 * Returns a collection, which contains the indices of all currently enabled
+	 * Returns a list, which contains the indices of all currently enabled child
+	 * items of a specific group.
+	 * 
+	 * @param group
+	 *            The group, the child items, whose indices should be returned,
+	 *            belong to, as an instance of the generic type GroupType. The
+	 *            group may not be null. If the group does not belong to the
+	 *            adapter, a {@link NoSuchElementException} will be thrown
+	 * @return A list, which contains the indices of all currently enabled child
+	 *         items of the given group, as an instance of the type {@link List}
+	 *         or an empty list, if no child item is currently enabled
+	 */
+	List<Integer> getEnabledChildIndices(GroupType group);
+
+	/**
+	 * Returns a list, which contains all currently enabled child items of a
+	 * specific group.
+	 * 
+	 * @param group
+	 *            The group, the child items, which should be returned, belong
+	 *            to, as an instance of the generic type GroupType. The group
+	 *            may not be null. If the group does not belong to the adapter,
+	 *            a {@link NoSuchElementException} will be thrown
+	 * @return A list, which contains all currently enabled child items of the
+	 *         given group, as an instance of the type {@link List} or an empty
+	 *         list, if no child item is currently enabled
+	 */
+	List<ChildType> getEnabledChildren(GroupType group);
+
+	/**
+	 * Returns a list, which contains the indices of all currently enabled child
+	 * items of a specific group.
+	 * 
+	 * @param groupIndex
+	 *            The index of the group, the child items, whose indices should
+	 *            be returned, belong to, as an {@link Integer} value. The value
+	 *            must be between 0 and the value of the method
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
+	 *            {@link IndexOutOfBoundsException} will be thrown
+	 * @return A list, which contains the indices of all currently enabled child
+	 *         items of the given group, as an instance of the type {@link List}
+	 *         or an empty list, if no child item is currently enabled
+	 */
+	List<Integer> getEnabledChildIndices(int groupIndex);
+
+	/**
+	 * Returns a list, which contains all currently enabled child items of a
+	 * specific group.
+	 * 
+	 * @param groupIndex
+	 *            The index of the group, the child items, which should be
+	 *            returned, belong to, as an {@link Integer} value. The value
+	 *            must be between 0 and the value of the method
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
+	 *            {@link IndexOutOfBoundsException} will be thrown
+	 * @return A list, which contains all currently enabled child items of the
+	 *         given group, as an instance of the type {@link List} or an empty
+	 *         list, if no child item is currently enabled
+	 */
+	List<ChildType> getEnabledChildren(int groupIndex);
+
+	/**
+	 * Returns a list, which contains all currently disabled child items,
+	 * regardless of the group they belong to.
+	 * 
+	 * @return A list, which contains all currently disabled child items, as an
+	 *         instance of the type {@link List} or an empty list, if no child
+	 *         item is currently disabled
+	 */
+	List<ChildType> getDisabledChildren();
+
+	/**
+	 * Returns a list, which contains the indices of all currently disabled
 	 * child items of a specific group.
 	 * 
 	 * @param group
@@ -635,30 +706,30 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            belong to, as an instance of the generic type GroupType. The
 	 *            group may not be null. If the group does not belong to the
 	 *            adapter, a {@link NoSuchElementException} will be thrown
-	 * @return A collection, which contains the indices of all currently enabled
+	 * @return A list, which contains the indices of all currently disabled
 	 *         child items of the given group, as an instance of the type
-	 *         {@link Collection} or an empty collection, if no child item is
-	 *         currently enabled
+	 *         {@link List} or an empty list, if no child item is currently
+	 *         disabled
 	 */
-	Collection<Integer> getEnabledChildIndices(GroupType group);
+	List<Integer> getDisabledChildIndices(GroupType group);
 
 	/**
-	 * Returns a collection, which contains all currently enabled child items of
-	 * a specific group.
+	 * Returns a list, which contains all currently disabled child items of a
+	 * specific group.
 	 * 
 	 * @param group
 	 *            The group, the child items, which should be returned, belong
 	 *            to, as an instance of the generic type GroupType. The group
 	 *            may not be null. If the group does not belong to the adapter,
 	 *            a {@link NoSuchElementException} will be thrown
-	 * @return A collection, which contains all currently enabled child items of
-	 *         the given group, as an instance of the type {@link Collection} or
-	 *         an empty collection, if no child item is currently enabled
+	 * @return A list, which contains all currently disabled child items of the
+	 *         given group, as an instance of the type {@link List} or an empty
+	 *         list, if no child item is currently disabled
 	 */
-	Collection<ChildType> getEnabledChildren(GroupType group);
+	List<ChildType> getDisabledChildren(GroupType group);
 
 	/**
-	 * Returns a collection, which contains the indices of all currently enabled
+	 * Returns a list, which contains the indices of all currently disabled
 	 * child items of a specific group.
 	 * 
 	 * @param groupIndex
@@ -667,16 +738,16 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            must be between 0 and the value of the method
 	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
-	 * @return A collection, which contains the indices of all currently enabled
+	 * @return A list, which contains the indices of all currently disabled
 	 *         child items of the given group, as an instance of the type
-	 *         {@link Collection} or an empty collection, if no child item is
-	 *         currently enabled
+	 *         {@link List} or an empty list, if no child item is currently
+	 *         disabled
 	 */
-	Collection<Integer> getEnabledChildIndices(int groupIndex);
+	List<Integer> getDisabledChildIndices(int groupIndex);
 
 	/**
-	 * Returns a collection, which contains all currently enabled child items of
-	 * a specific group.
+	 * Returns a list, which contains all currently disabled child items of a
+	 * specific group.
 	 * 
 	 * @param groupIndex
 	 *            The index of the group, the child items, which should be
@@ -684,85 +755,11 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
 	 *            must be between 0 and the value of the method
 	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
-	 * @return A collection, which contains all currently enabled child items of
-	 *         the given group, as an instance of the type {@link Collection} or
-	 *         an empty collection, if no child item is currently enabled
+	 * @return A list, which contains all currently disabled child items of the
+	 *         given group, as an instance of the type {@link List} or an empty
+	 *         list, if no child item is currently disabled
 	 */
-	Collection<ChildType> getEnabledChildren(int groupIndex);
-
-	/**
-	 * Returns a collection, which contains all currently disabled child items,
-	 * regardless of the group they belong to.
-	 * 
-	 * @return A collection, which contains all currently disabled child items,
-	 *         as an instance of the type {@link Collection} or an empty
-	 *         collection, if no child item is currently disabled
-	 */
-	Collection<ChildType> getDisabledChildren();
-
-	/**
-	 * Returns a collection, which contains the indices of all currently
-	 * disabled child items of a specific group.
-	 * 
-	 * @param group
-	 *            The group, the child items, whose indices should be returned,
-	 *            belong to, as an instance of the generic type GroupType. The
-	 *            group may not be null. If the group does not belong to the
-	 *            adapter, a {@link NoSuchElementException} will be thrown
-	 * @return A collection, which contains the indices of all currently
-	 *         disabled child items of the given group, as an instance of the
-	 *         type {@link Collection} or an empty collection, if no child item
-	 *         is currently disabled
-	 */
-	Collection<Integer> getDisabledChildIndices(GroupType group);
-
-	/**
-	 * Returns a collection, which contains all currently disabled child items
-	 * of a specific group.
-	 * 
-	 * @param group
-	 *            The group, the child items, which should be returned, belong
-	 *            to, as an instance of the generic type GroupType. The group
-	 *            may not be null. If the group does not belong to the adapter,
-	 *            a {@link NoSuchElementException} will be thrown
-	 * @return A collection, which contains all currently disabled child items
-	 *         of the given group, as an instance of the type {@link Collection}
-	 *         or an empty collection, if no child item is currently disabled
-	 */
-	Collection<ChildType> getDisabledChildren(GroupType group);
-
-	/**
-	 * Returns a collection, which contains the indices of all currently
-	 * disabled child items of a specific group.
-	 * 
-	 * @param groupIndex
-	 *            The index of the group, the child items, whose indices should
-	 *            be returned, belong to, as an {@link Integer} value. The value
-	 *            must be between 0 and the value of the method
-	 *            <code>getGroupCount():int</code> - 1, otherwise an
-	 *            {@link IndexOutOfBoundsException} will be thrown
-	 * @return A collection, which contains the indices of all currently
-	 *         disabled child items of the given group, as an instance of the
-	 *         type {@link Collection} or an empty collection, if no child item
-	 *         is currently disabled
-	 */
-	Collection<Integer> getDisabledChildIndices(int groupIndex);
-
-	/**
-	 * Returns a collection, which contains all currently disabled child items
-	 * of a specific group.
-	 * 
-	 * @param groupIndex
-	 *            The index of the group, the child items, which should be
-	 *            returned, belong to, as an {@link Integer} value. The value
-	 *            must be between 0 and the value of the method
-	 *            <code>getGroupCount():int</code> - 1, otherwise an
-	 *            {@link IndexOutOfBoundsException} will be thrown
-	 * @return A collection, which contains all currently disabled child items
-	 *         of the given group, as an instance of the type {@link Collection}
-	 *         or an empty collection, if no child item is currently disabled
-	 */
-	Collection<ChildType> getDisabledChildren(int groupIndex);
+	List<ChildType> getDisabledChildren(int groupIndex);
 
 	/**
 	 * Returns the number of currently enabled children, regardless of the group
