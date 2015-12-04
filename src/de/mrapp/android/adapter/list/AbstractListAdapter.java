@@ -700,12 +700,12 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> implements Li
 	}
 
 	@Override
-	public final boolean addAllItems(final Collection<DataType> items) {
+	public final boolean addAllItems(final Collection<? extends DataType> items) {
 		return addAllItems(getCount(), items);
 	}
 
 	@Override
-	public final boolean addAllItems(final int index, final Collection<DataType> items) {
+	public final boolean addAllItems(final int index, final Collection<? extends DataType> items) {
 		ensureNotNull(items, "The collection may not be null");
 		boolean result = true;
 		int currentIndex = index;
@@ -776,7 +776,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> implements Li
 	}
 
 	@Override
-	public final boolean removeAllItems(final Collection<DataType> items) {
+	public final boolean removeAllItems(final Collection<? extends DataType> items) {
 		ensureNotNull(items, "The collection may not be null");
 		int numberOfRemovedItems = 0;
 
@@ -798,7 +798,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> implements Li
 	}
 
 	@Override
-	public final void retainAllItems(final Collection<DataType> items) {
+	public final void retainAllItems(final Collection<? extends DataType> items) {
 		ensureNotNull(items, "The collection may not be null");
 
 		for (int i = getCount() - 1; i >= 0; i--) {
@@ -891,7 +891,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> implements Li
 	}
 
 	@Override
-	public final boolean containsAllItems(final Collection<DataType> items) {
+	public final boolean containsAllItems(final Collection<? extends DataType> items) {
 		ensureNotNull(items, "The collection may not be null");
 		boolean result = true;
 

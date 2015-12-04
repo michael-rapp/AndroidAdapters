@@ -98,7 +98,7 @@ public interface ListAdapter<DataType>
 	 * @return True, if all items have been added to the adapter, false
 	 *         otherwise
 	 */
-	boolean addAllItems(Collection<DataType> items);
+	boolean addAllItems(Collection<? extends DataType> items);
 
 	/**
 	 * Adds all items, which are contained by a specific collection, to the
@@ -118,7 +118,7 @@ public interface ListAdapter<DataType>
 	 * @return True, if all items have been added to the adapter, false
 	 *         otherwise
 	 */
-	boolean addAllItems(int index, Collection<DataType> items);
+	boolean addAllItems(int index, Collection<? extends DataType> items);
 
 	/**
 	 * Adds all items, which are contained by a specific array, to the adapter.
@@ -206,7 +206,7 @@ public interface ListAdapter<DataType>
 	 * @return True, if all items have been removed from the adapter, false
 	 *         otherwise
 	 */
-	boolean removeAllItems(Collection<DataType> items);
+	boolean removeAllItems(Collection<? extends DataType> items);
 
 	/**
 	 * Removes all items, which are contained by a specific array, from the
@@ -231,7 +231,7 @@ public interface ListAdapter<DataType>
 	 *            retained, as an instance of the type {@link Collection} or an
 	 *            empty collection, if no items should be retained
 	 */
-	void retainAllItems(Collection<DataType> items);
+	void retainAllItems(Collection<? extends DataType> items);
 
 	/**
 	 * Removes all items from the adapter, except of the items, which are
@@ -390,7 +390,7 @@ public interface ListAdapter<DataType>
 	 * @return True, if the adapter contains all items, which are contained by
 	 *         the given collection, false otherwise
 	 */
-	boolean containsAllItems(Collection<DataType> items);
+	boolean containsAllItems(Collection<? extends DataType> items);
 
 	/**
 	 * Returns, whether the adapter contains all items, which are contained by a
