@@ -17,7 +17,7 @@
  */
 package de.mrapp.android.adapter;
 
-import java.util.Collection;
+import java.util.List;
 
 import de.mrapp.android.adapter.list.selectable.SelectableListAdapter;
 
@@ -101,42 +101,42 @@ public interface MultipleChoiceListAdapter<DataType> extends SelectableListAdapt
 	DataType getLastUnselectedItem();
 
 	/**
-	 * Returns a collection, which contains the indices of all currently
-	 * selected items.
+	 * Returns a list, which contains the indices of all currently selected
+	 * items.
 	 * 
-	 * @return A collection, which contains the indices of all currently
-	 *         selected items, as an instance of the type {@link Collection} or
-	 *         an empty collection, if no item is currently selected
-	 */
-	Collection<Integer> getSelectedIndices();
-
-	/**
-	 * Returns a collection, which contains all currently selected items.
-	 * 
-	 * @return A collection, which contains all currently selected items, as an
-	 *         instance of the type {@link Collection} or an empty collection,
+	 * @return A list, which contains the indices of all currently selected
+	 *         items, as an instance of the type {@link List} or an empty list,
 	 *         if no item is currently selected
 	 */
-	Collection<DataType> getSelectedItems();
+	List<Integer> getSelectedIndices();
 
 	/**
-	 * Returns a collection, which contains the indices of all currently
-	 * unselected items.
+	 * Returns a list, which contains all currently selected items.
+	 * 
+	 * @return A list, which contains all currently selected items, as an
+	 *         instance of the type {@link List} or an empty list, if no item is
+	 *         currently selected
+	 */
+	List<DataType> getSelectedItems();
+
+	/**
+	 * Returns a list, which contains the indices of all currently unselected
+	 * items.
 	 * 
 	 * @return A list, which contains the indices of all currently unselected
-	 *         items, as an instance of the type {@link Collection} or an empty
-	 *         collection, if no item is currently selected
+	 *         items, as an instance of the type {@link List} or an empty list,
+	 *         if no item is currently selected
 	 */
-	Collection<Integer> getUnselectedIndices();
+	List<Integer> getUnselectedIndices();
 
 	/**
-	 * Returns a collection, which contains all currently unselected items.
+	 * Returns a list, which contains all currently unselected items.
 	 * 
 	 * @return A list, which contains all currently unselected items, as an
-	 *         instance of the type {@link Collection} or an empty list, if no
-	 *         item is currently selected
+	 *         instance of the type {@link List} or an empty list, if no item is
+	 *         currently selected
 	 */
-	Collection<DataType> getUnselectedItems();
+	List<DataType> getUnselectedItems();
 
 	/**
 	 * Sets the selection of the item, which belongs to a specific index, if it

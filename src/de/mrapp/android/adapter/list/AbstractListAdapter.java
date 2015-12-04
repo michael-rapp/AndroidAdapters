@@ -838,8 +838,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> implements Li
 	}
 
 	@Override
-	public final Collection<DataType> subList(final int start, final int end) {
-		Collection<DataType> subList = new ArrayList<DataType>();
+	public final List<DataType> subList(final int start, final int end) {
+		List<DataType> subList = new ArrayList<DataType>();
 
 		for (int i = start; i < end; i++) {
 			subList.add(getItem(i));

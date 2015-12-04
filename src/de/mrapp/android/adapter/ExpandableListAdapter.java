@@ -19,6 +19,7 @@ package de.mrapp.android.adapter;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.ListIterator;
 
 import android.widget.ExpandableListView;
@@ -298,7 +299,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	ListIterator<GroupType> groupListIterator(int index);
 
 	/**
-	 * Returns a collection, which contains the adapter's group items between a
+	 * Returns a list, which contains the adapter's group items between a
 	 * specific start and end index.
 	 * 
 	 * @param start
@@ -315,12 +316,12 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 *            the value of the method <code>getGroupCount():int</code> -1
 	 *            and it must be greater than the start index, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
-	 * @return A collection, which contains the adapter's group items, between a
+	 * @return A list, which contains the adapter's group items, between a
 	 *         specific start end end index, as an instance of the type
-	 *         {@link Collection} or an empty collection, if the adapter does
-	 *         not contain any group items
+	 *         {@link List} or an empty list, if the adapter does not contain
+	 *         any group items
 	 */
-	Collection<GroupType> subListGroups(int start, int end);
+	List<GroupType> subListGroups(int start, int end);
 
 	/**
 	 * Returns an array, which contains the adapter's group items.
@@ -421,13 +422,13 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	int getGroupCount();
 
 	/**
-	 * Returns a collection, which contains all of the adapter's group items.
+	 * Returns a list, which contains all of the adapter's group items.
 	 * 
-	 * @return A collection, which contains all of the adapter's group items, as
-	 *         an instance of the type {@link Collection} or an empty
-	 *         collection, if the adapter does not contain any group items
+	 * @return A list, which contains all of the adapter's group items, as an
+	 *         instance of the type {@link List} or an empty list, if the
+	 *         adapter does not contain any group items
 	 */
-	Collection<GroupType> getAllGroups();
+	List<GroupType> getAllGroups();
 
 	/**
 	 * Returns, whether the adapter is empty, or not.
@@ -1637,7 +1638,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	ListIterator<ChildType> childListIterator(GroupType group, int index);
 
 	/**
-	 * Returns a collection, which contains the child items of the group, which
+	 * Returns a list, which contains the child items of the group, which
 	 * belongs to a specific index, between a specific start and end index.
 	 * 
 	 * @param groupIndex
@@ -1660,15 +1661,15 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 *            <code>getChildCount(groupIndex):int</code> -1 and it must be
 	 *            greater than the start index, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
-	 * @return A collection, which contains the group's child items, between a
+	 * @return A list, which contains the group's child items, between a
 	 *         specific start end end index, as an instance of the type
-	 *         {@link Collection} or an empty collection, if the group does not
-	 *         contain any child items
+	 *         {@link List} or an empty list, if the group does not contain any
+	 *         child items
 	 */
-	Collection<ChildType> subListChildren(int groupIndex, int start, int end);
+	List<ChildType> subListChildren(int groupIndex, int start, int end);
 
 	/**
-	 * Returns a collection, which contains the child items of a specific group
+	 * Returns a list, which contains the child items of a specific group
 	 * between a specific start and end index.
 	 * 
 	 * @param group
@@ -1690,12 +1691,12 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 *            the value of the method <code>getChildCount(group):int</code>
 	 *            -1 and it must be greater than the start index, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
-	 * @return A collection, which contains the group's child items, between a
+	 * @return A list, which contains the group's child items, between a
 	 *         specific start end end index, as an instance of the type
-	 *         {@link Collection} or an empty collection, if the group does not
-	 *         contain any child items
+	 *         {@link List} or an empty list, if the group does not contain any
+	 *         child items
 	 */
-	Collection<ChildType> subListChildren(GroupType group, int start, int end);
+	List<ChildType> subListChildren(GroupType group, int start, int end);
 
 	/**
 	 * Returns an array, which contains all of the adapter's child items.
@@ -2082,16 +2083,16 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	int getChildCount(GroupType group);
 
 	/**
-	 * Returns a collection, which contains all of the adapter's child items.
+	 * Returns a list, which contains all of the adapter's child items.
 	 * 
-	 * @return A collection, which contains all of the adapter's child items, as
-	 *         an instance of the type {@link Collection} or an empty
-	 *         collection, if the adapter does not contain any child items
+	 * @return A list, which contains all of the adapter's child items, as an
+	 *         instance of the type {@link List} or an empty list, if the
+	 *         adapter does not contain any child items
 	 */
-	Collection<ChildType> getAllChildren();
+	List<ChildType> getAllChildren();
 
 	/**
-	 * Returns a collection, which contains all child items of the group, which
+	 * Returns a list, which contains all child items of the group, which
 	 * belongs to a specific index.
 	 * 
 	 * @param groupIndex
@@ -2099,25 +2100,25 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	 *            as an {@link Integer} value. The index must be between 0 and
 	 *            the value of the method <code>getGroupCount():int</code> - 1,
 	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
-	 * @return A collection, which contains all child items of the group, as an
-	 *         instance of the type {@link Collection} or an empty collection,
-	 *         if the group does not contain any child items
+	 * @return A list, which contains all child items of the group, as an
+	 *         instance of the type {@link List} or an empty list, if the group
+	 *         does not contain any child items
 	 */
-	Collection<ChildType> getAllChildren(int groupIndex);
+	List<ChildType> getAllChildren(int groupIndex);
 
 	/**
-	 * Returns a collection, which contains all child items of a specific group.
+	 * Returns a list, which contains all child items of a specific group.
 	 * 
 	 * @param group
 	 *            The group, whose child items should be returned, as an
 	 *            instance of the generic type GroupType. The group may not be
 	 *            null. If the group does not belong to the adapter, a
 	 *            {@link NoSuchElementException} will be thrown
-	 * @return A collection, which contains all child items of the group, as an
-	 *         instance of the type {@link Collection} or an empty collection,
-	 *         if the group does not contain any child items
+	 * @return A list, which contains all child items of the group, as an
+	 *         instance of the type {@link List} or an empty list, if the group
+	 *         does not contain any child items
 	 */
-	Collection<ChildType> getAllChildren(GroupType group);
+	List<ChildType> getAllChildren(GroupType group);
 
 	/**
 	 * Returns, whether the group, which belongs to a specific index, contains
@@ -2286,44 +2287,43 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	int getLastCollapsedGroupIndex();
 
 	/**
-	 * Returns a collection, which contains all currently expanded groups.
+	 * Returns a list, which contains all currently expanded groups.
 	 * 
-	 * @return A collection, which contains all currently expanded groups, as an
-	 *         instance of the type {@link Collection} or an empty collection,
+	 * @return A lust, which contains all currently expanded groups, as an
+	 *         instance of the type {@link List} or an empty list, if no group
+	 *         is currently expanded or if the adapter is not attached to a view
+	 */
+	List<GroupType> getExpandedGroups();
+
+	/**
+	 * Returns a list, which contains the indices of all expanded groups.
+	 * 
+	 * @return A list, which contains the indices of all currently expanded
+	 *         groups, as an instance of the type {@link List} or an empty list,
 	 *         if no group is currently expanded or if the adapter is not
 	 *         attached to a view
 	 */
-	Collection<GroupType> getExpandedGroups();
+	List<Integer> getExpandedGroupIndices();
 
 	/**
-	 * Returns a collection, which contains the indices of all expanded groups.
+	 * Returns a list, which contains all currently collapsed groups.
 	 * 
-	 * @return A collection, which contains the indices of all currently
-	 *         expanded groups, as an instance of the type {@link Collection} or
-	 *         an empty collection, if no group is currently expanded or if the
-	 *         adapter is not attached to a view
+	 * @return A list, which contains all currently collapsed groups, as an
+	 *         instance of the type {@link List} or an empty list, if no group
+	 *         is currently collapsed or if the adapter is not attached to a
+	 *         view
 	 */
-	Collection<Integer> getExpandedGroupIndices();
+	List<GroupType> getCollapsedGroups();
 
 	/**
-	 * Returns a collection, which contains all currently collapsed groups.
+	 * Returns a list, which contains the indices of all collapsed groups.
 	 * 
-	 * @return A collection, which contains all currently collapsed groups, as
-	 *         an instance of the type {@link Collection} or an empty
-	 *         collection, if no group is currently collapsed or if the adapter
-	 *         is not attached to a view
+	 * @return A list, which contains the indices of all currently collapsed
+	 *         groups, as an instance of the type {@link List} or an empty list,
+	 *         if no group is currently collapsed or if the adapter is not
+	 *         attached to a view
 	 */
-	Collection<GroupType> getCollapsedGroups();
-
-	/**
-	 * Returns a collection, which contains the indices of all collapsed groups.
-	 * 
-	 * @return A collection, which contains the indices of all currently
-	 *         collapsed groups, as an instance of the type {@link Collection}
-	 *         or an empty collection, if no group is currently collapsed or if
-	 *         the adapter is not attached to a view
-	 */
-	Collection<Integer> getCollapsedGroupIndices();
+	List<Integer> getCollapsedGroupIndices();
 
 	/**
 	 * Returns the number of currently expanded groups.

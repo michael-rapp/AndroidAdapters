@@ -17,7 +17,7 @@
  */
 package de.mrapp.android.adapter;
 
-import java.util.Collection;
+import java.util.List;
 
 import de.mrapp.android.adapter.expandablelist.selectable.SelectableExpandableListAdapter;
 
@@ -104,44 +104,42 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
 	GroupType getLastUnselectedGroup();
 
 	/**
-	 * Returns a collection, which contains the indices of all currently
-	 * selected group items.
+	 * Returns a list, which contains the indices of all currently selected
+	 * group items.
 	 * 
-	 * @return A collection, which contains the indices of all currently
-	 *         selected group items, as an instance of the type
-	 *         {@link Collection} or an empty collection, if no group item is
-	 *         currently selected
+	 * @return A list, which contains the indices of all currently selected
+	 *         group items, as an instance of the type {@link List} or an empty
+	 *         list, if no group item is currently selected
 	 */
-	Collection<Integer> getSelectedGroupIndices();
+	List<Integer> getSelectedGroupIndices();
 
 	/**
-	 * Returns a collection, which contains all currently selected groups.
+	 * Returns a list, which contains all currently selected groups.
 	 * 
-	 * @return A collection, which contains all currently selected group items,
-	 *         as an instance of the type {@link Collection} or an empty
-	 *         collection, if no group item is currently selected
+	 * @return A list, which contains all currently selected group items, as an
+	 *         instance of the type {@link List} or an empty list, if no group
+	 *         item is currently selected
 	 */
-	Collection<GroupType> getSelectedGroups();
+	List<GroupType> getSelectedGroups();
 
 	/**
-	 * Returns a collection, which contains the indices of all currently
-	 * unselected group items.
+	 * Returns a list, which contains the indices of all currently unselected
+	 * group items.
 	 * 
 	 * @return A list, which contains the indices of all currently unselected
-	 *         group items, as an instance of the type {@link Collection} or an
-	 *         empty collection, if no group item is currently selected
+	 *         group items, as an instance of the type {@link List} or an empty
+	 *         list, if no group item is currently selected
 	 */
-	Collection<Integer> getUnselectedGroupIndices();
+	List<Integer> getUnselectedGroupIndices();
 
 	/**
-	 * Returns a collection, which contains all currently unselected group
-	 * items.
+	 * Returns a list, which contains all currently unselected group items.
 	 * 
 	 * @return A list, which contains all currently unselected group items, as
-	 *         an instance of the type {@link Collection} or an empty list, if
-	 *         no group item is currently selected
+	 *         an instance of the type {@link List} or an empty list, if no
+	 *         group item is currently selected
 	 */
-	Collection<GroupType> getUnselectedGroups();
+	List<GroupType> getUnselectedGroups();
 
 	/**
 	 * Sets the selection of the group item, which belongs to a specific index,
@@ -460,8 +458,8 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
 	ChildType getLastUnselectedChild(int groupIndex);
 
 	/**
-	 * Returns a collection, which contains the indices of all currently
-	 * selected child items of a specific group.
+	 * Returns a list, which contains the indices of all currently selected
+	 * child items of a specific group.
 	 * 
 	 * @param group
 	 *            The group, the child items, whose indices should be returned,
@@ -470,14 +468,14 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
 	 *            adapter, a {@link NoSuchElementException} will be thrown
 	 * @return A list, which contains the indices of all currently selected
 	 *         child items of the given group, as an instance of the type
-	 *         {@link Collection} or an empty collection, if no child item is
-	 *         currently selected
+	 *         {@link List} or an empty list, if no child item is currently
+	 *         selected
 	 */
-	Collection<Integer> getSelectedChildIndices(GroupType group);
+	List<Integer> getSelectedChildIndices(GroupType group);
 
 	/**
-	 * Returns a collection, which contains the indices of all currently
-	 * selected child items of the group, which belongs to a specific index.
+	 * Returns a list, which contains the indices of all currently selected
+	 * child items of the group, which belongs to a specific index.
 	 * 
 	 * @param groupIndex
 	 *            The index of the group, the child items, whose indices should
@@ -487,14 +485,14 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @return A list, which contains the indices of all currently selected
 	 *         child items of the given group, as an instance of the type
-	 *         {@link Collection} or an empty collection, if no child item is
-	 *         currently selected
+	 *         {@link List} or an empty list, if no child item is currently
+	 *         selected
 	 */
-	Collection<Integer> getSelectedChildIndices(int groupIndex);
+	List<Integer> getSelectedChildIndices(int groupIndex);
 
 	/**
-	 * Returns a collection, which contains all currently selected child items
-	 * of a specific group.
+	 * Returns a list, which contains all currently selected child items of a
+	 * specific group.
 	 * 
 	 * @param group
 	 *            The group, the child items, which should be returned, belong
@@ -502,14 +500,14 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
 	 *            may not be null. If the group does not belong to the adapter,
 	 *            a {@link NoSuchElementException} will be thrown
 	 * @return A list, which contains all currently selected child items of the
-	 *         given group, as an instance of the type {@link Collection} or an
-	 *         empty list, if no child item is currently selected
+	 *         given group, as an instance of the type {@link List} or an empty
+	 *         list, if no child item is currently selected
 	 */
-	Collection<ChildType> getSelectedChildren(GroupType group);
+	List<ChildType> getSelectedChildren(GroupType group);
 
 	/**
-	 * Returns a collection, which contains all currently selected child items
-	 * of the group, which belongs to a specific index.
+	 * Returns a list, which contains all currently selected child items of the
+	 * group, which belongs to a specific index.
 	 * 
 	 * @param groupIndex
 	 *            The index of the group, the child items, which should be
@@ -518,14 +516,14 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
 	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @return A list, which contains all currently selected child items of the
-	 *         given group, as an instance of the type {@link Collection} or an
-	 *         empty list, if no child item is currently selected
+	 *         given group, as an instance of the type {@link List} or an empty
+	 *         list, if no child item is currently selected
 	 */
-	Collection<ChildType> getSelectedChildren(int groupIndex);
+	List<ChildType> getSelectedChildren(int groupIndex);
 
 	/**
-	 * Returns a collection, which contains the indices of all currently
-	 * unselected child items of a specific group.
+	 * Returns a list, which contains the indices of all currently unselected
+	 * child items of a specific group.
 	 * 
 	 * @param group
 	 *            The group, the child items, whose indices should be returned,
@@ -534,14 +532,14 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
 	 *            adapter, a {@link NoSuchElementException} will be thrown
 	 * @return A list, which contains the indices of all currently unselected
 	 *         child items of the given group, as an instance of the type
-	 *         {@link Collection} or an empty collection, if no child item is
-	 *         currently selected
+	 *         {@link List} or an empty list, if no child item is currently
+	 *         selected
 	 */
-	Collection<Integer> getUnselectedChildIndices(GroupType group);
+	List<Integer> getUnselectedChildIndices(GroupType group);
 
 	/**
-	 * Returns a collection, which contains the indices of all currently
-	 * unselected child items of the group, which belongs to a specific index.
+	 * Returns a list, which contains the indices of all currently unselected
+	 * child items of the group, which belongs to a specific index.
 	 * 
 	 * @param groupIndex
 	 *            The index of the group, the child items, whose indices should
@@ -551,14 +549,14 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @return A list, which contains the indices of all currently unselected
 	 *         child items of the given group, as an instance of the type
-	 *         {@link Collection} or an empty collection, if no child item is
-	 *         currently selected
+	 *         {@link List} or an empty list, if no child item is currently
+	 *         selected
 	 */
-	Collection<Integer> getUnselectedChildIndices(int groupIndex);
+	List<Integer> getUnselectedChildIndices(int groupIndex);
 
 	/**
-	 * Returns a collection, which contains all currently unselected child items
-	 * of a specific group.
+	 * Returns a list, which contains all currently unselected child items of a
+	 * specific group.
 	 * 
 	 * @param group
 	 *            The group, the child items, which should be returned, belong
@@ -566,14 +564,14 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
 	 *            may not be null. If the group does not belong to the adapter,
 	 *            a {@link NoSuchElementException} will be thrown
 	 * @return A list, which contains all currently unselected child items of
-	 *         the given group, as an instance of the type {@link Collection} or
-	 *         an empty list, if no child item is currently selected
+	 *         the given group, as an instance of the type {@link List} or an
+	 *         empty list, if no child item is currently selected
 	 */
-	Collection<ChildType> getUnselectedChildren(GroupType group);
+	List<ChildType> getUnselectedChildren(GroupType group);
 
 	/**
-	 * Returns a collection, which contains all currently unselected child items
-	 * of the group, which belongs to a specific index.
+	 * Returns a list, which contains all currently unselected child items of
+	 * the group, which belongs to a specific index.
 	 * 
 	 * @param groupIndex
 	 *            The index of the group, the child items, which should be
@@ -582,10 +580,10 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
 	 *            <code>getGroupCount():int</code> - 1, otherwise an
 	 *            {@link IndexOutOfBoundsException} will be thrown
 	 * @return A list, which contains all currently unselected child items of
-	 *         the given group, as an instance of the type {@link Collection} or
-	 *         an empty list, if no child item is currently selected
+	 *         the given group, as an instance of the type {@link List} or an
+	 *         empty list, if no child item is currently selected
 	 */
-	Collection<ChildType> getUnselectedChildren(int groupIndex);
+	List<ChildType> getUnselectedChildren(int groupIndex);
 
 	/**
 	 * Sets the selection of a specific child item of a specific group, if it is

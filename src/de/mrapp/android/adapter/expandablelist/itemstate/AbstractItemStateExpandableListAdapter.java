@@ -22,7 +22,6 @@ import static de.mrapp.android.adapter.util.Condition.ensureAtMaximum;
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -516,12 +515,12 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 	}
 
 	@Override
-	public final Collection<Integer> getGroupIndicesWithSpecificState(final int state) {
+	public final List<Integer> getGroupIndicesWithSpecificState(final int state) {
 		return getGroupAdapter().getIndicesWithSpecificState(state);
 	}
 
 	@Override
-	public final Collection<GroupType> getGroupsWithSpecificState(final int state) {
+	public final List<GroupType> getGroupsWithSpecificState(final int state) {
 		List<GroupType> groups = new ArrayList<>();
 
 		for (int i = 0; i < getGroupCount(); i++) {
@@ -781,17 +780,17 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 	}
 
 	@Override
-	public final Collection<Integer> getChildIndicesWithSpecificState(final GroupType group, final int state) {
+	public final List<Integer> getChildIndicesWithSpecificState(final GroupType group, final int state) {
 		return getChildIndicesWithSpecificState(indexOfGroupOrThrowException(group), state);
 	}
 
 	@Override
-	public final Collection<Integer> getChildIndicesWithSpecificState(final int groupIndex, final int state) {
+	public final List<Integer> getChildIndicesWithSpecificState(final int groupIndex, final int state) {
 		return getGroupAdapter().getItem(groupIndex).getChildAdapter().getIndicesWithSpecificState(state);
 	}
 
 	@Override
-	public final Collection<ChildType> getChildrenWithSpecificState(final int state) {
+	public final List<ChildType> getChildrenWithSpecificState(final int state) {
 		List<ChildType> children = new ArrayList<>();
 
 		for (int i = 0; i < getGroupCount(); i++) {
@@ -802,12 +801,12 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 	}
 
 	@Override
-	public final Collection<ChildType> getChildrenWithSpecificState(final GroupType group, final int state) {
+	public final List<ChildType> getChildrenWithSpecificState(final GroupType group, final int state) {
 		return getChildrenWithSpecificState(indexOfGroupOrThrowException(group), state);
 	}
 
 	@Override
-	public final Collection<ChildType> getChildrenWithSpecificState(final int groupIndex, final int state) {
+	public final List<ChildType> getChildrenWithSpecificState(final int groupIndex, final int state) {
 		return getGroupAdapter().getItem(groupIndex).getChildAdapter().getItemsWithSpecificState(state);
 	}
 

@@ -22,7 +22,6 @@ import static de.mrapp.android.adapter.util.Condition.ensureAtMaximum;
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -419,7 +418,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public final Collection<Integer> getIndicesWithSpecificState(final int state) {
+	public final List<Integer> getIndicesWithSpecificState(final int state) {
 		List<Integer> indices = new ArrayList<Integer>();
 
 		for (int i = 0; i < getCount(); i++) {
@@ -432,7 +431,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
-	public final Collection<DataType> getItemsWithSpecificState(final int state) {
+	public final List<DataType> getItemsWithSpecificState(final int state) {
 		List<DataType> items = new ArrayList<DataType>();
 
 		for (Item<DataType> item : getItems()) {

@@ -17,9 +17,9 @@
  */
 package de.mrapp.android.adapter.expandablelist.selectable;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
@@ -365,13 +365,13 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 	}
 
 	@Override
-	public final Collection<Integer> getSelectedGroupIndices() {
+	public final List<Integer> getSelectedGroupIndices() {
 		return getGroupAdapter().getSelectedIndices();
 	}
 
 	@Override
-	public final Collection<GroupType> getSelectedGroups() {
-		Collection<GroupType> selectedGroups = new LinkedList<>();
+	public final List<GroupType> getSelectedGroups() {
+		List<GroupType> selectedGroups = new ArrayList<>();
 
 		for (int i = 0; i < getGroupCount(); i++) {
 			Group<GroupType, ChildType> group = getGroupAdapter().getItem(i);
@@ -385,13 +385,13 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 	}
 
 	@Override
-	public final Collection<Integer> getUnselectedGroupIndices() {
+	public final List<Integer> getUnselectedGroupIndices() {
 		return getGroupAdapter().getUnselectedIndices();
 	}
 
 	@Override
-	public final Collection<GroupType> getUnselectedGroups() {
-		Collection<GroupType> unselectedGroups = new LinkedList<>();
+	public final List<GroupType> getUnselectedGroups() {
+		List<GroupType> unselectedGroups = new ArrayList<>();
 
 		for (int i = 0; i < getGroupCount(); i++) {
 			Group<GroupType, ChildType> group = getGroupAdapter().getItem(i);
@@ -570,42 +570,42 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 	}
 
 	@Override
-	public final Collection<Integer> getSelectedChildIndices(final GroupType group) {
+	public final List<Integer> getSelectedChildIndices(final GroupType group) {
 		return getSelectedChildIndices(indexOfGroupOrThrowException(group));
 	}
 
 	@Override
-	public final Collection<Integer> getSelectedChildIndices(final int groupIndex) {
+	public final List<Integer> getSelectedChildIndices(final int groupIndex) {
 		return getGroupAdapter().getItem(groupIndex).getChildAdapter().getSelectedIndices();
 	}
 
 	@Override
-	public final Collection<ChildType> getSelectedChildren(final GroupType group) {
+	public final List<ChildType> getSelectedChildren(final GroupType group) {
 		return getSelectedChildren(indexOfGroupOrThrowException(group));
 	}
 
 	@Override
-	public final Collection<ChildType> getSelectedChildren(final int groupIndex) {
+	public final List<ChildType> getSelectedChildren(final int groupIndex) {
 		return getGroupAdapter().getItem(groupIndex).getChildAdapter().getSelectedItems();
 	}
 
 	@Override
-	public final Collection<Integer> getUnselectedChildIndices(final GroupType group) {
+	public final List<Integer> getUnselectedChildIndices(final GroupType group) {
 		return getUnselectedChildIndices(indexOfGroupOrThrowException(group));
 	}
 
 	@Override
-	public final Collection<Integer> getUnselectedChildIndices(final int groupIndex) {
+	public final List<Integer> getUnselectedChildIndices(final int groupIndex) {
 		return getGroupAdapter().getItem(groupIndex).getChildAdapter().getUnselectedIndices();
 	}
 
 	@Override
-	public final Collection<ChildType> getUnselectedChildren(final GroupType group) {
+	public final List<ChildType> getUnselectedChildren(final GroupType group) {
 		return getUnselectedChildren(indexOfGroupOrThrowException(group));
 	}
 
 	@Override
-	public final Collection<ChildType> getUnselectedChildren(final int groupIndex) {
+	public final List<ChildType> getUnselectedChildren(final int groupIndex) {
 		return getGroupAdapter().getItem(groupIndex).getChildAdapter().getUnselectedItems();
 	}
 
