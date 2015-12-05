@@ -457,15 +457,12 @@ public class SingleChoiceListAdapterImplementation<DataType> extends AbstractSel
 
 	@Override
 	public final String toString() {
-		return "SingleChoiceListAdapter [logLevel=" + getLogLevel() + ", parameters=" + getParameters()
-				+ ", sortingListeners=" + getSortingListeners() + ", itemStateListeners=" + getItemStateListeners()
-				+ ", numberOfItemStates=" + getNumberOfItemStates() + ", triggerItemStateOnClick="
-				+ isItemStateTriggeredOnClick() + ", enableStateListeners=" + getEnableStateListeners() + ", items="
-				+ getItems() + ", itemClickListeners=" + getItemClickListeners() + ", adapterListeners="
-				+ getAdapterListeners() + ", allowDuplicates=" + areDuplicatesAllowed() + ", notifyOnChange="
-				+ isNotifiedOnChange() + ", filterListeners=" + getSelectionListeners() + ", appliedFilters="
-				+ getAppliedFilters() + ", selectItemOnClick=" + isItemSelectedOnClick() + ", selectionListeners="
-				+ getSelectionListeners() + ", adaptSelectionAutomatically=" + isSelectionAdaptedAutomatically() + "]";
+		return "SingleChoiceListAdapter (" + getCount() + " items) [logLevel=" + getLogLevel() + ", parameters="
+				+ getParameters() + ", notifyOnChange=" + isNotifiedOnChange() + ", allowDuplicates="
+				+ areDuplicatesAllowed() + ", numberOfItemStates=" + getNumberOfItemStates()
+				+ ", triggerItemStateOnClick" + isItemStateTriggeredOnClick() + ", appliedFilters" + getAppliedFilters()
+				+ ", selectItemOnClick=" + isItemSelectedOnClick() + ", adaptSelectionAutomatically="
+				+ isSelectionAdaptedAutomatically() + "]";
 	}
 
 	@Override
