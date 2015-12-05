@@ -460,7 +460,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends AbstractSel
 		return "SingleChoiceListAdapter (" + getCount() + " items) [logLevel=" + getLogLevel() + ", parameters="
 				+ getParameters() + ", notifyOnChange=" + isNotifiedOnChange() + ", allowDuplicates="
 				+ areDuplicatesAllowed() + ", numberOfItemStates=" + getNumberOfItemStates()
-				+ ", triggerItemStateOnClick" + isItemStateTriggeredOnClick() + ", appliedFilters" + getAppliedFilters()
+				+ ", triggerItemStateOnClick" + isItemStateTriggeredOnClick() + ", filtered" + isFiltered()
 				+ ", selectItemOnClick=" + isItemSelectedOnClick() + ", adaptSelectionAutomatically="
 				+ isSelectionAdaptedAutomatically() + "]";
 	}

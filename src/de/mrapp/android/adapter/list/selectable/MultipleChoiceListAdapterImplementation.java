@@ -444,7 +444,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends AbstractS
 		return "MultipleChoiceListAdapter (" + getCount() + " items) [logLevel=" + getLogLevel() + ", parameters="
 				+ getParameters() + ", notifyOnChange=" + isNotifiedOnChange() + ", allowDuplicates="
 				+ areDuplicatesAllowed() + ", numberOfItemStates=" + getNumberOfItemStates()
-				+ ", triggerItemStateOnClick" + isItemStateTriggeredOnClick() + ", appliedFilters" + getAppliedFilters()
+				+ ", triggerItemStateOnClick" + isItemStateTriggeredOnClick() + ", filtered" + isFiltered()
 				+ ", selectItemOnClick=" + isItemSelectedOnClick() + "]";
 	}
 

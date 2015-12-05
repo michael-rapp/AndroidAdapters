@@ -189,7 +189,7 @@ public class ListAdapterImplementation<DataType>
 		return "ListAdapter (" + getCount() + " items) [logLevel=" + getLogLevel() + ", parameters=" + getParameters()
 				+ ", notifyOnChange=" + isNotifiedOnChange() + ", allowDuplicates=" + areDuplicatesAllowed()
 				+ ", numberOfItemStates=" + getNumberOfItemStates() + ", triggerItemStateOnClick"
-				+ isItemStateTriggeredOnClick() + ", appliedFilters" + getAppliedFilters() + "]";
+				+ isItemStateTriggeredOnClick() + ", filtered" + isFiltered() + "]";
 	}
 
 	@Override
