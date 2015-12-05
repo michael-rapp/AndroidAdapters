@@ -441,15 +441,11 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends AbstractS
 
 	@Override
 	public final String toString() {
-		return "MultipleChoiceListAdapter [logLevel=" + getLogLevel() + ", parameters=" + getParameters()
-				+ ", sortingListeners=" + getSortingListeners() + ", itemStateListeners=" + getItemStateListeners()
-				+ ", numberOfItemStates=" + getNumberOfItemStates() + ", triggerItemStateOnClick="
-				+ isItemStateTriggeredOnClick() + ", enableStateListeners=" + getEnableStateListeners() + ", items="
-				+ getItems() + ", itemClickListeners=" + getItemClickListeners() + ", adapterListeners="
-				+ getAdapterListeners() + ", allowDuplicates=" + areDuplicatesAllowed() + ", notifyOnChange="
-				+ isNotifiedOnChange() + ", filterListeners=" + getFilterListeners() + ", appliedFilters="
-				+ getAppliedFilters() + ", selectItemOnClick=" + isItemSelectedOnClick() + ", selectionListeners="
-				+ getSelectionListeners() + "]";
+		return "MultipleChoiceListAdapter (" + getCount() + " items) [logLevel=" + getLogLevel() + ", parameters="
+				+ getParameters() + ", notifyOnChange=" + isNotifiedOnChange() + ", allowDuplicates="
+				+ areDuplicatesAllowed() + ", numberOfItemStates=" + getNumberOfItemStates()
+				+ ", triggerItemStateOnClick" + isItemStateTriggeredOnClick() + ", appliedFilters" + getAppliedFilters()
+				+ ", selectItemOnClick=" + isItemSelectedOnClick() + "]";
 	}
 
 	@Override
