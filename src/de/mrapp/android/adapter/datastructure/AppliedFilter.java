@@ -122,8 +122,7 @@ public class AppliedFilter<DataType> implements DataStructure, Parcelable {
 	 *            {@link Filter} or null, if the items' implementations of the
 	 *            type {@link Filterable} have been used instead
 	 */
-	public AppliedFilter(final String query, final int flags,
-			final Filter<DataType> filter) {
+	public AppliedFilter(final String query, final int flags, final Filter<DataType> filter) {
 		ensureNotNull(query, "The query may not be null");
 		this.query = query;
 		this.flags = flags;
@@ -165,13 +164,8 @@ public class AppliedFilter<DataType> implements DataStructure, Parcelable {
 
 	@Override
 	public final String toString() {
-		return "AppliedFilter [query="
-				+ query
-				+ ", flags="
-				+ flags
-				+ (filter != null ? ", filter="
-						+ ClassUtil.getTruncatedName(filter.getClass()) : "")
-				+ "]";
+		return "AppliedFilter [query=" + query + ", flags=" + flags
+				+ (filter != null ? ", filter=" + ClassUtil.getTruncatedName(filter.getClass()) : "") + "]";
 	}
 
 	@Override
