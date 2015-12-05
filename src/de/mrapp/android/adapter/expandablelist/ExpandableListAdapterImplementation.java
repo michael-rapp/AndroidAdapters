@@ -255,6 +255,17 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType> extends
 	}
 
 	@Override
+	public final String toString() {
+		return "ExpandableListAdapter (" + getGroupCount() + " groups, " + getChildCount() + " children) [logLevel="
+				+ getLogLevel() + ", parameters=" + getParameters() + ", notifyOnChange=" + isNotifiedOnChange()
+				+ ", allowDuplicateGroups=" + areDuplicateGroupsAllowed() + ", allowDuplicateChildren="
+				+ areDuplicateChildrenAllowed() + ", numberOfGroupStates=" + getNumberOfGroupStates()
+				+ ", numberOfChildStates=" + getNumberOfChildStates() + ", triggerGroupStateOnClick"
+				+ isGroupStateTriggeredOnClick() + ", triggerChildStateOnClick=" + isChildStateTriggeredOnClick()
+				+ ", filtered" + isFiltered() + "]";
+	}
+
+	@Override
 	public final ExpandableListAdapterImplementation<GroupType, ChildType> clone() throws CloneNotSupportedException {
 		return new ExpandableListAdapterImplementation<GroupType, ChildType>(getContext(), getGroupInflater(),
 				getChildInflater(), getDecorator(), getLogLevel(), cloneGroupAdapter(), areDuplicateChildrenAllowed(),
