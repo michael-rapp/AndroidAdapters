@@ -463,21 +463,21 @@ public interface ExpandableListAdapter<GroupType, ChildType>
 	boolean isGroupEmpty(GroupType group);
 
 	/**
-	 * Returns, whether duplicate child items, regardless from the group they
-	 * belong to, are allowed, or not.
+	 * Returns, whether duplicate child items within a single group are allowed,
+	 * or not.
 	 * 
-	 * @return True, if duplicate child items, regardless from the group they
-	 *         belong to, are allowed, false otherwise
+	 * @return True, if duplicate child items within a single group are allowed,
+	 *         false otherwise
 	 */
 	boolean areDuplicateChildrenAllowed();
 
 	/**
-	 * Sets, whether duplicate child items, regardless from the group they
-	 * belong to, should be allowed, or not.
+	 * Sets, whether duplicate child items within a single group should be
+	 * allowed, or not.
 	 * 
 	 * @param allowDuplicateChildren
-	 *            True, if duplicate child items, regardless from the group they
-	 *            belong to, should be allowed, false otherwise
+	 *            True, if duplicate child items within a single group should be
+	 *            allowed, false otherwise
 	 */
 	void allowDuplicateChildren(boolean allowDuplicateChildren);
 
