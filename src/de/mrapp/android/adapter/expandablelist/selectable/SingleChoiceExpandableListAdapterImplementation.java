@@ -783,6 +783,19 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 	}
 
 	@Override
+	public final String toString() {
+		return "SingleChoiceExpandableListAdapter (" + getGroupCount() + " groups, " + getChildCount()
+				+ " children) [logLevel=" + getLogLevel() + ", parameters=" + getParameters() + ", notifyOnChange="
+				+ isNotifiedOnChange() + ", allowDuplicateGroups=" + areDuplicateGroupsAllowed()
+				+ ", allowDuplicateChildren=" + areDuplicateChildrenAllowed() + ", numberOfGroupStates="
+				+ getNumberOfGroupStates() + ", numberOfChildStates=" + getNumberOfChildStates()
+				+ ", triggerGroupStateOnClick=" + isGroupStateTriggeredOnClick() + ", triggerChildStateOnClick="
+				+ isChildStateTriggeredOnClick() + ", filtered=" + isFiltered() + ", choiceMode=" + getChoiceMode()
+				+ ", selectGroupOnClick=" + isGroupSelectedOnClick() + ", selectChildOnClick="
+				+ isChildSelectedOnClick() + ", adaptSelectionAutomatically=" + isSelectionAdaptedAutomatically() + "]";
+	}
+
+	@Override
 	public final int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();

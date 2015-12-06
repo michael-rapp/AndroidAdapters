@@ -789,6 +789,20 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 	}
 
 	@Override
+	public final String toString() {
+		return "MultipleChoiceExpandableListAdapter (" + getGroupCount() + " groups, " + getChildCount()
+				+ " children) [logLevel=" + getLogLevel() + ", parameters=" + getParameters() + ", notifyOnChange="
+				+ isNotifiedOnChange() + ", allowDuplicateGroups=" + areDuplicateGroupsAllowed()
+				+ ", allowDuplicateChildren=" + areDuplicateChildrenAllowed() + ", numberOfGroupStates="
+				+ getNumberOfGroupStates() + ", numberOfChildStates=" + getNumberOfChildStates()
+				+ ", triggerGroupStateOnClick=" + isGroupStateTriggeredOnClick() + ", triggerChildStateOnClick="
+				+ isChildStateTriggeredOnClick() + ", filtered=" + isFiltered() + ", choiceMode=" + getChoiceMode()
+				+ ", selectGroupOnClick=" + isGroupSelectedOnClick() + ", selectChildOnClick="
+				+ isChildSelectedOnClick() + ", selectGroupsImplicity=" + areGroupsSelectedImplicitly()
+				+ ", selectChildrenImplicitly=" + areChildrenSelectedImplicitly() + "]";
+	}
+
+	@Override
 	public final MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildType> clone()
 			throws CloneNotSupportedException {
 		return new MultipleChoiceExpandableListAdapterImplementation<>(getContext(), getGroupInflater(),
