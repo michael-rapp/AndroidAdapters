@@ -260,9 +260,9 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType> extends
 				+ getLogLevel() + ", parameters=" + getParameters() + ", notifyOnChange=" + isNotifiedOnChange()
 				+ ", allowDuplicateGroups=" + areDuplicateGroupsAllowed() + ", allowDuplicateChildren="
 				+ areDuplicateChildrenAllowed() + ", numberOfGroupStates=" + getNumberOfGroupStates()
-				+ ", numberOfChildStates=" + getNumberOfChildStates() + ", triggerGroupStateOnClick"
+				+ ", numberOfChildStates=" + getNumberOfChildStates() + ", triggerGroupStateOnClick="
 				+ isGroupStateTriggeredOnClick() + ", triggerChildStateOnClick=" + isChildStateTriggeredOnClick()
-				+ ", filtered" + isFiltered() + "]";
+				+ ", filtered=" + isFiltered() + "]";
 	}
 
 	@Override
