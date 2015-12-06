@@ -188,8 +188,8 @@ public class ListAdapterImplementation<DataType>
 	public final String toString() {
 		return "ListAdapter (" + getCount() + " items) [logLevel=" + getLogLevel() + ", parameters=" + getParameters()
 				+ ", notifyOnChange=" + isNotifiedOnChange() + ", allowDuplicates=" + areDuplicatesAllowed()
-				+ ", numberOfItemStates=" + getNumberOfItemStates() + ", triggerItemStateOnClick"
-				+ isItemStateTriggeredOnClick() + ", filtered" + isFiltered() + "]";
+				+ ", numberOfItemStates=" + getNumberOfItemStates() + ", triggerItemStateOnClick="
+				+ isItemStateTriggeredOnClick() + ", filtered=" + isFiltered() + "]";
 	}
 
 	@Override
