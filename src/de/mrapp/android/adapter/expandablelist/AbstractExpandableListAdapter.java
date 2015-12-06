@@ -650,6 +650,20 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	}
 
 	/**
+	 * Creates and returns a group. This method may be overridden by subclasses
+	 * in order to modify the group.
+	 * 
+	 * @param group
+	 *            The data of the group, which should be created, as an instance
+	 *            of the generic type GroupType. The data may not be null
+	 * @return The group, which has been created, as an instance of the class
+	 *         {@link Group}. The group may not be null
+	 */
+	protected Group<GroupType, ChildType> createGroup(final GroupType group) {
+		return new Group<GroupType, ChildType>(group, createChildAdapter());
+	}
+
+	/**
 	 * This method is invoked when the state of the adapter is about to be
 	 * stored within a bundle.
 	 * 
@@ -881,7 +895,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 	@Override
 	public final boolean addGroup(final int index, final GroupType group) {
-		boolean added = groupAdapter.addItem(index, new Group<GroupType, ChildType>(group, createChildAdapter()));
+		boolean added = groupAdapter.addItem(index, createGroup(group));
 
 		if (added) {
 			notifyOnGroupAdded(group, index);
