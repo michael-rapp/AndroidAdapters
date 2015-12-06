@@ -33,7 +33,7 @@ import de.mrapp.android.adapter.datastructure.group.Group;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemClickListener;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterListener;
 import de.mrapp.android.adapter.expandablelist.ExpansionListener;
-import de.mrapp.android.adapter.expandablelist.enablestate.AbstractEnableStateExpadableListAdapter;
+import de.mrapp.android.adapter.expandablelist.enablestate.AbstractEnableStateExpadanbleListAdapter;
 import de.mrapp.android.adapter.expandablelist.enablestate.ExpandableListEnableStateListener;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.logging.LogLevel;
@@ -59,7 +59,7 @@ import de.mrapp.android.adapter.util.VisibleForTesting;
  * @since 0.1.0
  */
 public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildType, DecoratorType>
-		extends AbstractEnableStateExpadableListAdapter<GroupType, ChildType, DecoratorType>
+		extends AbstractEnableStateExpadanbleListAdapter<GroupType, ChildType, DecoratorType>
 		implements ItemStateExpandableListAdapter<GroupType, ChildType> {
 
 	/**
