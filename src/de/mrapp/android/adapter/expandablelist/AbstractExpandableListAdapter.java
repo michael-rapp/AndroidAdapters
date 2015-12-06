@@ -2157,13 +2157,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 	@Override
 	public final long getChildId(final int groupIndex, final int childIndex) {
-		int id = groupAdapter.getCount() + childIndex;
-
-		for (int i = 0; i < groupIndex; i++) {
-			id += groupAdapter.getItem(i).getChildAdapter().getCount();
-		}
-
-		return id;
+		return childIndex;
 	}
 
 	@Override
