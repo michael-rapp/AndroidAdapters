@@ -18,6 +18,7 @@
 package de.mrapp.android.adapter;
 
 import de.mrapp.android.adapter.decorator.AbstractDecorator;
+import de.mrapp.android.adapter.expandablelist.selectable.SelectableExpandableListAdapter;
 import android.content.Context;
 import android.view.View;
 
@@ -48,8 +49,9 @@ public abstract class SelectableExpandableListDecorator<GroupType, ChildType> ex
 	 *            class {@link Context}. The context may not be null
 	 * @param adapter
 	 *            The adapter, whose items are visualized by the decorator, as
-	 *            an instance of the type {@link ExpandableListAdapter}. The
-	 *            adapter may not be null
+	 *            an instance of the type
+	 *            {@link SelectableExpandableListAdapter}. The adapter may not
+	 *            be null
 	 * @param view
 	 *            The view, which is used to visualize the group item, as an
 	 *            instance of the class {@link View}. The view may not be null
@@ -76,7 +78,7 @@ public abstract class SelectableExpandableListDecorator<GroupType, ChildType> ex
 	 *            currently selected, false otherwise
 	 */
 	public final void applyDecoratorOnGroup(final Context context,
-			final ExpandableListAdapter<GroupType, ChildType> adapter, final View view, final GroupType group,
+			final SelectableExpandableListAdapter<GroupType, ChildType> adapter, final View view, final GroupType group,
 			final int index, final boolean expanded, final boolean enabled, final int state, final boolean filtered,
 			final boolean selected) {
 		setCurrentParentView(view);
@@ -97,8 +99,9 @@ public abstract class SelectableExpandableListDecorator<GroupType, ChildType> ex
 	 *            class {@link Context}. The context may not be null
 	 * @param adapter
 	 *            The adapter, whose items are visualized by the decorator, as
-	 *            an instance of the type {@link ExpandableListAdapter}. The
-	 *            adapter may not be null
+	 *            an instance of the type
+	 *            {@link SelectableExpandableListAdapter}. The adapter may not
+	 *            be null
 	 * @param view
 	 *            The view, which is used to visualize the child item, as an
 	 *            instance of the class {@link View}. The view may not be null
@@ -129,7 +132,7 @@ public abstract class SelectableExpandableListDecorator<GroupType, ChildType> ex
 	 *            currently selected, false otherwise
 	 */
 	public final void applyDecoratorOnChild(final Context context,
-			final ExpandableListAdapter<GroupType, ChildType> adapter, final View view, final ChildType child,
+			final SelectableExpandableListAdapter<GroupType, ChildType> adapter, final View view, final ChildType child,
 			final int childIndex, final GroupType group, final int groupIndex, final boolean enabled, final int state,
 			final boolean filtered, final boolean selected) {
 		setCurrentParentView(view);
@@ -149,8 +152,9 @@ public abstract class SelectableExpandableListDecorator<GroupType, ChildType> ex
 	 * 
 	 * @param adapter
 	 *            The adapter, whose items are visualized by the decorator, as
-	 *            an instance of the type {@link ExpandableListAdapter}. The
-	 *            adapter may not be null
+	 *            an instance of the type
+	 *            {@link SelectableExpandableListAdapter}. The adapter may not
+	 *            be null
 	 * @param group
 	 *            The group item, which should be visualized, as an instance of
 	 *            the generic type GroupType. The group item may not be null
@@ -172,7 +176,7 @@ public abstract class SelectableExpandableListDecorator<GroupType, ChildType> ex
 	 * @return The view type of the group item, which is about to be visualized,
 	 *         as an {@link Integer} value
 	 */
-	public int getGroupType(final ExpandableListAdapter<GroupType, ChildType> adapter, final GroupType group,
+	public int getGroupType(final SelectableExpandableListAdapter<GroupType, ChildType> adapter, final GroupType group,
 			final int index, final boolean enabled, final int state, final boolean filtered, final boolean selected) {
 		return 0;
 	}
@@ -199,8 +203,9 @@ public abstract class SelectableExpandableListDecorator<GroupType, ChildType> ex
 	 * 
 	 * @param adapter
 	 *            The adapter, whose items are visualized by the decorator, as
-	 *            an instance of the type {@link ExpandableListAdapter}. The
-	 *            adapter may not be null
+	 *            an instance of the type
+	 *            {@link SelectableExpandableListAdapter}. The adapter may not
+	 *            be null
 	 * @param child
 	 *            The child item, which should be visualized, as an instance of
 	 *            the generic type ChildType. The child item may not be null
@@ -229,7 +234,7 @@ public abstract class SelectableExpandableListDecorator<GroupType, ChildType> ex
 	 * @return The view type of the child item, which is about to be visualized,
 	 *         as an {@link Integer} value
 	 */
-	public int getChildType(final ExpandableListAdapter<GroupType, ChildType> adapter, final ChildType child,
+	public int getChildType(final SelectableExpandableListAdapter<GroupType, ChildType> adapter, final ChildType child,
 			final int childIndex, final GroupType group, final int groupIndex, final boolean enabled, final int state,
 			final boolean filtered, final boolean selected) {
 		return 0;
@@ -260,8 +265,9 @@ public abstract class SelectableExpandableListDecorator<GroupType, ChildType> ex
 	 *            class {@link Context}. The context may not be null
 	 * @param adapter
 	 *            The adapter, whose items are visualized by the decorator, as
-	 *            an instance of the type {@link ExpandableListAdapter}. The
-	 *            adapter may not be null
+	 *            an instance of the type
+	 *            {@link SelectableExpandableListAdapter}. The adapter may not
+	 *            be null
 	 * @param view
 	 *            The view, which is used to visualize the group item, as an
 	 *            instance of the class {@link View}. The view may not be null
@@ -290,9 +296,9 @@ public abstract class SelectableExpandableListDecorator<GroupType, ChildType> ex
 	 *            True, if the group item, which should be visualized, is
 	 *            currently selected, false otherwise
 	 */
-	protected abstract void onShowGroup(Context context, ExpandableListAdapter<GroupType, ChildType> adapter, View view,
-			GroupType group, int viewType, int index, boolean expanded, boolean enabled, int state, boolean filtered,
-			boolean selected);
+	protected abstract void onShowGroup(Context context, SelectableExpandableListAdapter<GroupType, ChildType> adapter,
+			View view, GroupType group, int viewType, int index, boolean expanded, boolean enabled, int state,
+			boolean filtered, boolean selected);
 
 	/**
 	 * The method which is invoked, when the view, which is used to visualize a
@@ -306,8 +312,9 @@ public abstract class SelectableExpandableListDecorator<GroupType, ChildType> ex
 	 *            class {@link Context}. The context may not be null
 	 * @param adapter
 	 *            The adapter, whose items are visualized by the decorator, as
-	 *            an instance of the type {@link ExpandableListAdapter}. The
-	 *            adapter may not be null
+	 *            an instance of the type
+	 *            {@link SelectableExpandableListAdapter}. The adapter may not
+	 *            be null
 	 * @param view
 	 *            The view, which is used to visualize the child item, as an
 	 *            instance of the class {@link View}. The view may not be null
@@ -340,8 +347,8 @@ public abstract class SelectableExpandableListDecorator<GroupType, ChildType> ex
 	 *            True, if the child item, which should be visualized, is
 	 *            currently selected, false otherwise
 	 */
-	protected abstract void onShowChild(Context context, ExpandableListAdapter<GroupType, ChildType> adapter, View view,
-			ChildType child, int viewType, int childIndex, GroupType group, int groupIndex, boolean enabled, int state,
-			boolean filtered, boolean selected);
+	protected abstract void onShowChild(Context context, SelectableExpandableListAdapter<GroupType, ChildType> adapter,
+			View view, ChildType child, int viewType, int childIndex, GroupType group, int groupIndex, boolean enabled,
+			int state, boolean filtered, boolean selected);
 
 }
