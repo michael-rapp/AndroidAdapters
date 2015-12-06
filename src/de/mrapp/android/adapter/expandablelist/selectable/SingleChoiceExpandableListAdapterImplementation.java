@@ -277,7 +277,8 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 			@Override
 			public void onGroupAdded(final ExpandableListAdapter<GroupType, ChildType> adapter, final GroupType group,
 					final int index) {
-				if (isSelectionAdaptedAutomatically() && getGroupCount() == 1) {
+				if (isSelectionAdaptedAutomatically() && getGroupCount() == 1
+						&& getChoiceMode() != ExpandableListChoiceMode.CHILDREN_ONLY) {
 					selectGroup(0);
 				}
 			}
@@ -320,7 +321,8 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 			@Override
 			public void onGroupEnabled(final ExpandableListAdapter<GroupType, ChildType> adapter, final GroupType group,
 					final int index) {
-				if (isSelectionAdaptedAutomatically() && getSelectedGroupIndex() == -1) {
+				if (isSelectionAdaptedAutomatically() && getSelectedGroupIndex() == -1
+						&& getChoiceMode() != ExpandableListChoiceMode.CHILDREN_ONLY) {
 					selectGroup(index);
 				}
 			}
@@ -368,7 +370,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 					final Pattern query, final int flags, final Filter<GroupType> filter,
 					final Collection<GroupType> filteredGroups) {
 				if (isSelectionAdaptedAutomatically() && !isEmpty() && areGroupsFiltered()
-						&& getSelectedGroupIndex() == -1) {
+						&& getSelectedGroupIndex() == -1 && getChoiceMode() != ExpandableListChoiceMode.CHILDREN_ONLY) {
 					selectGroup(0);
 				}
 			}
