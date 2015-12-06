@@ -81,6 +81,22 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
 			.getSimpleName() + "::SelectChildItemOnClick";
 
 	/**
+	 * The key, which is used to store, whether a group should be expanded, when
+	 * it is selected, or not, within a bundle.
+	 */
+	@VisibleForTesting
+	protected static final String EXPAND_GROUP_ON_SELECTION_BUNDLE_KEY = AbstractSelectableExpandableListAdapter.class
+			.getSimpleName() + "::ExpandGroupOnSelection";
+
+	/**
+	 * The key, which is used to store, whether a group should be expanded, when
+	 * one of its children is selected, or not, within a bundle.
+	 */
+	@VisibleForTesting
+	protected static final String EXPAND_GROUP_ON_CHILD_SELECTION_BUNDLE_KEY = AbstractSelectableExpandableListAdapter.class
+			.getSimpleName() + "::ExpandGroupOnChildSelection";
+
+	/**
 	 * The key, which is used to store the choice mode within a bundle.
 	 */
 	@VisibleForTesting
@@ -109,6 +125,18 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
 	 * false otherwise.
 	 */
 	private boolean selectChildOnClick;
+
+	/**
+	 * True, if a group should be expanded, when it is selected, false
+	 * otherwise.
+	 */
+	private boolean expandGroupOnSelection;
+
+	/**
+	 * True, if a group should be expanded, when one of its children is
+	 * selected, false otherwise.
+	 */
+	private boolean expandGroupOnChildSelection;
 
 	/**
 	 * Returns a set, which contains the listeners, which should be notified,
@@ -399,14 +427,18 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
 		super.onSaveInstanceState(outState);
 		outState.putBoolean(SELECT_GROUP_ON_CLICK_BUNDLE_KEY, isGroupSelectedOnClick());
 		outState.putBoolean(SELECT_CHILD_ON_CLICK_BUNDLE_KEY, isChildSelectedOnClick());
+		outState.putBoolean(EXPAND_GROUP_ON_SELECTION_BUNDLE_KEY, isGroupExpandedOnSelection());
+		outState.putBoolean(EXPAND_GROUP_ON_CHILD_SELECTION_BUNDLE_KEY, isGroupExpandedOnChildSelection());
 		outState.putSerializable(CHOICE_MODE_BUNDLE_KEY, getChoiceMode());
 	}
 
 	@Override
 	protected void onRestoreInstanceState(final Bundle savedState) {
 		super.onRestoreInstanceState(savedState);
-		selectGroupOnClick = savedState.getBoolean(SELECT_GROUP_ON_CLICK_BUNDLE_KEY, isGroupSelectedOnClick());
-		selectChildOnClick = savedState.getBoolean(SELECT_CHILD_ON_CLICK_BUNDLE_KEY, isChildSelectedOnClick());
+		selectGroupOnClick = savedState.getBoolean(SELECT_GROUP_ON_CLICK_BUNDLE_KEY, true);
+		selectChildOnClick = savedState.getBoolean(SELECT_CHILD_ON_CLICK_BUNDLE_KEY, true);
+		expandGroupOnSelection = savedState.getBoolean(EXPAND_GROUP_ON_SELECTION_BUNDLE_KEY);
+		expandGroupOnChildSelection = savedState.getBoolean(EXPAND_GROUP_ON_CHILD_SELECTION_BUNDLE_KEY, true);
 		choiceMode = (ExpandableListChoiceMode) savedState.getSerializable(CHOICE_MODE_BUNDLE_KEY);
 	}
 
@@ -499,6 +531,42 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
 	}
 
 	@Override
+	public final boolean isGroupExpandedOnSelection() {
+		return expandGroupOnSelection;
+	}
+
+	@Override
+	public final void expandGroupOnSelection(final boolean expandGroupOnSelection) {
+		this.expandGroupOnSelection = expandGroupOnSelection;
+
+		if (expandGroupOnSelection && getChoiceMode() != ExpandableListChoiceMode.CHILDREN_ONLY) {
+			for (int i = 0; i < getGroupCount(); i++) {
+				if (isGroupSelected(i)) {
+					expandGroup(i);
+				}
+			}
+		}
+	}
+
+	@Override
+	public final boolean isGroupExpandedOnChildSelection() {
+		return expandGroupOnChildSelection;
+	}
+
+	@Override
+	public final void expandGroupOnChildSelection(final boolean expandGroupOnChildSelection) {
+		this.expandGroupOnChildSelection = expandGroupOnChildSelection;
+
+		if (expandGroupOnChildSelection && getChoiceMode() != ExpandableListChoiceMode.GROUPS_ONLY) {
+			for (int i = 0; i < getGroupCount(); i++) {
+				if (getSelectedChildCount(i) > 0) {
+					expandGroup(i);
+				}
+			}
+		}
+	}
+
+	@Override
 	public final ExpandableListChoiceMode getChoiceMode() {
 		return choiceMode;
 	}
@@ -538,6 +606,8 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
 		result = prime * result + choiceMode.hashCode();
 		result = prime * result + (selectChildOnClick ? 1231 : 1237);
 		result = prime * result + (selectGroupOnClick ? 1231 : 1237);
+		result = prime * result + (expandGroupOnSelection ? 1231 : 1237);
+		result = prime * result + (expandGroupOnChildSelection ? 1231 : 1237);
 		return result;
 	}
 
@@ -555,6 +625,10 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
 		if (selectChildOnClick != other.selectChildOnClick)
 			return false;
 		if (selectGroupOnClick != other.selectGroupOnClick)
+			return false;
+		if (expandGroupOnSelection != other.expandGroupOnSelection)
+			return false;
+		if (expandGroupOnChildSelection != other.expandGroupOnChildSelection)
 			return false;
 		return true;
 	}

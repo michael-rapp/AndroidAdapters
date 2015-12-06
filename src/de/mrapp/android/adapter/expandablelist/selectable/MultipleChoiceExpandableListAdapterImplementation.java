@@ -433,6 +433,10 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 					setAllChildrenSelected(index, selected);
 				}
 
+				if (isGroupExpandedOnSelection() && selected) {
+					expandGroup(index);
+				}
+
 				return true;
 			} else {
 				String message = "The selection of group \"" + group.getData() + " at index " + index
@@ -650,6 +654,10 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 					setGroupSelected(groupIndex, selected);
 				}
 
+				if (isGroupExpandedOnChildSelection() && selected) {
+					expandGroup(groupIndex);
+				}
+
 				return true;
 			} else {
 				String message = "The selection of child \"" + childAdapter.getItemId(childIndex) + " at index "
@@ -798,8 +806,9 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 				+ ", triggerGroupStateOnClick=" + isGroupStateTriggeredOnClick() + ", triggerChildStateOnClick="
 				+ isChildStateTriggeredOnClick() + ", filtered=" + isFiltered() + ", choiceMode=" + getChoiceMode()
 				+ ", selectGroupOnClick=" + isGroupSelectedOnClick() + ", selectChildOnClick="
-				+ isChildSelectedOnClick() + ", selectGroupsImplicity=" + areGroupsSelectedImplicitly()
-				+ ", selectChildrenImplicitly=" + areChildrenSelectedImplicitly() + "]";
+				+ isChildSelectedOnClick() + ", expandGroupOnSelection=" + isGroupExpandedOnSelection()
+				+ ", expandGroupOnChildSelection=" + isGroupExpandedOnChildSelection() + ", selectGroupsImplicity="
+				+ areGroupsSelectedImplicitly() + ", selectChildrenImplicitly=" + areChildrenSelectedImplicitly() + "]";
 	}
 
 	@Override

@@ -680,6 +680,10 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 					}
 				}
 
+				if (isGroupExpandedOnSelection()) {
+					expandGroup(groupIndex);
+				}
+
 				notifyOnDataSetChanged();
 				return true;
 			} else {
@@ -745,6 +749,10 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 					}
 				}
 
+				if (isGroupExpandedOnChildSelection()) {
+					expandGroup(groupIndex);
+				}
+
 				notifyOnDataSetChanged();
 				return true;
 			} else {
@@ -792,7 +800,9 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 				+ ", triggerGroupStateOnClick=" + isGroupStateTriggeredOnClick() + ", triggerChildStateOnClick="
 				+ isChildStateTriggeredOnClick() + ", filtered=" + isFiltered() + ", choiceMode=" + getChoiceMode()
 				+ ", selectGroupOnClick=" + isGroupSelectedOnClick() + ", selectChildOnClick="
-				+ isChildSelectedOnClick() + ", adaptSelectionAutomatically=" + isSelectionAdaptedAutomatically() + "]";
+				+ isChildSelectedOnClick() + ", expandGroupOnSelection=" + isGroupExpandedOnSelection()
+				+ ", expandGroupOnChildSelection=" + isGroupExpandedOnChildSelection()
+				+ ", adaptSelectionAutomatically=" + isSelectionAdaptedAutomatically() + "]";
 	}
 
 	@Override

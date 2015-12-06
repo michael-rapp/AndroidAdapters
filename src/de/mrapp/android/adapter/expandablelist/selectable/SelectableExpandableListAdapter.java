@@ -253,6 +253,44 @@ public interface SelectableExpandableListAdapter<GroupType, ChildType>
 	void selectChildOnClick(boolean selectItemOnClick);
 
 	/**
+	 * Returns, whether a group is expanded automatically, when it is selected,
+	 * or not.
+	 * 
+	 * @return True, if a group is expanded automatically, when it is selected,
+	 *         false otherwise
+	 */
+	boolean isGroupExpandedOnSelection();
+
+	/**
+	 * Sets, whether a group should be expanded automatically, when it is
+	 * selected, or not.
+	 * 
+	 * @param expandGroupOnSelection
+	 *            True, if a group should be expanded automatically, when it is
+	 *            selected, false otherwise
+	 */
+	void expandGroupOnSelection(boolean expandGroupOnSelection);
+
+	/**
+	 * Returns, whether a group is expanded automatically, when one of its
+	 * children is selected, or not.
+	 * 
+	 * @return True, if a group is expanded automatically, when one of its
+	 *         children is selected, false otherwise
+	 */
+	boolean isGroupExpandedOnChildSelection();
+
+	/**
+	 * Sets, whether a group should be expanded automatically, when one of its
+	 * children is selected, or not.
+	 * 
+	 * @param expandGroupOnChildSelection
+	 *            True, if a group should be expanded automatically, when one of
+	 *            its children is selected, false otherwise
+	 */
+	void expandGroupOnChildSelection(boolean expandGroupOnChildSelection);
+
+	/**
 	 * Returns the choice mode of the adapter.
 	 * 
 	 * @return The choice mode of the adapter as a value of the enum
