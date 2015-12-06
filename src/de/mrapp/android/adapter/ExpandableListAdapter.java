@@ -25,6 +25,10 @@ import java.util.ListIterator;
 import android.widget.ExpandableListView;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterListener;
 import de.mrapp.android.adapter.expandablelist.ExpansionListener;
+import de.mrapp.android.adapter.expandablelist.enablestate.EnableStateExpandableListAdapter;
+import de.mrapp.android.adapter.expandablelist.filterable.FilterableExpandableListAdapter;
+import de.mrapp.android.adapter.expandablelist.itemstate.ItemStateExpandableListAdapter;
+import de.mrapp.android.adapter.expandablelist.sortable.SortableExpandableListAdapter;
 
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a list
@@ -42,7 +46,9 @@ import de.mrapp.android.adapter.expandablelist.ExpansionListener;
  * @since 0.1.0
  */
 public interface ExpandableListAdapter<GroupType, ChildType>
-		extends Adapter<ExpandableListView>, android.widget.ExpandableListAdapter {
+		extends Adapter<ExpandableListView>, android.widget.ExpandableListAdapter,
+		EnableStateExpandableListAdapter<GroupType, ChildType>, ItemStateExpandableListAdapter<GroupType, ChildType>,
+		SortableExpandableListAdapter<GroupType, ChildType>, FilterableExpandableListAdapter<GroupType, ChildType> {
 
 	/**
 	 * Returns, whether duplicate group items are allowed, or not.
