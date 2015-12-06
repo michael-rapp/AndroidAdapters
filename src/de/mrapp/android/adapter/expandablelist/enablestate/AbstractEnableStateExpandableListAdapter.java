@@ -54,7 +54,7 @@ import de.mrapp.android.adapter.util.VisibleForTesting;
  * 
  * @since 0.1.0
  */
-public abstract class AbstractEnableStateExpadanbleListAdapter<GroupType, ChildType, DecoratorType>
+public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildType, DecoratorType>
 		extends AbstractExpandableListAdapter<GroupType, ChildType, DecoratorType>
 		implements EnableStateExpandableListAdapter<GroupType, ChildType> {
 
@@ -69,7 +69,7 @@ public abstract class AbstractEnableStateExpadanbleListAdapter<GroupType, ChildT
 	 * within a bundle.
 	 */
 	@VisibleForTesting
-	protected static final String SET_CHILD_ENABLE_STATES_IMPLICITLY_BUNDLE_KEY = AbstractEnableStateExpadanbleListAdapter.class
+	protected static final String SET_CHILD_ENABLE_STATES_IMPLICITLY_BUNDLE_KEY = AbstractEnableStateExpandableListAdapter.class
 			.getSimpleName() + "::SetChildEnableStatesImplicitly";
 
 	/**
@@ -273,7 +273,7 @@ public abstract class AbstractEnableStateExpadanbleListAdapter<GroupType, ChildT
 	 *            the type {@link Set}, or an empty set, if no listeners should
 	 *            be notified
 	 */
-	protected AbstractEnableStateExpadanbleListAdapter(final Context context, final Inflater groupInflater,
+	protected AbstractEnableStateExpandableListAdapter(final Context context, final Inflater groupInflater,
 			final Inflater childInflater, final DecoratorType decorator, final LogLevel logLevel,
 			final MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter,
 			final boolean allowDuplicateChildren, final boolean notifyOnChange, final boolean expandGroupOnClick,
@@ -802,14 +802,14 @@ public abstract class AbstractEnableStateExpadanbleListAdapter<GroupType, ChildT
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AbstractEnableStateExpadanbleListAdapter<?, ?, ?> other = (AbstractEnableStateExpadanbleListAdapter<?, ?, ?>) obj;
+		AbstractEnableStateExpandableListAdapter<?, ?, ?> other = (AbstractEnableStateExpandableListAdapter<?, ?, ?>) obj;
 		if (setChildEnableStatesImplicitly != other.setChildEnableStatesImplicitly)
 			return false;
 		return true;
 	}
 
 	@Override
-	public abstract AbstractEnableStateExpadanbleListAdapter<GroupType, ChildType, DecoratorType> clone()
+	public abstract AbstractEnableStateExpandableListAdapter<GroupType, ChildType, DecoratorType> clone()
 			throws CloneNotSupportedException;
 
 }
