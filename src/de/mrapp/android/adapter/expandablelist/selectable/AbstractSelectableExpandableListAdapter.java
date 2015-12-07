@@ -481,7 +481,7 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
 
 	@Override
 	public final boolean isChildSelected(final int groupIndex, final int childIndex) {
-		return getGroupAdapter().getItem(groupIndex).getChildAdapter().isEnabled(childIndex);
+		return getGroupAdapter().getItem(groupIndex).getChildAdapter().isSelected(childIndex);
 	}
 
 	@Override
