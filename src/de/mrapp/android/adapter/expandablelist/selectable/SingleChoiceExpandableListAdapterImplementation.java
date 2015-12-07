@@ -224,6 +224,9 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 					selectGroup(descendingIndex);
 					return true;
 				}
+
+				ascendingIndex++;
+				descendingIndex--;
 			}
 		}
 
@@ -257,6 +260,9 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 					selectChild(groupIndex, descendingIndex);
 					return true;
 				}
+
+				ascendingIndex++;
+				descendingIndex--;
 			}
 		}
 
@@ -349,7 +355,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 			@Override
 			public void onChildDisabled(final ExpandableListAdapter<GroupType, ChildType> adapter,
 					final ChildType child, final int childIndex, final GroupType group, final int groupIndex) {
-				if (isSelectionAdaptedAutomatically() && isChildSelected(groupIndex, childIndex)) {
+				if (isSelectionAdaptedAutomatically() && getSelectedGroupIndex() == -1) {
 					selectNearestEnabledItem(groupIndex, childIndex);
 				}
 			}
