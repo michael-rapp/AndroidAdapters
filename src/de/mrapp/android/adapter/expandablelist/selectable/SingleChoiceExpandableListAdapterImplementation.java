@@ -197,6 +197,8 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 				if (i != childIndex) {
 					selected = selectNearestEnabledChildItem(i, 0);
 				}
+
+				i++;
 			}
 		}
 	}
