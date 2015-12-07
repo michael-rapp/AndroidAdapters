@@ -2187,9 +2187,11 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 		if (view == null) {
 			view = getGroupInflater().inflate(getContext(), parent, false);
-			view.setOnClickListener(createGroupItemOnClickListener(groupIndex));
+			String message = "Inflated view to visualize the group at index " + groupIndex;
+			getLogger().logVerbose(getClass(), message);
 		}
 
+		view.setOnClickListener(createGroupItemOnClickListener(groupIndex));
 		applyDecoratorOnGroup(getContext(), view, groupIndex);
 		return view;
 	}
@@ -2201,9 +2203,12 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 		if (view == null) {
 			view = getChildInflater().inflate(getContext(), parent, false);
-			view.setOnClickListener(createChildItemOnClickListener(groupIndex, childIndex));
+			String message = "Inflated view to visualize the child at index " + childIndex + " of the group at index "
+					+ groupIndex;
+			getLogger().logVerbose(getClass(), message);
 		}
 
+		view.setOnClickListener(createChildItemOnClickListener(groupIndex, childIndex));
 		applyDecoratorOnChild(getContext(), view, groupIndex, childIndex);
 		return view;
 	}
