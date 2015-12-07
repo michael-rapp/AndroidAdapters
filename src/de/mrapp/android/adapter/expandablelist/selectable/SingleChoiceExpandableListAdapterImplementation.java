@@ -294,7 +294,10 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 			@Override
 			public void onChildAdded(final ExpandableListAdapter<GroupType, ChildType> adapter, final ChildType child,
 					final int childIndex, final GroupType group, final int groupIndex) {
-				return;
+				if (isSelectionAdaptedAutomatically() && getSelectedGroupIndex() == -1
+						&& getChoiceMode() != ExpandableListChoiceMode.GROUPS_ONLY) {
+					selectChild(groupIndex, childIndex);
+				}
 			}
 
 			@Override
