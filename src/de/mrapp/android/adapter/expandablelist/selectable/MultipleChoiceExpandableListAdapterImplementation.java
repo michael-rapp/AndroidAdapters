@@ -109,7 +109,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 			@Override
 			public void onGroupClicked(final ExpandableListAdapter<GroupType, ChildType> adapter, final GroupType group,
 					final int index) {
-				if (isGroupSelectedOnClick()) {
+				if (isGroupSelectedOnClick() && getChoiceMode() != ExpandableListChoiceMode.CHILDREN_ONLY) {
 					getLogger().logVerbose(getClass(), "Triggering group selection on click...");
 					triggerGroupSelection(index);
 				}
@@ -118,7 +118,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 			@Override
 			public void onChildClicked(final ExpandableListAdapter<GroupType, ChildType> adapter, final ChildType child,
 					final int childIndex, final GroupType group, final int groupIndex) {
-				if (isChildSelectedOnClick()) {
+				if (isChildSelectedOnClick() && getChoiceMode() != ExpandableListChoiceMode.GROUPS_ONLY) {
 					getLogger().logVerbose(getClass(), "Triggering child selection on click...");
 					triggerChildSelection(groupIndex, childIndex);
 				}
