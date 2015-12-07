@@ -95,7 +95,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 			@Override
 			public void onGroupClicked(final ExpandableListAdapter<GroupType, ChildType> adapter, final GroupType group,
 					final int index) {
-				if (isGroupSelectedOnClick()) {
+				if (isGroupSelectedOnClick() && getChoiceMode() != ExpandableListChoiceMode.CHILDREN_ONLY) {
 					getLogger().logVerbose(getClass(), "Selecting group on click...");
 					selectGroup(index);
 				}
@@ -104,7 +104,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 			@Override
 			public void onChildClicked(final ExpandableListAdapter<GroupType, ChildType> adapter, final ChildType child,
 					final int childIndex, final GroupType group, final int groupIndex) {
-				if (isChildSelectedOnClick()) {
+				if (isChildSelectedOnClick() && getChoiceMode() != ExpandableListChoiceMode.GROUPS_ONLY) {
 					getLogger().logVerbose(getClass(), "Selecting child on click...");
 					selectChild(groupIndex, childIndex);
 				}
