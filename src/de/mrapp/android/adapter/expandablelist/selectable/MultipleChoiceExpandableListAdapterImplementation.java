@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
-import android.os.Bundle;
 import de.mrapp.android.adapter.ExpandableListAdapter;
 import de.mrapp.android.adapter.ExpandableListChoiceMode;
 import de.mrapp.android.adapter.MultipleChoiceExpandableListAdapter;
@@ -41,7 +40,6 @@ import de.mrapp.android.adapter.expandablelist.sortable.ExpandableListSortingLis
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.selectable.MultipleChoiceListAdapterImplementation;
 import de.mrapp.android.adapter.logging.LogLevel;
-import de.mrapp.android.adapter.util.VisibleForTesting;
 
 /**
  * An adapter, whose underlying data is managed as a list of arbitrary group and
@@ -66,35 +64,6 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 	 * The constant serial version UID.
 	 */
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * The key, which is used to store, whether children should be also
-	 * selected, when the group, the belong to, is selected, or not, within a
-	 * bundle.
-	 */
-	@VisibleForTesting
-	protected static final String SELECT_CHILDREN_IMPLICITLY_BUNDLE_KEY = MultipleChoiceExpandableListAdapterImplementation.class
-			.getSimpleName() + "::SelectChildrenImplicitly";
-
-	/**
-	 * The key, which is used to store, whether groups should be also selected,
-	 * when one of their children is selected, or not, within a bundle.
-	 */
-	@VisibleForTesting
-	protected static final String SELECT_GROUPS_IMPLICITLY_BUNDLE_KEY = MultipleChoiceExpandableListAdapterImplementation.class
-			.getSimpleName() + "::SelectGroupsImplicitly";
-
-	/**
-	 * True, if children should also be selected, when the group, they belong
-	 * to, is selected, false otherwise.
-	 */
-	private boolean selectChildrenImplicitly;
-
-	/**
-	 * True, if groups should also be selected, when one of their children is
-	 * selected, false otherwise.
-	 */
-	private boolean selectGroupsImplicitly;
 
 	/**
 	 * Creates and returns a listener, which allows to select an item, when it
@@ -236,12 +205,6 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 	 * @param choiceMode
 	 *            The choice mode of the adapter as a value of the enum
 	 *            {@link ExpandableListChoiceMode}
-	 * @param selectChildrenImplicitly
-	 *            True, if children should also be selected, when the group,
-	 *            they belong to, is selected, false otherwise
-	 * @param selectGroupsImplicitly
-	 *            True, if groups should also be seleted, when one of their
-	 *            children is selected, false otherwise
 	 */
 	protected MultipleChoiceExpandableListAdapterImplementation(final Context context, final Inflater groupInflater,
 			final Inflater childInflater, final SelectableExpandableListDecorator<GroupType, ChildType> decorator,
@@ -260,8 +223,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 			final boolean selectGroupOnClick, final boolean selectChildOnClick, final boolean expandGroupOnSelection,
 			final boolean expandGroupOnChildSelection,
 			final Set<ExpandableListSelectionListener<GroupType, ChildType>> selectionListeners,
-			final ExpandableListChoiceMode choiceMode, final boolean selectChildrenImplicitly,
-			final boolean selectGroupsImplicitly) {
+			final ExpandableListChoiceMode choiceMode) {
 		super(context, groupInflater, childInflater, decorator, logLevel, groupAdapter, allowDuplicateChildren,
 				notifyOnChange, expandGroupOnClick, itemClickListeners, adapterListeners, expansionListeners,
 				setChildEnableStatesImplicitly, enableStateListeners, numberOfGroupStates, numberOfChildStates,
@@ -269,8 +231,6 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 				sortingListeners, filterListeners, selectGroupOnClick, selectChildOnClick, expandGroupOnSelection,
 				expandGroupOnChildSelection, selectionListeners, choiceMode);
 		addItemClickListener(createItemClickListener());
-		selectChildrenImplicitly(selectChildrenImplicitly);
-		selectGroupsImplicitly(selectGroupsImplicitly);
 	}
 
 	/**
@@ -314,21 +274,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 				new LinkedHashSet<ExpandableListItemStateListener<GroupType, ChildType>>(),
 				new LinkedHashSet<ExpandableListSortingListener<GroupType, ChildType>>(),
 				new LinkedHashSet<ExpandableListFilterListener<GroupType, ChildType>>(), true, true, false, true,
-				new LinkedHashSet<ExpandableListSelectionListener<GroupType, ChildType>>(), choiceMode, true, false);
-	}
-
-	@Override
-	protected final void onSaveInstanceState(final Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putBoolean(SELECT_CHILDREN_IMPLICITLY_BUNDLE_KEY, areChildrenSelectedImplicitly());
-		outState.putBoolean(SELECT_GROUPS_IMPLICITLY_BUNDLE_KEY, areGroupsSelectedImplicitly());
-	}
-
-	@Override
-	protected final void onRestoreInstanceState(final Bundle savedState) {
-		super.onRestoreInstanceState(savedState);
-		selectChildrenImplicitly = savedState.getBoolean(SELECT_CHILDREN_IMPLICITLY_BUNDLE_KEY, true);
-		selectGroupsImplicitly = savedState.getBoolean(SELECT_GROUPS_IMPLICITLY_BUNDLE_KEY);
+				new LinkedHashSet<ExpandableListSelectionListener<GroupType, ChildType>>(), choiceMode);
 	}
 
 	@Override
@@ -418,10 +364,11 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 					"Groups are not allowed to be selected when using the choice mode " + getChoiceMode());
 		}
 
-		Group<GroupType, ChildType> group = getGroupAdapter().getItem(index);
+		MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter = getGroupAdapter();
+		Group<GroupType, ChildType> group = groupAdapter.getItem(index);
 
-		if (group.isEnabled()) {
-			if (group.isSelected() != selected) {
+		if (groupAdapter.isEnabled(index)) {
+			if (groupAdapter.isSelected(index) != selected) {
 				getGroupAdapter().setSelected(index, selected);
 
 				if (selected) {
@@ -434,11 +381,6 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 				String message = selected ? "Selected"
 						: "Unselected" + "group \"" + group.getData() + "\" at index " + index;
 				getLogger().logInfo(getClass(), message);
-
-				if (areChildrenSelectedImplicitly() && selected
-						&& getChoiceMode() != ExpandableListChoiceMode.GROUPS_ONLY) {
-					setAllChildrenSelected(index, selected);
-				}
 
 				if (isGroupExpandedOnSelection() && selected) {
 					expandGroup(index);
@@ -656,11 +598,6 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 								+ " of group \"" + group.getData() + "\" at index " + groupIndex;
 				getLogger().logInfo(getClass(), message);
 
-				if (areGroupsSelectedImplicitly() && selected
-						&& getChoiceMode() != ExpandableListChoiceMode.CHILDREN_ONLY) {
-					setGroupSelected(groupIndex, selected);
-				}
-
 				if (isGroupExpandedOnChildSelection() && selected) {
 					expandGroup(groupIndex);
 				}
@@ -743,67 +680,6 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 	}
 
 	@Override
-	public final boolean areChildrenSelectedImplicitly() {
-		return selectChildrenImplicitly;
-	}
-
-	@Override
-	public final void selectChildrenImplicitly(final boolean selectChildrenImplicitly) {
-		this.selectChildrenImplicitly = selectChildrenImplicitly;
-
-		if (selectChildrenImplicitly) {
-			for (int i = 0; i < getGroupCount(); i++) {
-				for (int j = 0; j < getChildCount(i); j++) {
-					setChildSelected(i, j, isGroupSelected(i));
-				}
-			}
-		}
-	}
-
-	@Override
-	public final boolean areGroupsSelectedImplicitly() {
-		return selectGroupsImplicitly;
-	}
-
-	@Override
-	public final void selectGroupsImplicitly(final boolean selectGroupsImplicitly) {
-		this.selectGroupsImplicitly = selectGroupsImplicitly;
-
-		if (selectGroupsImplicitly) {
-			for (int i = 0; i < getGroupCount(); i++) {
-				if (!isGroupSelected(i) && getFirstSelectedChildIndex(i) != -1) {
-					setGroupSelected(i, true);
-				}
-			}
-		}
-	}
-
-	@Override
-	public final int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + (selectChildrenImplicitly ? 1231 : 1237);
-		result = prime * result + (selectGroupsImplicitly ? 1231 : 1237);
-		return result;
-	}
-
-	@Override
-	public final boolean equals(final Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		MultipleChoiceExpandableListAdapterImplementation<?, ?> other = (MultipleChoiceExpandableListAdapterImplementation<?, ?>) obj;
-		if (selectChildrenImplicitly != other.selectChildrenImplicitly)
-			return false;
-		if (selectGroupsImplicitly != other.selectGroupsImplicitly)
-			return false;
-		return true;
-	}
-
-	@Override
 	public final String toString() {
 		return "MultipleChoiceExpandableListAdapter (" + getGroupCount() + " groups, " + getChildCount()
 				+ " children) [logLevel=" + getLogLevel() + ", parameters=" + getParameters() + ", notifyOnChange="
@@ -814,8 +690,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 				+ isChildStateTriggeredOnClick() + ", filtered=" + isFiltered() + ", choiceMode=" + getChoiceMode()
 				+ ", selectGroupOnClick=" + isGroupSelectedOnClick() + ", selectChildOnClick="
 				+ isChildSelectedOnClick() + ", expandGroupOnSelection=" + isGroupExpandedOnSelection()
-				+ ", expandGroupOnChildSelection=" + isGroupExpandedOnChildSelection() + ", selectGroupsImplicity="
-				+ areGroupsSelectedImplicitly() + ", selectChildrenImplicitly=" + areChildrenSelectedImplicitly() + "]";
+				+ ", expandGroupOnChildSelection=" + isGroupExpandedOnChildSelection() + "]";
 	}
 
 	@Override
@@ -829,7 +704,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 				isChildStateTriggeredOnClick(), areChildStatesSetImplicitly(), getItemStateListeners(),
 				getSortingListeners(), getFilterListeners(), isGroupSelectedOnClick(), isChildSelectedOnClick(),
 				isGroupExpandedOnSelection(), isGroupExpandedOnChildSelection(), getSelectionListeners(),
-				getChoiceMode(), areChildrenSelectedImplicitly(), areGroupsSelectedImplicitly());
+				getChoiceMode());
 	}
 
 }
