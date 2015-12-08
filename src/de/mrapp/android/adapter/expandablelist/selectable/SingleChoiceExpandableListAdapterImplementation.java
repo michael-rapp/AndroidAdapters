@@ -125,7 +125,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 	 */
 	private void unselectGroupAndChildren(final int groupIndex, final Group<GroupType, ChildType> group) {
 		if (group.isSelected()) {
-			group.setSelected(false);
+			getGroupAdapter().setSelected(groupIndex, false);
 			notifyOnGroupUnselected(group.getData(), groupIndex);
 			String message = "Unselected group \"" + group.getData() + "\" at index " + groupIndex;
 			getLogger().logInfo(getClass(), message);
@@ -690,7 +690,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 					Group<GroupType, ChildType> currentGroup = getGroupAdapter().getItem(i);
 
 					if (i == groupIndex) {
-						currentGroup.setSelected(true);
+						getGroupAdapter().setSelected(i, true);
 						notifyOnGroupSelected(currentGroup.getData(), i);
 						String message = "Selected group \"" + currentGroup.getData() + "\" at index " + i;
 						getLogger().logInfo(getClass(), message);
