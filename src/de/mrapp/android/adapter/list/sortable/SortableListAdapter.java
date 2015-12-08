@@ -80,6 +80,17 @@ public interface SortableListAdapter<DataType> {
 	void sort(Order order, Comparator<DataType> comparator);
 
 	/**
+	 * Returns the current order of the adapter's items.
+	 * 
+	 * @return The current order of the adapter's items as a value of the enum
+	 *         {@link Order} or null, if the adapter's items have not been
+	 *         sorted yet or if the adapter's data set has been changed since it
+	 *         has been sorted the last time. If not null, the order may either
+	 *         be <code>ASCENDING</code> or <code>DESCENDING</code>
+	 */
+	Order getOrder();
+
+	/**
 	 * Adds a new listener, which should be notified, when the adapter's
 	 * underlying data has been sorted.
 	 * 
