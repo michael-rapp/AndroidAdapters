@@ -422,7 +422,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 
 		if (group.isEnabled()) {
 			if (group.isSelected() != selected) {
-				group.setSelected(true);
+				getGroupAdapter().setSelected(index, selected);
 
 				if (selected) {
 					notifyOnGroupSelected(group.getData(), index);
