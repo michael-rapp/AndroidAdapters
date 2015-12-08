@@ -84,6 +84,18 @@ public interface SortableExpandableListAdapter<GroupType, ChildType> {
 	void sortGroups(Order order, Comparator<GroupType> comparator);
 
 	/**
+	 * Returns the current order of the adapter's group items.
+	 * 
+	 * @return The current order of the adapter's group items as a value of the
+	 *         enum {@link Order} or null, if the adapter's group items have not
+	 *         been sorted yet or if the adapter's underlying data has been
+	 *         changed since it has been sorted the last time. If not null, the
+	 *         order may either be <code>ASCENDING</code> or
+	 *         <code>DESCENDING</code>
+	 */
+	Order getGroupOrder();
+
+	/**
 	 * Sorts all of the adapter's child items in an ascending order. If the
 	 * underlying data of the adapter's child items does not implement the
 	 * interface {@link Comparable} a {@link SortingNotSupportedException} will
@@ -265,6 +277,54 @@ public interface SortableExpandableListAdapter<GroupType, ChildType> {
 	 *            <code>ASCENDING</code> or <code>DESCENDING</code>
 	 */
 	void sortChildren(GroupType group, Order order, Comparator<ChildType> comparator);
+
+	/**
+	 * Returns the current order of all child items, regardless of the group
+	 * they belong to.
+	 * 
+	 * @return The current order of the child items as a value of the enum
+	 *         {@link Order} or null, if not all child items have been sorted
+	 *         yet or if the adapter's underlying data has been changed since it
+	 *         has been sorted the last time. If not null, the order may either
+	 *         be <code>ASCENDING</code> or <code>DESCENDING</code>
+	 */
+	Order getChildOrder();
+
+	/**
+	 * Returns the current order of the child items of a specific group.
+	 * 
+	 * @param group
+	 *            The group, the children, whose order should be returned,
+	 *            belong to, as an instance of the generic type GroupType. The
+	 *            group may not be null. If the group does not belong to the
+	 *            adapter, a {@link NoSuchElementException} will be thrown
+	 * @return The current order of the child items, which belong to the given
+	 *         group, as a value of the enum {@link Order} or null, if the child
+	 *         items have not been sorted yet or if the adapter's underlying
+	 *         data has been changed since it has been sorted the last time. If
+	 *         not null, the order may either be <code>ASCENDING</code> or
+	 *         <code>DESCENDING</code>
+	 */
+	Order getChildOrder(final GroupType group);
+
+	/**
+	 * Returns the current order of the child items of the group, which belongs
+	 * to a specific index.
+	 * 
+	 * @param groupIndex
+	 *            The index of the group, the children, whose order should be
+	 *            returned, belong to, as an {@link Integer} value. The index
+	 *            must be between 0 and the value of the method
+	 *            <code>getGroupCount():int</code>, otherwise an
+	 *            {@link IndexOutOfBoundsException} will be thrown
+	 * @return The current order of the child items, which belong to the given
+	 *         group, as a value of the enum {@link Order} or null, if the child
+	 *         items have not been sorted yet or if the adapter's underlying
+	 *         data has been changed since it has been sorted the last time. If
+	 *         not null, the order may either be <code>ASCENDING</code> or
+	 *         <code>DESCENDING</code>
+	 */
+	Order getChildOrder(final int groupIndex);
 
 	/**
 	 * Adds a new listener, which should be notified, when the adapter's
