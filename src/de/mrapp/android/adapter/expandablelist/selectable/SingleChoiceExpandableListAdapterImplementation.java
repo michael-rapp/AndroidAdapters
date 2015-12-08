@@ -682,10 +682,11 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 					"Groups are not allowed to be selected when using the choice mode " + getChoiceMode());
 		}
 
-		Group<GroupType, ChildType> group = getGroupAdapter().getItem(groupIndex);
+		MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter = getGroupAdapter();
+		Group<GroupType, ChildType> group = groupAdapter.getItem(groupIndex);
 
-		if (group.isEnabled()) {
-			if (!group.isSelected()) {
+		if (groupAdapter.isEnabled(groupIndex)) {
+			if (!groupAdapter.isSelected(groupIndex)) {
 				for (int i = 0; i < getGroupCount(); i++) {
 					Group<GroupType, ChildType> currentGroup = getGroupAdapter().getItem(i);
 
