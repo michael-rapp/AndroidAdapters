@@ -26,6 +26,8 @@ import java.util.Comparator;
 import java.util.Set;
 
 import android.content.Context;
+import android.os.Bundle;
+import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemComparator;
@@ -36,6 +38,7 @@ import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.itemstate.AbstractItemStateListAdapter;
 import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
 import de.mrapp.android.adapter.logging.LogLevel;
+import de.mrapp.android.adapter.util.VisibleForTesting;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
@@ -54,12 +57,24 @@ import de.mrapp.android.adapter.logging.LogLevel;
  * @since 0.1.0
  */
 public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
-		extends AbstractItemStateListAdapter<DataType, DecoratorType>implements SortableListAdapter<DataType> {
+		extends AbstractItemStateListAdapter<DataType, DecoratorType> implements SortableListAdapter<DataType> {
 
 	/**
 	 * The constant serial version UID.
 	 */
 	private static final long serialVersionUID = 1L;
+
+	/**
+	 * The key, which is used to store the current order of the adapter's items
+	 * within a bundle.
+	 */
+	@VisibleForTesting
+	protected static final String ORDER_BUNDLE_KEY = AbstractSortableListAdapter.class.getSimpleName() + "::Order";
+
+	/**
+	 * The current order of the adapter's items.
+	 */
+	private Order order;
 
 	/**
 	 * A set, which contains the listeners, which should be notified, when the
@@ -90,6 +105,29 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 		for (ListSortingListener<DataType> listener : sortingListeners) {
 			listener.onSorted(this, sortedItems, order, comparator);
 		}
+	}
+
+	/**
+	 * Creates and returns a listener, which allows to invalidate the current
+	 * order of the adapter's items, when its underlying data is changed.
+	 * 
+	 * @return The listener, which has been created, as an instance of the type
+	 *         {@link ListAdapter}
+	 */
+	private ListAdapterListener<DataType> createAdapterListener() {
+		return new ListAdapterListener<DataType>() {
+
+			@Override
+			public void onItemAdded(final ListAdapter<DataType> adapter, final DataType item, final int index) {
+				order = null;
+			}
+
+			@Override
+			public void onItemRemoved(final ListAdapter<DataType> adapter, final DataType item, final int index) {
+				order = null;
+			}
+
+		};
 	}
 
 	/**
@@ -185,7 +223,21 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 		super(context, inflater, decorator, logLevel, items, allowDuplicates, notifyOnChange, itemClickListeners,
 				adapterListeners, enableStateListeners, numberOfItemStates, triggerItemStateOnClick,
 				itemStateListeners);
+		this.order = null;
 		setSortingListeners(sortingListeners);
+		addAdapterListener(createAdapterListener());
+	}
+
+	@Override
+	protected void onSaveInstanceState(final Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putSerializable(ORDER_BUNDLE_KEY, getOrder());
+	}
+
+	@Override
+	protected void onRestoreInstanceState(final Bundle savedState) {
+		super.onRestoreInstanceState(savedState);
+		this.order = (Order) savedState.getSerializable(ORDER_BUNDLE_KEY);
 	}
 
 	@Override
@@ -196,6 +248,7 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 	@Override
 	public final void sort(final Order order) {
 		ensureNotNull(order, "The order may not be null");
+		this.order = order;
 
 		if (order == Order.ASCENDING) {
 			Collections.sort(getItems());
@@ -219,6 +272,7 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 	@Override
 	public final void sort(final Order order, final Comparator<DataType> comparator) {
 		ensureNotNull(order, "The order may not be null");
+		this.order = order;
 		Comparator<Item<DataType>> itemComparator = new ItemComparator<DataType>(comparator);
 
 		if (order == Order.ASCENDING) {
@@ -238,6 +292,11 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 	}
 
 	@Override
+	public final Order getOrder() {
+		return order;
+	}
+
+	@Override
 	public final void addSortingListner(final ListSortingListener<DataType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		sortingListeners.add(listener);
@@ -251,6 +310,28 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
 		sortingListeners.remove(listener);
 		String message = "Removed sorting listener \"" + listener + "\"";
 		getLogger().logDebug(getClass(), message);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((order == null) ? 0 : order.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AbstractSortableListAdapter<?, ?> other = (AbstractSortableListAdapter<?, ?>) obj;
+		if (order != other.order)
+			return false;
+		return true;
 	}
 
 	@Override
