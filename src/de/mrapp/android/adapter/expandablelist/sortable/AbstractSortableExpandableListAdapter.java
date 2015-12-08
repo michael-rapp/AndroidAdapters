@@ -24,6 +24,8 @@ import java.util.Comparator;
 import java.util.Set;
 
 import android.content.Context;
+import android.os.Bundle;
+import de.mrapp.android.adapter.ExpandableListAdapter;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.datastructure.group.Group;
@@ -36,6 +38,7 @@ import de.mrapp.android.adapter.expandablelist.itemstate.AbstractItemStateExpand
 import de.mrapp.android.adapter.expandablelist.itemstate.ExpandableListItemStateListener;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.logging.LogLevel;
+import de.mrapp.android.adapter.util.VisibleForTesting;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as
@@ -64,6 +67,20 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
 	 * The constant serial version UID.
 	 */
 	private static final long serialVersionUID = 1L;
+
+	/**
+	 * The key, which is used to store the current order of all of the adapter's
+	 * child items, regardless of the group they belong to, within a bundle.
+	 */
+	@VisibleForTesting
+	protected static final String CHILD_ORDER_BUNDLE_KEY = AbstractSortableExpandableListAdapter.class.getSimpleName()
+			+ "::ChildOrder";
+
+	/**
+	 * The current order of all of the adapter's child items, regardless of the
+	 * group they belong to.
+	 */
+	private Order childOrder;
 
 	/**
 	 * A set, which contains the listeners, which should be notified, when the
@@ -127,6 +144,44 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
 		for (ExpandableListSortingListener<GroupType, ChildType> listener : sortingListeners) {
 			listener.onChildrenSorted(this, sortedChildren, order, comparator, group, groupIndex);
 		}
+	}
+
+	/**
+	 * Creates and returns a listener, which allows to invalidate the current
+	 * order of all of the adapter's child items, regardless of the group they
+	 * belong to, when its underlying data is changed.
+	 * 
+	 * @return The adapter, which has been created, as an instance of the type
+	 *         {@link ExpandableListAdapterListener}
+	 */
+	private ExpandableListAdapterListener<GroupType, ChildType> createAdapterListener() {
+		return new ExpandableListAdapterListener<GroupType, ChildType>() {
+
+			@Override
+			public void onGroupAdded(final ExpandableListAdapter<GroupType, ChildType> adapter, final GroupType group,
+					final int index) {
+				return;
+			}
+
+			@Override
+			public void onGroupRemoved(final ExpandableListAdapter<GroupType, ChildType> adapter, final GroupType group,
+					final int index) {
+				return;
+			}
+
+			@Override
+			public void onChildAdded(final ExpandableListAdapter<GroupType, ChildType> adapter, final ChildType child,
+					final int childIndex, final GroupType group, final int groupIndex) {
+				childOrder = null;
+			}
+
+			@Override
+			public void onChildRemoved(final ExpandableListAdapter<GroupType, ChildType> adapter, final ChildType child,
+					final int childIndex, final GroupType group, final int groupIndex) {
+				childOrder = null;
+			}
+
+		};
 	}
 
 	/**
@@ -260,7 +315,21 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
 				notifyOnChange, expandGroupOnClick, itemClickListeners, adapterListeners, expansionListeners,
 				setChildEnableStatesImplicitly, enableStateListeners, numberOfGroupStates, numberOfChildStates,
 				triggerGroupStateOnClick, triggerChildStateOnClick, setChildStatesImplicitly, itemStateListeners);
+		this.childOrder = null;
 		setSortingListeners(sortingListeners);
+		addAdapterListener(createAdapterListener());
+	}
+
+	@Override
+	protected void onSaveInstanceState(final Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putSerializable(CHILD_ORDER_BUNDLE_KEY, getChildOrder());
+	}
+
+	@Override
+	protected void onRestoreInstanceState(final Bundle savedState) {
+		super.onRestoreInstanceState(savedState);
+		this.childOrder = (Order) savedState.getSerializable(CHILD_ORDER_BUNDLE_KEY);
 	}
 
 	@Override
@@ -306,6 +375,11 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
 
 		notifyOnDataSetChanged();
 		notifyOnGroupsSorted(getAllGroups(), order, comparator);
+	}
+
+	@Override
+	public final Order getGroupOrder() {
+		return getGroupAdapter().getOrder();
 	}
 
 	@Override
@@ -399,6 +473,21 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
 	}
 
 	@Override
+	public final Order getChildOrder() {
+		return childOrder;
+	}
+
+	@Override
+	public final Order getChildOrder(final GroupType group) {
+		return getChildOrder(indexOfGroupOrThrowException(group));
+	}
+
+	@Override
+	public final Order getChildOrder(final int groupIndex) {
+		return getGroupAdapter().getItem(groupIndex).getChildAdapter().getOrder();
+	}
+
+	@Override
 	public final void addSortingListener(final ExpandableListSortingListener<GroupType, ChildType> listener) {
 		ensureNotNull(listener, "The listener may not be null");
 		sortingListeners.add(listener);
@@ -412,6 +501,28 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
 		sortingListeners.remove(listener);
 		String message = "Removed sorting listener \"" + listener + "\"";
 		getLogger().logDebug(getClass(), message);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((childOrder == null) ? 0 : childOrder.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AbstractSortableExpandableListAdapter<?, ?, ?> other = (AbstractSortableExpandableListAdapter<?, ?, ?>) obj;
+		if (childOrder != other.childOrder)
+			return false;
+		return true;
 	}
 
 	@Override
