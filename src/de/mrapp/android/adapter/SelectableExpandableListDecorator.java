@@ -82,7 +82,7 @@ public abstract class SelectableExpandableListDecorator<GroupType, ChildType> ex
 			final int index, final boolean expanded, final boolean enabled, final int state, final boolean filtered,
 			final boolean selected) {
 		setCurrentParentView(view);
-		int viewType = getGroupType(adapter, group, index, enabled, state, filtered, selected);
+		int viewType = getGroupType(group, index);
 		setCurrentViewType(viewType);
 		adaptViewState(view, enabled, false);
 		onShowGroup(context, adapter, view, group, viewType, index, expanded, enabled, state, filtered, selected);
@@ -136,7 +136,7 @@ public abstract class SelectableExpandableListDecorator<GroupType, ChildType> ex
 			final int childIndex, final GroupType group, final int groupIndex, final boolean enabled, final int state,
 			final boolean filtered, final boolean selected) {
 		setCurrentParentView(view);
-		int viewType = getChildType(adapter, child, childIndex, group, groupIndex, enabled, state, filtered, selected);
+		int viewType = getChildType(child, childIndex, group, groupIndex);
 		setCurrentViewType(viewType);
 		adaptViewState(view, enabled, false);
 		onShowChild(context, adapter, view, child, viewType, childIndex, group, groupIndex, enabled, state, filtered,
@@ -150,34 +150,16 @@ public abstract class SelectableExpandableListDecorator<GroupType, ChildType> ex
 	 * group items optically divergent from others, returning a different
 	 * integer constant for each type.
 	 * 
-	 * @param adapter
-	 *            The adapter, whose items are visualized by the decorator, as
-	 *            an instance of the type
-	 *            {@link SelectableExpandableListAdapter}. The adapter may not
-	 *            be null
 	 * @param group
 	 *            The group item, which should be visualized, as an instance of
 	 *            the generic type GroupType. The group item may not be null
 	 * @param index
 	 *            The index of the group item, which should be visualized, as an
 	 *            {@link Integer} value
-	 * @param enabled
-	 *            True, if the group item, which should be visualized, is
-	 *            currently enabled, false otherwise
-	 * @param state
-	 *            The current state of the group item, which should be
-	 *            visualized, as an {@link Integer} value
-	 * @param filtered
-	 *            True, if at least one filter is currently applied on the
-	 *            adapter's group items, false otherwise
-	 * @param selected
-	 *            True, if the group item, which should be visualized, is
-	 *            currently selected, false otherwise
 	 * @return The view type of the group item, which is about to be visualized,
 	 *         as an {@link Integer} value
 	 */
-	public int getGroupType(final SelectableExpandableListAdapter<GroupType, ChildType> adapter, final GroupType group,
-			final int index, final boolean enabled, final int state, final boolean filtered, final boolean selected) {
+	public int getGroupType(final GroupType group, final int index) {
 		return 0;
 	}
 
@@ -201,11 +183,6 @@ public abstract class SelectableExpandableListDecorator<GroupType, ChildType> ex
 	 * child items optically divergent from others, returning a different
 	 * integer constant for each type.
 	 * 
-	 * @param adapter
-	 *            The adapter, whose items are visualized by the decorator, as
-	 *            an instance of the type
-	 *            {@link SelectableExpandableListAdapter}. The adapter may not
-	 *            be null
 	 * @param child
 	 *            The child item, which should be visualized, as an instance of
 	 *            the generic type ChildType. The child item may not be null
@@ -219,24 +196,10 @@ public abstract class SelectableExpandableListDecorator<GroupType, ChildType> ex
 	 * @param groupIndex
 	 *            The index of the group item, the child, which should be
 	 *            visualized, belongs to, as an {@link Integer} value
-	 * @param enabled
-	 *            True, if the child item, which should be visualized, is
-	 *            currently enabled, false otherwise
-	 * @param state
-	 *            The current state of the child item, which should be
-	 *            visualized, as an {@link Integer} value
-	 * @param filtered
-	 *            True, if at least one filter is currently applied on the
-	 *            adapter's child items, false otherwise
-	 * @param selected
-	 *            True, if the child item, which should be visualized, is
-	 *            currently selected, false otherwise
 	 * @return The view type of the child item, which is about to be visualized,
 	 *         as an {@link Integer} value
 	 */
-	public int getChildType(final SelectableExpandableListAdapter<GroupType, ChildType> adapter, final ChildType child,
-			final int childIndex, final GroupType group, final int groupIndex, final boolean enabled, final int state,
-			final boolean filtered, final boolean selected) {
+	public int getChildType(final ChildType child, final int childIndex, final GroupType group, final int groupIndex) {
 		return 0;
 	}
 
