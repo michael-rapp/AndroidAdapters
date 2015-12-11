@@ -389,6 +389,8 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
 
 	@Override
 	public final void sortChildren(final Order order) {
+		childOrder = order;
+
 		for (int i = 0; i < getGroupCount(); i++) {
 			sortChildren(i, order);
 		}
