@@ -24,7 +24,7 @@ import java.util.Set;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-import de.mrapp.android.adapter.ExpandableListChoiceMode;
+import de.mrapp.android.adapter.ChoiceMode;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.SelectableExpandableListDecorator;
 import de.mrapp.android.adapter.datastructure.group.Group;
@@ -112,7 +112,7 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
 	/**
 	 * The choice mode, which is used by the adapter.
 	 */
-	private ExpandableListChoiceMode choiceMode;
+	private ChoiceMode choiceMode;
 
 	/**
 	 * True, if a group item should be selected, when it is clicked by the user,
@@ -372,7 +372,7 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
 	 *            no listeners should be notified
 	 * @param choiceMode
 	 *            The choice mode of the adapter as a value of the enum
-	 *            {@link ExpandableListChoiceMode}
+	 *            {@link ChoiceMode}
 	 */
 	protected AbstractSelectableExpandableListAdapter(final Context context, final Inflater groupInflater,
 			final Inflater childInflater, final SelectableExpandableListDecorator<GroupType, ChildType> decorator,
@@ -391,7 +391,7 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
 			final boolean selectGroupOnClick, final boolean selectChildOnClick, final boolean expandGroupOnSelection,
 			final boolean expandGroupOnChildSelection,
 			final Set<ExpandableListSelectionListener<GroupType, ChildType>> selectionListeners,
-			final ExpandableListChoiceMode choiceMode) {
+			final ChoiceMode choiceMode) {
 		super(context, groupInflater, childInflater, decorator, logLevel, groupAdapter, allowDuplicateChildren,
 				notifyOnChange, expandGroupOnClick, itemClickListeners, adapterListeners, expansionListeners,
 				setChildEnableStatesImplicitly, enableStateListeners, numberOfGroupStates, numberOfChildStates,
@@ -448,7 +448,7 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
 		selectChildOnClick = savedState.getBoolean(SELECT_CHILD_ON_CLICK_BUNDLE_KEY, true);
 		expandGroupOnSelection = savedState.getBoolean(EXPAND_GROUP_ON_SELECTION_BUNDLE_KEY);
 		expandGroupOnChildSelection = savedState.getBoolean(EXPAND_GROUP_ON_CHILD_SELECTION_BUNDLE_KEY, true);
-		choiceMode = (ExpandableListChoiceMode) savedState.getSerializable(CHOICE_MODE_BUNDLE_KEY);
+		choiceMode = (ChoiceMode) savedState.getSerializable(CHOICE_MODE_BUNDLE_KEY);
 	}
 
 	@Override
@@ -548,7 +548,7 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
 	public final void expandGroupOnSelection(final boolean expandGroupOnSelection) {
 		this.expandGroupOnSelection = expandGroupOnSelection;
 
-		if (expandGroupOnSelection && getChoiceMode() != ExpandableListChoiceMode.CHILDREN_ONLY) {
+		if (expandGroupOnSelection && getChoiceMode() != ChoiceMode.CHILDREN_ONLY) {
 			for (int i = 0; i < getGroupCount(); i++) {
 				if (isGroupSelected(i)) {
 					expandGroup(i);
@@ -566,7 +566,7 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
 	public final void expandGroupOnChildSelection(final boolean expandGroupOnChildSelection) {
 		this.expandGroupOnChildSelection = expandGroupOnChildSelection;
 
-		if (expandGroupOnChildSelection && getChoiceMode() != ExpandableListChoiceMode.GROUPS_ONLY) {
+		if (expandGroupOnChildSelection && getChoiceMode() != ChoiceMode.GROUPS_ONLY) {
 			for (int i = 0; i < getGroupCount(); i++) {
 				if (getSelectedChildCount(i) > 0) {
 					expandGroup(i);
@@ -576,13 +576,13 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
 	}
 
 	@Override
-	public final ExpandableListChoiceMode getChoiceMode() {
+	public final ChoiceMode getChoiceMode() {
 		return choiceMode;
 	}
 
 	@Override
 	public final boolean isChildSelectable(final int groupIndex, final int childIndex) {
-		return getChoiceMode() != ExpandableListChoiceMode.GROUPS_ONLY && isChildEnabled(groupIndex, childIndex);
+		return getChoiceMode() != ChoiceMode.GROUPS_ONLY && isChildEnabled(groupIndex, childIndex);
 	}
 
 	@Override
