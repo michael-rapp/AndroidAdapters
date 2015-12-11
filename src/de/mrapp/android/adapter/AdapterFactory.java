@@ -312,7 +312,7 @@ public final class AdapterFactory {
 	 *            The id must correspond to a valid view resource
 	 * @param choiceMode
 	 *            The choice mode of the adapter as a value of the enum
-	 *            {@link ExpandableListChoiceMode}. The choice mode may either
+	 *            {@link ChoiceMode}. The choice mode may either
 	 *            be <code>GROUPS_ONLY</code>, <code>CHILDREN_ONLY</code> or
 	 *            <code>GROUPS_AND_CHILDREN</code>
 	 * @return The adapter, which has been created, as an instance of the type
@@ -320,7 +320,7 @@ public final class AdapterFactory {
 	 */
 	public static <GroupType, ChildType> SingleChoiceExpandableListAdapter<GroupType, ChildType> createSingleChoiceExpandableListAdapter(
 			final Context context, final SelectableExpandableListDecorator<GroupType, ChildType> decorator,
-			final int groupViewId, final int childViewId, final ExpandableListChoiceMode choiceMode) {
+			final int groupViewId, final int childViewId, final ChoiceMode choiceMode) {
 		Inflater groupInflater = InflaterFactory.createInflater(groupViewId);
 		Inflater childInflater = InflaterFactory.createInflater(childViewId);
 		return new SingleChoiceExpandableListAdapterImplementation<>(context, groupInflater, childInflater, decorator,
@@ -355,7 +355,7 @@ public final class AdapterFactory {
 	 *            view may not be null
 	 * @param choiceMode
 	 *            The choice mode of the adapter as a value of the enum
-	 *            {@link ExpandableListChoiceMode}. The choice mode may either
+	 *            {@link ChoiceMode}. The choice mode may either
 	 *            be <code>GROUPS_ONLY</code>, <code>CHILDREN_ONLY</code> or
 	 *            <code>GROUPS_AND_CHILDREN</code>
 	 * @return The adapter, which has been created, as an instance of the type
@@ -363,7 +363,7 @@ public final class AdapterFactory {
 	 */
 	public static <GroupType, ChildType> SingleChoiceExpandableListAdapter<GroupType, ChildType> createSingleChoiceExpandableListAdapter(
 			final Context context, final SelectableExpandableListDecorator<GroupType, ChildType> decorator,
-			final View groupView, final View childView, final ExpandableListChoiceMode choiceMode) {
+			final View groupView, final View childView, final ChoiceMode choiceMode) {
 		Inflater groupInflater = InflaterFactory.createInflater(groupView);
 		Inflater childInflater = InflaterFactory.createInflater(childView);
 		return new SingleChoiceExpandableListAdapterImplementation<>(context, groupInflater, childInflater, decorator,
@@ -398,7 +398,7 @@ public final class AdapterFactory {
 	 *            The id must correspond to a valid view resource
 	 * @param choiceMode
 	 *            The choice mode of the adapter as a value of the enum
-	 *            {@link ExpandableListChoiceMode}. The choice mode may either
+	 *            {@link ChoiceMode}. The choice mode may either
 	 *            be <code>GROUPS_ONLY</code>, <code>CHILDREN_ONLY</code> or
 	 *            <code>GROUPS_AND_CHILDREN</code>
 	 * @return The adapter, which has been created, as an instance of the type
@@ -406,7 +406,7 @@ public final class AdapterFactory {
 	 */
 	public static <GroupType, ChildType> MultipleChoiceExpandableListAdapter<GroupType, ChildType> createMultipleChoiceExpandableListAdapter(
 			final Context context, final SelectableExpandableListDecorator<GroupType, ChildType> decorator,
-			final int groupViewId, final int childViewId, final ExpandableListChoiceMode choiceMode) {
+			final int groupViewId, final int childViewId, final ChoiceMode choiceMode) {
 		Inflater groupInflater = InflaterFactory.createInflater(groupViewId);
 		Inflater childInflater = InflaterFactory.createInflater(childViewId);
 		return new MultipleChoiceExpandableListAdapterImplementation<>(context, groupInflater, childInflater, decorator,
@@ -441,7 +441,7 @@ public final class AdapterFactory {
 	 *            view may not be null
 	 * @param choiceMode
 	 *            The choice mode of the adapter as a value of the enum
-	 *            {@link ExpandableListChoiceMode}. The choice mode may either
+	 *            {@link ChoiceMode}. The choice mode may either
 	 *            be <code>GROUPS_ONLY</code>, <code>CHILDREN_ONLY</code> or
 	 *            <code>GROUPS_AND_CHILDREN</code>
 	 * @return The adapter, which has been created, as an instance of the type
@@ -449,7 +449,7 @@ public final class AdapterFactory {
 	 */
 	public static <GroupType, ChildType> MultipleChoiceExpandableListAdapter<GroupType, ChildType> createMultipleChoiceExpandableListAdapter(
 			final Context context, final SelectableExpandableListDecorator<GroupType, ChildType> decorator,
-			final View groupView, final View childView, final ExpandableListChoiceMode choiceMode) {
+			final View groupView, final View childView, final ChoiceMode choiceMode) {
 		Inflater groupInflater = InflaterFactory.createInflater(groupView);
 		Inflater childInflater = InflaterFactory.createInflater(childView);
 		return new MultipleChoiceExpandableListAdapterImplementation<>(context, groupInflater, childInflater, decorator,

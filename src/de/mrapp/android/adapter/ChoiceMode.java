@@ -26,7 +26,7 @@ package de.mrapp.android.adapter;
  * 
  * @since 0.1.0
  */
-public enum ExpandableListChoiceMode {
+public enum ChoiceMode {
 
 	/**
 	 * If only groups can be selected.

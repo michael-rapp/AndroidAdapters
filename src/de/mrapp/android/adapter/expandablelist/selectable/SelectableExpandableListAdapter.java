@@ -18,7 +18,7 @@
 package de.mrapp.android.adapter.expandablelist.selectable;
 
 import de.mrapp.android.adapter.ExpandableListAdapter;
-import de.mrapp.android.adapter.ExpandableListChoiceMode;
+import de.mrapp.android.adapter.ChoiceMode;
 
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a list
@@ -294,10 +294,10 @@ public interface SelectableExpandableListAdapter<GroupType, ChildType>
 	 * Returns the choice mode of the adapter.
 	 * 
 	 * @return The choice mode of the adapter as a value of the enum
-	 *         {@link ExpandableListChoiceMode}. The choice mode may either be
+	 *         {@link ChoiceMode}. The choice mode may either be
 	 *         <code>GROUPS_ONLY</code>, <code>CHILDREN_ONLY</code> or
 	 *         <code>GROUPS_AND_CHILDREN</code>
 	 */
-	ExpandableListChoiceMode getChoiceMode();
+	ChoiceMode getChoiceMode();
 
 }

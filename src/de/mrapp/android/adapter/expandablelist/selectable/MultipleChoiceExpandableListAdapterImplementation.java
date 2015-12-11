@@ -24,7 +24,7 @@ import java.util.Set;
 
 import android.content.Context;
 import de.mrapp.android.adapter.ExpandableListAdapter;
-import de.mrapp.android.adapter.ExpandableListChoiceMode;
+import de.mrapp.android.adapter.ChoiceMode;
 import de.mrapp.android.adapter.MultipleChoiceExpandableListAdapter;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.SelectableExpandableListDecorator;
@@ -78,7 +78,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 			@Override
 			public void onGroupClicked(final ExpandableListAdapter<GroupType, ChildType> adapter, final GroupType group,
 					final int index) {
-				if (isGroupSelectedOnClick() && getChoiceMode() != ExpandableListChoiceMode.CHILDREN_ONLY) {
+				if (isGroupSelectedOnClick() && getChoiceMode() != ChoiceMode.CHILDREN_ONLY) {
 					getLogger().logVerbose(getClass(), "Triggering group selection on click...");
 					triggerGroupSelection(index);
 				}
@@ -87,7 +87,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 			@Override
 			public void onChildClicked(final ExpandableListAdapter<GroupType, ChildType> adapter, final ChildType child,
 					final int childIndex, final GroupType group, final int groupIndex) {
-				if (isChildSelectedOnClick() && getChoiceMode() != ExpandableListChoiceMode.GROUPS_ONLY) {
+				if (isChildSelectedOnClick() && getChoiceMode() != ChoiceMode.GROUPS_ONLY) {
 					getLogger().logVerbose(getClass(), "Triggering child selection on click...");
 					triggerChildSelection(groupIndex, childIndex);
 				}
@@ -204,7 +204,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 	 *            no listeners should be notified
 	 * @param choiceMode
 	 *            The choice mode of the adapter as a value of the enum
-	 *            {@link ExpandableListChoiceMode}
+	 *            {@link ChoiceMode}
 	 */
 	protected MultipleChoiceExpandableListAdapterImplementation(final Context context, final Inflater groupInflater,
 			final Inflater childInflater, final SelectableExpandableListDecorator<GroupType, ChildType> decorator,
@@ -223,7 +223,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 			final boolean selectGroupOnClick, final boolean selectChildOnClick, final boolean expandGroupOnSelection,
 			final boolean expandGroupOnChildSelection,
 			final Set<ExpandableListSelectionListener<GroupType, ChildType>> selectionListeners,
-			final ExpandableListChoiceMode choiceMode) {
+			final ChoiceMode choiceMode) {
 		super(context, groupInflater, childInflater, decorator, logLevel, groupAdapter, allowDuplicateChildren,
 				notifyOnChange, expandGroupOnClick, itemClickListeners, adapterListeners, expansionListeners,
 				setChildEnableStatesImplicitly, enableStateListeners, numberOfGroupStates, numberOfChildStates,
@@ -258,12 +258,12 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 	 *            type DecoratorType. The decorator may not be null
 	 * @param choiceMode
 	 *            The choice mode of the adapter as a value of the enum
-	 *            {@link ExpandableListChoiceMode} they belong to, is selected,
+	 *            {@link ChoiceMode} they belong to, is selected,
 	 *            false otherwise
 	 */
 	public MultipleChoiceExpandableListAdapterImplementation(final Context context, final Inflater groupInflater,
 			final Inflater childInflater, final SelectableExpandableListDecorator<GroupType, ChildType> decorator,
-			final ExpandableListChoiceMode choiceMode) {
+			final ChoiceMode choiceMode) {
 		this(context, groupInflater, childInflater, decorator, LogLevel.ALL,
 				new MultipleChoiceListAdapterImplementation<Group<GroupType, ChildType>>(context, groupInflater,
 						new NullObjectDecorator<Group<GroupType, ChildType>>()),
@@ -357,7 +357,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 
 	@Override
 	public final boolean setGroupSelected(final int index, final boolean selected) {
-		if (getChoiceMode() == ExpandableListChoiceMode.CHILDREN_ONLY) {
+		if (getChoiceMode() == ChoiceMode.CHILDREN_ONLY) {
 			throw new IllegalStateException(
 					"Groups are not allowed to be selected when using the choice mode " + getChoiceMode());
 		}
@@ -572,7 +572,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 
 	@Override
 	public final boolean setChildSelected(final int groupIndex, final int childIndex, final boolean selected) {
-		if (getChoiceMode() == ExpandableListChoiceMode.GROUPS_ONLY) {
+		if (getChoiceMode() == ChoiceMode.GROUPS_ONLY) {
 			throw new IllegalStateException(
 					"Children are not allowed to be selected when using the choice mode " + getChoiceMode());
 		}
