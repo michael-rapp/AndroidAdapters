@@ -18,7 +18,6 @@
 package de.mrapp.android.adapter.expandablelist.selectable;
 
 import de.mrapp.android.adapter.ExpandableListAdapter;
-import de.mrapp.android.adapter.ChoiceMode;
 
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a list

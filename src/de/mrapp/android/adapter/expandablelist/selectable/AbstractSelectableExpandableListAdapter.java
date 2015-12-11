@@ -24,7 +24,6 @@ import java.util.Set;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-import de.mrapp.android.adapter.ChoiceMode;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.SelectableExpandableListDecorator;
 import de.mrapp.android.adapter.datastructure.group.Group;

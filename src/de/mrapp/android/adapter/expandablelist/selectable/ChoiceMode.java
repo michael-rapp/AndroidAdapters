@@ -15,7 +15,7 @@
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/>. 
  */
-package de.mrapp.android.adapter;
+package de.mrapp.android.adapter.expandablelist.selectable;
 
 /**
  * Contains all possible choice modes of an adapter, whose underlying data is
