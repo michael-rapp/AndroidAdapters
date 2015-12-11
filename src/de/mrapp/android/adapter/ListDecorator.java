@@ -70,7 +70,7 @@ public abstract class ListDecorator<DataType> extends AbstractDecorator {
 	public final void applyDecorator(final Context context, final ListAdapter<DataType> adapter, final View view,
 			final DataType item, final int index, final boolean enabled, final int state, final boolean filtered) {
 		setCurrentParentView(view);
-		int viewType = getViewType(adapter, item, index, enabled, state, filtered);
+		int viewType = getViewType(item, index);
 		setCurrentViewType(viewType);
 		adaptViewState(view, enabled, false);
 		onShowItem(context, adapter, view, item, viewType, index, enabled, state, filtered);
@@ -83,30 +83,16 @@ public abstract class ListDecorator<DataType> extends AbstractDecorator {
 	 * items optically divergent from others, returning a different integer
 	 * constant for each type.
 	 * 
-	 * @param adapter
-	 *            The adapter, whose items are visualized by the decorator, as
-	 *            an instance of the type {@link ListAdapter}. The adapter may
-	 *            not be null
 	 * @param item
 	 *            The item, which should be visualized, as an instance of the
 	 *            generic type DataType. The item may not be null
 	 * @param index
 	 *            The index of the item, which should be visualized, as an
 	 *            {@link Integer} value
-	 * @param enabled
-	 *            True, if the item, which should be visualized, is currently
-	 *            enabled, false otherwise
-	 * @param state
-	 *            The current state of the item, which should be visualized, as
-	 *            an {@link Integer} value
-	 * @param filtered
-	 *            True, if at least one filter is currently applied on the
-	 *            adapter, false otherwise
 	 * @return The view type of the item, which is about to be visualized, as an
 	 *         {@link Integer} value
 	 */
-	public int getViewType(final ListAdapter<DataType> adapter, final DataType item, final int index,
-			final boolean enabled, final int state, final boolean filtered) {
+	public int getViewType(final DataType item, final int index) {
 		return 0;
 	}
 

@@ -238,9 +238,8 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType> extends
 
 	@Override
 	public final int getChildType(final int groupIndex, final int childIndex) {
-		return getDecorator().getChildType(this, getChild(groupIndex, childIndex), childIndex, getGroup(groupIndex),
-				groupIndex, isChildEnabled(groupIndex, childIndex), getChildState(groupIndex, childIndex),
-				isFiltered());
+		return getDecorator().getChildType(getChild(groupIndex, childIndex), childIndex, getGroup(groupIndex),
+				groupIndex);
 	}
 
 	@Override
@@ -250,8 +249,7 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType> extends
 
 	@Override
 	public final int getGroupType(final int groupIndex) {
-		return getDecorator().getGroupType(this, getGroup(groupIndex), groupIndex, isGroupEnabled(groupIndex),
-				getGroupState(groupIndex), isFiltered());
+		return getDecorator().getGroupType(getGroup(groupIndex), groupIndex);
 	}
 
 	@Override
