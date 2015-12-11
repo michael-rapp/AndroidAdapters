@@ -696,7 +696,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 						getLogger().logInfo(getClass(), message);
 						unselectChildren(groupIndex, currentGroup);
 					} else {
-						unselectGroupAndChildren(groupIndex, currentGroup);
+						unselectGroupAndChildren(i, currentGroup);
 					}
 				}
 
