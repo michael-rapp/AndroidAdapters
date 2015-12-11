@@ -18,14 +18,9 @@
 package de.mrapp.android.adapter.datastructure.item;
 
 import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 import android.os.Parcel;
-import android.os.Parcelable;
-import de.mrapp.android.adapter.Filterable;
-import de.mrapp.android.adapter.FilteringNotSupportedException;
-import de.mrapp.android.adapter.SortingNotSupportedException;
-import de.mrapp.android.adapter.datastructure.DataStructure;
+import de.mrapp.android.adapter.datastructure.AbstractAdapterItem;
 
 /**
  * A data structure, which holds the data of an item of an adapter. It has a
@@ -38,7 +33,7 @@ import de.mrapp.android.adapter.datastructure.DataStructure;
  * 
  * @since 0.1.0
  */
-public class Item<DataType> implements DataStructure, Parcelable, Comparable<Item<DataType>>, Filterable {
+public class Item<DataType> extends AbstractAdapterItem<DataType> {
 
 	/**
 	 * A creator, which allows to create instances of the class {@link Item}
@@ -65,11 +60,6 @@ public class Item<DataType> implements DataStructure, Parcelable, Comparable<Ite
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * The item's data.
-	 */
-	private DataType data;
-
-	/**
 	 * True, if the item is selected, false otherwise.
 	 */
 	private boolean selected;
@@ -92,11 +82,8 @@ public class Item<DataType> implements DataStructure, Parcelable, Comparable<Ite
 	 *            The source, the item should be created from, as an instance of
 	 *            the class {@link Parcel}. The source may not be null
 	 */
-	@SuppressWarnings("unchecked")
 	protected Item(final Parcel source) {
-		Class<DataType> clazz = (Class<DataType>) source.readSerializable();
-		ClassLoader classLoader = clazz.getClassLoader();
-		setData((DataType) source.readParcelable(classLoader));
+		super(source);
 		setSelected(source.readInt() == 1);
 		setEnabled(source.readInt() == 1);
 		setState(source.readInt());
@@ -111,32 +98,10 @@ public class Item<DataType> implements DataStructure, Parcelable, Comparable<Ite
 	 *            The data may not be null
 	 */
 	public Item(final DataType data) {
-		setData(data);
+		super(data);
 		setEnabled(true);
 		setSelected(false);
 		setState(0);
-	}
-
-	/**
-	 * Returns the item's data.
-	 * 
-	 * @return The item's data, as an instance of the generic type DataType. The
-	 *         data may not be null
-	 */
-	public final DataType getData() {
-		return data;
-	}
-
-	/**
-	 * Sets the item's data.
-	 * 
-	 * @param data
-	 *            The data, which should be set, as an instance of the generic
-	 *            type DataType. The data may not be null
-	 */
-	public final void setData(final DataType data) {
-		ensureNotNull(data, "The data may not be null");
-		this.data = data;
 	}
 
 	/**
@@ -200,30 +165,9 @@ public class Item<DataType> implements DataStructure, Parcelable, Comparable<Ite
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public final int compareTo(final Item<DataType> another) {
+	public final Item<DataType> clone() throws CloneNotSupportedException {
 		try {
-			Comparable<DataType> comparable = (Comparable<DataType>) getData();
-			return comparable.compareTo(another.getData());
-		} catch (ClassCastException e) {
-			throw new SortingNotSupportedException();
-		}
-	}
-
-	@Override
-	public final boolean match(final String query, final int flags) {
-		try {
-			Filterable filterable = (Filterable) getData();
-			return filterable.match(query, flags);
-		} catch (ClassCastException e) {
-			throw new FilteringNotSupportedException();
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public Item<DataType> clone() throws CloneNotSupportedException {
-		try {
-			DataType clonedData = (DataType) data.getClass().getMethod("clone").invoke(data);
+			DataType clonedData = (DataType) getData().getClass().getMethod("clone").invoke(getData());
 			Item<DataType> clonedItem = new Item<DataType>(clonedData);
 			clonedItem.setSelected(isSelected());
 			clonedItem.setEnabled(isEnabled());
@@ -235,15 +179,15 @@ public class Item<DataType> implements DataStructure, Parcelable, Comparable<Ite
 	}
 
 	@Override
-	public String toString() {
-		return "Item [data=" + data + ", selected=" + selected + ", enabled=" + enabled + ", state=" + state + "]";
+	public final String toString() {
+		return "Item [data=" + getData() + ", selected=" + isSelected() + ", enabled=" + isEnabled() + ", state="
+				+ getState() + "]";
 	}
 
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		result = prime * result + data.hashCode();
+		int result = super.hashCode();
 		result = prime * result + (enabled ? 1231 : 1237);
 		result = prime * result + (selected ? 1231 : 1237);
 		result = prime * result + state;
@@ -254,13 +198,11 @@ public class Item<DataType> implements DataStructure, Parcelable, Comparable<Ite
 	public final boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		Item<?> other = (Item<?>) obj;
-		if (!data.equals(other.data))
-			return false;
 		if (enabled != other.enabled)
 			return false;
 		if (selected != other.selected)
@@ -271,14 +213,8 @@ public class Item<DataType> implements DataStructure, Parcelable, Comparable<Ite
 	}
 
 	@Override
-	public final int describeContents() {
-		return 0;
-	}
-
-	@Override
 	public final void writeToParcel(final Parcel dest, final int flags) {
-		dest.writeSerializable(getData().getClass());
-		dest.writeParcelable((Parcelable) getData(), flags);
+		super.writeToParcel(dest, flags);
 		dest.writeInt(isSelected() ? 1 : 0);
 		dest.writeInt(isEnabled() ? 1 : 0);
 		dest.writeInt(getState());

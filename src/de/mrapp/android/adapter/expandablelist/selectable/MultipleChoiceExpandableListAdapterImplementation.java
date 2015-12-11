@@ -325,12 +325,11 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 	@Override
 	public final List<GroupType> getSelectedGroups() {
 		List<GroupType> selectedGroups = new ArrayList<>();
+		MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter = getGroupAdapter();
 
 		for (int i = 0; i < getGroupCount(); i++) {
-			Group<GroupType, ChildType> group = getGroupAdapter().getItem(i);
-
-			if (group.isSelected()) {
-				selectedGroups.add(group.getData());
+			if (groupAdapter.isSelected(i)) {
+				selectedGroups.add(groupAdapter.getItem(i).getData());
 			}
 		}
 
@@ -345,12 +344,11 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 	@Override
 	public final List<GroupType> getUnselectedGroups() {
 		List<GroupType> unselectedGroups = new ArrayList<>();
+		MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter = getGroupAdapter();
 
 		for (int i = 0; i < getGroupCount(); i++) {
-			Group<GroupType, ChildType> group = getGroupAdapter().getItem(i);
-
-			if (!group.isSelected()) {
-				unselectedGroups.add(group.getData());
+			if (!groupAdapter.isSelected(i)) {
+				unselectedGroups.add(groupAdapter.getItem(i).getData());
 			}
 		}
 

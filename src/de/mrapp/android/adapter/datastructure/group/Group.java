@@ -19,7 +19,7 @@ package de.mrapp.android.adapter.datastructure.group;
 
 import android.os.Parcel;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
-import de.mrapp.android.adapter.datastructure.item.Item;
+import de.mrapp.android.adapter.datastructure.AbstractAdapterItem;
 
 /**
  * A data structure, which categorizes multiple items of an adapter. A group has
@@ -35,7 +35,7 @@ import de.mrapp.android.adapter.datastructure.item.Item;
  * 
  * @since 0.1.0
  */
-public class Group<GroupType, ChildType> extends Item<GroupType> {
+public class Group<GroupType, ChildType> extends AbstractAdapterItem<GroupType> {
 
 	/**
 	 * A creator, which allows to create instances of the class {@link Group}
@@ -104,8 +104,7 @@ public class Group<GroupType, ChildType> extends Item<GroupType> {
 	 *            {@link MultipleChoiceListAdapter} or null, if no adapter
 	 *            should be set
 	 */
-	public Group(final GroupType data,
-			final MultipleChoiceListAdapter<ChildType> childAdapter) {
+	public Group(final GroupType data, final MultipleChoiceListAdapter<ChildType> childAdapter) {
 		super(data);
 		setChildAdapter(childAdapter);
 	}
@@ -129,20 +128,16 @@ public class Group<GroupType, ChildType> extends Item<GroupType> {
 	 *            {@link MultipleChoiceListAdapter} or null, if no adapter
 	 *            should be set
 	 */
-	public final void setChildAdapter(
-			final MultipleChoiceListAdapter<ChildType> childAdapter) {
+	public final void setChildAdapter(final MultipleChoiceListAdapter<ChildType> childAdapter) {
 		this.childAdapter = childAdapter;
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public final Group<GroupType, ChildType> clone()
-			throws CloneNotSupportedException {
+	public final Group<GroupType, ChildType> clone() throws CloneNotSupportedException {
 		try {
-			GroupType clonedData = (GroupType) getData().getClass()
-					.getMethod("clone").invoke(getData());
-			Group<GroupType, ChildType> clonedGroup = new Group<GroupType, ChildType>(
-					clonedData);
+			GroupType clonedData = (GroupType) getData().getClass().getMethod("clone").invoke(getData());
+			Group<GroupType, ChildType> clonedGroup = new Group<GroupType, ChildType>(clonedData);
 			MultipleChoiceListAdapter<ChildType> clonedChildAdapter = null;
 
 			if (childAdapter != null) {
@@ -150,9 +145,6 @@ public class Group<GroupType, ChildType> extends Item<GroupType> {
 			}
 
 			clonedGroup.setChildAdapter(clonedChildAdapter);
-			clonedGroup.setSelected(isSelected());
-			clonedGroup.setEnabled(isEnabled());
-			clonedGroup.setState(getState());
 			return clonedGroup;
 		} catch (Exception e) {
 			throw new CloneNotSupportedException();
@@ -161,8 +153,7 @@ public class Group<GroupType, ChildType> extends Item<GroupType> {
 
 	@Override
 	public final String toString() {
-		return "Group [data=" + getData() + ", selected=" + isSelected()
-				+ ", enabled=" + isEnabled() + ", state=" + getState() + "]";
+		return "Group [data=" + getData() + "]";
 	}
 
 }

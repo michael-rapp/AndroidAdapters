@@ -356,12 +356,11 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
 	@Override
 	public final List<GroupType> getEnabledGroups() {
 		List<GroupType> enabledGroups = new ArrayList<>();
+		MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter = getGroupAdapter();
 
 		for (int i = 0; i < getGroupCount(); i++) {
-			Group<GroupType, ChildType> group = getGroupAdapter().getItem(i);
-
-			if (group.isEnabled()) {
-				enabledGroups.add(group.getData());
+			if (groupAdapter.isEnabled(i)) {
+				enabledGroups.add(groupAdapter.getItem(i).getData());
 			}
 		}
 
@@ -376,12 +375,11 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
 	@Override
 	public final List<GroupType> getDisabledGroups() {
 		List<GroupType> disabledGroups = new ArrayList<>();
+		MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter = getGroupAdapter();
 
 		for (int i = 0; i < getGroupCount(); i++) {
-			Group<GroupType, ChildType> group = getGroupAdapter().getItem(i);
-
-			if (!group.isEnabled()) {
-				disabledGroups.add(group.getData());
+			if (!groupAdapter.isEnabled(i)) {
+				disabledGroups.add(groupAdapter.getItem(i).getData());
 			}
 		}
 
@@ -395,10 +393,11 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
 
 	@Override
 	public final void setGroupEnabled(final int groupIndex, final boolean enabled) {
-		Group<GroupType, ChildType> group = getGroupAdapter().getItem(groupIndex);
+		MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter = getGroupAdapter();
+		Group<GroupType, ChildType> group = groupAdapter.getItem(groupIndex);
 
-		if (group.isEnabled() != enabled) {
-			group.setEnabled(enabled);
+		if (groupAdapter.isEnabled(groupIndex) != enabled) {
+			groupAdapter.setEnabled(groupIndex, enabled);
 
 			if (enabled) {
 				notifyOnGroupEnabled(group.getData(), groupIndex);

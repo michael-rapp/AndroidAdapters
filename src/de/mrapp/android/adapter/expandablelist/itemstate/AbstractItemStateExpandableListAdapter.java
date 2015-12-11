@@ -402,17 +402,19 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 				IllegalArgumentException.class);
 		ensureAtMaximum(state, maxGroupState(), "The group state must be at maximum " + maxGroupState(),
 				IllegalArgumentException.class);
-		Group<GroupType, ChildType> group = getGroupAdapter().getItem(groupIndex);
+
+		MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter = getGroupAdapter();
+		Group<GroupType, ChildType> group = groupAdapter.getItem(groupIndex);
 
 		if (areChildStatesSetImplicitly()) {
 			setAllChildStates(groupIndex, state);
 		}
 
-		if (group.isEnabled()) {
-			int previousState = group.getState();
+		if (groupAdapter.isEnabled(groupIndex)) {
+			int previousState = groupAdapter.getItemState(groupIndex);
 
 			if (previousState != state) {
-				group.setState(state);
+				groupAdapter.setItemState(groupIndex, state);
 				notifyOnGroupStateChanged(group.getData(), groupIndex, state);
 				notifyOnDataSetChanged();
 				String message = "Changed state of group \"" + group.getData() + "\" at index " + groupIndex + " from "
@@ -529,12 +531,11 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 	@Override
 	public final List<GroupType> getGroupsWithSpecificState(final int state) {
 		List<GroupType> groups = new ArrayList<>();
+		MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter = getGroupAdapter();
 
 		for (int i = 0; i < getGroupCount(); i++) {
-			Group<GroupType, ChildType> group = getGroupAdapter().getItem(i);
-
-			if (group.getState() == state) {
-				groups.add(group.getData());
+			if (groupAdapter.getItemState(i) == state) {
+				groups.add(groupAdapter.getItem(i).getData());
 			}
 		}
 

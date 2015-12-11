@@ -124,7 +124,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 	 *            class {@link Group}
 	 */
 	private void unselectGroupAndChildren(final int groupIndex, final Group<GroupType, ChildType> group) {
-		if (group.isSelected()) {
+		if (getGroupAdapter().isSelected(groupIndex)) {
 			getGroupAdapter().setSelected(groupIndex, false);
 			notifyOnGroupUnselected(group.getData(), groupIndex);
 			String message = "Unselected group \"" + group.getData() + "\" at index " + groupIndex;
