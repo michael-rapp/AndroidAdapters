@@ -632,7 +632,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 					return i;
 				}
 			}
-			
+
 			return -1;
 		}
 
@@ -744,14 +744,17 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 					"Children are not allowed to be selected when using the choice mode " + getChoiceMode());
 		}
 
-		Group<GroupType, ChildType> group = getGroupAdapter().getItem(groupIndex);
+		MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter = getGroupAdapter();
+		Group<GroupType, ChildType> group = groupAdapter.getItem(groupIndex);
 		MultipleChoiceListAdapter<ChildType> childAdapter = group.getChildAdapter();
 
 		if (childAdapter.isEnabled(childIndex)) {
 			if (!childAdapter.isSelected(childIndex)) {
+				groupAdapter.setSelected(groupIndex, false);
+
 				for (int i = 0; i < getGroupCount(); i++) {
 					if (i != groupIndex) {
-						unselectGroupAndChildren(i, getGroupAdapter().getItem(i));
+						unselectGroupAndChildren(i, groupAdapter.getItem(i));
 					}
 				}
 
