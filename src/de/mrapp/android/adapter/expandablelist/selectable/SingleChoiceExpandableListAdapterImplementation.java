@@ -17,8 +17,8 @@
  */
 package de.mrapp.android.adapter.expandablelist.selectable;
 
-import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
@@ -377,7 +377,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 			@Override
 			public void onApplyGroupFilter(final ExpandableListAdapter<GroupType, ChildType> adapter,
 					final String query, final int flags, final Filter<GroupType> filter,
-					final Collection<GroupType> filteredGroups) {
+					final List<GroupType> filteredGroups) {
 				if (isSelectionAdaptedAutomatically() && !isEmpty() && areGroupsFiltered()
 						&& getSelectedGroupIndex() == -1 && getChoiceMode() != ChoiceMode.CHILDREN_ONLY) {
 					selectGroup(0);
@@ -386,14 +386,14 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 
 			@Override
 			public void onResetGroupFilter(final ExpandableListAdapter<GroupType, ChildType> adapter,
-					final String query, final int flags, final Collection<GroupType> filteredGroups) {
+					final String query, final int flags, final List<GroupType> filteredGroups) {
 				return;
 			}
 
 			@Override
 			public void onApplyChildFilter(final ExpandableListAdapter<GroupType, ChildType> adapter,
 					final String query, final int flags, final Filter<ChildType> filter, final GroupType group,
-					final int groupIndex, final Collection<ChildType> filteredChildren) {
+					final int groupIndex, final List<ChildType> filteredChildren) {
 				if (isSelectionAdaptedAutomatically() && areChildrenFiltered(groupIndex)
 						&& getSelectedGroupIndex() == -1) {
 					selectNearestEnabledItem(groupIndex, 0);
@@ -403,7 +403,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 			@Override
 			public void onResetChildFilter(final ExpandableListAdapter<GroupType, ChildType> adapter,
 					final String query, final int flags, final GroupType group, final int groupIndex,
-					final Collection<ChildType> filteredChildren) {
+					final List<ChildType> filteredChildren) {
 				return;
 			}
 
