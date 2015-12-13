@@ -18,7 +18,6 @@
 package de.mrapp.android.adapter.expandablelist.filterable;
 
 import java.util.Collection;
-import java.util.regex.Pattern;
 
 import de.mrapp.android.adapter.ExpandableListAdapter;
 import de.mrapp.android.adapter.Filter;
@@ -65,7 +64,7 @@ public interface ExpandableListFilterListener<GroupType, ChildType> {
 	 *            empty collection, if the adapter does not contain any group
 	 *            items
 	 */
-	void onApplyGroupFilter(ExpandableListAdapter<GroupType, ChildType> adapter, Pattern query, int flags,
+	void onApplyGroupFilter(ExpandableListAdapter<GroupType, ChildType> adapter, String query, int flags,
 			Filter<GroupType> filter, Collection<GroupType> filteredGroups);
 
 	/**
@@ -121,7 +120,7 @@ public interface ExpandableListFilterListener<GroupType, ChildType> {
 	 *            as an instance of the type {@link Collection} or an empty
 	 *            collection, if the group does not contain any child items
 	 */
-	void onApplyChildFilter(ExpandableListAdapter<GroupType, ChildType> adapter, Pattern query, int flags,
+	void onApplyChildFilter(ExpandableListAdapter<GroupType, ChildType> adapter, String query, int flags,
 			Filter<ChildType> filter, GroupType group, int groupIndex, Collection<ChildType> filteredChildren);
 
 	/**

@@ -19,6 +19,7 @@ package de.mrapp.android.adapter.expandablelist.filterable;
 
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
+import java.util.Collection;
 import java.util.Set;
 
 import android.content.Context;
@@ -69,6 +70,128 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
 	 * adapter's underlying data has been filtered.
 	 */
 	private transient Set<ExpandableListFilterListener<GroupType, ChildType>> filterListeners;
+
+	/**
+	 * Notifies all listeners, which have been registered to be notified, when
+	 * the adapter's underlying data has been filtered, when a filter has been
+	 * applied on the adapter's group items.
+	 * 
+	 * @param query
+	 *            The query, which has been used to filter the adapter's group
+	 *            items, as a {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags, which have been used to filter the adapter's group
+	 *            items, as an {@link Integer} value, or 0, if no flags have
+	 *            been used
+	 * @param filter
+	 *            The filter, which has been used to apply the query on the
+	 *            single items, as an instance of the type {@link Filter} or
+	 *            null, if the items' implementations of the interface
+	 *            {@link Filterable} has been used instead
+	 * @param filteredGroups
+	 *            A collection, which contains the adapter's filtered group
+	 *            items, as an instance of the type {@link Collection} or an
+	 *            empty collection, if the adapter does not contain any group
+	 *            items
+	 */
+	private void notifyOnApplyGroupFilter(final String query, final int flags, final Filter<GroupType> filter,
+			final Collection<GroupType> filteredGroups) {
+		for (ExpandableListFilterListener<GroupType, ChildType> listener : filterListeners) {
+			listener.onApplyGroupFilter(this, query, flags, filter, filteredGroups);
+		}
+	}
+
+	/**
+	 * Notifies all listeners, which have been registered to be notified, when
+	 * the adapter's underlying data has been filtered, when a filter, which has
+	 * been used to filter the adapter's group items, has been reseted.
+	 * 
+	 * @param query
+	 *            The query of the filter, which has been reseted, as a
+	 *            {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags of the filter, which has been reseted, as an
+	 *            {@link Integer} value
+	 * @param unfilteredGroups
+	 *            A collection, which contains the adapter's unfiltered group
+	 *            items, as an instance of the type {@link Collection} or an
+	 *            empty collection, if the adapter does not contain any group
+	 *            items
+	 */
+	private void notifyOnResetGroupFilter(final String query, final int flags,
+			final Collection<GroupType> unfilteredGroups) {
+		for (ExpandableListFilterListener<GroupType, ChildType> listener : filterListeners) {
+			listener.onResetGroupFilter(this, query, flags, unfilteredGroups);
+		}
+	}
+
+	/**
+	 * Notifies all listeners, which have been registered to be notified, when
+	 * the adapter's underlying data has been filtered, when a filter has been
+	 * applied on the adapter's child items.
+	 * 
+	 * @param query
+	 *            The query, which has been used to filter the adapter's child
+	 *            items, as a {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags, which have been used to filter the adapter's child
+	 *            items, as an {@link Integer} value, or 0, if no flags have
+	 *            been used
+	 * @param filter
+	 *            The filter, which has been used to apply the query on the
+	 *            single items, as an instance of the type {@link Filter} or
+	 *            null, if the items' implementations of the interface
+	 *            {@link Filterable} has been used instead
+	 * @param group
+	 *            The group, whose child items have been filtered, as an
+	 *            instance of the generic type GroupType. The group may not be
+	 *            null
+	 * @param groupIndex
+	 *            The index of the group, whose child items have been filtered,
+	 *            as an {@link Integer} value
+	 * @param filteredChildren
+	 *            A collection, which contains the adapter's filtered child
+	 *            items, as an instance of the type {@link Collection} or an
+	 *            empty collection, if the adapter does not contain any child
+	 *            items
+	 */
+	private void notifyOnApplyGroupFilter(final String query, final int flags, final Filter<ChildType> filter,
+			final GroupType group, final int groupIndex, final Collection<ChildType> filteredChildren) {
+		for (ExpandableListFilterListener<GroupType, ChildType> listener : filterListeners) {
+			listener.onApplyChildFilter(this, query, flags, filter, group, groupIndex, filteredChildren);
+		}
+	}
+
+	/**
+	 * Notifies all listeners, which have been registered to be notified, when
+	 * the adapter's underlying data has been filtered, when a filter, which has
+	 * been used to filter the adapter's child items, has been reseted.
+	 * 
+	 * @param query
+	 *            The query of the filter, which has been reseted, as a
+	 *            {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags of the filter, which has been reseted, as an
+	 *            {@link Integer} value
+	 * @param group
+	 *            The group, whose child items have been filtered, as an
+	 *            instance of the generic type GroupType. The group may not be
+	 *            null
+	 * @param groupIndex
+	 *            The index of the group, whose child items have been filtered,
+	 *            as an {@link Integer} value
+	 * @param unfilteredChildren
+	 *            A collection, which contains the adapter's unfiltered child
+	 *            items, as an instance of the type {@link Collection} or an
+	 *            empty collection, if the adapter does not contain any child
+	 *            items
+	 */
+	private void notifyOnResetGroupFilter(final String query, final int flags, final GroupType group,
+			final int groupIndex, final Collection<ChildType> unfilteredChildren) {
+		for (ExpandableListFilterListener<GroupType, ChildType> listener : filterListeners) {
+			listener.onResetChildFilter(this, query, flags, group, groupIndex, unfilteredChildren);
+		}
+	}
 
 	/**
 	 * Returns a set, which contains the listeners, which should be notified,
