@@ -27,6 +27,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
@@ -315,11 +316,11 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	 *            {@link Filterable} has been used instead
 	 * @param filteredItems
 	 *            A collection, which contains the adapter's filtered items, as
-	 *            an instance of the type {@link Collection} or an empty
-	 *            collection, if the adapter does not contain any items
+	 *            an instance of the type {@link List} or an empty collection,
+	 *            if the adapter does not contain any items
 	 */
 	private void notifyOnApplyFilter(final String query, final int flags, final Filter<DataType> filter,
-			final Collection<DataType> filteredItems) {
+			final List<DataType> filteredItems) {
 		for (ListFilterListener<DataType> listener : filterListeners) {
 			listener.onApplyFilter(this, query, flags, filter, filteredItems);
 		}
@@ -338,10 +339,10 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	 *            {@link Integer} value
 	 * @param unfilteredItems
 	 *            A collection, which contains the adapter's filtered items, as
-	 *            an instance of the type {@link Collection} or an empty
-	 *            collection, if the adapter does not contain any items
+	 *            an instance of the type {@link List} or an empty collection,
+	 *            if the adapter does not contain any items
 	 */
-	private void notifyOnResetFilter(final String query, final int flags, final Collection<DataType> unfilteredItems) {
+	private void notifyOnResetFilter(final String query, final int flags, final List<DataType> unfilteredItems) {
 		for (ListFilterListener<DataType> listener : filterListeners) {
 			listener.onResetFilter(this, query, flags, unfilteredItems);
 		}

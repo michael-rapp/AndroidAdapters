@@ -19,7 +19,7 @@ package de.mrapp.android.adapter.expandablelist.filterable;
 
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
@@ -90,12 +90,11 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
 	 *            {@link Filterable} has been used instead
 	 * @param filteredGroups
 	 *            A collection, which contains the adapter's filtered group
-	 *            items, as an instance of the type {@link Collection} or an
-	 *            empty collection, if the adapter does not contain any group
-	 *            items
+	 *            items, as an instance of the type {@link List} or an empty
+	 *            collection, if the adapter does not contain any group items
 	 */
 	private void notifyOnApplyGroupFilter(final String query, final int flags, final Filter<GroupType> filter,
-			final Collection<GroupType> filteredGroups) {
+			final List<GroupType> filteredGroups) {
 		for (ExpandableListFilterListener<GroupType, ChildType> listener : filterListeners) {
 			listener.onApplyGroupFilter(this, query, flags, filter, filteredGroups);
 		}
@@ -114,12 +113,10 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
 	 *            {@link Integer} value
 	 * @param unfilteredGroups
 	 *            A collection, which contains the adapter's unfiltered group
-	 *            items, as an instance of the type {@link Collection} or an
-	 *            empty collection, if the adapter does not contain any group
-	 *            items
+	 *            items, as an instance of the type {@link List} or an empty
+	 *            collection, if the adapter does not contain any group items
 	 */
-	private void notifyOnResetGroupFilter(final String query, final int flags,
-			final Collection<GroupType> unfilteredGroups) {
+	private void notifyOnResetGroupFilter(final String query, final int flags, final List<GroupType> unfilteredGroups) {
 		for (ExpandableListFilterListener<GroupType, ChildType> listener : filterListeners) {
 			listener.onResetGroupFilter(this, query, flags, unfilteredGroups);
 		}
@@ -151,12 +148,11 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
 	 *            as an {@link Integer} value
 	 * @param filteredChildren
 	 *            A collection, which contains the adapter's filtered child
-	 *            items, as an instance of the type {@link Collection} or an
-	 *            empty collection, if the adapter does not contain any child
-	 *            items
+	 *            items, as an instance of the type {@link List} or an empty
+	 *            collection, if the adapter does not contain any child items
 	 */
 	private void notifyOnApplyGroupFilter(final String query, final int flags, final Filter<ChildType> filter,
-			final GroupType group, final int groupIndex, final Collection<ChildType> filteredChildren) {
+			final GroupType group, final int groupIndex, final List<ChildType> filteredChildren) {
 		for (ExpandableListFilterListener<GroupType, ChildType> listener : filterListeners) {
 			listener.onApplyChildFilter(this, query, flags, filter, group, groupIndex, filteredChildren);
 		}
@@ -182,12 +178,11 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
 	 *            as an {@link Integer} value
 	 * @param unfilteredChildren
 	 *            A collection, which contains the adapter's unfiltered child
-	 *            items, as an instance of the type {@link Collection} or an
-	 *            empty collection, if the adapter does not contain any child
-	 *            items
+	 *            items, as an instance of the type {@link List} or an empty
+	 *            collection, if the adapter does not contain any child items
 	 */
 	private void notifyOnResetGroupFilter(final String query, final int flags, final GroupType group,
-			final int groupIndex, final Collection<ChildType> unfilteredChildren) {
+			final int groupIndex, final List<ChildType> unfilteredChildren) {
 		for (ExpandableListFilterListener<GroupType, ChildType> listener : filterListeners) {
 			listener.onResetChildFilter(this, query, flags, group, groupIndex, unfilteredChildren);
 		}

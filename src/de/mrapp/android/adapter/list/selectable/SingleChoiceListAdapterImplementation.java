@@ -18,8 +18,8 @@
 package de.mrapp.android.adapter.list.selectable;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
@@ -167,7 +167,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends AbstractSel
 
 			@Override
 			public void onApplyFilter(final ListAdapter<DataType> adapter, final String query, final int flags,
-					final Filter<DataType> filter, final Collection<DataType> filteredItems) {
+					final Filter<DataType> filter, final List<DataType> filteredItems) {
 				if (isSelectionAdaptedAutomatically() && isFiltered() && getSelectedIndex() == -1 && !isEmpty()) {
 					select(0);
 				}
@@ -175,7 +175,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends AbstractSel
 
 			@Override
 			public void onResetFilter(final ListAdapter<DataType> adapter, final String query, final int flags,
-					final Collection<DataType> filteredItems) {
+					final List<DataType> filteredItems) {
 				return;
 			}
 		};

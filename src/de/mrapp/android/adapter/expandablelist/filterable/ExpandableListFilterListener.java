@@ -17,7 +17,7 @@
  */
 package de.mrapp.android.adapter.expandablelist.filterable;
 
-import java.util.Collection;
+import java.util.List;
 
 import de.mrapp.android.adapter.ExpandableListAdapter;
 import de.mrapp.android.adapter.Filter;
@@ -65,7 +65,7 @@ public interface ExpandableListFilterListener<GroupType, ChildType> {
 	 *            items
 	 */
 	void onApplyGroupFilter(ExpandableListAdapter<GroupType, ChildType> adapter, String query, int flags,
-			Filter<GroupType> filter, Collection<GroupType> filteredGroups);
+			Filter<GroupType> filter, List<GroupType> filteredGroups);
 
 	/**
 	 * The method, which is invoked, when a filter, which has been used to
@@ -88,7 +88,7 @@ public interface ExpandableListFilterListener<GroupType, ChildType> {
 	 *            items
 	 */
 	void onResetGroupFilter(ExpandableListAdapter<GroupType, ChildType> adapter, String query, int flags,
-			Collection<GroupType> filteredGroups);
+			List<GroupType> filteredGroups);
 
 	/**
 	 * The method, which is invoked, when the child items of a specific group
@@ -121,7 +121,7 @@ public interface ExpandableListFilterListener<GroupType, ChildType> {
 	 *            collection, if the group does not contain any child items
 	 */
 	void onApplyChildFilter(ExpandableListAdapter<GroupType, ChildType> adapter, String query, int flags,
-			Filter<ChildType> filter, GroupType group, int groupIndex, Collection<ChildType> filteredChildren);
+			Filter<ChildType> filter, GroupType group, int groupIndex, List<ChildType> filteredChildren);
 
 	/**
 	 * The method, which is invoked, when a filter, which has been used to
@@ -143,12 +143,12 @@ public interface ExpandableListFilterListener<GroupType, ChildType> {
 	 * @param groupIndex
 	 *            The index of the group, whose child items have been filtered,
 	 *            as an {@link Integer} value
-	 * @param filteredChildren
+	 * @param unfilteredChildren
 	 *            A collection, which contains the group's filtered child items,
 	 *            as an instance of the type {@link Collection} or an empty
 	 *            collection, if the group does not contain any child items
 	 */
 	void onResetChildFilter(ExpandableListAdapter<GroupType, ChildType> adapter, String query, int flags,
-			GroupType group, int groupIndex, Collection<ChildType> filteredChildren);
+			GroupType group, int groupIndex, List<ChildType> unfilteredChildren);
 
 }
