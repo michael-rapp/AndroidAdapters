@@ -20,7 +20,6 @@ package de.mrapp.android.adapter.expandablelist.selectable;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -377,7 +376,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 
 			@Override
 			public void onApplyGroupFilter(final ExpandableListAdapter<GroupType, ChildType> adapter,
-					final Pattern query, final int flags, final Filter<GroupType> filter,
+					final String query, final int flags, final Filter<GroupType> filter,
 					final Collection<GroupType> filteredGroups) {
 				if (isSelectionAdaptedAutomatically() && !isEmpty() && areGroupsFiltered()
 						&& getSelectedGroupIndex() == -1 && getChoiceMode() != ChoiceMode.CHILDREN_ONLY) {
@@ -393,7 +392,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 
 			@Override
 			public void onApplyChildFilter(final ExpandableListAdapter<GroupType, ChildType> adapter,
-					final Pattern query, final int flags, final Filter<ChildType> filter, final GroupType group,
+					final String query, final int flags, final Filter<ChildType> filter, final GroupType group,
 					final int groupIndex, final Collection<ChildType> filteredChildren) {
 				if (isSelectionAdaptedAutomatically() && areChildrenFiltered(groupIndex)
 						&& getSelectedGroupIndex() == -1) {
