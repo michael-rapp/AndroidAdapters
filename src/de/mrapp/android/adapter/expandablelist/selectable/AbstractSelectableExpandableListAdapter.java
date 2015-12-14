@@ -591,8 +591,7 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
 
 	@Override
 	public final int getChildType(final int groupIndex, final int childIndex) {
-		return getDecorator().getChildType(getChild(groupIndex, childIndex), childIndex, getGroup(groupIndex),
-				groupIndex);
+		return getDecorator().getChildType(getChild(groupIndex, childIndex));
 	}
 
 	@Override
@@ -602,7 +601,7 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
 
 	@Override
 	public final int getGroupType(final int groupIndex) {
-		return getDecorator().getGroupType(getGroup(groupIndex), groupIndex);
+		return getDecorator().getGroupType(getGroup(groupIndex));
 	}
 
 	@Override

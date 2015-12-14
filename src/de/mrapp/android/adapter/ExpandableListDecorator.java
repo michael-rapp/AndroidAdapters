@@ -76,7 +76,7 @@ public abstract class ExpandableListDecorator<GroupType, ChildType> extends Abst
 			final ExpandableListAdapter<GroupType, ChildType> adapter, final View view, final GroupType group,
 			final int index, final boolean expanded, final boolean enabled, final int state, final boolean filtered) {
 		setCurrentParentView(view);
-		int viewType = getGroupType(group, index);
+		int viewType = getGroupType(group);
 		setCurrentViewType(viewType);
 		adaptViewState(view, enabled, false);
 		onShowGroup(context, adapter, view, group, viewType, index, expanded, enabled, state, filtered);
@@ -126,7 +126,7 @@ public abstract class ExpandableListDecorator<GroupType, ChildType> extends Abst
 			final int childIndex, final GroupType group, final int groupIndex, final boolean enabled, final int state,
 			final boolean filtered) {
 		setCurrentParentView(view);
-		int viewType = getChildType(child, childIndex, group, groupIndex);
+		int viewType = getChildType(child);
 		setCurrentViewType(viewType);
 		adaptViewState(view, enabled, false);
 		onShowChild(context, adapter, view, child, viewType, childIndex, group, groupIndex, enabled, state, filtered);
@@ -142,13 +142,10 @@ public abstract class ExpandableListDecorator<GroupType, ChildType> extends Abst
 	 * @param group
 	 *            The group item, which should be visualized, as an instance of
 	 *            the generic type GroupType. The group item may not be null
-	 * @param index
-	 *            The index of the group item, which should be visualized, as an
-	 *            {@link Integer} value
 	 * @return The view type of the group item, which is about to be visualized,
 	 *         as an {@link Integer} value
 	 */
-	public int getGroupType(final GroupType group, final int index) {
+	public int getGroupType(final GroupType group) {
 		return 0;
 	}
 
@@ -175,20 +172,10 @@ public abstract class ExpandableListDecorator<GroupType, ChildType> extends Abst
 	 * @param child
 	 *            The child item, which should be visualized, as an instance of
 	 *            the generic type ChildType. The child item may not be null
-	 * @param childIndex
-	 *            The index of the child item, which should be visualized, as an
-	 *            {@link Integer} value
-	 * @param group
-	 *            The group item, the child, which should be visualized, belongs
-	 *            to, as an instance of the generic type GroupType. The group
-	 *            item may not be null
-	 * @param groupIndex
-	 *            The index of the group item, the child, which should be
-	 *            visualized, belongs to, as an {@link Integer} value
 	 * @return The view type of the child item, which is about to be visualized,
 	 *         as an {@link Integer} value
 	 */
-	public int getChildType(final ChildType child, final int childIndex, final GroupType group, final int groupIndex) {
+	public int getChildType(final ChildType child) {
 		return 0;
 	}
 

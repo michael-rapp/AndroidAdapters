@@ -70,7 +70,7 @@ public abstract class ListDecorator<DataType> extends AbstractDecorator {
 	public final void applyDecorator(final Context context, final ListAdapter<DataType> adapter, final View view,
 			final DataType item, final int index, final boolean enabled, final int state, final boolean filtered) {
 		setCurrentParentView(view);
-		int viewType = getViewType(item, index);
+		int viewType = getViewType(item);
 		setCurrentViewType(viewType);
 		adaptViewState(view, enabled, false);
 		onShowItem(context, adapter, view, item, viewType, index, enabled, state, filtered);
@@ -86,13 +86,10 @@ public abstract class ListDecorator<DataType> extends AbstractDecorator {
 	 * @param item
 	 *            The item, which should be visualized, as an instance of the
 	 *            generic type DataType. The item may not be null
-	 * @param index
-	 *            The index of the item, which should be visualized, as an
-	 *            {@link Integer} value
 	 * @return The view type of the item, which is about to be visualized, as an
 	 *         {@link Integer} value
 	 */
-	public int getViewType(final DataType item, final int index) {
+	public int getViewType(final DataType item) {
 		return 0;
 	}
 
