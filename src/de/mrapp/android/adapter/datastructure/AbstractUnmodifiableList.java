@@ -17,40 +17,75 @@
  */
 package de.mrapp.android.adapter.datastructure;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 /**
  * An abstract base class for all implementations of the type {@link List},
  * which should throw exceptions of the type
- * {@link UnsupportedOperationException} when attempted to be modified.
+ * {@link UnsupportedOperationException} when attempted to be modified. Such a
+ * list is intended to encapsulate an {@link ArrayList} parameterized with a
+ * subtype of {@link AbstractAdapterItem}.
  *
- * @param <Type>
- *            The type of the list
+ * @param <DataType>
+ *            The underlying type of the items of the encapsulated list
  * 
  * @author Michael Rapp
  * 
  * @since 0.1.0
  */
-public abstract class AbstractUnmodifiableList<Type> implements List<Type> {
+public abstract class AbstractUnmodifiableList<DataType> implements List<DataType> {
+
+	/**
+	 * The array list, which is encapsulated by the list.
+	 */
+	private final ArrayList<? extends AbstractAdapterItem<DataType>> encapsulatedList;
+
+	/**
+	 * Returns the array list, which is encapsulated by the list.
+	 * 
+	 * @return The array list, which is encapsulated by the list, as an instance
+	 *         of the class {@link ArrayList}
+	 */
+	protected final ArrayList<? extends AbstractAdapterItem<DataType>> getEncapsulatedList() {
+		return encapsulatedList;
+	}
+
+	/**
+	 * Creates a new implementation of the type {@link List}, which throws
+	 * exceptions of the type {@link UnsupportedOperationException} when
+	 * attempted to be modified.
+	 * 
+	 * @param encapsulatedList
+	 *            The array list, which should be encapsulated by the list, as
+	 *            an instance of the class {@link ArrayList}. The array list may
+	 *            not be null
+	 */
+	public AbstractUnmodifiableList(final ArrayList<? extends AbstractAdapterItem<DataType>> encapsulatedList) {
+		ensureNotNull(encapsulatedList, "The encapsulated list may not be null");
+		this.encapsulatedList = encapsulatedList;
+	}
 
 	@Override
-	public final void add(final int location, final Type object) {
+	public final void add(final int location, final DataType object) {
 		throw new UnsupportedOperationException("List is not allowed to be modified");
 	}
 
 	@Override
-	public final boolean add(final Type object) {
+	public final boolean add(final DataType object) {
 		throw new UnsupportedOperationException("List is not allowed to be modified");
 	}
 
 	@Override
-	public final boolean addAll(final int location, final Collection<? extends Type> collection) {
+	public final boolean addAll(final int location, final Collection<? extends DataType> collection) {
 		throw new UnsupportedOperationException("List is not allowed to be modified");
 	}
 
 	@Override
-	public final boolean addAll(final Collection<? extends Type> collection) {
+	public final boolean addAll(final Collection<? extends DataType> collection) {
 		throw new UnsupportedOperationException("List is not allowed to be modified");
 	}
 
@@ -60,7 +95,7 @@ public abstract class AbstractUnmodifiableList<Type> implements List<Type> {
 	}
 
 	@Override
-	public final Type remove(final int location) {
+	public final DataType remove(final int location) {
 		throw new UnsupportedOperationException("List is not allowed to be modified");
 	}
 
@@ -80,7 +115,7 @@ public abstract class AbstractUnmodifiableList<Type> implements List<Type> {
 	}
 
 	@Override
-	public final Type set(final int location, final Type object) {
+	public final DataType set(final int location, final DataType object) {
 		throw new UnsupportedOperationException("List is not allowed to be modified");
 	}
 
