@@ -349,7 +349,7 @@ public abstract class AbstractSelectableListAdapter<DataType>
 
 	@Override
 	public final int getItemViewType(final int index) {
-		return getDecorator().getViewType(getItem(index), index);
+		return getDecorator().getViewType(getItem(index));
 	}
 
 	@Override
