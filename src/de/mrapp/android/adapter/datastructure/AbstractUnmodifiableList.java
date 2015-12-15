@@ -17,32 +17,33 @@
  */
 package de.mrapp.android.adapter.datastructure;
 
+import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 /**
  * An abstract base class for all implementations of the type {@link List},
  * which should throw exceptions of the type
  * {@link UnsupportedOperationException} when attempted to be modified. Such a
- * list is intended to encapsulate an {@link ArrayList} parameterized with a
- * subtype of {@link AbstractAdapterItem}.
+ * list is intended to encapsulate an other list.
  *
  * @param <DataType>
- *            The underlying type of the items of the encapsulated list
+ *            The type of the items of the list
+ * @param <EncapsulatedType>
+ *            The type of the items of the encapsulated array list
  * 
  * @author Michael Rapp
  * 
  * @since 0.1.0
  */
-public abstract class AbstractUnmodifiableList<DataType> implements List<DataType> {
+public abstract class AbstractUnmodifiableList<DataType, EncapsulatedType> implements List<DataType>, Unmodifiable {
 
 	/**
 	 * The array list, which is encapsulated by the list.
 	 */
-	private final ArrayList<? extends AbstractAdapterItem<DataType>> encapsulatedList;
+	private final List<EncapsulatedType> encapsulatedList;
 
 	/**
 	 * Returns the array list, which is encapsulated by the list.
@@ -50,7 +51,7 @@ public abstract class AbstractUnmodifiableList<DataType> implements List<DataTyp
 	 * @return The array list, which is encapsulated by the list, as an instance
 	 *         of the class {@link ArrayList}
 	 */
-	protected final ArrayList<? extends AbstractAdapterItem<DataType>> getEncapsulatedList() {
+	protected final List<EncapsulatedType> getEncapsulatedList() {
 		return encapsulatedList;
 	}
 
@@ -60,11 +61,10 @@ public abstract class AbstractUnmodifiableList<DataType> implements List<DataTyp
 	 * attempted to be modified.
 	 * 
 	 * @param encapsulatedList
-	 *            The array list, which should be encapsulated by the list, as
-	 *            an instance of the class {@link ArrayList}. The array list may
-	 *            not be null
+	 *            The list, which should be encapsulated by the list, as an
+	 *            instance of the class {@link List}. The list may not be null
 	 */
-	public AbstractUnmodifiableList(final ArrayList<? extends AbstractAdapterItem<DataType>> encapsulatedList) {
+	public AbstractUnmodifiableList(final List<EncapsulatedType> encapsulatedList) {
 		ensureNotNull(encapsulatedList, "The encapsulated list may not be null");
 		this.encapsulatedList = encapsulatedList;
 	}
@@ -117,6 +117,87 @@ public abstract class AbstractUnmodifiableList<DataType> implements List<DataTyp
 	@Override
 	public final DataType set(final int location, final DataType object) {
 		throw new UnsupportedOperationException("List is not allowed to be modified");
+	}
+
+	@Override
+	public final boolean contains(final Object object) {
+		return indexOf(object) != -1;
+	}
+
+	@Override
+	public final boolean containsAll(final Collection<?> collection) {
+		boolean result = true;
+
+		for (Object item : collection) {
+			result &= contains(item);
+		}
+
+		return result;
+	}
+
+	@Override
+	public final int indexOf(final Object object) {
+		for (int i = 0; i < size(); i++) {
+			if (get(i).equals(object)) {
+				return i;
+			}
+		}
+
+		return -1;
+	}
+
+	@Override
+	public final boolean isEmpty() {
+		return encapsulatedList.isEmpty();
+	}
+
+	@Override
+	public final int lastIndexOf(final Object object) {
+		for (int i = size() - 1; i >= 0; i--) {
+			if (get(i).equals(object)) {
+				return i;
+			}
+		}
+
+		return -1;
+	}
+
+	@Override
+	public final int size() {
+		return encapsulatedList.size();
+	}
+
+	@Override
+	public final List<DataType> subList(final int start, final int end) {
+		ArrayList<DataType> subList = new ArrayList<DataType>();
+
+		for (int i = start; i < end; i++) {
+			subList.add(get(i));
+		}
+
+		return new UnmodifiableList<>(subList);
+	}
+
+	@Override
+	public final Object[] toArray() {
+		Object[] array = new Object[size()];
+
+		for (int i = 0; i < array.length; i++) {
+			array[i] = get(i);
+		}
+
+		return array;
+	}
+
+	@Override
+	public final <T> T[] toArray(final T[] array) {
+		ArrayList<DataType> list = new ArrayList<>();
+
+		for (int i = 0; i < size(); i++) {
+			list.add(get(i));
+		}
+
+		return list.toArray(array);
 	}
 
 }

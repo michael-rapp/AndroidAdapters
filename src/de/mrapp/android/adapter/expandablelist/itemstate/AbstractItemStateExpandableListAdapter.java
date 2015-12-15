@@ -29,7 +29,9 @@ import android.content.Context;
 import android.os.Bundle;
 import de.mrapp.android.adapter.ExpandableListAdapter;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
+import de.mrapp.android.adapter.datastructure.UnmodifiableList;
 import de.mrapp.android.adapter.datastructure.group.Group;
+import de.mrapp.android.adapter.datastructure.group.UnmodifiableGroupList;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemClickListener;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterListener;
 import de.mrapp.android.adapter.expandablelist.ExpansionListener;
@@ -530,16 +532,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 
 	@Override
 	public final List<GroupType> getGroupsWithSpecificState(final int state) {
-		List<GroupType> groups = new ArrayList<>();
-		MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter = getGroupAdapter();
-
-		for (int i = 0; i < getGroupCount(); i++) {
-			if (groupAdapter.getItemState(i) == state) {
-				groups.add(groupAdapter.getItem(i).getData());
-			}
-		}
-
-		return groups;
+		return new UnmodifiableGroupList<>(getGroupAdapter().getItemsWithSpecificState(state));
 	}
 
 	@Override
@@ -805,7 +798,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 			children.addAll(getChildrenWithSpecificState(i, state));
 		}
 
-		return children;
+		return new UnmodifiableList<>(children);
 	}
 
 	@Override

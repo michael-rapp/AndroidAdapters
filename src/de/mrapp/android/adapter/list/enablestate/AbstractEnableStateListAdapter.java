@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
+import de.mrapp.android.adapter.datastructure.UnmodifiableList;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.AbstractListAdapter;
@@ -293,7 +294,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 			}
 		}
 
-		return enabledIndices;
+		return new UnmodifiableList<>(enabledIndices);
 	}
 
 	@Override
@@ -306,7 +307,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 			}
 		}
 
-		return enabledItems;
+		return new UnmodifiableList<>(enabledItems);
 	}
 
 	@Override
@@ -319,7 +320,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 			}
 		}
 
-		return disabledIndices;
+		return new UnmodifiableList<>(disabledIndices);
 	}
 
 	@Override
@@ -332,7 +333,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 			}
 		}
 
-		return disabledItems;
+		return new UnmodifiableList<>(disabledItems);
 	}
 
 	@Override

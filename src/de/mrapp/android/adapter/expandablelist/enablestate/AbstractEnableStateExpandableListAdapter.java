@@ -26,7 +26,9 @@ import java.util.Set;
 import android.content.Context;
 import android.os.Bundle;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
+import de.mrapp.android.adapter.datastructure.UnmodifiableList;
 import de.mrapp.android.adapter.datastructure.group.Group;
+import de.mrapp.android.adapter.datastructure.group.UnmodifiableGroupList;
 import de.mrapp.android.adapter.expandablelist.AbstractExpandableListAdapter;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemClickListener;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterListener;
@@ -355,16 +357,7 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
 
 	@Override
 	public final List<GroupType> getEnabledGroups() {
-		List<GroupType> enabledGroups = new ArrayList<>();
-		MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter = getGroupAdapter();
-
-		for (int i = 0; i < getGroupCount(); i++) {
-			if (groupAdapter.isEnabled(i)) {
-				enabledGroups.add(groupAdapter.getItem(i).getData());
-			}
-		}
-
-		return enabledGroups;
+		return new UnmodifiableGroupList<>(getGroupAdapter().getEnabledItems());
 	}
 
 	@Override
@@ -374,16 +367,7 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
 
 	@Override
 	public final List<GroupType> getDisabledGroups() {
-		List<GroupType> disabledGroups = new ArrayList<>();
-		MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter = getGroupAdapter();
-
-		for (int i = 0; i < getGroupCount(); i++) {
-			if (!groupAdapter.isEnabled(i)) {
-				disabledGroups.add(groupAdapter.getItem(i).getData());
-			}
-		}
-
-		return disabledGroups;
+		return new UnmodifiableGroupList<>(getGroupAdapter().getDisabledItems());
 	}
 
 	@Override
@@ -579,7 +563,7 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
 			enabledChildren.addAll(getEnabledChildren(i));
 		}
 
-		return enabledChildren;
+		return new UnmodifiableList<>(enabledChildren);
 	}
 
 	@Override
@@ -610,7 +594,7 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
 			disabledChildren.addAll(getDisabledChildren(i));
 		}
 
-		return disabledChildren;
+		return new UnmodifiableList<>(disabledChildren);
 	}
 
 	@Override

@@ -28,6 +28,7 @@ import java.util.Set;
 import android.content.Context;
 import android.os.Bundle;
 import de.mrapp.android.adapter.ListAdapter;
+import de.mrapp.android.adapter.datastructure.UnmodifiableList;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
@@ -427,7 +428,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 			}
 		}
 
-		return indices;
+		return new UnmodifiableList<>(indices);
 	}
 
 	@Override
@@ -440,7 +441,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 			}
 		}
 
-		return items;
+		return new UnmodifiableList<>(items);
 	}
 
 	@Override

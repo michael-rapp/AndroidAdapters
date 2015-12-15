@@ -28,6 +28,7 @@ import de.mrapp.android.adapter.MultipleChoiceExpandableListAdapter;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.SelectableExpandableListDecorator;
 import de.mrapp.android.adapter.datastructure.group.Group;
+import de.mrapp.android.adapter.datastructure.group.UnmodifiableGroupList;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemClickListener;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterListener;
 import de.mrapp.android.adapter.expandablelist.ExpansionListener;
@@ -257,8 +258,8 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 	 *            type DecoratorType. The decorator may not be null
 	 * @param choiceMode
 	 *            The choice mode of the adapter as a value of the enum
-	 *            {@link ChoiceMode} they belong to, is selected,
-	 *            false otherwise
+	 *            {@link ChoiceMode} they belong to, is selected, false
+	 *            otherwise
 	 */
 	public MultipleChoiceExpandableListAdapterImplementation(final Context context, final Inflater groupInflater,
 			final Inflater childInflater, final SelectableExpandableListDecorator<GroupType, ChildType> decorator,
@@ -323,16 +324,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 
 	@Override
 	public final List<GroupType> getSelectedGroups() {
-		List<GroupType> selectedGroups = new ArrayList<>();
-		MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter = getGroupAdapter();
-
-		for (int i = 0; i < getGroupCount(); i++) {
-			if (groupAdapter.isSelected(i)) {
-				selectedGroups.add(groupAdapter.getItem(i).getData());
-			}
-		}
-
-		return selectedGroups;
+		return new UnmodifiableGroupList<>(getGroupAdapter().getSelectedItems());
 	}
 
 	@Override
@@ -342,16 +334,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
 
 	@Override
 	public final List<GroupType> getUnselectedGroups() {
-		List<GroupType> unselectedGroups = new ArrayList<>();
-		MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter = getGroupAdapter();
-
-		for (int i = 0; i < getGroupCount(); i++) {
-			if (!groupAdapter.isSelected(i)) {
-				unselectedGroups.add(groupAdapter.getItem(i).getData());
-			}
-		}
-
-		return unselectedGroups;
+		return new UnmodifiableGroupList<>(getGroupAdapter().getUnselectedItems());
 	}
 
 	@Override
