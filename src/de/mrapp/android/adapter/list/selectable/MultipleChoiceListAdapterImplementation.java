@@ -23,10 +23,12 @@ import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
+import android.widget.AbsListView;
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.SelectableListDecorator;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
+import de.mrapp.android.adapter.datastructure.UnmodifiableList;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
@@ -320,7 +322,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends AbstractS
 			}
 		}
 
-		return selectedIndices;
+		return new UnmodifiableList<>(selectedIndices);
 	}
 
 	@Override
@@ -333,7 +335,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends AbstractS
 			}
 		}
 
-		return selectedItems;
+		return new UnmodifiableList<>(selectedItems);
 	}
 
 	@Override
@@ -346,7 +348,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends AbstractS
 			}
 		}
 
-		return unselectedIndices;
+		return new UnmodifiableList<>(unselectedIndices);
 	}
 
 	@Override
@@ -359,7 +361,7 @@ public class MultipleChoiceListAdapterImplementation<DataType> extends AbstractS
 			}
 		}
 
-		return unselectedItems;
+		return new UnmodifiableList<>(unselectedItems);
 	}
 
 	@Override

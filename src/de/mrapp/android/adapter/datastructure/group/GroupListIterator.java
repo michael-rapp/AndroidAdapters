@@ -41,8 +41,7 @@ import de.mrapp.android.adapter.logging.LogLevel;
  * 
  * @since 0.1.0
  */
-public class GroupListIterator<GroupType, ChildType> implements
-		ListIterator<GroupType> {
+public class GroupListIterator<GroupType, ChildType> implements ListIterator<GroupType> {
 
 	/**
 	 * The list iterator, which allows to iterate the groups.
@@ -84,19 +83,17 @@ public class GroupListIterator<GroupType, ChildType> implements
 	 *            may not be null
 	 * @param context
 	 *            The context, which should be used by the iterator, as an
-	 *            instance of the class {@link Context}. The context may not be
-	 *            null
+	 *            instance of the class {@link Context} or null, if no adapter's
+	 *            underlying data should be modified
 	 * @param childInflater
 	 *            The inflater, which should be used to inflate the views, which
 	 *            are used to visualize the groups' child items, as an instance
-	 *            of the type {@link Inflater}. The inflater may not be null
+	 *            of the type {@link Inflater} or null, if no adapter's
+	 *            underlying data should be modified
 	 */
-	public GroupListIterator(
-			final ListIterator<Group<GroupType, ChildType>> iterator,
-			final Context context, final Inflater childInflater) {
+	public GroupListIterator(final ListIterator<Group<GroupType, ChildType>> iterator, final Context context,
+			final Inflater childInflater) {
 		ensureNotNull(iterator, "The list iterator may not be null");
-		ensureNotNull(context, "The context may not be null");
-		ensureNotNull(childInflater, "The child inflater may not be null");
 		this.listIterator = iterator;
 		this.context = context;
 		this.childInflater = childInflater;
@@ -104,8 +101,11 @@ public class GroupListIterator<GroupType, ChildType> implements
 
 	@Override
 	public final void add(final GroupType group) {
-		listIterator.add(new Group<GroupType, ChildType>(group,
-				createChildAdapter()));
+		if (context == null || childInflater == null) {
+			throw new UnsupportedOperationException();
+		}
+
+		listIterator.add(new Group<GroupType, ChildType>(group, createChildAdapter()));
 	}
 
 	@Override
@@ -145,8 +145,11 @@ public class GroupListIterator<GroupType, ChildType> implements
 
 	@Override
 	public final void set(final GroupType group) {
-		listIterator.set(new Group<GroupType, ChildType>(group,
-				createChildAdapter()));
+		if (context == null || childInflater == null) {
+			throw new UnsupportedOperationException();
+		}
+
+		listIterator.set(new Group<GroupType, ChildType>(group, createChildAdapter()));
 	}
 
 }

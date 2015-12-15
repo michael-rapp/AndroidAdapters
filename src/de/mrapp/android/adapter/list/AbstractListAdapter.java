@@ -43,9 +43,11 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import de.mrapp.android.adapter.ListAdapter;
+import de.mrapp.android.adapter.datastructure.UnmodifiableList;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemIterator;
 import de.mrapp.android.adapter.datastructure.item.ItemListIterator;
+import de.mrapp.android.adapter.datastructure.item.UnmodifiableItemList;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.logging.LogLevel;
 import de.mrapp.android.adapter.logging.Logger;
@@ -845,7 +847,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> implements Li
 			subList.add(getItem(i));
 		}
 
-		return subList;
+		return new UnmodifiableList<>(subList);
 	}
 
 	@Override
@@ -916,13 +918,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType> implements Li
 
 	@Override
 	public final List<DataType> getAllItems() {
-		List<DataType> result = new ArrayList<DataType>();
-
-		for (Item<DataType> item : items) {
-			result.add(item.getData());
-		}
-
-		return result;
+		return new UnmodifiableItemList<>(items);
 	}
 
 	@Override

@@ -37,9 +37,11 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import de.mrapp.android.adapter.ExpandableListAdapter;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
+import de.mrapp.android.adapter.datastructure.UnmodifiableList;
 import de.mrapp.android.adapter.datastructure.group.Group;
 import de.mrapp.android.adapter.datastructure.group.GroupIterator;
 import de.mrapp.android.adapter.datastructure.group.GroupListIterator;
+import de.mrapp.android.adapter.datastructure.group.UnmodifiableGroupList;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.selectable.MultipleChoiceListAdapterImplementation;
 import de.mrapp.android.adapter.logging.LogLevel;
@@ -1051,13 +1053,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 	@Override
 	public final List<GroupType> subListGroups(final int start, final int end) {
-		List<GroupType> subList = new ArrayList<GroupType>();
-
-		for (int i = start; i < end; i++) {
-			subList.add(getGroup(i));
-		}
-
-		return subList;
+		return new UnmodifiableGroupList<>(getGroupAdapter().subList(start, end));
 	}
 
 	@Override
@@ -1113,13 +1109,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
 	@Override
 	public final List<GroupType> getAllGroups() {
-		List<GroupType> result = new ArrayList<GroupType>();
-
-		for (Group<GroupType, ChildType> group : groupAdapter.getAllItems()) {
-			result.add(group.getData());
-		}
-
-		return result;
+		return new UnmodifiableGroupList<>(groupAdapter.getAllItems());
 	}
 
 	@Override
@@ -1775,7 +1765,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 			result.addAll(group.getChildAdapter().getAllItems());
 		}
 
-		return result;
+		return new UnmodifiableList<>(result);
 	}
 
 	@Override
@@ -1839,7 +1829,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	@Override
 	public final int getFirstExpandedGroupIndex() {
 		if (getAdapterView() != null) {
-			for (int i = 0; i < getChildCount(); i++) {
+			for (int i = 0; i < getGroupCount(); i++) {
 				if (getAdapterView().isGroupExpanded(i)) {
 					return i;
 				}
@@ -1863,7 +1853,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	@Override
 	public final int getLastExpandedGroupIndex() {
 		if (getAdapterView() != null) {
-			for (int i = getChildCount() - 1; i >= 0; i--) {
+			for (int i = getGroupCount() - 1; i >= 0; i--) {
 				if (getAdapterView().isGroupExpanded(i)) {
 					return i;
 				}
@@ -1887,7 +1877,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	@Override
 	public final int getFirstCollapsedGroupIndex() {
 		if (getAdapterView() != null) {
-			for (int i = 0; i < getChildCount(); i++) {
+			for (int i = 0; i < getGroupCount(); i++) {
 				if (!getAdapterView().isGroupExpanded(i)) {
 					return i;
 				}
@@ -1911,7 +1901,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 	@Override
 	public final int getLastCollapsedGroupIndex() {
 		if (getAdapterView() != null) {
-			for (int i = getChildCount() - 1; i >= 0; i--) {
+			for (int i = getGroupCount() - 1; i >= 0; i--) {
 				if (!getAdapterView().isGroupExpanded(i)) {
 					return i;
 				}
@@ -1926,14 +1916,14 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		List<GroupType> expandedGroups = new ArrayList<GroupType>();
 
 		if (getAdapterView() != null) {
-			for (int i = 0; i < getChildCount(); i++) {
+			for (int i = 0; i < getGroupCount(); i++) {
 				if (getAdapterView().isGroupExpanded(i)) {
 					expandedGroups.add(getGroup(i));
 				}
 			}
 		}
 
-		return expandedGroups;
+		return new UnmodifiableList<>(expandedGroups);
 	}
 
 	@Override
@@ -1941,14 +1931,14 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		List<Integer> expandedGroupIndices = new ArrayList<Integer>();
 
 		if (getAdapterView() != null) {
-			for (int i = 0; i < getChildCount(); i++) {
+			for (int i = 0; i < getGroupCount(); i++) {
 				if (getAdapterView().isGroupExpanded(i)) {
 					expandedGroupIndices.add(i);
 				}
 			}
 		}
 
-		return expandedGroupIndices;
+		return new UnmodifiableList<>(expandedGroupIndices);
 	}
 
 	@Override
@@ -1956,14 +1946,14 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		List<GroupType> collapedGroups = new ArrayList<GroupType>();
 
 		if (getAdapterView() != null) {
-			for (int i = 0; i < getChildCount(); i++) {
+			for (int i = 0; i < getGroupCount(); i++) {
 				if (!getAdapterView().isGroupExpanded(i)) {
 					collapedGroups.add(getGroup(i));
 				}
 			}
 		}
 
-		return collapedGroups;
+		return new UnmodifiableList<>(collapedGroups);
 	}
 
 	@Override
@@ -1971,14 +1961,14 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 		List<Integer> collapsedGroupIndices = new ArrayList<Integer>();
 
 		if (getAdapterView() != null) {
-			for (int i = 0; i < getChildCount(); i++) {
+			for (int i = 0; i < getGroupCount(); i++) {
 				if (!getAdapterView().isGroupExpanded(i)) {
 					collapsedGroupIndices.add(i);
 				}
 			}
 		}
 
-		return collapsedGroupIndices;
+		return new UnmodifiableList<>(collapsedGroupIndices);
 	}
 
 	@Override
