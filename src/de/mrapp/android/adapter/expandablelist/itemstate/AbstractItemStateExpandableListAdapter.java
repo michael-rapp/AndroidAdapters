@@ -342,8 +342,8 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 	}
 
 	@Override
-	protected final Group<GroupType, ChildType> createGroup(final GroupType group) {
-		Group<GroupType, ChildType> groupItem = super.createGroup(group);
+	protected Group<GroupType, ChildType> createGroup(final int groupIndex, final GroupType group) {
+		Group<GroupType, ChildType> groupItem = super.createGroup(groupIndex, group);
 		groupItem.getChildAdapter().setNumberOfItemStates(getNumberOfChildStates());
 		return groupItem;
 	}
