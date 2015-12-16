@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
-import android.widget.AbsListView;
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.SelectableListDecorator;
