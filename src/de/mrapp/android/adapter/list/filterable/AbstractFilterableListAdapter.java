@@ -561,19 +561,19 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 		boolean added = appliedFilters.add(appliedFilter);
 
 		if (added) {
-			applyFilter(appliedFilter);
 			notifyOnApplyFilter(query, flags, null, getAllItems());
-			notifyOnDataSetChanged();
 			String message = "Applied filter using the query \"" + query + "\" and flags \"" + flags + "\"";
 			getLogger().logInfo(getClass(), message);
-			return true;
+		} else {
+			String message = "Filter using the query \"" + query + "\" and flags \"" + flags
+					+ "\" not applied, because a filter using the same "
+					+ "query and flags is already applied on the adapter";
+			getLogger().logDebug(getClass(), message);
 		}
 
-		String message = "Filter using the query \"" + query + "\" and flags \"" + flags
-				+ "\" not applied, because a filter using the same "
-				+ "query and flags is already applied on the adapter";
-		getLogger().logDebug(getClass(), message);
-		return false;
+		applyFilter(appliedFilter);
+		notifyOnDataSetChanged();
+		return added;
 	}
 
 	@Override
@@ -583,19 +583,19 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 
 		if (added) {
 			applyFilter(appliedFilter);
-			notifyOnApplyFilter(query, flags, filter, getAllItems());
-			notifyOnDataSetChanged();
 			String message = "Applied filter using the query \"" + query + "\", flags \"" + flags + "\" and filter \""
 					+ filter + "\"";
 			getLogger().logInfo(getClass(), message);
-			return true;
+		} else {
+			String message = "Filter using the query \"" + query + "\" flags \"" + flags + "\" and filter \"" + filter
+					+ "\" not applied, because a filter using the same query, flags and filter is already applied "
+					+ "on the adapter";
+			getLogger().logDebug(getClass(), message);
 		}
 
-		String message = "Filter using the query \"" + query + "\" flags \"" + flags + "\" and filter \"" + filter
-				+ "\" not applied, because a filter using the same query, flags and filter is already applied "
-				+ "on the adapter";
-		getLogger().logDebug(getClass(), message);
-		return false;
+		notifyOnApplyFilter(query, flags, filter, getAllItems());
+		notifyOnDataSetChanged();
+		return added;
 	}
 
 	@Override
