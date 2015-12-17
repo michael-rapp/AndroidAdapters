@@ -523,6 +523,22 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
 	void resetAllChildFilters(int groupIndex);
 
 	/**
+	 * Returns, whether at least one filter, which uses a specific query, is
+	 * currently applied on the adapter to filter any of its items, or not.
+	 * 
+	 * @param query
+	 *            The query of the filter, which should be checked, as a
+	 *            {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags of the filter, which should be checked, as an
+	 *            {@link Integer} value
+	 * @return True, if a filter, which uses the given query, is currently
+	 *         applied on the adapter to filter any of its child items, false
+	 *         otherwise
+	 */
+	boolean isChildFilterApplied(String query, int flags);
+
+	/**
 	 * Returns, whether at least one filter is currently applied on the adapter
 	 * to filter any of its child items, or not.
 	 * 
@@ -530,6 +546,48 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
 	 *         to filter any of its child items, false otherwise.
 	 */
 	boolean areChildrenFiltered();
+
+	/**
+	 * Returns, whether a filter, which uses a specific query, is currently
+	 * applied on a specific group's child items.
+	 * 
+	 * @param group
+	 *            The group, the filter, which should be checked, has been
+	 *            applied on, as instance of the generic type GroupType. The
+	 *            group may not be null. If the group does not belong to the
+	 *            adapter, a {@link NoSuchElementException} will be thrown
+	 * @param query
+	 *            The query of the filter, which should be checked, as a
+	 *            {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags of the filter, which should be checked, as an
+	 *            {@link Integer} value
+	 * @return True, if a filter, which uses the given query, is currently
+	 *         applied on the given group's child items, false otherwise
+	 */
+	boolean isChildFilterApplied(GroupType group, String query, int flags);
+
+	/**
+	 * Returns, whether a filter, which uses a specific query, is currently
+	 * applied on the child items of the group, which belongs to a specific
+	 * index.
+	 * 
+	 * @param groupIndex
+	 *            The index of the group, the filter, which should be checked,
+	 *            has been applied on, as {@link Integer} value. The index must
+	 *            be between 0 and the value of the method
+	 *            <code>getGroupCount():int</code> - 1, otherwise an
+	 *            {@link IndexOutOfBoundsException} will be thrown
+	 * @param query
+	 *            The query of the filter, which should be checked, as a
+	 *            {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags of the filter, which should be checked, as an
+	 *            {@link Integer} value
+	 * @return True, if a filter, which uses the given query, is currently
+	 *         applied on the given group's child items, false otherwise
+	 */
+	boolean isChildFilterApplied(int groupIndex, String query, int flags);
 
 	/**
 	 * Returns, whether at least one filter is currently applied on a specific
@@ -551,7 +609,7 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
 	 * 
 	 * @param groupIndex
 	 *            The index of the group, whose filters should be checked, as an
-	 *            {@link Integer} value. The value must be between 0 and the
+	 *            {@link Integer} value. The index must be between 0 and the
 	 *            value of the method <code>getGroupCount():int</code> - 1,
 	 *            otherwise an {@link IndexOutOfBoundsException} will be thrown
 	 * @return True, if at least one filter is currently applied on the group to

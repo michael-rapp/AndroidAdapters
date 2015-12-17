@@ -684,6 +684,17 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
 	}
 
 	@Override
+	public final boolean isChildFilterApplied(final String query, final int flags) {
+		for (int i = 0; i < getGroupCount(); i++) {
+			if (isChildFilterApplied(i, query, flags)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	@Override
 	public final boolean areChildrenFiltered() {
 		for (int i = 0; i < getGroupCount(); i++) {
 			if (areChildrenFiltered(i)) {
@@ -692,6 +703,16 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
 		}
 
 		return false;
+	}
+
+	@Override
+	public final boolean isChildFilterApplied(final GroupType group, final String query, final int flags) {
+		return isChildFilterApplied(indexOfGroupOrThrowException(group), query, flags);
+	}
+
+	@Override
+	public final boolean isChildFilterApplied(final int groupIndex, final String query, final int flags) {
+		return getGroupAdapter().getItem(groupIndex).getChildAdapter().isFilterApplied(query, flags);
 	}
 
 	@Override
