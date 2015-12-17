@@ -110,7 +110,7 @@ public abstract class AbstractAdapterItem<DataType>
 	}
 
 	@Override
-	public final boolean match(final String query, final int flags) {
+	public boolean match(final String query, final int flags) {
 		try {
 			Filterable filterable = (Filterable) getData();
 			return filterable.match(query, flags);
