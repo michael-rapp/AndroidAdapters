@@ -57,6 +57,11 @@ public class Group<GroupType, ChildType> extends AbstractAdapterItem<GroupType> 
 	};
 
 	/**
+	 * The flag, which allows to filter empty groups.
+	 */
+	public static final int FLAG_FILTER_EMPTY_GROUPS = 281281382;
+
+	/**
 	 * The constant serial version UID.
 	 */
 	private static final long serialVersionUID = 1L;
@@ -149,6 +154,15 @@ public class Group<GroupType, ChildType> extends AbstractAdapterItem<GroupType> 
 		} catch (Exception e) {
 			throw new CloneNotSupportedException();
 		}
+	}
+
+	@Override
+	public final boolean match(final String query, final int flags) {
+		if (flags == FLAG_FILTER_EMPTY_GROUPS && (getChildAdapter() == null || getChildAdapter().isEmpty())) {
+			return false;
+		}
+
+		return super.match(query, flags);
 	}
 
 	@Override
