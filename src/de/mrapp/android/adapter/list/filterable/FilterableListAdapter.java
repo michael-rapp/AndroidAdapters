@@ -92,6 +92,21 @@ public interface FilterableListAdapter<DataType> {
 	void resetAllFilters();
 
 	/**
+	 * Returns, whether a filter, which uses a specific query, is currently
+	 * applied on the adapter.
+	 * 
+	 * @param query
+	 *            The query of the filter, which should be checked, as a
+	 *            {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags of the filter, which should be checked, as an
+	 *            {@link Integer} value
+	 * @return True, if a filter, which uses the given query, is currently
+	 *         applied on the adapter, false otherwise
+	 */
+	boolean isFilterApplied(String query, int flags);
+
+	/**
 	 * Returns, whether at least one filter is currently applied on the adapter
 	 * to filter its items, or not.
 	 * 

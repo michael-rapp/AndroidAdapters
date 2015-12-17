@@ -559,6 +559,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 	public final boolean applyFilter(final String query, final int flags) {
 		AppliedFilter<DataType> appliedFilter = new AppliedFilter<DataType>(query, flags);
 		boolean added = appliedFilters.add(appliedFilter);
+		applyFilter(appliedFilter);
 
 		if (added) {
 			notifyOnApplyFilter(query, flags, null, getAllItems());
@@ -571,7 +572,6 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 			getLogger().logDebug(getClass(), message);
 		}
 
-		applyFilter(appliedFilter);
 		notifyOnDataSetChanged();
 		return added;
 	}
@@ -629,6 +629,17 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 
 		String message = "Reseted all previously applied filters";
 		getLogger().logInfo(getClass(), message);
+	}
+
+	@Override
+	public final boolean isFilterApplied(final String query, final int flags) {
+		for (AppliedFilter<DataType> filter : appliedFilters) {
+			if (filter.getQuery().equals(query) && filter.getFlags() == flags) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	@Override
