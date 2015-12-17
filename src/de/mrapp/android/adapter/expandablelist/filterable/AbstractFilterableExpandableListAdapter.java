@@ -466,6 +466,11 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
 	}
 
 	@Override
+	public final boolean isGroupFilterApplied(final String query, final int flags) {
+		return getGroupAdapter().isFilterApplied(query, flags);
+	}
+
+	@Override
 	public final boolean areGroupsFiltered() {
 		return getGroupAdapter().isFiltered();
 	}
@@ -625,7 +630,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
 			String message = "Reseted child filter of group \"" + group.getData() + "\" at index " + groupIndex
 					+ " with query \"" + query + "\" and flags \"" + flags + "\"";
 			getLogger().logInfo(getClass(), message);
-			
+
 			// TODO: Reset empty group filter if currently applied
 		} else {
 			String message = "Child filter of group \"" + group.getData() + "\" at index " + groupIndex
@@ -640,7 +645,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
 	@Override
 	public final void resetAllChildFilters() {
 		resetGroupFilter("", Group.FLAG_FILTER_EMPTY_GROUPS);
-		
+
 		for (int i = 0; i < getGroupCount(); i++) {
 			resetAllChildFilters(i);
 		}

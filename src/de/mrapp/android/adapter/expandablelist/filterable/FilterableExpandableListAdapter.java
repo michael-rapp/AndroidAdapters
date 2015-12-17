@@ -105,6 +105,21 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
 	void resetAllGroupFilters();
 
 	/**
+	 * Returns, whether a filter, which uses a specific query, is currently
+	 * applied on the adapter's group items.
+	 * 
+	 * @param query
+	 *            The query of the filter, which should be checked, as a
+	 *            {@link String}. The query may not be null
+	 * @param flags
+	 *            The flags of the filter, which should be checked, as an
+	 *            {@link Integer} value
+	 * @return True, if a filter, which uses the given query, is currently
+	 *         applied on the adapter's group items, false otherwise
+	 */
+	boolean isGroupFilterApplied(String query, int flags);
+
+	/**
 	 * Returns, whether at least one filter is currently applied on the adapter
 	 * to filter its group items, or not.
 	 * 
