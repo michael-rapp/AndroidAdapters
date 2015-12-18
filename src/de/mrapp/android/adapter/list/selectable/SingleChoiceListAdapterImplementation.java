@@ -116,7 +116,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends AbstractSel
 
 			@Override
 			public void onItemRemoved(final ListAdapter<DataType> adapter, final DataType item, final int index) {
-				if (isSelectionAdaptedAutomatically() && getSelectedIndex() == -1) {
+				if (isSelectionAdaptedAutomatically() && !isEmpty() && getSelectedIndex() == -1) {
 					selectNearestEnabledItem(index);
 				}
 			}
@@ -168,7 +168,7 @@ public class SingleChoiceListAdapterImplementation<DataType> extends AbstractSel
 			@Override
 			public void onApplyFilter(final ListAdapter<DataType> adapter, final String query, final int flags,
 					final Filter<DataType> filter, final List<DataType> filteredItems) {
-				if (isSelectionAdaptedAutomatically() && isFiltered() && getSelectedIndex() == -1 && !isEmpty()) {
+				if (isSelectionAdaptedAutomatically() && !isEmpty() && getSelectedIndex() == -1) {
 					select(0);
 				}
 			}
@@ -176,7 +176,9 @@ public class SingleChoiceListAdapterImplementation<DataType> extends AbstractSel
 			@Override
 			public void onResetFilter(final ListAdapter<DataType> adapter, final String query, final int flags,
 					final List<DataType> filteredItems) {
-				return;
+				if (isSelectionAdaptedAutomatically() && !isEmpty() && getSelectedIndex() == -1) {
+					select(0);
+				}
 			}
 		};
 	}
