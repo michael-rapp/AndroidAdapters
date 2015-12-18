@@ -248,6 +248,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 			Item<DataType> item = getItems().get(i);
 
 			if (!matchFilter(filter, item)) {
+				item.setSelected(false);
 				itemsToRemove.add(item);
 			} else {
 				indexMapping.put(counter, i);
