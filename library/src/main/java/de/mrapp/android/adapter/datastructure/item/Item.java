@@ -153,7 +153,7 @@ public class Item<DataType> extends AbstractAdapterItem<DataType> {
      *         least 0
      */
     public final void setState(final int state) {
-        ensureAtLeast(state, 0, "The state must be at least 0", IllegalArgumentException.class);
+        ensureAtLeast(state, 0, "The state must be at least 0");
         this.state = state;
     }
 

@@ -364,8 +364,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 
     @Override
     public final void setNumberOfGroupStates(final int numberOfGroupStates) {
-        ensureAtLeast(numberOfGroupStates, 1, "The number of group states " + "must be at least 1",
-                IllegalArgumentException.class);
+        ensureAtLeast(numberOfGroupStates, 1, "The number of group states must be at least 1");
         getGroupAdapter().setNumberOfItemStates(numberOfGroupStates);
         String message = "Set number of group states to " + numberOfGroupStates;
         getLogger().logDebug(getClass(), message);
@@ -394,11 +393,9 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
     @Override
     public final int setGroupState(final int groupIndex, final int state) {
         ensureAtLeast(state, minGroupState(),
-                "The group state must be at minimum " + minGroupState(),
-                IllegalArgumentException.class);
+                "The group state must be at minimum " + minGroupState());
         ensureAtMaximum(state, maxGroupState(),
-                "The group state must be at maximum " + maxGroupState(),
-                IllegalArgumentException.class);
+                "The group state must be at maximum " + maxGroupState());
 
         MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter = getGroupAdapter();
         Group<GroupType, ChildType> group = groupAdapter.getItem(groupIndex);
@@ -558,8 +555,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 
     @Override
     public final void setNumberOfChildStates(final int numberOfChildStates) {
-        ensureAtLeast(numberOfChildStates, 1, "The number of child states must be at least 1",
-                IllegalArgumentException.class);
+        ensureAtLeast(numberOfChildStates, 1, "The number of child states must be at least 1");
         this.numberOfChildStates = numberOfChildStates;
         String message = "Set number of child states to " + numberOfChildStates;
         getLogger().logDebug(getClass(), message);
@@ -615,11 +611,9 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
     @Override
     public final int setChildState(final int groupIndex, final int childIndex, final int state) {
         ensureAtLeast(state, minChildState(),
-                "The child state must be at minimum " + minChildState(),
-                IllegalArgumentException.class);
+                "The child state must be at minimum " + minChildState());
         ensureAtMaximum(state, maxChildState(),
-                "The child state must be at maximum " + maxChildState(),
-                IllegalArgumentException.class);
+                "The child state must be at maximum " + maxChildState());
         Group<GroupType, ChildType> group = getGroupAdapter().getItem(groupIndex);
         MultipleChoiceListAdapter<ChildType> childAdapter = group.getChildAdapter();
 

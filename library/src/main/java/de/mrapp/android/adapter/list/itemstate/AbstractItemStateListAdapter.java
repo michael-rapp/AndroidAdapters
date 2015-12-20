@@ -251,8 +251,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 
     @Override
     public final void setNumberOfItemStates(final int numberOfItemStates) {
-        ensureAtLeast(numberOfItemStates, 1, "The number of items states must be at least 1",
-                IllegalArgumentException.class);
+        ensureAtLeast(numberOfItemStates, 1, "The number of items states must be at least 1");
         this.numberOfItemStates = numberOfItemStates;
         String message = "Set number of item states to " + numberOfItemStates;
         getLogger().logDebug(getClass(), message);
@@ -286,10 +285,8 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 
     @Override
     public final int setItemState(final int index, final int state) {
-        ensureAtLeast(state, minItemState(), "The state must be at minimum " + minItemState(),
-                IllegalArgumentException.class);
-        ensureAtMaximum(state, maxItemState(), "The state must be at maximum " + maxItemState(),
-                IllegalArgumentException.class);
+        ensureAtLeast(state, minItemState(), "The state must be at minimum " + minItemState());
+        ensureAtMaximum(state, maxItemState(), "The state must be at maximum " + maxItemState());
         Item<DataType> item = getItems().get(index);
 
         if (item.isEnabled()) {
@@ -325,10 +322,8 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 
     @Override
     public final boolean setAllItemStates(final int state) {
-        ensureAtLeast(state, minItemState(), "The state must be at least " + minItemState(),
-                IllegalArgumentException.class);
-        ensureAtMaximum(state, maxItemState(), "The state must be at maximum " + maxItemState(),
-                IllegalArgumentException.class);
+        ensureAtLeast(state, minItemState(), "The state must be at least " + minItemState());
+        ensureAtMaximum(state, maxItemState(), "The state must be at maximum " + maxItemState());
         boolean result = true;
 
         for (int i = 0; i < getCount(); i++) {
