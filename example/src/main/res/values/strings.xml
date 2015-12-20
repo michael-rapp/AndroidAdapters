@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+AndroidAdapters Copyright 2014 - 2015 Michael Rapp
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License along with this program. If
+not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
+
+    <string name="app_name">AndroidAdapters Example</string>
+    <string name="preference_activity_title">Settings</string>
+    <string name="list_adapter">List Adapter</string>
+    <string name="single_choice_list_adapter">Single Choice List Adapter</string>
+    <string name="multiple_choice_list_adapter">Multiple Choice List Adapter</string>
+    <string name="expandable_list_adapter">Expandable List Adapter</string>
+    <string name="single_choice_expandable_list_adapter">Single Choice Expandable List Adapter</string>
+    <string name="multiple_choice_expandable_list_adapter">Multiple Choice Expandable List Adapter</string>
+    <string name="search_hint">Search&#8230;</string>
+    <string name="remove_hint">Remove selected items</string>
+    <string name="add_hint">Add item</string>
+    <string name="sort_ascending_hint">Sort ascending</string>
+    <string name="sort_descending_hint">Sort descending</string>
+    <string name="show_address">Show address</string>
+    <string name="show_contact">Show contact</string>
+    <string name="add_contact_dialog_title">Add contact</string>
+    <string name="country">Country:</string>
+    <string name="last_name">Last name:</string>
+    <string name="first_name">First name:</string>
+    <string name="address">Address:</string>
+    <string name="city">City:</string>
+    <string name="last_name_hint">Enter last name</string>
+    <string name="first_name_hint">Enter first name</string>
+    <string name="address_hint">Enter address</string>
+    <string name="city_hint">Enter city</string>
+    <string name="add_contact_action">Add</string>
+    <string name="field_required_error">May not be empty</string>
+    <string name="list_adapter_preference_category_title">List Adapter</string>
+    <string name="list_adapter_allow_duplicate_items_preference_key">list_adapter_allow_duplicate_items_preference_key</string>
+    <string name="list_adapter_allow_duplicate_items_preference_title">Allow duplicate items</string>
+    <string name="list_adapter_allow_duplicate_items_preference_summary">Whether duplicate items should be allowed, or not</string>
+    <string name="list_adapter_trigger_item_state_on_click_preference_key">list_adapter_trigger_item_state_on_click_preference_key</string>
+    <string name="list_adapter_trigger_item_state_on_click_preference_title">Trigger item state on click</string>
+    <string name="list_adapter_trigger_item_state_on_click_preference_summary">Whether an item\'s state should be triggered, when the item is clicked</string>
+    <string name="single_choice_list_adapter_preference_category_title">Single Choice List Adapter</string>
+    <string name="single_choice_list_adapter_allow_duplicate_items_preference_key">single_choice_list_adapter_allow_duplicate_items_preference_key</string>
+    <string name="single_choice_list_adapter_allow_duplicate_items_preference_title">Allow duplicate items</string>
+    <string name="single_choice_list_adapter_allow_duplicate_items_preference_summary">Whether duplicate items should be allowed, or not</string>
+    <string name="single_choice_list_adapter_trigger_selection_on_click_preference_key">single_choice_trigger_selection_on_click_preference_key</string>
+    <string name="single_choice_list_adapter_trigger_selection_on_click_preference_title">Trigger selection on click</string>
+    <string name="single_choice_list_adapter_trigger_selection_on_click_preference_summary">Whether an item\'s selection should be triggered, when the item is clicked</string>
+    <string name="single_choice_list_adapter_trigger_item_state_on_click_preference_key">single_choice_trigger_item_state_on_click_preference_key</string>
+    <string name="single_choice_list_adapter_trigger_item_state_on_click_preference_title">Trigger item state on click</string>
+    <string name="single_choice_list_adapter_trigger_item_state_on_click_preference_summary">Whether an item\'s state should be triggered, when the item is clicked</string>
+    <string name="multiple_choice_list_adapter_preference_category_title">Multiple Choice List Adapter</string>
+    <string name="multiple_choice_list_adapter_allow_duplicate_items_preference_key">multiple_choice_allow_duplicate_items_preference_key</string>
+    <string name="multiple_choice_list_adapter_allow_duplicate_items_preference_title">Allow duplicate items</string>
+    <string name="multiple_choice_list_adapter_allow_duplicate_items_preference_summary">Whether duplicate items should be allowed, or not</string>
+    <string name="multiple_choice_list_adapter_trigger_selection_on_click_preference_key">multiple_choice_trigger_selection_on_click_preference_key</string>
+    <string name="multiple_choice_list_adapter_trigger_selection_on_click_preference_title">Trigger selection on click</string>
+    <string name="multiple_choice_list_adapter_trigger_selection_on_click_preference_summary">Whether an item\'s selection should be triggered, when the item is clicked</string>
+    <string name="multiple_choice_list_adapter_trigger_item_state_on_click_preference_key">multiple_choice_trigger_item_state_on_click_preference_key</string>
+    <string name="multiple_choice_list_adapter_trigger_item_state_on_click_preference_title">Trigger item state on click</string>
+    <string name="multiple_choice_list_adapter_trigger_item_state_on_click_preference_summary">Whether an item\'s state should be triggered, when the item is clicked</string>
+    <string name="expandable_list_adapter_preference_category_title">Expandable List Adapter</string>
+    <string name="expandable_list_adapter_allow_duplicate_groups_preference_key">expandable_list_adapter_allow_duplicate_groups_preference_key</string>
+    <string name="expandable_list_adapter_allow_duplicate_groups_preference_title">Allow duplicate groups</string>
+    <string name="expandable_list_adapter_allow_duplicate_groups_preference_summary">Whether duplicate groups should be allowed, or not</string>
+    <string name="expandable_list_adapter_allow_duplicate_children_preference_key">expandable_list_adapter_allow_duplicate_children_preference_key</string>
+    <string name="expandable_list_adapter_allow_duplicate_children_preference_title">Allow duplicate children</string>
+    <string name="expandable_list_adapter_allow_duplicate_children_preference_summary">Whether duplicate children should be allowed within a single group, or not</string>
+    <string name="expandable_list_adapter_trigger_child_state_on_click_preference_key">expandable_list_adapter_trigger_child_state_on_click_preference_key</string>
+    <string name="expandable_list_adapter_trigger_child_state_on_click_preference_title">Trigger child state on click</string>
+    <string name="expandable_list_adapter_trigger_child_state_on_click_preference_summary">Whether a child\'s state should be triggered, when it is clicked</string>
+    <string name="single_choice_expandable_list_adapter_preference_category_title">Single Choice Expandable List Adapter</string>
+    <string name="single_choice_expandable_list_adapter_allow_duplicate_groups_preference_key">single_choice_expandable_list_adapter_allow_duplicate_groups_preference_key</string>
+    <string name="single_choice_expandable_list_adapter_allow_duplicate_groups_preference_title">Allow duplicate groups</string>
+    <string name="single_choice_expandable_list_adapter_allow_duplicate_groups_preference_summary">Whether duplicate groups should be allowed, or not</string>
+    <string name="single_choice_expandable_list_adapter_allow_duplicate_children_preference_key">single_choice_expandable_list_adapter_allow_duplicate_children_preference_key</string>
+    <string name="single_choice_expandable_list_adapter_allow_duplicate_children_preference_title">Allow duplicate children</string>
+    <string name="single_choice_expandable_list_adapter_allow_duplicate_children_preference_summary">Whether duplicate children should be allowed within a single group, or not</string>
+    <string name="single_choice_expandable_list_adapter_trigger_child_state_on_click_preference_key">single_choice_expandable_list_adapter_trigger_child_state_on_click_preference_key</string>
+    <string name="single_choice_expandable_list_adapter_trigger_child_state_on_click_preference_title">Trigger child state on click</string>
+    <string name="single_choice_expandable_list_adapter_trigger_child_state_on_click_preference_summary">Whether a child\'s state should be triggered, when it is clicked</string>
+    <string name="single_choice_expandable_list_adapter_trigger_group_selection_on_click_preference_key">single_choice_expandable_list_adapter_trigger_group_selection_on_click_preference_key</string>
+    <string name="single_choice_expandable_list_adapter_trigger_group_selection_on_click_preference_title">Trigger group selection on click</string>
+    <string name="single_choice_expandable_list_adapter_trigger_group_selection_on_click_preference_summary">Whether a group\'s selection should be triggered, when it is clicked</string>
+    <string name="single_choice_expandable_list_adapter_trigger_child_selection_on_click_preference_key">single_choice_expandable_list_adapter_trigger_child_selection_on_click_preference_key</string>
+    <string name="single_choice_expandable_list_adapter_trigger_child_selection_on_click_preference_title">Trigger child selection on click</string>
+    <string name="single_choice_expandable_list_adapter_trigger_child_selection_on_click_preference_summary">Whether a child\'s selection should be triggered, when it is clicked</string>
+    <string name="single_choice_expandable_list_adapter_choice_mode_preference_key">single_choice_expandable_list_adapter_choice_mode_preference_key</string>
+    <string name="single_choice_expandable_list_adapter_choice_mode_preference_title">Choice mode</string>
+    <string name="single_choice_expandable_list_adapter_choice_mode_preference_summary">Specifies the kind of items, which are allowed to be selected</string>
+    <string name="multiple_choice_expandable_list_adapter_preference_category_title">Multiple Choice Expandable List Adapter</string>
+    <string name="multiple_choice_expandable_list_adapter_allow_duplicate_groups_preference_key">multiple_choice_expandable_list_adapter_allow_duplicate_groups_preference_key</string>
+    <string name="multiple_choice_expandable_list_adapter_allow_duplicate_groups_preference_title">Allow duplicate groups</string>
+    <string name="multiple_choice_expandable_list_adapter_allow_duplicate_groups_preference_summary">Whether duplicate groups should be allowed, or not</string>
+    <string name="multiple_choice_expandable_list_adapter_allow_duplicate_children_preference_key">multiple_choice_expandable_list_adapter_allow_duplicate_children_preference_key</string>
+    <string name="multiple_choice_expandable_list_adapter_allow_duplicate_children_preference_title">Allow duplicate children</string>
+    <string name="multiple_choice_expandable_list_adapter_allow_duplicate_children_preference_summary">Whether duplicate children should be allowed within a single group, or not</string>
+    <string name="multiple_choice_expandable_list_adapter_trigger_child_state_on_click_preference_key">multiple_choice_expandable_list_adapter_trigger_child_state_on_click_preference_key</string>
+    <string name="multiple_choice_expandable_list_adapter_trigger_child_state_on_click_preference_title">Trigger child state on click</string>
+    <string name="multiple_choice_expandable_list_adapter_trigger_child_state_on_click_preference_summary">Whether a child\'s state should be triggered, when it is clicked</string>
+    <string name="multiple_choice_expandable_list_adapter_trigger_group_selection_on_click_preference_key">multiple_choice_expandable_list_adapter_trigger_group_selection_on_click_preference_key</string>
+    <string name="multiple_choice_expandable_list_adapter_trigger_group_selection_on_click_preference_title">Trigger group selection on click</string>
+    <string name="multiple_choice_expandable_list_adapter_trigger_group_selection_on_click_preference_summary">Whether a group\'s selection should be triggered, when it is clicked</string>
+    <string name="multiple_choice_expandable_list_adapter_trigger_child_selection_on_click_preference_key">multiple_choice_expandable_list_adapter_trigger_child_selection_on_click_preference_key</string>
+    <string name="multiple_choice_expandable_list_adapter_trigger_child_selection_on_click_preference_title">Trigger child selection on click</string>
+    <string name="multiple_choice_expandable_list_adapter_trigger_child_selection_on_click_preference_summary">Whether a child\'s selection should be triggered, when it is clicked</string>
+    <string name="multiple_choice_expandable_list_adapter_choice_mode_preference_key">multiple_choice_expandable_list_adapter_choice_mode_preference_key</string>
+    <string name="multiple_choice_expandable_list_adapter_choice_mode_preference_title">Choice mode</string>
+    <string name="multiple_choice_expandable_list_adapter_choice_mode_preference_summary">Specifies the kind of items, which are allowed to be selected</string>
+    <string name="preferences_menu_item">Settings</string>
+    <string name="item_count">Items: %s</string>
+    <string name="enabled_item_count">, enabled: %s</string>
+    <string name="selected_item_count">, selected: %s</string>
+    <string name="enabled_item_toast">Enabled item</string>
+    <string name="disabled_item_toast">Disabled item</string>
+    <string name="sorted_ascending_toast">Sorted items in ascending order</string>
+    <string name="sorted_descending_toast">Sorted items in descending order</string>
+    <string name="added_item_toast">Added item</string>
+    <string name="remove_contact_dialog_title">Remove selected contacts</string>
+    <string name="remove_contact_dialog_message">Are you sure to delete all selected contacts?</string>
+    <string name="removed_selected_items_toast">Removed selected item(s)</string>
+    <string name="no_items_selected">No items selected</string>
+    <string name="duplicate_items_not_allowed">Duplicate items are not allowed</string>
+    <string name="expand_button_content_description">expand/collapse</string>
+
+    <string-array name="choice_mode_items">
+        <item>Groups and children</item>
+        <item>Groups only</item>
+        <item>Children only</item>
+    </string-array>
+    <string-array name="choice_mode_item_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+</resources>
