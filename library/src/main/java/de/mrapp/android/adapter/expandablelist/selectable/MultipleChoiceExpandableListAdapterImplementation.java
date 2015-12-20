@@ -22,6 +22,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import de.mrapp.android.adapter.ChoiceMode;
 import de.mrapp.android.adapter.ExpandableListAdapter;
 import de.mrapp.android.adapter.MultipleChoiceExpandableListAdapter;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;

@@ -12,7 +12,7 @@
  * You should have received a copy of the GNU Lesser General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.
  */
-package de.mrapp.android.adapter.expandablelist.selectable;
+package de.mrapp.android.adapter;
 
 /**
  * Contains all possible choice modes of an adapter, whose underlying data is managed as a list of

@@ -19,7 +19,6 @@ import android.support.annotation.NonNull;
 import android.test.AndroidTestCase;
 import android.view.View;
 
-import de.mrapp.android.adapter.expandablelist.selectable.ChoiceMode;
 import de.mrapp.android.adapter.expandablelist.selectable.SelectableExpandableListAdapter;
 import de.mrapp.android.adapter.list.selectable.SelectableListAdapter;
 

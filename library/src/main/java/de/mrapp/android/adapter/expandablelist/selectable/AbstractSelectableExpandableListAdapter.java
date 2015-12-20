@@ -22,6 +22,7 @@ import android.widget.ExpandableListView;
 
 import java.util.Set;
 
+import de.mrapp.android.adapter.ChoiceMode;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.SelectableExpandableListDecorator;
 import de.mrapp.android.adapter.datastructure.group.Group;

@@ -19,6 +19,7 @@ import android.widget.ExpandableListView;
 
 import java.util.NoSuchElementException;
 
+import de.mrapp.android.adapter.ChoiceMode;
 import de.mrapp.android.adapter.ExpandableListAdapter;
 
 /**

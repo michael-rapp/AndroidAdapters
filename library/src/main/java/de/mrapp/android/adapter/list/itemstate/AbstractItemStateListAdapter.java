@@ -255,7 +255,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
         this.numberOfItemStates = numberOfItemStates;
         String message = "Set number of item states to " + numberOfItemStates;
         getLogger().logDebug(getClass(), message);
-
+    
         for (int i = 0; i < getCount(); i++) {
             if (getItemState(i) > maxItemState()) {
                 setItemState(i, maxItemState());

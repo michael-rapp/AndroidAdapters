@@ -20,7 +20,6 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterImplementation;
-import de.mrapp.android.adapter.expandablelist.selectable.ChoiceMode;
 import de.mrapp.android.adapter.expandablelist.selectable.MultipleChoiceExpandableListAdapterImplementation;
 import de.mrapp.android.adapter.expandablelist.selectable.SingleChoiceExpandableListAdapterImplementation;
 import de.mrapp.android.adapter.inflater.Inflater;
