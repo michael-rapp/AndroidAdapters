@@ -14,6 +14,9 @@
  */
 package de.mrapp.android.adapter.list.sortable;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import java.util.Collection;
 import java.util.Comparator;
 
@@ -49,7 +52,7 @@ public interface ListSortingListener<DataType> {
      *         the type {@link Comparator} or null, if the items' implementation of the type {@link
      *         Comparable} has been used instead
      */
-    void onSorted(ListAdapter<DataType> adapter, Collection<DataType> sortedItems, Order order,
-                  Comparator<DataType> comparator);
+    void onSorted(@NonNull ListAdapter<DataType> adapter, @NonNull Collection<DataType> sortedItems,
+                  @NonNull Order order, @Nullable Comparator<DataType> comparator);
 
 }

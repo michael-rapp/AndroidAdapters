@@ -14,6 +14,7 @@
  */
 package de.mrapp.android.adapter;
 
+import android.support.annotation.NonNull;
 import android.widget.ExpandableListView;
 
 import java.util.Collection;
@@ -73,7 +74,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return The index of the group, which has been added to the adapter, as an {@link Integer}
      * value or -1, if the group has not been added
      */
-    int addGroup(GroupType group);
+    int addGroup(@NonNull GroupType group);
 
     /**
      * Adds a specific group item to the adapter. The group item will be added at a specific index.
@@ -87,7 +88,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         type GroupType. The group item may not be null
      * @return True, if the group item has been added to the adapter, false otherwise
      */
-    boolean addGroup(int index, GroupType group);
+    boolean addGroup(int index, @NonNull GroupType group);
 
     /**
      * Adds all group items, which are contained by a specific collection, to the adapter. The group
@@ -99,7 +100,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         items should be added
      * @return True, if all group items have been added to the adapter, false otherwise
      */
-    boolean addAllGroups(Collection<? extends GroupType> groups);
+    boolean addAllGroups(@NonNull Collection<? extends GroupType> groups);
 
     /**
      * Adds all group items, which are contained by a specific collection, to the adapter. The group
@@ -115,7 +116,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         items should be added
      * @return True, if all items have been added to the adapter, false otherwise
      */
-    boolean addAllGroups(int index, Collection<? extends GroupType> groups);
+    boolean addAllGroups(int index, @NonNull Collection<? extends GroupType> groups);
 
     /**
      * Adds all group items, which are contained by a specific array, to the adapter. The group
@@ -128,7 +129,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return True, if all group items have been added to the adapter, false otherwise
      */
     @SuppressWarnings("unchecked")
-    boolean addAllGroups(GroupType... groups);
+    boolean addAllGroups(@NonNull GroupType... groups);
 
     /**
      * Adds all group items, which are contained by a specific array, to the adapter. The group
@@ -145,7 +146,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return True, if all group items have been added to the adapter, false otherwise
      */
     @SuppressWarnings("unchecked")
-    boolean addAllGroups(int index, GroupType... groups);
+    boolean addAllGroups(int index, @NonNull GroupType... groups);
 
     /**
      * Replaces the group item, which belongs to a specific index, by an other group item. The
@@ -161,7 +162,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return The group item, which has been replaced, as an instance of the generic type
      * GroupType. The group item may not be null
      */
-    GroupType replaceGroup(int index, GroupType group);
+    GroupType replaceGroup(int index, @NonNull GroupType group);
 
     /**
      * Removes the group item, which belongs to a specific index, from the adapter. The group's
@@ -186,7 +187,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         GroupType. The group item may not be null
      * @return True, if the group item has been removed, false otherwise
      */
-    boolean removeGroup(GroupType group);
+    boolean removeGroup(@NonNull GroupType group);
 
     /**
      * Removes all group items, which are contained by a specific collection, from the adapter. The
@@ -198,7 +199,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         group items should be removed
      * @return True, if all group items have been removed from the adapter, false otherwise
      */
-    boolean removeAllGroups(Collection<? extends GroupType> groups);
+    boolean removeAllGroups(@NonNull Collection<? extends GroupType> groups);
 
     /**
      * Removes all group items, which are contained by a specific array, from the adapter. The
@@ -211,7 +212,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return True, if all group items have been removed from the adapter, false otherwise
      */
     @SuppressWarnings("unchecked")
-    boolean removeAllGroups(GroupType... groups);
+    boolean removeAllGroups(@NonNull GroupType... groups);
 
     /**
      * Removes all group items from the adapter, except of the group items, which are contained by a
@@ -222,7 +223,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         instance of the type {@link Collection} or an empty collection, if no group items
      *         should be retained
      */
-    void retainAllGroups(Collection<? extends GroupType> groups);
+    void retainAllGroups(@NonNull Collection<? extends GroupType> groups);
 
     /**
      * Removes all group items from the adapter, except of the group items, which are contained by a
@@ -233,7 +234,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         the generic type DataType or an empty array, if no group items should be retained
      */
     @SuppressWarnings("unchecked")
-    void retainAllGroups(GroupType... groups);
+    void retainAllGroups(@NonNull GroupType... groups);
 
     /**
      * Removes all groups and their child items from the adapter.
@@ -312,7 +313,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return An array, which contains all of the adapter's group item, as an array of the generic
      * type T or an empty array, if the adapter does not contain any group items
      */
-    <T> T[] groupsToArray(T[] array);
+    <T> T[] groupsToArray(@NonNull T[] array);
 
     /**
      * Returns the group item, which belongs to a specific index.
@@ -335,7 +336,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return The index of the the given group item, as an {@link Integer} value or -1, if the
      * adapter does not contain the given group item
      */
-    int indexOfGroup(GroupType group);
+    int indexOfGroup(@NonNull GroupType group);
 
     /**
      * Returns, whether the adapter contains a specific group item, or not.
@@ -345,7 +346,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         GroupType. The group item may not be null
      * @return True, if the adapter contains the given group item, false otherwise
      */
-    boolean containsGroup(GroupType group);
+    boolean containsGroup(@NonNull GroupType group);
 
     /**
      * Returns, whether the adapter contains all group items, which are contained by a specific
@@ -358,7 +359,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return True, if the adapter contains all group items, which are contained by the given
      * collection, false otherwise
      */
-    boolean containsAllGroups(Collection<? extends GroupType> groups);
+    boolean containsAllGroups(@NonNull Collection<? extends GroupType> groups);
 
     /**
      * Returns, whether the adapter contains all group items, which are contained by a specific
@@ -371,7 +372,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * array, false otherwise
      */
     @SuppressWarnings("unchecked")
-    boolean containsAllGroups(GroupType... groups);
+    boolean containsAllGroups(@NonNull GroupType... groups);
 
     /**
      * Returns the number of group items, which are contained by the adapter.
@@ -416,7 +417,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         NoSuchElementException} will be thrown
      * @return True, if the group is empty, false otherwise
      */
-    boolean isGroupEmpty(GroupType group);
+    boolean isGroupEmpty(@NonNull GroupType group);
 
     /**
      * Returns, whether duplicate child items within a single group are allowed, or not.
@@ -470,7 +471,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         not belong to the adapter, a {@link NoSuchElementException} will be thrown
      * @return True, if duplicate child items are allowed within the group, false otherwise
      */
-    boolean areDuplicateChildrenAllowed(GroupType group);
+    boolean areDuplicateChildrenAllowed(@NonNull GroupType group);
 
     /**
      * Sets, whether duplicate child items within a specific group should be allowed, or not.
@@ -482,7 +483,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @param allowDuplicateChildren
      *         True, if duplicate child items should be allowed within the group, false otherwise
      */
-    void allowDuplicateChildren(GroupType group, boolean allowDuplicateChildren);
+    void allowDuplicateChildren(@NonNull GroupType group, boolean allowDuplicateChildren);
 
     /**
      * Adds a specific child item to the group, which belongs to a specific index. The child item
@@ -499,7 +500,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return The index of the child, which has been added, as an {@link Integer} value or -1, if
      * the child has not been added
      */
-    int addChild(int groupIndex, ChildType child);
+    int addChild(int groupIndex, @NonNull ChildType child);
 
     /**
      * Adds a specific child item to a specific group. The child item will be added at the end of
@@ -515,7 +516,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return The index of the child, which has been added, as an {@link Integer} value or -1, if
      * the child has not been added
      */
-    int addChild(GroupType group, ChildType child);
+    int addChild(@NonNull GroupType group, @NonNull ChildType child);
 
     /**
      * Adds a specific child item to the group, which belongs to a specific index. The child item
@@ -535,7 +536,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         type ChildType. The child item may not be null
      * @return True, if the child item has been added to the group, false otherwise
      */
-    boolean addChild(int groupIndex, int index, ChildType child);
+    boolean addChild(int groupIndex, int index, @NonNull ChildType child);
 
     /**
      * Adds a specific child item to a specific group. The child item will be added at the end of
@@ -554,7 +555,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         type ChildType. The child item may not be null
      * @return True, if the child item has been added to the group, false otherwise
      */
-    boolean addChild(GroupType group, int index, ChildType child);
+    boolean addChild(@NonNull GroupType group, int index, @NonNull ChildType child);
 
     /**
      * Adds all child items, which are contained by a specific collection, to the group, which
@@ -572,7 +573,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         items should be added
      * @return True, if all child items have been added to the group, false otherwise
      */
-    boolean addAllChildren(int groupIndex, Collection<? extends ChildType> children);
+    boolean addAllChildren(int groupIndex, @NonNull Collection<? extends ChildType> children);
 
     /**
      * Adds all child items, which are contained by a specific collection, to a specific group. The
@@ -588,7 +589,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         items should be added
      * @return True, if all child items have been added to the group, false otherwise
      */
-    boolean addAllChildren(GroupType group, Collection<? extends ChildType> children);
+    boolean addAllChildren(@NonNull GroupType group,
+                           @NonNull Collection<? extends ChildType> children);
 
     /**
      * Adds all child items, which are contained by a specific collection, to the group, which
@@ -610,7 +612,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         items should be added
      * @return True, if all child items have been added to the group, false otherwise
      */
-    boolean addAllChildren(int groupIndex, int index, Collection<? extends ChildType> children);
+    boolean addAllChildren(int groupIndex, int index,
+                           @NonNull Collection<? extends ChildType> children);
 
     /**
      * Adds all child items, which are contained by a specific collection, to a specific group. The
@@ -630,7 +633,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         items should be added
      * @return True, if all child items have been added to the group, false otherwise
      */
-    boolean addAllChildren(GroupType group, int index, Collection<? extends ChildType> children);
+    boolean addAllChildren(@NonNull GroupType group, int index,
+                           @NonNull Collection<? extends ChildType> children);
 
     /**
      * Adds all child items, which are contained by a specific array, to the group, which belongs to
@@ -648,7 +652,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return True, if all child items have been added to the group, false otherwise
      */
     @SuppressWarnings("unchecked")
-    boolean addAllChildren(int groupIndex, ChildType... children);
+    boolean addAllChildren(int groupIndex, @NonNull ChildType... children);
 
     /**
      * Adds all child items, which are contained by a specific array, to a specific group. The items
@@ -665,7 +669,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return True, if all child items have been added to the group, false otherwise
      */
     @SuppressWarnings("unchecked")
-    boolean addAllChildren(GroupType group, ChildType... children);
+    boolean addAllChildren(@NonNull GroupType group, @NonNull ChildType... children);
 
     /**
      * Adds all child items, which are contained by a specific array, to the group, which belongs to
@@ -688,7 +692,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return True, if all child items have been added to the group, false otherwise
      */
     @SuppressWarnings("unchecked")
-    boolean addAllChildren(int groupIndex, int index, ChildType... children);
+    boolean addAllChildren(int groupIndex, int index, @NonNull ChildType... children);
 
     /**
      * Adds all child items, which are contained by a specific array, to a specific group. The items
@@ -709,7 +713,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return True, if all child items have been added to the group, false otherwise
      */
     @SuppressWarnings("unchecked")
-    boolean addAllChildren(GroupType group, int index, ChildType... children);
+    boolean addAllChildren(@NonNull GroupType group, int index, @NonNull ChildType... children);
 
     /**
      * Replaces the child item, which belongs to a specific index of a specific group, by an other
@@ -730,7 +734,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return The child item, which has been replaced, as an instance of the generic type
      * ChildType. The child item may not be null
      */
-    ChildType replaceChild(int groupIndex, int index, ChildType child);
+    ChildType replaceChild(int groupIndex, int index, @NonNull ChildType child);
 
     /**
      * Replaces the child item, which belongs to a specific index of a specific group, by an other
@@ -750,7 +754,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return The child item, which has been replaced, as an instance of the generic type
      * ChildType. The child item may not be null
      */
-    ChildType replaceChild(GroupType group, int index, ChildType child);
+    ChildType replaceChild(@NonNull GroupType group, int index, @NonNull ChildType child);
 
     /**
      * Removes the child item, which belongs to a specific index, from the group, which belongs to a
@@ -810,7 +814,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return The child item, which has been removed, as an instance of the generic type ChildType.
      * The item may not be null
      */
-    ChildType removeChild(GroupType group, int index);
+    ChildType removeChild(@NonNull GroupType group, int index);
 
     /**
      * Removes the child item, which belongs to a specific index, from a specific group.
@@ -830,7 +834,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return The child item, which has been removed, as an instance of the generic type ChildType.
      * The item may not be null
      */
-    ChildType removeChild(boolean removeEmptyGroup, GroupType group, int index);
+    ChildType removeChild(boolean removeEmptyGroup, @NonNull GroupType group, int index);
 
     /**
      * Removes a specific child item from the group, which belongs to a specific index. The group,
@@ -846,7 +850,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         type ChildType. The child item may not be null
      * @return True, if the child item has been removed from the group, false otherwise
      */
-    boolean removeChild(int groupIndex, ChildType child);
+    boolean removeChild(int groupIndex, @NonNull ChildType child);
 
     /**
      * Removes a specific child item from the group, which belongs to a specific index.
@@ -864,7 +868,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         type ChildType. The child item may not be null
      * @return True, if the child item has been removed from the group, false otherwise
      */
-    boolean removeChild(boolean removeEmptyGroup, int groupIndex, ChildType child);
+    boolean removeChild(boolean removeEmptyGroup, int groupIndex, @NonNull ChildType child);
 
     /**
      * Removes a specific child item from a specific group. The group, the child item belongs to,
@@ -879,7 +883,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         type ChildType. The child item may not be null
      * @return True, if the child item has been removed from the group, false otherwise
      */
-    boolean removeChild(GroupType group, ChildType child);
+    boolean removeChild(@NonNull GroupType group, @NonNull ChildType child);
 
     /**
      * Removes a specific child item from a specific group.
@@ -896,7 +900,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         type ChildType. The child item may not be null
      * @return True, if the child item has been removed from the group, false otherwise
      */
-    boolean removeChild(boolean removeEmptyGroup, GroupType group, ChildType child);
+    boolean removeChild(boolean removeEmptyGroup, @NonNull GroupType group,
+                        @NonNull ChildType child);
 
     /**
      * Removes all child items, which are contained by a specific collection, from the adapter. No
@@ -908,7 +913,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         child items should be removed
      * @return True, if all child items have been removed from the adapter, false otherwise
      */
-    boolean removeAllChildren(Collection<? extends ChildType> children);
+    boolean removeAllChildren(@NonNull Collection<? extends ChildType> children);
 
     /**
      * Removes all child items, which are contained by a specific collection, from the adapter.
@@ -921,7 +926,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         child items should be removed
      * @return True, if all child items have been removed from the adapter, false otherwise
      */
-    boolean removeAllChildren(boolean removeEmptyGroups, Collection<? extends ChildType> children);
+    boolean removeAllChildren(boolean removeEmptyGroups,
+                              @NonNull Collection<? extends ChildType> children);
 
     /**
      * Removes all child items, which are contained by a specific collection, from the group, which
@@ -939,7 +945,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         child items should be removed
      * @return True, if all child items have been removed from the group, false otherwise
      */
-    boolean removeAllChildren(int groupIndex, Collection<? extends ChildType> children);
+    boolean removeAllChildren(int groupIndex, @NonNull Collection<? extends ChildType> children);
 
     /**
      * Removes all child items, which are contained by a specific collection, from the group, which
@@ -960,7 +966,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return True, if all child items have been removed from the group, false otherwise
      */
     boolean removeAllChildren(boolean removeEmptyGroup, int groupIndex,
-                              Collection<? extends ChildType> children);
+                              @NonNull Collection<? extends ChildType> children);
 
     /**
      * Removes all child items, which are contained by a specific collection, from a specific group.
@@ -976,7 +982,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         child items should be removed
      * @return True, if all child items have been removed from the group, false otherwise
      */
-    boolean removeAllChildren(GroupType group, Collection<? extends ChildType> children);
+    boolean removeAllChildren(@NonNull GroupType group,
+                              @NonNull Collection<? extends ChildType> children);
 
     /**
      * Removes all child items, which are contained by a specific collection, from a specific
@@ -995,8 +1002,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         child items should be removed
      * @return True, if all child items have been removed from the group, false otherwise
      */
-    boolean removeAllChildren(boolean removeEmptyGroup, GroupType group,
-                              Collection<? extends ChildType> children);
+    boolean removeAllChildren(boolean removeEmptyGroup, @NonNull GroupType group,
+                              @NonNull Collection<? extends ChildType> children);
 
     /**
      * Removes all child items, which are contained by a specific array, from the adapter. No groups
@@ -1009,7 +1016,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return True, if all child items have been removed from the adapter, false otherwise
      */
     @SuppressWarnings("unchecked")
-    boolean removeAllChildren(ChildType... children);
+    boolean removeAllChildren(@NonNull ChildType... children);
 
     /**
      * Removes all child items, which are contained by a specific array, from the adapter.
@@ -1023,7 +1030,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return True, if all child items have been removed from the adapter, false otherwise
      */
     @SuppressWarnings("unchecked")
-    boolean removeAllChildren(boolean removeEmptyGroups, ChildType... children);
+    boolean removeAllChildren(boolean removeEmptyGroups, @NonNull ChildType... children);
 
     /**
      * Removes all child items, which are contained by a specific array, from the group, which
@@ -1042,7 +1049,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return True, if all child items have been removed from the group, false otherwise
      */
     @SuppressWarnings("unchecked")
-    boolean removeAllChildren(int groupIndex, ChildType... children);
+    boolean removeAllChildren(int groupIndex, @NonNull ChildType... children);
 
     /**
      * Removes all child items, which are contained by a specific array, from the group, which
@@ -1063,7 +1070,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return True, if all child items have been removed from the group, false otherwise
      */
     @SuppressWarnings("unchecked")
-    boolean removeAllChildren(boolean removeEmptyGroup, int groupIndex, ChildType... children);
+    boolean removeAllChildren(boolean removeEmptyGroup, int groupIndex,
+                              @NonNull ChildType... children);
 
     /**
      * Removes all child items, which are contained by a specific array, from a specific group. The
@@ -1080,7 +1088,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return True, if all child items have been removed from the group, false otherwise
      */
     @SuppressWarnings("unchecked")
-    boolean removeAllChildren(GroupType group, ChildType... children);
+    boolean removeAllChildren(@NonNull GroupType group, @NonNull ChildType... children);
 
     /**
      * Removes all child items, which are contained by a specific array, from a specific group.
@@ -1099,7 +1107,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return True, if all child items have been removed from the group, false otherwise
      */
     @SuppressWarnings("unchecked")
-    boolean removeAllChildren(boolean removeEmptyGroup, GroupType group, ChildType... children);
+    boolean removeAllChildren(boolean removeEmptyGroup, @NonNull GroupType group,
+                              @NonNull ChildType... children);
 
     /**
      * Removes all child items from the adapter, except of the items, which are contained by a
@@ -1110,7 +1119,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         instance of the type {@link Collection} or an empty collection, if no child items
      *         should be retained
      */
-    void retainAllChildren(Collection<? extends ChildType> children);
+    void retainAllChildren(@NonNull Collection<? extends ChildType> children);
 
     /**
      * Removes all child items from the adapter, except of the items, which are contained by a
@@ -1123,7 +1132,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         instance of the type {@link Collection} or an empty collection, if no child items
      *         should be retained
      */
-    void retainAllChildren(boolean removeEmptyGroups, Collection<? extends ChildType> children);
+    void retainAllChildren(boolean removeEmptyGroups,
+                           @NonNull Collection<? extends ChildType> children);
 
     /**
      * Removes all child items from the group, which belongs to a specific index, except of the
@@ -1140,7 +1150,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         instance of the type {@link Collection} or an empty collection, if no child items
      *         should be retained
      */
-    void retainAllChildren(int groupIndex, Collection<? extends ChildType> children);
+    void retainAllChildren(int groupIndex, @NonNull Collection<? extends ChildType> children);
 
     /**
      * Removes all child items from the group, which belongs to a specific index, except of the
@@ -1160,7 +1170,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         should be retained
      */
     void retainAllChildren(boolean removeEmptyGroup, int groupIndex,
-                           Collection<? extends ChildType> children);
+                           @NonNull Collection<? extends ChildType> children);
 
     /**
      * Removes all child items from a specific group, except of the items, which are contained by a
@@ -1176,7 +1186,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         instance of the type {@link Collection} or an empty collection, if no child items
      *         should be retained
      */
-    void retainAllChildren(GroupType group, Collection<? extends ChildType> children);
+    void retainAllChildren(@NonNull GroupType group,
+                           @NonNull Collection<? extends ChildType> children);
 
     /**
      * Removes all child items from a specific group, except of the items, which are contained by a
@@ -1194,8 +1205,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         instance of the type {@link Collection} or an empty collection, if no child items
      *         should be retained
      */
-    void retainAllChildren(boolean removeEmptyGroup, GroupType group,
-                           Collection<? extends ChildType> children);
+    void retainAllChildren(boolean removeEmptyGroup, @NonNull GroupType group,
+                           @NonNull Collection<? extends ChildType> children);
 
     /**
      * Removes all child items from the adapter, except of the items, which are contained by a
@@ -1206,7 +1217,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         the generic type ChildType or an empty array, if no child items should be retained
      */
     @SuppressWarnings("unchecked")
-    void retainAllChildren(ChildType... children);
+    void retainAllChildren(@NonNull ChildType... children);
 
     /**
      * Removes all child items from the adapter, except of the items, which are contained by a
@@ -1219,7 +1230,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         the generic type ChildType or an empty array, if no child items should be retained
      */
     @SuppressWarnings("unchecked")
-    void retainAllChildren(boolean removeEmptyGroups, ChildType... children);
+    void retainAllChildren(boolean removeEmptyGroups, @NonNull ChildType... children);
 
     /**
      * Removes all child items from the group, which belongs to a specific index, except of the
@@ -1237,7 +1248,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         retained
      */
     @SuppressWarnings("unchecked")
-    void retainAllChildren(int groupIndex, ChildType... children);
+    void retainAllChildren(int groupIndex, @NonNull ChildType... children);
 
     /**
      * Removes all child items from the group, which belongs to a specific index, except of the
@@ -1257,7 +1268,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         retained
      */
     @SuppressWarnings("unchecked")
-    void retainAllChildren(boolean removeEmptyGroup, int groupIndex, ChildType... children);
+    void retainAllChildren(boolean removeEmptyGroup, int groupIndex,
+                           @NonNull ChildType... children);
 
     /**
      * Removes all child items from a specific group, except of the items, which are contained by a
@@ -1274,7 +1286,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         retained
      */
     @SuppressWarnings("unchecked")
-    void retainAllChildren(GroupType group, ChildType... children);
+    void retainAllChildren(@NonNull GroupType group, @NonNull ChildType... children);
 
     /**
      * Removes all child items from a specific group, except of the items, which are contained by a
@@ -1293,7 +1305,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         retained
      */
     @SuppressWarnings("unchecked")
-    void retainAllChildren(boolean removeEmptyGroup, GroupType group, ChildType... children);
+    void retainAllChildren(boolean removeEmptyGroup, @NonNull GroupType group,
+                           @NonNull ChildType... children);
 
     /**
      * Removes all child items from the adapter.
@@ -1341,7 +1354,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         GroupType. The group may not be null. If the group does not belong to the adapter, a
      *         {@link NoSuchElementException} will be thrown
      */
-    void clearChildren(GroupType group);
+    void clearChildren(@NonNull GroupType group);
 
     /**
      * Removes all child items from a specific group.
@@ -1354,7 +1367,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         GroupType. The group may not be null. If the group does not belong to the adapter, a
      *         {@link NoSuchElementException} will be thrown
      */
-    void clearChildren(boolean removeEmptyGroup, GroupType group);
+    void clearChildren(boolean removeEmptyGroup, @NonNull GroupType group);
 
     /**
      * Returns an iterator, which allows to iterate the adapter's child items.
@@ -1388,7 +1401,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return An iterator, which allows to iterate the group's items, as an instance of the type
      * {@link Iterator}. The iterator may not be null
      */
-    Iterator<ChildType> childIterator(GroupType group);
+    Iterator<ChildType> childIterator(@NonNull GroupType group);
 
     /**
      * Returns a list iterator, which allow to iterate the child items of the group, which belongs
@@ -1414,7 +1427,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return A list iterator, which allows to iterate the group's items, as an instance of the
      * type {@link ListIterator}. The iterator may not be null
      */
-    ListIterator<ChildType> childListIterator(GroupType group);
+    ListIterator<ChildType> childListIterator(@NonNull GroupType group);
 
     /**
      * Returns a list iterator, which allow to iterate the child items of the group, which belongs
@@ -1449,7 +1462,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return A list iterator, which allows to iterate the group's items, as an instance of the
      * type {@link ListIterator}. The iterator may not be null
      */
-    ListIterator<ChildType> childListIterator(GroupType group, int index);
+    ListIterator<ChildType> childListIterator(@NonNull GroupType group, int index);
 
     /**
      * Returns a list, which contains the child items of the group, which belongs to a specific
@@ -1500,7 +1513,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * index, as an instance of the type {@link List} or an empty list, if the group does not
      * contain any child items
      */
-    List<ChildType> subListChildren(GroupType group, int start, int end);
+    List<ChildType> subListChildren(@NonNull GroupType group, int start, int end);
 
     /**
      * Returns an array, which contains all of the adapter's child items.
@@ -1534,7 +1547,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return An array, which contains the group's child items, as an {@link Object} array or an
      * empty array, if the group does not contain any child items
      */
-    Object[] childrenToArray(GroupType group);
+    Object[] childrenToArray(@NonNull GroupType group);
 
     /**
      * Returns an array, which contains all of the adapter's child items. If the given array is
@@ -1550,7 +1563,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return An array, which contains all of adapter's child items, as an array of the generic
      * type T or an empty array, if the adapter does not contain any child items
      */
-    <T> T[] childrenToArray(T[] array);
+    <T> T[] childrenToArray(@NonNull T[] array);
 
     /**
      * Returns an array, which contains all child items of the group, which belongs to a specific
@@ -1571,7 +1584,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return An array, which contains all of the group's child items, as an array of the generic
      * type T or an empty array, if the group does not contain any child items
      */
-    <T> T[] childrenToArray(int groupIndex, T[] array);
+    <T> T[] childrenToArray(int groupIndex, @NonNull T[] array);
 
     /**
      * Returns an array, which contains all child items of a specific group. If the given array is
@@ -1591,7 +1604,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return An array, which contains all of the group's child items, as an array of the generic
      * type T or an empty array, if the group does not contain any child items
      */
-    <T> T[] childrenToArray(GroupType group, T[] array);
+    <T> T[] childrenToArray(@NonNull GroupType group, @NonNull T[] array);
 
     /**
      * Returns the child item, which belongs to a specific index of the group, which belongs to a
@@ -1625,7 +1638,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return The child item, which belongs to the given index, as an instance of the generic type
      * ChildType. The child item may not be null
      */
-    ChildType getChild(GroupType group, int index);
+    ChildType getChild(@NonNull GroupType group, int index);
 
     /**
      * Returns the index of the group, a specific child item belongs to.
@@ -1636,7 +1649,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return The index of the group, the given child item belongs to, as an {@link Integer} value
      * or -1, if the adapter does not contain the given child item
      */
-    int indexOfChild(ChildType child);
+    int indexOfChild(@NonNull ChildType child);
 
     /**
      * Returns the index of a specific child item within the group, which belongs to a specific
@@ -1653,7 +1666,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return The index of the given child item, as an {@link Integer} value or -1, if the group
      * does not contain the given child item
      */
-    int indexOfChild(int groupIndex, ChildType child);
+    int indexOfChild(int groupIndex, @NonNull ChildType child);
 
     /**
      * Returns the index of a specific child item within a specific group.
@@ -1668,7 +1681,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return The index of the given child item, as an {@link Integer} value or -1, if the group
      * does not contain the given child item
      */
-    int indexOfChild(GroupType group, ChildType child);
+    int indexOfChild(@NonNull GroupType group, @NonNull ChildType child);
 
     /**
      * Returns the last index of the group, a specific child item belongs to.
@@ -1679,7 +1692,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return The last index of the group, the given child item belongs to, as an {@link Integer}
      * value or -1, if the adapter does not contain the given child item
      */
-    int lastIndexOfChild(ChildType child);
+    int lastIndexOfChild(@NonNull ChildType child);
 
     /**
      * Returns the last index of a specific child item within the group, which belongs to a specific
@@ -1696,7 +1709,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return The last index of the given child item, as an {@link Integer} value or -1, if the
      * group does not contain the given child item
      */
-    int lastIndexOfChild(int groupIndex, ChildType child);
+    int lastIndexOfChild(int groupIndex, @NonNull ChildType child);
 
     /**
      * Returns the last index of a specific child item within a specific group.
@@ -1711,7 +1724,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return The last index of the given child item, as an {@link Integer} value or -1, if the
      * group does not contain the given child item
      */
-    int lastIndexOfChild(GroupType group, ChildType child);
+    int lastIndexOfChild(@NonNull GroupType group, @NonNull ChildType child);
 
     /**
      * Returns, whether the adapter contains a specific child item, or not.
@@ -1721,7 +1734,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         ChildType. The child item may not be null
      * @return True, if the adapter contains the given child item, false otherwise
      */
-    boolean containsChild(ChildType child);
+    boolean containsChild(@NonNull ChildType child);
 
     /**
      * Returns, whether the group, which belongs to a specific index, contains a specific child
@@ -1737,7 +1750,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         ChildType. The child item may not be null
      * @return True, if the group contains the given child item, false otherwise
      */
-    boolean containsChild(int groupIndex, ChildType child);
+    boolean containsChild(int groupIndex, @NonNull ChildType child);
 
     /**
      * Returns, whether a specific group contains a specific child item, or not.
@@ -1751,7 +1764,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         ChildType. The child item may not be null
      * @return True, if the group contains the given child item, false otherwise
      */
-    boolean containsChild(GroupType group, ChildType child);
+    boolean containsChild(@NonNull GroupType group, @NonNull ChildType child);
 
     /**
      * Returns, whether the adapter contains all child items, which are contained by a specific
@@ -1763,7 +1776,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return True, if the adapter contains all child items, which are contained by the given
      * collection, false otherwise
      */
-    boolean containsAllChildren(Collection<? extends ChildType> children);
+    boolean containsAllChildren(@NonNull Collection<? extends ChildType> children);
 
     /**
      * Returns, whether the group, which belongs to a specific index, contains all child items,
@@ -1780,7 +1793,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return True, if the group contains all child items, which are contained by the given
      * collection, false otherwise
      */
-    boolean containsAllChildren(int groupIndex, Collection<? extends ChildType> children);
+    boolean containsAllChildren(int groupIndex, @NonNull Collection<? extends ChildType> children);
 
     /**
      * Returns, whether a specific group contains all child items, which are contained by a specific
@@ -1796,7 +1809,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return True, if the group contains all child items, which are contained by the given
      * collection, false otherwise
      */
-    boolean containsAllChildren(GroupType group, Collection<? extends ChildType> children);
+    boolean containsAllChildren(@NonNull GroupType group,
+                                @NonNull Collection<? extends ChildType> children);
 
     /**
      * Returns, whether the adapter contains all child items, which are contained by a specific
@@ -1809,7 +1823,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * array, false otherwise
      */
     @SuppressWarnings("unchecked")
-    boolean containsAllChildren(ChildType... children);
+    boolean containsAllChildren(@NonNull ChildType... children);
 
     /**
      * Returns the total number of child items, which are contained by the adapter.
@@ -1843,7 +1857,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return The number of child items, which are contained by the group, as an {@link Integer}
      * value
      */
-    int getChildCount(GroupType group);
+    int getChildCount(@NonNull GroupType group);
 
     /**
      * Returns a list, which contains all of the adapter's child items.
@@ -1877,7 +1891,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return A list, which contains all child items of the group, as an instance of the type
      * {@link List} or an empty list, if the group does not contain any child items
      */
-    List<ChildType> getAllChildren(GroupType group);
+    List<ChildType> getAllChildren(@NonNull GroupType group);
 
     /**
      * Returns, whether the group, which belongs to a specific index, contains all child items,
@@ -1895,7 +1909,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * false otherwise
      */
     @SuppressWarnings("unchecked")
-    boolean containsAllChildren(int groupIndex, ChildType... children);
+    boolean containsAllChildren(int groupIndex, @NonNull ChildType... children);
 
     /**
      * Returns, whether a specific group contains all child items, which are contained by a specific
@@ -1912,7 +1926,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * false otherwise
      */
     @SuppressWarnings("unchecked")
-    boolean containsAllChildren(GroupType group, ChildType... children);
+    boolean containsAllChildren(@NonNull GroupType group, @NonNull ChildType... children);
 
     /**
      * Returns, whether the group, which belongs to a specific index, is currently expanded, or
@@ -1938,7 +1952,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return True, if the given group is currently expanded, false if the group is collapsed or if
      * the adapter is not attached to a view
      */
-    boolean isGroupExpanded(GroupType group);
+    boolean isGroupExpanded(@NonNull GroupType group);
 
     /**
      * Returns, whether the group, which belongs to a specific index, is currently collapsed, or
@@ -1964,7 +1978,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return True, if the given group is currently collapsed, false if the group is expanded or if
      * the adapter is not attached to a view
      */
-    boolean isGroupCollapsed(GroupType group);
+    boolean isGroupCollapsed(@NonNull GroupType group);
 
     /**
      * Returns the first expanded group.
@@ -2090,7 +2104,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         The group may not be null. If the group does not belong to the adapter, a {@link
      *         NoSuchElementException} will be thrown
      */
-    void expandGroup(GroupType group);
+    void expandGroup(@NonNull GroupType group);
 
     /**
      * Expands the group, which belongs to a specific index.
@@ -2110,7 +2124,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         The group may not be null. If the group does not belong to the adapter, a {@link
      *         NoSuchElementException} will be thrown
      */
-    void collapseGroup(GroupType group);
+    void collapseGroup(@NonNull GroupType group);
 
     /**
      * Collapses the group, which belongs to a specific index.
@@ -2133,7 +2147,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return True, if the group has been expanded, false, if the item has been collapsed or if the
      * adapter is not attached to a view
      */
-    boolean triggerGroupExpansion(GroupType group);
+    boolean triggerGroupExpansion(@NonNull GroupType group);
 
     /**
      * Triggers the expansion of the group, which belongs to a specific index. This causes the group
@@ -2188,7 +2202,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         The listener, which should be added, as an instance of the type {@link
      *         ExpandableListAdapterListener}. The listener may not be null
      */
-    void addAdapterListener(ExpandableListAdapterListener<GroupType, ChildType> listener);
+    void addAdapterListener(@NonNull ExpandableListAdapterListener<GroupType, ChildType> listener);
 
     /**
      * Removes a specific listener, which should not be notified, when the adapter's underlying data
@@ -2198,7 +2212,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         The listener, which should be removed, as an instance of the type {@link
      *         ExpandableListAdapterListener}. The listener may not be null
      */
-    void removeAdapterListener(ExpandableListAdapterListener<GroupType, ChildType> listener);
+    void removeAdapterListener(
+            @NonNull ExpandableListAdapterListener<GroupType, ChildType> listener);
 
     /**
      * Adds a specific listener, which should be notified, when a group item has been expanded or
@@ -2208,7 +2223,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         The listener, which should be added, as an instance of the class {@link
      *         ExpansionListener}. The listener may not be null
      */
-    void addExpansionListener(ExpansionListener<GroupType, ChildType> listener);
+    void addExpansionListener(@NonNull ExpansionListener<GroupType, ChildType> listener);
 
     /**
      * Removes a specific listener, which should not be notified, when a group item has been
@@ -2218,7 +2233,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         The listener, which should be removed, as an instance of the class {@link
      *         ExpansionListener}. The listener may not be null
      */
-    void removeExpansionListener(ExpansionListener<GroupType, ChildType> listener);
+    void removeExpansionListener(@NonNull ExpansionListener<GroupType, ChildType> listener);
 
     @Override
     ExpandableListAdapter<GroupType, ChildType> clone() throws CloneNotSupportedException;

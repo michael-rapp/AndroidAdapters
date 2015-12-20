@@ -14,6 +14,7 @@
  */
 package de.mrapp.android.adapter.list.itemstate;
 
+import android.support.annotation.NonNull;
 import android.widget.AbsListView;
 
 import java.util.List;
@@ -84,7 +85,7 @@ public interface ItemStateListAdapter<DataType> {
      *         {@link NoSuchElementException} will be thrown
      * @return The state of the given item as an {@link Integer} value
      */
-    int getItemState(DataType item);
+    int getItemState(@NonNull DataType item);
 
     /**
      * Sets the state of the item, which belongs to a specific index, to a specific state, if it is
@@ -117,7 +118,7 @@ public interface ItemStateListAdapter<DataType> {
      * @return The previous state of the given item as an {@link Integer} value or -1, if the state
      * has not been changed
      */
-    int setItemState(DataType item, int state);
+    int setItemState(@NonNull DataType item, int state);
 
     /**
      * Sets the states of all items to a specific state, if they are currently enabled.
@@ -156,7 +157,7 @@ public interface ItemStateListAdapter<DataType> {
      * @return The previous state of the given item, as an {@link Integer} value or -1, if the state
      * has not been changed
      */
-    int triggerItemState(DataType item);
+    int triggerItemState(@NonNull DataType item);
 
     /**
      * Triggers the states of all items. if they are currently enabled. This causes the states to be
@@ -266,7 +267,7 @@ public interface ItemStateListAdapter<DataType> {
      *         The listener, which should be added, as an instance of the class {@link
      *         ListItemStateListener}. The listener may not be null
      */
-    void addItemStateListener(final ListItemStateListener<DataType> listener);
+    void addItemStateListener(@NonNull final ListItemStateListener<DataType> listener);
 
     /**
      * Removes a specific listener, which should not be notified, when the state of an item has been
@@ -276,6 +277,6 @@ public interface ItemStateListAdapter<DataType> {
      *         The listener, which should be removed, as an instance of the class {@link
      *         ListItemStateListener}. The listener may not be null
      */
-    void removeItemStateListener(ListItemStateListener<DataType> listener);
+    void removeItemStateListener(@NonNull ListItemStateListener<DataType> listener);
 
 }

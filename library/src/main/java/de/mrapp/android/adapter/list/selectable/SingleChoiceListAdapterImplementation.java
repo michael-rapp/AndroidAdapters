@@ -16,6 +16,8 @@ package de.mrapp.android.adapter.list.selectable;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.widget.AbsListView;
 
 import java.util.ArrayList;
@@ -83,8 +85,8 @@ public class SingleChoiceListAdapterImplementation<DataType>
         return new ListAdapterItemClickListener<DataType>() {
 
             @Override
-            public void onItemClicked(final ListAdapter<DataType> adapter, final DataType item,
-                                      final int index) {
+            public void onItemClicked(@NonNull final ListAdapter<DataType> adapter,
+                                      @NonNull final DataType item, final int index) {
                 if (isItemSelectedOnClick()) {
                     getLogger().logVerbose(getClass(), "Selecting item on click...");
                     select(index);
@@ -105,16 +107,16 @@ public class SingleChoiceListAdapterImplementation<DataType>
         return new ListAdapterListener<DataType>() {
 
             @Override
-            public void onItemAdded(final ListAdapter<DataType> adapter, final DataType item,
-                                    final int index) {
+            public void onItemAdded(@NonNull final ListAdapter<DataType> adapter,
+                                    @NonNull final DataType item, final int index) {
                 if (isSelectionAdaptedAutomatically() && getCount() == 1) {
                     select(index);
                 }
             }
 
             @Override
-            public void onItemRemoved(final ListAdapter<DataType> adapter, final DataType item,
-                                      final int index) {
+            public void onItemRemoved(@NonNull final ListAdapter<DataType> adapter,
+                                      @NonNull final DataType item, final int index) {
                 if (isSelectionAdaptedAutomatically() && !isEmpty() && getSelectedIndex() == -1) {
                     selectNearestEnabledItem(index);
                 }
@@ -134,16 +136,16 @@ public class SingleChoiceListAdapterImplementation<DataType>
         return new ListEnableStateListener<DataType>() {
 
             @Override
-            public void onItemEnabled(final ListAdapter<DataType> adapter, final DataType item,
-                                      final int index) {
+            public void onItemEnabled(@NonNull final ListAdapter<DataType> adapter,
+                                      @NonNull final DataType item, final int index) {
                 if (isSelectionAdaptedAutomatically() && getEnabledItemCount() == 1) {
                     select(index);
                 }
             }
 
             @Override
-            public void onItemDisabled(final ListAdapter<DataType> adapter, final DataType item,
-                                       final int index) {
+            public void onItemDisabled(@NonNull final ListAdapter<DataType> adapter,
+                                       @NonNull final DataType item, final int index) {
                 if (isSelectionAdaptedAutomatically() && isSelected(index)) {
                     getItems().get(index).setSelected(false);
                     notifyOnItemUnselected(item, index);
@@ -166,17 +168,19 @@ public class SingleChoiceListAdapterImplementation<DataType>
         return new ListFilterListener<DataType>() {
 
             @Override
-            public void onApplyFilter(final ListAdapter<DataType> adapter, final String query,
-                                      final int flags, final Filter<DataType> filter,
-                                      final List<DataType> filteredItems) {
+            public void onApplyFilter(@NonNull final ListAdapter<DataType> adapter,
+                                      @NonNull final String query, final int flags,
+                                      @Nullable final Filter<DataType> filter,
+                                      @NonNull final List<DataType> filteredItems) {
                 if (isSelectionAdaptedAutomatically() && !isEmpty() && getSelectedIndex() == -1) {
                     select(0);
                 }
             }
 
             @Override
-            public void onResetFilter(final ListAdapter<DataType> adapter, final String query,
-                                      final int flags, final List<DataType> filteredItems) {
+            public void onResetFilter(@NonNull final ListAdapter<DataType> adapter,
+                                      @NonNull final String query, final int flags,
+                                      @NonNull final List<DataType> filteredItems) {
                 if (isSelectionAdaptedAutomatically() && !isEmpty() && getSelectedIndex() == -1) {
                     select(0);
                 }
@@ -276,23 +280,24 @@ public class SingleChoiceListAdapterImplementation<DataType>
      * @param adaptSelectionAutomatically
      *         True, if the adapter's selection should be adapted automatically, false otherwise
      */
-    protected SingleChoiceListAdapterImplementation(final Context context, final Inflater inflater,
-                                                    final SelectableListDecorator<DataType> decorator,
-                                                    final LogLevel logLevel,
-                                                    final ArrayList<Item<DataType>> items,
+    protected SingleChoiceListAdapterImplementation(@NonNull final Context context,
+                                                    @NonNull final Inflater inflater,
+                                                    @NonNull final SelectableListDecorator<DataType> decorator,
+                                                    @NonNull final LogLevel logLevel,
+                                                    @NonNull final ArrayList<Item<DataType>> items,
                                                     final boolean allowDuplicates,
                                                     final boolean notifyOnChange,
-                                                    final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
-                                                    final Set<ListAdapterListener<DataType>> adapterListeners,
-                                                    final Set<ListEnableStateListener<DataType>> enableStateListeners,
+                                                    @NonNull final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
+                                                    @NonNull final Set<ListAdapterListener<DataType>> adapterListeners,
+                                                    @NonNull final Set<ListEnableStateListener<DataType>> enableStateListeners,
                                                     final int numberOfItemStates,
                                                     final boolean triggerItemStateOnClick,
-                                                    final Set<ListItemStateListener<DataType>> itemStateListeners,
-                                                    final Set<ListSortingListener<DataType>> sortingListeners,
-                                                    final Set<ListFilterListener<DataType>> filterListeners,
-                                                    final LinkedHashSet<AppliedFilter<DataType>> appliedFilters,
+                                                    @NonNull final Set<ListItemStateListener<DataType>> itemStateListeners,
+                                                    @NonNull final Set<ListSortingListener<DataType>> sortingListeners,
+                                                    @NonNull final Set<ListFilterListener<DataType>> filterListeners,
+                                                    @NonNull final LinkedHashSet<AppliedFilter<DataType>> appliedFilters,
                                                     final boolean selectItemOnClick,
-                                                    final Set<ListSelectionListener<DataType>> selectionListeners,
+                                                    @NonNull final Set<ListSelectionListener<DataType>> selectionListeners,
                                                     final boolean adaptSelectionAutomatically) {
         super(context, inflater, decorator, logLevel, items, allowDuplicates, notifyOnChange,
                 itemClickListeners, adapterListeners, enableStateListeners, numberOfItemStates,
@@ -321,8 +326,9 @@ public class SingleChoiceListAdapterImplementation<DataType>
      *         are used to visualize the items of the adapter, as an instance of the generic type
      *         DecoratorType. The decorator may not be null
      */
-    public SingleChoiceListAdapterImplementation(final Context context, final Inflater inflater,
-                                                 final SelectableListDecorator<DataType> decorator) {
+    public SingleChoiceListAdapterImplementation(@NonNull final Context context,
+                                                 @NonNull final Inflater inflater,
+                                                 @NonNull final SelectableListDecorator<DataType> decorator) {
         this(context, inflater, decorator, LogLevel.INFO, new ArrayList<Item<DataType>>(), false,
                 true, new LinkedHashSet<ListAdapterItemClickListener<DataType>>(),
                 new LinkedHashSet<ListAdapterListener<DataType>>(),
@@ -396,7 +402,7 @@ public class SingleChoiceListAdapterImplementation<DataType>
     }
 
     @Override
-    public final boolean select(final DataType item) {
+    public final boolean select(@NonNull final DataType item) {
         return select(indexOfOrThrowException(item));
     }
 
@@ -415,14 +421,14 @@ public class SingleChoiceListAdapterImplementation<DataType>
     }
 
     @Override
-    protected final void onSaveInstanceState(final Bundle outState) {
+    protected final void onSaveInstanceState(@NonNull final Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(ADAPT_SELECTION_AUTOMATICALLY_BUNDLE_KEY,
                 isSelectionAdaptedAutomatically());
     }
 
     @Override
-    protected final void onRestoreInstanceState(final Bundle savedState) {
+    protected final void onRestoreInstanceState(@NonNull final Bundle savedState) {
         super.onRestoreInstanceState(savedState);
         adaptSelectionAutomatically =
                 savedState.getBoolean(ADAPT_SELECTION_AUTOMATICALLY_BUNDLE_KEY, true);

@@ -16,6 +16,8 @@ package de.mrapp.android.adapter.datastructure;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.Filterable;
@@ -81,7 +83,7 @@ public class AppliedFilter<DataType> implements DataStructure, Parcelable {
      *         Parcel}. The source may not be null
      */
     @SuppressWarnings("unchecked")
-    private AppliedFilter(final Parcel source) {
+    private AppliedFilter(@NonNull final Parcel source) {
         this.query = source.readString();
         this.flags = source.readInt();
         this.filter = (Filter<DataType>) source.readSerializable();
@@ -98,7 +100,7 @@ public class AppliedFilter<DataType> implements DataStructure, Parcelable {
      *         The flags, which have been used to filter the adapter's data or 0, if no flags have
      *         been used
      */
-    public AppliedFilter(final String query, final int flags) {
+    public AppliedFilter(@NonNull final String query, final int flags) {
         this(query, flags, null);
     }
 
@@ -117,7 +119,8 @@ public class AppliedFilter<DataType> implements DataStructure, Parcelable {
      *         expression, as an instance of the type {@link Filter} or null, if the items'
      *         implementations of the type {@link Filterable} have been used instead
      */
-    public AppliedFilter(final String query, final int flags, final Filter<DataType> filter) {
+    public AppliedFilter(@NonNull final String query, final int flags,
+                         @Nullable final Filter<DataType> filter) {
         ensureNotNull(query, "The query may not be null");
         this.query = query;
         this.flags = flags;

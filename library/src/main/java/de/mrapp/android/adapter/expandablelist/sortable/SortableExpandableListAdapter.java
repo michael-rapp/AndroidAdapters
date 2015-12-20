@@ -14,6 +14,7 @@
  */
 package de.mrapp.android.adapter.expandablelist.sortable;
 
+import android.support.annotation.NonNull;
 import android.widget.ExpandableListView;
 
 import java.util.Comparator;
@@ -53,7 +54,7 @@ public interface SortableExpandableListAdapter<GroupType, ChildType> {
      *         {@link Order}. The order may either be <code>ASCENDING</code> or
      *         <code>DESCENDING</code>
      */
-    void sortGroups(Order order);
+    void sortGroups(@NonNull Order order);
 
     /**
      * Sorts the adapter's group items in an ascending order, by using a comparator.
@@ -62,7 +63,7 @@ public interface SortableExpandableListAdapter<GroupType, ChildType> {
      *         The comparator, which should be used to sort the group items, as an instance of the
      *         type {@link Comparator}. The comparator may not be null
      */
-    void sortGroups(Comparator<GroupType> comparator);
+    void sortGroups(@NonNull Comparator<GroupType> comparator);
 
     /**
      * Sorts the adapter's group items in a specific order, by using a comparator.
@@ -75,7 +76,7 @@ public interface SortableExpandableListAdapter<GroupType, ChildType> {
      *         {@link Order}. The order may either be <code>ASCENDING</code> or
      *         <code>DESCENDING</code>
      */
-    void sortGroups(Order order, Comparator<GroupType> comparator);
+    void sortGroups(@NonNull Order order, @NonNull Comparator<GroupType> comparator);
 
     /**
      * Returns the current order of the adapter's group items.
@@ -104,7 +105,7 @@ public interface SortableExpandableListAdapter<GroupType, ChildType> {
      *         {@link Order}. The order may either be <code>ASCENDING</code> or
      *         <code>DESCENDING</code>
      */
-    void sortChildren(Order order);
+    void sortChildren(@NonNull Order order);
 
     /**
      * Sorts all of the adapter's child items in an ascending order, by using a comparator.
@@ -113,7 +114,7 @@ public interface SortableExpandableListAdapter<GroupType, ChildType> {
      *         The comparator, which should be used to sort the child items, as an instance of the
      *         type {@link Comparator}. The comparator may not be null
      */
-    void sortChildren(Comparator<ChildType> comparator);
+    void sortChildren(@NonNull Comparator<ChildType> comparator);
 
     /**
      * Sorts all of the adapter's child items in a specific order, by using a comparator.
@@ -126,7 +127,7 @@ public interface SortableExpandableListAdapter<GroupType, ChildType> {
      *         {@link Order}. The order may either be <code>ASCENDING</code> or
      *         <code>DESCENDING</code>
      */
-    void sortChildren(Order order, Comparator<ChildType> comparator);
+    void sortChildren(@NonNull Order order, @NonNull Comparator<ChildType> comparator);
 
     /**
      * Sorts the child items of the group, which belongs to a specific index, in an ascending order.
@@ -156,7 +157,7 @@ public interface SortableExpandableListAdapter<GroupType, ChildType> {
      *         {@link Order}. The order may either be <code>ASCENDING</code> or
      *         <code>DESCENDING</code>
      */
-    void sortChildren(int groupIndex, Order order);
+    void sortChildren(int groupIndex, @NonNull Order order);
 
     /**
      * Sorts the child items of the group, which belongs to a specific index, in an ascending order,
@@ -171,7 +172,7 @@ public interface SortableExpandableListAdapter<GroupType, ChildType> {
      *         The comparator, which should be used to sort the child items, as an instance of the
      *         type {@link Comparator}. The comparator may not be null
      */
-    void sortChildren(int groupIndex, Comparator<ChildType> comparator);
+    void sortChildren(int groupIndex, @NonNull Comparator<ChildType> comparator);
 
     /**
      * Sorts the child items of the group, which belongs to a specific index, in a specific order,
@@ -190,7 +191,8 @@ public interface SortableExpandableListAdapter<GroupType, ChildType> {
      *         {@link Order}. The order may either be <code>ASCENDING</code> or
      *         <code>DESCENDING</code>
      */
-    void sortChildren(int groupIndex, Order order, Comparator<ChildType> comparator);
+    void sortChildren(int groupIndex, @NonNull Order order,
+                      @NonNull Comparator<ChildType> comparator);
 
     /**
      * Sorts the child items of a specific group in an ascending order. If the underlying data of
@@ -202,7 +204,7 @@ public interface SortableExpandableListAdapter<GroupType, ChildType> {
      *         GroupType. The group may not be null. If the group does not belong to the adapter, a
      *         {@link NoSuchElementException} will be thrown
      */
-    void sortChildren(GroupType group);
+    void sortChildren(@NonNull GroupType group);
 
     /**
      * Sorts child items of a specific group in a specific order. If the underlying data of the
@@ -218,7 +220,7 @@ public interface SortableExpandableListAdapter<GroupType, ChildType> {
      *         {@link Order}. The order may either be <code>ASCENDING</code> or
      *         <code>DESCENDING</code>
      */
-    void sortChildren(GroupType group, Order order);
+    void sortChildren(@NonNull GroupType group, @NonNull Order order);
 
     /**
      * Sorts the child items of a specific group in an ascending order, by using a comparator.
@@ -231,7 +233,7 @@ public interface SortableExpandableListAdapter<GroupType, ChildType> {
      *         The comparator, which should be used to sort the child items, as an instance of the
      *         type {@link Comparator}. The comparator may not be null
      */
-    void sortChildren(GroupType group, Comparator<ChildType> comparator);
+    void sortChildren(@NonNull GroupType group, @NonNull Comparator<ChildType> comparator);
 
     /**
      * Sorts the child items of a specific group in a specific order, by using a comparator.
@@ -248,7 +250,8 @@ public interface SortableExpandableListAdapter<GroupType, ChildType> {
      *         {@link Order}. The order may either be <code>ASCENDING</code> or
      *         <code>DESCENDING</code>
      */
-    void sortChildren(GroupType group, Order order, Comparator<ChildType> comparator);
+    void sortChildren(@NonNull GroupType group, @NonNull Order order,
+                      @NonNull Comparator<ChildType> comparator);
 
     /**
      * Returns the current order of all child items, regardless of the group they belong to.
@@ -272,7 +275,7 @@ public interface SortableExpandableListAdapter<GroupType, ChildType> {
      * adapter's underlying data has been changed since it has been sorted the last time. If not
      * null, the order may either be <code>ASCENDING</code> or <code>DESCENDING</code>
      */
-    Order getChildOrder(final GroupType group);
+    Order getChildOrder(@NonNull final GroupType group);
 
     /**
      * Returns the current order of the child items of the group, which belongs to a specific
@@ -298,7 +301,7 @@ public interface SortableExpandableListAdapter<GroupType, ChildType> {
      *         The listener, which should be added, as an instance of the class {@link
      *         ExpandableListSortingListener}. The listener may not be null
      */
-    void addSortingListener(ExpandableListSortingListener<GroupType, ChildType> listener);
+    void addSortingListener(@NonNull ExpandableListSortingListener<GroupType, ChildType> listener);
 
     /**
      * Removes a specific listener, which should not be notified, when the adapter's underlying data
@@ -308,6 +311,7 @@ public interface SortableExpandableListAdapter<GroupType, ChildType> {
      *         The listener, which should be removed, as an instance of the class {@link
      *         ExpandableListSortingListener}. The listener may not be null
      */
-    void removeSortingListener(ExpandableListSortingListener<GroupType, ChildType> listener);
+    void removeSortingListener(
+            @NonNull ExpandableListSortingListener<GroupType, ChildType> listener);
 
 }

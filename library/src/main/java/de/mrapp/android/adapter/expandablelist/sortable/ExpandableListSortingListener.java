@@ -14,6 +14,9 @@
  */
 package de.mrapp.android.adapter.expandablelist.sortable;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import java.util.Collection;
 import java.util.Comparator;
 
@@ -52,9 +55,9 @@ public interface ExpandableListSortingListener<GroupType, ChildType> {
      *         of the type {@link Comparator} or null, if the group items' implementation of the
      *         type {@link Comparable} has been used instead
      */
-    void onGroupsSorted(ExpandableListAdapter<GroupType, ChildType> adapter,
-                        Collection<GroupType> sortedGroups, Order order,
-                        Comparator<GroupType> comparator);
+    void onGroupsSorted(@NonNull ExpandableListAdapter<GroupType, ChildType> adapter,
+                        @NonNull Collection<GroupType> sortedGroups, @NonNull Order order,
+                        @Nullable Comparator<GroupType> comparator);
 
     /**
      * The method, which is invoked, when the child items of a group of the adapter have been
@@ -82,8 +85,9 @@ public interface ExpandableListSortingListener<GroupType, ChildType> {
      *         The index of the group, whose child items have been sorted, as an {@link Integer}
      *         value
      */
-    void onChildrenSorted(ExpandableListAdapter<GroupType, ChildType> adapter,
-                          Collection<ChildType> sortedChildren, Order order,
-                          Comparator<ChildType> comparator, GroupType group, int groupIndex);
+    void onChildrenSorted(@NonNull ExpandableListAdapter<GroupType, ChildType> adapter,
+                          @NonNull Collection<ChildType> sortedChildren, @NonNull Order order,
+                          @Nullable Comparator<ChildType> comparator, @NonNull GroupType group,
+                          int groupIndex);
 
 }

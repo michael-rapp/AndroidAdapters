@@ -14,6 +14,8 @@
  */
 package de.mrapp.android.adapter;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 
 /**
@@ -34,6 +36,6 @@ public interface Filterable extends Serializable {
      *         Optional flags as an {@link Integer} value or 0, if no flags should be used
      * @return True, if the class does match the given query, false otherwise
      */
-    boolean match(String query, final int flags);
+    boolean match(@NonNull String query, final int flags);
 
 }

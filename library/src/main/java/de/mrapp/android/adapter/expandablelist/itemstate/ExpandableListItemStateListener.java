@@ -14,6 +14,7 @@
  */
 package de.mrapp.android.adapter.expandablelist.itemstate;
 
+import android.support.annotation.NonNull;
 import android.widget.ListAdapter;
 
 import de.mrapp.android.adapter.ExpandableListAdapter;
@@ -47,8 +48,8 @@ public interface ExpandableListItemStateListener<GroupType, ChildType> {
      *         The new state of the group item, whose state has been changed, as an {@link Integer}
      *         value
      */
-    void onGroupStateChanged(ExpandableListAdapter<GroupType, ChildType> adapter, GroupType group,
-                             int index, int state);
+    void onGroupStateChanged(@NonNull ExpandableListAdapter<GroupType, ChildType> adapter,
+                             @NonNull GroupType group, int index, int state);
 
     /**
      * The method, which is invoked, when the state of a child item has been changed.
@@ -72,7 +73,8 @@ public interface ExpandableListItemStateListener<GroupType, ChildType> {
      *         The new state of the child item, whose state has been changed, as an {@link Integer}
      *         value
      */
-    void onChildStateChanged(ExpandableListAdapter<GroupType, ChildType> adapter, ChildType child,
-                             int childIndex, GroupType group, int groupIndex, int state);
+    void onChildStateChanged(@NonNull ExpandableListAdapter<GroupType, ChildType> adapter,
+                             @NonNull ChildType child, int childIndex, @NonNull GroupType group,
+                             int groupIndex, int state);
 
 }

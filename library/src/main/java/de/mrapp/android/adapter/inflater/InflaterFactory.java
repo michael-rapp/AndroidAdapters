@@ -14,6 +14,8 @@
  */
 package de.mrapp.android.adapter.inflater;
 
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.view.View;
 
 /**
@@ -43,7 +45,7 @@ public final class InflaterFactory {
      * @return The inflater, which has been created, as an instance of the type {@link Inflater}.
      * The inflater may not be null
      */
-    public static Inflater createInflater(final View view) {
+    public static Inflater createInflater(@NonNull final View view) {
         return new InstanceInflater(view);
     }
 
@@ -57,7 +59,7 @@ public final class InflaterFactory {
      * @return The inflater, which has been created, as an instance of the type {@link Inflater}.
      * The inflater may not be null
      */
-    public static Inflater createInflater(final int viewId) {
+    public static Inflater createInflater(@LayoutRes final int viewId) {
         return new IdInflater(viewId);
     }
 

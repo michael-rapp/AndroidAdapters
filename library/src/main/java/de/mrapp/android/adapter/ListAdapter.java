@@ -14,12 +14,13 @@
  */
 package de.mrapp.android.adapter;
 
+import android.support.annotation.NonNull;
+import android.widget.AbsListView;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-
-import android.widget.AbsListView;
 
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.EnableStateListAdapter;
@@ -66,7 +67,7 @@ public interface ListAdapter<DataType>
      * @return The index of the the item, which has been added to the adapter, as an {@link Integer}
      * value or -1, if the item has not been added
      */
-    int addItem(DataType item);
+    int addItem(@NonNull DataType item);
 
     /**
      * Adds a specific item to the adapter. The item will be added at a specific index.
@@ -80,7 +81,7 @@ public interface ListAdapter<DataType>
      *         DataType. The item may not be null
      * @return True, if the item has been added to the adapter, false otherwise
      */
-    boolean addItem(int index, DataType item);
+    boolean addItem(int index, @NonNull DataType item);
 
     /**
      * Adds all items, which are contained by a specific collection, to the adapter. The items will
@@ -92,7 +93,7 @@ public interface ListAdapter<DataType>
      *         added
      * @return True, if all items have been added to the adapter, false otherwise
      */
-    boolean addAllItems(Collection<? extends DataType> items);
+    boolean addAllItems(@NonNull Collection<? extends DataType> items);
 
     /**
      * Adds all items, which are contained by a specific collection, to the adapter. The items will
@@ -108,7 +109,7 @@ public interface ListAdapter<DataType>
      *         added
      * @return True, if all items have been added to the adapter, false otherwise
      */
-    boolean addAllItems(int index, Collection<? extends DataType> items);
+    boolean addAllItems(int index, @NonNull Collection<? extends DataType> items);
 
     /**
      * Adds all items, which are contained by a specific array, to the adapter. The items will be
@@ -120,7 +121,7 @@ public interface ListAdapter<DataType>
      * @return True, if all items have been added to the adapter, false otherwise
      */
     @SuppressWarnings("unchecked")
-    boolean addAllItems(DataType... items);
+    boolean addAllItems(@NonNull DataType... items);
 
     /**
      * Adds all items, which are contained by a specific array, to the adapter. The items will be
@@ -136,7 +137,7 @@ public interface ListAdapter<DataType>
      * @return True, if all items have been added to the adapter, false otherwise
      */
     @SuppressWarnings("unchecked")
-    boolean addAllItems(int index, DataType... items);
+    boolean addAllItems(int index, @NonNull DataType... items);
 
     /**
      * Replaces the item, which belongs to a specific index, by an other item.
@@ -151,7 +152,7 @@ public interface ListAdapter<DataType>
      * @return The item, which has been replaced, as an instance of the generic type DataType. The
      * item may not be null
      */
-    DataType replaceItem(int index, DataType item);
+    DataType replaceItem(int index, @NonNull DataType item);
 
     /**
      * Removes the item, which belongs to a specific index, from the adapter.
@@ -174,7 +175,7 @@ public interface ListAdapter<DataType>
      *         item may not be null
      * @return True, if the item has been removed, false otherwise
      */
-    boolean removeItem(DataType item);
+    boolean removeItem(@NonNull DataType item);
 
     /**
      * Removes all items, which are contained by a specific collection, from the adapter.
@@ -185,7 +186,7 @@ public interface ListAdapter<DataType>
      *         should be removed
      * @return True, if all items have been removed from the adapter, false otherwise
      */
-    boolean removeAllItems(Collection<? extends DataType> items);
+    boolean removeAllItems(@NonNull Collection<? extends DataType> items);
 
     /**
      * Removes all items, which are contained by a specific array, from the adapter.
@@ -196,7 +197,7 @@ public interface ListAdapter<DataType>
      * @return True, if all items have been removed from the adapter, false otherwise
      */
     @SuppressWarnings("unchecked")
-    boolean removeAllItems(DataType... items);
+    boolean removeAllItems(@NonNull DataType... items);
 
     /**
      * Removes all items from the adapter, except of the items, which are contained by a specific
@@ -206,7 +207,7 @@ public interface ListAdapter<DataType>
      *         The collection, which contains the items, which should be retained, as an instance of
      *         the type {@link Collection} or an empty collection, if no items should be retained
      */
-    void retainAllItems(Collection<? extends DataType> items);
+    void retainAllItems(@NonNull Collection<? extends DataType> items);
 
     /**
      * Removes all items from the adapter, except of the items, which are contained by a specific
@@ -217,7 +218,7 @@ public interface ListAdapter<DataType>
      *         generic type DataType or an empty array, if no items should be retained
      */
     @SuppressWarnings("unchecked")
-    void retainAllItems(DataType... items);
+    void retainAllItems(@NonNull DataType... items);
 
     /**
      * Removes all items from the adapter.
@@ -294,7 +295,7 @@ public interface ListAdapter<DataType>
      * @return An array, which contains all of the adapter's items, as an array of the generic type
      * T or an empty array, if the adapter does not contain any items
      */
-    <T> T[] toArray(T[] array);
+    <T> T[] toArray(@NonNull T[] array);
 
     /**
      * Returns the item, which belongs to a specific index.
@@ -317,7 +318,7 @@ public interface ListAdapter<DataType>
      * @return The index of the the given item, as an {@link Integer} value or -1, if the adapter
      * does not contain the given item
      */
-    int indexOf(DataType item);
+    int indexOf(@NonNull DataType item);
 
     /**
      * Returns the last index of a specific item.
@@ -328,7 +329,7 @@ public interface ListAdapter<DataType>
      * @return The last index of the given item, as an {@link Integer} value or -1, if the adapter
      * does not contain the given item
      */
-    int lastIndexOf(DataType item);
+    int lastIndexOf(@NonNull DataType item);
 
     /**
      * Returns, whether the adapter contains a specific item, or not.
@@ -338,7 +339,7 @@ public interface ListAdapter<DataType>
      *         DataType. The item may not be null
      * @return True, if the adapter contains the given item, false otherwise
      */
-    boolean containsItem(DataType item);
+    boolean containsItem(@NonNull DataType item);
 
     /**
      * Returns, whether the adapter contains all items, which are contained by a specific
@@ -350,7 +351,7 @@ public interface ListAdapter<DataType>
      * @return True, if the adapter contains all items, which are contained by the given collection,
      * false otherwise
      */
-    boolean containsAllItems(Collection<? extends DataType> items);
+    boolean containsAllItems(@NonNull Collection<? extends DataType> items);
 
     /**
      * Returns, whether the adapter contains all items, which are contained by a specific array, or
@@ -363,7 +364,7 @@ public interface ListAdapter<DataType>
      * false otherwise
      */
     @SuppressWarnings("unchecked")
-    boolean containsAllItems(DataType... items);
+    boolean containsAllItems(@NonNull DataType... items);
 
     /**
      * Returns the number of items, which are contained by the adapter.
@@ -395,7 +396,7 @@ public interface ListAdapter<DataType>
      *         The listener, which should be added, as an instance of the type {@link
      *         ListAdapterListener}. The listener may not be null
      */
-    void addAdapterListener(ListAdapterListener<DataType> listener);
+    void addAdapterListener(@NonNull ListAdapterListener<DataType> listener);
 
     /**
      * Removes a specific listener, which should not be notified, when the adapter's underlying data
@@ -405,7 +406,7 @@ public interface ListAdapter<DataType>
      *         The listener, which should be removed, as an instance of the type {@link
      *         ListAdapterListener}. The listener may not be null
      */
-    void removeAdapterListener(ListAdapterListener<DataType> listener);
+    void removeAdapterListener(@NonNull ListAdapterListener<DataType> listener);
 
     @Override
     ListAdapter<DataType> clone() throws CloneNotSupportedException;

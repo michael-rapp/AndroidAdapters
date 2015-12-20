@@ -16,6 +16,7 @@ package de.mrapp.android.adapter.expandablelist.selectable;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ExpandableListView;
 
@@ -154,7 +155,7 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
      *         if no listeners should be notified
      */
     protected final void setSelectionListeners(
-            final Set<ExpandableListSelectionListener<GroupType, ChildType>> selectionListeners) {
+            @NonNull final Set<ExpandableListSelectionListener<GroupType, ChildType>> selectionListeners) {
         ensureNotNull(selectionListeners, "The selection listeners may not be null");
         this.selectionListeners = selectionListeners;
     }
@@ -171,7 +172,8 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
      *         The index must be between 0 and the value of the method <code>getGroupCount():int</code>
      *         - 1
      */
-    protected final void notifyOnGroupSelected(final GroupType group, final int groupIndex) {
+    protected final void notifyOnGroupSelected(@NonNull final GroupType group,
+                                               final int groupIndex) {
         for (ExpandableListSelectionListener<GroupType, ChildType> listener : selectionListeners) {
             listener.onGroupSelected(this, group, groupIndex);
         }
@@ -189,7 +191,8 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
      *         The index must be between 0 and the value of the method <code>getGroupCount():int</code>
      *         - 1
      */
-    protected final void notifyOnGroupUnselected(final GroupType group, final int groupIndex) {
+    protected final void notifyOnGroupUnselected(@NonNull final GroupType group,
+                                                 final int groupIndex) {
         for (ExpandableListSelectionListener<GroupType, ChildType> listener : selectionListeners) {
             listener.onGroupUnselected(this, group, groupIndex);
         }
@@ -214,8 +217,9 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
      *         The index must be between 0 ad the value of the method <code>getChildCount(groupIndex):int</code>
      *         - 1
      */
-    protected final void notifyOnChildSelected(final GroupType group, final int groupIndex,
-                                               final ChildType child, final int childIndex) {
+    protected final void notifyOnChildSelected(@NonNull final GroupType group, final int groupIndex,
+                                               @NonNull final ChildType child,
+                                               final int childIndex) {
         for (ExpandableListSelectionListener<GroupType, ChildType> listener : selectionListeners) {
             listener.onChildSelected(this, child, childIndex, group, groupIndex);
         }
@@ -240,8 +244,10 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
      *         The index must be between 0 ad the value of the method <code>getChildCount(groupIndex):int</code>
      *         - 1
      */
-    protected final void notifyOnChildUnselected(final GroupType group, final int groupIndex,
-                                                 final ChildType child, final int childIndex) {
+    protected final void notifyOnChildUnselected(@NonNull final GroupType group,
+                                                 final int groupIndex,
+                                                 @NonNull final ChildType child,
+                                                 final int childIndex) {
         for (ExpandableListSelectionListener<GroupType, ChildType> listener : selectionListeners) {
             listener.onChildUnselected(this, child, childIndex, group, groupIndex);
         }
@@ -342,34 +348,34 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
      * @param choiceMode
      *         The choice mode of the adapter as a value of the enum {@link ChoiceMode}
      */
-    protected AbstractSelectableExpandableListAdapter(final Context context,
-                                                      final Inflater groupInflater,
-                                                      final Inflater childInflater,
-                                                      final SelectableExpandableListDecorator<GroupType, ChildType> decorator,
-                                                      final LogLevel logLevel,
-                                                      final MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter,
+    protected AbstractSelectableExpandableListAdapter(@NonNull final Context context,
+                                                      @NonNull final Inflater groupInflater,
+                                                      @NonNull final Inflater childInflater,
+                                                      @NonNull final SelectableExpandableListDecorator<GroupType, ChildType> decorator,
+                                                      @NonNull final LogLevel logLevel,
+                                                      @NonNull final MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter,
                                                       final boolean allowDuplicateChildren,
                                                       final boolean notifyOnChange,
                                                       final boolean expandGroupOnClick,
-                                                      final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
-                                                      final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
-                                                      final Set<ExpansionListener<GroupType, ChildType>> expansionListeners,
+                                                      @NonNull final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
+                                                      @NonNull final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
+                                                      @NonNull final Set<ExpansionListener<GroupType, ChildType>> expansionListeners,
                                                       final boolean setChildEnableStatesImplicitly,
-                                                      final Set<ExpandableListEnableStateListener<GroupType, ChildType>> enableStateListeners,
+                                                      @NonNull final Set<ExpandableListEnableStateListener<GroupType, ChildType>> enableStateListeners,
                                                       final int numberOfGroupStates,
                                                       final int numberOfChildStates,
                                                       final boolean triggerGroupStateOnClick,
                                                       final boolean triggerChildStateOnClick,
                                                       final boolean setChildStatesImplicitly,
-                                                      final Set<ExpandableListItemStateListener<GroupType, ChildType>> itemStateListeners,
-                                                      final Set<ExpandableListSortingListener<GroupType, ChildType>> sortingListeners,
-                                                      final Set<ExpandableListFilterListener<GroupType, ChildType>> filterListeners,
+                                                      @NonNull final Set<ExpandableListItemStateListener<GroupType, ChildType>> itemStateListeners,
+                                                      @NonNull final Set<ExpandableListSortingListener<GroupType, ChildType>> sortingListeners,
+                                                      @NonNull final Set<ExpandableListFilterListener<GroupType, ChildType>> filterListeners,
                                                       final boolean selectGroupOnClick,
                                                       final boolean selectChildOnClick,
                                                       final boolean expandGroupOnSelection,
                                                       final boolean expandGroupOnChildSelection,
-                                                      final Set<ExpandableListSelectionListener<GroupType, ChildType>> selectionListeners,
-                                                      final ChoiceMode choiceMode) {
+                                                      @NonNull final Set<ExpandableListSelectionListener<GroupType, ChildType>> selectionListeners,
+                                                      @NonNull final ChoiceMode choiceMode) {
         super(context, groupInflater, childInflater, decorator, logLevel, groupAdapter,
                 allowDuplicateChildren, notifyOnChange, expandGroupOnClick, itemClickListeners,
                 adapterListeners, expansionListeners, setChildEnableStatesImplicitly,
@@ -386,8 +392,8 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
     }
 
     @Override
-    protected final void applyDecoratorOnGroup(final Context context, final View view,
-                                               final int index) {
+    protected final void applyDecoratorOnGroup(@NonNull final Context context,
+                                               @NonNull final View view, final int index) {
         GroupType group = getGroup(index);
         boolean expanded = isGroupExpanded(index);
         boolean enabled = isGroupEnabled(index);
@@ -400,8 +406,9 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
     }
 
     @Override
-    protected final void applyDecoratorOnChild(final Context context, final View view,
-                                               final int groupIndex, final int childIndex) {
+    protected final void applyDecoratorOnChild(@NonNull final Context context,
+                                               @NonNull final View view, final int groupIndex,
+                                               final int childIndex) {
         GroupType group = getGroup(groupIndex);
         ChildType child = getChild(groupIndex, childIndex);
         boolean enabled = isChildEnabled(groupIndex, childIndex);
@@ -414,7 +421,7 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
     }
 
     @Override
-    protected void onSaveInstanceState(final Bundle outState) {
+    protected void onSaveInstanceState(@NonNull final Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(SELECT_GROUP_ON_CLICK_BUNDLE_KEY, isGroupSelectedOnClick());
         outState.putBoolean(SELECT_CHILD_ON_CLICK_BUNDLE_KEY, isChildSelectedOnClick());
@@ -425,7 +432,7 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
     }
 
     @Override
-    protected void onRestoreInstanceState(final Bundle savedState) {
+    protected void onRestoreInstanceState(@NonNull final Bundle savedState) {
         super.onRestoreInstanceState(savedState);
         selectGroupOnClick = savedState.getBoolean(SELECT_GROUP_ON_CLICK_BUNDLE_KEY, true);
         selectChildOnClick = savedState.getBoolean(SELECT_CHILD_ON_CLICK_BUNDLE_KEY, true);
@@ -437,14 +444,14 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
 
     @Override
     public final void addSelectionListener(
-            final ExpandableListSelectionListener<GroupType, ChildType> listener) {
+            @NonNull final ExpandableListSelectionListener<GroupType, ChildType> listener) {
         ensureNotNull(listener, "The listener may not be null");
         selectionListeners.add(listener);
     }
 
     @Override
     public final void removeSelectionListener(
-            final ExpandableListSelectionListener<GroupType, ChildType> listener) {
+            @NonNull final ExpandableListSelectionListener<GroupType, ChildType> listener) {
         ensureNotNull(listener, "The listener may not be null");
         selectionListeners.remove(listener);
     }
@@ -455,7 +462,7 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
     }
 
     @Override
-    public final boolean isGroupSelected(final GroupType group) {
+    public final boolean isGroupSelected(@NonNull final GroupType group) {
         return getGroupAdapter().isSelected(indexOfGroupOrThrowException(group));
     }
 
@@ -465,12 +472,13 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
     }
 
     @Override
-    public final boolean isChildSelected(final GroupType group, final int childIndex) {
+    public final boolean isChildSelected(@NonNull final GroupType group, final int childIndex) {
         return isChildSelected(indexOfGroupOrThrowException(group), childIndex);
     }
 
     @Override
-    public final boolean isChildSelected(final GroupType group, final ChildType child) {
+    public final boolean isChildSelected(@NonNull final GroupType group,
+                                         @NonNull final ChildType child) {
         return isChildSelected(indexOfGroupOrThrowException(group), child);
     }
 
@@ -480,7 +488,7 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
     }
 
     @Override
-    public final boolean isChildSelected(final int groupIndex, final ChildType child) {
+    public final boolean isChildSelected(final int groupIndex, @NonNull final ChildType child) {
         return isChildSelected(groupIndex, indexOfChildOrThrowException(groupIndex, child));
     }
 
@@ -501,7 +509,7 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
     }
 
     @Override
-    public final int getSelectedChildCount(final GroupType group) {
+    public final int getSelectedChildCount(@NonNull final GroupType group) {
         return getSelectedChildCount(indexOfGroupOrThrowException(group));
     }
 

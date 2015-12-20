@@ -15,6 +15,7 @@
 package de.mrapp.android.adapter.datastructure;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 /**
  * Defines the interface, a class whose state should be able to be stored, before an activity is
@@ -37,7 +38,7 @@ public interface Restorable {
      *         The key, which should be used to store the saved state, as a {@link String}. The
      *         string may neither be null, nor null
      */
-    void onSaveInstanceState(Bundle outState, String key);
+    void onSaveInstanceState(@NonNull Bundle outState, @NonNull String key);
 
     /**
      * This method may be called to restore a previously saved state of the adapter after an
@@ -51,6 +52,6 @@ public interface Restorable {
      *         The key, which previously has been used to store the saved state, as a {@link
      *         String}. The key may neither be null, nor null
      */
-    void onRestoreInstanceState(Bundle savedInstanceState, String key);
+    void onRestoreInstanceState(@NonNull Bundle savedInstanceState, @NonNull String key);
 
 }

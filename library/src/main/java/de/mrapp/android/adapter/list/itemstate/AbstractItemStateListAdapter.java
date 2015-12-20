@@ -16,6 +16,7 @@ package de.mrapp.android.adapter.list.itemstate;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.widget.AbsListView;
 
 import java.util.ArrayList;
@@ -103,8 +104,8 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
         return new ListAdapterItemClickListener<DataType>() {
 
             @Override
-            public void onItemClicked(final ListAdapter<DataType> adapter, final DataType item,
-                                      final int index) {
+            public void onItemClicked(@NonNull final ListAdapter<DataType> adapter,
+                                      @NonNull final DataType item, final int index) {
                 if (isItemStateTriggeredOnClick()) {
                     getLogger().logVerbose(getClass(), "Triggering item state on click...");
                     triggerItemState(index);
@@ -129,7 +130,8 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
      *         The state must be between 0 and the value of the method <code>getNumberOfStates():int</code>
      *         - 1
      */
-    private void notifyOnItemStateChanged(final DataType item, final int index, final int state) {
+    private void notifyOnItemStateChanged(@NonNull final DataType item, final int index,
+                                          final int state) {
         for (ListItemStateListener<DataType> listener : itemStateListeners) {
             listener.onItemStateChanged(this, item, index, state);
         }
@@ -208,17 +210,19 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
      *         A set, which contains the listeners, which should be notified, when the state of an
      *         item has been changed or an empty set, if no listeners should be notified
      */
-    protected AbstractItemStateListAdapter(final Context context, final Inflater inflater,
-                                           final DecoratorType decorator, final LogLevel logLevel,
-                                           final ArrayList<Item<DataType>> items,
+    protected AbstractItemStateListAdapter(@NonNull final Context context,
+                                           @NonNull final Inflater inflater,
+                                           @NonNull final DecoratorType decorator,
+                                           @NonNull final LogLevel logLevel,
+                                           @NonNull final ArrayList<Item<DataType>> items,
                                            final boolean allowDuplicates,
                                            final boolean notifyOnChange,
-                                           final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
-                                           final Set<ListAdapterListener<DataType>> adapterListeners,
-                                           final Set<ListEnableStateListener<DataType>> enableStateListeners,
+                                           @NonNull final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
+                                           @NonNull final Set<ListAdapterListener<DataType>> adapterListeners,
+                                           @NonNull final Set<ListEnableStateListener<DataType>> enableStateListeners,
                                            final int numberOfItemStates,
                                            final boolean triggerItemStateOnClick,
-                                           final Set<ListItemStateListener<DataType>> itemStateListeners) {
+                                           @NonNull final Set<ListItemStateListener<DataType>> itemStateListeners) {
         super(context, inflater, decorator, logLevel, items, allowDuplicates, notifyOnChange,
                 itemClickListeners, adapterListeners, enableStateListeners);
         setNumberOfItemStates(numberOfItemStates);
@@ -228,13 +232,13 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
     }
 
     @Override
-    protected void onSaveInstanceState(final Bundle outState) {
+    protected void onSaveInstanceState(@NonNull final Bundle outState) {
         outState.putInt(NUMBER_OF_ITEM_STATES_BUNDLE_KEY, getNumberOfItemStates());
         outState.putBoolean(TRIGGER_ITEM_STATE_ON_CLICK_BUNDLE_KEY, isItemStateTriggeredOnClick());
     }
 
     @Override
-    protected void onRestoreInstanceState(final Bundle savedState) {
+    protected void onRestoreInstanceState(@NonNull final Bundle savedState) {
         numberOfItemStates = savedState.getInt(NUMBER_OF_ITEM_STATES_BUNDLE_KEY, 1);
         triggerItemStateOnClick =
                 savedState.getBoolean(TRIGGER_ITEM_STATE_ON_CLICK_BUNDLE_KEY, false);
@@ -276,7 +280,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
     }
 
     @Override
-    public final int getItemState(final DataType item) {
+    public final int getItemState(@NonNull final DataType item) {
         return getItemState(indexOfOrThrowException(item));
     }
 
@@ -315,7 +319,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
     }
 
     @Override
-    public final int setItemState(final DataType item, final int state) {
+    public final int setItemState(@NonNull final DataType item, final int state) {
         return setItemState(indexOfOrThrowException(item), state);
     }
 
@@ -352,7 +356,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
     }
 
     @Override
-    public final int triggerItemState(final DataType item) {
+    public final int triggerItemState(@NonNull final DataType item) {
         return triggerItemState(indexOfOrThrowException(item));
     }
 
@@ -458,7 +462,8 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
     }
 
     @Override
-    public final void addItemStateListener(final ListItemStateListener<DataType> listener) {
+    public final void addItemStateListener(
+            @NonNull final ListItemStateListener<DataType> listener) {
         ensureNotNull(listener, "The listener may not be null");
         itemStateListeners.add(listener);
         String message = "Added item state listener \"" + listener + "\"";
@@ -466,7 +471,8 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
     }
 
     @Override
-    public final void removeItemStateListener(final ListItemStateListener<DataType> listener) {
+    public final void removeItemStateListener(
+            @NonNull final ListItemStateListener<DataType> listener) {
         ensureNotNull(listener, "The listener may not be null");
         itemStateListeners.remove(listener);
         String message = "Removed item state listener \"" + listener + "\"";

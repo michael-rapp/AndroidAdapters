@@ -16,6 +16,8 @@ package de.mrapp.android.adapter.decorator;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
+import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -56,7 +58,7 @@ public abstract class AbstractDecorator {
      *         True, if the item, which is visualized by the view group, is currently selected,
      *         false otherwise
      */
-    private void adaptChildrenViewStates(final ViewGroup parent, final boolean enabled,
+    private void adaptChildrenViewStates(@NonNull final ViewGroup parent, final boolean enabled,
                                          final boolean selected) {
         for (int i = 0; i < parent.getChildCount(); i++) {
             View child = parent.getChildAt(i);
@@ -79,7 +81,7 @@ public abstract class AbstractDecorator {
      *         otherwise
      */
     @SuppressLint("NewApi")
-    protected final void adaptViewState(final View view, final boolean enabled,
+    protected final void adaptViewState(@NonNull final View view, final boolean enabled,
                                         final boolean selected) {
         if (isViewStateAdapted()) {
             view.setEnabled(enabled);
@@ -104,7 +106,7 @@ public abstract class AbstractDecorator {
      *         The parent view, which should be set, as an instance of the class {@link View}. The
      *         parent view may not be null
      */
-    protected final void setCurrentParentView(final View currentParentView) {
+    protected final void setCurrentParentView(@NonNull final View currentParentView) {
         ensureNotNull(currentParentView, "The parent view may not be null");
         this.currentParentView = currentParentView;
     }
@@ -122,25 +124,6 @@ public abstract class AbstractDecorator {
     }
 
     /**
-     * Returns the view, which belongs to a specific resource ID. If the view
-     * has already been referenced, the reference, which is stored in the view
-     * holder, will be reused. Otherwise the method
-     * <code>findViewById(int):View</code> of the given parent view is used to
-     * reference the view.
-     *
-     * @param parentView
-     *            The parent view, the view, which should be returned, belongs
-     *            to as an instance of the class {@link View}. The view may not
-     *            be null
-     * @param viewId
-     *            The resource ID of the view, which should be returned, as an
-     *            {@link Integer} value. The ID must be a valid resource ID of a
-     *            view, which belongs to the given parent view
-     * @return The view, which belongs to the given resource ID, as an instance
-     *         of the class {@link View}. The view may not be null
-     */
-
-    /**
      * Returns the view, which belongs to a specific resource ID by using the view holder pattern in
      * order gain a better performance. The view will be implicitly casted to the type of the
      * attribute it should be assigned to.
@@ -153,10 +136,10 @@ public abstract class AbstractDecorator {
      *         The ID must be a valid resource ID of a view, which belongs to the view, whose
      *         appearance is currently customized by the decorator
      * @return The view, which belongs to the given resource ID, as an instance of the class {@link
-     * View}. The view may not be null
+     * View} or null, if no view with the given ID is available
      */
     @SuppressWarnings("unchecked")
-    protected final <ViewType extends View> ViewType getView(final int viewId) {
+    protected final <ViewType extends View> ViewType getView(@IdRes final int viewId) {
         ViewHolder viewHolder = (ViewHolder) currentParentView.getTag();
 
         if (viewHolder == null) {

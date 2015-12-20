@@ -16,6 +16,8 @@ package de.mrapp.android.adapter.expandablelist;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -194,7 +196,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      *         value. The index must be between 0 and the value of the method
      *         <code>getGroupCount():int</code> - 1
      */
-    private void notifyOnGroupClicked(final GroupType group, final int index) {
+    private void notifyOnGroupClicked(@NonNull final GroupType group, final int index) {
         for (ExpandableListAdapterItemClickListener<GroupType, ChildType> listener : itemClickListeners) {
             listener.onGroupClicked(this, group, index);
         }
@@ -219,8 +221,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      *         an {@link Integer} value. The index must be between 0 and the value of the method
      *         <code>getGroupCount():int</code> - 1
      */
-    private void notifyOnChildClicked(final ChildType child, final int childIndex,
-                                      final GroupType group, final int groupIndex) {
+    private void notifyOnChildClicked(@NonNull final ChildType child, final int childIndex,
+                                      @NonNull final GroupType group, final int groupIndex) {
         for (ExpandableListAdapterItemClickListener<GroupType, ChildType> listener : itemClickListeners) {
             listener.onChildClicked(this, child, childIndex, group, groupIndex);
         }
@@ -238,7 +240,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      *         value. The index must be between 0 and the value of the method
      *         <code>getGroupCount():int</code> - 1
      */
-    private void notifyOnGroupAdded(final GroupType group, final int index) {
+    private void notifyOnGroupAdded(@NonNull final GroupType group, final int index) {
         for (ExpandableListAdapterListener<GroupType, ChildType> listener : adapterListeners) {
             listener.onGroupAdded(this, group, index);
         }
@@ -256,7 +258,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      *         Integer} value. The index must be between 0 and the value of the method
      *         <code>getGroupCount():int</code> - 1
      */
-    private void notifyOnGroupRemoved(final GroupType group, final int index) {
+    private void notifyOnGroupRemoved(@NonNull final GroupType group, final int index) {
         for (ExpandableListAdapterListener<GroupType, ChildType> listener : adapterListeners) {
             listener.onGroupRemoved(this, group, index);
         }
@@ -281,8 +283,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      *         as an {@link Integer} value. The index must be between 0 and the value of the method
      *         <code>getGroupCount():int</code> - 1
      */
-    private void notifyOnChildAdded(final ChildType child, final int childIndex,
-                                    final GroupType group, final int groupIndex) {
+    private void notifyOnChildAdded(@NonNull final ChildType child, final int childIndex,
+                                    @NonNull final GroupType group, final int groupIndex) {
         for (ExpandableListAdapterListener<GroupType, ChildType> listener : adapterListeners) {
             listener.onChildAdded(this, child, childIndex, group, groupIndex);
         }
@@ -307,8 +309,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      *         to, as an {@link Integer} value. The index must be between 0 and the value of the
      *         method <code>getGroupCount():int</code> - 1
      */
-    private void notifyOnChildRemoved(final ChildType child, final int childIndex,
-                                      final GroupType group, final int groupIndex) {
+    private void notifyOnChildRemoved(@NonNull final ChildType child, final int childIndex,
+                                      @NonNull final GroupType group, final int groupIndex) {
         for (ExpandableListAdapterListener<GroupType, ChildType> listener : adapterListeners) {
             listener.onChildRemoved(this, child, childIndex, group, groupIndex);
         }
@@ -339,8 +341,9 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         return new ExpandableListAdapterItemClickListener<GroupType, ChildType>() {
 
             @Override
-            public void onGroupClicked(final ExpandableListAdapter<GroupType, ChildType> adapter,
-                                       final GroupType group, final int index) {
+            public void onGroupClicked(
+                    @NonNull final ExpandableListAdapter<GroupType, ChildType> adapter,
+                    @NonNull final GroupType group, final int index) {
                 if (isGroupExpandedOnClick()) {
                     triggerGroupExpansion(index);
                     getLogger().logVerbose(getClass(), "Triggering group expansion on click...");
@@ -348,9 +351,10 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
             }
 
             @Override
-            public void onChildClicked(final ExpandableListAdapter<GroupType, ChildType> adapter,
-                                       final ChildType child, final int childIndex,
-                                       final GroupType group, final int groupIndex) {
+            public void onChildClicked(
+                    @NonNull final ExpandableListAdapter<GroupType, ChildType> adapter,
+                    @NonNull final ChildType child, final int childIndex,
+                    @NonNull final GroupType group, final int groupIndex) {
 
             }
 
@@ -493,7 +497,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      *         ExpandableListAdapterItemClickListener}. The listener may not be null
      */
     protected final void addItemClickListener(
-            final ExpandableListAdapterItemClickListener<GroupType, ChildType> listener) {
+            @NonNull final ExpandableListAdapterItemClickListener<GroupType, ChildType> listener) {
         ensureNotNull(listener, "The listener may not be null");
         itemClickListeners.add(listener);
     }
@@ -507,7 +511,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      *         ExpandableListAdapterItemClickListener}. The listener may not be null
      */
     protected final void removeItemClickListener(
-            final ExpandableListAdapterItemClickListener<GroupType, ChildType> listener) {
+            @NonNull final ExpandableListAdapterItemClickListener<GroupType, ChildType> listener) {
         ensureNotNull(listener, "The listener may not be null");
         itemClickListeners.remove(listener);
     }
@@ -577,7 +581,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      *         GroupType. The group item may not be null
      * @return The index of the the given group item, as an {@link Integer} value
      */
-    protected final int indexOfGroupOrThrowException(final GroupType group) {
+    protected final int indexOfGroupOrThrowException(@NonNull final GroupType group) {
         int groupIndex = indexOfGroup(group);
 
         if (groupIndex != -1) {
@@ -602,7 +606,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      *         ChildType. The child item may not be null
      * @return The index of the given child item, as an {@link Integer} value
      */
-    protected final int indexOfChildOrThrowException(final int groupIndex, final ChildType child) {
+    protected final int indexOfChildOrThrowException(final int groupIndex,
+                                                     @NonNull final ChildType child) {
         int childIndex = indexOfChild(groupIndex, child);
 
         if (childIndex != -1) {
@@ -626,7 +631,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      * @return The group, which has been created, as an instance of the class {@link Group}. The
      * group may not be null
      */
-    protected Group<GroupType, ChildType> createGroup(final int groupIndex, final GroupType group) {
+    protected Group<GroupType, ChildType> createGroup(final int groupIndex,
+                                                      @NonNull final GroupType group) {
         return new Group<>(group, createChildAdapter());
     }
 
@@ -637,7 +643,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      *         The bundle, which is used to store the state of the adapter within a bundle, as an
      *         instance of the class {@link Bundle}. The bundle may not be null
      */
-    protected abstract void onSaveInstanceState(final Bundle outState);
+    protected abstract void onSaveInstanceState(@NonNull final Bundle outState);
 
     /**
      * This method is invoked when the state of the adapter, which has previously been stored within
@@ -647,7 +653,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      *         The bundle, which has been previously used to store the state of the adapter, as an
      *         instance of the class {@link Bundle}. The bundle may not be null
      */
-    protected abstract void onRestoreInstanceState(final Bundle savedState);
+    protected abstract void onRestoreInstanceState(@NonNull final Bundle savedState);
 
     /**
      * This method is invoked to apply the decorator, which allows to customize the view, which is
@@ -662,8 +668,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      * @param index
      *         The index of the group item, which should be visualized, as an {@link Integer} value
      */
-    protected abstract void applyDecoratorOnGroup(final Context context, final View view,
-                                                  final int index);
+    protected abstract void applyDecoratorOnGroup(@NonNull final Context context,
+                                                  @NonNull final View view, final int index);
 
     /**
      * This method is invoked to apply the decorator, which allows to customize the view, which is
@@ -681,8 +687,9 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      * @param childIndex
      *         The index of the child item, which should be visualized, as an {@link Integer} value
      */
-    protected abstract void applyDecoratorOnChild(final Context context, final View view,
-                                                  final int groupIndex, final int childIndex);
+    protected abstract void applyDecoratorOnChild(@NonNull final Context context,
+                                                  @NonNull final View view, final int groupIndex,
+                                                  final int childIndex);
 
     /**
      * Creates a new adapter, whose underlying data is managed as a list of arbitrary group and
@@ -730,16 +737,18 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      *         been expanded or collapsed, as an instance of the type {@link Set}, or an empty set,
      *         if no listeners should be notified
      */
-    protected AbstractExpandableListAdapter(final Context context, final Inflater groupInflater,
-                                            final Inflater childInflater,
-                                            final DecoratorType decorator, final LogLevel logLevel,
-                                            final MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter,
+    protected AbstractExpandableListAdapter(@NonNull final Context context,
+                                            @NonNull final Inflater groupInflater,
+                                            @NonNull final Inflater childInflater,
+                                            @NonNull final DecoratorType decorator,
+                                            @NonNull final LogLevel logLevel,
+                                            @NonNull final MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter,
                                             final boolean allowDuplicateChildren,
                                             final boolean notifyOnChange,
                                             final boolean expandGroupOnClick,
-                                            final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
-                                            final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
-                                            final Set<ExpansionListener<GroupType, ChildType>> expansionListeners) {
+                                            @NonNull final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
+                                            @NonNull final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
+                                            @NonNull final Set<ExpansionListener<GroupType, ChildType>> expansionListeners) {
         ensureNotNull(context, "The context may not be null");
         ensureNotNull(groupInflater, "The group inflater may not be null");
         ensureNotNull(childInflater, "The child inflater may not be null");
@@ -770,7 +779,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final void setLogLevel(final LogLevel logLevel) {
+    public final void setLogLevel(@NonNull final LogLevel logLevel) {
         getLogger().setLogLevel(logLevel);
     }
 
@@ -780,7 +789,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final void setParameters(final Bundle parameters) {
+    public final void setParameters(@Nullable final Bundle parameters) {
         groupAdapter.setParameters(parameters);
         String message = "Set parameters to \"" + parameters + "\"";
         getLogger().logDebug(getClass(), message);
@@ -788,7 +797,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @Override
     public final void addAdapterListener(
-            final ExpandableListAdapterListener<GroupType, ChildType> listener) {
+            @NonNull final ExpandableListAdapterListener<GroupType, ChildType> listener) {
         ensureNotNull(listener, "The listener may not be null");
         adapterListeners.add(listener);
         String message = "Added adapter listener \"" + listener + "\"";
@@ -797,7 +806,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @Override
     public final void removeAdapterListener(
-            final ExpandableListAdapterListener<GroupType, ChildType> listener) {
+            @NonNull final ExpandableListAdapterListener<GroupType, ChildType> listener) {
         ensureNotNull(listener, "The listener may not be null");
         adapterListeners.remove(listener);
         String message = "Removed adapter listener \"" + listener + "\"";
@@ -805,7 +814,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final void addExpansionListener(final ExpansionListener<GroupType, ChildType> listener) {
+    public final void addExpansionListener(
+            @NonNull final ExpansionListener<GroupType, ChildType> listener) {
         ensureNotNull(listener, "The listener may not be null");
         expansionListeners.add(listener);
         String message = "Added expansion listener \"" + listener + "\"";
@@ -814,7 +824,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @Override
     public final void removeExpansionListener(
-            final ExpansionListener<GroupType, ChildType> listener) {
+            @NonNull final ExpansionListener<GroupType, ChildType> listener) {
         ensureNotNull(listener, "The listener may not be null");
         expansionListeners.remove(listener);
         String message = "Removed expansion listener \"" + listener + "\"";
@@ -848,14 +858,14 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final int addGroup(final GroupType group) {
+    public final int addGroup(@NonNull final GroupType group) {
         int index = getGroupCount();
         boolean added = addGroup(index, group);
         return added ? index : -1;
     }
 
     @Override
-    public final boolean addGroup(final int index, final GroupType group) {
+    public final boolean addGroup(final int index, @NonNull final GroupType group) {
         boolean added = groupAdapter.addItem(index, createGroup(index, group));
 
         if (added) {
@@ -873,13 +883,13 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final boolean addAllGroups(final Collection<? extends GroupType> groups) {
+    public final boolean addAllGroups(@NonNull final Collection<? extends GroupType> groups) {
         return addAllGroups(getGroupCount(), groups);
     }
 
     @Override
     public final boolean addAllGroups(final int index,
-                                      final Collection<? extends GroupType> groups) {
+                                      @NonNull final Collection<? extends GroupType> groups) {
         ensureNotNull(groups, "The collection may not be null");
         boolean result = true;
         int currentIndex = index;
@@ -898,19 +908,19 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @SafeVarargs
     @Override
-    public final boolean addAllGroups(final GroupType... groups) {
+    public final boolean addAllGroups(@NonNull final GroupType... groups) {
         return addAllGroups(getGroupCount(), groups);
     }
 
     @SafeVarargs
     @Override
-    public final boolean addAllGroups(final int index, final GroupType... groups) {
+    public final boolean addAllGroups(final int index, @NonNull final GroupType... groups) {
         ensureNotNull(groups, "The array may not be null");
         return addAllGroups(index, Arrays.asList(groups));
     }
 
     @Override
-    public final GroupType replaceGroup(final int index, final GroupType group) {
+    public final GroupType replaceGroup(final int index, @NonNull final GroupType group) {
         ensureNotNull(group, "The group may not be null");
         GroupType replacedGroup =
                 groupAdapter.replaceItem(index, new Group<>(group, createChildAdapter())).getData();
@@ -935,7 +945,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final boolean removeGroup(final GroupType group) {
+    public final boolean removeGroup(@NonNull final GroupType group) {
         int index = indexOfGroup(group);
 
         if (index != -1) {
@@ -954,7 +964,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final boolean removeAllGroups(final Collection<? extends GroupType> groups) {
+    public final boolean removeAllGroups(@NonNull final Collection<? extends GroupType> groups) {
         ensureNotNull(groups, "The collection may not be null");
         int numberOfRemovedGroups = 0;
 
@@ -970,12 +980,12 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @SafeVarargs
     @Override
-    public final boolean removeAllGroups(final GroupType... groups) {
+    public final boolean removeAllGroups(@NonNull final GroupType... groups) {
         return removeAllGroups(Arrays.asList(groups));
     }
 
     @Override
-    public final void retainAllGroups(final Collection<? extends GroupType> groups) {
+    public final void retainAllGroups(@NonNull final Collection<? extends GroupType> groups) {
         ensureNotNull(groups, "The collection may not be null");
 
         for (int i = getGroupCount() - 1; i >= 0; i--) {
@@ -987,7 +997,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @SafeVarargs
     @Override
-    public final void retainAllGroups(final GroupType... groups) {
+    public final void retainAllGroups(@NonNull final GroupType... groups) {
         ensureNotNull(groups, "The array may not be null");
         retainAllGroups(Arrays.asList(groups));
     }
@@ -1025,12 +1035,12 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final <T> T[] groupsToArray(final T[] array) {
+    public final <T> T[] groupsToArray(@NonNull final T[] array) {
         return getAllGroups().toArray(array);
     }
 
     @Override
-    public final int indexOfGroup(final GroupType group) {
+    public final int indexOfGroup(@NonNull final GroupType group) {
         ensureNotNull(group, "The group may not be null");
 
         for (int i = 0; i < getGroupCount(); i++) {
@@ -1043,12 +1053,12 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final boolean containsGroup(final GroupType group) {
+    public final boolean containsGroup(@NonNull final GroupType group) {
         return indexOfGroup(group) != -1;
     }
 
     @Override
-    public final boolean containsAllGroups(final Collection<? extends GroupType> groups) {
+    public final boolean containsAllGroups(@NonNull final Collection<? extends GroupType> groups) {
         ensureNotNull(groups, "The collection may not be null");
         boolean result = true;
 
@@ -1061,7 +1071,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @SafeVarargs
     @Override
-    public final boolean containsAllGroups(final GroupType... groups) {
+    public final boolean containsAllGroups(@NonNull final GroupType... groups) {
         return containsAllGroups(Arrays.asList(groups));
     }
 
@@ -1081,7 +1091,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final boolean isGroupEmpty(final GroupType group) {
+    public final boolean isGroupEmpty(@NonNull final GroupType group) {
         return isGroupEmpty(indexOfGroupOrThrowException(group));
     }
 
@@ -1122,25 +1132,25 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final boolean areDuplicateChildrenAllowed(final GroupType group) {
+    public final boolean areDuplicateChildrenAllowed(@NonNull final GroupType group) {
         return areDuplicateChildrenAllowed(indexOfGroupOrThrowException(group));
     }
 
     @Override
-    public final void allowDuplicateChildren(final GroupType group,
+    public final void allowDuplicateChildren(@NonNull final GroupType group,
                                              final boolean allowDuplicateChildren) {
         allowDuplicateChildren(indexOfGroupOrThrowException(group), allowDuplicateChildren);
     }
 
     @Override
-    public final int addChild(final int groupIndex, final ChildType child) {
+    public final int addChild(final int groupIndex, @NonNull final ChildType child) {
         int index = getChildCount(groupIndex);
         boolean added = addChild(groupIndex, getChildCount(groupIndex), child);
         return added ? index : -1;
     }
 
     @Override
-    public final int addChild(final GroupType group, final ChildType child) {
+    public final int addChild(@NonNull final GroupType group, @NonNull final ChildType child) {
         int groupIndex = indexOfGroupOrThrowException(group);
         int childIndex = getChildCount(groupIndex);
         boolean added = addChild(groupIndex, childIndex, child);
@@ -1148,7 +1158,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final boolean addChild(final int groupIndex, final int index, final ChildType child) {
+    public final boolean addChild(final int groupIndex, final int index,
+                                  @NonNull final ChildType child) {
         Group<GroupType, ChildType> group = groupAdapter.getItem(groupIndex);
 
         if (areDuplicateChildrenAllowed() || !containsChild(child)) {
@@ -1181,25 +1192,26 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final boolean addChild(final GroupType group, final int index, final ChildType child) {
+    public final boolean addChild(@NonNull final GroupType group, final int index,
+                                  @NonNull final ChildType child) {
         return addChild(indexOfGroupOrThrowException(group), index, child);
     }
 
     @Override
     public final boolean addAllChildren(final int groupIndex,
-                                        final Collection<? extends ChildType> children) {
+                                        @NonNull final Collection<? extends ChildType> children) {
         return addAllChildren(groupIndex, getChildCount(groupIndex), children);
     }
 
     @Override
-    public final boolean addAllChildren(final GroupType group,
-                                        final Collection<? extends ChildType> children) {
+    public final boolean addAllChildren(@NonNull final GroupType group,
+                                        @NonNull final Collection<? extends ChildType> children) {
         return addAllChildren(indexOfGroupOrThrowException(group), children);
     }
 
     @Override
     public final boolean addAllChildren(final int groupIndex, final int index,
-                                        final Collection<? extends ChildType> children) {
+                                        @NonNull final Collection<? extends ChildType> children) {
         ensureNotNull(children, "The collection may not be null");
         boolean result = true;
         int currentIndex = index;
@@ -1217,21 +1229,23 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final boolean addAllChildren(final GroupType group, final int childIndex,
-                                        final Collection<? extends ChildType> children) {
+    public final boolean addAllChildren(@NonNull final GroupType group, final int childIndex,
+                                        @NonNull final Collection<? extends ChildType> children) {
         return addAllChildren(indexOfGroupOrThrowException(group), childIndex, children);
     }
 
     @SafeVarargs
     @Override
-    public final boolean addAllChildren(final int groupIndex, final ChildType... children) {
+    public final boolean addAllChildren(final int groupIndex,
+                                        @NonNull final ChildType... children) {
         ensureNotNull(children, "The array may not be null");
         return addAllChildren(groupIndex, Arrays.asList(children));
     }
 
     @SafeVarargs
     @Override
-    public final boolean addAllChildren(final GroupType group, final ChildType... children) {
+    public final boolean addAllChildren(@NonNull final GroupType group,
+                                        @NonNull final ChildType... children) {
         ensureNotNull(children, "The array may not be null");
         return addAllChildren(group, Arrays.asList(children));
     }
@@ -1239,22 +1253,22 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     @SafeVarargs
     @Override
     public final boolean addAllChildren(final int groupIndex, final int index,
-                                        final ChildType... children) {
+                                        @NonNull final ChildType... children) {
         ensureNotNull(children, "The array may not be null");
         return addAllChildren(groupIndex, index, Arrays.asList(children));
     }
 
     @SafeVarargs
     @Override
-    public final boolean addAllChildren(final GroupType group, final int index,
-                                        final ChildType... children) {
+    public final boolean addAllChildren(@NonNull final GroupType group, final int index,
+                                        @NonNull final ChildType... children) {
         ensureNotNull(children, "The array may not be null");
         return addAllChildren(group, index, Arrays.asList(children));
     }
 
     @Override
     public final ChildType replaceChild(final int groupIndex, final int index,
-                                        final ChildType child) {
+                                        @NonNull final ChildType child) {
         ensureNotNull(child, "The child may not be null");
         Group<GroupType, ChildType> group = groupAdapter.getItem(groupIndex);
         ChildType replacedChild = group.getChildAdapter().replaceItem(index, child);
@@ -1270,8 +1284,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final ChildType replaceChild(final GroupType group, final int index,
-                                        final ChildType child) {
+    public final ChildType replaceChild(@NonNull final GroupType group, final int index,
+                                        @NonNull final ChildType child) {
         return replaceChild(indexOfGroupOrThrowException(group), index, child);
     }
 
@@ -1300,24 +1314,24 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final ChildType removeChild(final GroupType group, final int index) {
+    public final ChildType removeChild(@NonNull final GroupType group, final int index) {
         return removeChild(false, group, index);
     }
 
     @Override
-    public final ChildType removeChild(final boolean removeEmptyGroup, final GroupType group,
-                                       final int index) {
+    public final ChildType removeChild(final boolean removeEmptyGroup,
+                                       @NonNull final GroupType group, final int index) {
         return removeChild(removeEmptyGroup, indexOfGroupOrThrowException(group), index);
     }
 
     @Override
-    public final boolean removeChild(final int groupIndex, final ChildType child) {
+    public final boolean removeChild(final int groupIndex, @NonNull final ChildType child) {
         return removeChild(false, groupIndex, child);
     }
 
     @Override
     public final boolean removeChild(final boolean removeEmptyGroup, final int groupIndex,
-                                     final ChildType child) {
+                                     @NonNull final ChildType child) {
         ensureNotNull(child, "The child may not be null");
         Group<GroupType, ChildType> group = groupAdapter.getItem(groupIndex);
         int index = group.getChildAdapter().indexOf(child);
@@ -1330,24 +1344,26 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final boolean removeChild(final GroupType group, final ChildType child) {
+    public final boolean removeChild(@NonNull final GroupType group,
+                                     @NonNull final ChildType child) {
         return removeChild(false, group, child);
     }
 
     @Override
-    public final boolean removeChild(final boolean removeEmptyGroup, final GroupType group,
-                                     final ChildType child) {
+    public final boolean removeChild(final boolean removeEmptyGroup, @NonNull final GroupType group,
+                                     @NonNull final ChildType child) {
         return removeChild(removeEmptyGroup, indexOfGroupOrThrowException(group), child);
     }
 
     @Override
-    public final boolean removeAllChildren(final Collection<? extends ChildType> children) {
+    public final boolean removeAllChildren(
+            @NonNull final Collection<? extends ChildType> children) {
         return removeAllChildren(false, children);
     }
 
     @Override
     public final boolean removeAllChildren(final boolean removeEmptyGroups,
-                                           final Collection<? extends ChildType> children) {
+                                           @NonNull final Collection<? extends ChildType> children) {
         boolean result = true;
 
         for (int i = groupAdapter.getCount() - 1; i >= 0; i--) {
@@ -1359,13 +1375,13 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @Override
     public final boolean removeAllChildren(final int groupIndex,
-                                           final Collection<? extends ChildType> children) {
+                                           @NonNull final Collection<? extends ChildType> children) {
         return removeAllChildren(false, groupIndex, children);
     }
 
     @Override
     public final boolean removeAllChildren(final boolean removeEmptyGroup, final int groupIndex,
-                                           final Collection<? extends ChildType> children) {
+                                           @NonNull final Collection<? extends ChildType> children) {
         ensureNotNull(children, "The collection may not be null");
         boolean result = true;
         Group<GroupType, ChildType> group = groupAdapter.getItem(groupIndex);
@@ -1378,67 +1394,71 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final boolean removeAllChildren(final GroupType group,
-                                           final Collection<? extends ChildType> children) {
+    public final boolean removeAllChildren(@NonNull final GroupType group,
+                                           @NonNull final Collection<? extends ChildType> children) {
         return removeAllChildren(false, group, children);
     }
 
     @Override
-    public final boolean removeAllChildren(final boolean removeEmptyGroup, final GroupType group,
-                                           final Collection<? extends ChildType> children) {
+    public final boolean removeAllChildren(final boolean removeEmptyGroup,
+                                           @NonNull final GroupType group,
+                                           @NonNull final Collection<? extends ChildType> children) {
         return removeAllChildren(removeEmptyGroup, indexOfGroupOrThrowException(group), children);
     }
 
     @SafeVarargs
     @Override
-    public final boolean removeAllChildren(final ChildType... children) {
+    public final boolean removeAllChildren(@NonNull final ChildType... children) {
         return removeAllChildren(false, children);
     }
 
     @SafeVarargs
     @Override
     public final boolean removeAllChildren(final boolean removeEmptyGroups,
-                                           final ChildType... children) {
+                                           @NonNull final ChildType... children) {
         ensureNotNull(children, "The array may not be null");
         return removeAllChildren(removeEmptyGroups, Arrays.asList(children));
     }
 
     @SafeVarargs
     @Override
-    public final boolean removeAllChildren(final int groupIndex, final ChildType... children) {
+    public final boolean removeAllChildren(final int groupIndex,
+                                           @NonNull final ChildType... children) {
         return removeAllChildren(false, groupIndex, children);
     }
 
     @SafeVarargs
     @Override
     public final boolean removeAllChildren(final boolean removeEmptyGroup, final int groupIndex,
-                                           final ChildType... children) {
+                                           @NonNull final ChildType... children) {
         ensureNotNull(children, "The array may not be null");
         return removeAllChildren(removeEmptyGroup, groupIndex, Arrays.asList(children));
     }
 
     @SafeVarargs
     @Override
-    public final boolean removeAllChildren(final GroupType group, final ChildType... children) {
+    public final boolean removeAllChildren(@NonNull final GroupType group,
+                                           @NonNull final ChildType... children) {
         return removeAllChildren(false, group, children);
     }
 
     @SafeVarargs
     @Override
-    public final boolean removeAllChildren(final boolean removeEmptyGroup, final GroupType group,
-                                           final ChildType... children) {
+    public final boolean removeAllChildren(final boolean removeEmptyGroup,
+                                           @NonNull final GroupType group,
+                                           @NonNull final ChildType... children) {
         ensureNotNull(children, "The array may not be null");
         return removeAllChildren(removeEmptyGroup, group, Arrays.asList(children));
     }
 
     @Override
-    public final void retainAllChildren(final Collection<? extends ChildType> children) {
+    public final void retainAllChildren(@NonNull final Collection<? extends ChildType> children) {
         retainAllChildren(false, children);
     }
 
     @Override
     public final void retainAllChildren(final boolean removeEmptyGroups,
-                                        final Collection<? extends ChildType> children) {
+                                        @NonNull final Collection<? extends ChildType> children) {
         for (int i = groupAdapter.getCount() - 1; i >= 0; i--) {
             retainAllChildren(removeEmptyGroups, i, children);
         }
@@ -1446,13 +1466,13 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @Override
     public final void retainAllChildren(final int groupIndex,
-                                        final Collection<? extends ChildType> children) {
+                                        @NonNull final Collection<? extends ChildType> children) {
         retainAllChildren(false, groupIndex, children);
     }
 
     @Override
     public final void retainAllChildren(final boolean removeEmptyGroup, final int groupIndex,
-                                        final Collection<? extends ChildType> children) {
+                                        @NonNull final Collection<? extends ChildType> children) {
         ensureNotNull(children, "The collection may not be null");
         Group<GroupType, ChildType> group = groupAdapter.getItem(groupIndex);
 
@@ -1464,55 +1484,59 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final void retainAllChildren(final GroupType group,
-                                        final Collection<? extends ChildType> children) {
+    public final void retainAllChildren(@NonNull final GroupType group,
+                                        @NonNull final Collection<? extends ChildType> children) {
         retainAllChildren(false, group, children);
     }
 
     @Override
-    public final void retainAllChildren(final boolean removeEmptyGroup, final GroupType group,
-                                        final Collection<? extends ChildType> children) {
+    public final void retainAllChildren(final boolean removeEmptyGroup,
+                                        @NonNull final GroupType group,
+                                        @NonNull final Collection<? extends ChildType> children) {
         retainAllChildren(removeEmptyGroup, indexOfGroupOrThrowException(group), children);
     }
 
     @SafeVarargs
     @Override
-    public final void retainAllChildren(final ChildType... children) {
+    public final void retainAllChildren(@NonNull final ChildType... children) {
         retainAllChildren(false, children);
     }
 
     @SafeVarargs
     @Override
     public final void retainAllChildren(final boolean removeEmptyGroups,
-                                        final ChildType... children) {
+                                        @NonNull final ChildType... children) {
         ensureNotNull(children, "The array may not be null");
         retainAllChildren(removeEmptyGroups, Arrays.asList(children));
     }
 
     @SafeVarargs
     @Override
-    public final void retainAllChildren(final int groupIndex, final ChildType... children) {
+    public final void retainAllChildren(final int groupIndex,
+                                        @NonNull final ChildType... children) {
         retainAllChildren(false, groupIndex, children);
     }
 
     @SafeVarargs
     @Override
     public final void retainAllChildren(final boolean removeEmptyGroup, final int groupIndex,
-                                        final ChildType... children) {
+                                        @NonNull final ChildType... children) {
         ensureNotNull(children, "The array may not be null");
         retainAllChildren(removeEmptyGroup, groupIndex, Arrays.asList(children));
     }
 
     @SafeVarargs
     @Override
-    public final void retainAllChildren(final GroupType group, final ChildType... children) {
+    public final void retainAllChildren(@NonNull final GroupType group,
+                                        @NonNull final ChildType... children) {
         retainAllChildren(false, group, children);
     }
 
     @SafeVarargs
     @Override
-    public final void retainAllChildren(final boolean removeEmptyGroup, final GroupType group,
-                                        final ChildType... children) {
+    public final void retainAllChildren(final boolean removeEmptyGroup,
+                                        @NonNull final GroupType group,
+                                        @NonNull final ChildType... children) {
         ensureNotNull(children, "The array may not be null");
         retainAllChildren(removeEmptyGroup, group, Arrays.asList(children));
     }
@@ -1544,12 +1568,13 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final void clearChildren(final GroupType group) {
+    public final void clearChildren(@NonNull final GroupType group) {
         clearChildren(false, group);
     }
 
     @Override
-    public final void clearChildren(final boolean removeEmptyGroup, final GroupType group) {
+    public final void clearChildren(final boolean removeEmptyGroup,
+                                    @NonNull final GroupType group) {
         clearChildren(removeEmptyGroup, indexOfGroupOrThrowException(group));
     }
 
@@ -1564,7 +1589,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final Iterator<ChildType> childIterator(final GroupType group) {
+    public final Iterator<ChildType> childIterator(@NonNull final GroupType group) {
         return childIterator(indexOfGroupOrThrowException(group));
     }
 
@@ -1574,7 +1599,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final ListIterator<ChildType> childListIterator(final GroupType group) {
+    public final ListIterator<ChildType> childListIterator(@NonNull final GroupType group) {
         return childListIterator(indexOfGroupOrThrowException(group));
     }
 
@@ -1585,7 +1610,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final ListIterator<ChildType> childListIterator(final GroupType group,
+    public final ListIterator<ChildType> childListIterator(@NonNull final GroupType group,
                                                            final int childIndex) {
         return childListIterator(indexOfGroupOrThrowException(group), childIndex);
     }
@@ -1597,7 +1622,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final List<ChildType> subListChildren(final GroupType group, final int start,
+    public final List<ChildType> subListChildren(@NonNull final GroupType group, final int start,
                                                  final int end) {
         return subListChildren(indexOfGroupOrThrowException(group), start, end);
     }
@@ -1613,27 +1638,27 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final Object[] childrenToArray(final GroupType group) {
+    public final Object[] childrenToArray(@NonNull final GroupType group) {
         return childrenToArray(indexOfGroupOrThrowException(group));
     }
 
     @Override
-    public final <T> T[] childrenToArray(final T[] array) {
+    public final <T> T[] childrenToArray(@NonNull final T[] array) {
         return getAllChildren().toArray(array);
     }
 
     @Override
-    public final <T> T[] childrenToArray(final int groupIndex, final T[] array) {
+    public final <T> T[] childrenToArray(final int groupIndex, @NonNull final T[] array) {
         return groupAdapter.getItem(groupIndex).getChildAdapter().toArray(array);
     }
 
     @Override
-    public final <T> T[] childrenToArray(final GroupType group, final T[] array) {
+    public final <T> T[] childrenToArray(@NonNull final GroupType group, @NonNull final T[] array) {
         return childrenToArray(indexOfGroupOrThrowException(group), array);
     }
 
     @Override
-    public final int indexOfChild(final ChildType child) {
+    public final int indexOfChild(@NonNull final ChildType child) {
         ensureNotNull(child, "The child may not be null");
 
         for (int i = 0; i < groupAdapter.getCount(); i++) {
@@ -1646,18 +1671,18 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final int indexOfChild(final int groupIndex, final ChildType child) {
+    public final int indexOfChild(final int groupIndex, @NonNull final ChildType child) {
         ensureNotNull(child, "The child may not be null");
         return groupAdapter.getItem(groupIndex).getChildAdapter().indexOf(child);
     }
 
     @Override
-    public final int indexOfChild(final GroupType group, final ChildType child) {
+    public final int indexOfChild(@NonNull final GroupType group, @NonNull final ChildType child) {
         return indexOfChild(indexOfGroupOrThrowException(group), child);
     }
 
     @Override
-    public final int lastIndexOfChild(final ChildType child) {
+    public final int lastIndexOfChild(@NonNull final ChildType child) {
         ensureNotNull(child, "The child may not be null");
 
         for (int i = groupAdapter.getCount() - 1; i >= 0; i--) {
@@ -1670,18 +1695,19 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final int lastIndexOfChild(final int groupIndex, final ChildType child) {
+    public final int lastIndexOfChild(final int groupIndex, @NonNull final ChildType child) {
         ensureNotNull(child, "The child may not be null");
         return groupAdapter.getItem(groupIndex).getChildAdapter().lastIndexOf(child);
     }
 
     @Override
-    public final int lastIndexOfChild(final GroupType group, final ChildType child) {
+    public final int lastIndexOfChild(@NonNull final GroupType group,
+                                      @NonNull final ChildType child) {
         return lastIndexOfChild(indexOfGroupOrThrowException(group), child);
     }
 
     @Override
-    public final boolean containsChild(final ChildType child) {
+    public final boolean containsChild(@NonNull final ChildType child) {
         ensureNotNull(child, "The child may not be null");
 
         for (Group<GroupType, ChildType> group : groupAdapter.getAllItems()) {
@@ -1694,37 +1720,39 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final boolean containsChild(final int groupIndex, final ChildType child) {
+    public final boolean containsChild(final int groupIndex, @NonNull final ChildType child) {
         ensureNotNull(child, "The child may not be null");
         return groupAdapter.getItem(groupIndex).getChildAdapter().containsItem(child);
     }
 
     @Override
-    public final boolean containsChild(final GroupType group, final ChildType child) {
+    public final boolean containsChild(@NonNull final GroupType group,
+                                       @NonNull final ChildType child) {
         return containsChild(indexOfGroupOrThrowException(group), child);
     }
 
     @Override
-    public final boolean containsAllChildren(final Collection<? extends ChildType> children) {
+    public final boolean containsAllChildren(
+            @NonNull final Collection<? extends ChildType> children) {
         return getAllChildren().containsAll(children);
     }
 
     @Override
     public final boolean containsAllChildren(final int groupIndex,
-                                             final Collection<? extends ChildType> children) {
+                                             @NonNull final Collection<? extends ChildType> children) {
         ensureNotNull(children, "The collection may not be null");
         return groupAdapter.getItem(groupIndex).getChildAdapter().containsAllItems(children);
     }
 
     @Override
-    public final boolean containsAllChildren(final GroupType group,
-                                             final Collection<? extends ChildType> children) {
+    public final boolean containsAllChildren(@NonNull final GroupType group,
+                                             @NonNull final Collection<? extends ChildType> children) {
         return containsAllChildren(indexOfGroupOrThrowException(group), children);
     }
 
     @SafeVarargs
     @Override
-    public final boolean containsAllChildren(final ChildType... children) {
+    public final boolean containsAllChildren(@NonNull final ChildType... children) {
         ensureNotNull(children, "The array may not be null");
         return containsAllChildren(Arrays.asList(children));
     }
@@ -1740,12 +1768,12 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final int getChildCount(final GroupType group) {
+    public final int getChildCount(@NonNull final GroupType group) {
         return getChildCount(indexOfGroupOrThrowException(group));
     }
 
     @Override
-    public final ChildType getChild(final GroupType group, final int childIndex) {
+    public final ChildType getChild(@NonNull final GroupType group, final int childIndex) {
         return getChild(indexOfGroupOrThrowException(group), childIndex);
     }
 
@@ -1771,20 +1799,22 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final List<ChildType> getAllChildren(final GroupType group) {
+    public final List<ChildType> getAllChildren(@NonNull final GroupType group) {
         return getAllChildren(indexOfGroupOrThrowException(group));
     }
 
     @SafeVarargs
     @Override
-    public final boolean containsAllChildren(final int groupIndex, final ChildType... children) {
+    public final boolean containsAllChildren(final int groupIndex,
+                                             @NonNull final ChildType... children) {
         ensureNotNull(children, "The children may not be null");
         return groupAdapter.getItem(groupIndex).getChildAdapter().containsAllItems(children);
     }
 
     @SafeVarargs
     @Override
-    public final boolean containsAllChildren(final GroupType group, final ChildType... children) {
+    public final boolean containsAllChildren(@NonNull final GroupType group,
+                                             @NonNull final ChildType... children) {
         return containsAllChildren(indexOfGroupOrThrowException(group), children);
     }
 
@@ -1794,7 +1824,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final boolean isGroupExpanded(final GroupType group) {
+    public final boolean isGroupExpanded(@NonNull final GroupType group) {
         return isGroupExpanded(indexOfGroup(group));
     }
 
@@ -1804,7 +1834,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final boolean isGroupCollapsed(final GroupType group) {
+    public final boolean isGroupCollapsed(@NonNull final GroupType group) {
         return !isGroupExpanded(group);
     }
 
@@ -1975,7 +2005,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final void expandGroup(final GroupType group) {
+    public final void expandGroup(@NonNull final GroupType group) {
         if (getAdapterView() != null) {
             getAdapterView().expandGroup(indexOfGroupOrThrowException(group));
         } else {
@@ -1998,7 +2028,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final void collapseGroup(final GroupType group) {
+    public final void collapseGroup(@NonNull final GroupType group) {
         if (getAdapterView() != null) {
             getAdapterView().collapseGroup(indexOfGroupOrThrowException(group));
         } else {
@@ -2021,7 +2051,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final boolean triggerGroupExpansion(final GroupType group) {
+    public final boolean triggerGroupExpansion(@NonNull final GroupType group) {
         if (getAdapterView() != null) {
             int index = indexOfGroupOrThrowException(group);
 
@@ -2115,7 +2145,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final void attach(final ExpandableListView adapterView) {
+    public final void attach(@NonNull final ExpandableListView adapterView) {
         ensureNotNull(adapterView, "The adapter view may not be null");
         this.adapterView = adapterView;
         this.adapterView.setAdapter(this);
@@ -2171,7 +2201,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @Override
     public final View getGroupView(final int groupIndex, final boolean isExpanded,
-                                   final View convertView, final ViewGroup parent) {
+                                   @Nullable final View convertView,
+                                   @Nullable final ViewGroup parent) {
         View view = convertView;
 
         if (view == null) {
@@ -2187,8 +2218,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @Override
     public final View getChildView(final int groupIndex, final int childIndex,
-                                   final boolean isLastChild, final View convertView,
-                                   final ViewGroup parent) {
+                                   final boolean isLastChild, @Nullable final View convertView,
+                                   @Nullable final ViewGroup parent) {
         View view = convertView;
 
         if (view == null) {
@@ -2204,7 +2235,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final void onSaveInstanceState(final Bundle outState, final String key) {
+    public final void onSaveInstanceState(@NonNull final Bundle outState,
+                                          @NonNull final String key) {
         groupAdapter.onSaveInstanceState(outState, key);
         Bundle savedState = outState.getBundle(key);
 
@@ -2218,7 +2250,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final void onRestoreInstanceState(final Bundle savedInstanceState, final String key) {
+    public final void onRestoreInstanceState(@NonNull final Bundle savedInstanceState,
+                                             @NonNull final String key) {
         groupAdapter.onRestoreInstanceState(savedInstanceState, key);
         Bundle savedState = savedInstanceState.getBundle(key);
 

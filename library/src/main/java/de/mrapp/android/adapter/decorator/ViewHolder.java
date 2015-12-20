@@ -14,6 +14,8 @@
  */
 package de.mrapp.android.adapter.decorator;
 
+import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.util.SparseArray;
 import android.view.View;
 
@@ -53,9 +55,10 @@ public class ViewHolder {
      * @param viewType
      *         The view type of the view, which should be returned, as an {@link Integer} value
      * @return The view, which belongs to the given resource ID, as an instance of the class {@link
-     * View}. The view may not be null
+     * View} or null, if no view with the given ID is available
      */
-    public final View getView(final View parentView, final int viewId, final int viewType) {
+    public final View getView(@NonNull final View parentView, @IdRes final int viewId,
+                              final int viewType) {
         SparseArray<View> mapping = views.get(viewType);
 
         if (mapping == null) {

@@ -14,6 +14,8 @@
  */
 package de.mrapp.android.adapter.expandablelist;
 
+import android.support.annotation.NonNull;
+
 import de.mrapp.android.adapter.ExpandableListAdapter;
 
 /**
@@ -41,8 +43,8 @@ public interface ExpansionListener<GroupType, ChildType> {
      * @param index
      *         The index of the group item, which has been expanded, as an {@link Integer} value
      */
-    void onGroupExpanded(final ExpandableListAdapter<GroupType, ChildType> adapter,
-                         final GroupType group, final int index);
+    void onGroupExpanded(@NonNull final ExpandableListAdapter<GroupType, ChildType> adapter,
+                         @NonNull final GroupType group, final int index);
 
     /**
      * The method, which is invoked, when a group item has been collapsed.
@@ -56,7 +58,7 @@ public interface ExpansionListener<GroupType, ChildType> {
      * @param index
      *         The index of the group item, which has been collapsed, as an {@link Integer} value
      */
-    void onGroupCollapsed(final ExpandableListAdapter<GroupType, ChildType> adapter,
-                          final GroupType group, final int index);
+    void onGroupCollapsed(@NonNull final ExpandableListAdapter<GroupType, ChildType> adapter,
+                          @NonNull final GroupType group, final int index);
 
 }

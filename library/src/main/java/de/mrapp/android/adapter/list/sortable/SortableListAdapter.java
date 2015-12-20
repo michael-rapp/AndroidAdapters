@@ -14,6 +14,7 @@
  */
 package de.mrapp.android.adapter.list.sortable;
 
+import android.support.annotation.NonNull;
 import android.widget.AbsListView;
 
 import java.util.Comparator;
@@ -49,7 +50,7 @@ public interface SortableListAdapter<DataType> {
      *         The order, which should be used to sort the items, as a value of the enum {@link
      *         Order}. The order may either be <code>ASCENDING</code> or <code>DESCENDING</code>
      */
-    void sort(Order order);
+    void sort(@NonNull Order order);
 
     /**
      * Sorts the adapter's items in an ascending order, by using a comparator.
@@ -58,7 +59,7 @@ public interface SortableListAdapter<DataType> {
      *         The comparator, which should be used to sort the items, as an instance of the type
      *         {@link Comparator}. The comparator may not be null
      */
-    void sort(Comparator<DataType> comparator);
+    void sort(@NonNull Comparator<DataType> comparator);
 
     /**
      * Sorts the adapter's items in a specific order, by using a comparator.
@@ -70,7 +71,7 @@ public interface SortableListAdapter<DataType> {
      *         The order, which should be used to sort the items, as a value of the enum {@link
      *         Order}. The order may either be <code>ASCENDING</code> or <code>DESCENDING</code>
      */
-    void sort(Order order, Comparator<DataType> comparator);
+    void sort(@NonNull Order order, @NonNull Comparator<DataType> comparator);
 
     /**
      * Returns the current order of the adapter's items.
@@ -90,7 +91,7 @@ public interface SortableListAdapter<DataType> {
      *         The listener, which should be added, as an instance of the class {@link
      *         ListSortingListener}. The listener may not be null
      */
-    void addSortingListner(ListSortingListener<DataType> listener);
+    void addSortingListner(@NonNull ListSortingListener<DataType> listener);
 
     /**
      * Removes a specific listener, which should not be notified, when the adapter's underlying data
@@ -100,6 +101,6 @@ public interface SortableListAdapter<DataType> {
      *         The listener, which should be removed, as an instance of the class {@link
      *         ListSortingListener}. The listener may not be null
      */
-    void removeSortingListener(ListSortingListener<DataType> listener);
+    void removeSortingListener(@NonNull ListSortingListener<DataType> listener);
 
 }

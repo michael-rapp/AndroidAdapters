@@ -15,6 +15,7 @@
 package de.mrapp.android.adapter.datastructure;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 /**
  * Defines the interface, all classes, which should allow to store key value pairs, must implement.
@@ -39,6 +40,6 @@ public interface Parameterizable {
      *         The bundle, which should be set, as an instance of the class {@link Bundle} or null,
      *         if no key value pairs should be stored within the class
      */
-    void setParameters(Bundle parameters);
+    void setParameters(@Nullable Bundle parameters);
 
 }

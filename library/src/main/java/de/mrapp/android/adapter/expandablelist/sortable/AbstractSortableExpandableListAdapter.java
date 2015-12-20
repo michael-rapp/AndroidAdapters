@@ -16,6 +16,8 @@ package de.mrapp.android.adapter.expandablelist.sortable;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.widget.ExpandableListView;
 
 import java.util.Collection;
@@ -100,8 +102,9 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
      *         of the type {@link Comparator} or null, if the group items' implementation of the
      *         type {@link Comparable} has been used instead
      */
-    private void notifyOnGroupsSorted(final Collection<GroupType> sortedGroups, final Order order,
-                                      final Comparator<GroupType> comparator) {
+    private void notifyOnGroupsSorted(@NonNull final Collection<GroupType> sortedGroups,
+                                      @NonNull final Order order,
+                                      @Nullable final Comparator<GroupType> comparator) {
         for (ExpandableListSortingListener<GroupType, ChildType> listener : sortingListeners) {
             listener.onGroupsSorted(this, sortedGroups, order, comparator);
         }
@@ -128,9 +131,10 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
      *         The index of the group, the child items, which have been sorted, belong to, as an
      *         {@link Integer} value
      */
-    private void notifyOnChildrenSorted(final Collection<ChildType> sortedChildren,
-                                        final Order order, final Comparator<ChildType> comparator,
-                                        final GroupType group, final int groupIndex) {
+    private void notifyOnChildrenSorted(@NonNull final Collection<ChildType> sortedChildren,
+                                        @NonNull final Order order,
+                                        @Nullable final Comparator<ChildType> comparator,
+                                        @NonNull final GroupType group, final int groupIndex) {
         for (ExpandableListSortingListener<GroupType, ChildType> listener : sortingListeners) {
             listener.onChildrenSorted(this, sortedChildren, order, comparator, group, groupIndex);
         }
@@ -148,28 +152,32 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
         return new ExpandableListAdapterListener<GroupType, ChildType>() {
 
             @Override
-            public void onGroupAdded(final ExpandableListAdapter<GroupType, ChildType> adapter,
-                                     final GroupType group, final int index) {
+            public void onGroupAdded(
+                    @NonNull final ExpandableListAdapter<GroupType, ChildType> adapter,
+                    @NonNull final GroupType group, final int index) {
 
             }
 
             @Override
-            public void onGroupRemoved(final ExpandableListAdapter<GroupType, ChildType> adapter,
-                                       final GroupType group, final int index) {
+            public void onGroupRemoved(
+                    @NonNull final ExpandableListAdapter<GroupType, ChildType> adapter,
+                    @NonNull final GroupType group, final int index) {
 
             }
 
             @Override
-            public void onChildAdded(final ExpandableListAdapter<GroupType, ChildType> adapter,
-                                     final ChildType child, final int childIndex,
-                                     final GroupType group, final int groupIndex) {
+            public void onChildAdded(
+                    @NonNull final ExpandableListAdapter<GroupType, ChildType> adapter,
+                    @NonNull final ChildType child, final int childIndex,
+                    @NonNull final GroupType group, final int groupIndex) {
                 childOrder = null;
             }
 
             @Override
-            public void onChildRemoved(final ExpandableListAdapter<GroupType, ChildType> adapter,
-                                       final ChildType child, final int childIndex,
-                                       final GroupType group, final int groupIndex) {
+            public void onChildRemoved(
+                    @NonNull final ExpandableListAdapter<GroupType, ChildType> adapter,
+                    @NonNull final ChildType child, final int childIndex,
+                    @NonNull final GroupType group, final int groupIndex) {
                 childOrder = null;
             }
 
@@ -197,7 +205,7 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
      *         if no listeners should be notified
      */
     protected final void setSortingListeners(
-            final Set<ExpandableListSortingListener<GroupType, ChildType>> sortingListeners) {
+            @NonNull final Set<ExpandableListSortingListener<GroupType, ChildType>> sortingListeners) {
         ensureNotNull(sortingListeners, "The sorting listeners may not be null");
         this.sortingListeners = sortingListeners;
     }
@@ -276,27 +284,27 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
      *         A set, which contains the listeners, which should be notified, when the adapter's
      *         underlying data has been sorted, or an empty set, if no listeners should be notified
      */
-    protected AbstractSortableExpandableListAdapter(final Context context,
-                                                    final Inflater groupInflater,
-                                                    final Inflater childInflater,
-                                                    final DecoratorType decorator,
-                                                    final LogLevel logLevel,
-                                                    final MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter,
+    protected AbstractSortableExpandableListAdapter(@NonNull final Context context,
+                                                    @NonNull final Inflater groupInflater,
+                                                    @NonNull final Inflater childInflater,
+                                                    @NonNull final DecoratorType decorator,
+                                                    @NonNull final LogLevel logLevel,
+                                                    @NonNull final MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter,
                                                     final boolean allowDuplicateChildren,
                                                     final boolean notifyOnChange,
                                                     final boolean expandGroupOnClick,
-                                                    final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
-                                                    final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
-                                                    final Set<ExpansionListener<GroupType, ChildType>> expansionListeners,
+                                                    @NonNull final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
+                                                    @NonNull final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
+                                                    @NonNull final Set<ExpansionListener<GroupType, ChildType>> expansionListeners,
                                                     final boolean setChildEnableStatesImplicitly,
-                                                    final Set<ExpandableListEnableStateListener<GroupType, ChildType>> enableStateListeners,
+                                                    @NonNull final Set<ExpandableListEnableStateListener<GroupType, ChildType>> enableStateListeners,
                                                     final int numberOfGroupStates,
                                                     final int numberOfChildStates,
                                                     final boolean triggerGroupStateOnClick,
                                                     final boolean triggerChildStateOnClick,
                                                     final boolean setChildStatesImplicitly,
-                                                    final Set<ExpandableListItemStateListener<GroupType, ChildType>> itemStateListeners,
-                                                    final Set<ExpandableListSortingListener<GroupType, ChildType>> sortingListeners) {
+                                                    @NonNull final Set<ExpandableListItemStateListener<GroupType, ChildType>> itemStateListeners,
+                                                    @NonNull final Set<ExpandableListSortingListener<GroupType, ChildType>> sortingListeners) {
         super(context, groupInflater, childInflater, decorator, logLevel, groupAdapter,
                 allowDuplicateChildren, notifyOnChange, expandGroupOnClick, itemClickListeners,
                 adapterListeners, expansionListeners, setChildEnableStatesImplicitly,
@@ -309,13 +317,13 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
     }
 
     @Override
-    protected void onSaveInstanceState(final Bundle outState) {
+    protected void onSaveInstanceState(@NonNull final Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable(CHILD_ORDER_BUNDLE_KEY, getChildOrder());
     }
 
     @Override
-    protected void onRestoreInstanceState(final Bundle savedState) {
+    protected void onRestoreInstanceState(@NonNull final Bundle savedState) {
         super.onRestoreInstanceState(savedState);
         this.childOrder = (Order) savedState.getSerializable(CHILD_ORDER_BUNDLE_KEY);
     }
@@ -326,7 +334,7 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
     }
 
     @Override
-    public final void sortGroups(final Order order) {
+    public final void sortGroups(@NonNull final Order order) {
         getGroupAdapter().sort(order);
 
         if (order == Order.ASCENDING) {
@@ -342,12 +350,13 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
     }
 
     @Override
-    public final void sortGroups(final Comparator<GroupType> comparator) {
+    public final void sortGroups(@NonNull final Comparator<GroupType> comparator) {
         sortGroups(Order.ASCENDING, comparator);
     }
 
     @Override
-    public final void sortGroups(final Order order, final Comparator<GroupType> comparator) {
+    public final void sortGroups(@NonNull final Order order,
+                                 @NonNull final Comparator<GroupType> comparator) {
         Comparator<Group<GroupType, ChildType>> groupComparator = new GroupComparator<>(comparator);
         getGroupAdapter().sort(order, groupComparator);
 
@@ -376,7 +385,7 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
     }
 
     @Override
-    public final void sortChildren(final Order order) {
+    public final void sortChildren(@NonNull final Order order) {
         childOrder = order;
 
         for (int i = 0; i < getGroupCount(); i++) {
@@ -385,12 +394,13 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
     }
 
     @Override
-    public final void sortChildren(final Comparator<ChildType> comparator) {
+    public final void sortChildren(@NonNull final Comparator<ChildType> comparator) {
         sortChildren(Order.ASCENDING, comparator);
     }
 
     @Override
-    public final void sortChildren(final Order order, final Comparator<ChildType> comparator) {
+    public final void sortChildren(@NonNull final Order order,
+                                   @NonNull final Comparator<ChildType> comparator) {
         for (int i = 0; i < getGroupCount(); i++) {
             sortChildren(i, order, comparator);
         }
@@ -402,7 +412,7 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
     }
 
     @Override
-    public final void sortChildren(final int groupIndex, final Order order) {
+    public final void sortChildren(final int groupIndex, @NonNull final Order order) {
         Group<GroupType, ChildType> group = getGroupAdapter().getItem(groupIndex);
         group.getChildAdapter().sort(order);
 
@@ -422,13 +432,14 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
     }
 
     @Override
-    public final void sortChildren(final int groupIndex, final Comparator<ChildType> comparator) {
+    public final void sortChildren(final int groupIndex,
+                                   @NonNull final Comparator<ChildType> comparator) {
         sortChildren(groupIndex, Order.ASCENDING, comparator);
     }
 
     @Override
-    public final void sortChildren(final int groupIndex, final Order order,
-                                   final Comparator<ChildType> comparator) {
+    public final void sortChildren(final int groupIndex, @NonNull final Order order,
+                                   @NonNull final Comparator<ChildType> comparator) {
         Group<GroupType, ChildType> group = getGroupAdapter().getItem(groupIndex);
         group.getChildAdapter().sort(order, comparator);
 
@@ -450,23 +461,24 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
     }
 
     @Override
-    public final void sortChildren(final GroupType group) {
+    public final void sortChildren(@NonNull final GroupType group) {
         sortChildren(group, Order.ASCENDING);
     }
 
     @Override
-    public final void sortChildren(final GroupType group, final Order order) {
+    public final void sortChildren(@NonNull final GroupType group, @NonNull final Order order) {
         sortChildren(indexOfGroupOrThrowException(group), order);
     }
 
     @Override
-    public final void sortChildren(final GroupType group, final Comparator<ChildType> comparator) {
+    public final void sortChildren(@NonNull final GroupType group,
+                                   @NonNull final Comparator<ChildType> comparator) {
         sortChildren(group, Order.ASCENDING, comparator);
     }
 
     @Override
-    public final void sortChildren(final GroupType group, final Order order,
-                                   final Comparator<ChildType> comparator) {
+    public final void sortChildren(@NonNull final GroupType group, @NonNull final Order order,
+                                   @NonNull final Comparator<ChildType> comparator) {
         sortChildren(indexOfGroupOrThrowException(group), order, comparator);
     }
 
@@ -476,7 +488,7 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
     }
 
     @Override
-    public final Order getChildOrder(final GroupType group) {
+    public final Order getChildOrder(@NonNull final GroupType group) {
         return getChildOrder(indexOfGroupOrThrowException(group));
     }
 
@@ -487,7 +499,7 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
 
     @Override
     public final void addSortingListener(
-            final ExpandableListSortingListener<GroupType, ChildType> listener) {
+            @NonNull final ExpandableListSortingListener<GroupType, ChildType> listener) {
         ensureNotNull(listener, "The listener may not be null");
         sortingListeners.add(listener);
         String message = "Added sorting listener \"" + listener + "\"";
@@ -496,7 +508,7 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
 
     @Override
     public final void removeSortingListener(
-            final ExpandableListSortingListener<GroupType, ChildType> listener) {
+            @NonNull final ExpandableListSortingListener<GroupType, ChildType> listener) {
         ensureNotNull(listener, "The listener may not be null");
         sortingListeners.remove(listener);
         String message = "Removed sorting listener \"" + listener + "\"";

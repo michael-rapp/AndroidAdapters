@@ -15,6 +15,8 @@
 package de.mrapp.android.adapter.datastructure.group;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.util.ListIterator;
 
@@ -62,6 +64,10 @@ public class GroupListIterator<GroupType, ChildType> implements ListIterator<Gro
      * MultipleChoiceListAdapter}. The adapter may not be null
      */
     private MultipleChoiceListAdapter<ChildType> createChildAdapter() {
+        if (context == null || childInflater == null) {
+            throw new UnsupportedOperationException();
+        }
+
         MultipleChoiceListAdapter<ChildType> childAdapter =
                 new MultipleChoiceListAdapterImplementation<>(context, childInflater,
                         new NullObjectDecorator<ChildType>());
@@ -84,8 +90,9 @@ public class GroupListIterator<GroupType, ChildType> implements ListIterator<Gro
      *         the groups' child items, as an instance of the type {@link Inflater} or null, if no
      *         adapter's underlying data should be modified
      */
-    public GroupListIterator(final ListIterator<Group<GroupType, ChildType>> iterator,
-                             final Context context, final Inflater childInflater) {
+    public GroupListIterator(@NonNull final ListIterator<Group<GroupType, ChildType>> iterator,
+                             @Nullable final Context context,
+                             @Nullable final Inflater childInflater) {
         ensureNotNull(iterator, "The list iterator may not be null");
         this.listIterator = iterator;
         this.context = context;
@@ -93,11 +100,7 @@ public class GroupListIterator<GroupType, ChildType> implements ListIterator<Gro
     }
 
     @Override
-    public final void add(final GroupType group) {
-        if (context == null || childInflater == null) {
-            throw new UnsupportedOperationException();
-        }
-
+    public final void add(@NonNull final GroupType group) {
         listIterator.add(new Group<>(group, createChildAdapter()));
     }
 
@@ -137,11 +140,7 @@ public class GroupListIterator<GroupType, ChildType> implements ListIterator<Gro
     }
 
     @Override
-    public final void set(final GroupType group) {
-        if (context == null || childInflater == null) {
-            throw new UnsupportedOperationException();
-        }
-
+    public final void set(@NonNull final GroupType group) {
         listIterator.set(new Group<>(group, createChildAdapter()));
     }
 

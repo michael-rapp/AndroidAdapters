@@ -14,6 +14,7 @@
  */
 package de.mrapp.android.adapter;
 
+import android.support.annotation.NonNull;
 import android.widget.AbsListView;
 
 import java.util.NoSuchElementException;
@@ -71,7 +72,7 @@ public interface SingleChoiceListAdapter<DataType> extends SelectableListAdapter
      *         NoSuchElementException} will be thrown
      * @return True, if the selection of the given item has been changed, false otherwise
      */
-    boolean select(DataType item);
+    boolean select(@NonNull DataType item);
 
     /**
      * Sets, whether the adapter's selection should be automatically adapted in order to ensure that

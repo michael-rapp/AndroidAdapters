@@ -14,6 +14,8 @@
  */
 package de.mrapp.android.adapter.datastructure.group;
 
+import android.support.annotation.NonNull;
+
 import java.util.Comparator;
 
 import static de.mrapp.android.util.Condition.ensureNotNull;
@@ -44,7 +46,7 @@ public class GroupComparator<GroupType, ChildType>
      *         The comparator, which should be used to compare the groups' data, as an instance of
      *         the type {@link Comparator}. The comparator may not be null
      */
-    public GroupComparator(final Comparator<GroupType> comparator) {
+    public GroupComparator(@NonNull final Comparator<GroupType> comparator) {
         ensureNotNull(comparator, "The comparator may not be null");
         this.comparator = comparator;
     }

@@ -14,6 +14,8 @@
  */
 package de.mrapp.android.adapter.logging;
 
+import android.support.annotation.NonNull;
+
 /**
  * Defines the interface, a class, which should allow to use logging, must implement.
  *
@@ -40,6 +42,6 @@ public interface Loggable {
      *         The log level, which should be set, as a value of the enum {@link LogLevel}. The log
      *         level may not be null
      */
-    void setLogLevel(LogLevel logLevel);
+    void setLogLevel(@NonNull LogLevel logLevel);
 
 }

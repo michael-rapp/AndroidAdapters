@@ -15,6 +15,8 @@
 package de.mrapp.android.adapter.inflater;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -42,13 +44,13 @@ public class InstanceInflater implements Inflater {
      *         The view, which should be inflated, as an instance of the class {@link View}. The
      *         view may not be null
      */
-    public InstanceInflater(final View view) {
+    public InstanceInflater(@NonNull final View view) {
         ensureNotNull(view, "The view may not be null");
         this.view = view;
     }
 
     @Override
-    public final View inflate(final Context context, final ViewGroup parent,
+    public final View inflate(@NonNull final Context context, @Nullable final ViewGroup parent,
                               final boolean attachToRoot) {
         return view;
     }

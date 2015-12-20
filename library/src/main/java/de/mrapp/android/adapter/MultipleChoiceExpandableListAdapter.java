@@ -14,6 +14,7 @@
  */
 package de.mrapp.android.adapter;
 
+import android.support.annotation.NonNull;
 import android.widget.ExpandableListView;
 
 import java.util.List;
@@ -161,7 +162,7 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      *         True, if the given group item should be selected, false otherwise
      * @return True, if the selection of the given group item has been changed, false otherwise
      */
-    boolean setGroupSelected(GroupType group, boolean selected);
+    boolean setGroupSelected(@NonNull GroupType group, boolean selected);
 
     /**
      * Triggers the selection of the group item, which belongs to a specific index, it is currently
@@ -188,7 +189,7 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      *         the adapter, a {@link NoSuchElementException} will be thrown
      * @return True, if the selection of the given group item has been changed, false otherwise
      */
-    boolean triggerGroupSelection(GroupType group);
+    boolean triggerGroupSelection(@NonNull GroupType group);
 
     /**
      * Sets the selection of all group items, if they are currently enabled.
@@ -217,7 +218,7 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      * @return The index of the first selected child item of the given group or -1, if no group item
      * is currently unselected
      */
-    int getFirstSelectedChildIndex(GroupType group);
+    int getFirstSelectedChildIndex(@NonNull GroupType group);
 
     /**
      * Returns the index of the first selected child item of the group, which belongs to a specific
@@ -243,7 +244,7 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      * @return The first selected child item of the given group, as an instance of the generic type
      * ChildType or null, if no child item is currently unselected
      */
-    ChildType getFirstSelectedChild(GroupType group);
+    ChildType getFirstSelectedChild(@NonNull GroupType group);
 
     /**
      * Returns the first selected child item of the group, which belongs to a specific index.
@@ -268,7 +269,7 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      * @return The index of the last selected child item of the given group or -1, if no group item
      * is currently unselected
      */
-    int getLastSelectedChildIndex(GroupType group);
+    int getLastSelectedChildIndex(@NonNull GroupType group);
 
     /**
      * Returns the index of the last selected child item of the group, which belongs to a specific
@@ -294,7 +295,7 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      * @return The last selected child item of the given group, as an instance of the generic type
      * ChildType or null, if no child item of the given group is currently unselected
      */
-    ChildType getLastSelectedChild(GroupType group);
+    ChildType getLastSelectedChild(@NonNull GroupType group);
 
     /**
      * Returns the last selected child item of the group, which belongs to a specific index.
@@ -319,7 +320,7 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      * @return The index of the first unselected child item of the given group or -1, if no group
      * item is currently unselected
      */
-    int getFirstUnselectedChildIndex(GroupType group);
+    int getFirstUnselectedChildIndex(@NonNull GroupType group);
 
     /**
      * Returns the index of the first unselected child item of the group, which belongs to a
@@ -345,7 +346,7 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      * @return The first unselected child item of the given group, as an instance of the generic
      * type ChildType or null, if no child item is currently unselected
      */
-    ChildType getFirstUnselectedChild(GroupType group);
+    ChildType getFirstUnselectedChild(@NonNull GroupType group);
 
     /**
      * Returns the first unselected child item of the group, which belongs to a specific index.
@@ -370,7 +371,7 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      * @return The index of the last unselected child item of the given group or -1, if no group
      * item is currently unselected
      */
-    int getLastUnselectedChildIndex(GroupType group);
+    int getLastUnselectedChildIndex(@NonNull GroupType group);
 
     /**
      * Returns the index of the last unselected child item of the group, which belongs to a specific
@@ -396,7 +397,7 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      * @return The last unselected child item of the given group, as an instance of the generic type
      * ChildType or null, if no child item of the given group is currently unselected
      */
-    ChildType getLastUnselectedChild(GroupType group);
+    ChildType getLastUnselectedChild(@NonNull GroupType group);
 
     /**
      * Returns the last unselected child item of the group, which belongs to a specific index.
@@ -423,7 +424,7 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      * group, as an instance of the type {@link List} or an empty list, if no child item is
      * currently selected
      */
-    List<Integer> getSelectedChildIndices(GroupType group);
+    List<Integer> getSelectedChildIndices(@NonNull GroupType group);
 
     /**
      * Returns a list, which contains the indices of all currently selected child items of the
@@ -450,7 +451,7 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      * @return A list, which contains all currently selected child items of the given group, as an
      * instance of the type {@link List} or an empty list, if no child item is currently selected
      */
-    List<ChildType> getSelectedChildren(GroupType group);
+    List<ChildType> getSelectedChildren(@NonNull GroupType group);
 
     /**
      * Returns a list, which contains all currently selected child items of the group, which belongs
@@ -478,7 +479,7 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      * given group, as an instance of the type {@link List} or an empty list, if no child item is
      * currently selected
      */
-    List<Integer> getUnselectedChildIndices(GroupType group);
+    List<Integer> getUnselectedChildIndices(@NonNull GroupType group);
 
     /**
      * Returns a list, which contains the indices of all currently unselected child items of the
@@ -505,7 +506,7 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      * @return A list, which contains all currently unselected child items of the given group, as an
      * instance of the type {@link List} or an empty list, if no child item is currently selected
      */
-    List<ChildType> getUnselectedChildren(GroupType group);
+    List<ChildType> getUnselectedChildren(@NonNull GroupType group);
 
     /**
      * Returns a list, which contains all currently unselected child items of the group, which
@@ -537,7 +538,7 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      *         True, if the given child item should be selected, false otherwise
      * @return True, if the selection of the given child item has been changed, false otherwise
      */
-    boolean setChildSelected(GroupType group, int childIndex, boolean selected);
+    boolean setChildSelected(@NonNull GroupType group, int childIndex, boolean selected);
 
     /**
      * Sets the selection of a specific child item of a specific group, if it is currently enabled.
@@ -554,7 +555,7 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      *         True, if the given child item should be selected, false otherwise
      * @return True, if the selection of the given child item has been changed, false otherwise
      */
-    boolean setChildSelected(GroupType group, ChildType child, boolean selected);
+    boolean setChildSelected(@NonNull GroupType group, @NonNull ChildType child, boolean selected);
 
     /**
      * Sets the selection of a specific child item of a specific group, if it is currently enabled.
@@ -591,7 +592,7 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      *         True, if the given child item should be selected, false otherwise
      * @return True, if the selection of the given child item has been changed, false otherwise
      */
-    boolean setChildSelected(int groupIndex, ChildType child, boolean selected);
+    boolean setChildSelected(int groupIndex, @NonNull ChildType child, boolean selected);
 
     /**
      * Triggers the selection of a specific child item, it it is currently enabled. This causes the
@@ -608,7 +609,7 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      *         IndexOutOfBoundsException} will be thrown
      * @return True, if the selection of the given child item has been changed, false otherwise
      */
-    boolean triggerChildSelection(GroupType group, int childIndex);
+    boolean triggerChildSelection(@NonNull GroupType group, int childIndex);
 
     /**
      * Triggers the selection of a specific child item, it it is currently enabled. This causes the
@@ -624,7 +625,7 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      *         the adapter, a {@link NoSuchElementException} will be thrown
      * @return True, if the selection of the given child item has been changed, false otherwise
      */
-    boolean triggerChildSelection(GroupType group, ChildType child);
+    boolean triggerChildSelection(@NonNull GroupType group, @NonNull ChildType child);
 
     /**
      * Triggers the selection of a specific child item, it it is currently enabled. This causes the
@@ -659,7 +660,7 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      *         the adapter, a {@link NoSuchElementException} will be thrown
      * @return True, if the selection of the given child item has been changed, false otherwise
      */
-    boolean triggerChildSelection(int groupIndex, ChildType child);
+    boolean triggerChildSelection(int groupIndex, @NonNull ChildType child);
 
     /**
      * Sets the selection of all child items of a specific group, if they are currently enabled.
@@ -672,7 +673,7 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      *         True, if all group items should be selected, false otherwise
      * @return True, if the selections of all group items have been changed, false otherwise
      */
-    boolean setAllChildrenSelected(GroupType group, boolean selected);
+    boolean setAllChildrenSelected(@NonNull GroupType group, boolean selected);
 
     /**
      * Sets the selection of all child items of a specific group, if they are currently enabled.
@@ -700,7 +701,7 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      * @return True, if the selections of all child items of the given group have been changed,
      * false otherwise
      */
-    boolean triggerAllChildSelections(GroupType group);
+    boolean triggerAllChildSelections(@NonNull GroupType group);
 
     /**
      * Triggers the selections of all child items of a group, which belongs to a specific index, if

@@ -16,6 +16,7 @@ package de.mrapp.android.adapter.datastructure;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import de.mrapp.android.adapter.Filterable;
 import de.mrapp.android.adapter.FilteringNotSupportedException;
@@ -53,7 +54,7 @@ public abstract class AbstractAdapterItem<DataType>
      *         Parcel}. The source may not be null
      */
     @SuppressWarnings("unchecked")
-    protected AbstractAdapterItem(final Parcel source) {
+    protected AbstractAdapterItem(@NonNull final Parcel source) {
         Class<DataType> clazz = (Class<DataType>) source.readSerializable();
         ClassLoader classLoader = clazz.getClassLoader();
         setData((DataType) source.readParcelable(classLoader));
@@ -66,7 +67,7 @@ public abstract class AbstractAdapterItem<DataType>
      *         The item's data, as an instance of the generic type DataType. The data may not be
      *         null
      */
-    public AbstractAdapterItem(final DataType data) {
+    public AbstractAdapterItem(@NonNull final DataType data) {
         setData(data);
     }
 
@@ -87,14 +88,14 @@ public abstract class AbstractAdapterItem<DataType>
      *         The data, which should be set, as an instance of the generic type DataType. The data
      *         may not be null
      */
-    public final void setData(final DataType data) {
+    public final void setData(@NonNull final DataType data) {
         ensureNotNull(data, "The data may not be null");
         this.data = data;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public final int compareTo(final AbstractAdapterItem<DataType> another) {
+    public final int compareTo(@NonNull final AbstractAdapterItem<DataType> another) {
         try {
             Comparable<DataType> comparable = (Comparable<DataType>) getData();
             return comparable.compareTo(another.getData());
@@ -104,7 +105,7 @@ public abstract class AbstractAdapterItem<DataType>
     }
 
     @Override
-    public boolean match(final String query, final int flags) {
+    public boolean match(@NonNull final String query, final int flags) {
         try {
             Filterable filterable = (Filterable) getData();
             return filterable.match(query, flags);

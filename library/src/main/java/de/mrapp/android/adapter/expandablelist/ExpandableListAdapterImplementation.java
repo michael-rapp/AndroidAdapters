@@ -15,6 +15,7 @@
 package de.mrapp.android.adapter.expandablelist;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ExpandableListView;
 
@@ -131,28 +132,28 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType> extends
      *         underlying data has been filtered, or an empty set, if no listeners should be
      *         notified
      */
-    protected ExpandableListAdapterImplementation(final Context context,
-                                                  final Inflater groupInflater,
-                                                  final Inflater childInflater,
-                                                  final ExpandableListDecorator<GroupType, ChildType> decorator,
-                                                  final LogLevel logLevel,
-                                                  final MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter,
+    protected ExpandableListAdapterImplementation(@NonNull final Context context,
+                                                  @NonNull final Inflater groupInflater,
+                                                  @NonNull final Inflater childInflater,
+                                                  @NonNull final ExpandableListDecorator<GroupType, ChildType> decorator,
+                                                  @NonNull final LogLevel logLevel,
+                                                  @NonNull final MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter,
                                                   final boolean allowDuplicateChildren,
                                                   final boolean notifyOnChange,
                                                   final boolean expandGroupOnClick,
-                                                  final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
-                                                  final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
-                                                  final Set<ExpansionListener<GroupType, ChildType>> expansionListeners,
+                                                  @NonNull final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
+                                                  @NonNull final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
+                                                  @NonNull final Set<ExpansionListener<GroupType, ChildType>> expansionListeners,
                                                   final boolean setChildEnableStatesImplicitly,
-                                                  final Set<ExpandableListEnableStateListener<GroupType, ChildType>> enableStateListeners,
+                                                  @NonNull final Set<ExpandableListEnableStateListener<GroupType, ChildType>> enableStateListeners,
                                                   final int numberOfGroupStates,
                                                   final int numberOfChildStates,
                                                   final boolean triggerGroupStateOnClick,
                                                   final boolean triggerChildStateOnClick,
                                                   final boolean setChildStatesImplicitly,
-                                                  final Set<ExpandableListItemStateListener<GroupType, ChildType>> itemStateListeners,
-                                                  final Set<ExpandableListSortingListener<GroupType, ChildType>> sortingListeners,
-                                                  final Set<ExpandableListFilterListener<GroupType, ChildType>> filterListeners) {
+                                                  @NonNull final Set<ExpandableListItemStateListener<GroupType, ChildType>> itemStateListeners,
+                                                  @NonNull final Set<ExpandableListSortingListener<GroupType, ChildType>> sortingListeners,
+                                                  @NonNull final Set<ExpandableListFilterListener<GroupType, ChildType>> filterListeners) {
         super(context, groupInflater, childInflater, decorator, logLevel, groupAdapter,
                 allowDuplicateChildren, notifyOnChange, expandGroupOnClick, itemClickListeners,
                 adapterListeners, expansionListeners, setChildEnableStatesImplicitly,
@@ -181,9 +182,10 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType> extends
      *         are used to visualize the group and child items of the adapter, as an instance of the
      *         generic type DecoratorType. The decorator may not be null
      */
-    public ExpandableListAdapterImplementation(final Context context, final Inflater groupInflater,
-                                               final Inflater childInflater,
-                                               final ExpandableListDecorator<GroupType, ChildType> decorator) {
+    public ExpandableListAdapterImplementation(@NonNull final Context context,
+                                               @NonNull final Inflater groupInflater,
+                                               @NonNull final Inflater childInflater,
+                                               @NonNull final ExpandableListDecorator<GroupType, ChildType> decorator) {
         this(context, groupInflater, childInflater, decorator, LogLevel.INFO,
                 new MultipleChoiceListAdapterImplementation<>(context, groupInflater,
                         new NullObjectDecorator<Group<GroupType, ChildType>>()), false, true, true,
@@ -198,8 +200,8 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType> extends
     }
 
     @Override
-    protected final void applyDecoratorOnGroup(final Context context, final View view,
-                                               final int index) {
+    protected final void applyDecoratorOnGroup(@NonNull final Context context,
+                                               @NonNull final View view, final int index) {
         GroupType group = getGroup(index);
         boolean expanded = isGroupExpanded(index);
         boolean enabled = isGroupEnabled(index);
@@ -211,8 +213,9 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType> extends
     }
 
     @Override
-    protected final void applyDecoratorOnChild(final Context context, final View view,
-                                               final int groupIndex, final int childIndex) {
+    protected final void applyDecoratorOnChild(@NonNull final Context context,
+                                               @NonNull final View view, final int groupIndex,
+                                               final int childIndex) {
         GroupType group = getGroup(groupIndex);
         ChildType child = getChild(groupIndex, childIndex);
         boolean enabled = isChildEnabled(groupIndex, childIndex);

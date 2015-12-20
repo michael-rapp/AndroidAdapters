@@ -15,6 +15,7 @@
 package de.mrapp.android.adapter.datastructure.item;
 
 import android.os.Parcel;
+import android.support.annotation.NonNull;
 
 import de.mrapp.android.adapter.datastructure.AbstractAdapterItem;
 
@@ -76,7 +77,7 @@ public class Item<DataType> extends AbstractAdapterItem<DataType> {
      *         The source, the item should be created from, as an instance of the class {@link
      *         Parcel}. The source may not be null
      */
-    protected Item(final Parcel source) {
+    protected Item(@NonNull final Parcel source) {
         super(source);
         setSelected(source.readInt() == 1);
         setEnabled(source.readInt() == 1);
@@ -90,7 +91,7 @@ public class Item<DataType> extends AbstractAdapterItem<DataType> {
      *         The item's data, as an instance of the generic type DataType. The data may not be
      *         null
      */
-    public Item(final DataType data) {
+    public Item(@NonNull final DataType data) {
         super(data);
         setEnabled(true);
         setSelected(false);
@@ -162,7 +163,7 @@ public class Item<DataType> extends AbstractAdapterItem<DataType> {
         try {
             DataType clonedData =
                     (DataType) getData().getClass().getMethod("clone").invoke(getData());
-            Item<DataType> clonedItem = new Item<DataType>(clonedData);
+            Item<DataType> clonedItem = new Item<>(clonedData);
             clonedItem.setSelected(isSelected());
             clonedItem.setEnabled(isEnabled());
             clonedItem.setState(getState());

@@ -15,6 +15,7 @@
 package de.mrapp.android.adapter.expandablelist;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
 
 import de.mrapp.android.adapter.SelectableListDecorator;
@@ -32,10 +33,11 @@ import de.mrapp.android.adapter.list.selectable.SelectableListAdapter;
 public class NullObjectDecorator<DataType> extends SelectableListDecorator<DataType> {
 
     @Override
-    protected final void onShowItem(final Context context,
-                                    final SelectableListAdapter<DataType> adapter, final View view,
-                                    final DataType item, final int viewType, final int index,
-                                    final boolean enabled, final int state, final boolean filtered,
+    protected final void onShowItem(@NonNull final Context context,
+                                    @NonNull final SelectableListAdapter<DataType> adapter,
+                                    @NonNull final View view, @NonNull final DataType item,
+                                    final int viewType, final int index, final boolean enabled,
+                                    final int state, final boolean filtered,
                                     final boolean selected) {
 
     }

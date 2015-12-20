@@ -15,6 +15,7 @@
 package de.mrapp.android.adapter.list.enablestate;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.widget.AbsListView;
 
 import java.util.ArrayList;
@@ -70,7 +71,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
      *         The index of the item, which has been enabled, as an {@link Integer} value. The index
      *         must be between 0 and the value of the method <code>getCount():int</code> - 1
      */
-    private void notifyOnItemEnabled(final DataType item, final int index) {
+    private void notifyOnItemEnabled(@NonNull final DataType item, final int index) {
         for (ListEnableStateListener<DataType> listener : enableStateListeners) {
             listener.onItemEnabled(this, item, index);
         }
@@ -87,7 +88,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
      *         The index of the item, which has been disabled, as an {@link Integer} value. The
      *         index must be between 0 and the value of the method <code>getCount():int</code> - 1
      */
-    private void notifyOnItemDisabled(final DataType item, final int index) {
+    private void notifyOnItemDisabled(@NonNull final DataType item, final int index) {
         for (ListEnableStateListener<DataType> listener : enableStateListeners) {
             listener.onItemDisabled(this, item, index);
         }
@@ -114,7 +115,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
      *         if no listeners should be notified
      */
     protected final void setEnableStateListeners(
-            final Set<ListEnableStateListener<DataType>> enableStateListeners) {
+            @NonNull final Set<ListEnableStateListener<DataType>> enableStateListeners) {
         ensureNotNull(enableStateListeners, "The enable state listeners may not be null");
         this.enableStateListeners = enableStateListeners;
     }
@@ -157,14 +158,16 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
      *         A set, which contains the listeners, which should be notified, when an item has been
      *         disabled or enabled or an empty set, if no listeners should be notified
      */
-    protected AbstractEnableStateListAdapter(final Context context, final Inflater inflater,
-                                             final DecoratorType decorator, final LogLevel logLevel,
-                                             final ArrayList<Item<DataType>> items,
+    protected AbstractEnableStateListAdapter(@NonNull final Context context,
+                                             @NonNull final Inflater inflater,
+                                             @NonNull final DecoratorType decorator,
+                                             @NonNull final LogLevel logLevel,
+                                             @NonNull final ArrayList<Item<DataType>> items,
                                              final boolean allowDuplicates,
                                              final boolean notifyOnChange,
-                                             final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
-                                             final Set<ListAdapterListener<DataType>> adapterListeners,
-                                             final Set<ListEnableStateListener<DataType>> enableStateListeners) {
+                                             @NonNull final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
+                                             @NonNull final Set<ListAdapterListener<DataType>> adapterListeners,
+                                             @NonNull final Set<ListEnableStateListener<DataType>> enableStateListeners) {
         super(context, inflater, decorator, logLevel, items, allowDuplicates, notifyOnChange,
                 itemClickListeners, adapterListeners);
         setEnableStateListeners(enableStateListeners);
@@ -181,7 +184,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
     }
 
     @Override
-    public final boolean isEnabled(final DataType item) {
+    public final boolean isEnabled(@NonNull final DataType item) {
         return getItems().get(indexOf(item)).isEnabled();
     }
 
@@ -357,7 +360,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
     }
 
     @Override
-    public final void setEnabled(final DataType item, final boolean enabled) {
+    public final void setEnabled(@NonNull final DataType item, final boolean enabled) {
         setEnabled(indexOfOrThrowException(item), enabled);
     }
 
@@ -369,7 +372,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
     }
 
     @Override
-    public final boolean triggerEnableState(final DataType item) {
+    public final boolean triggerEnableState(@NonNull final DataType item) {
         return triggerEnableState(indexOfOrThrowException(item));
     }
 
@@ -388,7 +391,8 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
     }
 
     @Override
-    public final void addEnableStateListener(final ListEnableStateListener<DataType> listener) {
+    public final void addEnableStateListener(
+            @NonNull final ListEnableStateListener<DataType> listener) {
         ensureNotNull(listener, "The listener may not be null");
         enableStateListeners.add(listener);
         String message = "Added enable state listener \"" + listener + "\"";
@@ -396,7 +400,8 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
     }
 
     @Override
-    public final void removeEnableStateListener(final ListEnableStateListener<DataType> listener) {
+    public final void removeEnableStateListener(
+            @NonNull final ListEnableStateListener<DataType> listener) {
         ensureNotNull(listener, "The listener may not be null");
         enableStateListeners.remove(listener);
         String message = "Removed enable state listener \"" + listener + "\"";

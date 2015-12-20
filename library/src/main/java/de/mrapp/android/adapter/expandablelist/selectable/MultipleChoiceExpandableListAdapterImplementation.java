@@ -15,6 +15,7 @@
 package de.mrapp.android.adapter.expandablelist.selectable;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.widget.ExpandableListView;
 
 import java.util.LinkedHashSet;
@@ -71,8 +72,9 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
         return new ExpandableListAdapterItemClickListener<GroupType, ChildType>() {
 
             @Override
-            public void onGroupClicked(final ExpandableListAdapter<GroupType, ChildType> adapter,
-                                       final GroupType group, final int index) {
+            public void onGroupClicked(
+                    @NonNull final ExpandableListAdapter<GroupType, ChildType> adapter,
+                    @NonNull final GroupType group, final int index) {
                 if (isGroupSelectedOnClick() && getChoiceMode() != ChoiceMode.CHILDREN_ONLY) {
                     getLogger().logVerbose(getClass(), "Triggering group selection on click...");
                     triggerGroupSelection(index);
@@ -80,9 +82,10 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
             }
 
             @Override
-            public void onChildClicked(final ExpandableListAdapter<GroupType, ChildType> adapter,
-                                       final ChildType child, final int childIndex,
-                                       final GroupType group, final int groupIndex) {
+            public void onChildClicked(
+                    @NonNull final ExpandableListAdapter<GroupType, ChildType> adapter,
+                    @NonNull final ChildType child, final int childIndex,
+                    @NonNull final GroupType group, final int groupIndex) {
                 if (isChildSelectedOnClick() && getChoiceMode() != ChoiceMode.GROUPS_ONLY) {
                     getLogger().logVerbose(getClass(), "Triggering child selection on click...");
                     triggerChildSelection(groupIndex, childIndex);
@@ -187,34 +190,34 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
      * @param choiceMode
      *         The choice mode of the adapter as a value of the enum {@link ChoiceMode}
      */
-    protected MultipleChoiceExpandableListAdapterImplementation(final Context context,
-                                                                final Inflater groupInflater,
-                                                                final Inflater childInflater,
-                                                                final SelectableExpandableListDecorator<GroupType, ChildType> decorator,
-                                                                final LogLevel logLevel,
-                                                                final MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter,
+    protected MultipleChoiceExpandableListAdapterImplementation(@NonNull final Context context,
+                                                                @NonNull final Inflater groupInflater,
+                                                                @NonNull final Inflater childInflater,
+                                                                @NonNull final SelectableExpandableListDecorator<GroupType, ChildType> decorator,
+                                                                @NonNull final LogLevel logLevel,
+                                                                @NonNull final MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter,
                                                                 final boolean allowDuplicateChildren,
                                                                 final boolean notifyOnChange,
                                                                 final boolean expandGroupOnClick,
-                                                                final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
-                                                                final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
-                                                                final Set<ExpansionListener<GroupType, ChildType>> expansionListeners,
+                                                                @NonNull final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
+                                                                @NonNull final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
+                                                                @NonNull final Set<ExpansionListener<GroupType, ChildType>> expansionListeners,
                                                                 final boolean setChildEnableStatesImplicitly,
-                                                                final Set<ExpandableListEnableStateListener<GroupType, ChildType>> enableStateListeners,
+                                                                @NonNull final Set<ExpandableListEnableStateListener<GroupType, ChildType>> enableStateListeners,
                                                                 final int numberOfGroupStates,
                                                                 final int numberOfChildStates,
                                                                 final boolean triggerGroupStateOnClick,
                                                                 final boolean triggerChildStateOnClick,
                                                                 final boolean setChildStatesImplicitly,
-                                                                final Set<ExpandableListItemStateListener<GroupType, ChildType>> itemStateListeners,
-                                                                final Set<ExpandableListSortingListener<GroupType, ChildType>> sortingListeners,
-                                                                final Set<ExpandableListFilterListener<GroupType, ChildType>> filterListeners,
+                                                                @NonNull final Set<ExpandableListItemStateListener<GroupType, ChildType>> itemStateListeners,
+                                                                @NonNull final Set<ExpandableListSortingListener<GroupType, ChildType>> sortingListeners,
+                                                                @NonNull final Set<ExpandableListFilterListener<GroupType, ChildType>> filterListeners,
                                                                 final boolean selectGroupOnClick,
                                                                 final boolean selectChildOnClick,
                                                                 final boolean expandGroupOnSelection,
                                                                 final boolean expandGroupOnChildSelection,
-                                                                final Set<ExpandableListSelectionListener<GroupType, ChildType>> selectionListeners,
-                                                                final ChoiceMode choiceMode) {
+                                                                @NonNull final Set<ExpandableListSelectionListener<GroupType, ChildType>> selectionListeners,
+                                                                @NonNull final ChoiceMode choiceMode) {
         super(context, groupInflater, childInflater, decorator, logLevel, groupAdapter,
                 allowDuplicateChildren, notifyOnChange, expandGroupOnClick, itemClickListeners,
                 adapterListeners, expansionListeners, setChildEnableStatesImplicitly,
@@ -249,11 +252,11 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
      *         The choice mode of the adapter as a value of the enum {@link ChoiceMode} they belong
      *         to, is selected, false otherwise
      */
-    public MultipleChoiceExpandableListAdapterImplementation(final Context context,
-                                                             final Inflater groupInflater,
-                                                             final Inflater childInflater,
-                                                             final SelectableExpandableListDecorator<GroupType, ChildType> decorator,
-                                                             final ChoiceMode choiceMode) {
+    public MultipleChoiceExpandableListAdapterImplementation(@NonNull final Context context,
+                                                             @NonNull final Inflater groupInflater,
+                                                             @NonNull final Inflater childInflater,
+                                                             @NonNull final SelectableExpandableListDecorator<GroupType, ChildType> decorator,
+                                                             @NonNull final ChoiceMode choiceMode) {
         this(context, groupInflater, childInflater, decorator, LogLevel.ALL,
                 new MultipleChoiceListAdapterImplementation<>(context, groupInflater,
                         new NullObjectDecorator<Group<GroupType, ChildType>>()), false, true, true,
@@ -378,7 +381,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
     }
 
     @Override
-    public final boolean setGroupSelected(final GroupType group, final boolean selected) {
+    public final boolean setGroupSelected(@NonNull final GroupType group, final boolean selected) {
         return setGroupSelected(indexOfGroupOrThrowException(group), selected);
     }
 
@@ -392,7 +395,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
     }
 
     @Override
-    public final boolean triggerGroupSelection(final GroupType group) {
+    public final boolean triggerGroupSelection(@NonNull final GroupType group) {
         return triggerGroupSelection(indexOfGroupOrThrowException(group));
     }
 
@@ -419,7 +422,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
     }
 
     @Override
-    public final int getFirstSelectedChildIndex(final GroupType group) {
+    public final int getFirstSelectedChildIndex(@NonNull final GroupType group) {
         return getFirstSelectedChildIndex(indexOfGroupOrThrowException(group));
     }
 
@@ -429,7 +432,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
     }
 
     @Override
-    public final ChildType getFirstSelectedChild(final GroupType group) {
+    public final ChildType getFirstSelectedChild(@NonNull final GroupType group) {
         return getFirstSelectedChild(indexOfGroupOrThrowException(group));
     }
 
@@ -439,7 +442,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
     }
 
     @Override
-    public final int getLastSelectedChildIndex(final GroupType group) {
+    public final int getLastSelectedChildIndex(@NonNull final GroupType group) {
         return getLastSelectedChildIndex(indexOfGroupOrThrowException(group));
     }
 
@@ -449,7 +452,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
     }
 
     @Override
-    public final ChildType getLastSelectedChild(final GroupType group) {
+    public final ChildType getLastSelectedChild(@NonNull final GroupType group) {
         return getLastSelectedChild(indexOfGroupOrThrowException(group));
     }
 
@@ -459,7 +462,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
     }
 
     @Override
-    public final int getFirstUnselectedChildIndex(final GroupType group) {
+    public final int getFirstUnselectedChildIndex(@NonNull final GroupType group) {
         return getFirstUnselectedChildIndex(indexOfGroupOrThrowException(group));
     }
 
@@ -469,7 +472,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
     }
 
     @Override
-    public final ChildType getFirstUnselectedChild(final GroupType group) {
+    public final ChildType getFirstUnselectedChild(@NonNull final GroupType group) {
         return getFirstUnselectedChild(indexOfGroupOrThrowException(group));
     }
 
@@ -479,7 +482,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
     }
 
     @Override
-    public final int getLastUnselectedChildIndex(final GroupType group) {
+    public final int getLastUnselectedChildIndex(@NonNull final GroupType group) {
         return getLastUnselectedChildIndex(indexOfGroupOrThrowException(group));
     }
 
@@ -489,7 +492,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
     }
 
     @Override
-    public final ChildType getLastUnselectedChild(final GroupType group) {
+    public final ChildType getLastUnselectedChild(@NonNull final GroupType group) {
         return getLastUnselectedChild(indexOfGroupOrThrowException(group));
     }
 
@@ -499,7 +502,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
     }
 
     @Override
-    public final List<Integer> getSelectedChildIndices(final GroupType group) {
+    public final List<Integer> getSelectedChildIndices(@NonNull final GroupType group) {
         return getSelectedChildIndices(indexOfGroupOrThrowException(group));
     }
 
@@ -509,7 +512,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
     }
 
     @Override
-    public final List<ChildType> getSelectedChildren(final GroupType group) {
+    public final List<ChildType> getSelectedChildren(@NonNull final GroupType group) {
         return getSelectedChildren(indexOfGroupOrThrowException(group));
     }
 
@@ -519,7 +522,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
     }
 
     @Override
-    public final List<Integer> getUnselectedChildIndices(final GroupType group) {
+    public final List<Integer> getUnselectedChildIndices(@NonNull final GroupType group) {
         return getUnselectedChildIndices(indexOfGroupOrThrowException(group));
     }
 
@@ -529,7 +532,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
     }
 
     @Override
-    public final List<ChildType> getUnselectedChildren(final GroupType group) {
+    public final List<ChildType> getUnselectedChildren(@NonNull final GroupType group) {
         return getUnselectedChildren(indexOfGroupOrThrowException(group));
     }
 
@@ -539,14 +542,14 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
     }
 
     @Override
-    public final boolean setChildSelected(final GroupType group, final int childIndex,
+    public final boolean setChildSelected(@NonNull final GroupType group, final int childIndex,
                                           final boolean selected) {
         return setChildSelected(indexOfGroupOrThrowException(group), childIndex, selected);
     }
 
     @Override
-    public final boolean setChildSelected(final GroupType group, final ChildType child,
-                                          final boolean selected) {
+    public final boolean setChildSelected(@NonNull final GroupType group,
+                                          @NonNull final ChildType child, final boolean selected) {
         return setChildSelected(indexOfGroupOrThrowException(group), child, selected);
     }
 
@@ -604,19 +607,21 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
     }
 
     @Override
-    public final boolean setChildSelected(final int groupIndex, final ChildType child,
+    public final boolean setChildSelected(final int groupIndex, @NonNull final ChildType child,
                                           final boolean selected) {
         return setChildSelected(groupIndex, indexOfChildOrThrowException(groupIndex, child),
                 selected);
     }
 
     @Override
-    public final boolean triggerChildSelection(final GroupType group, final int childIndex) {
+    public final boolean triggerChildSelection(@NonNull final GroupType group,
+                                               final int childIndex) {
         return triggerChildSelection(indexOfGroupOrThrowException(group), childIndex);
     }
 
     @Override
-    public final boolean triggerChildSelection(final GroupType group, final ChildType child) {
+    public final boolean triggerChildSelection(@NonNull final GroupType group,
+                                               @NonNull final ChildType child) {
         return triggerChildSelection(indexOfGroupOrThrowException(group), child);
     }
 
@@ -630,12 +635,14 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
     }
 
     @Override
-    public final boolean triggerChildSelection(final int groupIndex, final ChildType child) {
+    public final boolean triggerChildSelection(final int groupIndex,
+                                               @NonNull final ChildType child) {
         return triggerChildSelection(groupIndex, indexOfChildOrThrowException(groupIndex, child));
     }
 
     @Override
-    public final boolean setAllChildrenSelected(final GroupType group, final boolean selected) {
+    public final boolean setAllChildrenSelected(@NonNull final GroupType group,
+                                                final boolean selected) {
         return setAllChildrenSelected(indexOfGroupOrThrowException(group), selected);
     }
 
@@ -651,7 +658,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
     }
 
     @Override
-    public final boolean triggerAllChildSelections(final GroupType group) {
+    public final boolean triggerAllChildSelections(@NonNull final GroupType group) {
         return triggerAllChildSelections(indexOfGroupOrThrowException(group));
     }
 

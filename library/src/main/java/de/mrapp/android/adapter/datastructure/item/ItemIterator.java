@@ -14,6 +14,9 @@
  */
 package de.mrapp.android.adapter.datastructure.item;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -67,7 +70,8 @@ public class ItemIterator<DataType> implements Iterator<DataType> {
      *         iterated by the iterator, is modified, as an instance of the type {@link ListAdapter}
      *         or null, if no adapter's underlying data should be modified
      */
-    public ItemIterator(final List<Item<DataType>> items, final ListAdapter<DataType> adapter) {
+    public ItemIterator(@NonNull final List<Item<DataType>> items,
+                        @Nullable final ListAdapter<DataType> adapter) {
         ensureNotNull(items, "The items may not be null");
         this.items = items;
         this.adapter = adapter;

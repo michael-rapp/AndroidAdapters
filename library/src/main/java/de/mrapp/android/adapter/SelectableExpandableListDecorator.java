@@ -18,6 +18,7 @@ import de.mrapp.android.adapter.decorator.AbstractDecorator;
 import de.mrapp.android.adapter.expandablelist.selectable.SelectableExpandableListAdapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
 
 /**
@@ -71,9 +72,10 @@ public abstract class SelectableExpandableListDecorator<GroupType, ChildType>
      *         True, if the group item, which should be visualized, is currently selected, false
      *         otherwise
      */
-    public final void applyDecoratorOnGroup(final Context context,
-                                            final SelectableExpandableListAdapter<GroupType, ChildType> adapter,
-                                            final View view, final GroupType group, final int index,
+    public final void applyDecoratorOnGroup(@NonNull final Context context,
+                                            @NonNull final SelectableExpandableListAdapter<GroupType, ChildType> adapter,
+                                            @NonNull final View view,
+                                            @NonNull final GroupType group, final int index,
                                             final boolean expanded, final boolean enabled,
                                             final int state, final boolean filtered,
                                             final boolean selected) {
@@ -124,13 +126,13 @@ public abstract class SelectableExpandableListDecorator<GroupType, ChildType>
      *         True, if the child item, which should be visualized, is currently selected, false
      *         otherwise
      */
-    public final void applyDecoratorOnChild(final Context context,
-                                            final SelectableExpandableListAdapter<GroupType, ChildType> adapter,
-                                            final View view, final ChildType child,
-                                            final int childIndex, final GroupType group,
-                                            final int groupIndex, final boolean enabled,
-                                            final int state, final boolean filtered,
-                                            final boolean selected) {
+    public final void applyDecoratorOnChild(@NonNull final Context context,
+                                            @NonNull final SelectableExpandableListAdapter<GroupType, ChildType> adapter,
+                                            @NonNull final View view,
+                                            @NonNull final ChildType child, final int childIndex,
+                                            @NonNull final GroupType group, final int groupIndex,
+                                            final boolean enabled, final int state,
+                                            final boolean filtered, final boolean selected) {
         setCurrentParentView(view);
         int viewType = getChildType(child);
         setCurrentViewType(viewType);
@@ -151,7 +153,7 @@ public abstract class SelectableExpandableListDecorator<GroupType, ChildType>
      * @return The view type of the group item, which is about to be visualized, as an {@link
      * Integer} value
      */
-    public int getGroupType(final GroupType group) {
+    public int getGroupType(@NonNull final GroupType group) {
         return 0;
     }
 
@@ -179,7 +181,7 @@ public abstract class SelectableExpandableListDecorator<GroupType, ChildType>
      * @return The view type of the child item, which is about to be visualized, as an {@link
      * Integer} value
      */
-    public int getChildType(final ChildType child) {
+    public int getChildType(@NonNull final ChildType child) {
         return 0;
     }
 
@@ -234,10 +236,10 @@ public abstract class SelectableExpandableListDecorator<GroupType, ChildType>
      *         True, if the group item, which should be visualized, is currently selected, false
      *         otherwise
      */
-    protected abstract void onShowGroup(Context context,
-                                        SelectableExpandableListAdapter<GroupType, ChildType> adapter,
-                                        View view, GroupType group, int viewType, int index,
-                                        boolean expanded, boolean enabled, int state,
+    protected abstract void onShowGroup(@NonNull Context context,
+                                        @NonNull SelectableExpandableListAdapter<GroupType, ChildType> adapter,
+                                        @NonNull View view, @NonNull GroupType group, int viewType,
+                                        int index, boolean expanded, boolean enabled, int state,
                                         boolean filtered, boolean selected);
 
     /**
@@ -282,10 +284,11 @@ public abstract class SelectableExpandableListDecorator<GroupType, ChildType>
      *         True, if the child item, which should be visualized, is currently selected, false
      *         otherwise
      */
-    protected abstract void onShowChild(Context context,
-                                        SelectableExpandableListAdapter<GroupType, ChildType> adapter,
-                                        View view, ChildType child, int viewType, int childIndex,
-                                        GroupType group, int groupIndex, boolean enabled, int state,
-                                        boolean filtered, boolean selected);
+    protected abstract void onShowChild(@NonNull Context context,
+                                        @NonNull SelectableExpandableListAdapter<GroupType, ChildType> adapter,
+                                        @NonNull View view, @NonNull ChildType child, int viewType,
+                                        int childIndex, @NonNull GroupType group, int groupIndex,
+                                        boolean enabled, int state, boolean filtered,
+                                        boolean selected);
 
 }

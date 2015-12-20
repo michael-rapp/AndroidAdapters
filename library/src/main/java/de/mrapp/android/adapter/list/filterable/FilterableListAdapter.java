@@ -14,6 +14,7 @@
  */
 package de.mrapp.android.adapter.list.filterable;
 
+import android.support.annotation.NonNull;
 import android.widget.AbsListView;
 
 import de.mrapp.android.adapter.Filter;
@@ -47,7 +48,7 @@ public interface FilterableListAdapter<DataType> {
      *         0, if no flags should be used
      * @return True, if the filter has been applied, false otherwise
      */
-    boolean applyFilter(String query, int flags);
+    boolean applyFilter(@NonNull String query, int flags);
 
     /**
      * Filters the adapter's items by using a specific query and a filter, which is used to apply
@@ -66,7 +67,7 @@ public interface FilterableListAdapter<DataType> {
      *         an instance of the type {@link Filter} . The filter may not be null
      * @return True, if the filter has been applied, false otherwise
      */
-    boolean applyFilter(String query, int flags, Filter<DataType> filter);
+    boolean applyFilter(@NonNull String query, int flags, @NonNull Filter<DataType> filter);
 
     /**
      * Resets the filter, which uses a specific query.
@@ -78,7 +79,7 @@ public interface FilterableListAdapter<DataType> {
      *         The flags of the filter, which should be reseted, as an {@link Integer} value
      * @return True, if the filter has been reseted, false otherwise
      */
-    boolean resetFilter(String query, int flags);
+    boolean resetFilter(@NonNull String query, int flags);
 
     /**
      * Resets all applied filters.
@@ -96,7 +97,7 @@ public interface FilterableListAdapter<DataType> {
      * @return True, if a filter, which uses the given query, is currently applied on the adapter,
      * false otherwise
      */
-    boolean isFilterApplied(String query, int flags);
+    boolean isFilterApplied(@NonNull String query, int flags);
 
     /**
      * Returns, whether at least one filter is currently applied on the adapter to filter its items,
@@ -114,7 +115,7 @@ public interface FilterableListAdapter<DataType> {
      *         The listener, which should be added, as an instance of the class {@link
      *         ListFilterListener}. The listener may not be null
      */
-    void addFilterListener(ListFilterListener<DataType> listener);
+    void addFilterListener(@NonNull ListFilterListener<DataType> listener);
 
     /**
      * Removes a specific listener, which should not be notified, when the adapter's underlying data
@@ -124,6 +125,6 @@ public interface FilterableListAdapter<DataType> {
      *         The listener, which should be removed, as an instance of the class {@link
      *         ListFilterListener}. The listener may not be null
      */
-    void removeFilterListener(ListFilterListener<DataType> listener);
+    void removeFilterListener(@NonNull ListFilterListener<DataType> listener);
 
 }

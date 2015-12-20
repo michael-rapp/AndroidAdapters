@@ -14,6 +14,8 @@
  */
 package de.mrapp.android.adapter.datastructure;
 
+import android.support.annotation.NonNull;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -38,7 +40,7 @@ public class UnmodifiableList<Type> extends AbstractUnmodifiableList<Type, Type>
      *         The list, which should be encapsulated by the list, as an instance of the type {@link
      *         List}. The list may not be null
      */
-    public UnmodifiableList(final List<Type> encapsulatedList) {
+    public UnmodifiableList(@NonNull final List<Type> encapsulatedList) {
         super(encapsulatedList);
     }
 

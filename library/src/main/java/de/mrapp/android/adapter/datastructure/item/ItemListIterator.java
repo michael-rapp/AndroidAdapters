@@ -14,6 +14,9 @@
  */
 package de.mrapp.android.adapter.datastructure.item;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
@@ -74,8 +77,8 @@ public class ItemListIterator<DataType> implements ListIterator<DataType> {
      *         be at least 0 and at maximum the size of the given list - 1, otherwise an {@link
      *         IndexOutOfBoundsException} will be thrown
      */
-    public ItemListIterator(final List<Item<DataType>> items, final ListAdapter<DataType> adapter,
-                            final int index) {
+    public ItemListIterator(@NonNull final List<Item<DataType>> items,
+                            @Nullable final ListAdapter<DataType> adapter, final int index) {
         ensureNotNull(items, "The items may not be null");
         ensureAtLeast(index, 0, "The index must be at least 0");
         ensureAtMaximum(index, items.isEmpty() ? 0 : items.size(),
@@ -98,12 +101,13 @@ public class ItemListIterator<DataType> implements ListIterator<DataType> {
      *         iterated by the list iterator, is modified, as an instance of the type {@link
      *         ListAdapter} or null, if no adapter's underlying data should be modified
      */
-    public ItemListIterator(final List<Item<DataType>> items, final ListAdapter<DataType> adapter) {
+    public ItemListIterator(@NonNull final List<Item<DataType>> items,
+                            @Nullable final ListAdapter<DataType> adapter) {
         this(items, adapter, 0);
     }
 
     @Override
-    public final void add(final DataType item) {
+    public final void add(@NonNull final DataType item) {
         ensureNotNull(item, "The item may not be null");
 
         if (adapter == null) {
@@ -180,7 +184,7 @@ public class ItemListIterator<DataType> implements ListIterator<DataType> {
     }
 
     @Override
-    public final void set(final DataType item) {
+    public final void set(@NonNull final DataType item) {
         ensureNotNull(item, "The item may not be null");
 
         if (adapter == null) {

@@ -14,6 +14,8 @@
  */
 package de.mrapp.android.adapter.list.itemstate;
 
+import android.support.annotation.NonNull;
+
 import de.mrapp.android.adapter.ListAdapter;
 
 /**
@@ -41,6 +43,7 @@ public interface ListItemStateListener<DataType> {
      * @param state
      *         The new state of the item, whose state has been changed, as an {@link Integer} value
      */
-    void onItemStateChanged(ListAdapter<DataType> adapter, DataType item, int index, int state);
+    void onItemStateChanged(@NonNull ListAdapter<DataType> adapter, @NonNull DataType item,
+                            int index, int state);
 
 }

@@ -14,6 +14,8 @@
  */
 package de.mrapp.android.adapter.expandablelist.enablestate;
 
+import android.support.annotation.NonNull;
+
 import de.mrapp.android.adapter.ExpandableListAdapter;
 
 /**
@@ -41,8 +43,8 @@ public interface ExpandableListEnableStateListener<GroupType, ChildType> {
      * @param index
      *         The index of the group item, which has been enabled, as an {@link Integer} value
      */
-    void onGroupEnabled(ExpandableListAdapter<GroupType, ChildType> adapter, GroupType group,
-                        int index);
+    void onGroupEnabled(@NonNull ExpandableListAdapter<GroupType, ChildType> adapter,
+                        @NonNull GroupType group, int index);
 
     /**
      * The method, which is invoked, when a group item has been disabled.
@@ -56,8 +58,8 @@ public interface ExpandableListEnableStateListener<GroupType, ChildType> {
      * @param index
      *         The index of the group item, which has been disabled, as an {@link Integer} value
      */
-    void onGroupDisabled(ExpandableListAdapter<GroupType, ChildType> adapter, GroupType group,
-                         int index);
+    void onGroupDisabled(@NonNull ExpandableListAdapter<GroupType, ChildType> adapter,
+                         @NonNull GroupType group, int index);
 
     /**
      * The method, which is invoked, when a child item has been enabled.
@@ -78,8 +80,9 @@ public interface ExpandableListEnableStateListener<GroupType, ChildType> {
      *         The index of the group item, the child, which has been enabled, belongs to, as an
      *         {@link Integer} value
      */
-    void onChildEnabled(ExpandableListAdapter<GroupType, ChildType> adapter, ChildType child,
-                        int childIndex, GroupType group, int groupIndex);
+    void onChildEnabled(@NonNull ExpandableListAdapter<GroupType, ChildType> adapter,
+                        @NonNull ChildType child, int childIndex, @NonNull GroupType group,
+                        int groupIndex);
 
     /**
      * The method, which is invoked, when a child item has been disabled.
@@ -100,7 +103,8 @@ public interface ExpandableListEnableStateListener<GroupType, ChildType> {
      *         The index of the group item, the child, which has been disabled, belongs to, as an
      *         {@link Integer} value
      */
-    void onChildDisabled(ExpandableListAdapter<GroupType, ChildType> adapter, ChildType child,
-                         int childIndex, GroupType group, int groupIndex);
+    void onChildDisabled(@NonNull ExpandableListAdapter<GroupType, ChildType> adapter,
+                         @NonNull ChildType child, int childIndex, @NonNull GroupType group,
+                         int groupIndex);
 
 }

@@ -15,6 +15,8 @@
 package de.mrapp.android.adapter.datastructure.group;
 
 import android.os.Parcel;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.datastructure.AbstractAdapterItem;
@@ -72,7 +74,7 @@ public class Group<GroupType, ChildType> extends AbstractAdapterItem<GroupType> 
      *         The source, the group should be created from, as an instance of the class {@link
      *         Parcel}. The source may not be null
      */
-    private Group(final Parcel source) {
+    private Group(@NonNull final Parcel source) {
         super(source);
         setChildAdapter(null);
     }
@@ -84,7 +86,7 @@ public class Group<GroupType, ChildType> extends AbstractAdapterItem<GroupType> 
      *         The group's data, as an instance of the generic type GroupType. The data may not be
      *         null
      */
-    public Group(final GroupType data) {
+    public Group(@NonNull final GroupType data) {
         this(data, null);
     }
 
@@ -98,7 +100,8 @@ public class Group<GroupType, ChildType> extends AbstractAdapterItem<GroupType> 
      *         The adapter, which should be used to manage the group's child items, as an instance
      *         of the type {@link MultipleChoiceListAdapter} or null, if no adapter should be set
      */
-    public Group(final GroupType data, final MultipleChoiceListAdapter<ChildType> childAdapter) {
+    public Group(@NonNull final GroupType data,
+                 @Nullable final MultipleChoiceListAdapter<ChildType> childAdapter) {
         super(data);
         setChildAdapter(childAdapter);
     }
@@ -120,7 +123,8 @@ public class Group<GroupType, ChildType> extends AbstractAdapterItem<GroupType> 
      *         The adapter, which should be set, as an instance of the type {@link
      *         MultipleChoiceListAdapter} or null, if no adapter should be set
      */
-    public final void setChildAdapter(final MultipleChoiceListAdapter<ChildType> childAdapter) {
+    public final void setChildAdapter(
+            @Nullable final MultipleChoiceListAdapter<ChildType> childAdapter) {
         this.childAdapter = childAdapter;
     }
 
@@ -145,7 +149,7 @@ public class Group<GroupType, ChildType> extends AbstractAdapterItem<GroupType> 
     }
 
     @Override
-    public final boolean match(final String query, final int flags) {
+    public final boolean match(@NonNull final String query, final int flags) {
         return !(flags == FLAG_FILTER_EMPTY_GROUPS &&
                 (getChildAdapter() == null || getChildAdapter().isEmpty())) &&
                 super.match(query, flags);

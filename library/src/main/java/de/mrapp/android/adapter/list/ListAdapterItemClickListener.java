@@ -14,6 +14,8 @@
  */
 package de.mrapp.android.adapter.list;
 
+import android.support.annotation.NonNull;
+
 import de.mrapp.android.adapter.ListAdapter;
 
 /**
@@ -40,6 +42,6 @@ public interface ListAdapterItemClickListener<DataType> {
      *         The index of the item, which has been clicked by the user, as an {@link Integer}
      *         value
      */
-    void onItemClicked(ListAdapter<DataType> adapter, DataType item, int index);
+    void onItemClicked(@NonNull ListAdapter<DataType> adapter, @NonNull DataType item, int index);
 
 }

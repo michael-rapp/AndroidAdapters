@@ -15,6 +15,8 @@
 package de.mrapp.android.adapter.expandablelist.filterable;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.widget.ExpandableListView;
 
 import java.util.List;
@@ -81,17 +83,19 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
         return new ListFilterListener<Group<GroupType, ChildType>>() {
 
             @Override
-            public void onApplyFilter(final ListAdapter<Group<GroupType, ChildType>> adapter,
-                                      final String query, final int flags,
-                                      final Filter<Group<GroupType, ChildType>> filter,
-                                      final List<Group<GroupType, ChildType>> filteredItems) {
+            public void onApplyFilter(
+                    @NonNull final ListAdapter<Group<GroupType, ChildType>> adapter,
+                    @NonNull final String query, final int flags,
+                    @Nullable final Filter<Group<GroupType, ChildType>> filter,
+                    @NonNull final List<Group<GroupType, ChildType>> filteredItems) {
 
             }
 
             @Override
-            public void onResetFilter(final ListAdapter<Group<GroupType, ChildType>> adapter,
-                                      final String query, final int flags,
-                                      final List<Group<GroupType, ChildType>> unfilteredItems) {
+            public void onResetFilter(
+                    @NonNull final ListAdapter<Group<GroupType, ChildType>> adapter,
+                    @NonNull final String query, final int flags,
+                    @NonNull final List<Group<GroupType, ChildType>> unfilteredItems) {
                 notifyOnResetGroupFilter(query, flags, getAllGroups());
             }
 
@@ -113,15 +117,17 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
         return new ListFilterListener<ChildType>() {
 
             @Override
-            public void onApplyFilter(final ListAdapter<ChildType> adapter, final String query,
-                                      final int flags, final Filter<ChildType> filter,
-                                      final List<ChildType> filteredItems) {
+            public void onApplyFilter(@NonNull final ListAdapter<ChildType> adapter,
+                                      @NonNull final String query, final int flags,
+                                      @Nullable final Filter<ChildType> filter,
+                                      @NonNull final List<ChildType> filteredItems) {
 
             }
 
             @Override
-            public void onResetFilter(final ListAdapter<ChildType> adapter, final String query,
-                                      final int flags, final List<ChildType> unfilteredItems) {
+            public void onResetFilter(@NonNull final ListAdapter<ChildType> adapter,
+                                      @NonNull final String query, final int flags,
+                                      @NonNull final List<ChildType> unfilteredItems) {
                 notifyOnResetChildFilter(query, flags, getGroup(groupIndex), groupIndex,
                         getAllChildren(groupIndex));
             }
@@ -149,9 +155,9 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
      *         the type {@link List} or an empty collection, if the adapter does not contain any
      *         group items
      */
-    private void notifyOnApplyGroupFilter(final String query, final int flags,
-                                          final Filter<GroupType> filter,
-                                          final List<GroupType> filteredGroups) {
+    private void notifyOnApplyGroupFilter(@NonNull final String query, final int flags,
+                                          @Nullable final Filter<GroupType> filter,
+                                          @NonNull final List<GroupType> filteredGroups) {
         for (ExpandableListFilterListener<GroupType, ChildType> listener : filterListeners) {
             listener.onApplyGroupFilter(this, query, flags, filter, filteredGroups);
         }
@@ -172,8 +178,8 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
      *         the type {@link List} or an empty collection, if the adapter does not contain any
      *         group items
      */
-    private void notifyOnResetGroupFilter(final String query, final int flags,
-                                          final List<GroupType> unfilteredGroups) {
+    private void notifyOnResetGroupFilter(@NonNull final String query, final int flags,
+                                          @NonNull final List<GroupType> unfilteredGroups) {
         for (ExpandableListFilterListener<GroupType, ChildType> listener : filterListeners) {
             listener.onResetGroupFilter(this, query, flags, unfilteredGroups);
         }
@@ -205,10 +211,10 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
      *         the type {@link List} or an empty collection, if the adapter does not contain any
      *         child items
      */
-    private void notifyOnApplyChildFilter(final String query, final int flags,
-                                          final Filter<ChildType> filter, final GroupType group,
-                                          final int groupIndex,
-                                          final List<ChildType> filteredChildren) {
+    private void notifyOnApplyChildFilter(@NonNull final String query, final int flags,
+                                          @Nullable final Filter<ChildType> filter,
+                                          @NonNull final GroupType group, final int groupIndex,
+                                          @NonNull final List<ChildType> filteredChildren) {
         for (ExpandableListFilterListener<GroupType, ChildType> listener : filterListeners) {
             listener.onApplyChildFilter(this, query, flags, filter, group, groupIndex,
                     filteredChildren);
@@ -236,9 +242,9 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
      *         the type {@link List} or an empty collection, if the adapter does not contain any
      *         child items
      */
-    private void notifyOnResetChildFilter(final String query, final int flags,
-                                          final GroupType group, final int groupIndex,
-                                          final List<ChildType> unfilteredChildren) {
+    private void notifyOnResetChildFilter(@NonNull final String query, final int flags,
+                                          @NonNull final GroupType group, final int groupIndex,
+                                          @NonNull final List<ChildType> unfilteredChildren) {
         for (ExpandableListFilterListener<GroupType, ChildType> listener : filterListeners) {
             listener.onResetChildFilter(this, query, flags, group, groupIndex, unfilteredChildren);
         }
@@ -265,7 +271,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
      *         if no listeners should be notified
      */
     protected final void setFilterListeners(
-            final Set<ExpandableListFilterListener<GroupType, ChildType>> filterListeners) {
+            @NonNull final Set<ExpandableListFilterListener<GroupType, ChildType>> filterListeners) {
         ensureNotNull(filterListeners, "The listeners may not be null");
         this.filterListeners = filterListeners;
     }
@@ -348,28 +354,28 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
      *         underlying data has been filtered, or an empty set, if no listeners should be
      *         notified
      */
-    protected AbstractFilterableExpandableListAdapter(final Context context,
-                                                      final Inflater groupInflater,
-                                                      final Inflater childInflater,
-                                                      final DecoratorType decorator,
-                                                      final LogLevel logLevel,
-                                                      final MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter,
+    protected AbstractFilterableExpandableListAdapter(@NonNull final Context context,
+                                                      @NonNull final Inflater groupInflater,
+                                                      @NonNull final Inflater childInflater,
+                                                      @NonNull final DecoratorType decorator,
+                                                      @NonNull final LogLevel logLevel,
+                                                      @NonNull final MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter,
                                                       final boolean allowDuplicateChildren,
                                                       final boolean notifyOnChange,
                                                       final boolean expandGroupOnClick,
-                                                      final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
-                                                      final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
-                                                      final Set<ExpansionListener<GroupType, ChildType>> expansionListeners,
+                                                      @NonNull final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
+                                                      @NonNull final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
+                                                      @NonNull final Set<ExpansionListener<GroupType, ChildType>> expansionListeners,
                                                       final boolean setChildEnableStatesImplicitly,
-                                                      final Set<ExpandableListEnableStateListener<GroupType, ChildType>> enableStateListeners,
+                                                      @NonNull final Set<ExpandableListEnableStateListener<GroupType, ChildType>> enableStateListeners,
                                                       final int numberOfGroupStates,
                                                       final int numberOfChildStates,
                                                       final boolean triggerGroupStateOnClick,
                                                       final boolean triggerChildStateOnClick,
                                                       final boolean setChildStatesImplicitly,
-                                                      final Set<ExpandableListItemStateListener<GroupType, ChildType>> itemStateListeners,
-                                                      final Set<ExpandableListSortingListener<GroupType, ChildType>> sortingListeners,
-                                                      final Set<ExpandableListFilterListener<GroupType, ChildType>> filterListeners) {
+                                                      @NonNull final Set<ExpandableListItemStateListener<GroupType, ChildType>> itemStateListeners,
+                                                      @NonNull final Set<ExpandableListSortingListener<GroupType, ChildType>> sortingListeners,
+                                                      @NonNull final Set<ExpandableListFilterListener<GroupType, ChildType>> filterListeners) {
         super(context, groupInflater, childInflater, decorator, logLevel, groupAdapter,
                 allowDuplicateChildren, notifyOnChange, expandGroupOnClick, itemClickListeners,
                 adapterListeners, expansionListeners, setChildEnableStatesImplicitly,
@@ -382,7 +388,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
 
     @Override
     protected final Group<GroupType, ChildType> createGroup(final int groupIndex,
-                                                            final GroupType group) {
+                                                            @NonNull final GroupType group) {
         Group<GroupType, ChildType> groupItem = super.createGroup(groupIndex, group);
         groupItem.getChildAdapter().addFilterListener(createChildFilterListener(groupIndex));
         return groupItem;
@@ -394,7 +400,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
     }
 
     @Override
-    public final boolean applyGroupFilter(final String query, final int flags) {
+    public final boolean applyGroupFilter(@NonNull final String query, final int flags) {
         boolean result = getGroupAdapter().applyFilter(query, flags);
 
         if (result) {
@@ -415,8 +421,8 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
     }
 
     @Override
-    public final boolean applyGroupFilter(final String query, final int flags,
-                                          final Filter<GroupType> filter) {
+    public final boolean applyGroupFilter(@NonNull final String query, final int flags,
+                                          @NonNull final Filter<GroupType> filter) {
         boolean result = getGroupAdapter()
                 .applyFilter(query, flags, new GroupFilter<GroupType, ChildType>(filter));
 
@@ -439,7 +445,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
     }
 
     @Override
-    public final boolean resetGroupFilter(final String query, final int flags) {
+    public final boolean resetGroupFilter(@NonNull final String query, final int flags) {
         boolean result = getGroupAdapter().resetFilter(query, flags);
 
         if (result) {
@@ -465,7 +471,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
     }
 
     @Override
-    public final boolean isGroupFilterApplied(final String query, final int flags) {
+    public final boolean isGroupFilterApplied(@NonNull final String query, final int flags) {
         return getGroupAdapter().isFilterApplied(query, flags);
     }
 
@@ -475,13 +481,13 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
     }
 
     @Override
-    public final boolean applyChildFilter(final String query, final int flags) {
+    public final boolean applyChildFilter(@NonNull final String query, final int flags) {
         return applyChildFilter(false, query, flags);
     }
 
     @Override
-    public final boolean applyChildFilter(final boolean filterEmptyGroups, final String query,
-                                          final int flags) {
+    public final boolean applyChildFilter(final boolean filterEmptyGroups,
+                                          @NonNull final String query, final int flags) {
         boolean result = true;
 
         for (int i = 0; i < getGroupCount(); i++) {
@@ -496,27 +502,28 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
     }
 
     @Override
-    public final boolean applyChildFilter(final GroupType group, final String query,
-                                          final int flags) {
+    public final boolean applyChildFilter(@NonNull final GroupType group,
+                                          @NonNull final String query, final int flags) {
         return applyChildFilter(false, group, query, flags);
     }
 
     @Override
-    public final boolean applyChildFilter(final boolean filterEmptyGroup, final GroupType group,
-                                          final String query, final int flags) {
+    public final boolean applyChildFilter(final boolean filterEmptyGroup,
+                                          @NonNull final GroupType group,
+                                          @NonNull final String query, final int flags) {
         return applyChildFilter(filterEmptyGroup, indexOfGroupOrThrowException(group), query,
                 flags);
     }
 
     @Override
-    public final boolean applyChildFilter(final int groupIndex, final String query,
+    public final boolean applyChildFilter(final int groupIndex, @NonNull final String query,
                                           final int flags) {
         return applyChildFilter(false, groupIndex, query, flags);
     }
 
     @Override
     public final boolean applyChildFilter(final boolean filterEmptyGroup, final int groupIndex,
-                                          final String query, final int flags) {
+                                          @NonNull final String query, final int flags) {
         Group<GroupType, ChildType> group = getGroupAdapter().getItem(groupIndex);
         boolean result = group.getChildAdapter().applyFilter(query, flags);
 
@@ -543,14 +550,15 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
     }
 
     @Override
-    public final boolean applyChildFilter(final String query, final int flags,
-                                          final Filter<ChildType> filter) {
+    public final boolean applyChildFilter(@NonNull final String query, final int flags,
+                                          @NonNull final Filter<ChildType> filter) {
         return applyChildFilter(false, query, flags, filter);
     }
 
     @Override
-    public final boolean applyChildFilter(final boolean filterEmptyGroups, final String query,
-                                          final int flags, final Filter<ChildType> filter) {
+    public final boolean applyChildFilter(final boolean filterEmptyGroups,
+                                          @NonNull final String query, final int flags,
+                                          @NonNull final Filter<ChildType> filter) {
         boolean result = true;
 
         for (int i = 0; i < getGroupCount(); i++) {
@@ -565,29 +573,32 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
     }
 
     @Override
-    public final boolean applyChildFilter(final GroupType group, final String query,
-                                          final int flags, final Filter<ChildType> filter) {
+    public final boolean applyChildFilter(@NonNull final GroupType group,
+                                          @NonNull final String query, final int flags,
+                                          @NonNull final Filter<ChildType> filter) {
         return applyChildFilter(false, group, query, flags, filter);
     }
 
     @Override
-    public final boolean applyChildFilter(final boolean filterEmptyGroup, final GroupType group,
-                                          final String query, final int flags,
-                                          final Filter<ChildType> filter) {
+    public final boolean applyChildFilter(final boolean filterEmptyGroup,
+                                          @NonNull final GroupType group,
+                                          @NonNull final String query, final int flags,
+                                          @NonNull final Filter<ChildType> filter) {
         return applyChildFilter(filterEmptyGroup, indexOfGroupOrThrowException(group), query, flags,
                 filter);
     }
 
     @Override
-    public final boolean applyChildFilter(final int groupIndex, final String query, final int flags,
-                                          final Filter<ChildType> filter) {
+    public final boolean applyChildFilter(final int groupIndex, @NonNull final String query,
+                                          final int flags,
+                                          @NonNull final Filter<ChildType> filter) {
         return applyChildFilter(false, groupIndex, query, flags, filter);
     }
 
     @Override
     public final boolean applyChildFilter(final boolean filterEmptyGroup, final int groupIndex,
-                                          final String query, final int flags,
-                                          final Filter<ChildType> filter) {
+                                          @NonNull final String query, final int flags,
+                                          @NonNull final Filter<ChildType> filter) {
         Group<GroupType, ChildType> group = getGroupAdapter().getItem(groupIndex);
         boolean result = group.getChildAdapter().applyFilter(query, flags, filter);
 
@@ -616,7 +627,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
     }
 
     @Override
-    public final boolean resetChildFilter(final String query, final int flags) {
+    public final boolean resetChildFilter(@NonNull final String query, final int flags) {
         boolean result = true;
 
         for (int i = 0; i < getGroupCount(); i++) {
@@ -627,13 +638,13 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
     }
 
     @Override
-    public final boolean resetChildFilter(final GroupType group, final String query,
-                                          final int flags) {
+    public final boolean resetChildFilter(@NonNull final GroupType group,
+                                          @NonNull final String query, final int flags) {
         return resetChildFilter(indexOfGroupOrThrowException(group), query, flags);
     }
 
     @Override
-    public final boolean resetChildFilter(final int groupIndex, final String query,
+    public final boolean resetChildFilter(final int groupIndex, @NonNull final String query,
                                           final int flags) {
         resetGroupFilter("", Group.FLAG_FILTER_EMPTY_GROUPS);
         Group<GroupType, ChildType> group = getGroupAdapter().getItem(groupIndex);
@@ -667,7 +678,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
     }
 
     @Override
-    public final void resetAllChildFilters(final GroupType group) {
+    public final void resetAllChildFilters(@NonNull final GroupType group) {
         resetAllChildFilters(indexOfGroupOrThrowException(group));
     }
 
@@ -685,7 +696,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
 
     @Override
     public final void addFilterListener(
-            final ExpandableListFilterListener<GroupType, ChildType> listener) {
+            @NonNull final ExpandableListFilterListener<GroupType, ChildType> listener) {
         ensureNotNull(listener, "The listener may not be null");
         filterListeners.add(listener);
         String message = "Added filter listener \"" + listener + "\"";
@@ -694,7 +705,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
 
     @Override
     public final void removeFilterListener(
-            final ExpandableListFilterListener<GroupType, ChildType> listener) {
+            @NonNull final ExpandableListFilterListener<GroupType, ChildType> listener) {
         ensureNotNull(listener, "The listener may not be null");
         filterListeners.remove(listener);
         String message = "Removed filter listener \"" + listener + "\"";
@@ -702,7 +713,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
     }
 
     @Override
-    public final boolean isChildFilterApplied(final String query, final int flags) {
+    public final boolean isChildFilterApplied(@NonNull final String query, final int flags) {
         for (int i = 0; i < getGroupCount(); i++) {
             if (isChildFilterApplied(i, query, flags)) {
                 return true;
@@ -724,20 +735,20 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
     }
 
     @Override
-    public final boolean isChildFilterApplied(final GroupType group, final String query,
-                                              final int flags) {
+    public final boolean isChildFilterApplied(@NonNull final GroupType group,
+                                              @NonNull final String query, final int flags) {
         return isChildFilterApplied(indexOfGroupOrThrowException(group), query, flags);
     }
 
     @Override
-    public final boolean isChildFilterApplied(final int groupIndex, final String query,
+    public final boolean isChildFilterApplied(final int groupIndex, @NonNull final String query,
                                               final int flags) {
         return getGroupAdapter().getItem(groupIndex).getChildAdapter()
                 .isFilterApplied(query, flags);
     }
 
     @Override
-    public final boolean areChildrenFiltered(final GroupType group) {
+    public final boolean areChildrenFiltered(@NonNull final GroupType group) {
         return areChildrenFiltered(indexOfGroupOrThrowException(group));
     }
 

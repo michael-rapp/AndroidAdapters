@@ -14,6 +14,8 @@
  */
 package de.mrapp.android.adapter.expandablelist.selectable;
 
+import android.support.annotation.NonNull;
+
 import de.mrapp.android.adapter.ExpandableListAdapter;
 
 /**
@@ -41,8 +43,8 @@ public interface ExpandableListSelectionListener<GroupType, ChildType> {
      * @param index
      *         The index of the group item, which has been selected, as an {@link Integer} value
      */
-    void onGroupSelected(SelectableExpandableListAdapter<GroupType, ChildType> adapter,
-                         GroupType group, int index);
+    void onGroupSelected(@NonNull SelectableExpandableListAdapter<GroupType, ChildType> adapter,
+                         @NonNull GroupType group, int index);
 
     /**
      * The method, which is invoked, when a group item has been unselected.
@@ -56,8 +58,8 @@ public interface ExpandableListSelectionListener<GroupType, ChildType> {
      * @param index
      *         The index of the group item, which has been unselected, as an {@link Integer} value
      */
-    void onGroupUnselected(SelectableExpandableListAdapter<GroupType, ChildType> adapter,
-                           GroupType group, int index);
+    void onGroupUnselected(@NonNull SelectableExpandableListAdapter<GroupType, ChildType> adapter,
+                           @NonNull GroupType group, int index);
 
     /**
      * The method, which is invoked, when a child item has been selected.
@@ -77,8 +79,9 @@ public interface ExpandableListSelectionListener<GroupType, ChildType> {
      *         The index of the group item, the child, which has been selected, belongs to, as an
      *         {@link Integer} value
      */
-    void onChildSelected(SelectableExpandableListAdapter<GroupType, ChildType> adapter,
-                         ChildType child, int childIndex, GroupType group, int groupIndex);
+    void onChildSelected(@NonNull SelectableExpandableListAdapter<GroupType, ChildType> adapter,
+                         @NonNull ChildType child, int childIndex, @NonNull GroupType group,
+                         int groupIndex);
 
     /**
      * The method, which is invoked, when a child item has been unselected.
@@ -98,7 +101,8 @@ public interface ExpandableListSelectionListener<GroupType, ChildType> {
      *         The index of the group item, the child, which has been unselected, belongs to, as an
      *         {@link Integer} value
      */
-    void onChildUnselected(SelectableExpandableListAdapter<GroupType, ChildType> adapter,
-                           ChildType child, int childIndex, GroupType group, int groupIndex);
+    void onChildUnselected(@NonNull SelectableExpandableListAdapter<GroupType, ChildType> adapter,
+                           @NonNull ChildType child, int childIndex, @NonNull GroupType group,
+                           int groupIndex);
 
 }

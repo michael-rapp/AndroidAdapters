@@ -14,6 +14,8 @@
  */
 package de.mrapp.android.adapter.expandablelist;
 
+import android.support.annotation.NonNull;
+
 import de.mrapp.android.adapter.ExpandableListAdapter;
 
 /**
@@ -42,8 +44,8 @@ public interface ExpandableListAdapterItemClickListener<GroupType, ChildType> {
      *         The index of the group item, which has been clicked by the user, as an {@link
      *         Integer} value
      */
-    void onGroupClicked(ExpandableListAdapter<GroupType, ChildType> adapter, GroupType group,
-                        int index);
+    void onGroupClicked(@NonNull ExpandableListAdapter<GroupType, ChildType> adapter,
+                        @NonNull GroupType group, int index);
 
     /**
      * The method, which is invoked, when a child item of the adapter has been clicked by the user.
@@ -64,7 +66,8 @@ public interface ExpandableListAdapterItemClickListener<GroupType, ChildType> {
      *         The index of the group item, the child, which has been clicked by the user, belongs
      *         to, as an {@link Integer} value
      */
-    void onChildClicked(ExpandableListAdapter<GroupType, ChildType> adapter, ChildType child,
-                        int childIndex, GroupType group, int groupIndex);
+    void onChildClicked(@NonNull ExpandableListAdapter<GroupType, ChildType> adapter,
+                        @NonNull ChildType child, int childIndex, @NonNull GroupType group,
+                        int groupIndex);
 
 }

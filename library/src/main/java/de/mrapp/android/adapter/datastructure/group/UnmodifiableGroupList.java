@@ -14,6 +14,8 @@
  */
 package de.mrapp.android.adapter.datastructure.group;
 
+import android.support.annotation.NonNull;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -43,7 +45,8 @@ public class UnmodifiableGroupList<GroupType, ChildType>
      *         The list, which should be encapsulated by the list, as an instance of the type {@link
      *         List}. The list may not be null
      */
-    public UnmodifiableGroupList(final List<Group<GroupType, ChildType>> encapsulatedList) {
+    public UnmodifiableGroupList(
+            @NonNull final List<Group<GroupType, ChildType>> encapsulatedList) {
         super(encapsulatedList);
     }
 
@@ -53,6 +56,7 @@ public class UnmodifiableGroupList<GroupType, ChildType>
     }
 
     @Override
+    @NonNull
     public final Iterator<GroupType> iterator() {
         return new GroupIterator<>(getEncapsulatedList().iterator());
     }
@@ -64,6 +68,7 @@ public class UnmodifiableGroupList<GroupType, ChildType>
     }
 
     @Override
+    @NonNull
     public final ListIterator<GroupType> listIterator(final int location) {
         return new GroupListIterator<>(getEncapsulatedList().listIterator(location), null, null);
     }

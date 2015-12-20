@@ -15,6 +15,7 @@
 package de.mrapp.android.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
 
 import de.mrapp.android.adapter.decorator.AbstractDecorator;
@@ -61,10 +62,10 @@ public abstract class SelectableListDecorator<DataType> extends AbstractDecorato
      *         True, if the item, which should be visualized, is currently selected, false
      *         otherwise
      */
-    public final void applyDecorator(final Context context,
-                                     final SelectableListAdapter<DataType> adapter, final View view,
-                                     final DataType item, final int index, final boolean enabled,
-                                     final int state, final boolean filtered,
+    public final void applyDecorator(@NonNull final Context context,
+                                     @NonNull final SelectableListAdapter<DataType> adapter,
+                                     final View view, @NonNull final DataType item, final int index,
+                                     final boolean enabled, final int state, final boolean filtered,
                                      final boolean selected) {
         setCurrentParentView(view);
         int viewType = getViewType(item);
@@ -86,7 +87,7 @@ public abstract class SelectableListDecorator<DataType> extends AbstractDecorato
      * @return The view type of the item, which is about to be visualized, as an {@link Integer}
      * value
      */
-    public int getViewType(final DataType item) {
+    public int getViewType(@NonNull final DataType item) {
         return 0;
     }
 
@@ -135,9 +136,10 @@ public abstract class SelectableListDecorator<DataType> extends AbstractDecorato
      *         True, if the item, which should be visualized, is currently selected, false
      *         otherwise
      */
-    protected abstract void onShowItem(Context context, SelectableListAdapter<DataType> adapter,
-                                       View view, DataType item, int viewType, int index,
-                                       boolean enabled, int state, boolean filtered,
+    protected abstract void onShowItem(@NonNull Context context,
+                                       @NonNull SelectableListAdapter<DataType> adapter,
+                                       @NonNull View view, @NonNull DataType item, int viewType,
+                                       int index, boolean enabled, int state, boolean filtered,
                                        boolean selected);
 
 }

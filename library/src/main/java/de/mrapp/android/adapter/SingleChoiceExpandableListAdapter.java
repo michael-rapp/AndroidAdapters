@@ -14,6 +14,7 @@
  */
 package de.mrapp.android.adapter;
 
+import android.support.annotation.NonNull;
 import android.widget.ExpandableListView;
 
 import java.util.NoSuchElementException;
@@ -108,7 +109,7 @@ public interface SingleChoiceExpandableListAdapter<GroupType, ChildType>
      *         adapter, a {@link NoSuchElementException} will be thrown
      * @return True, if the selection of the group item has been changed, false otherwise
      */
-    boolean selectGroup(GroupType group);
+    boolean selectGroup(@NonNull GroupType group);
 
     /**
      * Selects the child item, which belongs to a specific index of a specific group if it is
@@ -126,7 +127,7 @@ public interface SingleChoiceExpandableListAdapter<GroupType, ChildType>
      *         - 1, otherwise an {@link IndexOutOfBoundsException} will be thrown
      * @return True, if the selection of the child item has changed, false otherwise
      */
-    boolean selectChild(GroupType group, int childIndex);
+    boolean selectChild(@NonNull GroupType group, int childIndex);
 
     /**
      * Selects a specific child item of a specific group, if it is currently enabled. This causes
@@ -143,7 +144,7 @@ public interface SingleChoiceExpandableListAdapter<GroupType, ChildType>
      *         adapter, a {@link NoSuchElementException} will be thrown
      * @return True if the selection of the child item has changed, false otherwise
      */
-    boolean selectChild(GroupType group, ChildType child);
+    boolean selectChild(@NonNull GroupType group, @NonNull ChildType child);
 
     /**
      * Selects the child item, which belongs to a specific index of a specific group. This causes
@@ -179,7 +180,7 @@ public interface SingleChoiceExpandableListAdapter<GroupType, ChildType>
      *         adapter, a {@link NoSuchElementException} will be thrown
      * @return True, if the selection of the child item has changed, false otherwise
      */
-    boolean selectChild(int groupIndex, ChildType child);
+    boolean selectChild(int groupIndex, @NonNull ChildType child);
 
     /**
      * Sets, whether the adapter's selection should be automatically adapted in order to ensure that

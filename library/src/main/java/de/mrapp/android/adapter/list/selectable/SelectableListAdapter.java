@@ -14,6 +14,7 @@
  */
 package de.mrapp.android.adapter.list.selectable;
 
+import android.support.annotation.NonNull;
 import android.widget.AbsListView;
 
 import java.util.NoSuchElementException;
@@ -40,7 +41,7 @@ public interface SelectableListAdapter<DataType> extends ListAdapter<DataType> {
      *         The listener, which should be added, as an instance of the type {@link
      *         ListSelectionListener}. The listener may not be null
      */
-    void addSelectionListener(ListSelectionListener<DataType> listener);
+    void addSelectionListener(@NonNull ListSelectionListener<DataType> listener);
 
     /**
      * Removes a specific listener, which should not be notified when the selection of an item has
@@ -50,7 +51,7 @@ public interface SelectableListAdapter<DataType> extends ListAdapter<DataType> {
      *         The listener, which should be removed, as an instance of the type {@link
      *         ListSelectionListener}. The listener may not be null
      */
-    void removeSelectionListener(ListSelectionListener<DataType> listener);
+    void removeSelectionListener(@NonNull ListSelectionListener<DataType> listener);
 
     /**
      * Returns the number of currently selected items.
@@ -82,7 +83,7 @@ public interface SelectableListAdapter<DataType> extends ListAdapter<DataType> {
      * @return True, if the item, which belongs to the given index, is currently selected, false
      * otherwise
      */
-    boolean isSelected(DataType item);
+    boolean isSelected(@NonNull DataType item);
 
     /**
      * Returns, whether an item is selected, when it is clicked by the user, or not.

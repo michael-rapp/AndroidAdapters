@@ -15,6 +15,7 @@
 package de.mrapp.android.adapter.list;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.AbsListView;
 
@@ -107,20 +108,21 @@ public class ListAdapterImplementation<DataType>
      *         underlying data or an empty set, if the adapter's underlying data should not be
      *         filtered
      */
-    protected ListAdapterImplementation(final Context context, final Inflater inflater,
-                                        final ListDecorator<DataType> decorator,
-                                        final LogLevel logLevel,
-                                        final ArrayList<Item<DataType>> items,
+    protected ListAdapterImplementation(@NonNull final Context context,
+                                        @NonNull final Inflater inflater,
+                                        @NonNull final ListDecorator<DataType> decorator,
+                                        @NonNull final LogLevel logLevel,
+                                        @NonNull final ArrayList<Item<DataType>> items,
                                         final boolean allowDuplicates, final boolean notifyOnChange,
-                                        final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
-                                        final Set<ListAdapterListener<DataType>> adapterListeners,
-                                        final Set<ListEnableStateListener<DataType>> enableStateListeners,
+                                        @NonNull final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
+                                        @NonNull final Set<ListAdapterListener<DataType>> adapterListeners,
+                                        @NonNull final Set<ListEnableStateListener<DataType>> enableStateListeners,
                                         final int numberOfItemStates,
                                         final boolean triggerItemStateOnClick,
-                                        final Set<ListItemStateListener<DataType>> itemStateListeners,
-                                        final Set<ListSortingListener<DataType>> sortingListeners,
-                                        final Set<ListFilterListener<DataType>> filterListeners,
-                                        final LinkedHashSet<AppliedFilter<DataType>> appliedFilters) {
+                                        @NonNull final Set<ListItemStateListener<DataType>> itemStateListeners,
+                                        @NonNull final Set<ListSortingListener<DataType>> sortingListeners,
+                                        @NonNull final Set<ListFilterListener<DataType>> filterListeners,
+                                        @NonNull final LinkedHashSet<AppliedFilter<DataType>> appliedFilters) {
         super(context, inflater, decorator, logLevel, items, allowDuplicates, notifyOnChange,
                 itemClickListeners, adapterListeners, enableStateListeners, numberOfItemStates,
                 triggerItemStateOnClick, itemStateListeners, sortingListeners, filterListeners,
@@ -142,8 +144,9 @@ public class ListAdapterImplementation<DataType>
      *         are used to visualize the items of the adapter, as an instance of the type {@link
      *         ListDecorator}. The decorator may not be null
      */
-    public ListAdapterImplementation(final Context context, final Inflater inflater,
-                                     final ListDecorator<DataType> decorator) {
+    public ListAdapterImplementation(@NonNull final Context context,
+                                     @NonNull final Inflater inflater,
+                                     @NonNull final ListDecorator<DataType> decorator) {
         this(context, inflater, decorator, LogLevel.INFO, new ArrayList<Item<DataType>>(), false,
                 true, new LinkedHashSet<ListAdapterItemClickListener<DataType>>(),
                 new LinkedHashSet<ListAdapterListener<DataType>>(),
@@ -155,7 +158,8 @@ public class ListAdapterImplementation<DataType>
     }
 
     @Override
-    protected final void applyDecorator(final Context context, final View view, final int index) {
+    protected final void applyDecorator(@NonNull final Context context, @NonNull final View view,
+                                        final int index) {
         DataType item = getItem(index);
         boolean enabled = isEnabled(index);
         int itemState = getItemState(index);

@@ -16,6 +16,7 @@ package de.mrapp.android.adapter.expandablelist.enablestate;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
@@ -94,7 +95,7 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
      *         index must be between 0 and the value of the method <code>getGroupCount():int</code>
      *         - 1
      */
-    private void notifyOnGroupEnabled(final GroupType group, final int index) {
+    private void notifyOnGroupEnabled(@NonNull final GroupType group, final int index) {
         for (ExpandableListEnableStateListener<GroupType, ChildType> listener : enableStateListeners) {
             listener.onGroupEnabled(this, group, index);
         }
@@ -112,7 +113,7 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
      *         The index must be between 0 and the value of the method <code>getGroupCount():int</code>
      *         - 1
      */
-    private void notifyOnGroupDisabled(final GroupType group, final int index) {
+    private void notifyOnGroupDisabled(@NonNull final GroupType group, final int index) {
         for (ExpandableListEnableStateListener<GroupType, ChildType> listener : enableStateListeners) {
             listener.onGroupDisabled(this, group, index);
         }
@@ -137,8 +138,8 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
      *         {@link Integer} value. The index must be between 0 and the value of the method
      *         <code>getGroupCount():int</code> - 1
      */
-    private void notifyOnChildEnabled(final ChildType child, final int childIndex,
-                                      final GroupType group, final int groupIndex) {
+    private void notifyOnChildEnabled(@NonNull final ChildType child, final int childIndex,
+                                      @NonNull final GroupType group, final int groupIndex) {
         for (ExpandableListEnableStateListener<GroupType, ChildType> listener : enableStateListeners) {
             listener.onChildEnabled(this, child, childIndex, group, groupIndex);
         }
@@ -163,8 +164,8 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
      *         {@link Integer} value. The index must be between 0 and the value of the method
      *         <code>getGroupCount():int</code> - 1
      */
-    private void notifyOnChildDisabled(final ChildType child, final int childIndex,
-                                       final GroupType group, final int groupIndex) {
+    private void notifyOnChildDisabled(@NonNull final ChildType child, final int childIndex,
+                                       @NonNull final GroupType group, final int groupIndex) {
         for (ExpandableListEnableStateListener<GroupType, ChildType> listener : enableStateListeners) {
             listener.onChildDisabled(this, child, childIndex, group, groupIndex);
         }
@@ -191,7 +192,7 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
      *         if no listeners should be notified
      */
     protected final void setEnableStateListeners(
-            final Set<ExpandableListEnableStateListener<GroupType, ChildType>> enableStateListeners) {
+            @NonNull final Set<ExpandableListEnableStateListener<GroupType, ChildType>> enableStateListeners) {
         ensureNotNull(enableStateListeners, "The enable state listeners may not be null");
         this.enableStateListeners = enableStateListeners;
     }
@@ -249,20 +250,20 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
      *         disabled or enabled, as an instance of the type {@link Set}, or an empty set, if no
      *         listeners should be notified
      */
-    protected AbstractEnableStateExpandableListAdapter(final Context context,
-                                                       final Inflater groupInflater,
-                                                       final Inflater childInflater,
-                                                       final DecoratorType decorator,
-                                                       final LogLevel logLevel,
-                                                       final MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter,
+    protected AbstractEnableStateExpandableListAdapter(@NonNull final Context context,
+                                                       @NonNull final Inflater groupInflater,
+                                                       @NonNull final Inflater childInflater,
+                                                       @NonNull final DecoratorType decorator,
+                                                       @NonNull final LogLevel logLevel,
+                                                       @NonNull final MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter,
                                                        final boolean allowDuplicateChildren,
                                                        final boolean notifyOnChange,
                                                        final boolean expandGroupOnClick,
-                                                       final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
-                                                       final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
-                                                       final Set<ExpansionListener<GroupType, ChildType>> expansionListeners,
+                                                       @NonNull final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
+                                                       @NonNull final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
+                                                       @NonNull final Set<ExpansionListener<GroupType, ChildType>> expansionListeners,
                                                        final boolean setChildEnableStatesImplicitly,
-                                                       final Set<ExpandableListEnableStateListener<GroupType, ChildType>> enableStateListeners) {
+                                                       @NonNull final Set<ExpandableListEnableStateListener<GroupType, ChildType>> enableStateListeners) {
         super(context, groupInflater, childInflater, decorator, logLevel, groupAdapter,
                 allowDuplicateChildren, notifyOnChange, expandGroupOnClick, itemClickListeners,
                 adapterListeners, expansionListeners);
@@ -271,13 +272,13 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
     }
 
     @Override
-    protected void onSaveInstanceState(final Bundle outState) {
+    protected void onSaveInstanceState(@NonNull final Bundle outState) {
         outState.putBoolean(SET_CHILD_ENABLE_STATES_IMPLICITLY_BUNDLE_KEY,
                 areChildEnableStatesSetImplicitly());
     }
 
     @Override
-    protected void onRestoreInstanceState(final Bundle savedState) {
+    protected void onRestoreInstanceState(@NonNull final Bundle savedState) {
         setChildEnableStatesImplicitly =
                 savedState.getBoolean(SET_CHILD_ENABLE_STATES_IMPLICITLY_BUNDLE_KEY, true);
     }
@@ -288,7 +289,7 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
     }
 
     @Override
-    public final boolean isGroupEnabled(final GroupType group) {
+    public final boolean isGroupEnabled(@NonNull final GroupType group) {
         return isGroupEnabled(indexOfGroupOrThrowException(group));
     }
 
@@ -389,7 +390,7 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
     }
 
     @Override
-    public final void setGroupEnabled(final GroupType group, final boolean enabled) {
+    public final void setGroupEnabled(@NonNull final GroupType group, final boolean enabled) {
         setGroupEnabled(indexOfGroupOrThrowException(group), enabled);
     }
 
@@ -412,13 +413,13 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
     }
 
     @Override
-    public final boolean triggerGroupEnableState(final GroupType group) {
+    public final boolean triggerGroupEnableState(@NonNull final GroupType group) {
         return triggerGroupEnableState(false, group);
     }
 
     @Override
     public final boolean triggerGroupEnableState(final boolean triggerChildStates,
-                                                 final GroupType group) {
+                                                 @NonNull final GroupType group) {
         return triggerGroupEnableState(triggerChildStates, indexOfGroupOrThrowException(group));
     }
 
@@ -442,12 +443,13 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
     }
 
     @Override
-    public final boolean isChildEnabled(final GroupType group, final int childIndex) {
+    public final boolean isChildEnabled(@NonNull final GroupType group, final int childIndex) {
         return isChildEnabled(indexOfGroupOrThrowException(group), childIndex);
     }
 
     @Override
-    public final boolean isChildEnabled(final GroupType group, final ChildType child) {
+    public final boolean isChildEnabled(@NonNull final GroupType group,
+                                        @NonNull final ChildType child) {
         return isChildEnabled(indexOfGroupOrThrowException(group), child);
     }
 
@@ -457,17 +459,17 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
     }
 
     @Override
-    public final boolean isChildEnabled(final int groupIndex, final ChildType child) {
+    public final boolean isChildEnabled(final int groupIndex, @NonNull final ChildType child) {
         return isChildEnabled(groupIndex, indexOfChildOrThrowException(groupIndex, child));
     }
 
     @Override
-    public final int getFirstEnabledChildIndex(final GroupType group) {
+    public final int getFirstEnabledChildIndex(@NonNull final GroupType group) {
         return getFirstEnabledChildIndex(indexOfGroupOrThrowException(group));
     }
 
     @Override
-    public final ChildType getFirstEnabledChild(final GroupType group) {
+    public final ChildType getFirstEnabledChild(@NonNull final GroupType group) {
         return getFirstEnabledChild(indexOfGroupOrThrowException(group));
     }
 
@@ -482,12 +484,12 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
     }
 
     @Override
-    public final int getLastEnabledChildIndex(final GroupType group) {
+    public final int getLastEnabledChildIndex(@NonNull final GroupType group) {
         return getLastEnabledChildIndex(indexOfGroupOrThrowException(group));
     }
 
     @Override
-    public final ChildType getLastEnabledChild(final GroupType group) {
+    public final ChildType getLastEnabledChild(@NonNull final GroupType group) {
         return getLastEnabledChild(indexOfGroupOrThrowException(group));
     }
 
@@ -502,12 +504,12 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
     }
 
     @Override
-    public final int getFirstDisabledChildIndex(final GroupType group) {
+    public final int getFirstDisabledChildIndex(@NonNull final GroupType group) {
         return getFirstDisabledChildIndex(indexOfGroupOrThrowException(group));
     }
 
     @Override
-    public final ChildType getFirstDisabledChild(final GroupType group) {
+    public final ChildType getFirstDisabledChild(@NonNull final GroupType group) {
         return getFirstDisabledChild(indexOfGroupOrThrowException(group));
     }
 
@@ -522,12 +524,12 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
     }
 
     @Override
-    public final int getLastDisabledChildIndex(final GroupType group) {
+    public final int getLastDisabledChildIndex(@NonNull final GroupType group) {
         return getLastDisabledChildIndex(indexOfGroupOrThrowException(group));
     }
 
     @Override
-    public final ChildType getLastDisabledChild(final GroupType group) {
+    public final ChildType getLastDisabledChild(@NonNull final GroupType group) {
         return getLastDisabledChild(indexOfGroupOrThrowException(group));
     }
 
@@ -553,12 +555,12 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
     }
 
     @Override
-    public final List<Integer> getEnabledChildIndices(final GroupType group) {
+    public final List<Integer> getEnabledChildIndices(@NonNull final GroupType group) {
         return getEnabledChildIndices(indexOfGroupOrThrowException(group));
     }
 
     @Override
-    public final List<ChildType> getEnabledChildren(final GroupType group) {
+    public final List<ChildType> getEnabledChildren(@NonNull final GroupType group) {
         return getEnabledChildren(indexOfGroupOrThrowException(group));
     }
 
@@ -584,12 +586,12 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
     }
 
     @Override
-    public final List<Integer> getDisabledChildIndices(final GroupType group) {
+    public final List<Integer> getDisabledChildIndices(@NonNull final GroupType group) {
         return getDisabledChildIndices(indexOfGroupOrThrowException(group));
     }
 
     @Override
-    public final List<ChildType> getDisabledChildren(final GroupType group) {
+    public final List<ChildType> getDisabledChildren(@NonNull final GroupType group) {
         return getDisabledChildren(indexOfGroupOrThrowException(group));
     }
 
@@ -609,7 +611,7 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
     }
 
     @Override
-    public final int getEnabledChildCount(final GroupType group) {
+    public final int getEnabledChildCount(@NonNull final GroupType group) {
         return getEnabledChildren(group).size();
     }
 
@@ -619,14 +621,14 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
     }
 
     @Override
-    public final void setChildEnabled(final GroupType group, final int childIndex,
+    public final void setChildEnabled(@NonNull final GroupType group, final int childIndex,
                                       final boolean enabled) {
         setChildEnabled(indexOfGroupOrThrowException(group), childIndex, enabled);
     }
 
     @Override
-    public final void setChildEnabled(final GroupType group, final ChildType child,
-                                      final boolean enabled) {
+    public final void setChildEnabled(@NonNull final GroupType group,
+                                      @NonNull final ChildType child, final boolean enabled) {
         setChildEnabled(indexOfGroupOrThrowException(group), child, enabled);
     }
 
@@ -663,18 +665,20 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
     }
 
     @Override
-    public final void setChildEnabled(final int groupIndex, final ChildType child,
+    public final void setChildEnabled(final int groupIndex, @NonNull final ChildType child,
                                       final boolean enabled) {
         setChildEnabled(groupIndex, indexOfChildOrThrowException(groupIndex, child), enabled);
     }
 
     @Override
-    public final boolean triggerChildEnableState(final GroupType group, final int childIndex) {
+    public final boolean triggerChildEnableState(@NonNull final GroupType group,
+                                                 final int childIndex) {
         return triggerChildEnableState(indexOfGroupOrThrowException(group), childIndex);
     }
 
     @Override
-    public final boolean triggerChildEnableState(final GroupType group, final ChildType child) {
+    public final boolean triggerChildEnableState(@NonNull final GroupType group,
+                                                 @NonNull final ChildType child) {
         return triggerChildEnableState(indexOfGroupOrThrowException(group), child);
     }
 
@@ -686,7 +690,8 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
     }
 
     @Override
-    public final boolean triggerChildEnableState(final int groupIndex, final ChildType child) {
+    public final boolean triggerChildEnableState(final int groupIndex,
+                                                 @NonNull final ChildType child) {
         return triggerChildEnableState(groupIndex, indexOfChildOrThrowException(groupIndex, child));
     }
 
@@ -698,7 +703,7 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
     }
 
     @Override
-    public final void setAllChildrenEnabled(final GroupType group, final boolean enabled) {
+    public final void setAllChildrenEnabled(@NonNull final GroupType group, final boolean enabled) {
         setAllChildrenEnabled(indexOfGroupOrThrowException(group), enabled);
     }
 
@@ -717,7 +722,7 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
     }
 
     @Override
-    public final void triggerAllChildEnableStates(final GroupType group) {
+    public final void triggerAllChildEnableStates(@NonNull final GroupType group) {
         triggerAllChildEnableStates(indexOfGroupOrThrowException(group));
     }
 
@@ -748,7 +753,7 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
 
     @Override
     public final void addEnableStateListener(
-            final ExpandableListEnableStateListener<GroupType, ChildType> listener) {
+            @NonNull final ExpandableListEnableStateListener<GroupType, ChildType> listener) {
         ensureNotNull(listener, "The listener may not be null");
         enableStateListeners.add(listener);
         String message = "Added enable state listener \"" + listener + "\"";
@@ -757,7 +762,7 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
 
     @Override
     public final void removeEnableStateListener(
-            final ExpandableListEnableStateListener<GroupType, ChildType> listener) {
+            @NonNull final ExpandableListEnableStateListener<GroupType, ChildType> listener) {
         ensureNotNull(listener, "The listener may not be null");
         enableStateListeners.remove(listener);
         String message = "Removed enable state listener \"" + listener + "\"";

@@ -14,6 +14,7 @@
  */
 package de.mrapp.android.adapter.expandablelist.enablestate;
 
+import android.support.annotation.NonNull;
 import android.widget.ExpandableListView;
 
 import java.util.List;
@@ -56,7 +57,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
      *         the adapter, a {@link NoSuchElementException} will be thrown
      * @return True, if the given group item is currently enabled, false otherwise
      */
-    boolean isGroupEnabled(GroupType group);
+    boolean isGroupEnabled(@NonNull GroupType group);
 
     /**
      * Returns the index of the first enabled group item.
@@ -178,14 +179,14 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
     /**
      * Sets the enable state of a specific group item.
      *
-     * @param item
+     * @param group
      *         The group item, which should be enabled, as an instance of the generic type
      *         GroupType. The group item may not be null. If the group item does not belong to the
      *         adapter, a {@link NoSuchElementException} will be thrown
      * @param enabled
      *         True, if the given group item should be enabled, false otherwise
      */
-    void setGroupEnabled(GroupType item, boolean enabled);
+    void setGroupEnabled(@NonNull GroupType group, boolean enabled);
 
     /**
      * Triggers the enable state of the group item, which belongs to a specific index. This causes
@@ -220,13 +221,13 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
      * Triggers the enable state of a specific group item. This causes the group item to become
      * disabled, if it is currently enabled and vice versa.
      *
-     * @param item
+     * @param group
      *         The group item, whose enable state should be triggered, as an instance of the generic
      *         type GroupType. The group item may not be null. If the group item does not belong to
      *         the adapter, a {@link NoSuchElementException} will be thrown
      * @return True, if the group item has been enabled, false, if the group item has been disabled
      */
-    boolean triggerGroupEnableState(GroupType item);
+    boolean triggerGroupEnableState(@NonNull GroupType group);
 
     /**
      * Triggers the enable state of a specific group item. This causes the group item to become
@@ -235,13 +236,13 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
      * @param triggerChildStates
      *         True, if the enable states of the group item's children should also be triggered,
      *         false otherwise
-     * @param item
+     * @param group
      *         The group item, whose enable state should be triggered, as an instance of the generic
      *         type GroupType. The group item may not be null. If the group item does not belong to
      *         the adapter, a {@link NoSuchElementException} will be thrown
      * @return True, if the group item has been enabled, false, if the group item has been disabled
      */
-    boolean triggerGroupEnableState(boolean triggerChildStates, GroupType item);
+    boolean triggerGroupEnableState(boolean triggerChildStates, @NonNull GroupType group);
 
     /**
      * Sets the enable states of all group items.
@@ -283,7 +284,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
      * @return True, if the child item, which belongs to the given index, is currently enabled,
      * false otherwise
      */
-    boolean isChildEnabled(GroupType group, int childIndex);
+    boolean isChildEnabled(@NonNull GroupType group, int childIndex);
 
     /**
      * Returns, whether a specific child item, which belongs to a specific group, is currently
@@ -299,7 +300,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
      *         the given group, a {@link NoSuchElementException} will be thrown
      * @return True, if the given child item is currently enabled, false otherwise
      */
-    boolean isChildEnabled(GroupType group, ChildType child);
+    boolean isChildEnabled(@NonNull GroupType group, @NonNull ChildType child);
 
     /**
      * Returns, whether the child item, which belongs to the group, which belongs to a specific
@@ -335,7 +336,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
      *         the given group, a {@link NoSuchElementException} will be thrown
      * @return True, if the given child item is currently enabled, false otherwise
      */
-    boolean isChildEnabled(int groupIndex, ChildType child);
+    boolean isChildEnabled(int groupIndex, @NonNull ChildType child);
 
     /**
      * Returns the index of the first enabled child item of a specific group.
@@ -347,7 +348,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
      * @return The index of the first enabled child item of the given group, as an {@link Integer}
      * value or -1, if no child item is currently enabled
      */
-    int getFirstEnabledChildIndex(GroupType group);
+    int getFirstEnabledChildIndex(@NonNull GroupType group);
 
     /**
      * Returns the first enabled child item of a specific group.
@@ -359,7 +360,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
      * @return The first enabled child item of the given group, as an instance of the generic type
      * ChildType or null, if no child item is currently enabled
      */
-    ChildType getFirstEnabledChild(GroupType group);
+    ChildType getFirstEnabledChild(@NonNull GroupType group);
 
     /**
      * Returns the index of the first enabled child item of the group, which belongs to a specific
@@ -398,7 +399,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
      * @return The index of the last enabled child item of the given group, as an {@link Integer}
      * value or -1, if no child item is currently enabled
      */
-    int getLastEnabledChildIndex(GroupType group);
+    int getLastEnabledChildIndex(@NonNull GroupType group);
 
     /**
      * Returns the last enabled child item of a specific group.
@@ -410,7 +411,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
      * @return The last enabled child item of the given group, as an instance of the generic type
      * ChildType or null, if no child item is currently enabled
      */
-    ChildType getLastEnabledChild(GroupType group);
+    ChildType getLastEnabledChild(@NonNull GroupType group);
 
     /**
      * Returns the index of the last enabled child item of the group, which belongs to a specific
@@ -449,7 +450,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
      * @return The index of the first disabled child item of the given group, as an {@link Integer}
      * value or -1, if no child item is currently disabled
      */
-    int getFirstDisabledChildIndex(GroupType group);
+    int getFirstDisabledChildIndex(@NonNull GroupType group);
 
     /**
      * Returns the first disabled child item of a specific group.
@@ -461,7 +462,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
      * @return The first disabled child item of the given group, as an instance of the generic type
      * ChildType or null, if no child item is currently disabled
      */
-    ChildType getFirstDisabledChild(GroupType group);
+    ChildType getFirstDisabledChild(@NonNull GroupType group);
 
     /**
      * Returns the index of the first disabled child item of the group, which belongs to a specific
@@ -500,7 +501,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
      * @return The index of the last disabled child item of the given group, as an {@link Integer}
      * value or -1, if no child item is currently disabled
      */
-    int getLastDisabledChildIndex(GroupType group);
+    int getLastDisabledChildIndex(@NonNull GroupType group);
 
     /**
      * Returns the last disabled child item of a specific group.
@@ -512,7 +513,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
      * @return The last disabled child item of the given group, as an instance of the generic type
      * ChildType or null, if no child item is currently disabled
      */
-    ChildType getLastDisabledChild(GroupType group);
+    ChildType getLastDisabledChild(@NonNull GroupType group);
 
     /**
      * Returns the index of the last disabled child item of the group, which belongs to a specific
@@ -562,7 +563,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
      * group, as an instance of the type {@link List} or an empty list, if no child item is
      * currently enabled
      */
-    List<Integer> getEnabledChildIndices(GroupType group);
+    List<Integer> getEnabledChildIndices(@NonNull GroupType group);
 
     /**
      * Returns a list, which contains all currently enabled child items of a specific group.
@@ -574,7 +575,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
      * @return A list, which contains all currently enabled child items of the given group, as an
      * instance of the type {@link List} or an empty list, if no child item is currently enabled
      */
-    List<ChildType> getEnabledChildren(GroupType group);
+    List<ChildType> getEnabledChildren(@NonNull GroupType group);
 
     /**
      * Returns a list, which contains the indices of all currently enabled child items of a specific
@@ -625,7 +626,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
      * group, as an instance of the type {@link List} or an empty list, if no child item is
      * currently disabled
      */
-    List<Integer> getDisabledChildIndices(GroupType group);
+    List<Integer> getDisabledChildIndices(@NonNull GroupType group);
 
     /**
      * Returns a list, which contains all currently disabled child items of a specific group.
@@ -637,7 +638,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
      * @return A list, which contains all currently disabled child items of the given group, as an
      * instance of the type {@link List} or an empty list, if no child item is currently disabled
      */
-    List<ChildType> getDisabledChildren(GroupType group);
+    List<ChildType> getDisabledChildren(@NonNull GroupType group);
 
     /**
      * Returns a list, which contains the indices of all currently disabled child items of a
@@ -684,7 +685,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
      * @return The number of currently enabled children of the given group, as an {@link Integer}
      * value
      */
-    int getEnabledChildCount(GroupType group);
+    int getEnabledChildCount(@NonNull GroupType group);
 
     /**
      * Returns the number of currently enabled children of the group, which belongs to a specific
@@ -717,7 +718,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
      *         True, if the child item, which belongs to the given index, should be enabled, false
      *         otherwise
      */
-    void setChildEnabled(GroupType group, int childIndex, boolean enabled);
+    void setChildEnabled(@NonNull GroupType group, int childIndex, boolean enabled);
 
     /**
      * Sets the enable state of a specific child item of a specific group.
@@ -733,7 +734,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
      * @param enabled
      *         True, if the given child item should be enabled, false otherwise
      */
-    void setChildEnabled(GroupType group, ChildType child, boolean enabled);
+    void setChildEnabled(@NonNull GroupType group, @NonNull ChildType child, boolean enabled);
 
     /**
      * Sets the enable state of the child item, which belongs to a specific index of a specific
@@ -770,7 +771,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
      * @param enabled
      *         True, if the given child item should be enabled, false otherwise
      */
-    void setChildEnabled(int groupIndex, ChildType child, boolean enabled);
+    void setChildEnabled(int groupIndex, @NonNull ChildType child, boolean enabled);
 
     /**
      * Triggers the enable state of the child item, which belongs to a specific index of a specific
@@ -788,7 +789,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
      *         IndexOutOfBoundsException} will be thrown
      * @return True, if the child item has been enabled, false, if the child item has been disabled
      */
-    boolean triggerChildEnableState(GroupType group, int childIndex);
+    boolean triggerChildEnableState(@NonNull GroupType group, int childIndex);
 
     /**
      * Triggers the enable state of a specific child item of a specific group. This causes the child
@@ -804,7 +805,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
      *         the adapter, a {@link NoSuchElementException} will be thrown
      * @return True, if the child item has been enabled, false, if the child item has been disabled
      */
-    boolean triggerChildEnableState(GroupType group, ChildType childItem);
+    boolean triggerChildEnableState(@NonNull GroupType group, @NonNull ChildType childItem);
 
     /**
      * Triggers the enable state of the child item, which belongs to a specific index of a specific
@@ -840,7 +841,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
      *         the adapter, a {@link NoSuchElementException} will be thrown
      * @return True, if the child item has been enabled, false, if the child item has been disabled
      */
-    boolean triggerChildEnableState(int groupIndex, ChildType childItem);
+    boolean triggerChildEnableState(int groupIndex, @NonNull ChildType childItem);
 
     /**
      * Sets the enable states of all child items, regardless of the group they belong to.
@@ -860,7 +861,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
      * @param enabled
      *         True, if all child items of the given group should be enabled, false otherwise
      */
-    void setAllChildrenEnabled(GroupType group, boolean enabled);
+    void setAllChildrenEnabled(@NonNull GroupType group, boolean enabled);
 
     /**
      * Sets the enable states of all child items of the group, which belongs to a specific index.
@@ -890,7 +891,7 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
      *         instance of the generic type GroupType. The group may not be null. If the group does
      *         not belong to the adapter, a {@link NoSuchElementException} will be thrown
      */
-    void triggerAllChildEnableStates(GroupType group);
+    void triggerAllChildEnableStates(@NonNull GroupType group);
 
     /**
      * Triggers the enable states of all child items of the group, which belongs to a specific
@@ -932,7 +933,8 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
      *         The listener, which should be added, as an instance of the type {@link
      *         ExpandableListEnableStateListener}. The listener may not be null
      */
-    void addEnableStateListener(ExpandableListEnableStateListener<GroupType, ChildType> listener);
+    void addEnableStateListener(
+            @NonNull ExpandableListEnableStateListener<GroupType, ChildType> listener);
 
     /**
      * Removes a specific listener, which should not be notified, when a group item has been
@@ -943,6 +945,6 @@ public interface EnableStateExpandableListAdapter<GroupType, ChildType> {
      *         ExpandableListEnableStateListener}. The listener may not be null
      */
     void removeEnableStateListener(
-            ExpandableListEnableStateListener<GroupType, ChildType> listener);
+            @NonNull ExpandableListEnableStateListener<GroupType, ChildType> listener);
 
 }

@@ -14,10 +14,11 @@
  */
 package de.mrapp.android.adapter;
 
-import de.mrapp.android.adapter.decorator.AbstractDecorator;
-
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
+
+import de.mrapp.android.adapter.decorator.AbstractDecorator;
 
 /**
  * An abstract base class for all decorators, which should allow to customize the appearance of the
@@ -66,9 +67,10 @@ public abstract class ExpandableListDecorator<GroupType, ChildType> extends Abst
      *         True, if at least one filter is currently applied on the adapter's group items, false
      *         otherwise
      */
-    public final void applyDecoratorOnGroup(final Context context,
-                                            final ExpandableListAdapter<GroupType, ChildType> adapter,
-                                            final View view, final GroupType group, final int index,
+    public final void applyDecoratorOnGroup(@NonNull final Context context,
+                                            @NonNull final ExpandableListAdapter<GroupType, ChildType> adapter,
+                                            @NonNull final View view,
+                                            @NonNull final GroupType group, final int index,
                                             final boolean expanded, final boolean enabled,
                                             final int state, final boolean filtered) {
         setCurrentParentView(view);
@@ -115,12 +117,13 @@ public abstract class ExpandableListDecorator<GroupType, ChildType> extends Abst
      *         True, if at least one filter is currently applied on the adapter's child items, false
      *         otherwise
      */
-    public final void applyDecoratorOnChild(final Context context,
-                                            final ExpandableListAdapter<GroupType, ChildType> adapter,
-                                            final View view, final ChildType child,
-                                            final int childIndex, final GroupType group,
-                                            final int groupIndex, final boolean enabled,
-                                            final int state, final boolean filtered) {
+    public final void applyDecoratorOnChild(@NonNull final Context context,
+                                            @NonNull final ExpandableListAdapter<GroupType, ChildType> adapter,
+                                            @NonNull final View view,
+                                            @NonNull final ChildType child, final int childIndex,
+                                            @NonNull final GroupType group, final int groupIndex,
+                                            final boolean enabled, final int state,
+                                            final boolean filtered) {
         setCurrentParentView(view);
         int viewType = getChildType(child);
         setCurrentViewType(viewType);
@@ -141,7 +144,7 @@ public abstract class ExpandableListDecorator<GroupType, ChildType> extends Abst
      * @return The view type of the group item, which is about to be visualized, as an {@link
      * Integer} value
      */
-    public int getGroupType(final GroupType group) {
+    public int getGroupType(@NonNull final GroupType group) {
         return 0;
     }
 
@@ -169,7 +172,7 @@ public abstract class ExpandableListDecorator<GroupType, ChildType> extends Abst
      * @return The view type of the child item, which is about to be visualized, as an {@link
      * Integer} value
      */
-    public int getChildType(final ChildType child) {
+    public int getChildType(@NonNull final ChildType child) {
         return 0;
     }
 
@@ -221,10 +224,10 @@ public abstract class ExpandableListDecorator<GroupType, ChildType> extends Abst
      *         True, if at least one filter is currently applied on the adapter's group items, false
      *         otherwise
      */
-    protected abstract void onShowGroup(Context context,
-                                        ExpandableListAdapter<GroupType, ChildType> adapter,
-                                        View view, GroupType group, int viewType, int index,
-                                        boolean expanded, boolean enabled, int state,
+    protected abstract void onShowGroup(@NonNull Context context,
+                                        @NonNull ExpandableListAdapter<GroupType, ChildType> adapter,
+                                        @NonNull View view, @NonNull GroupType group, int viewType,
+                                        int index, boolean expanded, boolean enabled, int state,
                                         boolean filtered);
 
     /**
@@ -266,10 +269,10 @@ public abstract class ExpandableListDecorator<GroupType, ChildType> extends Abst
      *         True, if at least one filter is currently applied on the adapter's child items, false
      *         otherwise
      */
-    protected abstract void onShowChild(Context context,
-                                        ExpandableListAdapter<GroupType, ChildType> adapter,
-                                        View view, ChildType child, int viewType, int childIndex,
-                                        GroupType group, int groupIndex, boolean enabled, int state,
-                                        boolean filtered);
+    protected abstract void onShowChild(@NonNull Context context,
+                                        @NonNull ExpandableListAdapter<GroupType, ChildType> adapter,
+                                        @NonNull View view, @NonNull ChildType child, int viewType,
+                                        int childIndex, @NonNull GroupType group, int groupIndex,
+                                        boolean enabled, int state, boolean filtered);
 
 }

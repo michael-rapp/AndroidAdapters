@@ -14,6 +14,8 @@
  */
 package de.mrapp.android.adapter.list.enablestate;
 
+import android.support.annotation.NonNull;
+
 import de.mrapp.android.adapter.ListAdapter;
 
 /**
@@ -39,7 +41,7 @@ public interface ListEnableStateListener<DataType> {
      * @param index
      *         The index of the item, which has been enabled, as an {@link Integer} value
      */
-    void onItemEnabled(ListAdapter<DataType> adapter, DataType item, int index);
+    void onItemEnabled(@NonNull ListAdapter<DataType> adapter, @NonNull DataType item, int index);
 
     /**
      * The method, which is invoked, when an item has been disabled.
@@ -53,6 +55,6 @@ public interface ListEnableStateListener<DataType> {
      * @param index
      *         The index of the item, which has been disabled, as an {@link Integer} value
      */
-    void onItemDisabled(ListAdapter<DataType> adapter, DataType item, int index);
+    void onItemDisabled(@NonNull ListAdapter<DataType> adapter, @NonNull DataType item, int index);
 
 }

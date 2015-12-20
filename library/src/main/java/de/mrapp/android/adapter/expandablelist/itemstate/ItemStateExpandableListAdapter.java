@@ -14,6 +14,7 @@
  */
 package de.mrapp.android.adapter.expandablelist.itemstate;
 
+import android.support.annotation.NonNull;
 import android.widget.ExpandableListView;
 
 import java.util.List;
@@ -88,7 +89,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
      *         adapter, a {@link NoSuchElementException} will be thrown
      * @return The state of the given group item as an {@link Integer} value
      */
-    int getGroupState(GroupType group);
+    int getGroupState(@NonNull GroupType group);
 
     /**
      * Sets the state of the group item, which belongs to a specific index, to a specific state, if
@@ -121,7 +122,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
      * @return The previous state of the given group item as an {@link Integer} value or -1, if the
      * state has not been changed
      */
-    int setGroupState(GroupType group, int state);
+    int setGroupState(@NonNull GroupType group, int state);
 
     /**
      * Sets the states of all group items to a specific state, if they are currently enabled.
@@ -179,7 +180,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
      * @return The previous state of the given group item, as an {@link Integer} value or -1, if the
      * state has not been changed
      */
-    int triggerGroupState(GroupType group);
+    int triggerGroupState(@NonNull GroupType group);
 
     /**
      * Triggers the state of a specific group item, if it is currently enabled. This causes the
@@ -196,7 +197,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
      * @return The previous state of the given group item, as an {@link Integer} value or -1, if the
      * state has not been changed
      */
-    int triggerGroupState(boolean triggerChildStates, GroupType group);
+    int triggerGroupState(boolean triggerChildStates, @NonNull GroupType group);
 
     /**
      * Triggers the states of all group items, regardless of the group they belong to, if they are
@@ -365,7 +366,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
      * @return The state of the child item, which belongs to the given index, as an {@link Integer}
      * value
      */
-    int getChildState(GroupType group, int childIndex);
+    int getChildState(@NonNull GroupType group, int childIndex);
 
     /**
      * Returns the current state of a specific child item, which belongs to a specific group.
@@ -380,7 +381,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
      *         group, a {@link NoSuchElementException} will be thrown
      * @return The state of the given child item, as an {@link Integer} value
      */
-    int getChildState(GroupType group, ChildType child);
+    int getChildState(@NonNull GroupType group, @NonNull ChildType child);
 
     /**
      * Returns the current state of the child item, which belongs to a specific index of the group,
@@ -417,7 +418,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
      * @return The state of the child item, which belongs to the given index, as an {@link Integer}
      * value
      */
-    int getChildState(int groupIndex, ChildType child);
+    int getChildState(int groupIndex, @NonNull ChildType child);
 
     /**
      * Sets the state of the child item, which belongs to a specific index of a specific group, to a
@@ -438,7 +439,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
      * @return The previous state of the child item, which belongs to the given index, as an {@link
      * Integer} value or -1, if the state has not been changed
      */
-    int setChildState(GroupType group, int childIndex, int state);
+    int setChildState(@NonNull GroupType group, int childIndex, int state);
 
     /**
      * Sets the state of a specific child item, which belongs to a specific group, to a specific
@@ -459,7 +460,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
      * @return The previous state of the given child item, as an {@link Integer} value or -1, if the
      * state has not been changed
      */
-    int setChildState(GroupType group, ChildType child, int state);
+    int setChildState(@NonNull GroupType group, @NonNull ChildType child, int state);
 
     /**
      * Sets the state of the child item, which belongs to a specific index of the group, which
@@ -503,7 +504,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
      * @return The previous state of the given child item as an {@link Integer} value or -1, if the
      * state has not been changed
      */
-    int setChildState(int groupIndex, ChildType child, int state);
+    int setChildState(int groupIndex, @NonNull ChildType child, int state);
 
     /**
      * Sets the states of all child items, regardless of the group the belong to, if they are
@@ -532,7 +533,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
      * @return True, if the states of all child items of the given group have been changed, false
      * otherwise
      */
-    boolean setAllChildStates(GroupType group, int state);
+    boolean setAllChildStates(@NonNull GroupType group, int state);
 
     /**
      * Sets the states of all child items, which belong to the group, which belongs to a specific
@@ -569,7 +570,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
      * @return The previous state of the child item, which belongs to the given index, as an {@link
      * Integer} value or -1, if the state has not been changed
      */
-    int triggerChildState(GroupType group, int childIndex);
+    int triggerChildState(@NonNull GroupType group, int childIndex);
 
     /**
      * Triggers the state of the child item, which belongs to a specific group, if it is currently
@@ -587,7 +588,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
      * @return The previous state of the given child item, as an {@link Integer} value or -1, if the
      * state has not been changed
      */
-    int triggerChildState(GroupType group, ChildType child);
+    int triggerChildState(@NonNull GroupType group, @NonNull ChildType child);
 
     /**
      * Triggers the state of the child item, which belongs to a specific index of the group, which
@@ -627,7 +628,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
      * @return The previous state of the given child item as an {@link Integer} value or -1, if the
      * state has not been changed
      */
-    int triggerChildState(int groupIndex, ChildType child);
+    int triggerChildState(int groupIndex, @NonNull ChildType child);
 
     /**
      * Triggers the states of all child items, regardless of the group they belong to, if they are
@@ -650,7 +651,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
      * @return True, if the states of all child items of the given group have been changed, false
      * otherwise
      */
-    boolean triggerAllChildStates(GroupType group);
+    boolean triggerAllChildStates(@NonNull GroupType group);
 
     /**
      * Triggers the states of all child items, which belong to the group, which belongs to a
@@ -682,7 +683,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
      * state, as an {@link Integer} value or -1, if the group does not contain a child item with the
      * given state
      */
-    int getFirstChildIndexWithSpecificState(GroupType group, int state);
+    int getFirstChildIndexWithSpecificState(@NonNull GroupType group, int state);
 
     /**
      * Returns the index of the first child item of the group, which belongs to a specific index,
@@ -715,7 +716,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
      * instance of the generic type ChildType or null, if the group does not contain a child item
      * with the given state
      */
-    ChildType getFirstChildWithSpecificState(GroupType group, int state);
+    ChildType getFirstChildWithSpecificState(@NonNull GroupType group, int state);
 
     /**
      * Returns the first child item of the group, which belongs to a specific index, which currently
@@ -749,7 +750,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
      * state, as an {@link Integer} value or -1, if the group does not contain a child item with the
      * given state
      */
-    int getLastChildIndexWithSpecificState(GroupType group, int state);
+    int getLastChildIndexWithSpecificState(@NonNull GroupType group, int state);
 
     /**
      * Returns the index of the last child item of the group, which belongs to a specific index,
@@ -782,7 +783,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
      * instance of the generic type ChildType or null, if the group does not contain a child item
      * with the given state
      */
-    ChildType getLastChildWithSpecificState(GroupType group, int state);
+    ChildType getLastChildWithSpecificState(@NonNull GroupType group, int state);
 
     /**
      * Returns the last child item of the group, which belongs to a specific index, which currently
@@ -816,7 +817,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
      * currently have a specific state, as an instance of the type {@link List} or an empty list, if
      * the group does not contain any child items with the given state
      */
-    List<Integer> getChildIndicesWithSpecificState(GroupType group, int state);
+    List<Integer> getChildIndicesWithSpecificState(@NonNull GroupType group, int state);
 
     /**
      * Returns a list, which contains the indices of all child items of the group, which belongs to
@@ -862,7 +863,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
      * specific state, as an instance of the type {@link List} or an empty list, if the group does
      * not contain any child items with the given state
      */
-    List<ChildType> getChildrenWithSpecificState(GroupType group, int state);
+    List<ChildType> getChildrenWithSpecificState(@NonNull GroupType group, int state);
 
     /**
      * Returns a list, which contains all child items of the group, which belongs to a specific
@@ -904,7 +905,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
      * @return The number of child items of the given group, which currently have the given state,
      * as an {@link Integer} value
      */
-    int getChildStateCount(GroupType group, int state);
+    int getChildStateCount(@NonNull GroupType group, int state);
 
     /**
      * Returns the number of child items of the group, which belongs to a specific index, which
@@ -967,7 +968,8 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
      *         The listener, which should be added, as an instance of the class {@link
      *         ExpandableListItemStateListener}. The listener may not be null
      */
-    void addItemStateListener(final ExpandableListItemStateListener<GroupType, ChildType> listener);
+    void addItemStateListener(
+            @NonNull final ExpandableListItemStateListener<GroupType, ChildType> listener);
 
     /**
      * Removes a specific listener, which should not be notified, when the state of an item has been
@@ -977,6 +979,7 @@ public interface ItemStateExpandableListAdapter<GroupType, ChildType> {
      *         The listener, which should be removed, as an instance of the class {@link
      *         ExpandableListItemStateListener}. The listener may not be null
      */
-    void removeItemStateListener(ExpandableListItemStateListener<GroupType, ChildType> listener);
+    void removeItemStateListener(
+            @NonNull ExpandableListItemStateListener<GroupType, ChildType> listener);
 
 }

@@ -14,6 +14,8 @@
  */
 package de.mrapp.android.adapter;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 
 /**
@@ -41,6 +43,6 @@ public interface Filter<DataType> extends Serializable {
      *         no flags should be used
      * @return True, if the instance does match the given regular expression, false otherwise
      */
-    boolean match(DataType data, String query, int flags);
+    boolean match(@NonNull DataType data, @NonNull String query, int flags);
 
 }

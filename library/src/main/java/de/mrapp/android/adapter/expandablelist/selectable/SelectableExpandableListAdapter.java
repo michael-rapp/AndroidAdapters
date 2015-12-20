@@ -14,6 +14,7 @@
  */
 package de.mrapp.android.adapter.expandablelist.selectable;
 
+import android.support.annotation.NonNull;
 import android.widget.ExpandableListView;
 
 import java.util.NoSuchElementException;
@@ -44,7 +45,8 @@ public interface SelectableExpandableListAdapter<GroupType, ChildType>
      *         The listener, which should be added, as an instance of the type {@link
      *         ExpandableListSelectionListener}. The listener may not be null
      */
-    void addSelectionListener(ExpandableListSelectionListener<GroupType, ChildType> listener);
+    void addSelectionListener(
+            @NonNull ExpandableListSelectionListener<GroupType, ChildType> listener);
 
     /**
      * Removes a specific listener, which should not be notified when the selection of an item has
@@ -54,7 +56,8 @@ public interface SelectableExpandableListAdapter<GroupType, ChildType>
      *         The listener, which should be removed, as an instance of the type {@link
      *         ExpandableListSelectionListener}. The listener may not be null
      */
-    void removeSelectionListener(ExpandableListSelectionListener<GroupType, ChildType> listener);
+    void removeSelectionListener(
+            @NonNull ExpandableListSelectionListener<GroupType, ChildType> listener);
 
     /**
      * Returns, whether the group item, which belongs to a specific index, is currently selected, or
@@ -79,7 +82,7 @@ public interface SelectableExpandableListAdapter<GroupType, ChildType>
      *         adapter, a {@link NoSuchElementException} will be thrown
      * @return True, if the given group item is currently selected, false otherwise
      */
-    boolean isGroupSelected(GroupType group);
+    boolean isGroupSelected(@NonNull GroupType group);
 
     /**
      * Returns the number of currently selected group items.
@@ -103,7 +106,7 @@ public interface SelectableExpandableListAdapter<GroupType, ChildType>
      *         IndexOutOfBoundsException} will be thrown
      * @return True, if the given group item is currently selected, false otherwise
      */
-    boolean isChildSelected(GroupType group, int childIndex);
+    boolean isChildSelected(@NonNull GroupType group, int childIndex);
 
     /**
      * Returns, whether a specific child item, which belongs to a specific group, is currently
@@ -119,7 +122,7 @@ public interface SelectableExpandableListAdapter<GroupType, ChildType>
      *         adapter, a {@link java.util.NoSuchElementException} will be thrown
      * @return True, if the given group item is currently selected, false otherwise
      */
-    boolean isChildSelected(GroupType group, ChildType child);
+    boolean isChildSelected(@NonNull GroupType group, @NonNull ChildType child);
 
     /**
      * Returns, whether the child item, which belongs to a specific index of a specific group, is
@@ -154,7 +157,7 @@ public interface SelectableExpandableListAdapter<GroupType, ChildType>
      *         adapter, a {@link java.util.NoSuchElementException} will be thrown
      * @return True, if the given group item is currently selected, false otherwise
      */
-    boolean isChildSelected(int groupIndex, ChildType child);
+    boolean isChildSelected(int groupIndex, @NonNull ChildType child);
 
     /**
      * Returns the number of currently selected child items.
@@ -187,7 +190,7 @@ public interface SelectableExpandableListAdapter<GroupType, ChildType>
      * @return The number of the currently selected child items of the given group, as an {@link
      * Integer} value
      */
-    int getSelectedChildCount(GroupType group);
+    int getSelectedChildCount(@NonNull GroupType group);
 
     /**
      * Returns, whether a group item is selected, when it is clicked by the user, or not.

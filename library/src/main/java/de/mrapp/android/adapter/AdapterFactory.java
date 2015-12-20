@@ -15,6 +15,8 @@
 package de.mrapp.android.adapter;
 
 import android.content.Context;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.view.View;
 
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterImplementation;
@@ -64,9 +66,9 @@ public final class AdapterFactory {
      *         resource
      * @return The adapter, which has been created, as an instance of the type {@link ListAdapter}
      */
-    public static <DataType> ListAdapter<DataType> createListAdapter(final Context context,
-                                                                     final ListDecorator<DataType> decorator,
-                                                                     final int viewId) {
+    public static <DataType> ListAdapter<DataType> createListAdapter(@NonNull final Context context,
+                                                                     @NonNull final ListDecorator<DataType> decorator,
+                                                                     @LayoutRes final int viewId) {
         Inflater inflater = InflaterFactory.createInflater(viewId);
         return new ListAdapterImplementation<>(context, inflater, decorator);
     }
@@ -89,9 +91,9 @@ public final class AdapterFactory {
      *         of the class {@link View}. The view may not be null
      * @return The adapter, which has been created, as an instance of the type {@link ListAdapter}
      */
-    public static <DataType> ListAdapter<DataType> createListAdapter(final Context context,
-                                                                     final ListDecorator<DataType> decorator,
-                                                                     final View view) {
+    public static <DataType> ListAdapter<DataType> createListAdapter(@NonNull final Context context,
+                                                                     @NonNull final ListDecorator<DataType> decorator,
+                                                                     @NonNull final View view) {
         Inflater inflater = InflaterFactory.createInflater(view);
         return new ListAdapterImplementation<>(context, inflater, decorator);
     }
@@ -117,8 +119,9 @@ public final class AdapterFactory {
      * SingleChoiceListAdapter}
      */
     public static <DataType> SingleChoiceListAdapter<DataType> createSingleChoiceListAdapter(
-            final Context context, final SelectableListDecorator<DataType> decorator,
-            final int viewId) {
+            @NonNull final Context context,
+            @NonNull final SelectableListDecorator<DataType> decorator,
+            @LayoutRes final int viewId) {
         Inflater inflater = InflaterFactory.createInflater(viewId);
         return new SingleChoiceListAdapterImplementation<>(context, inflater, decorator);
     }
@@ -143,8 +146,8 @@ public final class AdapterFactory {
      * SingleChoiceListAdapter}
      */
     public static <DataType> SingleChoiceListAdapter<DataType> createSingleChoiceListAdapter(
-            final Context context, final SelectableListDecorator<DataType> decorator,
-            final View view) {
+            @NonNull final Context context,
+            @NonNull final SelectableListDecorator<DataType> decorator, @NonNull final View view) {
         Inflater inflater = InflaterFactory.createInflater(view);
         return new SingleChoiceListAdapterImplementation<>(context, inflater, decorator);
     }
@@ -170,8 +173,9 @@ public final class AdapterFactory {
      * MultipleChoiceListAdapter}
      */
     public static <DataType> MultipleChoiceListAdapter<DataType> createMultipleChoiceListAdapter(
-            final Context context, final SelectableListDecorator<DataType> decorator,
-            final int viewId) {
+            @NonNull final Context context,
+            @NonNull final SelectableListDecorator<DataType> decorator,
+            @LayoutRes final int viewId) {
         Inflater inflater = InflaterFactory.createInflater(viewId);
         return new MultipleChoiceListAdapterImplementation<>(context, inflater, decorator);
     }
@@ -196,8 +200,8 @@ public final class AdapterFactory {
      * MultipleChoiceListAdapter}
      */
     public static <DataType> MultipleChoiceListAdapter<DataType> createMultipleChoiceListAdapter(
-            final Context context, final SelectableListDecorator<DataType> decorator,
-            final View view) {
+            @NonNull final Context context,
+            @NonNull final SelectableListDecorator<DataType> decorator, @NonNull final View view) {
         Inflater inflater = InflaterFactory.createInflater(view);
         return new MultipleChoiceListAdapterImplementation<>(context, inflater, decorator);
     }
@@ -229,8 +233,9 @@ public final class AdapterFactory {
      * ExpandableListAdapter}
      */
     public static <GroupType, ChildType> ExpandableListAdapter<GroupType, ChildType> createExpandableListAdapter(
-            final Context context, final ExpandableListDecorator<GroupType, ChildType> decorator,
-            final int groupViewId, final int childViewId) {
+            @NonNull final Context context,
+            @NonNull final ExpandableListDecorator<GroupType, ChildType> decorator,
+            @LayoutRes final int groupViewId, @LayoutRes final int childViewId) {
         Inflater groupInflater = InflaterFactory.createInflater(groupViewId);
         Inflater childInflater = InflaterFactory.createInflater(childViewId);
         return new ExpandableListAdapterImplementation<>(context, groupInflater, childInflater,
@@ -262,8 +267,9 @@ public final class AdapterFactory {
      * ExpandableListAdapter}
      */
     public static <GroupType, ChildType> ExpandableListAdapter<GroupType, ChildType> createExpandableListAdapter(
-            final Context context, final ExpandableListDecorator<GroupType, ChildType> decorator,
-            final View groupView, final View childView) {
+            @NonNull final Context context,
+            @NonNull final ExpandableListDecorator<GroupType, ChildType> decorator,
+            @NonNull final View groupView, @NonNull final View childView) {
         Inflater groupInflater = InflaterFactory.createInflater(groupView);
         Inflater childInflater = InflaterFactory.createInflater(childView);
         return new ExpandableListAdapterImplementation<>(context, groupInflater, childInflater,
@@ -301,9 +307,10 @@ public final class AdapterFactory {
      * SingleChoiceExpandableListAdapter}
      */
     public static <GroupType, ChildType> SingleChoiceExpandableListAdapter<GroupType, ChildType> createSingleChoiceExpandableListAdapter(
-            final Context context,
-            final SelectableExpandableListDecorator<GroupType, ChildType> decorator,
-            final int groupViewId, final int childViewId, final ChoiceMode choiceMode) {
+            @NonNull final Context context,
+            @NonNull final SelectableExpandableListDecorator<GroupType, ChildType> decorator,
+            @LayoutRes final int groupViewId, @LayoutRes final int childViewId,
+            @NonNull final ChoiceMode choiceMode) {
         Inflater groupInflater = InflaterFactory.createInflater(groupViewId);
         Inflater childInflater = InflaterFactory.createInflater(childViewId);
         return new SingleChoiceExpandableListAdapterImplementation<>(context, groupInflater,
@@ -339,9 +346,10 @@ public final class AdapterFactory {
      * SingleChoiceExpandableListAdapter}
      */
     public static <GroupType, ChildType> SingleChoiceExpandableListAdapter<GroupType, ChildType> createSingleChoiceExpandableListAdapter(
-            final Context context,
-            final SelectableExpandableListDecorator<GroupType, ChildType> decorator,
-            final View groupView, final View childView, final ChoiceMode choiceMode) {
+            @NonNull final Context context,
+            @NonNull final SelectableExpandableListDecorator<GroupType, ChildType> decorator,
+            @NonNull final View groupView, @NonNull final View childView,
+            @NonNull final ChoiceMode choiceMode) {
         Inflater groupInflater = InflaterFactory.createInflater(groupView);
         Inflater childInflater = InflaterFactory.createInflater(childView);
         return new SingleChoiceExpandableListAdapterImplementation<>(context, groupInflater,
@@ -379,9 +387,10 @@ public final class AdapterFactory {
      * MultipleChoiceExpandableListAdapter}
      */
     public static <GroupType, ChildType> MultipleChoiceExpandableListAdapter<GroupType, ChildType> createMultipleChoiceExpandableListAdapter(
-            final Context context,
-            final SelectableExpandableListDecorator<GroupType, ChildType> decorator,
-            final int groupViewId, final int childViewId, final ChoiceMode choiceMode) {
+            @NonNull final Context context,
+            @NonNull final SelectableExpandableListDecorator<GroupType, ChildType> decorator,
+            @LayoutRes final int groupViewId, @LayoutRes final int childViewId,
+            @NonNull final ChoiceMode choiceMode) {
         Inflater groupInflater = InflaterFactory.createInflater(groupViewId);
         Inflater childInflater = InflaterFactory.createInflater(childViewId);
         return new MultipleChoiceExpandableListAdapterImplementation<>(context, groupInflater,
@@ -417,9 +426,10 @@ public final class AdapterFactory {
      * MultipleChoiceExpandableListAdapter}
      */
     public static <GroupType, ChildType> MultipleChoiceExpandableListAdapter<GroupType, ChildType> createMultipleChoiceExpandableListAdapter(
-            final Context context,
-            final SelectableExpandableListDecorator<GroupType, ChildType> decorator,
-            final View groupView, final View childView, final ChoiceMode choiceMode) {
+            @NonNull final Context context,
+            @NonNull final SelectableExpandableListDecorator<GroupType, ChildType> decorator,
+            @NonNull final View groupView, @NonNull final View childView,
+            @NonNull final ChoiceMode choiceMode) {
         Inflater groupInflater = InflaterFactory.createInflater(groupView);
         Inflater childInflater = InflaterFactory.createInflater(childView);
         return new MultipleChoiceExpandableListAdapterImplementation<>(context, groupInflater,

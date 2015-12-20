@@ -14,8 +14,10 @@
  */
 package de.mrapp.android.adapter.datastructure.item;
 
-import java.util.ArrayList;
+import android.support.annotation.NonNull;
+
 import java.util.Iterator;
+import java.util.List;
 import java.util.ListIterator;
 
 import de.mrapp.android.adapter.datastructure.AbstractUnmodifiableList;
@@ -41,13 +43,14 @@ public class UnmodifiableItemList<DataType>
      *         The list, which should be encapsulated by the list, as an instance of the type {@link
      *         List}. The list may not be null
      */
-    public UnmodifiableItemList(final ArrayList<Item<DataType>> encapsulatedList) {
+    public UnmodifiableItemList(@NonNull final List<Item<DataType>> encapsulatedList) {
         super(encapsulatedList);
     }
 
     @Override
+    @NonNull
     public final Iterator<DataType> iterator() {
-        return new ItemIterator<DataType>(getEncapsulatedList(), null);
+        return new ItemIterator<>(getEncapsulatedList(), null);
     }
 
     @Override
@@ -56,6 +59,7 @@ public class UnmodifiableItemList<DataType>
     }
 
     @Override
+    @NonNull
     public final ListIterator<DataType> listIterator(final int location) {
         return new ItemListIterator<>(getEncapsulatedList(), null, location);
     }

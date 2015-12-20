@@ -14,6 +14,9 @@
  */
 package de.mrapp.android.adapter.list.filterable;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import java.util.List;
 
 import de.mrapp.android.adapter.Filter;
@@ -50,8 +53,8 @@ public interface ListFilterListener<DataType> {
      *         A collection, which contains the adapter's filtered items, as an instance of the type
      *         {@link List} or an empty collection, if the adapter does not contain any items
      */
-    void onApplyFilter(ListAdapter<DataType> adapter, String query, int flags,
-                       Filter<DataType> filter, List<DataType> filteredItems);
+    void onApplyFilter(@NonNull ListAdapter<DataType> adapter, @NonNull String query, int flags,
+                       @Nullable Filter<DataType> filter, @NonNull List<DataType> filteredItems);
 
     /**
      * The method, which is invoked, when a filter has been reseted.
@@ -69,7 +72,7 @@ public interface ListFilterListener<DataType> {
      *         A collection, which contains the adapter's filtered items, as an instance of the type
      *         {@link List} or an empty collection, if the adapter does not contain any items
      */
-    void onResetFilter(ListAdapter<DataType> adapter, String query, int flags,
-                       List<DataType> unfilteredItems);
+    void onResetFilter(@NonNull ListAdapter<DataType> adapter, @NonNull String query, int flags,
+                       @NonNull List<DataType> unfilteredItems);
 
 }

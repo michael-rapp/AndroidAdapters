@@ -14,6 +14,8 @@
  */
 package de.mrapp.android.adapter.datastructure.item;
 
+import android.support.annotation.NonNull;
+
 import java.util.Comparator;
 
 import static de.mrapp.android.util.Condition.ensureNotNull;
@@ -40,7 +42,7 @@ public class ItemComparator<DataType> implements Comparator<Item<DataType>> {
      *         The comparator, which should be used to compare the items' data, as an instance of
      *         the type {@link Comparator}. The comparator may not be null
      */
-    public ItemComparator(final Comparator<DataType> comparator) {
+    public ItemComparator(@NonNull final Comparator<DataType> comparator) {
         ensureNotNull(comparator, "The comparator may not be null");
         this.comparator = comparator;
     }

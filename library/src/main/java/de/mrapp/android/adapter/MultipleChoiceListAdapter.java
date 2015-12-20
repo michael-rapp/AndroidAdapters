@@ -14,6 +14,7 @@
  */
 package de.mrapp.android.adapter;
 
+import android.support.annotation.NonNull;
 import android.widget.AbsListView;
 
 import java.util.List;
@@ -152,7 +153,7 @@ public interface MultipleChoiceListAdapter<DataType> extends SelectableListAdapt
      *         True, if the given item should be selected, false otherwise
      * @return True, if the selection of the given item has been changed, false otherwise
      */
-    boolean setSelected(DataType item, boolean selected);
+    boolean setSelected(@NonNull DataType item, boolean selected);
 
     /**
      * Triggers the selection of the item, which belongs to a specific index, it is currently
@@ -179,7 +180,7 @@ public interface MultipleChoiceListAdapter<DataType> extends SelectableListAdapt
      *         {@link NoSuchElementException} will be thrown
      * @return True, if the selection of the given item has been changed, false otherwise
      */
-    boolean triggerSelection(DataType item);
+    boolean triggerSelection(@NonNull DataType item);
 
     /**
      * Sets the selection of all items, if they are currently enabled.

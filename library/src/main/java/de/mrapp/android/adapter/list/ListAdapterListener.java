@@ -14,6 +14,8 @@
  */
 package de.mrapp.android.adapter.list;
 
+import android.support.annotation.NonNull;
+
 import de.mrapp.android.adapter.ListAdapter;
 
 /**
@@ -39,7 +41,7 @@ public interface ListAdapterListener<DataType> {
      * @param index
      *         The index of the item, which has been added, as an {@link Integer} value
      */
-    void onItemAdded(ListAdapter<DataType> adapter, DataType item, int index);
+    void onItemAdded(@NonNull ListAdapter<DataType> adapter, @NonNull DataType item, int index);
 
     /**
      * The method, which is invoked, when an item has been removed from the adapter.
@@ -53,6 +55,6 @@ public interface ListAdapterListener<DataType> {
      * @param index
      *         The index of the item, which has been removed, as an {@link Integer} value
      */
-    void onItemRemoved(ListAdapter<DataType> adapter, DataType item, int index);
+    void onItemRemoved(@NonNull ListAdapter<DataType> adapter, @NonNull DataType item, int index);
 
 }

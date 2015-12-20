@@ -14,7 +14,11 @@
  */
 package de.mrapp.android.adapter.list.enablestate;
 
+import android.support.annotation.NonNull;
+import android.widget.AbsListView;
+
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a list of arbitrary items,
@@ -57,7 +61,7 @@ public interface EnableStateListAdapter<DataType> {
      *         {@link NoSuchElementException} will be thrown
      * @return True, if the given item is currently enabled, false otherwise
      */
-    boolean isEnabled(DataType item);
+    boolean isEnabled(@NonNull DataType item);
 
     /**
      * Returns the index of the first enabled item.
@@ -185,7 +189,7 @@ public interface EnableStateListAdapter<DataType> {
      * @param enabled
      *         True, if the given item should be enabled, false otherwise
      */
-    void setEnabled(DataType item, boolean enabled);
+    void setEnabled(@NonNull DataType item, boolean enabled);
 
     /**
      * Triggers the enable state of the item, which belongs to a specific index. This causes the
@@ -210,7 +214,7 @@ public interface EnableStateListAdapter<DataType> {
      *         {@link NoSuchElementException} will be thrown
      * @return True, if the item has been enabled, false, if the item has been disabled
      */
-    boolean triggerEnableState(DataType item);
+    boolean triggerEnableState(@NonNull DataType item);
 
     /**
      * Sets the enable states of all items.
@@ -233,7 +237,7 @@ public interface EnableStateListAdapter<DataType> {
      *         The listener, which should be added, as an instance of the type {@link
      *         ListEnableStateListener}. The listener may not be null
      */
-    void addEnableStateListener(ListEnableStateListener<DataType> listener);
+    void addEnableStateListener(@NonNull ListEnableStateListener<DataType> listener);
 
     /**
      * Removes a specific listener, which should not be notified, when an item has been disabled or
@@ -243,6 +247,6 @@ public interface EnableStateListAdapter<DataType> {
      *         The listener, which should be removed, as an instance of the type {@link
      *         ListEnableStateListener}. The listener may not be null
      */
-    void removeEnableStateListener(ListEnableStateListener<DataType> listener);
+    void removeEnableStateListener(@NonNull ListEnableStateListener<DataType> listener);
 
 }

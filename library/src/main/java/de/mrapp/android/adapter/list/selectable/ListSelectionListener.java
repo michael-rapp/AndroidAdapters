@@ -14,6 +14,8 @@
  */
 package de.mrapp.android.adapter.list.selectable;
 
+import android.support.annotation.NonNull;
+
 import de.mrapp.android.adapter.ListAdapter;
 
 /**
@@ -39,7 +41,8 @@ public interface ListSelectionListener<DataType> {
      * @param index
      *         The index of the item, which has been selected, as an {@link Integer} value
      */
-    void onItemSelected(SelectableListAdapter<DataType> adapter, DataType item, int index);
+    void onItemSelected(@NonNull SelectableListAdapter<DataType> adapter, @NonNull DataType item,
+                        int index);
 
     /**
      * The method, which is invoked, when an item has been unselected.
@@ -53,6 +56,7 @@ public interface ListSelectionListener<DataType> {
      * @param index
      *         The index of the item, which has been unselected, as an {@link Integer} value
      */
-    void onItemUnselected(SelectableListAdapter<DataType> adapter, DataType item, int index);
+    void onItemUnselected(@NonNull SelectableListAdapter<DataType> adapter, @NonNull DataType item,
+                          int index);
 
 }

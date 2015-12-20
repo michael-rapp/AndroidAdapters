@@ -19,6 +19,8 @@ import android.database.DataSetObservable;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -198,7 +200,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
      *         value. The index must be between 0 and the value of the method
      *         <code>getCount():int</code> - 1
      */
-    private void notifyOnItemClicked(final DataType item, final int index) {
+    private void notifyOnItemClicked(@NonNull final DataType item, final int index) {
         for (ListAdapterItemClickListener<DataType> listener : itemClickListeners) {
             listener.onItemClicked(this, item, index);
         }
@@ -216,7 +218,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
      *         value. The index must be between 0 and the value of the method
      *         <code>getCount():int</code> - 1
      */
-    private void notifyOnItemAdded(final DataType item, final int index) {
+    private void notifyOnItemAdded(@NonNull final DataType item, final int index) {
         for (ListAdapterListener<DataType> listener : adapterListeners) {
             listener.onItemAdded(this, item, index);
         }
@@ -234,7 +236,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
      *         value. The index must be between 0 and the value of the method
      *         <code>getCount():int</code> - 1
      */
-    private void notifyOnItemRemoved(final DataType item, final int index) {
+    private void notifyOnItemRemoved(@NonNull final DataType item, final int index) {
         for (ListAdapterListener<DataType> listener : adapterListeners) {
             listener.onItemRemoved(this, item, index);
         }
@@ -355,7 +357,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
      *         The list, which should be set, as an instance of the type {@link ArrayList} or an
      *         empty list, if the adapter should not contain any data
      */
-    protected final void setItems(final ArrayList<Item<DataType>> items) {
+    protected final void setItems(@NonNull final ArrayList<Item<DataType>> items) {
         ensureNotNull(items, "The items may not be null");
         this.items = items;
     }
@@ -388,7 +390,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
      *         ListAdapterItemClickListener}. The listener may not be null
      */
     protected final void addItemClickListener(
-            final ListAdapterItemClickListener<DataType> listener) {
+            @NonNull final ListAdapterItemClickListener<DataType> listener) {
         ensureNotNull(listener, "The listener may not be null");
         itemClickListeners.add(listener);
     }
@@ -402,7 +404,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
      *         ListAdapterItemClickListener}. The listener may not be null
      */
     protected final void removeItemClickListener(
-            final ListAdapterItemClickListener<DataType> listener) {
+            @NonNull final ListAdapterItemClickListener<DataType> listener) {
         ensureNotNull(listener, "The listener may not be null");
         itemClickListeners.remove(listener);
     }
@@ -460,7 +462,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
      *         DataType. The item may not be null
      * @return The index of the the given item, as an {@link Integer} value
      */
-    protected final int indexOfOrThrowException(final DataType item) {
+    protected final int indexOfOrThrowException(@NonNull final DataType item) {
         int index = indexOf(item);
 
         if (index != -1) {
@@ -477,7 +479,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
      *         The bundle, which is used to store the state of the adapter within a bundle, as an
      *         instance of the class {@link Bundle}. The bundle may not be null
      */
-    protected abstract void onSaveInstanceState(final Bundle outState);
+    protected abstract void onSaveInstanceState(@NonNull final Bundle outState);
 
     /**
      * This method is invoked when the state of the adapter, which has previously been stored within
@@ -487,7 +489,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
      *         The bundle, which has been previously used to store the state of the adapter, as an
      *         instance of the class {@link Bundle}. The bundle may not be null
      */
-    protected abstract void onRestoreInstanceState(final Bundle savedState);
+    protected abstract void onRestoreInstanceState(@NonNull final Bundle savedState);
 
     /**
      * This method is invoked to apply the decorator, which allows to customize the view, which is
@@ -502,7 +504,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
      * @param index
      *         The index of the item, which should be visualized, as an {@link Integer} value
      */
-    protected abstract void applyDecorator(final Context context, final View view, final int index);
+    protected abstract void applyDecorator(@NonNull final Context context, @NonNull final View view,
+                                           final int index);
 
     /**
      * Creates a new adapter, whose underlying data is managed as a list of arbitrary items.
@@ -538,12 +541,13 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
      *         underlying data has been modified, as an instance of the type {@link Set} or an empty
      *         set, if no listeners should be notified
      */
-    protected AbstractListAdapter(final Context context, final Inflater inflater,
-                                  final DecoratorType decorator, final LogLevel logLevel,
-                                  final ArrayList<Item<DataType>> items,
+    protected AbstractListAdapter(@NonNull final Context context, @NonNull final Inflater inflater,
+                                  @NonNull final DecoratorType decorator,
+                                  @NonNull final LogLevel logLevel,
+                                  @NonNull final ArrayList<Item<DataType>> items,
                                   final boolean allowDuplicates, final boolean notifyOnChange,
-                                  final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
-                                  final Set<ListAdapterListener<DataType>> adapterListeners) {
+                                  @NonNull final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
+                                  @NonNull final Set<ListAdapterListener<DataType>> adapterListeners) {
         ensureNotNull(context, "The context may not be null");
         ensureNotNull(inflater, "The inflater may not be null");
         ensureNotNull(decorator, "The decorator may not be null");
@@ -564,13 +568,13 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
     }
 
     @Override
-    public void registerDataSetObserver(final DataSetObserver observer) {
+    public void registerDataSetObserver(@NonNull final DataSetObserver observer) {
         ensureNotNull(observer, "The observer may not ben null");
         dataSetObservable.registerObserver(observer);
     }
 
     @Override
-    public void unregisterDataSetObserver(final DataSetObserver observer) {
+    public void unregisterDataSetObserver(@NonNull final DataSetObserver observer) {
         ensureNotNull(observer, "The observer may not be null");
         dataSetObservable.unregisterObserver(observer);
     }
@@ -604,7 +608,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
     }
 
     @Override
-    public final void setLogLevel(final LogLevel logLevel) {
+    public final void setLogLevel(@NonNull final LogLevel logLevel) {
         getLogger().setLogLevel(logLevel);
     }
 
@@ -614,7 +618,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
     }
 
     @Override
-    public final void setParameters(final Bundle parameters) {
+    public final void setParameters(@Nullable final Bundle parameters) {
         this.parameters = parameters;
         String message = "Set parameters to \"" + parameters + "\"";
         getLogger().logDebug(getClass(), message);
@@ -633,7 +637,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
     }
 
     @Override
-    public final void addAdapterListener(final ListAdapterListener<DataType> listener) {
+    public final void addAdapterListener(@NonNull final ListAdapterListener<DataType> listener) {
         ensureNotNull(listener, "The listener may not be null");
         adapterListeners.add(listener);
         String message = "Added adapter listener \"" + listener + "\"";
@@ -641,7 +645,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
     }
 
     @Override
-    public final void removeAdapterListener(final ListAdapterListener<DataType> listener) {
+    public final void removeAdapterListener(@NonNull final ListAdapterListener<DataType> listener) {
         ensureNotNull(listener, "The listener may not be null");
         adapterListeners.remove(listener);
         String message = "Removed adapter listener \"" + listener + "\"";
@@ -649,14 +653,14 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
     }
 
     @Override
-    public final int addItem(final DataType item) {
+    public final int addItem(@NonNull final DataType item) {
         int index = getCount();
         boolean added = addItem(index, item);
         return added ? index : -1;
     }
 
     @Override
-    public final boolean addItem(final int index, final DataType item) {
+    public final boolean addItem(final int index, @NonNull final DataType item) {
         ensureNotNull(item, "The item may not be null");
 
         if (!areDuplicatesAllowed() && containsItem(item)) {
@@ -675,12 +679,13 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
     }
 
     @Override
-    public final boolean addAllItems(final Collection<? extends DataType> items) {
+    public final boolean addAllItems(@NonNull final Collection<? extends DataType> items) {
         return addAllItems(getCount(), items);
     }
 
     @Override
-    public final boolean addAllItems(final int index, final Collection<? extends DataType> items) {
+    public final boolean addAllItems(final int index,
+                                     @NonNull final Collection<? extends DataType> items) {
         ensureNotNull(items, "The collection may not be null");
         boolean result = true;
         int currentIndex = index;
@@ -699,18 +704,18 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
 
     @SafeVarargs
     @Override
-    public final boolean addAllItems(final DataType... items) {
+    public final boolean addAllItems(@NonNull final DataType... items) {
         return addAllItems(getCount(), items);
     }
 
     @SafeVarargs
     @Override
-    public final boolean addAllItems(final int index, final DataType... items) {
+    public final boolean addAllItems(final int index, @NonNull final DataType... items) {
         return addAllItems(index, Arrays.asList(items));
     }
 
     @Override
-    public final DataType replaceItem(final int index, final DataType item) {
+    public final DataType replaceItem(final int index, @NonNull final DataType item) {
         ensureNotNull(item, "The item may not be null");
         DataType replacedItem = items.set(index, new Item<>(item)).getData();
         notifyOnItemRemoved(replacedItem, index);
@@ -734,7 +739,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
     }
 
     @Override
-    public final boolean removeItem(final DataType item) {
+    public final boolean removeItem(@NonNull final DataType item) {
         ensureNotNull(item, "The item may not be null");
         int index = indexOf(item);
 
@@ -753,7 +758,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
     }
 
     @Override
-    public final boolean removeAllItems(final Collection<? extends DataType> items) {
+    public final boolean removeAllItems(@NonNull final Collection<? extends DataType> items) {
         ensureNotNull(items, "The collection may not be null");
         int numberOfRemovedItems = 0;
 
@@ -769,13 +774,13 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
 
     @SafeVarargs
     @Override
-    public final boolean removeAllItems(final DataType... items) {
+    public final boolean removeAllItems(@NonNull final DataType... items) {
         ensureNotNull(items, "The array may not be null");
         return removeAllItems(Arrays.asList(items));
     }
 
     @Override
-    public final void retainAllItems(final Collection<? extends DataType> items) {
+    public final void retainAllItems(@NonNull final Collection<? extends DataType> items) {
         ensureNotNull(items, "The collection may not be null");
 
         for (int i = getCount() - 1; i >= 0; i--) {
@@ -787,7 +792,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
 
     @SafeVarargs
     @Override
-    public final void retainAllItems(final DataType... items) {
+    public final void retainAllItems(@NonNull final DataType... items) {
         ensureNotNull(items, "The array may not be null");
         retainAllItems(Arrays.asList(items));
     }
@@ -831,12 +836,12 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
     }
 
     @Override
-    public final <T> T[] toArray(final T[] array) {
+    public final <T> T[] toArray(@NonNull final T[] array) {
         return getAllItems().toArray(array);
     }
 
     @Override
-    public final int indexOf(final DataType item) {
+    public final int indexOf(@NonNull final DataType item) {
         ensureNotNull(item, "The item may not be null");
 
         for (int i = 0; i < getCount(); i++) {
@@ -849,7 +854,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
     }
 
     @Override
-    public final int lastIndexOf(final DataType item) {
+    public final int lastIndexOf(@NonNull final DataType item) {
         ensureNotNull(item, "The item may not be null");
 
         for (int i = getCount() - 1; i >= 0; i--) {
@@ -862,13 +867,13 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
     }
 
     @Override
-    public final boolean containsItem(final DataType item) {
+    public final boolean containsItem(@NonNull final DataType item) {
         ensureNotNull(item, "The item may not be null");
         return indexOf(item) != -1;
     }
 
     @Override
-    public final boolean containsAllItems(final Collection<? extends DataType> items) {
+    public final boolean containsAllItems(@NonNull final Collection<? extends DataType> items) {
         ensureNotNull(items, "The collection may not be null");
         boolean result = true;
 
@@ -881,7 +886,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
 
     @SafeVarargs
     @Override
-    public final boolean containsAllItems(final DataType... items) {
+    public final boolean containsAllItems(@NonNull final DataType... items) {
         ensureNotNull(items, "The array may not be null");
         return containsAllItems(Arrays.asList(items));
     }
@@ -902,7 +907,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
     }
 
     @Override
-    public final void attach(final AbsListView adapterView) {
+    public final void attach(@NonNull final AbsListView adapterView) {
         ensureNotNull(adapterView, "The adapter view may not be null");
         this.adapterView = adapterView;
         this.adapterView.setAdapter(this);
@@ -950,7 +955,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
     }
 
     @Override
-    public final View getView(final int index, final View convertView, final ViewGroup parent) {
+    public final View getView(final int index, @Nullable final View convertView,
+                              @Nullable final ViewGroup parent) {
         View view = convertView;
 
         if (view == null) {
@@ -965,7 +971,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
     }
 
     @Override
-    public final void onSaveInstanceState(final Bundle outState, final String key) {
+    public final void onSaveInstanceState(@NonNull final Bundle outState,
+                                          @NonNull final String key) {
         ensureNotNull(outState, "The bundle may not be null");
         ensureNotNull(key, "The key may not be null");
         ensureNotEmpty(key, "The key may not be null");
@@ -994,7 +1001,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
 
     @SuppressWarnings("unchecked")
     @Override
-    public final void onRestoreInstanceState(final Bundle savedInstanceState, final String key) {
+    public final void onRestoreInstanceState(@NonNull final Bundle savedInstanceState,
+                                             @NonNull final String key) {
         ensureNotNull(savedInstanceState, "The bundle may not be null");
         ensureNotNull(key, "The key may not be null");
         ensureNotEmpty(key, "The key may not be null");

@@ -14,6 +14,8 @@
  */
 package de.mrapp.android.adapter.datastructure;
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -58,7 +60,7 @@ public abstract class AbstractUnmodifiableList<DataType, EncapsulatedType>
      *         The list, which should be encapsulated by the list, as an instance of the class
      *         {@link List}. The list may not be null
      */
-    public AbstractUnmodifiableList(final List<EncapsulatedType> encapsulatedList) {
+    public AbstractUnmodifiableList(@NonNull final List<EncapsulatedType> encapsulatedList) {
         ensureNotNull(encapsulatedList, "The encapsulated list may not be null");
         this.encapsulatedList = encapsulatedList;
     }
@@ -75,12 +77,12 @@ public abstract class AbstractUnmodifiableList<DataType, EncapsulatedType>
 
     @Override
     public final boolean addAll(final int location,
-                                final Collection<? extends DataType> collection) {
+                                @NonNull final Collection<? extends DataType> collection) {
         throw new UnsupportedOperationException("List is not allowed to be modified");
     }
 
     @Override
-    public final boolean addAll(final Collection<? extends DataType> collection) {
+    public final boolean addAll(@NonNull final Collection<? extends DataType> collection) {
         throw new UnsupportedOperationException("List is not allowed to be modified");
     }
 
@@ -100,12 +102,12 @@ public abstract class AbstractUnmodifiableList<DataType, EncapsulatedType>
     }
 
     @Override
-    public final boolean removeAll(final Collection<?> collection) {
+    public final boolean removeAll(@NonNull final Collection<?> collection) {
         throw new UnsupportedOperationException("List is not allowed to be modified");
     }
 
     @Override
-    public final boolean retainAll(final Collection<?> collection) {
+    public final boolean retainAll(@NonNull final Collection<?> collection) {
         throw new UnsupportedOperationException("List is not allowed to be modified");
     }
 
@@ -120,7 +122,7 @@ public abstract class AbstractUnmodifiableList<DataType, EncapsulatedType>
     }
 
     @Override
-    public final boolean containsAll(final Collection<?> collection) {
+    public final boolean containsAll(@NonNull final Collection<?> collection) {
         boolean result = true;
 
         for (Object item : collection) {
@@ -163,6 +165,7 @@ public abstract class AbstractUnmodifiableList<DataType, EncapsulatedType>
     }
 
     @Override
+    @NonNull
     public final List<DataType> subList(final int start, final int end) {
         ArrayList<DataType> subList = new ArrayList<>();
 
@@ -174,6 +177,7 @@ public abstract class AbstractUnmodifiableList<DataType, EncapsulatedType>
     }
 
     @Override
+    @NonNull
     public final Object[] toArray() {
         Object[] array = new Object[size()];
 
@@ -185,7 +189,7 @@ public abstract class AbstractUnmodifiableList<DataType, EncapsulatedType>
     }
 
     @Override
-    public final <T> T[] toArray(final T[] array) {
+    public final <T> T[] toArray(@NonNull final T[] array) {
         ArrayList<DataType> list = new ArrayList<>();
 
         for (int i = 0; i < size(); i++) {

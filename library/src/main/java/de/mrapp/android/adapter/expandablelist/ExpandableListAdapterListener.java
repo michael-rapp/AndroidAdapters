@@ -14,6 +14,8 @@
  */
 package de.mrapp.android.adapter.expandablelist;
 
+import android.support.annotation.NonNull;
+
 import de.mrapp.android.adapter.ExpandableListAdapter;
 
 /**
@@ -41,8 +43,8 @@ public interface ExpandableListAdapterListener<GroupType, ChildType> {
      * @param index
      *         The index of the group item, which has been added, as an {@link Integer} value
      */
-    void onGroupAdded(ExpandableListAdapter<GroupType, ChildType> adapter, GroupType group,
-                      int index);
+    void onGroupAdded(@NonNull ExpandableListAdapter<GroupType, ChildType> adapter,
+                      @NonNull GroupType group, int index);
 
     /**
      * The method, which is invoked, when a group item has been removed from the adapter.
@@ -56,8 +58,8 @@ public interface ExpandableListAdapterListener<GroupType, ChildType> {
      * @param index
      *         The index of the group item, which has been removed, as an {@link Integer} value
      */
-    void onGroupRemoved(ExpandableListAdapter<GroupType, ChildType> adapter, GroupType group,
-                        int index);
+    void onGroupRemoved(@NonNull ExpandableListAdapter<GroupType, ChildType> adapter,
+                        @NonNull GroupType group, int index);
 
     /**
      * The method, which is invoked, when a child item has been added to a group of the adapter.
@@ -77,8 +79,9 @@ public interface ExpandableListAdapterListener<GroupType, ChildType> {
      *         The index of the group item, the child has been added to, as an {@link Integer}
      *         value
      */
-    void onChildAdded(ExpandableListAdapter<GroupType, ChildType> adapter, ChildType child,
-                      int childIndex, GroupType group, int groupIndex);
+    void onChildAdded(@NonNull ExpandableListAdapter<GroupType, ChildType> adapter,
+                      @NonNull ChildType child, int childIndex, @NonNull GroupType group,
+                      int groupIndex);
 
     /**
      * The method, which is invoked, when a child item has been removed from a group of the
@@ -99,7 +102,8 @@ public interface ExpandableListAdapterListener<GroupType, ChildType> {
      *         The index of the group item, the child has been removed from, as an {@link Integer}
      *         value
      */
-    void onChildRemoved(ExpandableListAdapter<GroupType, ChildType> adapter, ChildType child,
-                        int childIndex, GroupType group, int groupIndex);
+    void onChildRemoved(@NonNull ExpandableListAdapter<GroupType, ChildType> adapter,
+                        @NonNull ChildType child, int childIndex, @NonNull GroupType group,
+                        int groupIndex);
 
 }

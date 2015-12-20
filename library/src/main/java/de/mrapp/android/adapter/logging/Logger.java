@@ -14,6 +14,7 @@
  */
 package de.mrapp.android.adapter.logging;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import static de.mrapp.android.util.ClassUtil.getTruncatedName;
@@ -40,7 +41,7 @@ public class Logger {
      *         The log level, which should be used by the logger, as a value of the enum {@link
      *         LogLevel}. The log level may not be null
      */
-    public Logger(final LogLevel logLevel) {
+    public Logger(@NonNull final LogLevel logLevel) {
         setLogLevel(logLevel);
     }
 
@@ -64,7 +65,7 @@ public class Logger {
      *         The log level, which should be set, as a value of the enum {@link LogLevel}. The log
      *         level may not be null
      */
-    public final void setLogLevel(final LogLevel logLevel) {
+    public final void setLogLevel(@NonNull final LogLevel logLevel) {
         ensureNotNull(logLevel, "The log level may not be null");
         this.logLevel = logLevel;
     }
@@ -79,7 +80,7 @@ public class Logger {
      *         The message, which should be logged, as a {@link String}. The message may neither be
      *         null, nor empty
      */
-    public final void logVerbose(final Class<?> tag, final String message) {
+    public final void logVerbose(@NonNull final Class<?> tag, @NonNull final String message) {
         ensureNotNull(tag, "The tag may not be null");
         ensureNotNull(message, "The message may not be null");
         ensureNotEmpty(message, "The message may not be empty");
@@ -102,7 +103,8 @@ public class Logger {
      *         The exception, which caused the log message, as an instance of the class {@link
      *         Throwable}. The cause may not be null
      */
-    public final void logVerbose(final Class<?> tag, final String message, final Throwable cause) {
+    public final void logVerbose(@NonNull final Class<?> tag, @NonNull final String message,
+                                 @NonNull final Throwable cause) {
         ensureNotNull(tag, "The tag may not be null");
         ensureNotNull(message, "The message may not be null");
         ensureNotEmpty(message, "The message may not be empty");
@@ -123,7 +125,7 @@ public class Logger {
      *         The message, which should be logged, as a {@link String}. The message may neither be
      *         null, nor empty
      */
-    public final void logDebug(final Class<?> tag, final String message) {
+    public final void logDebug(@NonNull final Class<?> tag, @NonNull final String message) {
         ensureNotNull(tag, "The tag may not be null");
         ensureNotNull(message, "The message may not be null");
         ensureNotEmpty(message, "The message may not be empty");
@@ -146,7 +148,8 @@ public class Logger {
      *         The exception, which caused the log message, as an instance of the class {@link
      *         Throwable}. The cause may not be null
      */
-    public final void logDebug(final Class<?> tag, final String message, final Throwable cause) {
+    public final void logDebug(@NonNull final Class<?> tag, @NonNull final String message,
+                               @NonNull final Throwable cause) {
         ensureNotNull(tag, "The tag may not be null");
         ensureNotNull(message, "The message may not be null");
         ensureNotEmpty(message, "The message may not be empty");
@@ -167,7 +170,7 @@ public class Logger {
      *         The message, which should be logged, as a {@link String}. The message may neither be
      *         null, nor empty
      */
-    public final void logInfo(final Class<?> tag, final String message) {
+    public final void logInfo(@NonNull final Class<?> tag, @NonNull final String message) {
         ensureNotNull(tag, "The tag may not be null");
         ensureNotNull(message, "The message may not be null");
         ensureNotEmpty(message, "The message may not be empty");
@@ -190,7 +193,8 @@ public class Logger {
      *         The exception, which caused the log message, as an instance of the class {@link
      *         Throwable}. The cause may not be null
      */
-    public final void logInfo(final Class<?> tag, final String message, final Throwable cause) {
+    public final void logInfo(@NonNull final Class<?> tag, @NonNull final String message,
+                              @NonNull final Throwable cause) {
         ensureNotNull(tag, "The tag may not be null");
         ensureNotNull(message, "The message may not be null");
         ensureNotEmpty(message, "The message may not be empty");
@@ -211,7 +215,7 @@ public class Logger {
      *         The message, which should be logged, as a {@link String}. The message may neither be
      *         null, nor empty
      */
-    public final void logWarn(final Class<?> tag, final String message) {
+    public final void logWarn(@NonNull final Class<?> tag, @NonNull final String message) {
         ensureNotNull(tag, "The tag may not be null");
         ensureNotNull(message, "The message may not be null");
         ensureNotEmpty(message, "The message may not be empty");
@@ -234,7 +238,8 @@ public class Logger {
      *         The exception, which caused the log message, as an instance of the class {@link
      *         Throwable}. The cause may not be null
      */
-    public final void logWarn(final Class<?> tag, final String message, final Throwable cause) {
+    public final void logWarn(@NonNull final Class<?> tag, @NonNull final String message,
+                              @NonNull final Throwable cause) {
         ensureNotNull(tag, "The tag may not be null");
         ensureNotNull(message, "The message may not be null");
         ensureNotEmpty(message, "The message may not be empty");
@@ -255,7 +260,7 @@ public class Logger {
      *         The message, which should be logged, as a {@link String}. The message may neither be
      *         null, nor empty
      */
-    public final void logError(final Class<?> tag, final String message) {
+    public final void logError(@NonNull final Class<?> tag, @NonNull final String message) {
         ensureNotNull(tag, "The tag may not be null");
         ensureNotNull(message, "The message may not be null");
         ensureNotEmpty(message, "The message may not be empty");
@@ -278,7 +283,8 @@ public class Logger {
      *         The exception, which caused the log message, as an instance of the class {@link
      *         Throwable}. The cause may not be null
      */
-    public final void logError(final Class<?> tag, final String message, final Throwable cause) {
+    public final void logError(@NonNull final Class<?> tag, @NonNull final String message,
+                               @NonNull final Throwable cause) {
         ensureNotNull(tag, "The tag may not be null");
         ensureNotNull(message, "The message may not be null");
         ensureNotEmpty(message, "The message may not be empty");
