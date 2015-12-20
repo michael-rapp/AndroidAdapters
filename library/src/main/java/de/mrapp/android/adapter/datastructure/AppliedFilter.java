@@ -19,8 +19,8 @@ import android.os.Parcelable;
 
 import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.Filterable;
-import de.mrapp.android.adapter.util.ClassUtil;
 
+import static de.mrapp.android.util.ClassUtil.getTruncatedName;
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 /**
@@ -159,8 +159,7 @@ public class AppliedFilter<DataType> implements DataStructure, Parcelable {
     @Override
     public final String toString() {
         return "AppliedFilter [query=" + query + ", flags=" + flags +
-                (filter != null ? ", filter=" + ClassUtil.getTruncatedName(filter.getClass()) :
-                        "") + "]";
+                (filter != null ? ", filter=" + getTruncatedName(filter.getClass()) : "") + "]";
     }
 
     @Override

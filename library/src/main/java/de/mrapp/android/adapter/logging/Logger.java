@@ -14,11 +14,11 @@
  */
 package de.mrapp.android.adapter.logging;
 
+import android.util.Log;
+
 import static de.mrapp.android.adapter.util.Condition.ensureNotEmpty;
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
-import static de.mrapp.android.adapter.util.ClassUtil.getTruncatedName;
-
-import android.util.Log;
+import static de.mrapp.android.util.ClassUtil.getTruncatedName;
 
 /**
  * A logger, which allows to log messages on specific log levels.
