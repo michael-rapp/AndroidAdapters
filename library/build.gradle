@@ -19,5 +19,6 @@ android {
 }
 
 dependencies {
+    compile 'com.github.michael-rapp:android-util:1.2.2'
     testCompile 'junit:junit:4.12'
 }
