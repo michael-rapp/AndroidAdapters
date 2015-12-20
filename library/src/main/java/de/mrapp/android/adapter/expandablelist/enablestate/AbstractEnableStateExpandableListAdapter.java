@@ -14,14 +14,13 @@
  */
 package de.mrapp.android.adapter.expandablelist.enablestate;
 
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+import android.content.Context;
+import android.os.Bundle;
+import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
-import android.content.Context;
-import android.os.Bundle;
 
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.datastructure.UnmodifiableList;
@@ -34,6 +33,8 @@ import de.mrapp.android.adapter.expandablelist.ExpansionListener;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.logging.LogLevel;
 import de.mrapp.android.adapter.util.VisibleForTesting;
+
+import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as a list of arbitrary
@@ -389,7 +390,7 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
 
     @Override
     public final void setGroupEnabled(final GroupType group, final boolean enabled) {
-        setGroupEnabled(group, enabled);
+        setGroupEnabled(indexOfGroupOrThrowException(group), enabled);
     }
 
     @Override

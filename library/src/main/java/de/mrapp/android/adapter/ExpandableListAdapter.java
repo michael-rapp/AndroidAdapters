@@ -14,12 +14,13 @@
  */
 package de.mrapp.android.adapter;
 
+import android.widget.ExpandableListView;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-
-import android.widget.ExpandableListView;
+import java.util.NoSuchElementException;
 
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterListener;
 import de.mrapp.android.adapter.expandablelist.ExpansionListener;
@@ -40,6 +41,7 @@ import de.mrapp.android.adapter.expandablelist.sortable.SortableExpandableListAd
  * @author Michael Rapp
  * @since 0.1.0
  */
+@SuppressWarnings("unused")
 public interface ExpandableListAdapter<GroupType, ChildType>
         extends Adapter<ExpandableListView>, android.widget.ExpandableListAdapter,
         EnableStateExpandableListAdapter<GroupType, ChildType>,

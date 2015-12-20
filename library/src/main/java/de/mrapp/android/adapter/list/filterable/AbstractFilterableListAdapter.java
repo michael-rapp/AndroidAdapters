@@ -14,9 +14,10 @@
  */
 package de.mrapp.android.adapter.list.filterable;
 
-import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
-import static de.mrapp.android.adapter.util.Condition.ensureAtMaximum;
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+import android.content.Context;
+import android.os.Bundle;
+import android.util.SparseIntArray;
+import android.widget.AbsListView;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,11 +28,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.util.SparseIntArray;
-
 import de.mrapp.android.adapter.Filter;
+import de.mrapp.android.adapter.Filterable;
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
@@ -46,6 +44,10 @@ import de.mrapp.android.adapter.list.sortable.AbstractSortableListAdapter;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 import de.mrapp.android.adapter.logging.LogLevel;
 import de.mrapp.android.adapter.util.VisibleForTesting;
+
+import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
+import static de.mrapp.android.adapter.util.Condition.ensureAtMaximum;
+import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as a filterable list of
@@ -200,15 +202,14 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
                 if (isFiltered()) {
                     if (order == Order.ASCENDING) {
                         if (comparator != null) {
-                            Collections.sort(unfilteredItems,
-                                    new ItemComparator<DataType>(comparator));
+                            Collections.sort(unfilteredItems, new ItemComparator<>(comparator));
                         } else {
                             Collections.sort(unfilteredItems);
                         }
                     } else {
                         if (comparator != null) {
-                            Collections.sort(unfilteredItems, Collections
-                                    .reverseOrder(new ItemComparator<DataType>(comparator)));
+                            Collections.sort(unfilteredItems,
+                                    Collections.reverseOrder(new ItemComparator<>(comparator)));
                         } else {
                             Collections.sort(unfilteredItems, Collections.reverseOrder());
                         }
@@ -238,11 +239,11 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
      */
     private void applyFilter(final AppliedFilter<DataType> filter) {
         if (unfilteredItems == null) {
-            unfilteredItems = new ArrayList<Item<DataType>>(getItems());
+            unfilteredItems = new ArrayList<>(getItems());
             indexMapping = new SparseIntArray();
         }
 
-        Collection<Item<DataType>> itemsToRemove = new LinkedList<Item<DataType>>();
+        Collection<Item<DataType>> itemsToRemove = new LinkedList<>();
         int counter = 0;
 
         for (int i = 0; i < getCount(); i++) {
@@ -435,8 +436,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
      * as an instance of the type {@link LinkedHashSet} or an empty set, if no filters are applied
      */
     protected final LinkedHashSet<AppliedFilter<DataType>> cloneAppliedFilters() {
-        LinkedHashSet<AppliedFilter<DataType>> clonedAppliedFilters =
-                new LinkedHashSet<AppliedFilter<DataType>>();
+        LinkedHashSet<AppliedFilter<DataType>> clonedAppliedFilters = new LinkedHashSet<>();
 
         for (AppliedFilter<DataType> filter : appliedFilters) {
             clonedAppliedFilters.add(filter.clone());
@@ -547,7 +547,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 
     @Override
     public final boolean applyFilter(final String query, final int flags) {
-        AppliedFilter<DataType> appliedFilter = new AppliedFilter<DataType>(query, flags);
+        AppliedFilter<DataType> appliedFilter = new AppliedFilter<>(query, flags);
         boolean added = appliedFilters.add(appliedFilter);
         applyFilter(appliedFilter);
 
@@ -570,7 +570,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
     @Override
     public final boolean applyFilter(final String query, final int flags,
                                      final Filter<DataType> filter) {
-        AppliedFilter<DataType> appliedFilter = new AppliedFilter<DataType>(query, flags, filter);
+        AppliedFilter<DataType> appliedFilter = new AppliedFilter<>(query, flags, filter);
         boolean added = appliedFilters.add(appliedFilter);
 
         if (added) {
@@ -593,7 +593,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 
     @Override
     public final boolean resetFilter(final String query, final int flags) {
-        AppliedFilter<DataType> appliedFilter = new AppliedFilter<DataType>(query, flags);
+        AppliedFilter<DataType> appliedFilter = new AppliedFilter<>(query, flags);
         boolean removed = appliedFilters.remove(appliedFilter);
 
         if (removed) {
@@ -617,8 +617,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 
     @Override
     public final void resetAllFilters() {
-        for (AppliedFilter<DataType> appliedFilter : new LinkedHashSet<AppliedFilter<DataType>>(
-                appliedFilters)) {
+        for (AppliedFilter<DataType> appliedFilter : new LinkedHashSet<>(appliedFilters)) {
             resetFilter(appliedFilter.getQuery(), appliedFilter.getFlags());
         }
 

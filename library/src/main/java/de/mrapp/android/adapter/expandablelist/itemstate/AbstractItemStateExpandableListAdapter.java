@@ -14,16 +14,13 @@
  */
 package de.mrapp.android.adapter.expandablelist.itemstate;
 
-import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
-import static de.mrapp.android.adapter.util.Condition.ensureAtMaximum;
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+import android.content.Context;
+import android.os.Bundle;
+import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
-import android.content.Context;
-import android.os.Bundle;
 
 import de.mrapp.android.adapter.ExpandableListAdapter;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
@@ -38,6 +35,10 @@ import de.mrapp.android.adapter.expandablelist.enablestate.ExpandableListEnableS
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.logging.LogLevel;
 import de.mrapp.android.adapter.util.VisibleForTesting;
+
+import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
+import static de.mrapp.android.adapter.util.Condition.ensureAtMaximum;
+import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as a list of arbitrary
@@ -431,7 +432,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 
     @Override
     public final int setGroupState(final GroupType group, final int state) {
-        return setGroupState(group, state);
+        return setGroupState(indexOfGroupOrThrowException(group), state);
     }
 
     @Override
@@ -712,7 +713,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 
     @Override
     public final boolean triggerAllChildStates() {
-        boolean result = false;
+        boolean result = true;
 
         for (int i = 0; i < getGroupCount(); i++) {
             result &= triggerAllChildStates(i);
@@ -750,7 +751,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 
     @Override
     public final ChildType getFirstChildWithSpecificState(final GroupType group, final int state) {
-        return getFirstChildWithSpecificState(group, state);
+        return getFirstChildWithSpecificState(indexOfGroupOrThrowException(group), state);
     }
 
     @Override

@@ -14,13 +14,14 @@
  */
 package de.mrapp.android.adapter.list.selectable;
 
+import android.content.Context;
+import android.os.Bundle;
+import android.widget.AbsListView;
+
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
-import android.content.Context;
-import android.os.Bundle;
 
 import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.ListAdapter;
@@ -441,7 +442,7 @@ public class SingleChoiceListAdapterImplementation<DataType>
     @Override
     public final SingleChoiceListAdapterImplementation<DataType> clone()
             throws CloneNotSupportedException {
-        return new SingleChoiceListAdapterImplementation<DataType>(getContext(), getInflater(),
+        return new SingleChoiceListAdapterImplementation<>(getContext(), getInflater(),
                 getDecorator(), getLogLevel(), cloneItems(), areDuplicatesAllowed(),
                 isNotifiedOnChange(), getItemClickListeners(), getAdapterListeners(),
                 getEnableStateListeners(), getNumberOfItemStates(), isItemStateTriggeredOnClick(),

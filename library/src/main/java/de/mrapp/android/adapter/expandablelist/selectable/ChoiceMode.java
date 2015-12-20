@@ -36,6 +36,6 @@ public enum ChoiceMode {
     /**
      * If groups as well as children can be selected.
      */
-    GROUPS_AND_CHILDREN;
+    GROUPS_AND_CHILDREN
 
 }

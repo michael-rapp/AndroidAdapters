@@ -14,9 +14,12 @@
  */
 package de.mrapp.android.adapter.list.sortable;
 
+import android.widget.AbsListView;
+
 import java.util.Comparator;
 
 import de.mrapp.android.adapter.Order;
+import de.mrapp.android.adapter.SortingNotSupportedException;
 
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a sortable list of

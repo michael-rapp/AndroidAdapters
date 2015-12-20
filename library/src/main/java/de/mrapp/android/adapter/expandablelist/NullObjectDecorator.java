@@ -37,7 +37,7 @@ public class NullObjectDecorator<DataType> extends SelectableListDecorator<DataT
                                     final DataType item, final int viewType, final int index,
                                     final boolean enabled, final int state, final boolean filtered,
                                     final boolean selected) {
-        return;
+
     }
 
-};
+}

@@ -32,6 +32,6 @@ public enum Order {
      * Causes the items of an adapter to be sorted in a descending order. Therefore the items, which
      * are identified to be greater than other items, will be placed at lower indices.
      */
-    DESCENDING;
+    DESCENDING
 
 }

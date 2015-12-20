@@ -14,14 +14,14 @@
  */
 package de.mrapp.android.adapter.expandablelist.filterable;
 
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+import android.content.Context;
+import android.widget.ExpandableListView;
 
 import java.util.List;
 import java.util.Set;
 
-import android.content.Context;
-
 import de.mrapp.android.adapter.Filter;
+import de.mrapp.android.adapter.Filterable;
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.datastructure.group.Group;
@@ -36,6 +36,8 @@ import de.mrapp.android.adapter.expandablelist.sortable.ExpandableListSortingLis
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.filterable.ListFilterListener;
 import de.mrapp.android.adapter.logging.LogLevel;
+
+import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as a filterable list of
@@ -83,7 +85,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
                                       final String query, final int flags,
                                       final Filter<Group<GroupType, ChildType>> filter,
                                       final List<Group<GroupType, ChildType>> filteredItems) {
-                return;
+
             }
 
             @Override
@@ -114,7 +116,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
             public void onApplyFilter(final ListAdapter<ChildType> adapter, final String query,
                                       final int flags, final Filter<ChildType> filter,
                                       final List<ChildType> filteredItems) {
-                return;
+
             }
 
             @Override

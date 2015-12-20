@@ -14,7 +14,10 @@
  */
 package de.mrapp.android.adapter.expandablelist.itemstate;
 
+import android.widget.ExpandableListView;
+
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a list of arbitrary group

@@ -370,7 +370,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
      *         underlying data
      */
     protected final ArrayList<Item<DataType>> cloneItems() throws CloneNotSupportedException {
-        ArrayList<Item<DataType>> clonedItems = new ArrayList<Item<DataType>>();
+        ArrayList<Item<DataType>> clonedItems = new ArrayList<>();
 
         for (Item<DataType> item : items) {
             clonedItems.add(item.clone());
@@ -666,7 +666,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
             return false;
         }
 
-        items.add(index, new Item<DataType>(item));
+        items.add(index, new Item<>(item));
         notifyOnItemAdded(item, index);
         notifyOnDataSetChanged();
         String message = "Item \"" + item + "\" added at index " + index;
@@ -712,7 +712,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
     @Override
     public final DataType replaceItem(final int index, final DataType item) {
         ensureNotNull(item, "The item may not be null");
-        DataType replacedItem = items.set(index, new Item<DataType>(item)).getData();
+        DataType replacedItem = items.set(index, new Item<>(item)).getData();
         notifyOnItemRemoved(replacedItem, index);
         notifyOnItemAdded(item, index);
         notifyOnDataSetChanged();
@@ -801,22 +801,22 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
 
     @Override
     public final Iterator<DataType> iterator() {
-        return new ItemIterator<DataType>(items, this);
+        return new ItemIterator<>(items, this);
     }
 
     @Override
     public final ListIterator<DataType> listIterator() {
-        return new ItemListIterator<DataType>(items, this);
+        return new ItemListIterator<>(items, this);
     }
 
     @Override
     public final ListIterator<DataType> listIterator(final int index) {
-        return new ItemListIterator<DataType>(items, this, index);
+        return new ItemListIterator<>(items, this, index);
     }
 
     @Override
     public final List<DataType> subList(final int start, final int end) {
-        List<DataType> subList = new ArrayList<DataType>();
+        List<DataType> subList = new ArrayList<>();
 
         for (int i = start; i < end; i++) {
             subList.add(getItem(i));

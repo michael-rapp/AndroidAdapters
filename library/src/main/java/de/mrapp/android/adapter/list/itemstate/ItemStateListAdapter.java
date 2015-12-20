@@ -14,7 +14,10 @@
  */
 package de.mrapp.android.adapter.list.itemstate;
 
+import android.widget.AbsListView;
+
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a list of arbitrary items,

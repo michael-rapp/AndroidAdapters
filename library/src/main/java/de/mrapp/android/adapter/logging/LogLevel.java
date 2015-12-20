@@ -75,7 +75,7 @@ public enum LogLevel {
      * @param rank
      *         The log level's rank, as an {@link Integer} value
      */
-    private LogLevel(final int rank) {
+    LogLevel(final int rank) {
         this.rank = rank;
     }
 

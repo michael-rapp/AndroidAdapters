@@ -14,12 +14,13 @@
  */
 package de.mrapp.android.adapter.list.selectable;
 
+import android.content.Context;
+import android.widget.AbsListView;
+
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
-import android.content.Context;
 
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
@@ -90,7 +91,7 @@ public class MultipleChoiceListAdapterImplementation<DataType>
             @Override
             public void onItemEnabled(final ListAdapter<DataType> adapter, final DataType item,
                                       final int index) {
-                return;
+
             }
 
             @Override
@@ -312,7 +313,7 @@ public class MultipleChoiceListAdapterImplementation<DataType>
 
     @Override
     public final List<Integer> getSelectedIndices() {
-        List<Integer> selectedIndices = new ArrayList<Integer>();
+        List<Integer> selectedIndices = new ArrayList<>();
 
         for (int i = 0; i < getCount(); i++) {
             if (isSelected(i)) {
@@ -325,7 +326,7 @@ public class MultipleChoiceListAdapterImplementation<DataType>
 
     @Override
     public final List<DataType> getSelectedItems() {
-        List<DataType> selectedItems = new ArrayList<DataType>();
+        List<DataType> selectedItems = new ArrayList<>();
 
         for (Item<DataType> item : getItems()) {
             if (item.isSelected()) {
@@ -338,7 +339,7 @@ public class MultipleChoiceListAdapterImplementation<DataType>
 
     @Override
     public final List<Integer> getUnselectedIndices() {
-        List<Integer> unselectedIndices = new ArrayList<Integer>();
+        List<Integer> unselectedIndices = new ArrayList<>();
 
         for (int i = 0; i < getCount(); i++) {
             if (!isSelected(i)) {
@@ -351,7 +352,7 @@ public class MultipleChoiceListAdapterImplementation<DataType>
 
     @Override
     public final List<DataType> getUnselectedItems() {
-        List<DataType> unselectedItems = new ArrayList<DataType>();
+        List<DataType> unselectedItems = new ArrayList<>();
 
         for (Item<DataType> item : getItems()) {
             if (!item.isSelected()) {
@@ -451,7 +452,7 @@ public class MultipleChoiceListAdapterImplementation<DataType>
     @Override
     public final MultipleChoiceListAdapterImplementation<DataType> clone()
             throws CloneNotSupportedException {
-        return new MultipleChoiceListAdapterImplementation<DataType>(getContext(), getInflater(),
+        return new MultipleChoiceListAdapterImplementation<>(getContext(), getInflater(),
                 getDecorator(), getLogLevel(), cloneItems(), areDuplicatesAllowed(),
                 isNotifiedOnChange(), getItemClickListeners(), getAdapterListeners(),
                 getEnableStateListeners(), getNumberOfItemStates(), isItemStateTriggeredOnClick(),

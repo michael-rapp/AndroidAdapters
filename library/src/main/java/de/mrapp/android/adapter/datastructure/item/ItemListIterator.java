@@ -111,7 +111,7 @@ public class ItemListIterator<DataType> implements ListIterator<DataType> {
         }
 
         currentIndex++;
-        items.add(currentIndex, new Item<DataType>(item));
+        items.add(currentIndex, new Item<>(item));
         adapter.addItem(currentIndex, item);
     }
 
@@ -189,7 +189,7 @@ public class ItemListIterator<DataType> implements ListIterator<DataType> {
             throw new IllegalStateException();
         } else {
             int index = items.indexOf(lastReturnedItem);
-            items.set(index, new Item<DataType>(item));
+            items.set(index, new Item<>(item));
             adapter.replaceItem(index, item);
             lastReturnedItem = null;
         }

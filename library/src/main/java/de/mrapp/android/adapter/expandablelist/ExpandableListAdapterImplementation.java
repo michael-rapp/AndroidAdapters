@@ -14,11 +14,12 @@
  */
 package de.mrapp.android.adapter.expandablelist;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
-
 import android.content.Context;
 import android.view.View;
+import android.widget.ExpandableListView;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import de.mrapp.android.adapter.ExpandableListDecorator;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
@@ -184,9 +185,8 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType> extends
                                                final Inflater childInflater,
                                                final ExpandableListDecorator<GroupType, ChildType> decorator) {
         this(context, groupInflater, childInflater, decorator, LogLevel.INFO,
-                new MultipleChoiceListAdapterImplementation<Group<GroupType, ChildType>>(context,
-                        groupInflater, new NullObjectDecorator<Group<GroupType, ChildType>>()),
-                false, true, true,
+                new MultipleChoiceListAdapterImplementation<>(context, groupInflater,
+                        new NullObjectDecorator<Group<GroupType, ChildType>>()), false, true, true,
                 new LinkedHashSet<ExpandableListAdapterItemClickListener<GroupType, ChildType>>(),
                 new LinkedHashSet<ExpandableListAdapterListener<GroupType, ChildType>>(),
                 new LinkedHashSet<ExpansionListener<GroupType, ChildType>>(), true,
@@ -264,15 +264,14 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType> extends
     @Override
     public final ExpandableListAdapterImplementation<GroupType, ChildType> clone()
             throws CloneNotSupportedException {
-        return new ExpandableListAdapterImplementation<GroupType, ChildType>(getContext(),
-                getGroupInflater(), getChildInflater(), getDecorator(), getLogLevel(),
-                cloneGroupAdapter(), areDuplicateChildrenAllowed(), isNotifiedOnChange(),
-                isGroupExpandedOnClick(), getItemClickListeners(), getAdapterListeners(),
-                getExpansionListeners(), areChildEnableStatesSetImplicitly(),
-                getEnableStateListeners(), getNumberOfGroupStates(), getNumberOfChildStates(),
-                isGroupStateTriggeredOnClick(), isChildStateTriggeredOnClick(),
-                areChildStatesSetImplicitly(), getItemStateListeners(), getSortingListeners(),
-                getFilterListeners());
+        return new ExpandableListAdapterImplementation<>(getContext(), getGroupInflater(),
+                getChildInflater(), getDecorator(), getLogLevel(), cloneGroupAdapter(),
+                areDuplicateChildrenAllowed(), isNotifiedOnChange(), isGroupExpandedOnClick(),
+                getItemClickListeners(), getAdapterListeners(), getExpansionListeners(),
+                areChildEnableStatesSetImplicitly(), getEnableStateListeners(),
+                getNumberOfGroupStates(), getNumberOfChildStates(), isGroupStateTriggeredOnClick(),
+                isChildStateTriggeredOnClick(), areChildStatesSetImplicitly(),
+                getItemStateListeners(), getSortingListeners(), getFilterListeners());
     }
 
 }

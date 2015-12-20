@@ -14,6 +14,10 @@
  */
 package de.mrapp.android.adapter.expandablelist.selectable;
 
+import android.widget.ExpandableListView;
+
+import java.util.NoSuchElementException;
+
 import de.mrapp.android.adapter.ExpandableListAdapter;
 
 /**

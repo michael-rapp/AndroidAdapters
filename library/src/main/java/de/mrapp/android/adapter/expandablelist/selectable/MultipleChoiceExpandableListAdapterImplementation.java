@@ -14,11 +14,12 @@
  */
 package de.mrapp.android.adapter.expandablelist.selectable;
 
+import android.content.Context;
+import android.widget.ExpandableListView;
+
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
-import android.content.Context;
 
 import de.mrapp.android.adapter.ExpandableListAdapter;
 import de.mrapp.android.adapter.MultipleChoiceExpandableListAdapter;
@@ -254,9 +255,8 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
                                                              final SelectableExpandableListDecorator<GroupType, ChildType> decorator,
                                                              final ChoiceMode choiceMode) {
         this(context, groupInflater, childInflater, decorator, LogLevel.ALL,
-                new MultipleChoiceListAdapterImplementation<Group<GroupType, ChildType>>(context,
-                        groupInflater, new NullObjectDecorator<Group<GroupType, ChildType>>()),
-                false, true, true,
+                new MultipleChoiceListAdapterImplementation<>(context, groupInflater,
+                        new NullObjectDecorator<Group<GroupType, ChildType>>()), false, true, true,
                 new LinkedHashSet<ExpandableListAdapterItemClickListener<GroupType, ChildType>>(),
                 new LinkedHashSet<ExpandableListAdapterListener<GroupType, ChildType>>(),
                 new LinkedHashSet<ExpansionListener<GroupType, ChildType>>(), true,

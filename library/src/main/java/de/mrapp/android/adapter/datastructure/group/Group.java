@@ -130,7 +130,7 @@ public class Group<GroupType, ChildType> extends AbstractAdapterItem<GroupType> 
         try {
             GroupType clonedData =
                     (GroupType) getData().getClass().getMethod("clone").invoke(getData());
-            Group<GroupType, ChildType> clonedGroup = new Group<GroupType, ChildType>(clonedData);
+            Group<GroupType, ChildType> clonedGroup = new Group<>(clonedData);
             MultipleChoiceListAdapter<ChildType> clonedChildAdapter = null;
 
             if (childAdapter != null) {
@@ -146,12 +146,10 @@ public class Group<GroupType, ChildType> extends AbstractAdapterItem<GroupType> 
 
     @Override
     public final boolean match(final String query, final int flags) {
-        if (flags == FLAG_FILTER_EMPTY_GROUPS &&
-                (getChildAdapter() == null || getChildAdapter().isEmpty())) {
-            return false;
-        }
+        return !(flags == FLAG_FILTER_EMPTY_GROUPS &&
+                (getChildAdapter() == null || getChildAdapter().isEmpty())) &&
+                super.match(query, flags);
 
-        return super.match(query, flags);
     }
 
     @Override

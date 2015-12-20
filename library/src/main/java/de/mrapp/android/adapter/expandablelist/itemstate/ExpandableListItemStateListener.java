@@ -14,6 +14,8 @@
  */
 package de.mrapp.android.adapter.expandablelist.itemstate;
 
+import android.widget.ListAdapter;
+
 import de.mrapp.android.adapter.ExpandableListAdapter;
 
 /**

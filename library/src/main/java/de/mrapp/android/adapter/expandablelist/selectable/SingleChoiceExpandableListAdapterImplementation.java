@@ -14,12 +14,13 @@
  */
 package de.mrapp.android.adapter.expandablelist.selectable;
 
+import android.content.Context;
+import android.os.Bundle;
+import android.widget.ExpandableListView;
+
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
-import android.content.Context;
-import android.os.Bundle;
 
 import de.mrapp.android.adapter.ExpandableListAdapter;
 import de.mrapp.android.adapter.Filter;
@@ -170,7 +171,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
      *         as an {@link Integer} value or -1, if no child index is available
      */
     private void selectNearestEnabledItem(final int groupIndex, final int childIndex) {
-        boolean selected = false;
+        boolean selected;
 
         if (childIndex != -1) {
             selected = selectNearestEnabledChildItem(groupIndex, childIndex);
@@ -590,9 +591,8 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
                                                            final SelectableExpandableListDecorator<GroupType, ChildType> decorator,
                                                            final ChoiceMode choiceMode) {
         this(context, groupInflater, childInflater, decorator, LogLevel.INFO,
-                new MultipleChoiceListAdapterImplementation<Group<GroupType, ChildType>>(context,
-                        groupInflater, new NullObjectDecorator<Group<GroupType, ChildType>>()),
-                false, true, true,
+                new MultipleChoiceListAdapterImplementation<>(context, groupInflater,
+                        new NullObjectDecorator<Group<GroupType, ChildType>>()), false, true, true,
                 new LinkedHashSet<ExpandableListAdapterItemClickListener<GroupType, ChildType>>(),
                 new LinkedHashSet<ExpandableListAdapterListener<GroupType, ChildType>>(),
                 new LinkedHashSet<ExpansionListener<GroupType, ChildType>>(), true,

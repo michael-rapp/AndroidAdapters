@@ -68,7 +68,7 @@ public final class AdapterFactory {
                                                                      final ListDecorator<DataType> decorator,
                                                                      final int viewId) {
         Inflater inflater = InflaterFactory.createInflater(viewId);
-        return new ListAdapterImplementation<DataType>(context, inflater, decorator);
+        return new ListAdapterImplementation<>(context, inflater, decorator);
     }
 
     /**
@@ -93,7 +93,7 @@ public final class AdapterFactory {
                                                                      final ListDecorator<DataType> decorator,
                                                                      final View view) {
         Inflater inflater = InflaterFactory.createInflater(view);
-        return new ListAdapterImplementation<DataType>(context, inflater, decorator);
+        return new ListAdapterImplementation<>(context, inflater, decorator);
     }
 
     /**
@@ -120,7 +120,7 @@ public final class AdapterFactory {
             final Context context, final SelectableListDecorator<DataType> decorator,
             final int viewId) {
         Inflater inflater = InflaterFactory.createInflater(viewId);
-        return new SingleChoiceListAdapterImplementation<DataType>(context, inflater, decorator);
+        return new SingleChoiceListAdapterImplementation<>(context, inflater, decorator);
     }
 
     /**
@@ -146,7 +146,7 @@ public final class AdapterFactory {
             final Context context, final SelectableListDecorator<DataType> decorator,
             final View view) {
         Inflater inflater = InflaterFactory.createInflater(view);
-        return new SingleChoiceListAdapterImplementation<DataType>(context, inflater, decorator);
+        return new SingleChoiceListAdapterImplementation<>(context, inflater, decorator);
     }
 
     /**
@@ -173,7 +173,7 @@ public final class AdapterFactory {
             final Context context, final SelectableListDecorator<DataType> decorator,
             final int viewId) {
         Inflater inflater = InflaterFactory.createInflater(viewId);
-        return new MultipleChoiceListAdapterImplementation<DataType>(context, inflater, decorator);
+        return new MultipleChoiceListAdapterImplementation<>(context, inflater, decorator);
     }
 
     /**
@@ -199,7 +199,7 @@ public final class AdapterFactory {
             final Context context, final SelectableListDecorator<DataType> decorator,
             final View view) {
         Inflater inflater = InflaterFactory.createInflater(view);
-        return new MultipleChoiceListAdapterImplementation<DataType>(context, inflater, decorator);
+        return new MultipleChoiceListAdapterImplementation<>(context, inflater, decorator);
     }
 
     /**
@@ -233,8 +233,8 @@ public final class AdapterFactory {
             final int groupViewId, final int childViewId) {
         Inflater groupInflater = InflaterFactory.createInflater(groupViewId);
         Inflater childInflater = InflaterFactory.createInflater(childViewId);
-        return new ExpandableListAdapterImplementation<GroupType, ChildType>(context, groupInflater,
-                childInflater, decorator);
+        return new ExpandableListAdapterImplementation<>(context, groupInflater, childInflater,
+                decorator);
     }
 
     /**
@@ -266,8 +266,8 @@ public final class AdapterFactory {
             final View groupView, final View childView) {
         Inflater groupInflater = InflaterFactory.createInflater(groupView);
         Inflater childInflater = InflaterFactory.createInflater(childView);
-        return new ExpandableListAdapterImplementation<GroupType, ChildType>(context, groupInflater,
-                childInflater, decorator);
+        return new ExpandableListAdapterImplementation<>(context, groupInflater, childInflater,
+                decorator);
     }
 
     /**

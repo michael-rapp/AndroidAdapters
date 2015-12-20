@@ -14,12 +14,13 @@
  */
 package de.mrapp.android.adapter.list;
 
+import android.content.Context;
+import android.view.View;
+import android.widget.AbsListView;
+
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;
-
-import android.content.Context;
-import android.view.View;
 
 import de.mrapp.android.adapter.ListDecorator;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
@@ -189,7 +190,7 @@ public class ListAdapterImplementation<DataType>
 
     @Override
     public final ListAdapterImplementation<DataType> clone() throws CloneNotSupportedException {
-        return new ListAdapterImplementation<DataType>(getContext(), getInflater(), getDecorator(),
+        return new ListAdapterImplementation<>(getContext(), getInflater(), getDecorator(),
                 getLogLevel(), cloneItems(), areDuplicatesAllowed(), isNotifiedOnChange(),
                 getItemClickListeners(), getAdapterListeners(), getEnableStateListeners(),
                 getNumberOfItemStates(), isItemStateTriggeredOnClick(), getItemStateListeners(),

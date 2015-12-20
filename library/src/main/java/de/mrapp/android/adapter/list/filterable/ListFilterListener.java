@@ -17,6 +17,7 @@ package de.mrapp.android.adapter.list.filterable;
 import java.util.List;
 
 import de.mrapp.android.adapter.Filter;
+import de.mrapp.android.adapter.Filterable;
 import de.mrapp.android.adapter.ListAdapter;
 
 /**
@@ -47,7 +48,7 @@ public interface ListFilterListener<DataType> {
      *         interface {@link Filterable} have been used instead
      * @param filteredItems
      *         A collection, which contains the adapter's filtered items, as an instance of the type
-     *         {@link Collection} or an empty collection, if the adapter does not contain any items
+     *         {@link List} or an empty collection, if the adapter does not contain any items
      */
     void onApplyFilter(ListAdapter<DataType> adapter, String query, int flags,
                        Filter<DataType> filter, List<DataType> filteredItems);
@@ -66,7 +67,7 @@ public interface ListFilterListener<DataType> {
      *         0, if no flags have been used by the filter
      * @param unfilteredItems
      *         A collection, which contains the adapter's filtered items, as an instance of the type
-     *         {@link Collection} or an empty collection, if the adapter does not contain any items
+     *         {@link List} or an empty collection, if the adapter does not contain any items
      */
     void onResetFilter(ListAdapter<DataType> adapter, String query, int flags,
                        List<DataType> unfilteredItems);

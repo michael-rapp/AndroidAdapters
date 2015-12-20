@@ -14,13 +14,12 @@
  */
 package de.mrapp.android.adapter.expandablelist.selectable;
 
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
-
-import java.util.Set;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ExpandableListView;
+
+import java.util.Set;
 
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.SelectableExpandableListDecorator;
@@ -36,6 +35,8 @@ import de.mrapp.android.adapter.expandablelist.sortable.ExpandableListSortingLis
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.logging.LogLevel;
 import de.mrapp.android.adapter.util.VisibleForTesting;
+
+import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as a list of arbitrary

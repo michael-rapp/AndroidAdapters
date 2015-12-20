@@ -14,6 +14,8 @@
  */
 package de.mrapp.android.adapter.list.selectable;
 
+import de.mrapp.android.adapter.ListAdapter;
+
 /**
  * Defines the interface, all listeners, which should be notified when the selection of an item of a
  * {@link ListAdapter} has been modified, must implement.

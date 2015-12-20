@@ -14,16 +14,15 @@
  */
 package de.mrapp.android.adapter.list.sortable;
 
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+import android.content.Context;
+import android.os.Bundle;
+import android.widget.AbsListView;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Set;
-
-import android.content.Context;
-import android.os.Bundle;
 
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.Order;
@@ -37,6 +36,8 @@ import de.mrapp.android.adapter.list.itemstate.AbstractItemStateListAdapter;
 import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
 import de.mrapp.android.adapter.logging.LogLevel;
 import de.mrapp.android.adapter.util.VisibleForTesting;
+
+import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as a sortable list of
@@ -266,7 +267,7 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
     public final void sort(final Order order, final Comparator<DataType> comparator) {
         ensureNotNull(order, "The order may not be null");
         this.order = order;
-        Comparator<Item<DataType>> itemComparator = new ItemComparator<DataType>(comparator);
+        Comparator<Item<DataType>> itemComparator = new ItemComparator<>(comparator);
 
         if (order == Order.ASCENDING) {
             Collections.sort(getItems(), itemComparator);

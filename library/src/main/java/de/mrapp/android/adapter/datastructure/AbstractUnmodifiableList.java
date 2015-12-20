@@ -164,7 +164,7 @@ public abstract class AbstractUnmodifiableList<DataType, EncapsulatedType>
 
     @Override
     public final List<DataType> subList(final int start, final int end) {
-        ArrayList<DataType> subList = new ArrayList<DataType>();
+        ArrayList<DataType> subList = new ArrayList<>();
 
         for (int i = start; i < end; i++) {
             subList.add(get(i));

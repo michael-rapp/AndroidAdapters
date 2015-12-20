@@ -14,13 +14,12 @@
  */
 package de.mrapp.android.adapter.list.enablestate;
 
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+import android.content.Context;
+import android.widget.AbsListView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
-import android.content.Context;
 
 import de.mrapp.android.adapter.datastructure.UnmodifiableList;
 import de.mrapp.android.adapter.datastructure.item.Item;
@@ -29,6 +28,8 @@ import de.mrapp.android.adapter.list.AbstractListAdapter;
 import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.logging.LogLevel;
+
+import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as a list of arbitrary
@@ -274,7 +275,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 
     @Override
     public final List<Integer> getEnabledIndices() {
-        List<Integer> enabledIndices = new ArrayList<Integer>();
+        List<Integer> enabledIndices = new ArrayList<>();
 
         for (int i = 0; i < getCount(); i++) {
             if (getItems().get(i).isEnabled()) {
@@ -287,7 +288,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 
     @Override
     public final List<DataType> getEnabledItems() {
-        List<DataType> enabledItems = new ArrayList<DataType>();
+        List<DataType> enabledItems = new ArrayList<>();
 
         for (Item<DataType> item : getItems()) {
             if (item.isEnabled()) {
@@ -300,7 +301,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 
     @Override
     public final List<Integer> getDisabledIndices() {
-        List<Integer> disabledIndices = new ArrayList<Integer>();
+        List<Integer> disabledIndices = new ArrayList<>();
 
         for (int i = 0; i < getCount(); i++) {
             if (!getItems().get(i).isEnabled()) {
@@ -313,7 +314,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
 
     @Override
     public final List<DataType> getDisabledItems() {
-        List<DataType> disabledItems = new ArrayList<DataType>();
+        List<DataType> disabledItems = new ArrayList<>();
 
         for (Item<DataType> item : getItems()) {
             if (!item.isEnabled()) {

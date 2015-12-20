@@ -18,6 +18,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import de.mrapp.android.adapter.Filter;
+import de.mrapp.android.adapter.Filterable;
 import de.mrapp.android.adapter.util.ClassUtil;
 
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
@@ -195,7 +196,7 @@ public class AppliedFilter<DataType> implements DataStructure, Parcelable {
 
     @Override
     public final AppliedFilter<DataType> clone() {
-        return new AppliedFilter<DataType>(new String(query), flags, filter);
+        return new AppliedFilter<>(query, flags, filter);
     }
 
     @Override

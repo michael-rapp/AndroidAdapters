@@ -35,7 +35,7 @@ public class ViewHolder {
      * Creates a new view holder.
      */
     public ViewHolder() {
-        this.views = new SparseArray<SparseArray<View>>();
+        this.views = new SparseArray<>();
     }
 
     /**
@@ -59,7 +59,7 @@ public class ViewHolder {
         SparseArray<View> mapping = views.get(viewType);
 
         if (mapping == null) {
-            mapping = new SparseArray<View>();
+            mapping = new SparseArray<>();
             views.put(viewType, mapping);
         }
 

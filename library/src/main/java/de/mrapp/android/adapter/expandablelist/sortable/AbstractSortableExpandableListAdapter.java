@@ -14,14 +14,13 @@
  */
 package de.mrapp.android.adapter.expandablelist.sortable;
 
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+import android.content.Context;
+import android.os.Bundle;
+import android.widget.ExpandableListView;
 
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Set;
-
-import android.content.Context;
-import android.os.Bundle;
 
 import de.mrapp.android.adapter.ExpandableListAdapter;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
@@ -37,6 +36,8 @@ import de.mrapp.android.adapter.expandablelist.itemstate.ExpandableListItemState
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.logging.LogLevel;
 import de.mrapp.android.adapter.util.VisibleForTesting;
+
+import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as a sortable list of
@@ -149,13 +150,13 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
             @Override
             public void onGroupAdded(final ExpandableListAdapter<GroupType, ChildType> adapter,
                                      final GroupType group, final int index) {
-                return;
+
             }
 
             @Override
             public void onGroupRemoved(final ExpandableListAdapter<GroupType, ChildType> adapter,
                                        final GroupType group, final int index) {
-                return;
+
             }
 
             @Override

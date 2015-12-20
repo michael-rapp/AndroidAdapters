@@ -14,6 +14,8 @@
  */
 package de.mrapp.android.adapter.expandablelist.selectable;
 
+import de.mrapp.android.adapter.ExpandableListAdapter;
+
 /**
  * Defines the interface, all listeners, which should be notified when the selection of a group or
  * child item of a {@link ExpandableListAdapter} has been modified, must implement.

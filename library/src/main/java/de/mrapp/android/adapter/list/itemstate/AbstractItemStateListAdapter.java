@@ -14,16 +14,13 @@
  */
 package de.mrapp.android.adapter.list.itemstate;
 
-import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
-import static de.mrapp.android.adapter.util.Condition.ensureAtMaximum;
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+import android.content.Context;
+import android.os.Bundle;
+import android.widget.AbsListView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
-import android.content.Context;
-import android.os.Bundle;
 
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.datastructure.UnmodifiableList;
@@ -35,6 +32,10 @@ import de.mrapp.android.adapter.list.enablestate.AbstractEnableStateListAdapter;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.logging.LogLevel;
 import de.mrapp.android.adapter.util.VisibleForTesting;
+
+import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
+import static de.mrapp.android.adapter.util.Condition.ensureAtMaximum;
+import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as a list of arbitrary
@@ -414,7 +415,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 
     @Override
     public final List<Integer> getIndicesWithSpecificState(final int state) {
-        List<Integer> indices = new ArrayList<Integer>();
+        List<Integer> indices = new ArrayList<>();
 
         for (int i = 0; i < getCount(); i++) {
             if (getItems().get(i).getState() == state) {
@@ -427,7 +428,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
 
     @Override
     public final List<DataType> getItemsWithSpecificState(final int state) {
-        List<DataType> items = new ArrayList<DataType>();
+        List<DataType> items = new ArrayList<>();
 
         for (Item<DataType> item : getItems()) {
             if (item.getState() == state) {

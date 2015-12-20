@@ -14,15 +14,14 @@
  */
 package de.mrapp.android.adapter.list.selectable;
 
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+import android.content.Context;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AbsListView;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;
-
-import android.content.Context;
-import android.os.Bundle;
-import android.view.View;
 
 import de.mrapp.android.adapter.SelectableListDecorator;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
@@ -37,6 +36,8 @@ import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 import de.mrapp.android.adapter.logging.LogLevel;
 import de.mrapp.android.adapter.util.VisibleForTesting;
+
+import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as a list of arbitrary

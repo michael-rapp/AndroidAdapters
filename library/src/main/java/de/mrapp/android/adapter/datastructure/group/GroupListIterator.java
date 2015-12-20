@@ -63,7 +63,7 @@ public class GroupListIterator<GroupType, ChildType> implements ListIterator<Gro
      */
     private MultipleChoiceListAdapter<ChildType> createChildAdapter() {
         MultipleChoiceListAdapter<ChildType> childAdapter =
-                new MultipleChoiceListAdapterImplementation<ChildType>(context, childInflater,
+                new MultipleChoiceListAdapterImplementation<>(context, childInflater,
                         new NullObjectDecorator<ChildType>());
         childAdapter.setLogLevel(LogLevel.OFF);
         return childAdapter;
@@ -98,7 +98,7 @@ public class GroupListIterator<GroupType, ChildType> implements ListIterator<Gro
             throw new UnsupportedOperationException();
         }
 
-        listIterator.add(new Group<GroupType, ChildType>(group, createChildAdapter()));
+        listIterator.add(new Group<>(group, createChildAdapter()));
     }
 
     @Override
@@ -142,7 +142,7 @@ public class GroupListIterator<GroupType, ChildType> implements ListIterator<Gro
             throw new UnsupportedOperationException();
         }
 
-        listIterator.set(new Group<GroupType, ChildType>(group, createChildAdapter()));
+        listIterator.set(new Group<>(group, createChildAdapter()));
     }
 
 }

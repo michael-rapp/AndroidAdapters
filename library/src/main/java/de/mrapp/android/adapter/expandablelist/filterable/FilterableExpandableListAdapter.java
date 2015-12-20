@@ -14,7 +14,13 @@
  */
 package de.mrapp.android.adapter.expandablelist.filterable;
 
+import android.widget.ExpandableListView;
+
+import java.util.NoSuchElementException;
+
 import de.mrapp.android.adapter.Filter;
+import de.mrapp.android.adapter.Filterable;
+import de.mrapp.android.adapter.FilteringNotSupportedException;
 
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a filterable list of

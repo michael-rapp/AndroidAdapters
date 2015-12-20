@@ -14,9 +14,13 @@
  */
 package de.mrapp.android.adapter.expandablelist.sortable;
 
+import android.widget.ExpandableListView;
+
 import java.util.Comparator;
+import java.util.NoSuchElementException;
 
 import de.mrapp.android.adapter.Order;
+import de.mrapp.android.adapter.SortingNotSupportedException;
 
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a sortable list of
