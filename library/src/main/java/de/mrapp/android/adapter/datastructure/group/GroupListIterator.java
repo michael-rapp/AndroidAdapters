@@ -14,17 +14,17 @@
  */
 package de.mrapp.android.adapter.datastructure.group;
 
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+import android.content.Context;
 
 import java.util.ListIterator;
-
-import android.content.Context;
 
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.expandablelist.NullObjectDecorator;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.selectable.MultipleChoiceListAdapterImplementation;
 import de.mrapp.android.adapter.logging.LogLevel;
+
+import static de.mrapp.android.util.Condition.ensureNotNull;
 
 /**
  * A list iterator, which allows to iterate the data of groups, which can be iterated by using an

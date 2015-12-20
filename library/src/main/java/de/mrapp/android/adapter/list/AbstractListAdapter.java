@@ -46,10 +46,10 @@ import de.mrapp.android.adapter.logging.LogLevel;
 import de.mrapp.android.adapter.logging.Logger;
 import de.mrapp.android.util.VisibleForTesting;
 
-import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
-import static de.mrapp.android.adapter.util.Condition.ensureAtMaximum;
-import static de.mrapp.android.adapter.util.Condition.ensureNotEmpty;
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+import static de.mrapp.android.util.Condition.ensureAtLeast;
+import static de.mrapp.android.util.Condition.ensureAtMaximum;
+import static de.mrapp.android.util.Condition.ensureNotEmpty;
+import static de.mrapp.android.util.Condition.ensureNotNull;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as a list of arbitrary

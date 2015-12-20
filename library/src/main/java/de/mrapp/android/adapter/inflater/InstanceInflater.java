@@ -18,7 +18,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+import static de.mrapp.android.util.Condition.ensureNotNull;
 
 /**
  * An inflater, which allows to inflate views, which are present as an instance of the class {@link

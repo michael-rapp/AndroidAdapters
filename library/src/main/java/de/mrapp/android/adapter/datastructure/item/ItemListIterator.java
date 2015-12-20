@@ -14,15 +14,15 @@
  */
 package de.mrapp.android.adapter.datastructure.item;
 
-import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
-import static de.mrapp.android.adapter.util.Condition.ensureAtMaximum;
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
-
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
 import de.mrapp.android.adapter.ListAdapter;
+
+import static de.mrapp.android.util.Condition.ensureAtLeast;
+import static de.mrapp.android.util.Condition.ensureAtMaximum;
+import static de.mrapp.android.util.Condition.ensureNotNull;
 
 /**
  * A list iterator, which allows to iterate the data of items, which are contained by a list. When

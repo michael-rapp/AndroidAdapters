@@ -14,9 +14,9 @@
  */
 package de.mrapp.android.adapter.datastructure.item;
 
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
-
 import java.util.Comparator;
+
+import static de.mrapp.android.util.Condition.ensureNotNull;
 
 /**
  * A comparator, which allows to compare two items by comparing their data.

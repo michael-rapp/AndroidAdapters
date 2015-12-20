@@ -16,9 +16,9 @@ package de.mrapp.android.adapter.logging;
 
 import android.util.Log;
 
-import static de.mrapp.android.adapter.util.Condition.ensureNotEmpty;
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 import static de.mrapp.android.util.ClassUtil.getTruncatedName;
+import static de.mrapp.android.util.Condition.ensureNotEmpty;
+import static de.mrapp.android.util.Condition.ensureNotNull;
 
 /**
  * A logger, which allows to log messages on specific log levels.

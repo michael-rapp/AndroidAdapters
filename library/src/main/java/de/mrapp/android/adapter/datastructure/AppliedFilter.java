@@ -21,7 +21,7 @@ import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.Filterable;
 
 import static de.mrapp.android.util.ClassUtil.getTruncatedName;
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+import static de.mrapp.android.util.Condition.ensureNotNull;
 
 /**
  * A representation of a filter, which has been applied on an adapter's underlying data.

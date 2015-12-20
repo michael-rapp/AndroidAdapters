@@ -14,11 +14,11 @@
  */
 package de.mrapp.android.adapter.datastructure.item;
 
-import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
-
 import android.os.Parcel;
 
 import de.mrapp.android.adapter.datastructure.AbstractAdapterItem;
+
+import static de.mrapp.android.util.Condition.ensureAtLeast;
 
 /**
  * A data structure, which holds the data of an item of an adapter. It has a state, a selection

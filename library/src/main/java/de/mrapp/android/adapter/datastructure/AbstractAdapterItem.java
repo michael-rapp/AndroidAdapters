@@ -14,14 +14,14 @@
  */
 package de.mrapp.android.adapter.datastructure;
 
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import de.mrapp.android.adapter.Filterable;
 import de.mrapp.android.adapter.FilteringNotSupportedException;
 import de.mrapp.android.adapter.SortingNotSupportedException;
+
+import static de.mrapp.android.util.Condition.ensureNotNull;
 
 /**
  * An abstract base class for all data structure, which holds the data of an item of an adapter.

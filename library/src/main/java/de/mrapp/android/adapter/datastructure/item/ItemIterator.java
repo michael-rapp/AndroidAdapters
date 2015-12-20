@@ -14,13 +14,13 @@
  */
 package de.mrapp.android.adapter.datastructure.item;
 
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import de.mrapp.android.adapter.ListAdapter;
+
+import static de.mrapp.android.util.Condition.ensureNotNull;
 
 /**
  * An iterator, which allows to iterate the data of items, which are contained by a list. When the

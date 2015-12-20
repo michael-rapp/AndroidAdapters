@@ -14,9 +14,9 @@
  */
 package de.mrapp.android.adapter.datastructure.group;
 
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
-
 import java.util.Iterator;
+
+import static de.mrapp.android.util.Condition.ensureNotNull;
 
 /**
  * An iterator, which allows to iterate the data of groups, which can be iterated by using an other

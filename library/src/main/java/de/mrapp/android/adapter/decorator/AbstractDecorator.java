@@ -14,12 +14,12 @@
  */
 package de.mrapp.android.adapter.decorator;
 
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
-
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
+
+import static de.mrapp.android.util.Condition.ensureNotNull;
 
 /**
  * An abstract base class for all decorators, which should allow to customize the appearance of the

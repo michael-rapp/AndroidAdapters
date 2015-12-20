@@ -29,7 +29,7 @@ import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.logging.LogLevel;
 
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
+import static de.mrapp.android.util.Condition.ensureNotNull;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as a list of arbitrary

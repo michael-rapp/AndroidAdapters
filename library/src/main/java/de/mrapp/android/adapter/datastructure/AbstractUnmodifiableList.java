@@ -14,11 +14,11 @@
  */
 package de.mrapp.android.adapter.datastructure;
 
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import static de.mrapp.android.util.Condition.ensureNotNull;
 
 /**
  * An abstract base class for all implementations of the type {@link List}, which should throw
