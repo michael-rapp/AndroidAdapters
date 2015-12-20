@@ -942,10 +942,10 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
 
     @Override
     public final long getItemId(final int index) {
-        ensureAtLeast(index, 0, "The index must be at least 0");
+        ensureAtLeast(index, 0, "The index must be at least 0", IndexOutOfBoundsException.class);
         ensureAtMaximum(index, items.size() - 1,
                 isEmpty() ? "The index must be at maximum " + (items.size() - 1) :
-                        "The adapter is empty");
+                        "The adapter is empty", IndexOutOfBoundsException.class);
         return index;
     }
 

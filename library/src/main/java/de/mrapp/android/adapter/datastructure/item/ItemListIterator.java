@@ -80,9 +80,9 @@ public class ItemListIterator<DataType> implements ListIterator<DataType> {
     public ItemListIterator(@NonNull final List<Item<DataType>> items,
                             @Nullable final ListAdapter<DataType> adapter, final int index) {
         ensureNotNull(items, "The items may not be null");
-        ensureAtLeast(index, 0, "The index must be at least 0");
+        ensureAtLeast(index, 0, "The index must be at least 0", IndexOutOfBoundsException.class);
         ensureAtMaximum(index, items.isEmpty() ? 0 : items.size(),
-                "The index must be at maximum " + items.size());
+                "The index must be at maximum " + items.size(), IndexOutOfBoundsException.class);
         this.items = items;
         this.adapter = adapter;
         this.currentIndex = index - 1;

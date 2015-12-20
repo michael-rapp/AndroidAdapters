@@ -422,9 +422,11 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
      * Integer} value
      */
     protected final int getUnfilteredIndex(final int filteredIndex) {
-        ensureAtLeast(filteredIndex, 0, "The index must be at least 0");
+        ensureAtLeast(filteredIndex, 0, "The index must be at least 0",
+                IndexOutOfBoundsException.class);
         ensureAtMaximum(filteredIndex, getCount() - 1,
-                "The index must be at maximum " + (getCount() - 1));
+                "The index must be at maximum " + (getCount() - 1),
+                IndexOutOfBoundsException.class);
 
         if (!isFiltered()) {
             return filteredIndex;
