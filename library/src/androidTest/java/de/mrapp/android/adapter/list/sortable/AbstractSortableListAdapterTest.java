@@ -323,7 +323,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                         new LinkedHashSet<ListSortingListener<ComparableImplementation>>());
         ListSortingListener<ComparableImplementation> listSortingListener =
                 mock(ListSortingListener.class);
-        abstractSortableListAdapter.addSortingListner(listSortingListener);
+        abstractSortableListAdapter.addSortingListener(listSortingListener);
         assertEquals(1, abstractSortableListAdapter.getSortingListeners().size());
         assertTrue(abstractSortableListAdapter.getSortingListeners().contains(listSortingListener));
     }
@@ -344,7 +344,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                             1, false,
                             new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
                             new LinkedHashSet<ListSortingListener<ComparableImplementation>>());
-            abstractSortableListAdapter.addSortingListner(null);
+            abstractSortableListAdapter.addSortingListener(null);
             Assert.fail();
         } catch (NullPointerException e) {
 
@@ -369,7 +369,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
         ListSortingListener<ComparableImplementation> listSortingListener =
                 mock(ListSortingListener.class);
         abstractSortableListAdapter.removeSortingListener(listSortingListener);
-        abstractSortableListAdapter.addSortingListner(listSortingListener);
+        abstractSortableListAdapter.addSortingListener(listSortingListener);
         assertFalse(abstractSortableListAdapter.getSortingListeners().isEmpty());
         abstractSortableListAdapter.removeSortingListener(listSortingListener);
         assertTrue(abstractSortableListAdapter.getSortingListeners().isEmpty());
@@ -418,7 +418,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                         new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(), 1,
                         false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListSortingListener<ComparableImplementation>>());
-        abstractSortableListAdapter.addSortingListner(listSortingListener);
+        abstractSortableListAdapter.addSortingListener(listSortingListener);
         abstractSortableListAdapter.registerDataSetObserver(dataSetObserver);
         abstractSortableListAdapter.addItem(item1);
         abstractSortableListAdapter.addItem(item2);
@@ -454,7 +454,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                         new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(), 1,
                         false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListSortingListener<ComparableImplementation>>());
-        abstractSortableListAdapter.addSortingListner(listSortingListener);
+        abstractSortableListAdapter.addSortingListener(listSortingListener);
         abstractSortableListAdapter.registerDataSetObserver(dataSetObserver);
         abstractSortableListAdapter.addItem(item1);
         abstractSortableListAdapter.addItem(item2);
@@ -490,7 +490,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                         new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(), 1,
                         false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListSortingListener<ComparableImplementation>>());
-        abstractSortableListAdapter.addSortingListner(listSortingListener);
+        abstractSortableListAdapter.addSortingListener(listSortingListener);
         abstractSortableListAdapter.registerDataSetObserver(dataSetObserver);
         abstractSortableListAdapter.addItem(item1);
         abstractSortableListAdapter.addItem(item2);
@@ -549,7 +549,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                         new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(), 1,
                         false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListSortingListener<ComparableImplementation>>());
-        abstractSortableListAdapter.addSortingListner(listSortingListener);
+        abstractSortableListAdapter.addSortingListener(listSortingListener);
         abstractSortableListAdapter.registerDataSetObserver(dataSetObserver);
         abstractSortableListAdapter.addItem(item1);
         abstractSortableListAdapter.addItem(item2);
@@ -586,7 +586,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                         new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(), 1,
                         false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListSortingListener<ComparableImplementation>>());
-        abstractSortableListAdapter.addSortingListner(listSortingListener);
+        abstractSortableListAdapter.addSortingListener(listSortingListener);
         abstractSortableListAdapter.registerDataSetObserver(dataSetObserver);
         abstractSortableListAdapter.addItem(item1);
         abstractSortableListAdapter.addItem(item2);
@@ -623,7 +623,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                         new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(), 1,
                         false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListSortingListener<ComparableImplementation>>());
-        abstractSortableListAdapter.addSortingListner(listSortingListener);
+        abstractSortableListAdapter.addSortingListener(listSortingListener);
         abstractSortableListAdapter.registerDataSetObserver(dataSetObserver);
         abstractSortableListAdapter.addItem(item1);
         abstractSortableListAdapter.addItem(item2);

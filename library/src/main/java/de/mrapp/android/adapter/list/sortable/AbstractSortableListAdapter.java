@@ -297,7 +297,7 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
     }
 
     @Override
-    public final void addSortingListner(@NonNull final ListSortingListener<DataType> listener) {
+    public final void addSortingListener(@NonNull final ListSortingListener<DataType> listener) {
         ensureNotNull(listener, "The listener may not be null");
         sortingListeners.add(listener);
         String message = "Added sorting listener \"" + listener + "\"";

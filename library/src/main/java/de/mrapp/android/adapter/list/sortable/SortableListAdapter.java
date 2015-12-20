@@ -91,7 +91,7 @@ public interface SortableListAdapter<DataType> {
      *         The listener, which should be added, as an instance of the class {@link
      *         ListSortingListener}. The listener may not be null
      */
-    void addSortingListner(@NonNull ListSortingListener<DataType> listener);
+    void addSortingListener(@NonNull ListSortingListener<DataType> listener);
 
     /**
      * Removes a specific listener, which should not be notified, when the adapter's underlying data

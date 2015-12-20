@@ -163,7 +163,7 @@ public class AbstractEnableStateListAdapterTest extends AndroidTestCase {
         }
 
         @Override
-        public void addSortingListner(@NonNull final ListSortingListener<Object> listener) {
+        public void addSortingListener(@NonNull final ListSortingListener<Object> listener) {
 
         }
 
