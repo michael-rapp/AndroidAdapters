@@ -14,21 +14,6 @@
  */
 package de.mrapp.android.adapter.list;
 
-import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
-import static de.mrapp.android.adapter.util.Condition.ensureAtMaximum;
-import static de.mrapp.android.adapter.util.Condition.ensureNotEmpty;
-import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.NoSuchElementException;
-import java.util.Set;
-
 import android.content.Context;
 import android.database.DataSetObservable;
 import android.database.DataSetObserver;
@@ -40,6 +25,16 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.NoSuchElementException;
+import java.util.Set;
+
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.datastructure.UnmodifiableList;
 import de.mrapp.android.adapter.datastructure.item.Item;
@@ -49,7 +44,12 @@ import de.mrapp.android.adapter.datastructure.item.UnmodifiableItemList;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.logging.LogLevel;
 import de.mrapp.android.adapter.logging.Logger;
-import de.mrapp.android.adapter.util.VisibleForTesting;
+import de.mrapp.android.util.VisibleForTesting;
+
+import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
+import static de.mrapp.android.adapter.util.Condition.ensureAtMaximum;
+import static de.mrapp.android.adapter.util.Condition.ensureNotEmpty;
+import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as a list of arbitrary

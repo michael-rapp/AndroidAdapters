@@ -37,7 +37,7 @@ import de.mrapp.android.adapter.list.filterable.ListFilterListener;
 import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 import de.mrapp.android.adapter.logging.LogLevel;
-import de.mrapp.android.adapter.util.VisibleForTesting;
+import de.mrapp.android.util.VisibleForTesting;
 
 /**
  * An adapter, whose underlying data is managed as a list of arbitrary items, of which only item can

@@ -42,7 +42,7 @@ import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.selectable.MultipleChoiceListAdapterImplementation;
 import de.mrapp.android.adapter.logging.LogLevel;
 import de.mrapp.android.adapter.logging.Logger;
-import de.mrapp.android.adapter.util.VisibleForTesting;
+import de.mrapp.android.util.VisibleForTesting;
 
 import static de.mrapp.android.adapter.util.Condition.ensureNotNull;
 

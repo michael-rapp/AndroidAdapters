@@ -34,7 +34,7 @@ import de.mrapp.android.adapter.expandablelist.enablestate.AbstractEnableStateEx
 import de.mrapp.android.adapter.expandablelist.enablestate.ExpandableListEnableStateListener;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.logging.LogLevel;
-import de.mrapp.android.adapter.util.VisibleForTesting;
+import de.mrapp.android.util.VisibleForTesting;
 
 import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
 import static de.mrapp.android.adapter.util.Condition.ensureAtMaximum;

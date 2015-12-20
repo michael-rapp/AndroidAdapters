@@ -43,7 +43,7 @@ import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
 import de.mrapp.android.adapter.list.sortable.AbstractSortableListAdapter;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 import de.mrapp.android.adapter.logging.LogLevel;
-import de.mrapp.android.adapter.util.VisibleForTesting;
+import de.mrapp.android.util.VisibleForTesting;
 
 import static de.mrapp.android.adapter.util.Condition.ensureAtLeast;
 import static de.mrapp.android.adapter.util.Condition.ensureAtMaximum;
