@@ -376,18 +376,6 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
     }
 
     /**
-     * Returns a set, which contains the filters, which are used to filter the adapter's underlying
-     * data.
-     *
-     * @return A set, which contains the filters, which are used to filter the adapter's underlying
-     * data, as an instance of the type {@link LinkedHashSet} or an empty set, if the adapter's
-     * underlying data is not filtered
-     */
-    protected final LinkedHashSet<AppliedFilter<DataType>> getAppliedFilters() {
-        return appliedFilters;
-    }
-
-    /**
      * Sets the set, which contains the filters, which are used to filter the adapter's underlying
      * data.
      *
@@ -651,6 +639,11 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
     @Override
     public final boolean isFiltered() {
         return !appliedFilters.isEmpty();
+    }
+
+    @Override
+    public final LinkedHashSet<AppliedFilter<DataType>> getAppliedFilters() {
+        return appliedFilters;
     }
 
     @Override

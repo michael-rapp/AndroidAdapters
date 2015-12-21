@@ -17,9 +17,13 @@ package de.mrapp.android.adapter.list.filterable;
 import android.support.annotation.NonNull;
 import android.widget.AbsListView;
 
+import java.util.List;
+import java.util.Set;
+
 import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.Filterable;
 import de.mrapp.android.adapter.FilteringNotSupportedException;
+import de.mrapp.android.adapter.datastructure.AppliedFilter;
 
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a filterable list of
@@ -106,6 +110,14 @@ public interface FilterableListAdapter<DataType> {
      * @return True, if at least one filter is currently applied on the adapter, false otherwise.
      */
     boolean isFiltered();
+
+    /**
+     * Returns a set, which contains all filters, which are currently applied on the adapter.
+     *
+     * @return A set, which contains all filters, which are currently applied on the adapter, as an
+     * instance of the type {@link Set} or an empty set, if no filters are currently applied
+     */
+    Set<AppliedFilter<DataType>> getAppliedFilters();
 
     /**
      * Adds a new listener, which should be notified, when the adapter's underlying data has been
