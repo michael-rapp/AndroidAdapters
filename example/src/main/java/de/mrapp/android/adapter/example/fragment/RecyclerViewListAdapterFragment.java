@@ -16,6 +16,7 @@ package de.mrapp.android.adapter.example.fragment;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import de.mrapp.android.adapter.AdapterFactory;
@@ -25,14 +26,16 @@ import de.mrapp.android.adapter.example.decorator.ListAdapterDecorator;
 import de.mrapp.android.adapter.example.model.Contact;
 
 /**
- * A fragment, which demonstrates the functionality of a {@link ListAdapter}.
+ * A fragment, which demonstrates the functionality of a {@link ListAdapter} when populating a
+ * {@link RecyclerView}.
  *
  * @author Michael Rapp
  */
-public class ListAdapterFragment extends AbstractListViewFragment<ListAdapter<Contact>> {
+public class RecyclerViewListAdapterFragment
+        extends AbstractRecyclerViewFragment<ListAdapter<Contact>> {
 
     @Override
-    protected final ListAdapter<Contact> createAdapter() {
+    protected ListAdapter<Contact> createAdapter() {
         return AdapterFactory.createListAdapter(getActivity(), new ListAdapterDecorator(),
                 R.layout.contact_item);
     }

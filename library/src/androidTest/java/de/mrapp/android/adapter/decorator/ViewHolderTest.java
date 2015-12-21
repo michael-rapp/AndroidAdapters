@@ -32,14 +32,15 @@ public class ViewHolderTest extends AndroidTestCase {
      * provided by the view holder.
      */
     public final void testGetViewIfViewHolderDoesNotProvideView() {
-        ViewHolder viewHolder = new ViewHolder();
         View parentView1 =
                 InflaterFactory.createInflater(R.layout.view).inflate(getContext(), null, false);
         View parentView2 =
                 InflaterFactory.createInflater(R.layout.view2).inflate(getContext(), null, false);
-        View view1 = viewHolder.getView(parentView1, R.id.id, 0);
+        ViewHolder viewHolder1 = new ViewHolder(parentView1);
+        ViewHolder viewHolder2 = new ViewHolder(parentView2);
+        View view1 = viewHolder1.getView(R.id.id, 0);
         assertNotNull(view1);
-        View view2 = viewHolder.getView(parentView2, R.id.id, 1);
+        View view2 = viewHolder2.getView(R.id.id, 1);
         assertNotNull(view2);
         assertNotSame(view1, view2);
     }
@@ -49,11 +50,11 @@ public class ViewHolderTest extends AndroidTestCase {
      * the view holder.
      */
     public final void testGetViewIfViewHolderDoesProvideView() {
-        ViewHolder viewHolder = new ViewHolder();
         View parentView =
                 InflaterFactory.createInflater(R.layout.view).inflate(getContext(), null, false);
-        View view1 = viewHolder.getView(parentView, R.id.id, 0);
-        View view2 = viewHolder.getView(parentView, R.id.id, 0);
+        ViewHolder viewHolder = new ViewHolder(parentView);
+        View view1 = viewHolder.getView(R.id.id, 0);
+        View view2 = viewHolder.getView(R.id.id, 0);
         assertNotNull(view2);
         assertEquals(view1, view2);
     }

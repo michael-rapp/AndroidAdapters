@@ -143,11 +143,11 @@ public abstract class AbstractDecorator {
         ViewHolder viewHolder = (ViewHolder) currentParentView.getTag();
 
         if (viewHolder == null) {
-            viewHolder = new ViewHolder();
+            viewHolder = new ViewHolder(currentParentView);
             currentParentView.setTag(viewHolder);
         }
 
-        return (ViewType) viewHolder.getView(currentParentView, viewId, currentViewType);
+        return (ViewType) viewHolder.getView(viewId, currentViewType);
     }
 
     /**

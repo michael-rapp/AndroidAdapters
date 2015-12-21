@@ -15,7 +15,7 @@
 package de.mrapp.android.adapter.decorator;
 
 import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
 
@@ -25,7 +25,12 @@ import android.view.View;
  * @author Michael Rapp
  * @since 0.1.0
  */
-public class ViewHolder {
+public class ViewHolder extends RecyclerView.ViewHolder {
+
+    /**
+     * The view, the view holder is associated with.
+     */
+    private final View parentView;
 
     /**
      * A sparse array, which maps view types to sparse arrays, which map the resource IDs of already
@@ -35,9 +40,25 @@ public class ViewHolder {
 
     /**
      * Creates a new view holder.
+     *
+     * @param parentView
+     *         The view, the view holder is associated with, as an instance of the class {@link
+     *         View}. The view may not be null
      */
-    public ViewHolder() {
+    public ViewHolder(final View parentView) {
+        super(parentView);
+        this.parentView = parentView;
         this.views = new SparseArray<>();
+    }
+
+    /**
+     * Returns the view, the view holder is associated with.
+     *
+     * @return The view, the view holder is associated with, as an instance of the class {@link
+     * View}. The view may not be null
+     */
+    public final View getParentView() {
+        return parentView;
     }
 
     /**
@@ -46,9 +67,6 @@ public class ViewHolder {
      * method <code>findViewById(int):View</code> of the given parent view is used to reference the
      * view.
      *
-     * @param parentView
-     *         The parent view, the view, which should be returned, belongs to as an instance of the
-     *         class {@link View}. The view may not be null
      * @param viewId
      *         The resource ID of the view, which should be returned, as an {@link Integer} value.
      *         The ID must be a valid resource ID of a view, which belongs to the given parent view
@@ -57,8 +75,7 @@ public class ViewHolder {
      * @return The view, which belongs to the given resource ID, as an instance of the class {@link
      * View} or null, if no view with the given ID is available
      */
-    public final View getView(@NonNull final View parentView, @IdRes final int viewId,
-                              final int viewType) {
+    public final View getView(@IdRes final int viewId, final int viewType) {
         SparseArray<View> mapping = views.get(viewType);
 
         if (mapping == null) {

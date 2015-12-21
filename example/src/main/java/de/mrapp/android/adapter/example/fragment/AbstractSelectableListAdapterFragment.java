@@ -39,7 +39,7 @@ import de.mrapp.android.adapter.list.selectable.SelectableListAdapter;
  * @author Michael Rapp
  */
 public abstract class AbstractSelectableListAdapterFragment<AdapterType extends SelectableListAdapter<Contact>>
-        extends AbstractListAdapterFragment<AdapterType> implements ListSelectionListener<Contact> {
+        extends AbstractListViewFragment<AdapterType> implements ListSelectionListener<Contact> {
 
     /**
      * Updates the view, which shows the number of selected items, which are currently contained by

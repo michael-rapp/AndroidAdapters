@@ -15,12 +15,12 @@
 package de.mrapp.android.adapter.list;
 
 import android.content.Context;
-import android.database.DataSetObservable;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -31,9 +31,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
@@ -43,6 +45,7 @@ import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemIterator;
 import de.mrapp.android.adapter.datastructure.item.ItemListIterator;
 import de.mrapp.android.adapter.datastructure.item.UnmodifiableItemList;
+import de.mrapp.android.adapter.decorator.ViewHolder;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.logging.LogLevel;
 import de.mrapp.android.adapter.logging.Logger;
@@ -67,7 +70,7 @@ import static de.mrapp.android.util.Condition.ensureNotNull;
  * @since 0.1.0
  */
 public abstract class AbstractListAdapter<DataType, DecoratorType>
-        implements ListAdapter<DataType> {
+        extends RecyclerView.Adapter<ViewHolder> implements ListAdapter<DataType> {
 
     /**
      * The constant serial version UID.
@@ -148,10 +151,10 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
     private final transient DecoratorType decorator;
 
     /**
-     * The data set observable, which allows to register observers, which are notified, when the
-     * underlying data of the adapter changes.
+     * A map, which contains the data set observers, which are notified, when the underlying data of
+     * the adapter changes.
      */
-    private final DataSetObservable dataSetObservable;
+    private final transient Map<DataSetObserver, RecyclerView.AdapterDataObserver> dataSetObservers;
 
     /**
      * The logger, which is used for logging.
@@ -174,6 +177,11 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
      * The view, the adapter is currently attached to.
      */
     private transient AbsListView adapterView;
+
+    /**
+     * The recycler view, the adapter is currently attached to.
+     */
+    private transient RecyclerView recyclerView;
 
     /**
      * A bundle, which contains key value pairs, which are stored within the adapter.
@@ -565,7 +573,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
         this.context = context;
         this.inflater = inflater;
         this.decorator = decorator;
-        this.dataSetObservable = new DataSetObservable();
+        this.dataSetObservers = new HashMap<>();
         this.logger = new Logger(logLevel);
         this.items = items;
         this.parameters = null;
@@ -576,25 +584,19 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
     }
 
     @Override
-    public void registerDataSetObserver(@NonNull final DataSetObserver observer) {
-        ensureNotNull(observer, "The observer may not ben null");
-        dataSetObservable.registerObserver(observer);
+    public final void registerDataSetObserver(@NonNull final DataSetObserver observer) {
+        DataSetObserverWrapper dataObserver = new DataSetObserverWrapper(observer);
+        dataSetObservers.put(observer, dataObserver);
+        registerAdapterDataObserver(dataObserver);
     }
 
     @Override
-    public void unregisterDataSetObserver(@NonNull final DataSetObserver observer) {
-        ensureNotNull(observer, "The observer may not be null");
-        dataSetObservable.unregisterObserver(observer);
-    }
+    public final void unregisterDataSetObserver(@NonNull final DataSetObserver observer) {
+        RecyclerView.AdapterDataObserver dataObserver = dataSetObservers.get(observer);
 
-    @Override
-    public final void notifyDataSetChanged() {
-        dataSetObservable.notifyChanged();
-    }
-
-    @Override
-    public final void notifyDataSetInvalidated() {
-        dataSetObservable.notifyInvalidated();
+        if (dataObserver != null) {
+            unregisterAdapterDataObserver(dataObserver);
+        }
     }
 
     @Override
@@ -917,8 +919,18 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
     @Override
     public final void attach(@NonNull final AbsListView adapterView) {
         ensureNotNull(adapterView, "The adapter view may not be null");
+        detach();
         ((AdapterView<android.widget.ListAdapter>) adapterView).setAdapter(this);
         this.adapterView = adapterView;
+        getLogger().logDebug(getClass(), "Attached adapter to view \"" + adapterView + "\"");
+    }
+
+    @Override
+    public final void attach(@NonNull final RecyclerView adapterView) {
+        ensureNotNull(adapterView, "The adapter view may not be null");
+        detach();
+        adapterView.setAdapter(this);
+        this.recyclerView = adapterView;
         getLogger().logDebug(getClass(), "Attached adapter to view \"" + adapterView + "\"");
     }
 
@@ -931,11 +943,20 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
                 getLogger().logDebug(getClass(), message);
             } else {
                 String message = "Adapter has not been detached, because the " +
-                        "adapter of the corresponding view has been changed " + "in the meantime";
+                        "adapter of the corresponding view has been changed in the meantime";
                 getLogger().logVerbose(getClass(), message);
             }
 
             adapterView = null;
+        } else if (recyclerView != null) {
+            if (recyclerView.getAdapter() == this) {
+                recyclerView.setAdapter(null);
+                String message = "Detached adapter from view \"" + recyclerView + "\"";
+                getLogger().logDebug(getClass(), message);
+            } else {
+                String message = "Adapter has not been detached, because the " +
+                        "adapter of the corresponding view has been changed in the meantime";
+            }
         } else {
             String message = "Adapter has not been detached, because it has not " +
                     "been attached to a view yet";
@@ -949,17 +970,17 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
     }
 
     @Override
+    public final int getItemCount() {
+        return getCount();
+    }
+
+    @Override
     public final long getItemId(final int index) {
         ensureAtLeast(index, 0, "The index must be at least 0", IndexOutOfBoundsException.class);
         ensureAtMaximum(index, items.size() - 1,
                 isEmpty() ? "The index must be at maximum " + (items.size() - 1) :
                         "The adapter is empty", IndexOutOfBoundsException.class);
         return index;
-    }
-
-    @Override
-    public final boolean hasStableIds() {
-        return false;
     }
 
     @Override
@@ -979,6 +1000,19 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
     }
 
     @Override
+    public final ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent,
+                                               final int viewType) {
+        View view = getInflater().inflate(getContext(), parent, false);
+        ViewHolder viewHolder = new ViewHolder(view);
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(final ViewHolder viewHolder, final int index) {
+        applyDecorator(getContext(), viewHolder.getParentView(), index);
+    }
+
+    @Override
     public final void onSaveInstanceState(@NonNull final Bundle outState,
                                           @NonNull final String key) {
         ensureNotNull(outState, "The bundle may not be null");
@@ -986,9 +1020,16 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
         ensureNotEmpty(key, "The key may not be null");
         Bundle savedState = new Bundle();
 
-        if (getAdapterView() != null) {
+        if (adapterView != null) {
             savedState.putParcelable(ADAPTER_VIEW_STATE_BUNDLE_KEY,
-                    getAdapterView().onSaveInstanceState());
+                    adapterView.onSaveInstanceState());
+        } else if (recyclerView != null) {
+            RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+
+            if (layoutManager != null) {
+                savedState.putParcelable(ADAPTER_VIEW_STATE_BUNDLE_KEY,
+                        layoutManager.onSaveInstanceState());
+            }
         } else {
             String message = "The state of the adapter view can not be stored, because the " +
                     "adapter has not been attached to a view";
@@ -1026,9 +1067,14 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
         Bundle savedState = savedInstanceState.getBundle(key);
 
         if (savedState != null) {
-            if (savedState.containsKey(ADAPTER_VIEW_STATE_BUNDLE_KEY) && getAdapterView() != null) {
-                getAdapterView().onRestoreInstanceState(
-                        savedState.getParcelable(ADAPTER_VIEW_STATE_BUNDLE_KEY));
+            if (savedState.containsKey(ADAPTER_VIEW_STATE_BUNDLE_KEY)) {
+                if (adapterView != null) {
+                    adapterView.onRestoreInstanceState(
+                            savedState.getParcelable(ADAPTER_VIEW_STATE_BUNDLE_KEY));
+                } else if (recyclerView != null && recyclerView.getLayoutManager() != null) {
+                    recyclerView.getLayoutManager().onRestoreInstanceState(
+                            savedState.getParcelable(ADAPTER_VIEW_STATE_BUNDLE_KEY));
+                }
             }
 
             if (savedState.containsKey(PARCELABLE_ITEMS_BUNDLE_KEY)) {

@@ -15,8 +15,10 @@
 package de.mrapp.android.adapter.list;
 
 import android.content.Context;
+import android.database.DataSetObserver;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ import java.util.Set;
 import de.mrapp.android.adapter.ListDecorator;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.item.Item;
+import de.mrapp.android.adapter.decorator.ViewHolder;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.filterable.AbstractFilterableListAdapter;

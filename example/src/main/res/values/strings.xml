@@ -24,6 +24,7 @@ not, see <http://www.gnu.org/licenses/>.
     <string name="expandable_list_adapter">Expandable List Adapter</string>
     <string name="single_choice_expandable_list_adapter">Single Choice Expandable List Adapter</string>
     <string name="multiple_choice_expandable_list_adapter">Multiple Choice Expandable List Adapter</string>
+    <string name="recycler_view_list_adapter">RecyclerView</string>
     <string name="search_hint">Search&#8230;</string>
     <string name="remove_hint">Remove selected items</string>
     <string name="add_hint">Add item</string>

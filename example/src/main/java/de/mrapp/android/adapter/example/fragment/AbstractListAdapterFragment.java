@@ -20,10 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -137,33 +134,6 @@ public abstract class AbstractListAdapterFragment<AdapterType extends ListAdapte
     }
 
     /**
-     * Creates and returns a listener, which allows to disable an item, when it is long-clicked.
-     *
-     * @return The listener, which has been created, as an instance of the type {@link
-     * OnItemLongClickListener}
-     */
-    private OnItemLongClickListener createItemLongClickListener() {
-        return new OnItemLongClickListener() {
-
-            @Override
-            public boolean onItemLongClick(final AdapterView<?> parent, final View view,
-                                           final int position, final long id) {
-                adapter.triggerEnableState(position);
-
-                if (adapter.isEnabled(position)) {
-                    Toast.makeText(getActivity(), R.string.enabled_item_toast, Toast.LENGTH_SHORT)
-                            .show();
-                } else {
-                    Toast.makeText(getActivity(), R.string.disabled_item_toast, Toast.LENGTH_SHORT)
-                            .show();
-                }
-
-                return true;
-            }
-        };
-    }
-
-    /**
      * Creates and returns a listener, which allows to show a dialog, which allows to add a new
      * item, when a button is clicked.
      *
@@ -212,24 +182,44 @@ public abstract class AbstractListAdapterFragment<AdapterType extends ListAdapte
     }
 
     /**
+     * The method, which is invoked on subclasses to inflate the fragment's layout.
+     *
+     * @param inflater
+     *         The inflater, whic should be used, as an instance of the class {@link
+     *         LayoutInflater}
+     * @param container
+     *         The root view of the fragment as an instance of the class {@link ViewGroup}
+     * @return The view, which has been inflated, as an instance of the class {@link View}
+     */
+    protected abstract View inflateLayout(final LayoutInflater inflater, final ViewGroup container);
+
+    /**
      * The method, which is invoked on subclasses to create the fragment's adapter.
      *
      * @return The adapter, which has been created, as an instance of the generic type AdapterType
      */
     protected abstract AdapterType createAdapter();
 
+    /**
+     * The method, which is invoked on subclasses to attach the fragment's adapter to the
+     * corresponding view.
+     *
+     * @param rootView
+     *         The root view of the fragment as an instance of the class {@link View}
+     * @param adapter
+     *         The adapter, which should be attached, as an instance of the generic type
+     *         AdapterType
+     */
+    protected abstract void attachAdapter(final View rootView, final AdapterType adapter);
+
     @Override
     public final View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                                    final Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View view = inflater.inflate(R.layout.list_view, container, false);
-
-        ListView listView = (ListView) view.findViewById(R.id.list_view);
+        View view = inflateLayout(inflater, container);
         adapter = createAdapter();
-        adapter.attach(listView);
-        listView.setLongClickable(true);
-        listView.setOnItemLongClickListener(createItemLongClickListener());
+        attachAdapter(view, adapter);
 
         ImageButton sortAscendingButton =
                 (ImageButton) view.findViewById(R.id.sort_ascending_button);

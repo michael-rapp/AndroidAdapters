@@ -35,6 +35,7 @@ import de.mrapp.android.adapter.example.fragment.ExpandableListAdapterFragment;
 import de.mrapp.android.adapter.example.fragment.ListAdapterFragment;
 import de.mrapp.android.adapter.example.fragment.MultipleChoiceExpandableListAdapterFragment;
 import de.mrapp.android.adapter.example.fragment.MultipleChoiceListAdapterFragment;
+import de.mrapp.android.adapter.example.fragment.RecyclerViewListAdapterFragment;
 import de.mrapp.android.adapter.example.fragment.SingleChoiceExpandableListAdapterFragment;
 import de.mrapp.android.adapter.example.fragment.SingleChoiceListAdapterFragment;
 
@@ -192,6 +193,8 @@ public class MainActivity extends Activity {
                     actionBar.newTab().setText(R.string.single_choice_expandable_list_adapter);
             Tab multipleChoiceExpandableListAdapterTab =
                     actionBar.newTab().setText(R.string.multiple_choice_expandable_list_adapter);
+            Tab recyclerViewListAdapterTab =
+                    actionBar.newTab().setText(R.string.recycler_view_list_adapter);
 
             listAdapterTab.setTabListener(new TabListener(ListAdapterFragment.class));
             singleChoiceListAdapterTab
@@ -204,6 +207,8 @@ public class MainActivity extends Activity {
                     new TabListener(SingleChoiceExpandableListAdapterFragment.class));
             multipleChoiceExpandableListAdapterTab.setTabListener(
                     new TabListener(MultipleChoiceExpandableListAdapterFragment.class));
+            recyclerViewListAdapterTab
+                    .setTabListener(new TabListener(RecyclerViewListAdapterFragment.class));
 
             actionBar.addTab(listAdapterTab);
             actionBar.addTab(singleChoiceListAdapterTab);
@@ -211,6 +216,7 @@ public class MainActivity extends Activity {
             actionBar.addTab(expandapleListAdapterTab);
             actionBar.addTab(singleChoiceExpandableListAdapterTab);
             actionBar.addTab(multipleChoiceExpandableListAdapterTab);
+            actionBar.addTab(recyclerViewListAdapterTab);
         }
     }
 

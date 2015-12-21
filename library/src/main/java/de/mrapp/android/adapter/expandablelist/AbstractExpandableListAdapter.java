@@ -2155,6 +2155,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     @Override
     public final void attach(@NonNull final ExpandableListView adapterView) {
         ensureNotNull(adapterView, "The adapter view may not be null");
+        detach();
         this.adapterView = adapterView;
         this.adapterView.setAdapter(this);
         String message = "Attached adapter to view \"" + adapterView + "\"";
@@ -2249,9 +2250,9 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         Bundle savedState = outState.getBundle(key);
 
         if (savedState != null) {
-            if (getAdapterView() != null) {
+            if (adapterView != null) {
                 savedState.putParcelable(ADAPTER_VIEW_STATE_BUNDLE_KEY,
-                        getAdapterView().onSaveInstanceState());
+                        adapterView.onSaveInstanceState());
             } else {
                 String message = "The state of the adapter view can not be stored, because the " +
                         "adapter has not been attached to a view";
@@ -2273,8 +2274,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         Bundle savedState = savedInstanceState.getBundle(key);
 
         if (savedState != null) {
-            if (savedState.containsKey(ADAPTER_VIEW_STATE_BUNDLE_KEY) && getAdapterView() != null) {
-                getAdapterView().onRestoreInstanceState(
+            if (savedState.containsKey(ADAPTER_VIEW_STATE_BUNDLE_KEY) && adapterView != null) {
+                adapterView.onRestoreInstanceState(
                         savedState.getParcelable(ADAPTER_VIEW_STATE_BUNDLE_KEY));
             }
 
