@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 import de.mrapp.android.adapter.Filter;
+import de.mrapp.android.adapter.FilterQuery;
 import de.mrapp.android.adapter.Filterable;
 import de.mrapp.android.adapter.FilteringNotSupportedException;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
@@ -112,12 +113,14 @@ public interface FilterableListAdapter<DataType> {
     boolean isFiltered();
 
     /**
-     * Returns a set, which contains all filters, which are currently applied on the adapter.
+     * Returns a set, which contains all queries, which are currently used to filter the adapter's
+     * underlying data.
      *
-     * @return A set, which contains all filters, which are currently applied on the adapter, as an
-     * instance of the type {@link Set} or an empty set, if no filters are currently applied
+     * @return A set, which contains all queries, which are currently used to filter the adapter's
+     * underlying data, as an instance of the type {@link Set} or an empty set, if no filters are
+     * currently applied on the adapter
      */
-    Set<AppliedFilter<DataType>> getAppliedFilters();
+    Set<? extends FilterQuery> getFilterQueries();
 
     /**
      * Adds a new listener, which should be notified, when the adapter's underlying data has been

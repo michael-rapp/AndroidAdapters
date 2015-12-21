@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Set;
 
 import de.mrapp.android.adapter.Filter;
+import de.mrapp.android.adapter.FilterQuery;
 import de.mrapp.android.adapter.Filterable;
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.Order;
@@ -379,8 +380,20 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
      * Sets the set, which contains the filters, which are used to filter the adapter's underlying
      * data.
      *
+     * @return The set, which contains the filters, which are used to filter the adapter's
+     * underlying data, as an instance of the class {@link LinkedHashSet} or an empty set, if the
+     * adapter's underlying data is not filtered
+     */
+    protected final LinkedHashSet<AppliedFilter<DataType>> getAppliedFilters() {
+        return appliedFilters;
+    }
+
+    /**
+     * Sets the set, which contains the filters, which are used to filter the adapter's underlying
+     * data.
+     *
      * @param appliedFilters
-     *         The set, which should be set, as an instance of the type {@link LinkedHashSet} or an
+     *         The set, which should be set, as an instance of the class {@link LinkedHashSet} or an
      *         empty set, if the adapter's underlying data should not be filtered
      */
     protected final void setAppliedFilters(
@@ -642,7 +655,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
     }
 
     @Override
-    public final LinkedHashSet<AppliedFilter<DataType>> getAppliedFilters() {
+    public final Set<? extends FilterQuery> getFilterQueries() {
         return appliedFilters;
     }
 

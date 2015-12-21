@@ -15,11 +15,11 @@
 package de.mrapp.android.adapter.datastructure;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import de.mrapp.android.adapter.Filter;
+import de.mrapp.android.adapter.FilterQuery;
 import de.mrapp.android.adapter.Filterable;
 
 import static de.mrapp.android.util.ClassUtil.getTruncatedName;
@@ -33,7 +33,7 @@ import static de.mrapp.android.util.Condition.ensureNotNull;
  * @author Michael Rapp
  * @since 0.1.0
  */
-public class AppliedFilter<DataType> implements DataStructure, Parcelable {
+public class AppliedFilter<DataType> implements FilterQuery {
 
     /**
      * A creator, which allows to create instances of the class {@link AppliedFilter} from parcels.
@@ -128,26 +128,6 @@ public class AppliedFilter<DataType> implements DataStructure, Parcelable {
     }
 
     /**
-     * Returns the query, which has been used to filter the adapter's data.
-     *
-     * @return The query, which has been used to filter the adapter's data, as a {@link String}. The
-     * query may not be null
-     */
-    public final String getQuery() {
-        return query;
-    }
-
-    /**
-     * Returns the flags, which have been used to filter the adapter's data.
-     *
-     * @return The flags, which have been used to filter the adapter's data, as an {@link Integer}
-     * value or 0, if no flags have been used
-     */
-    public final int getFlags() {
-        return flags;
-    }
-
-    /**
      * Returns the filter, which has been used to match the adapter's single items to the regular
      * expression.
      *
@@ -157,6 +137,16 @@ public class AppliedFilter<DataType> implements DataStructure, Parcelable {
      */
     public final Filter<DataType> getFilter() {
         return filter;
+    }
+
+    @Override
+    public final String getQuery() {
+        return query;
+    }
+
+    @Override
+    public final int getFlags() {
+        return flags;
     }
 
     @Override
