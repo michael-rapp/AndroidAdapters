@@ -75,6 +75,14 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
     private static final long serialVersionUID = 1L;
 
     /**
+     * The key, which is used to store the state of the view, the adapter has been attached to,
+     * within a bundle.
+     */
+    @VisibleForTesting
+    protected static final String ADAPTER_VIEW_STATE_BUNDLE_KEY =
+            AbstractListAdapter.class.getSimpleName() + "::AdapterViewState";
+
+    /**
      * The key, which is used to store the adapter's underlying data within a bundle, if it
      * implements the interface {@link Parcelable}.
      */
@@ -165,7 +173,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
     /**
      * The view, the adapter is currently attached to.
      */
-    private transient AdapterView<android.widget.ListAdapter> adapterView;
+    private transient AbsListView adapterView;
 
     /**
      * A bundle, which contains key value pairs, which are stored within the adapter.
@@ -437,9 +445,9 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
      * Returns the view, the adapter is currently attached to.
      *
      * @return The view, the adapter is currently attached to, as an instance of the class {@link
-     * AdapterView}, or null, if the adapter is currently not attached to a view
+     * AbsListView}, or null, if the adapter is currently not attached to a view
      */
-    protected final AdapterView<android.widget.ListAdapter> getAdapterView() {
+    protected final AbsListView getAdapterView() {
         return adapterView;
     }
 
@@ -909,8 +917,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
     @Override
     public final void attach(@NonNull final AbsListView adapterView) {
         ensureNotNull(adapterView, "The adapter view may not be null");
+        ((AdapterView<android.widget.ListAdapter>) adapterView).setAdapter(this);
         this.adapterView = adapterView;
-        this.adapterView.setAdapter(this);
         getLogger().logDebug(getClass(), "Attached adapter to view \"" + adapterView + "\"");
     }
 
@@ -918,7 +926,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
     public final void detach() {
         if (adapterView != null) {
             if (adapterView.getAdapter() == this) {
-                adapterView.setAdapter(null);
+                ((AdapterView<android.widget.ListAdapter>) adapterView).setAdapter(null);
                 String message = "Detached adapter from view \"" + adapterView + "\"";
                 getLogger().logDebug(getClass(), message);
             } else {
@@ -978,6 +986,15 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
         ensureNotEmpty(key, "The key may not be null");
         Bundle savedState = new Bundle();
 
+        if (getAdapterView() != null) {
+            savedState.putParcelable(ADAPTER_VIEW_STATE_BUNDLE_KEY,
+                    getAdapterView().onSaveInstanceState());
+        } else {
+            String message = "The state of the adapter view can not be stored, because the " +
+                    "adapter has not been attached to a view";
+            getLogger().logWarn(getClass(), message);
+        }
+
         if (isUnderlyingDataParcelable()) {
             savedState.putParcelableArrayList(PARCELABLE_ITEMS_BUNDLE_KEY, getItems());
         } else if (isUnderlyingDataSerializable()) {
@@ -1009,6 +1026,11 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
         Bundle savedState = savedInstanceState.getBundle(key);
 
         if (savedState != null) {
+            if (savedState.containsKey(ADAPTER_VIEW_STATE_BUNDLE_KEY) && getAdapterView() != null) {
+                getAdapterView().onRestoreInstanceState(
+                        savedState.getParcelable(ADAPTER_VIEW_STATE_BUNDLE_KEY));
+            }
+
             if (savedState.containsKey(PARCELABLE_ITEMS_BUNDLE_KEY)) {
                 items = savedState.getParcelableArrayList(PARCELABLE_ITEMS_BUNDLE_KEY);
             } else if (savedState.containsKey(SERIALIZABLE_ITEMS_BUNDLE_KEY)) {

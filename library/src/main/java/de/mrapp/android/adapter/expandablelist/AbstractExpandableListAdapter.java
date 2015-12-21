@@ -72,6 +72,14 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     private static final long serialVersionUID = 1L;
 
     /**
+     * The key, which is used to store the state of the view, the adapter has been attached to,
+     * within a bundle.
+     */
+    @VisibleForTesting
+    protected static final String ADAPTER_VIEW_STATE_BUNDLE_KEY =
+            AbstractExpandableListAdapter.class.getSimpleName() + "::AdapterViewState";
+
+    /**
      * The key, which is used to store the adapter, which manages the adapter's group items, within
      * a bundle.
      */
@@ -2241,6 +2249,15 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         Bundle savedState = outState.getBundle(key);
 
         if (savedState != null) {
+            if (getAdapterView() != null) {
+                savedState.putParcelable(ADAPTER_VIEW_STATE_BUNDLE_KEY,
+                        getAdapterView().onSaveInstanceState());
+            } else {
+                String message = "The state of the adapter view can not be stored, because the " +
+                        "adapter has not been attached to a view";
+                getLogger().logWarn(getClass(), message);
+            }
+
             savedState
                     .putBoolean(ALLOW_DUPLICATE_CHILDREN_BUNDLE_KEY, areDuplicateChildrenAllowed());
             savedState.putBoolean(EXPAND_GROUP_ON_CLICK_BUNDLE_KEY, isGroupExpandedOnClick());
@@ -2256,6 +2273,11 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         Bundle savedState = savedInstanceState.getBundle(key);
 
         if (savedState != null) {
+            if (savedState.containsKey(ADAPTER_VIEW_STATE_BUNDLE_KEY) && getAdapterView() != null) {
+                getAdapterView().onRestoreInstanceState(
+                        savedState.getParcelable(ADAPTER_VIEW_STATE_BUNDLE_KEY));
+            }
+
             allowDuplicateChildren(
                     savedInstanceState.getBoolean(ALLOW_DUPLICATE_CHILDREN_BUNDLE_KEY));
             expandGroupOnClick(savedInstanceState.getBoolean(EXPAND_GROUP_ON_CLICK_BUNDLE_KEY));
