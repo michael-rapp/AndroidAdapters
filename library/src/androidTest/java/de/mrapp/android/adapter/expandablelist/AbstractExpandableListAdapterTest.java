@@ -37,6 +37,7 @@ import de.mrapp.android.adapter.DataSetObserver;
 import de.mrapp.android.adapter.ExpandableListAdapter;
 import de.mrapp.android.adapter.ExpandableListDecorator;
 import de.mrapp.android.adapter.Filter;
+import de.mrapp.android.adapter.FilterQuery;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.datastructure.group.Group;
@@ -552,6 +553,11 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         }
 
         @Override
+        public Set<? extends FilterQuery> getGroupFilterQueries() {
+            return null;
+        }
+
+        @Override
         public boolean applyGroupFilter(@NonNull String query, int flags) {
             return false;
         }
@@ -691,6 +697,21 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         @Override
         public boolean areChildrenFiltered() {
             return false;
+        }
+
+        @Override
+        public Set<? extends FilterQuery> getChildFilterQueries() {
+            return null;
+        }
+
+        @Override
+        public Set<? extends FilterQuery> getChildFilterQueries(final int groupIndex) {
+            return null;
+        }
+
+        @Override
+        public Set<? extends FilterQuery> getChildFilterQueries(final Object group) {
+            return null;
         }
 
         @Override

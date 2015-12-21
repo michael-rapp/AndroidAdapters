@@ -30,6 +30,7 @@ import java.util.Set;
 
 import de.mrapp.android.adapter.DataSetObserver;
 import de.mrapp.android.adapter.Filter;
+import de.mrapp.android.adapter.FilterQuery;
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.ListDecorator;
 import de.mrapp.android.adapter.Order;
@@ -175,6 +176,11 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
         @Override
         public boolean isFiltered() {
             return false;
+        }
+
+        @Override
+        public Set<? extends FilterQuery> getFilterQueries() {
+            return null;
         }
 
         @Override

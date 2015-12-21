@@ -19,10 +19,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.widget.ExpandableListView;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
 import de.mrapp.android.adapter.Filter;
+import de.mrapp.android.adapter.FilterQuery;
 import de.mrapp.android.adapter.Filterable;
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
@@ -481,6 +483,11 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
     }
 
     @Override
+    public final Set<? extends FilterQuery> getGroupFilterQueries() {
+        return getGroupAdapter().getFilterQueries();
+    }
+
+    @Override
     public final boolean applyChildFilter(@NonNull final String query, final int flags) {
         return applyChildFilter(false, query, flags);
     }
@@ -756,6 +763,27 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
     @Override
     public final boolean areChildrenFiltered(final int groupIndex) {
         return getGroupAdapter().getItem(groupIndex).getChildAdapter().isFiltered();
+    }
+
+    @Override
+    public final Set<? extends FilterQuery> getChildFilterQueries() {
+        Set<FilterQuery> queries = new LinkedHashSet<>();
+
+        for (int i = 0; i < getGroupCount(); i++) {
+            queries.addAll(getChildFilterQueries(i));
+        }
+
+        return queries;
+    }
+
+    @Override
+    public final Set<? extends FilterQuery> getChildFilterQueries(final int groupIndex) {
+        return getGroupAdapter().getItem(groupIndex).getChildAdapter().getFilterQueries();
+    }
+
+    @Override
+    public final Set<? extends FilterQuery> getChildFilterQueries(final GroupType group) {
+        return getChildFilterQueries(indexOfGroupOrThrowException(group));
     }
 
     @Override

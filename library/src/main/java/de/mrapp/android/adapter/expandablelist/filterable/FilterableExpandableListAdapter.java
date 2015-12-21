@@ -18,8 +18,10 @@ import android.support.annotation.NonNull;
 import android.widget.ExpandableListView;
 
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 import de.mrapp.android.adapter.Filter;
+import de.mrapp.android.adapter.FilterQuery;
 import de.mrapp.android.adapter.Filterable;
 import de.mrapp.android.adapter.FilteringNotSupportedException;
 
@@ -122,6 +124,16 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
      * items, false otherwise.
      */
     boolean areGroupsFiltered();
+
+    /**
+     * Returns a set, which contains all queries, which are currently used to filter the adapter's
+     * group items.
+     *
+     * @return A set, which contains all queries, which are currently used to filter the adapter's
+     * group items, as an instance of the type {@link Set} or an empty set, if no filters are
+     * currently applied on the adapter's group items
+     */
+    Set<? extends FilterQuery> getGroupFilterQueries();
 
     /**
      * Filters the adapter's child items, regardless of the group they belong to, by using a
@@ -541,6 +553,45 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
      * group's child items, false otherwise
      */
     boolean isChildFilterApplied(int groupIndex, @NonNull String query, int flags);
+
+    /**
+     * Returns a set, which contains all queries, which are currently used to filter the child items
+     * of the group, which belongs to a specific index.
+     *
+     * @param groupIndex
+     *         The index of the group, the queries, which should be returned, have been applied on,
+     *         as {@link Integer} value. The index must be between 0 and the value of the method
+     *         <code>getGroupCount():int</code> - 1, otherwise an {@link IndexOutOfBoundsException}
+     *         will be thrown
+     * @return A set, which contains all queries, which are currently used to filter the child
+     * items, which belong to the given group, as an instance of the type {@link Set} or an empty
+     * set, if no filters are currently applied on the child items of the given group
+     */
+    Set<? extends FilterQuery> getChildFilterQueries(int groupIndex);
+
+    /**
+     * Returns a set, which contains all queries, which are currently used to filter the child items
+     * of a specific group.
+     *
+     * @param group
+     *         The group, the queries, which should be returned, have been applied on, as instance
+     *         of the generic type GroupType. The group may not be null. If the group does not
+     *         belong to the adapter, a {@link NoSuchElementException} will be thrown
+     * @return A set, which contains all queries, which are currently used to filter the child
+     * items, which belong to the given group, as an instance of the type {@link Set} or an empty
+     * set, if no filters are currently applied on the child items of the given group
+     */
+    Set<? extends FilterQuery> getChildFilterQueries(GroupType group);
+
+    /**
+     * Returns a set, which contains all queries, which are currently used to filter any of the
+     * adapter's child items.
+     *
+     * @return A set, which contains all queries, which are currently used to filter any of the
+     * adapter's child items, as an instance of the type {@link Set} or an empty set, if no filters
+     * are currently applied on the adapter's child items
+     */
+    Set<? extends FilterQuery> getChildFilterQueries();
 
     /**
      * Returns, whether at least one filter is currently applied on a specific group to filter its
