@@ -91,6 +91,10 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType> extends
      *         A set, which contains the listeners, which should be notified, when an item of the
      *         adapter has been clicked by the user, as an instance of the type {@link Set}, or an
      *         empty set, if no listeners should be notified
+     * @param itemLongClickListeners
+     *         A set, which contains the listeners, which should be notified, when an item of the
+     *         adapter has been long-clicked by the user, as an instance of the type {@link Set}, or
+     *         an empty set, if no listeners should be notified
      * @param adapterListeners
      *         A set, which contains the listeners, which should be notified, when the adapter's
      *         underlying data has been modified, as an instance of the type {@link Set}, or an
@@ -142,6 +146,7 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType> extends
                                                   final boolean notifyOnChange,
                                                   final boolean expandGroupOnClick,
                                                   @NonNull final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
+                                                  @NonNull final Set<ExpandableListAdapterItemLongClickListener<GroupType, ChildType>> itemLongClickListeners,
                                                   @NonNull final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
                                                   @NonNull final Set<ExpansionListener<GroupType, ChildType>> expansionListeners,
                                                   final boolean setChildEnableStatesImplicitly,
@@ -156,10 +161,10 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType> extends
                                                   @NonNull final Set<ExpandableListFilterListener<GroupType, ChildType>> filterListeners) {
         super(context, groupInflater, childInflater, decorator, logLevel, groupAdapter,
                 allowDuplicateChildren, notifyOnChange, expandGroupOnClick, itemClickListeners,
-                adapterListeners, expansionListeners, setChildEnableStatesImplicitly,
-                enableStateListeners, numberOfGroupStates, numberOfChildStates,
-                triggerGroupStateOnClick, triggerChildStateOnClick, setChildStatesImplicitly,
-                itemStateListeners, sortingListeners, filterListeners);
+                itemLongClickListeners, adapterListeners, expansionListeners,
+                setChildEnableStatesImplicitly, enableStateListeners, numberOfGroupStates,
+                numberOfChildStates, triggerGroupStateOnClick, triggerChildStateOnClick,
+                setChildStatesImplicitly, itemStateListeners, sortingListeners, filterListeners);
     }
 
     /**
@@ -190,6 +195,7 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType> extends
                 new MultipleChoiceListAdapterImplementation<>(context, groupInflater,
                         new NullObjectDecorator<Group<GroupType, ChildType>>()), false, true, true,
                 new LinkedHashSet<ExpandableListAdapterItemClickListener<GroupType, ChildType>>(),
+                new LinkedHashSet<ExpandableListAdapterItemLongClickListener<GroupType, ChildType>>(),
                 new LinkedHashSet<ExpandableListAdapterListener<GroupType, ChildType>>(),
                 new LinkedHashSet<ExpansionListener<GroupType, ChildType>>(), true,
                 new LinkedHashSet<ExpandableListEnableStateListener<GroupType, ChildType>>(), 1, 1,
@@ -270,11 +276,12 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType> extends
         return new ExpandableListAdapterImplementation<>(getContext(), getGroupInflater(),
                 getChildInflater(), getDecorator(), getLogLevel(), cloneGroupAdapter(),
                 areDuplicateChildrenAllowed(), isNotifiedOnChange(), isGroupExpandedOnClick(),
-                getItemClickListeners(), getAdapterListeners(), getExpansionListeners(),
-                areChildEnableStatesSetImplicitly(), getEnableStateListeners(),
-                getNumberOfGroupStates(), getNumberOfChildStates(), isGroupStateTriggeredOnClick(),
-                isChildStateTriggeredOnClick(), areChildStatesSetImplicitly(),
-                getItemStateListeners(), getSortingListeners(), getFilterListeners());
+                getItemClickListeners(), getItemLongClickListeners(), getAdapterListeners(),
+                getExpansionListeners(), areChildEnableStatesSetImplicitly(),
+                getEnableStateListeners(), getNumberOfGroupStates(), getNumberOfChildStates(),
+                isGroupStateTriggeredOnClick(), isChildStateTriggeredOnClick(),
+                areChildStatesSetImplicitly(), getItemStateListeners(), getSortingListeners(),
+                getFilterListeners());
     }
 
 }

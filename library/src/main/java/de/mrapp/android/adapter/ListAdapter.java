@@ -22,6 +22,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
+import de.mrapp.android.adapter.list.ListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.EnableStateListAdapter;
 import de.mrapp.android.adapter.list.filterable.FilterableListAdapter;
@@ -407,6 +409,46 @@ public interface ListAdapter<DataType>
      *         ListAdapterListener}. The listener may not be null
      */
     void removeAdapterListener(@NonNull ListAdapterListener<DataType> listener);
+
+    /**
+     * Adds a new listener, which should be notified, when an item of the adapter has been clicked
+     * by the user.
+     *
+     * @param listener
+     *         The listener, which should be added, as an instance of the type {@link
+     *         ListAdapterItemClickListener}. The listener may not be null
+     */
+    void addItemClickListener(@NonNull ListAdapterItemClickListener<DataType> listener);
+
+    /**
+     * Removes a specific listener, which should not be notified, when an item of the adapter has
+     * been clicked by the user, anymore.
+     *
+     * @param listener
+     *         The listener, which should be removed, as an instance of the type {@link
+     *         ListAdapterItemClickListener}. The listener may not be null
+     */
+    void removeItemClickListener(@NonNull ListAdapterItemClickListener<DataType> listener);
+
+    /**
+     * Adds a new listener, which should be notified, when an item of the adapter has been
+     * long-clicked by the user.
+     *
+     * @param listener
+     *         The listener, which should be added, as an instance of the type {@link
+     *         ListAdapterItemLongClickListener}. The listener may not be null
+     */
+    void addItemLongClickListener(@NonNull ListAdapterItemLongClickListener<DataType> listener);
+
+    /**
+     * Removes a specific listener, which should not be notified, when an item of the adapter has
+     * been long-clicked by the user, anymore.
+     *
+     * @param listener
+     *         The listener, which should be removed, as an instance of the type {@link
+     *         ListAdapterItemLongClickListener}. The listener may not be null
+     */
+    void removeItemLongClickListener(@NonNull ListAdapterItemLongClickListener<DataType> listener);
 
     @Override
     ListAdapter<DataType> clone() throws CloneNotSupportedException;

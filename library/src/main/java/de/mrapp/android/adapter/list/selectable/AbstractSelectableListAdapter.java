@@ -29,6 +29,7 @@ import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
+import de.mrapp.android.adapter.list.ListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.filterable.AbstractFilterableListAdapter;
@@ -238,6 +239,7 @@ public abstract class AbstractSelectableListAdapter<DataType>
                                             final boolean allowDuplicates,
                                             final boolean notifyOnChange,
                                             @NonNull final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
+                                            @NonNull final Set<ListAdapterItemLongClickListener<DataType>> itemLongClickListeners,
                                             @NonNull final Set<ListAdapterListener<DataType>> adapterListeners,
                                             @NonNull final Set<ListEnableStateListener<DataType>> enableStateListeners,
                                             final int numberOfItemStates,
@@ -249,9 +251,9 @@ public abstract class AbstractSelectableListAdapter<DataType>
                                             final boolean selectItemOnClick,
                                             @NonNull final Set<ListSelectionListener<DataType>> selectionListeners) {
         super(context, inflater, decorator, logLevel, items, allowDuplicates, notifyOnChange,
-                itemClickListeners, adapterListeners, enableStateListeners, numberOfItemStates,
-                triggerItemStateOnClick, itemStateListeners, sortingListeners, filterListeners,
-                appliedFilters);
+                itemClickListeners, itemLongClickListeners, adapterListeners, enableStateListeners,
+                numberOfItemStates, triggerItemStateOnClick, itemStateListeners, sortingListeners,
+                filterListeners, appliedFilters);
         selectItemOnClick(selectItemOnClick);
         setSelectionListeners(selectionListeners);
         addSelectionListener(createSelectionListener());

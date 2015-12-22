@@ -38,6 +38,7 @@ import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.inflater.InflaterFactory;
 import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
+import de.mrapp.android.adapter.list.ListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.filterable.ListFilterListener;
@@ -122,6 +123,8 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         boolean allowDuplicates = true;
         boolean notifyOnChange = true;
         Set<ListAdapterItemClickListener<Object>> itemClickListeners = new LinkedHashSet<>();
+        Set<ListAdapterItemLongClickListener<Object>> itemLongClickListeners =
+                new LinkedHashSet<>();
         Set<ListAdapterListener<Object>> adapterListeners = new LinkedHashSet<>();
         Set<ListEnableStateListener<Object>> enableStateListeners = new LinkedHashSet<>();
         int numberOfItemStates = 2;
@@ -135,9 +138,10 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
                 new MultipleChoiceListAdapterImplementation<>(context, inflater, decorator,
                         LogLevel.ALL, items, allowDuplicates, notifyOnChange, itemClickListeners,
-                        adapterListeners, enableStateListeners, numberOfItemStates,
-                        triggerItemStateOnClick, itemStateListeners, sortingListeners,
-                        filterListeners, appliedFilters, selectItemOnClick, selectionListeners);
+                        itemLongClickListeners, adapterListeners, enableStateListeners,
+                        numberOfItemStates, triggerItemStateOnClick, itemStateListeners,
+                        sortingListeners, filterListeners, appliedFilters, selectItemOnClick,
+                        selectionListeners);
         assertEquals(allowDuplicates,
                 multipleChoiceListAdapterImplementation.areDuplicatesAllowed());
         assertEquals(notifyOnChange, multipleChoiceListAdapterImplementation.isNotifiedOnChange());
@@ -1335,6 +1339,8 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         boolean allowDuplicates = true;
         boolean notifyOnChange = true;
         Set<ListAdapterItemClickListener<Object>> itemClickListeners = new LinkedHashSet<>();
+        Set<ListAdapterItemLongClickListener<Object>> itemLongClickListeners =
+                new LinkedHashSet<>();
         Set<ListAdapterListener<Object>> adapterListeners = new LinkedHashSet<>();
         Set<ListEnableStateListener<Object>> enableStateListeners = new LinkedHashSet<>();
         int numberOfItemStates = 2;
@@ -1349,10 +1355,10 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
                 new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
                         new SelectableListDecoratorImplementation(), logLevel, items,
-                        allowDuplicates, notifyOnChange, itemClickListeners, adapterListeners,
-                        enableStateListeners, numberOfItemStates, triggerItemStateOnClick,
-                        itemStateListeners, sortingListeners, filterListeners, appliedFilters,
-                        selectItemOnClick, selectionListeners);
+                        allowDuplicates, notifyOnChange, itemClickListeners, itemLongClickListeners,
+                        adapterListeners, enableStateListeners, numberOfItemStates,
+                        triggerItemStateOnClick, itemStateListeners, sortingListeners,
+                        filterListeners, appliedFilters, selectItemOnClick, selectionListeners);
         multipleChoiceListAdapterImplementation.setParameters(parameters);
         assertEquals(
                 "MultipleChoiceListAdapter (" + items.size() + " items) [logLevel=" + logLevel +
@@ -1378,6 +1384,8 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         boolean allowDuplicates = true;
         boolean notifyOnChange = true;
         Set<ListAdapterItemClickListener<Object>> itemClickListeners = new LinkedHashSet<>();
+        Set<ListAdapterItemLongClickListener<Object>> itemLongClickListeners =
+                new LinkedHashSet<>();
         Set<ListAdapterListener<Object>> adapterListeners = new LinkedHashSet<>();
         Set<ListEnableStateListener<Object>> enableStateListeners = new LinkedHashSet<>();
         int numberOfItemStates = 2;
@@ -1391,9 +1399,10 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
                 new MultipleChoiceListAdapterImplementation<>(context, inflater, decorator,
                         LogLevel.ALL, items, allowDuplicates, notifyOnChange, itemClickListeners,
-                        adapterListeners, enableStateListeners, numberOfItemStates,
-                        triggerItemStateOnClick, itemStateListeners, sortingListeners,
-                        filterListeners, appliedFilters, selectItemOnClick, selectionListeners);
+                        itemLongClickListeners, adapterListeners, enableStateListeners,
+                        numberOfItemStates, triggerItemStateOnClick, itemStateListeners,
+                        sortingListeners, filterListeners, appliedFilters, selectItemOnClick,
+                        selectionListeners);
         MultipleChoiceListAdapterImplementation<Object>
                 clonedMultipleChoiceListAdapterImplementation =
                 multipleChoiceListAdapterImplementation.clone();

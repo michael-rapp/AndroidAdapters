@@ -32,6 +32,7 @@ import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemComparator;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
+import de.mrapp.android.adapter.list.ListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.itemstate.AbstractItemStateListAdapter;
@@ -185,6 +186,10 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
      *         A set, which contains the listeners, which should be notified, when an item of the
      *         adapter has been clicked by the user, as an instance of the type {@link Set} or an
      *         empty set, if no listeners should be notified
+     * @param itemLongClickListeners
+     *         A set, which contains the listeners, which should be notified, when an item of the
+     *         adapter has been long-clicked by the user, as an instance of the type {@link Set} or
+     *         an empty set, if no listeners should be notified
      * @param adapterListeners
      *         A set, which contains the listeners, which should be notified when the adapter's
      *         underlying data has been modified or an empty set, if no listeners should be
@@ -213,6 +218,7 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
                                           final boolean allowDuplicates,
                                           final boolean notifyOnChange,
                                           @NonNull final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
+                                          @NonNull final Set<ListAdapterItemLongClickListener<DataType>> itemLongClickListeners,
                                           @NonNull final Set<ListAdapterListener<DataType>> adapterListeners,
                                           @NonNull final Set<ListEnableStateListener<DataType>> enableStateListeners,
                                           final int numberOfItemStates,
@@ -220,8 +226,8 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType>
                                           @NonNull final Set<ListItemStateListener<DataType>> itemStateListeners,
                                           @NonNull final Set<ListSortingListener<DataType>> sortingListeners) {
         super(context, inflater, decorator, logLevel, items, allowDuplicates, notifyOnChange,
-                itemClickListeners, adapterListeners, enableStateListeners, numberOfItemStates,
-                triggerItemStateOnClick, itemStateListeners);
+                itemClickListeners, itemLongClickListeners, adapterListeners, enableStateListeners,
+                numberOfItemStates, triggerItemStateOnClick, itemStateListeners);
         this.order = null;
         setSortingListeners(sortingListeners);
         addAdapterListener(createAdapterListener());

@@ -33,6 +33,7 @@ import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
+import de.mrapp.android.adapter.list.ListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.filterable.ListFilterListener;
@@ -245,6 +246,10 @@ public class SingleChoiceListAdapterImplementation<DataType>
      *         A set, which contains the listeners, which should be notified, when an item of the
      *         adapter has been clicked by the user, as an instance of the type {@link Set} or an
      *         empty set, if no listeners should be notified
+     * @param itemLongClickListeners
+     *         A set, which contains the listeners, which should be notified, when an item of the
+     *         adapter has been long-clicked by the user, as an instance of the type {@link Set} or
+     *         an empty set, if no listeners should be notified
      * @param adapterListeners
      *         A set, which contains the listeners, which should be notified when the adapter's
      *         underlying data has been modified or an empty set, if no listeners should be
@@ -288,6 +293,7 @@ public class SingleChoiceListAdapterImplementation<DataType>
                                                     final boolean allowDuplicates,
                                                     final boolean notifyOnChange,
                                                     @NonNull final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
+                                                    @NonNull final Set<ListAdapterItemLongClickListener<DataType>> itemLongClickListeners,
                                                     @NonNull final Set<ListAdapterListener<DataType>> adapterListeners,
                                                     @NonNull final Set<ListEnableStateListener<DataType>> enableStateListeners,
                                                     final int numberOfItemStates,
@@ -300,9 +306,9 @@ public class SingleChoiceListAdapterImplementation<DataType>
                                                     @NonNull final Set<ListSelectionListener<DataType>> selectionListeners,
                                                     final boolean adaptSelectionAutomatically) {
         super(context, inflater, decorator, logLevel, items, allowDuplicates, notifyOnChange,
-                itemClickListeners, adapterListeners, enableStateListeners, numberOfItemStates,
-                triggerItemStateOnClick, itemStateListeners, sortingListeners, filterListeners,
-                appliedFilters, selectItemOnClick, selectionListeners);
+                itemClickListeners, itemLongClickListeners, adapterListeners, enableStateListeners,
+                numberOfItemStates, triggerItemStateOnClick, itemStateListeners, sortingListeners,
+                filterListeners, appliedFilters, selectItemOnClick, selectionListeners);
         addItemClickListener(createItemClickListener());
         addAdapterListener(createAdapterListener());
         addEnableStateListener(createEnableStateListener());
@@ -331,6 +337,7 @@ public class SingleChoiceListAdapterImplementation<DataType>
                                                  @NonNull final SelectableListDecorator<DataType> decorator) {
         this(context, inflater, decorator, LogLevel.INFO, new ArrayList<Item<DataType>>(), false,
                 true, new LinkedHashSet<ListAdapterItemClickListener<DataType>>(),
+                new LinkedHashSet<ListAdapterItemLongClickListener<DataType>>(),
                 new LinkedHashSet<ListAdapterListener<DataType>>(),
                 new LinkedHashSet<ListEnableStateListener<DataType>>(), 1, false,
                 new LinkedHashSet<ListItemStateListener<DataType>>(),
@@ -450,11 +457,11 @@ public class SingleChoiceListAdapterImplementation<DataType>
             throws CloneNotSupportedException {
         return new SingleChoiceListAdapterImplementation<>(getContext(), getInflater(),
                 getDecorator(), getLogLevel(), cloneItems(), areDuplicatesAllowed(),
-                isNotifiedOnChange(), getItemClickListeners(), getAdapterListeners(),
-                getEnableStateListeners(), getNumberOfItemStates(), isItemStateTriggeredOnClick(),
-                getItemStateListeners(), getSortingListeners(), getFilterListeners(),
-                cloneAppliedFilters(), isItemSelectedOnClick(), getSelectionListeners(),
-                isSelectionAdaptedAutomatically());
+                isNotifiedOnChange(), getItemClickListeners(), getItemLongClickListeners(),
+                getAdapterListeners(), getEnableStateListeners(), getNumberOfItemStates(),
+                isItemStateTriggeredOnClick(), getItemStateListeners(), getSortingListeners(),
+                getFilterListeners(), cloneAppliedFilters(), isItemSelectedOnClick(),
+                getSelectionListeners(), isSelectionAdaptedAutomatically());
     }
 
 }

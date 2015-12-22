@@ -35,6 +35,7 @@ import de.mrapp.android.adapter.example.R;
 import de.mrapp.android.adapter.example.dialog.AddContactDialog;
 import de.mrapp.android.adapter.example.model.Contact;
 import de.mrapp.android.adapter.example.model.SampleData;
+import de.mrapp.android.adapter.list.ListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.filterable.ListFilterListener;
@@ -103,6 +104,34 @@ public abstract class AbstractListAdapterFragment<AdapterType extends ListAdapte
     private void updateEnabledItemCount() {
         enabledItemCountTextView.setText(String.format(getString(R.string.enabled_item_count),
                 adapter.getEnabledItemCount()));
+    }
+
+    /**
+     * Creates and returns a listener, which allows to disable an item, when it is long-clicked.
+     *
+     * @return The listener, which has been created, as an instance of the type {@link
+     * ListAdapterItemLongClickListener}
+     */
+    private ListAdapterItemLongClickListener<Contact> createItemLongClickListener() {
+        return new ListAdapterItemLongClickListener<Contact>() {
+
+            @Override
+            public boolean onItemLongClicked(@NonNull final ListAdapter<Contact> adapter,
+                                             @NonNull final Contact item, final int index) {
+                getAdapter().triggerEnableState(index);
+
+                if (getAdapter().isEnabled(index)) {
+                    Toast.makeText(getActivity(), R.string.enabled_item_toast, Toast.LENGTH_SHORT)
+                            .show();
+                } else {
+                    Toast.makeText(getActivity(), R.string.disabled_item_toast, Toast.LENGTH_SHORT)
+                            .show();
+                }
+
+                return true;
+            }
+
+        };
     }
 
     /**
@@ -219,6 +248,7 @@ public abstract class AbstractListAdapterFragment<AdapterType extends ListAdapte
 
         View view = inflateLayout(inflater, container);
         adapter = createAdapter();
+        adapter.addItemLongClickListener(createItemLongClickListener());
         attachAdapter(view, adapter);
 
         ImageButton sortAscendingButton =

@@ -79,6 +79,8 @@ public class ListAdapterImplementationTest extends AndroidTestCase {
         boolean allowDuplicates = true;
         boolean notifyOnChange = true;
         Set<ListAdapterItemClickListener<Object>> itemClickListeners = new LinkedHashSet<>();
+        Set<ListAdapterItemLongClickListener<Object>> itemLongClickListeners =
+                new LinkedHashSet<>();
         Set<ListAdapterListener<Object>> adapterListeners = new LinkedHashSet<>();
         Set<ListEnableStateListener<Object>> enableStateListeners = new LinkedHashSet<>();
         int numberOfItemStates = 2;
@@ -89,9 +91,10 @@ public class ListAdapterImplementationTest extends AndroidTestCase {
         LinkedHashSet<AppliedFilter<Object>> appliedFilters = new LinkedHashSet<>();
         ListAdapterImplementation<Object> listAdapterImplementation =
                 new ListAdapterImplementation<>(context, inflater, decorator, LogLevel.ALL, items,
-                        allowDuplicates, notifyOnChange, itemClickListeners, adapterListeners,
-                        enableStateListeners, numberOfItemStates, triggerItemStateOnClick,
-                        itemStateListeners, sortingListeners, filterListeners, appliedFilters);
+                        allowDuplicates, notifyOnChange, itemClickListeners, itemLongClickListeners,
+                        adapterListeners, enableStateListeners, numberOfItemStates,
+                        triggerItemStateOnClick, itemStateListeners, sortingListeners,
+                        filterListeners, appliedFilters);
         assertEquals(context, listAdapterImplementation.getContext());
         assertEquals(inflater, listAdapterImplementation.getInflater());
         assertEquals(decorator, listAdapterImplementation.getDecorator());
@@ -99,6 +102,7 @@ public class ListAdapterImplementationTest extends AndroidTestCase {
         assertEquals(allowDuplicates, listAdapterImplementation.areDuplicatesAllowed());
         assertEquals(notifyOnChange, listAdapterImplementation.isNotifiedOnChange());
         assertEquals(itemClickListeners, listAdapterImplementation.getItemClickListeners());
+        assertEquals(itemLongClickListeners, listAdapterImplementation.getItemLongClickListeners());
         assertEquals(adapterListeners, listAdapterImplementation.getAdapterListeners());
         assertEquals(numberOfItemStates, listAdapterImplementation.getNumberOfItemStates());
         assertEquals(triggerItemStateOnClick,
@@ -150,6 +154,8 @@ public class ListAdapterImplementationTest extends AndroidTestCase {
         boolean allowDuplicates = true;
         boolean notifyOnChange = true;
         Set<ListAdapterItemClickListener<Object>> itemClickListeners = new LinkedHashSet<>();
+        Set<ListAdapterItemLongClickListener<Object>> itemLongClickListeners =
+                new LinkedHashSet<>();
         Set<ListAdapterListener<Object>> adapterListeners = new LinkedHashSet<>();
         Set<ListEnableStateListener<Object>> enableStateListeners = new LinkedHashSet<>();
         int numberOfItemStates = 2;
@@ -162,9 +168,10 @@ public class ListAdapterImplementationTest extends AndroidTestCase {
         ListAdapterImplementation<Object> listAdapterImplementation =
                 new ListAdapterImplementation<>(getContext(), mock(Inflater.class),
                         new ListDecoratorImplementation(), logLevel, items, allowDuplicates,
-                        notifyOnChange, itemClickListeners, adapterListeners, enableStateListeners,
-                        numberOfItemStates, triggerItemStateOnClick, itemStateListeners,
-                        sortingListeners, filterListeners, appliedFilters);
+                        notifyOnChange, itemClickListeners, itemLongClickListeners,
+                        adapterListeners, enableStateListeners, numberOfItemStates,
+                        triggerItemStateOnClick, itemStateListeners, sortingListeners,
+                        filterListeners, appliedFilters);
         listAdapterImplementation.setParameters(parameters);
         assertEquals(
                 "ListAdapter (" + items.size() + " items) [logLevel=" + logLevel + ", parameters=" +
@@ -188,6 +195,8 @@ public class ListAdapterImplementationTest extends AndroidTestCase {
         boolean allowDuplicates = true;
         boolean notifyOnChange = true;
         Set<ListAdapterItemClickListener<Object>> itemClickListeners = new LinkedHashSet<>();
+        Set<ListAdapterItemLongClickListener<Object>> itemLongClickListeners =
+                new LinkedHashSet<>();
         Set<ListAdapterListener<Object>> adapterListeners = new LinkedHashSet<>();
         Set<ListEnableStateListener<Object>> enableStateListeners = new LinkedHashSet<>();
         int numberOfItemStates = 2;
@@ -198,9 +207,10 @@ public class ListAdapterImplementationTest extends AndroidTestCase {
         LinkedHashSet<AppliedFilter<Object>> appliedFilters = new LinkedHashSet<>();
         ListAdapterImplementation<Object> listAdapterImplementation =
                 new ListAdapterImplementation<>(context, inflater, decorator, LogLevel.ALL, items,
-                        allowDuplicates, notifyOnChange, itemClickListeners, adapterListeners,
-                        enableStateListeners, numberOfItemStates, triggerItemStateOnClick,
-                        itemStateListeners, sortingListeners, filterListeners, appliedFilters);
+                        allowDuplicates, notifyOnChange, itemClickListeners, itemLongClickListeners,
+                        adapterListeners, enableStateListeners, numberOfItemStates,
+                        triggerItemStateOnClick, itemStateListeners, sortingListeners,
+                        filterListeners, appliedFilters);
         ListAdapterImplementation<Object> clonedListAdapterImplementation =
                 listAdapterImplementation.clone();
         assertEquals(context, clonedListAdapterImplementation.getContext());
@@ -210,6 +220,8 @@ public class ListAdapterImplementationTest extends AndroidTestCase {
         assertEquals(allowDuplicates, clonedListAdapterImplementation.areDuplicatesAllowed());
         assertEquals(notifyOnChange, clonedListAdapterImplementation.isNotifiedOnChange());
         assertEquals(itemClickListeners, clonedListAdapterImplementation.getItemClickListeners());
+        assertEquals(itemLongClickListeners,
+                clonedListAdapterImplementation.getItemLongClickListeners());
         assertEquals(adapterListeners, clonedListAdapterImplementation.getAdapterListeners());
         assertEquals(numberOfItemStates, clonedListAdapterImplementation.getNumberOfItemStates());
         assertEquals(triggerItemStateOnClick,

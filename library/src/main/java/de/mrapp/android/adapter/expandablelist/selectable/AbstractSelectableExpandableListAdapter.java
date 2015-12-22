@@ -27,6 +27,7 @@ import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.SelectableExpandableListDecorator;
 import de.mrapp.android.adapter.datastructure.group.Group;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemClickListener;
+import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterListener;
 import de.mrapp.android.adapter.expandablelist.ExpansionListener;
 import de.mrapp.android.adapter.expandablelist.enablestate.ExpandableListEnableStateListener;
@@ -291,6 +292,10 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
      *         A set, which contains the listeners, which should be notified, when an item of the
      *         adapter has been clicked by the user, as an instance of the type {@link Set}, or an
      *         empty set, if no listeners should be notified
+     * @param itemLongClickListeners
+     *         A set, which contains the listeners, which should be notified, when an item of the
+     *         adapter has been long-clicked by the user, as an instance of the type {@link Set}, or
+     *         an empty set, if no listeners should be notified
      * @param adapterListeners
      *         A set, which contains the listeners, which should be notified, when the adapter's
      *         underlying data has been modified, as an instance of the type {@link Set}, or an
@@ -359,6 +364,7 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
                                                       final boolean notifyOnChange,
                                                       final boolean expandGroupOnClick,
                                                       @NonNull final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
+                                                      @NonNull final Set<ExpandableListAdapterItemLongClickListener<GroupType, ChildType>> itemLongClickListeners,
                                                       @NonNull final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
                                                       @NonNull final Set<ExpansionListener<GroupType, ChildType>> expansionListeners,
                                                       final boolean setChildEnableStatesImplicitly,
@@ -379,10 +385,10 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
                                                       @NonNull final ChoiceMode choiceMode) {
         super(context, groupInflater, childInflater, decorator, logLevel, groupAdapter,
                 allowDuplicateChildren, notifyOnChange, expandGroupOnClick, itemClickListeners,
-                adapterListeners, expansionListeners, setChildEnableStatesImplicitly,
-                enableStateListeners, numberOfGroupStates, numberOfChildStates,
-                triggerGroupStateOnClick, triggerChildStateOnClick, setChildStatesImplicitly,
-                itemStateListeners, sortingListeners, filterListeners);
+                itemLongClickListeners, adapterListeners, expansionListeners,
+                setChildEnableStatesImplicitly, enableStateListeners, numberOfGroupStates,
+                numberOfChildStates, triggerGroupStateOnClick, triggerChildStateOnClick,
+                setChildStatesImplicitly, itemStateListeners, sortingListeners, filterListeners);
         ensureNotNull(choiceMode, "The choice mode may not be null");
         this.choiceMode = choiceMode;
         selectGroupOnClick(selectGroupOnClick);

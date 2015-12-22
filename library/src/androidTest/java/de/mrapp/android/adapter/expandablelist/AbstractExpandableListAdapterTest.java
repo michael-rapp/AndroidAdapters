@@ -133,6 +133,10 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
          *         A set, which contains the listeners, which should be notified, when an item of
          *         the adapter has been clicked by the user, as an instance of the type {@link Set}
          *         or an empty set, if no listeners should be notified
+         * @param itemLongClickListeners
+         *         A set, which contains the listeners, which should be notified, when an item of
+         *         the adapter has been long-clicked by the user, as an instance of the type {@link
+         *         Set}, or an empty set, if no listeners should be notified
          * @param adapterListeners
          *         A set, which contains the listeners, which should be notified, when the adapter's
          *         underlying data has been modified, as an instance of the type {@link Set} or an
@@ -152,11 +156,12 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
                                                               final boolean notifyOnChange,
                                                               final boolean expandGroupOnClick,
                                                               final Set<ExpandableListAdapterItemClickListener<Object, Object>> itemClickListeners,
+                                                              final Set<ExpandableListAdapterItemLongClickListener<Object, Object>> itemLongClickListeners,
                                                               final Set<ExpandableListAdapterListener<Object, Object>> adapterListeners,
                                                               final Set<ExpansionListener<Object, Object>> expansionListeners) {
             super(context, groupInflater, childInflater, decorator, logLevel, groupAdapter,
                     allowDuplicateChildren, notifyOnChange, expandGroupOnClick, itemClickListeners,
-                    adapterListeners, expansionListeners);
+                    itemLongClickListeners, adapterListeners, expansionListeners);
         }
 
         @Override
@@ -1313,6 +1318,7 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
                         mock(Inflater.class), new ExpandableListDecoratorImplementation(),
                         LogLevel.ALL, groupAdapter, false, true, true,
                         new LinkedHashSet<ExpandableListAdapterItemClickListener<Object, Object>>(),
+                        new LinkedHashSet<ExpandableListAdapterItemLongClickListener<Object, Object>>(),
                         new LinkedHashSet<ExpandableListAdapterListener<Object, Object>>(),
                         new LinkedHashSet<ExpansionListener<Object, Object>>());
         return abstractExpandableListAdapter;
@@ -1356,13 +1362,15 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         boolean expandGroupOnClick = true;
         Set<ExpandableListAdapterItemClickListener<Object, Object>> itemClickListeners =
                 new LinkedHashSet<>();
+        Set<ExpandableListAdapterItemLongClickListener<Object, Object>> itemLongClickListeners =
+                new LinkedHashSet<>();
         Set<ExpandableListAdapterListener<Object, Object>> adapterListeners = new LinkedHashSet<>();
         Set<ExpansionListener<Object, Object>> expansionListeners = new LinkedHashSet<>();
         AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
                 new AbstractExpandableListAdapterImplementation(context, groupInflater,
                         childInflater, decorator, logLevel, groupAdapter, allowDuplicateChildren,
-                        notifyOnChange, expandGroupOnClick, itemClickListeners, adapterListeners,
-                        expansionListeners);
+                        notifyOnChange, expandGroupOnClick, itemClickListeners,
+                        itemLongClickListeners, adapterListeners, expansionListeners);
         assertEquals(context, abstractExpandableListAdapter.getContext());
         assertEquals(groupInflater, abstractExpandableListAdapter.getGroupInflater());
         assertEquals(childInflater, abstractExpandableListAdapter.getChildInflater());
@@ -1374,6 +1382,8 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertEquals(notifyOnChange, abstractExpandableListAdapter.isNotifiedOnChange());
         assertEquals(expandGroupOnClick, abstractExpandableListAdapter.isGroupExpandedOnClick());
         assertEquals(itemClickListeners, abstractExpandableListAdapter.getItemClickListeners());
+        assertEquals(itemLongClickListeners,
+                abstractExpandableListAdapter.getItemLongClickListeners());
         assertEquals(adapterListeners, abstractExpandableListAdapter.getAdapterListeners());
         assertEquals(expansionListeners, abstractExpandableListAdapter.getExpansionListeners());
         assertNull(abstractExpandableListAdapter.getParameters());
@@ -1392,6 +1402,7 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
                     mock(Inflater.class), new ExpandableListDecoratorImplementation(), LogLevel.ALL,
                     groupAdapter, false, true, true,
                     new LinkedHashSet<ExpandableListAdapterItemClickListener<Object, Object>>(),
+                    new LinkedHashSet<ExpandableListAdapterItemLongClickListener<Object, Object>>(),
                     new LinkedHashSet<ExpandableListAdapterListener<Object, Object>>(),
                     new LinkedHashSet<ExpansionListener<Object, Object>>());
             Assert.fail();
@@ -1413,6 +1424,7 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
                     mock(Inflater.class), new ExpandableListDecoratorImplementation(), LogLevel.ALL,
                     groupAdapter, false, true, true,
                     new LinkedHashSet<ExpandableListAdapterItemClickListener<Object, Object>>(),
+                    new LinkedHashSet<ExpandableListAdapterItemLongClickListener<Object, Object>>(),
                     new LinkedHashSet<ExpandableListAdapterListener<Object, Object>>(),
                     new LinkedHashSet<ExpansionListener<Object, Object>>());
             Assert.fail();
@@ -1434,6 +1446,7 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
                     null, new ExpandableListDecoratorImplementation(), LogLevel.ALL, groupAdapter,
                     false, true, true,
                     new LinkedHashSet<ExpandableListAdapterItemClickListener<Object, Object>>(),
+                    new LinkedHashSet<ExpandableListAdapterItemLongClickListener<Object, Object>>(),
                     new LinkedHashSet<ExpandableListAdapterListener<Object, Object>>(),
                     new LinkedHashSet<ExpansionListener<Object, Object>>());
             Assert.fail();
@@ -1454,6 +1467,7 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
             new AbstractExpandableListAdapterImplementation(getContext(), mock(Inflater.class),
                     mock(Inflater.class), null, LogLevel.ALL, groupAdapter, false, true, true,
                     new LinkedHashSet<ExpandableListAdapterItemClickListener<Object, Object>>(),
+                    new LinkedHashSet<ExpandableListAdapterItemLongClickListener<Object, Object>>(),
                     new LinkedHashSet<ExpandableListAdapterListener<Object, Object>>(),
                     new LinkedHashSet<ExpansionListener<Object, Object>>());
             Assert.fail();
@@ -1475,6 +1489,7 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
                     mock(Inflater.class), new ExpandableListDecoratorImplementation(), null,
                     groupAdapter, false, true, true,
                     new LinkedHashSet<ExpandableListAdapterItemClickListener<Object, Object>>(),
+                    new LinkedHashSet<ExpandableListAdapterItemLongClickListener<Object, Object>>(),
                     new LinkedHashSet<ExpandableListAdapterListener<Object, Object>>(),
                     new LinkedHashSet<ExpansionListener<Object, Object>>());
             Assert.fail();
@@ -1493,6 +1508,7 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
                     mock(Inflater.class), new ExpandableListDecoratorImplementation(), LogLevel.ALL,
                     null, false, true, true,
                     new LinkedHashSet<ExpandableListAdapterItemClickListener<Object, Object>>(),
+                    new LinkedHashSet<ExpandableListAdapterItemLongClickListener<Object, Object>>(),
                     new LinkedHashSet<ExpandableListAdapterListener<Object, Object>>(),
                     new LinkedHashSet<ExpansionListener<Object, Object>>());
             Assert.fail();
@@ -1513,7 +1529,29 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
             new AbstractExpandableListAdapterImplementation(getContext(), mock(Inflater.class),
                     mock(Inflater.class), new ExpandableListDecoratorImplementation(), null,
                     groupAdapter, false, true, true, null,
+                    new LinkedHashSet<ExpandableListAdapterItemLongClickListener<Object, Object>>(),
                     new LinkedHashSet<ExpandableListAdapterListener<Object, Object>>(),
+                    new LinkedHashSet<ExpansionListener<Object, Object>>());
+            Assert.fail();
+        } catch (NullPointerException e) {
+
+        }
+    }
+
+    /**
+     * Ensures, that a {@link NullPointerException} is thrown, if the set, which contains the item
+     * long click listeners, which is passed to the constructor, is null.
+     */
+    public final void testConstructorThrowsExceptionWhenItemLongClickListenersIsNull() {
+        try {
+            MultipleChoiceListAdapter<Group<Object, Object>> groupAdapter =
+                    new MultipleChoiceListAdapterImplementation<>(getContext(),
+                            mock(Inflater.class), new NullObjectDecorator<Group<Object, Object>>());
+            new AbstractExpandableListAdapterImplementation(getContext(), mock(Inflater.class),
+                    mock(Inflater.class), new ExpandableListDecoratorImplementation(), null,
+                    groupAdapter, false, true, true,
+                    new LinkedHashSet<ExpandableListAdapterItemClickListener<Object, Object>>(),
+                    null, new LinkedHashSet<ExpandableListAdapterListener<Object, Object>>(),
                     new LinkedHashSet<ExpansionListener<Object, Object>>());
             Assert.fail();
         } catch (NullPointerException e) {
@@ -1534,6 +1572,7 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
                     mock(Inflater.class), new ExpandableListDecoratorImplementation(), null,
                     groupAdapter, false, true, true,
                     new LinkedHashSet<ExpandableListAdapterItemClickListener<Object, Object>>(),
+                    new LinkedHashSet<ExpandableListAdapterItemLongClickListener<Object, Object>>(),
                     null, new LinkedHashSet<ExpansionListener<Object, Object>>());
             Assert.fail();
         } catch (NullPointerException e) {
@@ -1554,6 +1593,7 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
                     mock(Inflater.class), new ExpandableListDecoratorImplementation(), null,
                     groupAdapter, false, true, true,
                     new LinkedHashSet<ExpandableListAdapterItemClickListener<Object, Object>>(),
+                    new LinkedHashSet<ExpandableListAdapterItemLongClickListener<Object, Object>>(),
                     new LinkedHashSet<ExpandableListAdapterListener<Object, Object>>(), null);
             Assert.fail();
         } catch (NullPointerException e) {

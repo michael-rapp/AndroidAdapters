@@ -14,6 +14,7 @@
  */
 package de.mrapp.android.adapter.example.fragment;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import android.view.ViewGroup;
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.example.R;
 import de.mrapp.android.adapter.example.model.Contact;
+import de.mrapp.android.adapter.list.ListAdapterItemLongClickListener;
 
 /**
  * An abstract base class for all fragments, which demonstrate the functionality of adapters, which
@@ -47,7 +49,6 @@ public abstract class AbstractRecyclerViewFragment<AdapterType extends ListAdapt
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         adapter.attach(recyclerView);
-        // TODO: Long click listener
     }
 
 }

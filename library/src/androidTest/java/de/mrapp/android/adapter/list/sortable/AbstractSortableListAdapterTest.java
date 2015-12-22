@@ -37,6 +37,7 @@ import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
+import de.mrapp.android.adapter.list.ListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.filterable.ListFilterListener;
@@ -106,6 +107,10 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
          *         A set, which contains the listeners, which should be notified, when an item of
          *         the adapter has been clicked by the user, as an instance of the type {@link Set}
          *         or an empty set, if no listeners should be notified
+         * @param itemLongClickListeners
+         *         A set, which contains the listeners, which should be notified, when an item of
+         *         the adapter has been long-clicked by the user, as an instance of the type {@link
+         *         Set} or an empty set, if no listeners should be notified
          * @param adapterListeners
          *         A set, which contains the listeners, which should be notified when the adapter's
          *         underlying data has been modified or an empty set, if no listeners should be
@@ -135,6 +140,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                                                             final boolean allowDuplicates,
                                                             final boolean notifyOnChange,
                                                             final Set<ListAdapterItemClickListener<ComparableImplementation>> itemClickListeners,
+                                                            final Set<ListAdapterItemLongClickListener<ComparableImplementation>> itemLongClickListeners,
                                                             final Set<ListAdapterListener<ComparableImplementation>> adapterListeners,
                                                             final Set<ListEnableStateListener<ComparableImplementation>> enableStateListeners,
                                                             final int numberOfItemStates,
@@ -142,8 +148,9 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                                                             final Set<ListItemStateListener<ComparableImplementation>> itemStateListeners,
                                                             final Set<ListSortingListener<ComparableImplementation>> sortingListeners) {
             super(context, inflater, decorator, logLevel, items, allowDuplicates, notifyOnChange,
-                    itemClickListeners, adapterListeners, enableStateListeners, numberOfItemStates,
-                    triggerItemStateOnClick, itemStateListeners, sortingListeners);
+                    itemClickListeners, itemLongClickListeners, adapterListeners,
+                    enableStateListeners, numberOfItemStates, triggerItemStateOnClick,
+                    itemStateListeners, sortingListeners);
         }
 
         @Override
@@ -284,6 +291,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(), 1,
                         false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
@@ -302,6 +310,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                     new ListDecoratorImplementation(), LogLevel.ALL,
                     new ArrayList<Item<ComparableImplementation>>(), false, true,
                     new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
+                    new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
                     new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
                     new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(), 1,
                     false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
@@ -323,6 +332,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(), 1,
                         false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
@@ -345,6 +355,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                             mock(Inflater.class), new ListDecoratorImplementation(), LogLevel.ALL,
                             new ArrayList<Item<ComparableImplementation>>(), false, true,
                             new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
+                            new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
                             new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
                             new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(),
                             1, false,
@@ -368,6 +379,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(), 1,
                         false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
@@ -392,6 +404,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                             mock(Inflater.class), new ListDecoratorImplementation(), LogLevel.ALL,
                             new ArrayList<Item<ComparableImplementation>>(), false, true,
                             new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
+                            new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
                             new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
                             new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(),
                             1, false,
@@ -420,6 +433,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(), 1,
                         false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
@@ -456,6 +470,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(), 1,
                         false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
@@ -492,6 +507,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(), 1,
                         false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
@@ -522,6 +538,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                             mock(Inflater.class), new ListDecoratorImplementation(), LogLevel.ALL,
                             new ArrayList<Item<ComparableImplementation>>(), false, true,
                             new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
+                            new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
                             new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
                             new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(),
                             1, false,
@@ -551,6 +568,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(), 1,
                         false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
@@ -588,6 +606,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(), 1,
                         false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
@@ -625,6 +644,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(), 1,
                         false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
@@ -656,6 +676,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                             mock(Inflater.class), new ListDecoratorImplementation(), LogLevel.ALL,
                             new ArrayList<Item<ComparableImplementation>>(), false, true,
                             new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
+                            new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
                             new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
                             new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(),
                             1, false,
@@ -679,6 +700,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                             mock(Inflater.class), new ListDecoratorImplementation(), LogLevel.ALL,
                             new ArrayList<Item<ComparableImplementation>>(), false, true,
                             new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
+                            new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
                             new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
                             new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(),
                             1, false,
@@ -703,6 +725,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                             mock(Inflater.class), new ListDecoratorImplementation(), LogLevel.ALL,
                             new ArrayList<Item<ComparableImplementation>>(), false, true,
                             new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
+                            new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
                             new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
                             new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(),
                             1, false,
@@ -726,6 +749,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(), 1,
                         false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
@@ -750,6 +774,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(), 1,
                         false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
@@ -773,6 +798,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(), 1,
                         false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
@@ -782,6 +808,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(), 1,
                         false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
@@ -804,6 +831,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(), 1,
                         false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
@@ -813,6 +841,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(), 1,
                         false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
@@ -836,6 +865,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(), 1,
                         false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
@@ -858,6 +888,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(), 1,
                         false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),

@@ -36,6 +36,7 @@ import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.inflater.InflaterFactory;
 import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
+import de.mrapp.android.adapter.list.ListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.filterable.ListFilterListener;
@@ -120,6 +121,8 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         boolean allowDuplicates = true;
         boolean notifyOnChange = true;
         Set<ListAdapterItemClickListener<Object>> itemClickListeners = new LinkedHashSet<>();
+        Set<ListAdapterItemLongClickListener<Object>> itemLongClickListeners =
+                new LinkedHashSet<>();
         Set<ListAdapterListener<Object>> adapterListeners = new LinkedHashSet<>();
         Set<ListEnableStateListener<Object>> enableStateListeners = new LinkedHashSet<>();
         int numberOfItemStates = 2;
@@ -134,10 +137,10 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
                 new SingleChoiceListAdapterImplementation<>(context, inflater, decorator,
                         LogLevel.ALL, items, allowDuplicates, notifyOnChange, itemClickListeners,
-                        adapterListeners, enableStateListeners, numberOfItemStates,
-                        triggerItemStateOnClick, itemStateListeners, sortingListeners,
-                        filterListeners, appliedFilters, selectItemOnClick, selectionListeners,
-                        adaptSelectionAutomatically);
+                        itemLongClickListeners, adapterListeners, enableStateListeners,
+                        numberOfItemStates, triggerItemStateOnClick, itemStateListeners,
+                        sortingListeners, filterListeners, appliedFilters, selectItemOnClick,
+                        selectionListeners, adaptSelectionAutomatically);
         assertEquals(allowDuplicates, singleChoiceListAdapterImplementation.areDuplicatesAllowed());
         assertEquals(notifyOnChange, singleChoiceListAdapterImplementation.isNotifiedOnChange());
         assertEquals(numberOfItemStates,
@@ -846,6 +849,8 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         boolean allowDuplicates = true;
         boolean notifyOnchange = true;
         Set<ListAdapterItemClickListener<Object>> itemClickListeners = new LinkedHashSet<>();
+        Set<ListAdapterItemLongClickListener<Object>> itemLongClickListeners =
+                new LinkedHashSet<>();
         Set<ListAdapterListener<Object>> adapterListeners = new LinkedHashSet<>();
         Set<ListEnableStateListener<Object>> enableStateListeners = new LinkedHashSet<>();
         int numberOfItemStates = 2;
@@ -861,10 +866,11 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
                 new SingleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
                         new SelectableListDecoratorImplementation(), logLevel, items,
-                        allowDuplicates, notifyOnchange, itemClickListeners, adapterListeners,
-                        enableStateListeners, numberOfItemStates, triggerItemStateOnClick,
-                        itemStateListeners, sortingListeners, filterListeners, appliedFilters,
-                        selectItemOnClick, selectionListeners, adaptSelectionAutomatically);
+                        allowDuplicates, notifyOnchange, itemClickListeners, itemLongClickListeners,
+                        adapterListeners, enableStateListeners, numberOfItemStates,
+                        triggerItemStateOnClick, itemStateListeners, sortingListeners,
+                        filterListeners, appliedFilters, selectItemOnClick, selectionListeners,
+                        adaptSelectionAutomatically);
         singleChoiceListAdapterImplementation.setParameters(parameters);
         assertEquals("SingleChoiceListAdapter (" + items.size() + " items) [logLevel=" + logLevel +
                         ", parameters=" + parameters + ", notifyOnChange=" + notifyOnchange +
@@ -890,6 +896,8 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         boolean allowDuplicates = true;
         boolean notifyOnChange = true;
         Set<ListAdapterItemClickListener<Object>> itemClickListeners = new LinkedHashSet<>();
+        Set<ListAdapterItemLongClickListener<Object>> itemLongClickListeners =
+                new LinkedHashSet<>();
         Set<ListAdapterListener<Object>> adapterListeners = new LinkedHashSet<>();
         Set<ListEnableStateListener<Object>> enableStateListeners = new LinkedHashSet<>();
         int numberOfItemStates = 2;
@@ -904,10 +912,10 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
                 new SingleChoiceListAdapterImplementation<>(context, inflater, decorator,
                         LogLevel.ALL, items, allowDuplicates, notifyOnChange, itemClickListeners,
-                        adapterListeners, enableStateListeners, numberOfItemStates,
-                        triggerItemStateOnClick, itemStateListeners, sortingListeners,
-                        filterListeners, appliedFilters, selectItemOnClick, selectionListeners,
-                        adaptSelectionAutomatically);
+                        itemLongClickListeners, adapterListeners, enableStateListeners,
+                        numberOfItemStates, triggerItemStateOnClick, itemStateListeners,
+                        sortingListeners, filterListeners, appliedFilters, selectItemOnClick,
+                        selectionListeners, adaptSelectionAutomatically);
         SingleChoiceListAdapterImplementation<Object> clonedSingleChoiceListAdapterImplementation =
                 singleChoiceListAdapterImplementation.clone();
         assertEquals(allowDuplicates,

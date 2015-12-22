@@ -20,6 +20,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
@@ -154,6 +155,13 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
             itemClickListeners;
 
     /**
+     * A set, which contains the listeners, which should be notified, when an item of the adapter
+     * has been long-clicked by the user.
+     */
+    private transient Set<ExpandableListAdapterItemLongClickListener<GroupType, ChildType>>
+            itemLongClickListeners;
+
+    /**
      * A set, which contains the listeners, which should be notified, when the adapter's underlying
      * data has been modified.
      */
@@ -234,6 +242,60 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         for (ExpandableListAdapterItemClickListener<GroupType, ChildType> listener : itemClickListeners) {
             listener.onChildClicked(this, child, childIndex, group, groupIndex);
         }
+    }
+
+    /**
+     * Notifies all listeners, which have been registered to be notified, when an item of the
+     * adapter has been long-clicked by the user, about a group, which has been long-clicked.
+     *
+     * @param group
+     *         The group, which has been long-clicked by the user, as an instance of the generic
+     *         type GroupType. The item may not be null
+     * @param index
+     *         The index of the group, which has been long-clicked by the user, as an {@link
+     *         Integer} value. The index must be between 0 and the value of the method
+     *         <code>getGroupCount():int</code> - 1
+     * @return True, if a listener has consumed the long-click, false otherwise
+     */
+    private boolean notifyOnGroupLongClicked(@NonNull final GroupType group, final int index) {
+        for (ExpandableListAdapterItemLongClickListener<GroupType, ChildType> listener : itemLongClickListeners) {
+            if (listener.onGroupLongClicked(this, group, index)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Notifies all listeners, which have been registered to be notified, when an item of the
+     * adapter has been long-clicked by the user, about a child, which has been long-clicked.
+     *
+     * @param child
+     *         The child, which has been long-clicked by the user, as an instance of the generic
+     *         type ChildType. The item may not be null
+     * @param childIndex
+     *         The index of the child, which has been long-clicked by the user, as an {@link
+     *         Integer} value. The index must be between 0 and the value of the method
+     *         <code>getChildCount(groupIndex):int</code> - 1
+     * @param group
+     *         The group, the child, which has been long-clicked by the user, belongs to, as an
+     *         instance of the generic type GroupType. The item may not be null
+     * @param groupIndex
+     *         The index of the group, the child, which has been long-clicked by the user, belongs
+     *         to, as an {@link Integer} value. The index must be between 0 and the value of the
+     *         method <code>getGroupCount():int</code> - 1
+     * @return True, if a listener has consumed the long-click, false otherwise
+     */
+    private boolean notifyOnChildLongClicked(@NonNull final ChildType child, final int childIndex,
+                                             @NonNull final GroupType group, final int groupIndex) {
+        for (ExpandableListAdapterItemLongClickListener<GroupType, ChildType> listener : itemLongClickListeners) {
+            if (listener.onChildLongClicked(this, child, childIndex, group, groupIndex)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -376,7 +438,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      * @param index
      *         The index of the group item, which should cause the listener to be invoked, when
      *         clicked, as an {@link Integer} value
-     * @return The listener, which has been created as an instance of the type {@link
+     * @return The listener, which has been created, as an instance of the type {@link
      * OnClickListener}
      */
     private OnClickListener createGroupItemOnClickListener(final int index) {
@@ -400,7 +462,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      * @param childIndex
      *         The index of the child item, which should cause the listener to be invoked, when
      *         clicked, as an {@link Integer} value
-     * @return The listener, which has been created as an instance of the type {@link
+     * @return The listener, which has been created, as an instance of the type {@link
      * OnClickListener}
      */
     private OnClickListener createChildItemOnClickListener(final int groupIndex,
@@ -410,6 +472,53 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
             @Override
             public void onClick(final View v) {
                 notifyOnChildClicked(getChild(groupIndex, childIndex), childIndex,
+                        getGroup(groupIndex), groupIndex);
+            }
+
+        };
+    }
+
+    /**
+     * Creates and returns an {@link OnLongClickListener}, which is invoked, when a specific group
+     * item has been long-clicked.
+     *
+     * @param index
+     *         The index of the group item, which should cause the listener to be invoked, when
+     *         long-clicked, as an {@link Integer} value
+     * @return The listener, which has been created, as an instance of the type {@link
+     * OnLongClickListener}
+     */
+    private OnLongClickListener createGroupItemOnLongClickListener(final int index) {
+        return new OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(final View v) {
+                return notifyOnGroupLongClicked(getGroup(index), index);
+            }
+
+        };
+    }
+
+    /**
+     * Creates and returns an {@link OnLongClickListener}, which is invoked, when a specific child
+     * item has been long-clicked.
+     *
+     * @param groupIndex
+     *         The index of the group, the child item, which should cause the listener to be
+     *         invoked, when long-clicked, belongs to, as an {@link Integer} value
+     * @param childIndex
+     *         The index of the child item, which should cause the listener to be invoked, when
+     *         long-clicked, as an {@link Integer} value
+     * @return The listener, which has been created as an instance of the type {@link
+     * OnLongClickListener}
+     */
+    private OnLongClickListener createChildItemOnLongClickListener(final int groupIndex,
+                                                                   final int childIndex) {
+        return new OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(final View v) {
+                return notifyOnChildLongClicked(getChild(groupIndex, childIndex), childIndex,
                         getGroup(groupIndex), groupIndex);
             }
 
@@ -497,34 +606,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     /**
-     * Adds a new listener, which should be notified, when an item of the adapter has been clicked
-     * by the user, anymore.
-     *
-     * @param listener
-     *         The listener, which should be added, as an instance of the type {@link
-     *         ExpandableListAdapterItemClickListener}. The listener may not be null
-     */
-    protected final void addItemClickListener(
-            @NonNull final ExpandableListAdapterItemClickListener<GroupType, ChildType> listener) {
-        ensureNotNull(listener, "The listener may not be null");
-        itemClickListeners.add(listener);
-    }
-
-    /**
-     * Removes a specific listener, which should not be notified, when an item of the adapter has
-     * been clicked by the user.
-     *
-     * @param listener
-     *         The listener, which should be removed, as an instance of the type {@link
-     *         ExpandableListAdapterItemClickListener}. The listener may not be null
-     */
-    protected final void removeItemClickListener(
-            @NonNull final ExpandableListAdapterItemClickListener<GroupType, ChildType> listener) {
-        ensureNotNull(listener, "The listener may not be null");
-        itemClickListeners.remove(listener);
-    }
-
-    /**
      * Returns a set, which contains the listeners, which should be notified, when an item of the
      * adapter has been clicked by the user.
      *
@@ -534,6 +615,18 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      */
     protected final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> getItemClickListeners() {
         return itemClickListeners;
+    }
+
+    /**
+     * Returns a set, which contains the listeners, which should be notified, when an item of the
+     * adapter has been long-clicked by the user.
+     *
+     * @return A set, which contains the listeners, which should be notified, when an item of the
+     * adapter has been long-clicked by the user, as an instance of the type {@link Set} or an empty
+     * set, if no listeners should be notified
+     */
+    protected final Set<ExpandableListAdapterItemLongClickListener<GroupType, ChildType>> getItemLongClickListeners() {
+        return itemLongClickListeners;
     }
 
     /**
@@ -736,6 +829,10 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      *         A set, which contains the listeners, which should be notified, when an item of the
      *         adapter has been clicked by the user, as an instance of the type {@link Set}, or an
      *         empty set, if no listeners should be notified
+     * @param itemLongClickListeners
+     *         A set, which contains the listeners, which should be notified, when an item of the
+     *         adapter has been long-clicked by the user, as an instance of the type {@link Set}, or
+     *         an empty set, if no listeners should be notified
      * @param adapterListeners
      *         A set, which contains the listeners, which should be notified, when the adapter's
      *         underlying data has been modified, as an instance of the type {@link Set}, or an
@@ -755,6 +852,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
                                             final boolean notifyOnChange,
                                             final boolean expandGroupOnClick,
                                             @NonNull final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
+                                            @NonNull final Set<ExpandableListAdapterItemLongClickListener<GroupType, ChildType>> itemLongClickListeners,
                                             @NonNull final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
                                             @NonNull final Set<ExpansionListener<GroupType, ChildType>> expansionListeners) {
         ensureNotNull(context, "The context may not be null");
@@ -762,6 +860,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         ensureNotNull(childInflater, "The child inflater may not be null");
         ensureNotNull(decorator, "The decorator may not be null");
         ensureNotNull(itemClickListeners, "The item click listeners may not be null");
+        ensureNotNull(itemLongClickListeners, "The item long click listeners may not be null");
         ensureNotNull(adapterListeners, "The adapter listeners may not be null");
         ensureNotNull(expansionListeners, "The expansion listeners may not be null");
         this.context = context;
@@ -776,6 +875,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         this.notifyOnChange = notifyOnChange;
         this.expandGroupOnClick = expandGroupOnClick;
         this.itemClickListeners = itemClickListeners;
+        this.itemLongClickListeners = itemLongClickListeners;
         this.adapterListeners = adapterListeners;
         this.expansionListeners = expansionListeners;
         addItemClickListener(createGroupClickListener());
@@ -837,6 +937,34 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         expansionListeners.remove(listener);
         String message = "Removed expansion listener \"" + listener + "\"";
         getLogger().logDebug(getClass(), message);
+    }
+
+    @Override
+    public final void addItemClickListener(
+            @NonNull final ExpandableListAdapterItemClickListener<GroupType, ChildType> listener) {
+        ensureNotNull(listener, "The listener may not be null");
+        itemClickListeners.add(listener);
+    }
+
+    @Override
+    public final void removeItemClickListener(
+            @NonNull final ExpandableListAdapterItemClickListener<GroupType, ChildType> listener) {
+        ensureNotNull(listener, "The listener may not be null");
+        itemClickListeners.remove(listener);
+    }
+
+    @Override
+    public final void addItemLongClickListener(
+            @NonNull final ExpandableListAdapterItemLongClickListener<GroupType, ChildType> listener) {
+        ensureNotNull(listener, "The listener may not be null");
+        itemLongClickListeners.add(listener);
+    }
+
+    @Override
+    public final void removeItemLongClickListener(
+            @NonNull final ExpandableListAdapterItemLongClickListener<GroupType, ChildType> listener) {
+        ensureNotNull(listener, "The listener may not be null");
+        itemLongClickListeners.remove(listener);
     }
 
     @Override
@@ -2221,6 +2349,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         }
 
         view.setOnClickListener(createGroupItemOnClickListener(groupIndex));
+        view.setOnLongClickListener(createGroupItemOnLongClickListener(groupIndex));
         applyDecoratorOnGroup(getContext(), view, groupIndex);
         return view;
     }
@@ -2239,6 +2368,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         }
 
         view.setOnClickListener(createChildItemOnClickListener(groupIndex, childIndex));
+        view.setOnLongClickListener(createChildItemOnLongClickListener(groupIndex, childIndex));
         applyDecoratorOnChild(getContext(), view, groupIndex, childIndex);
         return view;
     }

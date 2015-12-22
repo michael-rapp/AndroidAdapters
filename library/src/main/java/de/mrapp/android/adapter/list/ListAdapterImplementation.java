@@ -15,10 +15,8 @@
 package de.mrapp.android.adapter.list;
 
 import android.content.Context;
-import android.database.DataSetObserver;
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AbsListView;
 
 import java.util.ArrayList;
@@ -28,7 +26,6 @@ import java.util.Set;
 import de.mrapp.android.adapter.ListDecorator;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.item.Item;
-import de.mrapp.android.adapter.decorator.ViewHolder;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.filterable.AbstractFilterableListAdapter;
@@ -83,6 +80,10 @@ public class ListAdapterImplementation<DataType>
      *         A set, which contains the listeners, which should be notified, when an item of the
      *         adapter has been clicked by the user, as an instance of the type {@link Set} or an
      *         empty set, if no listeners should be notified
+     * @param itemLongClickListeners
+     *         A set, which contains the listeners, which should be notified, when an item of the
+     *         adapter has been long-clicked by the user, as an instance of the type {@link Set} or
+     *         an empty set, if no listeners should be notified
      * @param adapterListeners
      *         A set, which contains the listeners, which should be notified when the adapter's
      *         underlying data has been modified or an empty set, if no listeners should be
@@ -118,6 +119,7 @@ public class ListAdapterImplementation<DataType>
                                         @NonNull final ArrayList<Item<DataType>> items,
                                         final boolean allowDuplicates, final boolean notifyOnChange,
                                         @NonNull final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
+                                        @NonNull final Set<ListAdapterItemLongClickListener<DataType>> itemLongClickListeners,
                                         @NonNull final Set<ListAdapterListener<DataType>> adapterListeners,
                                         @NonNull final Set<ListEnableStateListener<DataType>> enableStateListeners,
                                         final int numberOfItemStates,
@@ -127,9 +129,9 @@ public class ListAdapterImplementation<DataType>
                                         @NonNull final Set<ListFilterListener<DataType>> filterListeners,
                                         @NonNull final LinkedHashSet<AppliedFilter<DataType>> appliedFilters) {
         super(context, inflater, decorator, logLevel, items, allowDuplicates, notifyOnChange,
-                itemClickListeners, adapterListeners, enableStateListeners, numberOfItemStates,
-                triggerItemStateOnClick, itemStateListeners, sortingListeners, filterListeners,
-                appliedFilters);
+                itemClickListeners, itemLongClickListeners, adapterListeners, enableStateListeners,
+                numberOfItemStates, triggerItemStateOnClick, itemStateListeners, sortingListeners,
+                filterListeners, appliedFilters);
     }
 
     /**
@@ -152,6 +154,7 @@ public class ListAdapterImplementation<DataType>
                                      @NonNull final ListDecorator<DataType> decorator) {
         this(context, inflater, decorator, LogLevel.INFO, new ArrayList<Item<DataType>>(), false,
                 true, new LinkedHashSet<ListAdapterItemClickListener<DataType>>(),
+                new LinkedHashSet<ListAdapterItemLongClickListener<DataType>>(),
                 new LinkedHashSet<ListAdapterListener<DataType>>(),
                 new LinkedHashSet<ListEnableStateListener<DataType>>(), 1, false,
                 new LinkedHashSet<ListItemStateListener<DataType>>(),
@@ -199,9 +202,10 @@ public class ListAdapterImplementation<DataType>
     public final ListAdapterImplementation<DataType> clone() throws CloneNotSupportedException {
         return new ListAdapterImplementation<>(getContext(), getInflater(), getDecorator(),
                 getLogLevel(), cloneItems(), areDuplicatesAllowed(), isNotifiedOnChange(),
-                getItemClickListeners(), getAdapterListeners(), getEnableStateListeners(),
-                getNumberOfItemStates(), isItemStateTriggeredOnClick(), getItemStateListeners(),
-                getSortingListeners(), getFilterListeners(), cloneAppliedFilters());
+                getItemClickListeners(), getItemLongClickListeners(), getAdapterListeners(),
+                getEnableStateListeners(), getNumberOfItemStates(), isItemStateTriggeredOnClick(),
+                getItemStateListeners(), getSortingListeners(), getFilterListeners(),
+                cloneAppliedFilters());
     }
 
 }

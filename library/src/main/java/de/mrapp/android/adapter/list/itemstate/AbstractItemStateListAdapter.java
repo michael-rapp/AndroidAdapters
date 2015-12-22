@@ -28,6 +28,7 @@ import de.mrapp.android.adapter.datastructure.UnmodifiableList;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
+import de.mrapp.android.adapter.list.ListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.AbstractEnableStateListAdapter;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
@@ -193,6 +194,10 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
      *         A set, which contains the listeners, which should be notified, when an item of the
      *         adapter has been clicked by the user, as an instance of the type {@link Set} or an
      *         empty set, if no listeners should be notified
+     * @param itemLongClickListeners
+     *         A set, which contains the listeners, which should be notified, when an item of the
+     *         adapter has been long-clicked by the user, as an instance of the type {@link Set} or
+     *         an empty set, if no listeners should be notified
      * @param adapterListeners
      *         A set, which contains the listeners, which should be notified, when the adapter's
      *         underlying data has been modified or an empty set, if no listeners should be
@@ -218,13 +223,14 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
                                            final boolean allowDuplicates,
                                            final boolean notifyOnChange,
                                            @NonNull final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
+                                           @NonNull final Set<ListAdapterItemLongClickListener<DataType>> itemLongClickListeners,
                                            @NonNull final Set<ListAdapterListener<DataType>> adapterListeners,
                                            @NonNull final Set<ListEnableStateListener<DataType>> enableStateListeners,
                                            final int numberOfItemStates,
                                            final boolean triggerItemStateOnClick,
                                            @NonNull final Set<ListItemStateListener<DataType>> itemStateListeners) {
         super(context, inflater, decorator, logLevel, items, allowDuplicates, notifyOnChange,
-                itemClickListeners, adapterListeners, enableStateListeners);
+                itemClickListeners, itemLongClickListeners, adapterListeners, enableStateListeners);
         setNumberOfItemStates(numberOfItemStates);
         triggerItemStateOnClick(triggerItemStateOnClick);
         setItemStateListeners(itemStateListeners);
@@ -255,7 +261,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType>
         this.numberOfItemStates = numberOfItemStates;
         String message = "Set number of item states to " + numberOfItemStates;
         getLogger().logDebug(getClass(), message);
-    
+
         for (int i = 0; i < getCount(); i++) {
             if (getItemState(i) > maxItemState()) {
                 setItemState(i, maxItemState());

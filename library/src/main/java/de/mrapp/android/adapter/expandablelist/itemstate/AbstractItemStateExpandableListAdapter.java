@@ -29,6 +29,7 @@ import de.mrapp.android.adapter.datastructure.UnmodifiableList;
 import de.mrapp.android.adapter.datastructure.group.Group;
 import de.mrapp.android.adapter.datastructure.group.UnmodifiableGroupList;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemClickListener;
+import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterListener;
 import de.mrapp.android.adapter.expandablelist.ExpansionListener;
 import de.mrapp.android.adapter.expandablelist.enablestate.AbstractEnableStateExpandableListAdapter;
@@ -265,6 +266,10 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
      *         A set, which contains the listeners, which should be notified, when an item of the
      *         adapter has been clicked by the user, as an instance of the type {@link Set}, or an
      *         empty set, if no listeners should be notified
+     * @param itemLongClickListeners
+     *         A set, which contains the listeners, which should be notified, when an item of the
+     *         adapter has been long-clicked by the user, as an instance of the type {@link Set}, or
+     *         an empty set, if no listeners should be notified
      * @param adapterListeners
      *         A set, which contains the listeners, which should be notified, when the adapter's
      *         underlying data has been modified, as an instance of the type {@link Set}, or an
@@ -309,6 +314,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
                                                      final boolean notifyOnChange,
                                                      final boolean expandGroupOnClick,
                                                      @NonNull final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
+                                                     @NonNull final Set<ExpandableListAdapterItemLongClickListener<GroupType, ChildType>> itemLongClickListeners,
                                                      @NonNull final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
                                                      @NonNull final Set<ExpansionListener<GroupType, ChildType>> expansionListeners,
                                                      final boolean setChildEnableStatesImplicitly,
@@ -321,8 +327,8 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
                                                      @NonNull final Set<ExpandableListItemStateListener<GroupType, ChildType>> itemStateListeners) {
         super(context, groupInflater, childInflater, decorator, logLevel, groupAdapter,
                 allowDuplicateChildren, notifyOnChange, expandGroupOnClick, itemClickListeners,
-                adapterListeners, expansionListeners, setChildEnableStatesImplicitly,
-                enableStateListeners);
+                itemLongClickListeners, adapterListeners, expansionListeners,
+                setChildEnableStatesImplicitly, enableStateListeners);
         setNumberOfGroupStates(numberOfGroupStates);
         setNumberOfChildStates(numberOfChildStates);
         setChildStatesImplicitly(setChildEnableStatesImplicitly);

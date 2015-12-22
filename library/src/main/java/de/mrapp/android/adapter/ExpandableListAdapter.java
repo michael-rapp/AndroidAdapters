@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
+import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemClickListener;
+import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterListener;
 import de.mrapp.android.adapter.expandablelist.ExpansionListener;
 import de.mrapp.android.adapter.expandablelist.enablestate.EnableStateExpandableListAdapter;
@@ -2234,6 +2236,50 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         ExpansionListener}. The listener may not be null
      */
     void removeExpansionListener(@NonNull ExpansionListener<GroupType, ChildType> listener);
+
+    /**
+     * Adds a new listener, which should be notified, when an item of the adapter has been clicked
+     * by the user, anymore.
+     *
+     * @param listener
+     *         The listener, which should be added, as an instance of the type {@link
+     *         ExpandableListAdapterItemClickListener}. The listener may not be null
+     */
+    void addItemClickListener(
+            @NonNull ExpandableListAdapterItemClickListener<GroupType, ChildType> listener);
+
+    /**
+     * Removes a specific listener, which should not be notified, when an item of the adapter has
+     * been clicked by the user, anymore.
+     *
+     * @param listener
+     *         The listener, which should be removed, as an instance of the type {@link
+     *         ExpandableListAdapterItemClickListener}. The listener may not be null
+     */
+    void removeItemClickListener(
+            @NonNull ExpandableListAdapterItemClickListener<GroupType, ChildType> listener);
+
+    /**
+     * Adds a new listener, which should be notified, when an item of the adapter has been
+     * long-clicked by the user.
+     *
+     * @param listener
+     *         The listener, which should be added, as an instance of the type {@link
+     *         ExpandableListAdapterItemLongClickListener}. The listener may not be null
+     */
+    void addItemLongClickListener(
+            @NonNull ExpandableListAdapterItemLongClickListener<GroupType, ChildType> listener);
+
+    /**
+     * Removes a specific listener, which should not be notified, when an item of the adapter has
+     * been long-clicked by the user, anymore.
+     *
+     * @param listener
+     *         The listener, which should be removed, as an instance of the type {@link
+     *         ExpandableListAdapterItemLongClickListener}. The listener may not be null
+     */
+    void removeItemLongClickListener(
+            @NonNull ExpandableListAdapterItemLongClickListener<GroupType, ChildType> listener);
 
     @Override
     ExpandableListAdapter<GroupType, ChildType> clone() throws CloneNotSupportedException;

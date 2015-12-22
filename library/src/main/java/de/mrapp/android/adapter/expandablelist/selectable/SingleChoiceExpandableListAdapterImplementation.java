@@ -32,6 +32,7 @@ import de.mrapp.android.adapter.SelectableExpandableListDecorator;
 import de.mrapp.android.adapter.SingleChoiceExpandableListAdapter;
 import de.mrapp.android.adapter.datastructure.group.Group;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemClickListener;
+import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterListener;
 import de.mrapp.android.adapter.expandablelist.ExpansionListener;
 import de.mrapp.android.adapter.expandablelist.NullObjectDecorator;
@@ -476,6 +477,10 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
      *         A set, which contains the listeners, which should be notified, when an item of the
      *         adapter has been clicked by the user, as an instance of the type {@link Set}, or an
      *         empty set, if no listeners should be notified
+     * @param itemLongClickListeners
+     *         A set, which contains the listeners, which should be notified, when an item of the
+     *         adapter has been long-clicked by the user, as an instance of the type {@link Set}, or
+     *         an empty set, if no listeners should be notified
      * @param adapterListeners
      *         A set, which contains the listeners, which should be notified, when the adapter's
      *         underlying data has been modified, as an instance of the type {@link Set}, or an
@@ -546,6 +551,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
                                                               final boolean notifyOnChange,
                                                               final boolean expandGroupOnClick,
                                                               @NonNull final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
+                                                              @NonNull final Set<ExpandableListAdapterItemLongClickListener<GroupType, ChildType>> itemLongClickListeners,
                                                               @NonNull final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
                                                               @NonNull final Set<ExpansionListener<GroupType, ChildType>> expansionListeners,
                                                               final boolean setChildEnableStatesImplicitly,
@@ -567,12 +573,12 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
                                                               final boolean adaptSelectionAutomatically) {
         super(context, groupInflater, childInflater, decorator, logLevel, groupAdapter,
                 allowDuplicateChildren, notifyOnChange, expandGroupOnClick, itemClickListeners,
-                adapterListeners, expansionListeners, setChildEnableStatesImplicitly,
-                enableStateListeners, numberOfGroupStates, numberOfChildStates,
-                triggerGroupStateOnClick, triggerChildStateOnClick, setChildStatesImplicitly,
-                itemStateListeners, sortingListeners, filterListeners, selectGroupOnClick,
-                selectChildOnClick, expandGroupOnSelection, expandGroupOnChildSelection,
-                selectionListeners, choiceMode);
+                itemLongClickListeners, adapterListeners, expansionListeners,
+                setChildEnableStatesImplicitly, enableStateListeners, numberOfGroupStates,
+                numberOfChildStates, triggerGroupStateOnClick, triggerChildStateOnClick,
+                setChildStatesImplicitly, itemStateListeners, sortingListeners, filterListeners,
+                selectGroupOnClick, selectChildOnClick, expandGroupOnSelection,
+                expandGroupOnChildSelection, selectionListeners, choiceMode);
         addItemClickListener(createItemClickListener());
         addAdapterListener(createAdapterListener());
         addEnableStateListener(createEnableStateListener());
@@ -611,6 +617,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
                 new MultipleChoiceListAdapterImplementation<>(context, groupInflater,
                         new NullObjectDecorator<Group<GroupType, ChildType>>()), false, true, true,
                 new LinkedHashSet<ExpandableListAdapterItemClickListener<GroupType, ChildType>>(),
+                new LinkedHashSet<ExpandableListAdapterItemLongClickListener<GroupType, ChildType>>(),
                 new LinkedHashSet<ExpandableListAdapterListener<GroupType, ChildType>>(),
                 new LinkedHashSet<ExpansionListener<GroupType, ChildType>>(), true,
                 new LinkedHashSet<ExpandableListEnableStateListener<GroupType, ChildType>>(), 1, 1,
@@ -902,8 +909,8 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
         return new SingleChoiceExpandableListAdapterImplementation<>(getContext(),
                 getGroupInflater(), getChildInflater(), getDecorator(), getLogLevel(),
                 cloneGroupAdapter(), areDuplicateChildrenAllowed(), isNotifiedOnChange(),
-                isGroupExpandedOnClick(), getItemClickListeners(), getAdapterListeners(),
-                getExpansionListeners(), areChildEnableStatesSetImplicitly(),
+                isGroupExpandedOnClick(), getItemClickListeners(), getItemLongClickListeners(),
+                getAdapterListeners(), getExpansionListeners(), areChildEnableStatesSetImplicitly(),
                 getEnableStateListeners(), getNumberOfGroupStates(), getNumberOfChildStates(),
                 isGroupStateTriggeredOnClick(), isChildStateTriggeredOnClick(),
                 areChildStatesSetImplicitly(), getItemStateListeners(), getSortingListeners(),

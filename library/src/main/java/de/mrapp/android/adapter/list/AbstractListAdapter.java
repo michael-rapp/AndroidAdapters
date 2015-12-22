@@ -23,6 +23,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -168,6 +169,12 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
     private transient Set<ListAdapterItemClickListener<DataType>> itemClickListeners;
 
     /**
+     * A set, which contains the listeners, which should be notified, when an item of the adapter
+     * has been long-clicked by the user.
+     */
+    private transient Set<ListAdapterItemLongClickListener<DataType>> itemLongClickListeners;
+
+    /**
      * A set, which contains the listeners, which should be notified, when the adapter's underlying
      * data has been modified.
      */
@@ -220,6 +227,29 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
         for (ListAdapterItemClickListener<DataType> listener : itemClickListeners) {
             listener.onItemClicked(this, item, index);
         }
+    }
+
+    /**
+     * Notifies all listeners, which have been registered to be notified, when an item of the
+     * adapter has been long-clicked by the user, about an item, which has been long-clicked.
+     *
+     * @param item
+     *         The item, which has been long-clicked by the user, as an instance of the generic type
+     *         DataType. The item may not be null
+     * @param index
+     *         The index of the item, which has been long-clicked by the user, as an {@link Integer}
+     *         value. The index must be between 0 and the value of the method
+     *         <code>getCount():int</code> - 1
+     * @return True, if a listener has consumed the long-click, false otherwise
+     */
+    private boolean notifyOnItemLongClicked(@NonNull final DataType item, final int index) {
+        for (ListAdapterItemLongClickListener<DataType> listener : itemLongClickListeners) {
+            if (listener.onItemLongClicked(this, item, index)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -282,7 +312,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
      * @param index
      *         The index of the item, which should cause the listener to be invoked, when clicked,
      *         as an {@link Integer} value
-     * @return The listener, which has been created as an instance of the type {@link
+     * @return The listener, which has been created, as an instance of the type {@link
      * OnClickListener}
      */
     private OnClickListener createItemOnClickListener(final int index) {
@@ -291,6 +321,27 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
             @Override
             public void onClick(final View v) {
                 notifyOnItemClicked(getItem(index), index);
+            }
+
+        };
+    }
+
+    /**
+     * Creates and returns a {@link OnClickListener}, which is invoked, when a specific item has
+     * been long-clicked.
+     *
+     * @param index
+     *         The index of the item, wihch should cause the listener to be invoked, when
+     *         long-clicked, as an {@link Integer} value
+     * @return The listener, which has been created, as an instance of the type {@link
+     * OnLongClickListener}
+     */
+    private OnLongClickListener createItemOnLongClickListener(final int index) {
+        return new OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(final View v) {
+                return notifyOnItemLongClicked(getItem(index), index);
             }
 
         };
@@ -398,34 +449,6 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
     }
 
     /**
-     * Adds a new listener, which should be notified, when an item of the adapter has been clicked
-     * by the user.
-     *
-     * @param listener
-     *         The listener, which should be added, as an instance of the type {@link
-     *         ListAdapterItemClickListener}. The listener may not be null
-     */
-    protected final void addItemClickListener(
-            @NonNull final ListAdapterItemClickListener<DataType> listener) {
-        ensureNotNull(listener, "The listener may not be null");
-        itemClickListeners.add(listener);
-    }
-
-    /**
-     * Removes a specific listener, which should not be notified, when an item of the adapter has
-     * been clicked by the user, anymore.
-     *
-     * @param listener
-     *         The listener, which should be removed, as an instance of the type {@link
-     *         ListAdapterItemClickListener}. The listener may not be null
-     */
-    protected final void removeItemClickListener(
-            @NonNull final ListAdapterItemClickListener<DataType> listener) {
-        ensureNotNull(listener, "The listener may not be null");
-        itemClickListeners.remove(listener);
-    }
-
-    /**
      * Returns a set, which contains the listeners, which should be notified, when an item of the
      * adapter has been clicked by the user.
      *
@@ -435,6 +458,18 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
      */
     protected final Set<ListAdapterItemClickListener<DataType>> getItemClickListeners() {
         return itemClickListeners;
+    }
+
+    /**
+     * Returns a set, which contains the listeners, which should be notified, when an item of the
+     * adapter has been long-clicked by the user.
+     *
+     * @return A set, which contains the listeners, which should be notified, when an item of the
+     * adapter has been long-clicked by the user, as an instance of the type {@link Set} or an empty
+     * set, if no listeners should be notified
+     */
+    protected final Set<ListAdapterItemLongClickListener<DataType>> getItemLongClickListeners() {
+        return itemLongClickListeners;
     }
 
     /**
@@ -552,6 +587,10 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
      *         A set, which contains the listeners, which should be notified, when an item of the
      *         adapter has been clicked by the user, as an instance of the type {@link Set} or an
      *         empty set, if no listeners should be notified
+     * @param itemLongClickListeners
+     *         A set, which contains the listeners, which should be notified, when an item of the
+     *         adapter has been long-clicked by the user, as an instance of the type {@link Set} or
+     *         an empty set, if no listeners should be notified
      * @param adapterListeners
      *         A set, which contains the listeners, which should be notified, when the adapter's
      *         underlying data has been modified, as an instance of the type {@link Set} or an empty
@@ -563,12 +602,14 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
                                   @NonNull final ArrayList<Item<DataType>> items,
                                   final boolean allowDuplicates, final boolean notifyOnChange,
                                   @NonNull final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
+                                  @NonNull final Set<ListAdapterItemLongClickListener<DataType>> itemLongClickListeners,
                                   @NonNull final Set<ListAdapterListener<DataType>> adapterListeners) {
         ensureNotNull(context, "The context may not be null");
         ensureNotNull(inflater, "The inflater may not be null");
         ensureNotNull(decorator, "The decorator may not be null");
         ensureNotNull(items, "The items may not be null");
         ensureNotNull(itemClickListeners, "The item click listeners may not be null");
+        ensureNotNull(itemLongClickListeners, "The item long click listeners may not be null");
         ensureNotNull(adapterListeners, "The adapter listeners may not be null");
         this.context = context;
         this.inflater = inflater;
@@ -580,6 +621,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
         this.allowDuplicates = allowDuplicates;
         this.notifyOnChange = notifyOnChange;
         this.itemClickListeners = itemClickListeners;
+        this.itemLongClickListeners = itemLongClickListeners;
         this.adapterListeners = adapterListeners;
     }
 
@@ -660,6 +702,34 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
         adapterListeners.remove(listener);
         String message = "Removed adapter listener \"" + listener + "\"";
         getLogger().logDebug(getClass(), message);
+    }
+
+    @Override
+    public final void addItemClickListener(
+            @NonNull final ListAdapterItemClickListener<DataType> listener) {
+        ensureNotNull(listener, "The listener may not be null");
+        itemClickListeners.add(listener);
+    }
+
+    @Override
+    public final void removeItemClickListener(
+            @NonNull final ListAdapterItemClickListener<DataType> listener) {
+        ensureNotNull(listener, "The listener may not be null");
+        itemClickListeners.remove(listener);
+    }
+
+    @Override
+    public final void addItemLongClickListener(
+            @NonNull final ListAdapterItemLongClickListener<DataType> listener) {
+        ensureNotNull(listener, "The listener may not be null");
+        itemLongClickListeners.add(listener);
+    }
+
+    @Override
+    public final void removeItemLongClickListener(
+            @NonNull final ListAdapterItemLongClickListener<DataType> listener) {
+        ensureNotNull(listener, "The listener may not be null");
+        itemLongClickListeners.add(listener);
     }
 
     @Override
@@ -995,6 +1065,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
         }
 
         view.setOnClickListener(createItemOnClickListener(index));
+        view.setOnLongClickListener(createItemOnLongClickListener(index));
         applyDecorator(getContext(), view, index);
         return view;
     }
@@ -1003,12 +1074,13 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
     public final ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent,
                                                final int viewType) {
         View view = getInflater().inflate(getContext(), parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int index) {
+        viewHolder.getParentView().setOnClickListener(createItemOnClickListener(index));
+        viewHolder.getParentView().setOnLongClickListener(createItemOnLongClickListener(index));
         applyDecorator(getContext(), viewHolder.getParentView(), index);
     }
 
