@@ -11,3 +11,4 @@ A first unstable release of the library, which provides feature-rich adapter imp
 - The items of all adapters can be easily filtered by applying multiple queries.
 - The library supports different selection modes. E.g. adapters, which allow to only select one item at once or adapters, which allow multiple items to be selected at the same time.
 - In order to visualize the items of an adapter, the library takes care of inflating views and uses a built-in `ViewHolder` pattern.
+- Operations on the adapters can be observed by using a wide variety of listeners and by using Android's logging framework.
