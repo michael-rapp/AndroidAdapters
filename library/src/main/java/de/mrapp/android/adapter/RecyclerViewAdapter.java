@@ -19,8 +19,7 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.AbsListView;
 
 /**
- * Defines the interface, all adapters, which can be attached to a {@link RecyclerView}, must
- * implement.
+ * Defines the interface, all adapters, which can be attached to a RecyclerView, must implement.
  *
  * @author Michael Rapp
  * @since 0.1.0
