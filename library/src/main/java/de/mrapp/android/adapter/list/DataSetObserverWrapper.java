@@ -16,12 +16,13 @@ package de.mrapp.android.adapter.list;
 
 import android.database.DataSetObserver;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.AdapterDataObserver;
 
 import static de.mrapp.android.util.Condition.ensureNotNull;
 
 /**
- * An implementation of the abstract class {@link RecyclerView.AdapterDataObserver}, which delegates
- * all method calls to an encapsulated instance of the type {@link DataSetObserver}.
+ * An implementation of the abstract class {@link AdapterDataObserver}, which delegates all method
+ * calls to an encapsulated instance of the type {@link DataSetObserver}.
  *
  * @author Michael Rapp
  * @since 0.1.0
@@ -34,9 +35,8 @@ public class DataSetObserverWrapper extends RecyclerView.AdapterDataObserver {
     private final DataSetObserver encapsulatedObserver;
 
     /**
-     * Creates a new implementation of the abstract class {@link RecyclerView.AdapterDataObserver},
-     * which delegates all method calls to an encapsulated instance of the type {@link
-     * DataSetObserver}.
+     * Creates a new implementation of the abstract class {@link AdapterDataObserver}, which
+     * delegates all method calls to an encapsulated instance of the type {@link DataSetObserver}.
      *
      * @param encapsulatedObserver
      *         The encapsulated observer as an instance of the type {@link DataSetObserver}. The
