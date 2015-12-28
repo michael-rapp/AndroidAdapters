@@ -159,7 +159,6 @@ public class AppliedFilter<DataType> implements FilterQuery {
     public final int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((filter == null) ? 0 : filter.hashCode());
         result = prime * result + flags;
         result = prime * result + query.hashCode();
         return result;
@@ -174,11 +173,6 @@ public class AppliedFilter<DataType> implements FilterQuery {
         if (getClass() != obj.getClass())
             return false;
         AppliedFilter<?> other = (AppliedFilter<?>) obj;
-        if (filter == null) {
-            if (other.filter != null)
-                return false;
-        } else if (!filter.equals(other.filter))
-            return false;
         if (flags != other.flags)
             return false;
         if (!query.equals(other.query))

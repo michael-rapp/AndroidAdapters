@@ -96,8 +96,6 @@ public class AppliedFilterTest extends TestCase {
         assertNotSame(appliedFilter1.hashCode(), appliedFilter2.hashCode());
         appliedFilter1 = new AppliedFilter<>("query", 1);
         assertNotSame(appliedFilter1.hashCode(), appliedFilter2.hashCode());
-        appliedFilter1 = new AppliedFilter<>("query", 0, new FilterImplementation());
-        assertNotSame(appliedFilter1.hashCode(), appliedFilter2.hashCode());
     }
 
     /**
@@ -113,8 +111,6 @@ public class AppliedFilterTest extends TestCase {
         appliedFilter1 = new AppliedFilter<>("foo", 0);
         assertFalse(appliedFilter1.equals(appliedFilter2));
         appliedFilter1 = new AppliedFilter<>("query", 1);
-        assertFalse(appliedFilter1.equals(appliedFilter2));
-        appliedFilter1 = new AppliedFilter<>("query", 0, new FilterImplementation());
         assertFalse(appliedFilter1.equals(appliedFilter2));
     }
 
