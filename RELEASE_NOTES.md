@@ -1,6 +1,12 @@
 # AndroidAdapters - RELEASE NOTES
 
-## Version 0.1.0 (Dez. 22th 2015)
+## Version 0.1.1 (Dec. 28th 2015)
+
+A bugfix release, which fixes the following issues:
+
+- https://github.com/michael-rapp/AndroidAdapters/issues/1
+
+## Version 0.1.0 (Dec. 22th 2015)
 
 A first unstable release of the library, which provides feature-rich adapter implementations for providing the underlying data of widgets such as `ListView`, `GridView`, `ExpandableListView` and `RecyclerView`. The implementation initially provides the following features:
 
