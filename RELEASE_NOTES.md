@@ -5,6 +5,7 @@
 A bugfix release, which fixes the following issues:
 
 - https://github.com/michael-rapp/AndroidAdapters/issues/1
+- Updated library versions.
 
 ## Version 0.1.0 (Dec. 22th 2015)
 
