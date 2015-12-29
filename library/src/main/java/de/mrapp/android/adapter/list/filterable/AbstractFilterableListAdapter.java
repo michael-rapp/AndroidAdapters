@@ -405,16 +405,6 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
     }
 
     /**
-     * Returns a list, which contains the adapter's unfiltered data.
-     *
-     * @return A list, which contains the adapter's unfiltered data as an instance of the type
-     * {@link ArrayList} or null, if no filters are currently applied on the adapter
-     */
-    protected final ArrayList<Item<DataType>> getUnfilteredItems() {
-        return unfilteredItems;
-    }
-
-    /**
      * Returns the unfiltered index, which corresponds to a specific filtered index.
      *
      * @param filteredIndex
@@ -427,8 +417,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
         ensureAtLeast(filteredIndex, 0, "The index must be at least 0",
                 IndexOutOfBoundsException.class);
         ensureAtMaximum(filteredIndex, getCount() - 1,
-                "The index must be at maximum " + (getCount() - 1),
-                IndexOutOfBoundsException.class);
+                "The index must be at maximum " + (getCount() - 1), IndexOutOfBoundsException.class);
 
         if (!isFiltered()) {
             return filteredIndex;
@@ -542,6 +531,11 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
         addEnableStateListener(createEnableStateListener());
         addItemStateListener(createItemStateListener());
         addSortingListener(createSortingListener());
+    }
+
+    @Override
+    protected final ArrayList<Item<DataType>> getUnfilteredItems() {
+        return unfilteredItems;
     }
 
     @Override

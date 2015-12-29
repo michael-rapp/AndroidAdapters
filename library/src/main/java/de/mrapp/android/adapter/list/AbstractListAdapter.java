@@ -296,8 +296,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
      * if the adapter is empty, false otherwise
      */
     private boolean isUnderlyingDataParcelable() {
-        if (!isEmpty()) {
-            if (!Parcelable.class.isAssignableFrom(getItem(0).getClass())) {
+        if (!getUnfilteredItems().isEmpty()) {
+            if (!Parcelable.class.isAssignableFrom(getUnfilteredItems().get(0).getClass())) {
                 return false;
             }
         }
@@ -355,8 +355,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
      * or if the adapter is empty, false otherwise
      */
     private boolean isUnderlyingDataSerializable() {
-        if (!isEmpty()) {
-            if (!Serializable.class.isAssignableFrom(getItem(0).getClass())) {
+        if (!getUnfilteredItems().isEmpty()) {
+            if (!Serializable.class.isAssignableFrom(getUnfilteredItems().get(0).getClass())) {
                 return false;
             }
         }
@@ -414,6 +414,17 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
      * {@link ArrayList} or an empty list, if the adapter does not contain any data
      */
     protected final ArrayList<Item<DataType>> getItems() {
+        return items;
+    }
+
+    /**
+     * Returns a list, which contains the adapter's unfiltered items. This method has to be
+     * overridden by subclasses, which filter the adapter's underlying data.
+     *
+     * @return A list, which contains the adapter's unfiltered items, as an instance of the type
+     * {@link ArrayList} or an empty list, if the adapter does not contain any data
+     */
+    protected ArrayList<Item<DataType>> getUnfilteredItems() {
         return items;
     }
 
@@ -1109,9 +1120,9 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
         }
 
         if (isUnderlyingDataParcelable()) {
-            savedState.putParcelableArrayList(PARCELABLE_ITEMS_BUNDLE_KEY, getItems());
+            savedState.putParcelableArrayList(PARCELABLE_ITEMS_BUNDLE_KEY, getUnfilteredItems());
         } else if (isUnderlyingDataSerializable()) {
-            savedState.putSerializable(SERIALIZABLE_ITEMS_BUNDLE_KEY, getItems());
+            savedState.putSerializable(SERIALIZABLE_ITEMS_BUNDLE_KEY, getUnfilteredItems());
         } else {
             String message = "The adapter's items can not be stored, because the " +
                     "underlying data does neither implement the interface \"" +
