@@ -417,7 +417,8 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
         ensureAtLeast(filteredIndex, 0, "The index must be at least 0",
                 IndexOutOfBoundsException.class);
         ensureAtMaximum(filteredIndex, getCount() - 1,
-                "The index must be at maximum " + (getCount() - 1), IndexOutOfBoundsException.class);
+                "The index must be at maximum " + (getCount() - 1),
+                IndexOutOfBoundsException.class);
 
         if (!isFiltered()) {
             return filteredIndex;
@@ -535,7 +536,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
 
     @Override
     protected final ArrayList<Item<DataType>> getUnfilteredItems() {
-        return unfilteredItems;
+        return unfilteredItems != null ? unfilteredItems : super.getUnfilteredItems();
     }
 
     @Override

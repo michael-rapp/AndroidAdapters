@@ -297,7 +297,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
      */
     private boolean isUnderlyingDataParcelable() {
         if (!getUnfilteredItems().isEmpty()) {
-            if (!Parcelable.class.isAssignableFrom(getUnfilteredItems().get(0).getClass())) {
+            if (!Parcelable.class
+                    .isAssignableFrom(getUnfilteredItems().get(0).getData().getClass())) {
                 return false;
             }
         }
@@ -356,7 +357,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
      */
     private boolean isUnderlyingDataSerializable() {
         if (!getUnfilteredItems().isEmpty()) {
-            if (!Serializable.class.isAssignableFrom(getUnfilteredItems().get(0).getClass())) {
+            if (!Serializable.class
+                    .isAssignableFrom(getUnfilteredItems().get(0).getData().getClass())) {
                 return false;
             }
         }
