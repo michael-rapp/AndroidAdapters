@@ -1,5 +1,11 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.1.2 (Dec. 29th 2015)
+
+A bugfix release, which fixes the following issues:
+
+- https://github.com/michael-rapp/AndroidAdapters/issues/2
+
 ## Version 0.1.1 (Dec. 28th 2015)
 
 A bugfix release, which fixes the following issues:
