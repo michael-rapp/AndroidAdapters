@@ -38,8 +38,6 @@ import de.mrapp.android.adapter.R;
 import de.mrapp.android.adapter.SelectableListDecorator;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.item.Item;
-import de.mrapp.android.adapter.inflater.Inflater;
-import de.mrapp.android.adapter.inflater.InflaterFactory;
 import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
 import de.mrapp.android.adapter.list.ListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.list.ListAdapterListener;
@@ -127,7 +125,6 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
      */
     public final void testProtectedConstructor() {
         Context context = getContext();
-        Inflater inflater = mock(Inflater.class);
         SelectableListDecorator<Object> decorator = new SelectableListDecoratorImplementation();
         ArrayList<Item<Object>> items = new ArrayList<>();
         boolean allowDuplicates = true;
@@ -146,8 +143,8 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         boolean selectItemOnClick = true;
         Set<ListSelectionListener<Object>> selectionListeners = new LinkedHashSet<>();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(context, inflater, decorator,
-                        LogLevel.ALL, items, allowDuplicates, notifyOnChange, itemClickListeners,
+                new MultipleChoiceListAdapterImplementation<>(context, decorator, LogLevel.ALL,
+                        items, allowDuplicates, notifyOnChange, itemClickListeners,
                         itemLongClickListeners, adapterListeners, enableStateListeners,
                         numberOfItemStates, triggerItemStateOnClick, itemStateListeners,
                         sortingListeners, filterListeners, appliedFilters, selectItemOnClick,
@@ -170,10 +167,9 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
      */
     public final void testPublicConstructor() {
         Context context = getContext();
-        Inflater inflater = mock(Inflater.class);
         SelectableListDecorator<Object> decorator = new SelectableListDecoratorImplementation();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(context, inflater, decorator);
+                new MultipleChoiceListAdapterImplementation<>(context, decorator);
         assertEquals(false, multipleChoiceListAdapterImplementation.areDuplicatesAllowed());
         assertEquals(true, multipleChoiceListAdapterImplementation.isNotifiedOnChange());
     }
@@ -184,7 +180,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
      */
     public final void testGetFirstSelectedIndex() {
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(new Object());
         multipleChoiceListAdapterImplementation.addItem(new Object());
@@ -199,7 +195,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
      */
     public final void testAdaptUnfilteredItemsWhenItemIsSelected() {
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         FilterableImplementation item1 = new FilterableImplementation("cdefghij");
         FilterableImplementation item2 = new FilterableImplementation("bcquerystringdef");
@@ -223,7 +219,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
      */
     public final void testAdaptUnfilteredItemsWhenItemIsUnselected() {
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         FilterableImplementation item1 = new FilterableImplementation("cdefghij");
         FilterableImplementation item2 = new FilterableImplementation("bcquerystringdef");
@@ -245,7 +241,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
      */
     public final void testGetFirstSelectedIndexWhenAdapterIsEmpty() {
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         assertEquals(-1, multipleChoiceListAdapterImplementation.getFirstSelectedIndex());
     }
@@ -256,7 +252,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
      */
     public final void testGetFirstSelectedIndexWhenNoItemIsSelected() {
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(new Object());
         multipleChoiceListAdapterImplementation.addItem(new Object());
@@ -270,7 +266,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         Object item1 = new Object();
         Object item2 = new Object();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(item1);
         multipleChoiceListAdapterImplementation.addItem(item2);
@@ -285,7 +281,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
      */
     public final void testGetFirstSelectedItemWhenAdapterIsEmpty() {
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         assertNull(multipleChoiceListAdapterImplementation.getFirstSelectedItem());
     }
@@ -298,7 +294,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         Object item1 = new Object();
         Object item2 = new Object();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(item1);
         multipleChoiceListAdapterImplementation.addItem(item2);
@@ -311,7 +307,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
      */
     public final void testGetLastSelectedIndex() {
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(new Object());
         multipleChoiceListAdapterImplementation.addItem(new Object());
@@ -326,7 +322,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
      */
     public final void testGetLastSelectedIndexWhenAdapterIsEmpty() {
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         assertEquals(-1, multipleChoiceListAdapterImplementation.getLastSelectedIndex());
     }
@@ -337,7 +333,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
      */
     public final void testGetLastSelectedIndexWhenNoItemIsSelected() {
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(new Object());
         multipleChoiceListAdapterImplementation.addItem(new Object());
@@ -351,7 +347,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         Object item1 = new Object();
         Object item2 = new Object();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(item1);
         multipleChoiceListAdapterImplementation.addItem(item2);
@@ -366,7 +362,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
      */
     public final void testGetLastSelectedItemWhenAdapterIsEmpty() {
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         assertNull(multipleChoiceListAdapterImplementation.getLastSelectedItem());
     }
@@ -379,7 +375,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         Object item1 = new Object();
         Object item2 = new Object();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(item1);
         multipleChoiceListAdapterImplementation.addItem(item2);
@@ -392,7 +388,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
      */
     public final void testGetFirstUnselectedIndex() {
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(new Object());
         multipleChoiceListAdapterImplementation.addItem(new Object());
@@ -405,7 +401,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
      */
     public final void testGetFirstUnselectedIndexWhenAdapterIsEmpty() {
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         assertEquals(-1, multipleChoiceListAdapterImplementation.getFirstUnselectedIndex());
     }
@@ -416,7 +412,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
      */
     public final void testGetFirstUnselectedIndexWhenNoItemIsUnselected() {
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(new Object());
         multipleChoiceListAdapterImplementation.addItem(new Object());
@@ -432,7 +428,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         Object item1 = new Object();
         Object item2 = new Object();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(item1);
         multipleChoiceListAdapterImplementation.addItem(item2);
@@ -445,7 +441,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
      */
     public final void testGetFirstUnselectedItemWhenAdapterIsEmpty() {
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         assertNull(multipleChoiceListAdapterImplementation.getFirstUnselectedItem());
     }
@@ -458,7 +454,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         Object item1 = new Object();
         Object item2 = new Object();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(item1);
         multipleChoiceListAdapterImplementation.addItem(item2);
@@ -473,7 +469,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
      */
     public final void testGetLastUnselectedIndex() {
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(new Object());
         multipleChoiceListAdapterImplementation.addItem(new Object());
@@ -486,7 +482,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
      */
     public final void testGetLastUnselectedIndexWhenAdapterIsEmpty() {
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         assertEquals(-1, multipleChoiceListAdapterImplementation.getLastUnselectedIndex());
     }
@@ -497,7 +493,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
      */
     public final void testGetLastUnselectedIndexWhenNoItemIsUnselected() {
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(new Object());
         multipleChoiceListAdapterImplementation.addItem(new Object());
@@ -513,7 +509,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         Object item1 = new Object();
         Object item2 = new Object();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(item1);
         multipleChoiceListAdapterImplementation.addItem(item2);
@@ -526,7 +522,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
      */
     public final void testGetLastUnselectedItemWhenAdapterIsEmpty() {
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         assertNull(multipleChoiceListAdapterImplementation.getLastUnselectedItem());
     }
@@ -539,7 +535,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         Object item1 = new Object();
         Object item2 = new Object();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(item1);
         multipleChoiceListAdapterImplementation.addItem(item2);
@@ -557,7 +553,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         Object item2 = new Object();
         Object item3 = new Object();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(item1);
         multipleChoiceListAdapterImplementation.addItem(item2);
@@ -577,7 +573,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
      */
     public final void testGetSelectedIndicesWhenAdapterIsEmpty() {
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         Collection<Integer> indices = multipleChoiceListAdapterImplementation.getSelectedIndices();
         assertTrue(indices.isEmpty());
@@ -589,7 +585,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
      */
     public final void testGetSelectedIndicesWhenNoItemIsSelected() {
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(new Object());
         Collection<Integer> indices = multipleChoiceListAdapterImplementation.getSelectedIndices();
@@ -605,7 +601,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         Object item2 = new Object();
         Object item3 = new Object();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(item1);
         multipleChoiceListAdapterImplementation.addItem(item2);
@@ -625,7 +621,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
      */
     public final void testGetSelectedItemsWhenAdapterIsEmpty() {
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         Collection<Object> items = multipleChoiceListAdapterImplementation.getSelectedItems();
         assertTrue(items.isEmpty());
@@ -637,7 +633,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
      */
     public final void testGetSelectedItemsWhenNoItemIsSelected() {
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(new Object());
         Collection<Object> items = multipleChoiceListAdapterImplementation.getSelectedItems();
@@ -653,7 +649,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         Object item2 = new Object();
         Object item3 = new Object();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(item1);
         multipleChoiceListAdapterImplementation.addItem(item2);
@@ -673,7 +669,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
      */
     public final void testGetUnselectedIndicesWhenAdapterIsEmpty() {
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         Collection<Integer> indices =
                 multipleChoiceListAdapterImplementation.getUnselectedIndices();
@@ -687,7 +683,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
     public final void testGetUnselectedIndicesWhenNoItemIsUnselected() {
         Object item = new Object();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(item);
         multipleChoiceListAdapterImplementation.setSelected(item, true);
@@ -705,7 +701,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         Object item2 = new Object();
         Object item3 = new Object();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(item1);
         multipleChoiceListAdapterImplementation.addItem(item2);
@@ -724,7 +720,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
      */
     public final void testGetUnselectedItemsWhenAdapterIsEmpty() {
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         Collection<Object> items = multipleChoiceListAdapterImplementation.getUnselectedItems();
         assertTrue(items.isEmpty());
@@ -737,7 +733,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
     public final void testGetUnselectedItemsWhenNoItemIsUnselected() {
         Object item = new Object();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(item);
         multipleChoiceListAdapterImplementation.setSelected(item, true);
@@ -755,7 +751,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -786,7 +782,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -809,7 +805,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addItem(item);
@@ -829,7 +825,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
             MultipleChoiceListAdapterImplementation<Object>
                     multipleChoiceListAdapterImplementation =
                     new MultipleChoiceListAdapterImplementation<>(getContext(),
-                            mock(Inflater.class), new SelectableListDecoratorImplementation());
+                            new SelectableListDecoratorImplementation());
             multipleChoiceListAdapterImplementation.setSelected(-1, true);
             Assert.fail();
         } catch (IndexOutOfBoundsException e) {
@@ -846,7 +842,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -877,7 +873,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -900,7 +896,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addItem(item);
@@ -920,7 +916,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
             MultipleChoiceListAdapterImplementation<Object>
                     multipleChoiceListAdapterImplementation =
                     new MultipleChoiceListAdapterImplementation<>(getContext(),
-                            mock(Inflater.class), new SelectableListDecoratorImplementation());
+                            new SelectableListDecoratorImplementation());
             multipleChoiceListAdapterImplementation.setSelected(null, true);
             Assert.fail();
         } catch (NullPointerException e) {
@@ -937,7 +933,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
             MultipleChoiceListAdapterImplementation<Object>
                     multipleChoiceListAdapterImplementation =
                     new MultipleChoiceListAdapterImplementation<>(getContext(),
-                            mock(Inflater.class), new SelectableListDecoratorImplementation());
+                            new SelectableListDecoratorImplementation());
             multipleChoiceListAdapterImplementation.setSelected(new Object(), true);
             Assert.fail();
         } catch (NoSuchElementException e) {
@@ -955,7 +951,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -979,7 +975,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -1004,7 +1000,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -1029,7 +1025,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
             MultipleChoiceListAdapterImplementation<Object>
                     multipleChoiceListAdapterImplementation =
                     new MultipleChoiceListAdapterImplementation<>(getContext(),
-                            mock(Inflater.class), new SelectableListDecoratorImplementation());
+                            new SelectableListDecoratorImplementation());
             multipleChoiceListAdapterImplementation.triggerSelection(-1);
             Assert.fail();
         } catch (IndexOutOfBoundsException e) {
@@ -1048,7 +1044,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
                 new MultipleChoiceListAdapterImplementation<Object>(getContext(),
-                        mock(Inflater.class), new SelectableListDecoratorImplementation());
+                        new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
         multipleChoiceListAdapterImplementation.addItem(item);
@@ -1071,7 +1067,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -1096,7 +1092,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -1120,7 +1116,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
             MultipleChoiceListAdapterImplementation<Object>
                     multipleChoiceListAdapterImplementation =
                     new MultipleChoiceListAdapterImplementation<>(getContext(),
-                            mock(Inflater.class), new SelectableListDecoratorImplementation());
+                            new SelectableListDecoratorImplementation());
             multipleChoiceListAdapterImplementation.triggerSelection(null);
             Assert.fail();
         } catch (NullPointerException e) {
@@ -1137,7 +1133,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
             MultipleChoiceListAdapterImplementation<Object>
                     multipleChoiceListAdapterImplementation =
                     new MultipleChoiceListAdapterImplementation<>(getContext(),
-                            mock(Inflater.class), new SelectableListDecoratorImplementation());
+                            new SelectableListDecoratorImplementation());
             multipleChoiceListAdapterImplementation.triggerSelection(new Object());
             Assert.fail();
         } catch (NoSuchElementException e) {
@@ -1155,7 +1151,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -1182,7 +1178,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -1210,7 +1206,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -1237,7 +1233,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -1265,7 +1261,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -1291,7 +1287,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -1313,11 +1309,10 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
     public final void testSelectItemOnClick() {
         Object item = new Object();
         Context context = getContext();
-        Inflater inflater = InflaterFactory.createInflater(R.layout.view);
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(context, inflater,
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.selectItemOnClick(false);
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
@@ -1363,7 +1358,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         Set<ListSelectionListener<Object>> selectionListeners = new LinkedHashSet<>();
         Bundle parameters = new Bundle();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation(), logLevel, items,
                         allowDuplicates, notifyOnChange, itemClickListeners, itemLongClickListeners,
                         adapterListeners, enableStateListeners, numberOfItemStates,
@@ -1388,7 +1383,6 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
      */
     public final void testClone() throws CloneNotSupportedException {
         Context context = getContext();
-        Inflater inflater = mock(Inflater.class);
         SelectableListDecorator<Object> decorator = new SelectableListDecoratorImplementation();
         ArrayList<Item<Object>> items = new ArrayList<>();
         boolean allowDuplicates = true;
@@ -1407,8 +1401,8 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         boolean selectItemOnClick = true;
         Set<ListSelectionListener<Object>> selectionListeners = new LinkedHashSet<>();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(context, inflater, decorator,
-                        LogLevel.ALL, items, allowDuplicates, notifyOnChange, itemClickListeners,
+                new MultipleChoiceListAdapterImplementation<>(context, decorator, LogLevel.ALL,
+                        items, allowDuplicates, notifyOnChange, itemClickListeners,
                         itemLongClickListeners, adapterListeners, enableStateListeners,
                         numberOfItemStates, triggerItemStateOnClick, itemStateListeners,
                         sortingListeners, filterListeners, appliedFilters, selectItemOnClick,

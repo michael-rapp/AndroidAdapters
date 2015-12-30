@@ -49,7 +49,6 @@ import de.mrapp.android.adapter.datastructure.item.ItemListIterator;
 import de.mrapp.android.adapter.datastructure.item.UnmodifiableItemList;
 import de.mrapp.android.adapter.decorator.AbstractListDecorator;
 import de.mrapp.android.adapter.decorator.ViewHolder;
-import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.logging.LogLevel;
 import de.mrapp.android.adapter.logging.Logger;
 import de.mrapp.android.util.VisibleForTesting;
@@ -140,12 +139,6 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
      * The context, the adapter belongs to.
      */
     private final transient Context context;
-
-    /**
-     * The inflater, which is used to inflate the views, which are used to visualize the adapter's
-     * items.
-     */
-    private final transient Inflater inflater;
 
     /**
      * The decorator, which allows to customize the appearance of the views, which are used to
@@ -379,17 +372,6 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
     }
 
     /**
-     * Returns the inflater, which is used to inflate the views, which are used to visualize the
-     * adapter's items.
-     *
-     * @return The inflater, which is used to inflate views, which are used to visualize the
-     * adapter's items, as an instance of the type {@link Inflater}. The inflater may not be null
-     */
-    protected final Inflater getInflater() {
-        return inflater;
-    }
-
-    /**
      * Returns the decorator, which allows to customize the appearance of the views, which are used
      * to visualize the items of the adapter.
      *
@@ -579,10 +561,6 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
      * @param context
      *         The context, the adapter belongs to, as an instance of the class {@link Context}. The
      *         context may not be null
-     * @param inflater
-     *         The inflater, which should be used to inflate the views, which are used to visualize
-     *         the adapter's items, as an instance of the type {@link Inflater}. The inflater may
-     *         not be null
      * @param decorator
      *         The decorator, which should be used to customize the appearance of the views, which
      *         are used to visualize the items of the adapter, as an instance of the generic type
@@ -611,7 +589,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
      *         underlying data has been modified, as an instance of the type {@link Set} or an empty
      *         set, if no listeners should be notified
      */
-    protected AbstractListAdapter(@NonNull final Context context, @NonNull final Inflater inflater,
+    protected AbstractListAdapter(@NonNull final Context context,
                                   @NonNull final DecoratorType decorator,
                                   @NonNull final LogLevel logLevel,
                                   @NonNull final ArrayList<Item<DataType>> items,
@@ -620,14 +598,12 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
                                   @NonNull final Set<ListAdapterItemLongClickListener<DataType>> itemLongClickListeners,
                                   @NonNull final Set<ListAdapterListener<DataType>> adapterListeners) {
         ensureNotNull(context, "The context may not be null");
-        ensureNotNull(inflater, "The inflater may not be null");
         ensureNotNull(decorator, "The decorator may not be null");
         ensureNotNull(items, "The items may not be null");
         ensureNotNull(itemClickListeners, "The item click listeners may not be null");
         ensureNotNull(itemLongClickListeners, "The item long click listeners may not be null");
         ensureNotNull(adapterListeners, "The adapter listeners may not be null");
         this.context = context;
-        this.inflater = inflater;
         this.decorator = decorator;
         this.dataSetObservers = new HashMap<>();
         this.logger = new Logger(logLevel);

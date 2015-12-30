@@ -33,7 +33,6 @@ import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemClickLis
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterListener;
 import de.mrapp.android.adapter.expandablelist.ExpansionListener;
-import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.logging.LogLevel;
 import de.mrapp.android.util.VisibleForTesting;
 
@@ -206,14 +205,6 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
      * @param context
      *         The context, the adapter belongs to, as an instance of the class {@link Context}. The
      *         context may not be null
-     * @param groupInflater
-     *         The inflater, which should be used to inflate the views, which are used to visualize
-     *         the adapter's group items, as an instance of the type {@link Inflater}. The inflater
-     *         may not be null
-     * @param childInflater
-     *         The inflater, which should be used to inflate the views, which are used to visualize
-     *         the adapter's child items, as an instance of the type {@link Inflater}. The inflater
-     *         may not be null
      * @param decorator
      *         The decorator, which should be used to customize the appearance of the views, which
      *         are used to visualize the group and child items of the adapter, as an instance of the
@@ -257,8 +248,6 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
      *         listeners should be notified
      */
     protected AbstractEnableStateExpandableListAdapter(@NonNull final Context context,
-                                                       @NonNull final Inflater groupInflater,
-                                                       @NonNull final Inflater childInflater,
                                                        @NonNull final DecoratorType decorator,
                                                        @NonNull final LogLevel logLevel,
                                                        @NonNull final MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter,
@@ -271,9 +260,9 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
                                                        @NonNull final Set<ExpansionListener<GroupType, ChildType>> expansionListeners,
                                                        final boolean setChildEnableStatesImplicitly,
                                                        @NonNull final Set<ExpandableListEnableStateListener<GroupType, ChildType>> enableStateListeners) {
-        super(context, groupInflater, childInflater, decorator, logLevel, groupAdapter,
-                allowDuplicateChildren, notifyOnChange, expandGroupOnClick, itemClickListeners,
-                itemLongClickListeners, adapterListeners, expansionListeners);
+        super(context, decorator, logLevel, groupAdapter, allowDuplicateChildren, notifyOnChange,
+                expandGroupOnClick, itemClickListeners, itemLongClickListeners, adapterListeners,
+                expansionListeners);
         setEnableStateListeners(enableStateListeners);
         setChildEnableStatesImplicitly(setChildEnableStatesImplicitly);
     }

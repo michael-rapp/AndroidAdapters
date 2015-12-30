@@ -39,7 +39,6 @@ import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemComparator;
 import de.mrapp.android.adapter.decorator.AbstractListDecorator;
-import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
 import de.mrapp.android.adapter.list.ListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.list.ListAdapterListener;
@@ -452,10 +451,6 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType exte
      * @param context
      *         The context, the adapter should belong to, as an instance of the class {@link
      *         Context}. The context may not be null
-     * @param inflater
-     *         The inflater, which should be used to inflate the views, which are used to visualize
-     *         the adapter's items, as an instance of the type {@link Inflater}. The inflater may
-     *         not be null
      * @param decorator
      *         The decorator, which should be used to customize the appearance of the views, which
      *         are used to visualize the items of the adapter, as an instance of the generic type
@@ -508,7 +503,6 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType exte
      *         filtered
      */
     protected AbstractFilterableListAdapter(@NonNull final Context context,
-                                            @NonNull final Inflater inflater,
                                             @NonNull final DecoratorType decorator,
                                             @NonNull final LogLevel logLevel,
                                             @NonNull final ArrayList<Item<DataType>> items,
@@ -524,7 +518,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType exte
                                             @NonNull final Set<ListSortingListener<DataType>> sortingListeners,
                                             @NonNull final Set<ListFilterListener<DataType>> filterListeners,
                                             @NonNull final LinkedHashSet<AppliedFilter<DataType>> appliedFilters) {
-        super(context, inflater, decorator, logLevel, items, allowDuplicates, notifyOnChange,
+        super(context, decorator, logLevel, items, allowDuplicates, notifyOnChange,
                 itemClickListeners, itemLongClickListeners, adapterListeners, enableStateListeners,
                 numberOfItemStates, triggerItemStateOnClick, itemStateListeners, sortingListeners);
         setFilterListeners(filterListeners);

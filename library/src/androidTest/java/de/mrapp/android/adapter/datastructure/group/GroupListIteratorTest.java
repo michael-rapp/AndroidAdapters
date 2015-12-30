@@ -21,8 +21,6 @@ import junit.framework.Assert;
 
 import java.util.ListIterator;
 
-import de.mrapp.android.adapter.inflater.Inflater;
-
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -42,7 +40,7 @@ public class GroupListIteratorTest extends AndroidTestCase {
      */
     public final void testConstructorThrowsExceptionIfListIteratorIsNull() {
         try {
-            new GroupListIterator<>(null, getContext(), mock(Inflater.class));
+            new GroupListIterator<>(null, getContext());
             Assert.fail();
         } catch (NullPointerException e) {
 
@@ -56,9 +54,8 @@ public class GroupListIteratorTest extends AndroidTestCase {
     public final void testAdd() {
         ListIterator<Group<Object, Object>> listIterator = mock(ListIterator.class);
         Context context = getContext();
-        Inflater inflater = mock(Inflater.class);
         GroupListIterator<Object, Object> groupListIterator =
-                new GroupListIterator<>(listIterator, context, inflater);
+                new GroupListIterator<>(listIterator, context);
         Object group = new Object();
         groupListIterator.add(group);
         verify(listIterator, times(1)).add(any(Group.class));
@@ -71,7 +68,7 @@ public class GroupListIteratorTest extends AndroidTestCase {
     public final void testHasNext() {
         ListIterator<Group<Object, Object>> listIterator = mock(ListIterator.class);
         GroupListIterator<Object, Object> groupListIterator =
-                new GroupListIterator<>(listIterator, getContext(), mock(Inflater.class));
+                new GroupListIterator<>(listIterator, getContext());
         when(groupListIterator.hasNext()).thenReturn(true);
         boolean hasNext = groupListIterator.hasNext();
         assertTrue(hasNext);
@@ -85,7 +82,7 @@ public class GroupListIteratorTest extends AndroidTestCase {
     public final void testHasPrevious() {
         ListIterator<Group<Object, Object>> listIterator = mock(ListIterator.class);
         GroupListIterator<Object, Object> groupListIterator =
-                new GroupListIterator<>(listIterator, getContext(), mock(Inflater.class));
+                new GroupListIterator<>(listIterator, getContext());
         when(groupListIterator.hasPrevious()).thenReturn(true);
         boolean hasPrevious = groupListIterator.hasPrevious();
         assertTrue(hasPrevious);
@@ -99,7 +96,7 @@ public class GroupListIteratorTest extends AndroidTestCase {
     public final void testNext() {
         ListIterator<Group<Object, Object>> listIterator = mock(ListIterator.class);
         GroupListIterator<Object, Object> groupListIterator =
-                new GroupListIterator<>(listIterator, getContext(), mock(Inflater.class));
+                new GroupListIterator<>(listIterator, getContext());
         Group<Object, Object> nextGroup = new Group<>(new Object());
         when(listIterator.next()).thenReturn(nextGroup);
         Object nextData = groupListIterator.next();
@@ -114,7 +111,7 @@ public class GroupListIteratorTest extends AndroidTestCase {
     public final void testNextIndex() {
         ListIterator<Group<Object, Object>> listIterator = mock(ListIterator.class);
         GroupListIterator<Object, Object> groupListIterator =
-                new GroupListIterator<>(listIterator, getContext(), mock(Inflater.class));
+                new GroupListIterator<>(listIterator, getContext());
         int nextIndex = 1;
         when(groupListIterator.nextIndex()).thenReturn(nextIndex);
         Object next = groupListIterator.nextIndex();
@@ -129,7 +126,7 @@ public class GroupListIteratorTest extends AndroidTestCase {
     public final void testPrevious() {
         ListIterator<Group<Object, Object>> listIterator = mock(ListIterator.class);
         GroupListIterator<Object, Object> groupListIterator =
-                new GroupListIterator<>(listIterator, getContext(), mock(Inflater.class));
+                new GroupListIterator<>(listIterator, getContext());
         Group<Object, Object> previousGroup = new Group<>(new Object());
         when(listIterator.previous()).thenReturn(previousGroup);
         Object previousData = groupListIterator.previous();
@@ -144,7 +141,7 @@ public class GroupListIteratorTest extends AndroidTestCase {
     public final void testPreviousIndex() {
         ListIterator<Group<Object, Object>> listIterator = mock(ListIterator.class);
         GroupListIterator<Object, Object> groupListIterator =
-                new GroupListIterator<>(listIterator, getContext(), mock(Inflater.class));
+                new GroupListIterator<>(listIterator, getContext());
         int previousIndex = 1;
         when(groupListIterator.previousIndex()).thenReturn(previousIndex);
         Object previous = groupListIterator.previousIndex();
@@ -159,7 +156,7 @@ public class GroupListIteratorTest extends AndroidTestCase {
     public final void testRemove() {
         ListIterator<Group<Object, Object>> listIterator = mock(ListIterator.class);
         GroupListIterator<Object, Object> groupListIterator =
-                new GroupListIterator<>(listIterator, getContext(), mock(Inflater.class));
+                new GroupListIterator<>(listIterator, getContext());
         groupListIterator.remove();
         verify(listIterator, times(1)).remove();
     }
@@ -171,9 +168,8 @@ public class GroupListIteratorTest extends AndroidTestCase {
     public final void testSet() {
         ListIterator<Group<Object, Object>> listIterator = mock(ListIterator.class);
         Context context = getContext();
-        Inflater inflater = mock(Inflater.class);
         GroupListIterator<Object, Object> groupListIterator =
-                new GroupListIterator<>(listIterator, context, inflater);
+                new GroupListIterator<>(listIterator, context);
         Object group = new Object();
         groupListIterator.set(group);
         verify(listIterator, times(1)).set(any(Group.class));

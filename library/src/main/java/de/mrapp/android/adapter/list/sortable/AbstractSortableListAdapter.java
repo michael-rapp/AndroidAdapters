@@ -31,7 +31,6 @@ import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemComparator;
 import de.mrapp.android.adapter.decorator.AbstractListDecorator;
-import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
 import de.mrapp.android.adapter.list.ListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.list.ListAdapterListener;
@@ -164,10 +163,6 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType extend
      * @param context
      *         The context, the adapter should belong to, as an instance of the class {@link
      *         Context}. The context may not be null
-     * @param inflater
-     *         The inflater, which should be used to inflate the views, which are used to visualize
-     *         the adapter's items, as an instance of the type {@link Inflater}. The inflater may
-     *         not be null
      * @param decorator
      *         The decorator, which should be used to customize the appearance of the views, which
      *         are used to visualize the items of the adapter, as an instance of the generic type
@@ -212,7 +207,6 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType extend
      *         underlying data has been sorted or an empty set, if no listeners should be notified
      */
     protected AbstractSortableListAdapter(@NonNull final Context context,
-                                          @NonNull final Inflater inflater,
                                           @NonNull final DecoratorType decorator,
                                           @NonNull final LogLevel logLevel,
                                           @NonNull final ArrayList<Item<DataType>> items,
@@ -226,7 +220,7 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType extend
                                           final boolean triggerItemStateOnClick,
                                           @NonNull final Set<ListItemStateListener<DataType>> itemStateListeners,
                                           @NonNull final Set<ListSortingListener<DataType>> sortingListeners) {
-        super(context, inflater, decorator, logLevel, items, allowDuplicates, notifyOnChange,
+        super(context, decorator, logLevel, items, allowDuplicates, notifyOnChange,
                 itemClickListeners, itemLongClickListeners, adapterListeners, enableStateListeners,
                 numberOfItemStates, triggerItemStateOnClick, itemStateListeners);
         this.order = null;

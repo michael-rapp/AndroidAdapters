@@ -32,15 +32,11 @@ import de.mrapp.android.adapter.ListDecorator;
 import de.mrapp.android.adapter.R;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.item.Item;
-import de.mrapp.android.adapter.inflater.Inflater;
-import de.mrapp.android.adapter.inflater.InflaterFactory;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.filterable.ListFilterListener;
 import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 import de.mrapp.android.adapter.logging.LogLevel;
-
-import static org.mockito.Mockito.mock;
 
 /**
  * Tests the functionality of the class {@link ListAdapterImplementation}.
@@ -82,7 +78,6 @@ public class ListAdapterImplementationTest extends AndroidTestCase {
      */
     public final void testProtectedConstructor() {
         Context context = getContext();
-        Inflater inflater = mock(Inflater.class);
         ListDecorator<Object> decorator = new ListDecoratorImplementation();
         ArrayList<Item<Object>> items = new ArrayList<>();
         boolean allowDuplicates = true;
@@ -99,13 +94,12 @@ public class ListAdapterImplementationTest extends AndroidTestCase {
         Set<ListFilterListener<Object>> filterListeners = new LinkedHashSet<>();
         LinkedHashSet<AppliedFilter<Object>> appliedFilters = new LinkedHashSet<>();
         ListAdapterImplementation<Object> listAdapterImplementation =
-                new ListAdapterImplementation<>(context, inflater, decorator, LogLevel.ALL, items,
+                new ListAdapterImplementation<>(context, decorator, LogLevel.ALL, items,
                         allowDuplicates, notifyOnChange, itemClickListeners, itemLongClickListeners,
                         adapterListeners, enableStateListeners, numberOfItemStates,
                         triggerItemStateOnClick, itemStateListeners, sortingListeners,
                         filterListeners, appliedFilters);
         assertEquals(context, listAdapterImplementation.getContext());
-        assertEquals(inflater, listAdapterImplementation.getInflater());
         assertEquals(decorator, listAdapterImplementation.getDecorator());
         assertEquals(items, listAdapterImplementation.getItems());
         assertEquals(allowDuplicates, listAdapterImplementation.areDuplicatesAllowed());
@@ -123,12 +117,10 @@ public class ListAdapterImplementationTest extends AndroidTestCase {
      */
     public final void testPublicConstructor() {
         Context context = getContext();
-        Inflater inflater = mock(Inflater.class);
         ListDecorator<Object> decorator = new ListDecoratorImplementation();
         ListAdapterImplementation<Object> listAdapterImplementation =
-                new ListAdapterImplementation<>(context, inflater, decorator);
+                new ListAdapterImplementation<>(context, decorator);
         assertEquals(context, listAdapterImplementation.getContext());
-        assertEquals(inflater, listAdapterImplementation.getInflater());
         assertEquals(decorator, listAdapterImplementation.getDecorator());
         assertEquals(false, listAdapterImplementation.areDuplicatesAllowed());
         assertEquals(true, listAdapterImplementation.isNotifiedOnChange());
@@ -142,8 +134,7 @@ public class ListAdapterImplementationTest extends AndroidTestCase {
         Context context = getContext();
         ListDecoratorImplementation decorator = new ListDecoratorImplementation();
         ListAdapterImplementation<Object> listAdapterImplementation =
-                new ListAdapterImplementation<>(context,
-                        InflaterFactory.createInflater(R.layout.view), decorator);
+                new ListAdapterImplementation<>(context, decorator);
         listAdapterImplementation.setNumberOfItemStates(2);
         listAdapterImplementation.addItem(item);
         listAdapterImplementation.setEnabled(item, false);
@@ -175,12 +166,11 @@ public class ListAdapterImplementationTest extends AndroidTestCase {
         LinkedHashSet<AppliedFilter<Object>> appliedFilters = new LinkedHashSet<>();
         Bundle parameters = new Bundle();
         ListAdapterImplementation<Object> listAdapterImplementation =
-                new ListAdapterImplementation<>(getContext(), mock(Inflater.class),
-                        new ListDecoratorImplementation(), logLevel, items, allowDuplicates,
-                        notifyOnChange, itemClickListeners, itemLongClickListeners,
-                        adapterListeners, enableStateListeners, numberOfItemStates,
-                        triggerItemStateOnClick, itemStateListeners, sortingListeners,
-                        filterListeners, appliedFilters);
+                new ListAdapterImplementation<>(getContext(), new ListDecoratorImplementation(),
+                        logLevel, items, allowDuplicates, notifyOnChange, itemClickListeners,
+                        itemLongClickListeners, adapterListeners, enableStateListeners,
+                        numberOfItemStates, triggerItemStateOnClick, itemStateListeners,
+                        sortingListeners, filterListeners, appliedFilters);
         listAdapterImplementation.setParameters(parameters);
         assertEquals(
                 "ListAdapter (" + items.size() + " items) [logLevel=" + logLevel + ", parameters=" +
@@ -198,7 +188,6 @@ public class ListAdapterImplementationTest extends AndroidTestCase {
      */
     public final void testClone() throws CloneNotSupportedException {
         Context context = getContext();
-        Inflater inflater = mock(Inflater.class);
         ListDecorator<Object> decorator = new ListDecoratorImplementation();
         ArrayList<Item<Object>> items = new ArrayList<>();
         boolean allowDuplicates = true;
@@ -215,7 +204,7 @@ public class ListAdapterImplementationTest extends AndroidTestCase {
         Set<ListFilterListener<Object>> filterListeners = new LinkedHashSet<>();
         LinkedHashSet<AppliedFilter<Object>> appliedFilters = new LinkedHashSet<>();
         ListAdapterImplementation<Object> listAdapterImplementation =
-                new ListAdapterImplementation<>(context, inflater, decorator, LogLevel.ALL, items,
+                new ListAdapterImplementation<>(context, decorator, LogLevel.ALL, items,
                         allowDuplicates, notifyOnChange, itemClickListeners, itemLongClickListeners,
                         adapterListeners, enableStateListeners, numberOfItemStates,
                         triggerItemStateOnClick, itemStateListeners, sortingListeners,
@@ -223,7 +212,6 @@ public class ListAdapterImplementationTest extends AndroidTestCase {
         ListAdapterImplementation<Object> clonedListAdapterImplementation =
                 listAdapterImplementation.clone();
         assertEquals(context, clonedListAdapterImplementation.getContext());
-        assertEquals(inflater, clonedListAdapterImplementation.getInflater());
         assertEquals(decorator, clonedListAdapterImplementation.getDecorator());
         assertEquals(items, clonedListAdapterImplementation.getItems());
         assertEquals(allowDuplicates, clonedListAdapterImplementation.areDuplicatesAllowed());

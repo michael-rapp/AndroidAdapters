@@ -43,7 +43,6 @@ import de.mrapp.android.adapter.datastructure.group.GroupIterator;
 import de.mrapp.android.adapter.datastructure.group.GroupListIterator;
 import de.mrapp.android.adapter.datastructure.group.UnmodifiableGroupList;
 import de.mrapp.android.adapter.decorator.AbstractExpandableListDecorator;
-import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.selectable.MultipleChoiceListAdapterImplementation;
 import de.mrapp.android.adapter.logging.LogLevel;
 import de.mrapp.android.adapter.logging.Logger;
@@ -125,18 +124,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      * The context, the adapter belongs to.
      */
     private final transient Context context;
-
-    /**
-     * The inflater, which is used to inflate the views, which are used to visualize the adapter's
-     * group items.
-     */
-    private final transient Inflater groupInflater;
-
-    /**
-     * The inflater, which is used to inflate the views, which are used to visualize the adapter's
-     * child items.
-     */
-    private final transient Inflater childInflater;
 
     /**
      * The decorator, which allows to customize the appearance of the views, which are used to
@@ -396,7 +383,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      */
     private MultipleChoiceListAdapter<ChildType> createChildAdapter() {
         MultipleChoiceListAdapter<ChildType> childAdapter =
-                new MultipleChoiceListAdapterImplementation<>(context, childInflater,
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new NullObjectDecorator<ChildType>());
         childAdapter.setLogLevel(LogLevel.OFF);
         return childAdapter;
@@ -535,30 +522,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      */
     protected final Context getContext() {
         return context;
-    }
-
-    /**
-     * Returns the inflater, which is used to inflate the views, which are used to visualize the
-     * adapter's group items.
-     *
-     * @return The inflater, which is used to inflate views, which are used to visualize the
-     * adapter's group items, as an instance of the type {@link Inflater}. The inflater may not be
-     * null
-     */
-    protected final Inflater getGroupInflater() {
-        return groupInflater;
-    }
-
-    /**
-     * Returns the inflater, which is used to inflate the views, which are used to visualize the
-     * adapter's child items.
-     *
-     * @return The inflater, which is used to inflate views, which are used to visualize the
-     * adapter's child items, as an instance of the type {@link Inflater}. The inflater may not be
-     * null
-     */
-    protected final Inflater getChildInflater() {
-        return childInflater;
     }
 
     /**
@@ -801,14 +764,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      * @param context
      *         The context, the adapter belongs to, as an instance of the class {@link Context}. The
      *         context may not be null
-     * @param groupInflater
-     *         The inflater, which should be used to inflate the views, which are used to visualize
-     *         the adapter's group items, as an instance of the type {@link Inflater}. The inflater
-     *         may not be null
-     * @param childInflater
-     *         The inflater, which should be used to inflate the views, which are used to visualize
-     *         the adapter's child items, as an instance of the type {@link Inflater}. The inflater
-     *         may not be null
      * @param decorator
      *         The decorator, which should be used to customize the appearance of the views, which
      *         are used to visualize the group and child items of the adapter, as an instance of the
@@ -845,8 +800,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      *         if no listeners should be notified
      */
     protected AbstractExpandableListAdapter(@NonNull final Context context,
-                                            @NonNull final Inflater groupInflater,
-                                            @NonNull final Inflater childInflater,
                                             @NonNull final DecoratorType decorator,
                                             @NonNull final LogLevel logLevel,
                                             @NonNull final MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter,
@@ -858,16 +811,12 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
                                             @NonNull final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
                                             @NonNull final Set<ExpansionListener<GroupType, ChildType>> expansionListeners) {
         ensureNotNull(context, "The context may not be null");
-        ensureNotNull(groupInflater, "The group inflater may not be null");
-        ensureNotNull(childInflater, "The child inflater may not be null");
         ensureNotNull(decorator, "The decorator may not be null");
         ensureNotNull(itemClickListeners, "The item click listeners may not be null");
         ensureNotNull(itemLongClickListeners, "The item long click listeners may not be null");
         ensureNotNull(adapterListeners, "The adapter listeners may not be null");
         ensureNotNull(expansionListeners, "The expansion listeners may not be null");
         this.context = context;
-        this.groupInflater = groupInflater;
-        this.childInflater = childInflater;
         this.decorator = decorator;
         this.logger = new Logger(logLevel);
         this.groupAdapter = groupAdapter;
@@ -1154,12 +1103,12 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @Override
     public final ListIterator<GroupType> groupListIterator() {
-        return new GroupListIterator<>(groupAdapter.listIterator(), context, childInflater);
+        return new GroupListIterator<>(groupAdapter.listIterator(), context);
     }
 
     @Override
     public final ListIterator<GroupType> groupListIterator(final int index) {
-        return new GroupListIterator<>(groupAdapter.listIterator(index), context, childInflater);
+        return new GroupListIterator<>(groupAdapter.listIterator(index), context);
     }
 
     @Override

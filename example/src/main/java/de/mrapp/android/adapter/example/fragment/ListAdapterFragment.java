@@ -33,8 +33,7 @@ public class ListAdapterFragment extends AbstractListViewFragment<ListAdapter<Co
 
     @Override
     protected final ListAdapter<Contact> createAdapter() {
-        return AdapterFactory.createListAdapter(getActivity(), new ListAdapterDecorator(),
-                R.layout.contact_item);
+        return AdapterFactory.createListAdapter(getActivity(), new ListAdapterDecorator());
     }
 
     @Override

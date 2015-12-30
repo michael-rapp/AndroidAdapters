@@ -37,7 +37,6 @@ import de.mrapp.android.adapter.expandablelist.ExpansionListener;
 import de.mrapp.android.adapter.expandablelist.enablestate.ExpandableListEnableStateListener;
 import de.mrapp.android.adapter.expandablelist.itemstate.AbstractItemStateExpandableListAdapter;
 import de.mrapp.android.adapter.expandablelist.itemstate.ExpandableListItemStateListener;
-import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.logging.LogLevel;
 import de.mrapp.android.util.VisibleForTesting;
 
@@ -219,14 +218,6 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
      * @param context
      *         The context, the adapter belongs to, as an instance of the class {@link Context}. The
      *         context may not be null
-     * @param groupInflater
-     *         The inflater, which should be used to inflate the views, which are used to visualize
-     *         the adapter's group items, as an instance of the type {@link Inflater}. The inflater
-     *         may not be null
-     * @param childInflater
-     *         The inflater, which should be used to inflate the views, which are used to visualize
-     *         the adapter's child items, as an instance of the type {@link Inflater}. The inflater
-     *         may not be null
      * @param decorator
      *         The decorator, which should be used to customize the appearance of the views, which
      *         are used to visualize the group and child items of the adapter, as an instance of the
@@ -291,8 +282,6 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
      *         underlying data has been sorted, or an empty set, if no listeners should be notified
      */
     protected AbstractSortableExpandableListAdapter(@NonNull final Context context,
-                                                    @NonNull final Inflater groupInflater,
-                                                    @NonNull final Inflater childInflater,
                                                     @NonNull final DecoratorType decorator,
                                                     @NonNull final LogLevel logLevel,
                                                     @NonNull final MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter,
@@ -312,12 +301,11 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
                                                     final boolean setChildStatesImplicitly,
                                                     @NonNull final Set<ExpandableListItemStateListener<GroupType, ChildType>> itemStateListeners,
                                                     @NonNull final Set<ExpandableListSortingListener<GroupType, ChildType>> sortingListeners) {
-        super(context, groupInflater, childInflater, decorator, logLevel, groupAdapter,
-                allowDuplicateChildren, notifyOnChange, expandGroupOnClick, itemClickListeners,
-                itemLongClickListeners, adapterListeners, expansionListeners,
-                setChildEnableStatesImplicitly, enableStateListeners, numberOfGroupStates,
-                numberOfChildStates, triggerGroupStateOnClick, triggerChildStateOnClick,
-                setChildStatesImplicitly, itemStateListeners);
+        super(context, decorator, logLevel, groupAdapter, allowDuplicateChildren, notifyOnChange,
+                expandGroupOnClick, itemClickListeners, itemLongClickListeners, adapterListeners,
+                expansionListeners, setChildEnableStatesImplicitly, enableStateListeners,
+                numberOfGroupStates, numberOfChildStates, triggerGroupStateOnClick,
+                triggerChildStateOnClick, setChildStatesImplicitly, itemStateListeners);
         this.childOrder = null;
         setSortingListeners(sortingListeners);
         addAdapterListener(createAdapterListener());

@@ -36,8 +36,7 @@ public class ExpandableListAdapterFragment
     @Override
     protected final ExpandableListAdapter<Country, Contact> createAdapter() {
         return AdapterFactory
-                .createExpandableListAdapter(getActivity(), new ExpandableListAdapterDecorator(),
-                        R.layout.country_item, R.layout.contact_item);
+                .createExpandableListAdapter(getActivity(), new ExpandableListAdapterDecorator());
     }
 
     @Override

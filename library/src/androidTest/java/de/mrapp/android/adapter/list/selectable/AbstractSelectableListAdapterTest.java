@@ -34,8 +34,6 @@ import de.mrapp.android.adapter.R;
 import de.mrapp.android.adapter.SelectableListDecorator;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.item.Item;
-import de.mrapp.android.adapter.inflater.Inflater;
-import de.mrapp.android.adapter.inflater.InflaterFactory;
 import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
 import de.mrapp.android.adapter.list.ListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.list.ListAdapterListener;
@@ -73,10 +71,6 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
          * @param context
          *         The context, the adapter should belong to, as an instance of the class {@link
          *         Context}. The context may not be null
-         * @param inflater
-         *         The inflater, which should be used to inflate the views, which are used to
-         *         visualize the adapter's items, as an instance of the type {@link Inflater}. The
-         *         inflater may not be null
          * @param decorator
          *         The decorator, which should be used to customize the appearance of the views,
          *         which are used to visualize the items of the adapter, as an instance of the
@@ -137,7 +131,6 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
          *         selection has been changed or an empty set, if no listeners should be notified
          */
         protected AbstractSelectableListAdapterImplementation(final Context context,
-                                                              final Inflater inflater,
                                                               final SelectableListDecorator<Object> decorator,
                                                               final LogLevel logLevel,
                                                               final ArrayList<Item<Object>> items,
@@ -155,7 +148,7 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
                                                               final LinkedHashSet<AppliedFilter<Object>> appliedFilters,
                                                               final boolean selectItemOnClick,
                                                               final Set<ListSelectionListener<Object>> selectionListeners) {
-            super(context, inflater, decorator, logLevel, items, allowDuplicates, notifyOnChange,
+            super(context, decorator, logLevel, items, allowDuplicates, notifyOnChange,
                     itemClickListeners, itemLongClickListeners, adapterListeners,
                     enableStateListeners, numberOfItemStates, triggerItemStateOnClick,
                     itemStateListeners, sortingListeners, filterListeners, appliedFilters,
@@ -235,7 +228,7 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
         Set<ListSelectionListener<Object>> selectionListeners =
                 new LinkedHashSet<ListSelectionListener<Object>>();
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
-                new AbstractSelectableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractSelectableListAdapterImplementation(getContext(),
                         new SelectableListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -257,7 +250,7 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
      */
     public final void testConstructorThrowsExceptionWhenSelectionListenersIsNull() {
         try {
-            new AbstractSelectableListAdapterImplementation(getContext(), mock(Inflater.class),
+            new AbstractSelectableListAdapterImplementation(getContext(),
                     new SelectableListDecoratorImplementation(), LogLevel.ALL,
                     new ArrayList<Item<Object>>(), false, true,
                     new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -281,7 +274,7 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
     @SuppressWarnings("unchecked")
     public final void testAddSelectionListener() {
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
-                new AbstractSelectableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractSelectableListAdapterImplementation(getContext(),
                         new SelectableListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -310,8 +303,8 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
         try {
             AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
                     new AbstractSelectableListAdapterImplementation(getContext(),
-                            mock(Inflater.class), new SelectableListDecoratorImplementation(),
-                            LogLevel.ALL, new ArrayList<Item<Object>>(), false, true,
+                            new SelectableListDecoratorImplementation(), LogLevel.ALL,
+                            new ArrayList<Item<Object>>(), false, true,
                             new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                             new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
                             new LinkedHashSet<ListAdapterListener<Object>>(),
@@ -336,7 +329,7 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
     public final void testRemoveSelectionListener() {
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
-                new AbstractSelectableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractSelectableListAdapterImplementation(getContext(),
                         new SelectableListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -363,8 +356,8 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
         try {
             AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
                     new AbstractSelectableListAdapterImplementation(getContext(),
-                            mock(Inflater.class), new SelectableListDecoratorImplementation(),
-                            LogLevel.ALL, new ArrayList<Item<Object>>(), false, true,
+                            new SelectableListDecoratorImplementation(), LogLevel.ALL,
+                            new ArrayList<Item<Object>>(), false, true,
                             new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                             new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
                             new LinkedHashSet<ListAdapterListener<Object>>(),
@@ -387,7 +380,7 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
      */
     public final void testIsSelectedByIndexWhenItemIsSelected() {
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
-                new AbstractSelectableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractSelectableListAdapterImplementation(getContext(),
                         new SelectableListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -410,7 +403,7 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
      */
     public final void testIsSelectedByIndexWhenItemIsNotSelected() {
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
-                new AbstractSelectableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractSelectableListAdapterImplementation(getContext(),
                         new SelectableListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -435,8 +428,8 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
         try {
             AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
                     new AbstractSelectableListAdapterImplementation(getContext(),
-                            mock(Inflater.class), new SelectableListDecoratorImplementation(),
-                            LogLevel.ALL, new ArrayList<Item<Object>>(), false, true,
+                            new SelectableListDecoratorImplementation(), LogLevel.ALL,
+                            new ArrayList<Item<Object>>(), false, true,
                             new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                             new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
                             new LinkedHashSet<ListAdapterListener<Object>>(),
@@ -460,7 +453,7 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
     public final void testIsSelectedWhenItemIsSelected() {
         Object item = new Object();
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
-                new AbstractSelectableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractSelectableListAdapterImplementation(getContext(),
                         new SelectableListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -484,7 +477,7 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
     public final void testIsSelectedWhenItemIsNotSelected() {
         Object item = new Object();
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
-                new AbstractSelectableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractSelectableListAdapterImplementation(getContext(),
                         new SelectableListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -509,8 +502,8 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
         try {
             AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
                     new AbstractSelectableListAdapterImplementation(getContext(),
-                            mock(Inflater.class), new SelectableListDecoratorImplementation(),
-                            LogLevel.ALL, new ArrayList<Item<Object>>(), false, true,
+                            new SelectableListDecoratorImplementation(), LogLevel.ALL,
+                            new ArrayList<Item<Object>>(), false, true,
                             new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                             new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
                             new LinkedHashSet<ListAdapterListener<Object>>(),
@@ -535,8 +528,8 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
         try {
             AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
                     new AbstractSelectableListAdapterImplementation(getContext(),
-                            mock(Inflater.class), new SelectableListDecoratorImplementation(),
-                            LogLevel.ALL, new ArrayList<Item<Object>>(), false, true,
+                            new SelectableListDecoratorImplementation(), LogLevel.ALL,
+                            new ArrayList<Item<Object>>(), false, true,
                             new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                             new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
                             new LinkedHashSet<ListAdapterListener<Object>>(),
@@ -562,7 +555,7 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
         Object item2 = new Object();
         Object item3 = new Object();
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
-                new AbstractSelectableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractSelectableListAdapterImplementation(getContext(),
                         new SelectableListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -588,7 +581,7 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
      */
     public final void testGetNumberOfSelectedItemsWhenAdapterIsEmpty() {
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
-                new AbstractSelectableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractSelectableListAdapterImplementation(getContext(),
                         new SelectableListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -610,7 +603,7 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
     public final void testGetNumberOfSelectedItemsWhenNoItemIsSelected() {
         Object item1 = new Object();
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
-                new AbstractSelectableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractSelectableListAdapterImplementation(getContext(),
                         new SelectableListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -633,7 +626,7 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
         Bundle outState = new Bundle();
         boolean selectItemOnClick = true;
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
-                new AbstractSelectableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractSelectableListAdapterImplementation(getContext(),
                         new SelectableListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -657,7 +650,7 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
      */
     public final void testOnRestoreInstanceState() {
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
-                new AbstractSelectableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractSelectableListAdapterImplementation(getContext(),
                         new SelectableListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -687,8 +680,7 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
         SelectableListDecoratorImplementation decorator =
                 new SelectableListDecoratorImplementation();
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
-                new AbstractSelectableListAdapterImplementation(context,
-                        InflaterFactory.createInflater(R.layout.view), decorator, LogLevel.ALL,
+                new AbstractSelectableListAdapterImplementation(context, decorator, LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                         new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
@@ -713,7 +705,7 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
      */
     public final void testHashCode() {
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter1 =
-                new AbstractSelectableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractSelectableListAdapterImplementation(getContext(),
                         new SelectableListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -726,7 +718,7 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
                         new LinkedHashSet<AppliedFilter<Object>>(), false,
                         new LinkedHashSet<ListSelectionListener<Object>>());
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter2 =
-                new AbstractSelectableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractSelectableListAdapterImplementation(getContext(),
                         new SelectableListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -759,7 +751,7 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
      */
     public final void testEquals() {
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter1 =
-                new AbstractSelectableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractSelectableListAdapterImplementation(getContext(),
                         new SelectableListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -772,7 +764,7 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
                         new LinkedHashSet<AppliedFilter<Object>>(), false,
                         new LinkedHashSet<ListSelectionListener<Object>>());
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter2 =
-                new AbstractSelectableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractSelectableListAdapterImplementation(getContext(),
                         new SelectableListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),

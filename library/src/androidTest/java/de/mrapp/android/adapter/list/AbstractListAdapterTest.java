@@ -47,8 +47,6 @@ import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.ParcelableImplementation;
 import de.mrapp.android.adapter.R;
 import de.mrapp.android.adapter.datastructure.item.Item;
-import de.mrapp.android.adapter.inflater.Inflater;
-import de.mrapp.android.adapter.inflater.InflaterFactory;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.filterable.ListFilterListener;
 import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
@@ -101,10 +99,6 @@ public class AbstractListAdapterTest extends AndroidTestCase {
          * @param context
          *         The context, the adapter belongs to, as an instance of the class {@link Context}.
          *         The context may not be null
-         * @param inflater
-         *         The inflater, which should be used to inflate the views, which are used to
-         *         visualize the adapter's items, as an instance of the type {@link Inflater}. The
-         *         inflater may not be null
          * @param decorator
          *         The decorator, which should be used to customize the appearance of the views,
          *         which are used to visualize the items of the adapter, as an instance of the
@@ -134,7 +128,7 @@ public class AbstractListAdapterTest extends AndroidTestCase {
          *         underlying data has been modified, as an instance of the type {@link Set} or an
          *         empty set, if no listeners should be notified
          */
-        protected AbstractListAdapterImplementation(final Context context, final Inflater inflater,
+        protected AbstractListAdapterImplementation(final Context context,
                                                     final ListDecorator<Object> decorator,
                                                     final LogLevel logLevel,
                                                     final ArrayList<Item<Object>> items,
@@ -143,7 +137,7 @@ public class AbstractListAdapterTest extends AndroidTestCase {
                                                     final Set<ListAdapterItemClickListener<Object>> itemClickListeners,
                                                     final Set<ListAdapterItemLongClickListener<Object>> itemLongClickListeners,
                                                     final Set<ListAdapterListener<Object>> adapterListeners) {
-            super(context, inflater, decorator, logLevel, items, allowDuplicates, notifyOnChange,
+            super(context, decorator, logLevel, items, allowDuplicates, notifyOnChange,
                     itemClickListeners, itemLongClickListeners, adapterListeners);
         }
 
@@ -596,7 +590,7 @@ public class AbstractListAdapterTest extends AndroidTestCase {
      * @return The instance, which has been created
      */
     private AbstractListAdapterImplementation createAdapter(final boolean allowDuplicates) {
-        return new AbstractListAdapterImplementation(getContext(), mock(Inflater.class),
+        return new AbstractListAdapterImplementation(getContext(),
                 new ListDecoratorImplementation(), LogLevel.ALL, new ArrayList<Item<Object>>(),
                 allowDuplicates, true, new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                 new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
@@ -627,7 +621,6 @@ public class AbstractListAdapterTest extends AndroidTestCase {
      */
     public final void testConstructor() {
         Context context = getContext();
-        Inflater inflater = mock(Inflater.class);
         ListDecorator<Object> decorator = new ListDecoratorImplementation();
         ArrayList<Item<Object>> items = new ArrayList<>();
         boolean allowDuplicates = true;
@@ -638,11 +631,10 @@ public class AbstractListAdapterTest extends AndroidTestCase {
                 new LinkedHashSet<>();
         Set<ListAdapterListener<Object>> adapterListeners = new LinkedHashSet<>();
         AbstractListAdapterImplementation abstractListAdapter =
-                new AbstractListAdapterImplementation(context, inflater, decorator, logLevel, items,
+                new AbstractListAdapterImplementation(context, decorator, logLevel, items,
                         allowDuplicates, notifyOnChange, itemClickListeners, itemLongClickListeners,
                         adapterListeners);
         assertEquals(context, abstractListAdapter.getContext());
-        assertEquals(inflater, abstractListAdapter.getInflater());
         assertEquals(decorator, abstractListAdapter.getDecorator());
         assertEquals(items, abstractListAdapter.getItems());
         assertNull(abstractListAdapter.getParameters());
@@ -659,26 +651,9 @@ public class AbstractListAdapterTest extends AndroidTestCase {
      */
     public final void testConstructorThrowsExceptionWhenContextIsNull() {
         try {
-            new AbstractListAdapterImplementation(null, mock(Inflater.class),
-                    new ListDecoratorImplementation(), LogLevel.ALL, new ArrayList<Item<Object>>(),
-                    false, true, new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
-                    new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
-                    new LinkedHashSet<ListAdapterListener<Object>>());
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
-    }
-
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if the inflater, which is passed to
-     * the constructor, is null.
-     */
-    public final void testConstructorThrowsExceptionWhenInflaterIsNull() {
-        try {
-            new AbstractListAdapterImplementation(getContext(), null,
-                    new ListDecoratorImplementation(), LogLevel.ALL, new ArrayList<Item<Object>>(),
-                    false, true, new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+            new AbstractListAdapterImplementation(null, new ListDecoratorImplementation(),
+                    LogLevel.ALL, new ArrayList<Item<Object>>(), false, true,
+                    new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                     new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
                     new LinkedHashSet<ListAdapterListener<Object>>());
             Assert.fail();
@@ -693,8 +668,8 @@ public class AbstractListAdapterTest extends AndroidTestCase {
      */
     public final void testConstructorThrowsExceptionWhenDecoratorIsNull() {
         try {
-            new AbstractListAdapterImplementation(getContext(), mock(Inflater.class), null,
-                    LogLevel.ALL, new ArrayList<Item<Object>>(), false, true,
+            new AbstractListAdapterImplementation(getContext(), null, LogLevel.ALL,
+                    new ArrayList<Item<Object>>(), false, true,
                     new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                     new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
                     new LinkedHashSet<ListAdapterListener<Object>>());
@@ -710,8 +685,8 @@ public class AbstractListAdapterTest extends AndroidTestCase {
      */
     public final void testConstructorThrowsExceptionWhenItemsIsNull() {
         try {
-            new AbstractListAdapterImplementation(getContext(), mock(Inflater.class),
-                    new ListDecoratorImplementation(), LogLevel.ALL, null, false, true,
+            new AbstractListAdapterImplementation(getContext(), new ListDecoratorImplementation(),
+                    LogLevel.ALL, null, false, true,
                     new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                     new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
                     new LinkedHashSet<ListAdapterListener<Object>>());
@@ -727,9 +702,8 @@ public class AbstractListAdapterTest extends AndroidTestCase {
      */
     public final void testConstructorThrowsExceptionWhenItemClickListenersIsNull() {
         try {
-            new AbstractListAdapterImplementation(getContext(), mock(Inflater.class),
-                    new ListDecoratorImplementation(), LogLevel.ALL, new ArrayList<Item<Object>>(),
-                    false, true, null,
+            new AbstractListAdapterImplementation(getContext(), new ListDecoratorImplementation(),
+                    LogLevel.ALL, new ArrayList<Item<Object>>(), false, true, null,
                     new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
                     new LinkedHashSet<ListAdapterListener<Object>>());
             Assert.fail();
@@ -744,9 +718,9 @@ public class AbstractListAdapterTest extends AndroidTestCase {
      */
     public final void testConstructorThrowsExceptionWhenItemLongClickListenersIsNull() {
         try {
-            new AbstractListAdapterImplementation(getContext(), mock(Inflater.class),
-                    new ListDecoratorImplementation(), LogLevel.ALL, new ArrayList<Item<Object>>(),
-                    false, true, new LinkedHashSet<ListAdapterItemClickListener<Object>>(), null,
+            new AbstractListAdapterImplementation(getContext(), new ListDecoratorImplementation(),
+                    LogLevel.ALL, new ArrayList<Item<Object>>(), false, true,
+                    new LinkedHashSet<ListAdapterItemClickListener<Object>>(), null,
                     new LinkedHashSet<ListAdapterListener<Object>>());
             Assert.fail();
         } catch (NullPointerException e) {
@@ -760,9 +734,9 @@ public class AbstractListAdapterTest extends AndroidTestCase {
      */
     public final void testConstructorThrowsExceptionWhenAdapterListenersIsNull() {
         try {
-            new AbstractListAdapterImplementation(getContext(), mock(Inflater.class),
-                    new ListDecoratorImplementation(), LogLevel.ALL, new ArrayList<Item<Object>>(),
-                    false, true, new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+            new AbstractListAdapterImplementation(getContext(), new ListDecoratorImplementation(),
+                    LogLevel.ALL, new ArrayList<Item<Object>>(), false, true,
+                    new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                     new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(), null);
             Assert.fail();
         } catch (NullPointerException e) {
@@ -776,9 +750,9 @@ public class AbstractListAdapterTest extends AndroidTestCase {
      */
     public final void testConstructorThrowsExceptionWhenLogLevelIsNull() {
         try {
-            new AbstractListAdapterImplementation(getContext(), mock(Inflater.class),
-                    new ListDecoratorImplementation(), null, new ArrayList<Item<Object>>(), false,
-                    true, new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+            new AbstractListAdapterImplementation(getContext(), new ListDecoratorImplementation(),
+                    null, new ArrayList<Item<Object>>(), false, true,
+                    new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                     new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
                     new LinkedHashSet<ListAdapterListener<Object>>());
             Assert.fail();
@@ -2435,13 +2409,12 @@ public class AbstractListAdapterTest extends AndroidTestCase {
     @SuppressWarnings("unchecked")
     public final void testGetView() {
         Context context = getContext();
-        Inflater inflater = InflaterFactory.createInflater(R.layout.view);
         ListDecoratorImplementation decorator = new ListDecoratorImplementation();
         Object item = new Object();
         ListAdapterItemClickListener<Object> itemClickListener =
                 mock(ListAdapterItemClickListener.class);
         AbstractListAdapterImplementation abstractListAdapter =
-                new AbstractListAdapterImplementation(context, inflater, decorator, LogLevel.ALL,
+                new AbstractListAdapterImplementation(context, decorator, LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                         new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
@@ -2460,17 +2433,16 @@ public class AbstractListAdapterTest extends AndroidTestCase {
      */
     public final void testGetViewWhenViewIsNotNull() {
         Context context = getContext();
-        Inflater inflater = InflaterFactory.createInflater(R.layout.view);
         ListDecoratorImplementation decorator = new ListDecoratorImplementation();
         Object item = new Object();
         AbstractListAdapterImplementation abstractListAdapter =
-                new AbstractListAdapterImplementation(context, inflater, decorator, LogLevel.ALL,
+                new AbstractListAdapterImplementation(context, decorator, LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                         new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
                         new LinkedHashSet<ListAdapterListener<Object>>());
         abstractListAdapter.addItem(item);
-        View view1 = inflater.inflate(context, null, false);
+        View view1 = View.inflate(context, R.layout.view, null);
         View view2 = abstractListAdapter.getView(0, view1, null);
         assertEquals(view1, view2);
         assertTrue(decorator.hasOnShowItemBeenInvoked);

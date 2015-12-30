@@ -26,7 +26,6 @@ import java.util.Set;
 import de.mrapp.android.adapter.ListDecorator;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.item.Item;
-import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.filterable.AbstractFilterableListAdapter;
 import de.mrapp.android.adapter.list.filterable.ListFilterListener;
@@ -57,10 +56,6 @@ public class ListAdapterImplementation<DataType>
      * @param context
      *         The context, the adapter should belong to, as an instance of the class {@link
      *         Context}. The context may not be null
-     * @param inflater
-     *         The inflater, which should be used to inflate the views, which are used to visualize
-     *         the adapter's items, as an instance of the type {@link Inflater}. The inflater may
-     *         not be null
      * @param decorator
      *         The decorator, which should be used to customize the appearance of the views, which
      *         are used to visualize the items of the adapter, as an instance of the generic type
@@ -113,7 +108,6 @@ public class ListAdapterImplementation<DataType>
      *         filtered
      */
     protected ListAdapterImplementation(@NonNull final Context context,
-                                        @NonNull final Inflater inflater,
                                         @NonNull final ListDecorator<DataType> decorator,
                                         @NonNull final LogLevel logLevel,
                                         @NonNull final ArrayList<Item<DataType>> items,
@@ -128,7 +122,7 @@ public class ListAdapterImplementation<DataType>
                                         @NonNull final Set<ListSortingListener<DataType>> sortingListeners,
                                         @NonNull final Set<ListFilterListener<DataType>> filterListeners,
                                         @NonNull final LinkedHashSet<AppliedFilter<DataType>> appliedFilters) {
-        super(context, inflater, decorator, logLevel, items, allowDuplicates, notifyOnChange,
+        super(context, decorator, logLevel, items, allowDuplicates, notifyOnChange,
                 itemClickListeners, itemLongClickListeners, adapterListeners, enableStateListeners,
                 numberOfItemStates, triggerItemStateOnClick, itemStateListeners, sortingListeners,
                 filterListeners, appliedFilters);
@@ -140,20 +134,15 @@ public class ListAdapterImplementation<DataType>
      * @param context
      *         The context, the adapter belongs to, as an instance of the class {@link Context}. The
      *         context may not be null
-     * @param inflater
-     *         The inflater, which should be used to inflate the views, which are used to visualize
-     *         the adapter's items, as an instance of the type {@link Inflater}. The inflater may
-     *         not be null
      * @param decorator
      *         The decorator, which should be used to customize the appearance of the views, which
      *         are used to visualize the items of the adapter, as an instance of the type {@link
      *         ListDecorator}. The decorator may not be null
      */
     public ListAdapterImplementation(@NonNull final Context context,
-                                     @NonNull final Inflater inflater,
                                      @NonNull final ListDecorator<DataType> decorator) {
-        this(context, inflater, decorator, LogLevel.INFO, new ArrayList<Item<DataType>>(), false,
-                true, new LinkedHashSet<ListAdapterItemClickListener<DataType>>(),
+        this(context, decorator, LogLevel.INFO, new ArrayList<Item<DataType>>(), false, true,
+                new LinkedHashSet<ListAdapterItemClickListener<DataType>>(),
                 new LinkedHashSet<ListAdapterItemLongClickListener<DataType>>(),
                 new LinkedHashSet<ListAdapterListener<DataType>>(),
                 new LinkedHashSet<ListEnableStateListener<DataType>>(), 1, false,
@@ -200,12 +189,11 @@ public class ListAdapterImplementation<DataType>
 
     @Override
     public final ListAdapterImplementation<DataType> clone() throws CloneNotSupportedException {
-        return new ListAdapterImplementation<>(getContext(), getInflater(), getDecorator(),
-                getLogLevel(), cloneItems(), areDuplicatesAllowed(), isNotifiedOnChange(),
-                getItemClickListeners(), getItemLongClickListeners(), getAdapterListeners(),
-                getEnableStateListeners(), getNumberOfItemStates(), isItemStateTriggeredOnClick(),
-                getItemStateListeners(), getSortingListeners(), getFilterListeners(),
-                cloneAppliedFilters());
+        return new ListAdapterImplementation<>(getContext(), getDecorator(), getLogLevel(),
+                cloneItems(), areDuplicatesAllowed(), isNotifiedOnChange(), getItemClickListeners(),
+                getItemLongClickListeners(), getAdapterListeners(), getEnableStateListeners(),
+                getNumberOfItemStates(), isItemStateTriggeredOnClick(), getItemStateListeners(),
+                getSortingListeners(), getFilterListeners(), cloneAppliedFilters());
     }
 
 }

@@ -22,7 +22,6 @@ import java.util.ListIterator;
 
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.expandablelist.NullObjectDecorator;
-import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.selectable.MultipleChoiceListAdapterImplementation;
 import de.mrapp.android.adapter.logging.LogLevel;
 
@@ -52,24 +51,18 @@ public class GroupListIterator<GroupType, ChildType> implements ListIterator<Gro
     private final Context context;
 
     /**
-     * The inflater, which is used to inflate the views, which are used to visualize the groups'
-     * child items.
-     */
-    private final Inflater childInflater;
-
-    /**
      * Creates a new adapter, which may be used to manage the child items of a newly created group.
      *
      * @return The adapter, which has been created, as an instance of the type {@link
      * MultipleChoiceListAdapter}. The adapter may not be null
      */
     private MultipleChoiceListAdapter<ChildType> createChildAdapter() {
-        if (context == null || childInflater == null) {
+        if (context == null) {
             throw new UnsupportedOperationException();
         }
 
         MultipleChoiceListAdapter<ChildType> childAdapter =
-                new MultipleChoiceListAdapterImplementation<>(context, childInflater,
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new NullObjectDecorator<ChildType>());
         childAdapter.setLogLevel(LogLevel.OFF);
         return childAdapter;
@@ -85,18 +78,12 @@ public class GroupListIterator<GroupType, ChildType> implements ListIterator<Gro
      * @param context
      *         The context, which should be used by the iterator, as an instance of the class {@link
      *         Context} or null, if no adapter's underlying data should be modified
-     * @param childInflater
-     *         The inflater, which should be used to inflate the views, which are used to visualize
-     *         the groups' child items, as an instance of the type {@link Inflater} or null, if no
-     *         adapter's underlying data should be modified
      */
     public GroupListIterator(@NonNull final ListIterator<Group<GroupType, ChildType>> iterator,
-                             @Nullable final Context context,
-                             @Nullable final Inflater childInflater) {
+                             @Nullable final Context context) {
         ensureNotNull(iterator, "The list iterator may not be null");
         this.listIterator = iterator;
         this.context = context;
-        this.childInflater = childInflater;
     }
 
     @Override

@@ -42,7 +42,6 @@ import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.UnmodifiableItemList;
-import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
 import de.mrapp.android.adapter.list.ListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.list.ListAdapterListener;
@@ -91,10 +90,6 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
          * @param context
          *         The context, the adapter should belong to, as an instance of the class {@link
          *         Context}. The context may not be null
-         * @param inflater
-         *         The inflater, which should be used to inflate the views, which are used to
-         *         visualize the adapter's items, as an instance of the type {@link Inflater}. The
-         *         inflater may not be null
          * @param decorator
          *         The decorator, which should be used to customize the appearance of the views,
          *         which are used to visualize the items of the adapter, as an instance of the
@@ -149,7 +144,6 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
          *         filtered
          */
         protected AbstractFilterableListAdapterImplementation(final Context context,
-                                                              final Inflater inflater,
                                                               final ListDecorator<FilterableImplementation> decorator,
                                                               final LogLevel logLevel,
                                                               final ArrayList<Item<FilterableImplementation>> items,
@@ -165,7 +159,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
                                                               final Set<ListSortingListener<FilterableImplementation>> sortingListeners,
                                                               final Set<ListFilterListener<FilterableImplementation>> filterListeners,
                                                               final LinkedHashSet<AppliedFilter<FilterableImplementation>> appliedFilters) {
-            super(context, inflater, decorator, logLevel, items, allowDuplicates, notifyOnChange,
+            super(context, decorator, logLevel, items, allowDuplicates, notifyOnChange,
                     itemClickListeners, itemLongClickListeners, adapterListeners,
                     enableStateListeners, numberOfItemStates, triggerItemStateOnClick,
                     itemStateListeners, sortingListeners, filterListeners, appliedFilters);
@@ -291,7 +285,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         LinkedHashSet<AppliedFilter<FilterableImplementation>> appliedFilters =
                 new LinkedHashSet<>();
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractFilterableListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -319,7 +313,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
                 new AppliedFilter<>(query, 0, filter);
         appliedFilters.add(appliedFilter);
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractFilterableListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -345,7 +339,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
      */
     public final void testGetUnfilteredIndex() {
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractFilterableListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -373,7 +367,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
      */
     public final void testGetUnfilteredIndexWhenAdapterIsNotFiltered() {
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractFilterableListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -401,7 +395,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         try {
             AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
                     new AbstractFilterableListAdapterImplementation(getContext(),
-                            mock(Inflater.class), new ListDecoratorImplementation(), LogLevel.ALL,
+                            new ListDecoratorImplementation(), LogLevel.ALL,
                             new ArrayList<Item<FilterableImplementation>>(), false, true,
                             new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
                             new LinkedHashSet<ListAdapterItemLongClickListener<FilterableImplementation>>(),
@@ -428,7 +422,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         try {
             AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
                     new AbstractFilterableListAdapterImplementation(getContext(),
-                            mock(Inflater.class), new ListDecoratorImplementation(), LogLevel.ALL,
+                            new ListDecoratorImplementation(), LogLevel.ALL,
                             new ArrayList<Item<FilterableImplementation>>(), false, true,
                             new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
                             new LinkedHashSet<ListAdapterItemLongClickListener<FilterableImplementation>>(),
@@ -452,7 +446,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
      */
     public final void testIsFilterApplied() {
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractFilterableListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -481,7 +475,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         ListFilterListener<FilterableImplementation> filterListener =
                 mock(ListFilterListener.class);
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractFilterableListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -532,7 +526,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         ListFilterListener<FilterableImplementation> filterListener =
                 mock(ListFilterListener.class);
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractFilterableListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -575,7 +569,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         ListFilterListener<FilterableImplementation> filterListener =
                 mock(ListFilterListener.class);
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractFilterableListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -628,7 +622,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         ListFilterListener<FilterableImplementation> filterListener =
                 mock(ListFilterListener.class);
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractFilterableListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -670,7 +664,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         ListFilterListener<FilterableImplementation> filterListener =
                 mock(ListFilterListener.class);
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractFilterableListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -718,7 +712,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         ListFilterListener<FilterableImplementation> filterListener =
                 mock(ListFilterListener.class);
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractFilterableListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -750,7 +744,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         ListFilterListener<FilterableImplementation> filterListener =
                 mock(ListFilterListener.class);
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractFilterableListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -799,7 +793,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
      */
     public final void testIsFiltered() {
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractFilterableListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -822,7 +816,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
     @SuppressWarnings("unchecked")
     public final void testAddFilterListener() {
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractFilterableListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -850,7 +844,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         try {
             AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
                     new AbstractFilterableListAdapterImplementation(getContext(),
-                            mock(Inflater.class), new ListDecoratorImplementation(), LogLevel.ALL,
+                            new ListDecoratorImplementation(), LogLevel.ALL,
                             new ArrayList<Item<FilterableImplementation>>(), false, true,
                             new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
                             new LinkedHashSet<ListAdapterItemLongClickListener<FilterableImplementation>>(),
@@ -875,7 +869,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
     @SuppressWarnings("unchecked")
     public final void testRemoveFilterListener() {
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractFilterableListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -903,7 +897,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         try {
             AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
                     new AbstractFilterableListAdapterImplementation(getContext(),
-                            mock(Inflater.class), new ListDecoratorImplementation(), LogLevel.ALL,
+                            new ListDecoratorImplementation(), LogLevel.ALL,
                             new ArrayList<Item<FilterableImplementation>>(), false, true,
                             new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
                             new LinkedHashSet<ListAdapterItemLongClickListener<FilterableImplementation>>(),
@@ -927,7 +921,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
      */
     public final void testAdaptUnfilteredItemsWhenSortingInAscendingOrder() {
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractFilterableListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -960,7 +954,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
      */
     public final void testAdaptUnfilteredItemsWhenSortingInDescendingOrder() {
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractFilterableListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -993,7 +987,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
      */
     public final void testAdaptUnfilteredItemsWhenSortingByComparatorInAscendingOrder() {
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractFilterableListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -1026,7 +1020,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
      */
     public final void testAdaptUnfilteredItemsWhenSortingByComparatorInDescendingOrder() {
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractFilterableListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -1059,7 +1053,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
      */
     public final void testAdaptUnfilteredItemsWhenMatchingItemIsAdded() {
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractFilterableListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -1092,7 +1086,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
      */
     public final void testAdaptUnfilteredItemsWhenNotMatchingItemIsAdded() {
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractFilterableListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -1124,7 +1118,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
      */
     public final void testAdaptUnfilteredItemsWhenItemIsRemoved() {
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractFilterableListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -1157,7 +1151,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
      */
     public final void testAdaptUnfilteredItemsWhenDuplicateItemIsRemoved() {
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractFilterableListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), true, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -1191,7 +1185,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
      */
     public final void testAdaptUnfilteredItemWhenItemIsEnabled() {
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractFilterableListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), true, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -1222,7 +1216,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
      */
     public final void testAdaptUnfilteredItemWhenItemIsDisabled() {
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractFilterableListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), true, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -1252,7 +1246,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
      */
     public final void testAdaptUnfilteredItemWhenItemStateChanged() {
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractFilterableListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), true, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -1286,7 +1280,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         String query = "querystring";
         int flags = 1;
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractFilterableListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -1316,7 +1310,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         FilterableImplementation item1 = new FilterableImplementation("abcdef");
         FilterableImplementation item2 = new FilterableImplementation("abcquerystringdef");
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractFilterableListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -1355,7 +1349,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
      */
     public final void testHashCode() {
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter1 =
-                new AbstractFilterableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractFilterableListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -1367,7 +1361,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
                         new LinkedHashSet<ListFilterListener<FilterableImplementation>>(),
                         new LinkedHashSet<AppliedFilter<FilterableImplementation>>());
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter2 =
-                new AbstractFilterableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractFilterableListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -1398,7 +1392,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
      */
     public final void testEquals() {
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter1 =
-                new AbstractFilterableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractFilterableListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -1410,7 +1404,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
                         new LinkedHashSet<ListFilterListener<FilterableImplementation>>(),
                         new LinkedHashSet<AppliedFilter<FilterableImplementation>>());
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter2 =
-                new AbstractFilterableListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractFilterableListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),

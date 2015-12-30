@@ -34,7 +34,7 @@ public class MultipleChoiceListAdapterFragment
     @Override
     protected final MultipleChoiceListAdapter<Contact> createAdapter() {
         return AdapterFactory.createMultipleChoiceListAdapter(getActivity(),
-                new SelectableListAdapterDecorator(), R.layout.contact_item);
+                new SelectableListAdapterDecorator());
     }
 
     @Override

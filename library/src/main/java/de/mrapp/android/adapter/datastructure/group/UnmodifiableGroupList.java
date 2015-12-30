@@ -63,14 +63,14 @@ public class UnmodifiableGroupList<GroupType, ChildType>
 
     @Override
     public final ListIterator<GroupType> listIterator() {
-        return new GroupListIterator<>(getEncapsulatedList().listIterator(), null, null);
+        return new GroupListIterator<>(getEncapsulatedList().listIterator(), null);
 
     }
 
     @Override
     @NonNull
     public final ListIterator<GroupType> listIterator(final int location) {
-        return new GroupListIterator<>(getEncapsulatedList().listIterator(location), null, null);
+        return new GroupListIterator<>(getEncapsulatedList().listIterator(location), null);
     }
 
 }

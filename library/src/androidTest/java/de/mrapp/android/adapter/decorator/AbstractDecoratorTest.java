@@ -20,7 +20,6 @@ import android.view.View;
 import junit.framework.Assert;
 
 import de.mrapp.android.adapter.R;
-import de.mrapp.android.adapter.inflater.InflaterFactory;
 
 /**
  * Tests the functionality of the class {@link AbstractDecorator}.
@@ -43,16 +42,14 @@ public class AbstractDecoratorTest extends AndroidTestCase {
      */
     public final void testGetView() {
         AbstractDecorator abstractDecorator = new AbstractDecoratorImplementation();
-        View parentView1 =
-                InflaterFactory.createInflater(R.layout.view).inflate(getContext(), null, false);
+        View parentView1 = View.inflate(getContext(), R.layout.view, null);
         abstractDecorator.setCurrentParentView(parentView1);
         View view1 = abstractDecorator.getView(R.id.id);
         assertNotNull(view1);
         View view2 = abstractDecorator.getView(R.id.id);
         assertNotNull(view2);
         assertSame(view1, view2);
-        View parentView2 =
-                InflaterFactory.createInflater(R.layout.view).inflate(getContext(), null, false);
+        View parentView2 = View.inflate(getContext(), R.layout.view, null);
         abstractDecorator.setCurrentParentView(parentView2);
         View view3 = abstractDecorator.getView(R.id.id);
         assertNotNull(view3);

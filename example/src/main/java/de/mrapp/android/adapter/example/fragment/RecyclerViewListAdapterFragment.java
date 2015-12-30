@@ -36,8 +36,7 @@ public class RecyclerViewListAdapterFragment
 
     @Override
     protected ListAdapter<Contact> createAdapter() {
-        return AdapterFactory.createListAdapter(getActivity(), new ListAdapterDecorator(),
-                R.layout.contact_item);
+        return AdapterFactory.createListAdapter(getActivity(), new ListAdapterDecorator());
     }
 
     @Override

@@ -41,8 +41,6 @@ import de.mrapp.android.adapter.ListDecorator;
 import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.R;
 import de.mrapp.android.adapter.datastructure.item.Item;
-import de.mrapp.android.adapter.inflater.Inflater;
-import de.mrapp.android.adapter.inflater.InflaterFactory;
 import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
 import de.mrapp.android.adapter.list.ListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.list.ListAdapterListener;
@@ -87,10 +85,6 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
          * @param context
          *         The context, the adapter should belong to, as an instance of the class {@link
          *         Context}. The context may not be null
-         * @param inflater
-         *         The inflater, which should be used to inflate the views, which are used to
-         *         visualize the adapter's items, as an instance of the type {@link Inflater}. The
-         *         inflater may not be null
          * @param decorator
          *         The decorator, which should be used to customize the appearance of the views,
          *         which are used to visualize the items of the adapter, as an instance of the
@@ -133,7 +127,6 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
          *         an item has been changed or an empty set, if no listeners should be notified
          */
         protected AbstractItemStateListAdapterImplementation(final Context context,
-                                                             final Inflater inflater,
                                                              final ListDecorator<Object> decorator,
                                                              final LogLevel logLevel,
                                                              final ArrayList<Item<Object>> items,
@@ -146,7 +139,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
                                                              final int numberOfItemStates,
                                                              final boolean triggerItemStateOnClick,
                                                              final Set<ListItemStateListener<Object>> itemStateListeners) {
-            super(context, inflater, decorator, logLevel, items, allowDuplicates, notifyOnChange,
+            super(context, decorator, logLevel, items, allowDuplicates, notifyOnChange,
                     itemClickListeners, itemLongClickListeners, adapterListeners,
                     enableStateListeners, numberOfItemStates, triggerItemStateOnClick,
                     itemStateListeners);
@@ -282,7 +275,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         boolean triggerItemStateOnClick = true;
         Set<ListItemStateListener<Object>> itemStateListeners = new LinkedHashSet<>();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -302,7 +295,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
      */
     public final void testConstructorThrowsExceptionWhenItemStateListenersIsNull() {
         try {
-            new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+            new AbstractItemStateListAdapterImplementation(getContext(),
                     new ListDecoratorImplementation(), LogLevel.ALL, new ArrayList<Item<Object>>(),
                     false, true, new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                     new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
@@ -319,7 +312,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
      */
     public final void testConstructorThrowsExceptionWhenNumberOfItemStatesIsLessThanOne() {
         try {
-            new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+            new AbstractItemStateListAdapterImplementation(getContext(),
                     new ListDecoratorImplementation(), LogLevel.ALL, new ArrayList<Item<Object>>(),
                     false, true, new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                     new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
@@ -341,7 +334,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -373,7 +366,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         try {
             AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
                     new AbstractItemStateListAdapterImplementation(getContext(),
-                            mock(Inflater.class), new ListDecoratorImplementation(), LogLevel.ALL,
+                            new ListDecoratorImplementation(), LogLevel.ALL,
                             new ArrayList<Item<Object>>(), false, true,
                             new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                             new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
@@ -392,7 +385,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
      */
     public final void testMinItemState() {
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -408,7 +401,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
      */
     public final void testMaxItemState() {
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -429,7 +422,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         Object item1 = new Object();
         Object item2 = new Object();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -452,7 +445,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         try {
             AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
                     new AbstractItemStateListAdapterImplementation(getContext(),
-                            mock(Inflater.class), new ListDecoratorImplementation(), LogLevel.ALL,
+                            new ListDecoratorImplementation(), LogLevel.ALL,
                             new ArrayList<Item<Object>>(), false, true,
                             new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                             new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
@@ -474,7 +467,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         Object item1 = new Object();
         Object item2 = new Object();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -497,7 +490,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         try {
             AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
                     new AbstractItemStateListAdapterImplementation(getContext(),
-                            mock(Inflater.class), new ListDecoratorImplementation(), LogLevel.ALL,
+                            new ListDecoratorImplementation(), LogLevel.ALL,
                             new ArrayList<Item<Object>>(), false, true,
                             new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                             new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
@@ -519,7 +512,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         try {
             AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
                     new AbstractItemStateListAdapterImplementation(getContext(),
-                            mock(Inflater.class), new ListDecoratorImplementation(), LogLevel.ALL,
+                            new ListDecoratorImplementation(), LogLevel.ALL,
                             new ArrayList<Item<Object>>(), false, true,
                             new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                             new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
@@ -543,7 +536,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -573,7 +566,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -604,7 +597,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -633,7 +626,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         try {
             AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
                     new AbstractItemStateListAdapterImplementation(getContext(),
-                            mock(Inflater.class), new ListDecoratorImplementation(), LogLevel.ALL,
+                            new ListDecoratorImplementation(), LogLevel.ALL,
                             new ArrayList<Item<Object>>(), false, true,
                             new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                             new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
@@ -655,7 +648,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         try {
             AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
                     new AbstractItemStateListAdapterImplementation(getContext(),
-                            mock(Inflater.class), new ListDecoratorImplementation(), LogLevel.ALL,
+                            new ListDecoratorImplementation(), LogLevel.ALL,
                             new ArrayList<Item<Object>>(), false, true,
                             new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                             new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
@@ -679,7 +672,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         try {
             AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
                     new AbstractItemStateListAdapterImplementation(getContext(),
-                            mock(Inflater.class), new ListDecoratorImplementation(), LogLevel.ALL,
+                            new ListDecoratorImplementation(), LogLevel.ALL,
                             new ArrayList<Item<Object>>(), false, true,
                             new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                             new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
@@ -703,7 +696,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -733,7 +726,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -764,7 +757,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -793,7 +786,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         try {
             AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
                     new AbstractItemStateListAdapterImplementation(getContext(),
-                            mock(Inflater.class), new ListDecoratorImplementation(), LogLevel.ALL,
+                            new ListDecoratorImplementation(), LogLevel.ALL,
                             new ArrayList<Item<Object>>(), false, true,
                             new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                             new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
@@ -816,7 +809,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
             Object item = new Object();
             AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
                     new AbstractItemStateListAdapterImplementation(getContext(),
-                            mock(Inflater.class), new ListDecoratorImplementation(), LogLevel.ALL,
+                            new ListDecoratorImplementation(), LogLevel.ALL,
                             new ArrayList<Item<Object>>(), false, true,
                             new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                             new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
@@ -840,7 +833,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
             Object item = new Object();
             AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
                     new AbstractItemStateListAdapterImplementation(getContext(),
-                            mock(Inflater.class), new ListDecoratorImplementation(), LogLevel.ALL,
+                            new ListDecoratorImplementation(), LogLevel.ALL,
                             new ArrayList<Item<Object>>(), false, true,
                             new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                             new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
@@ -866,7 +859,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -901,7 +894,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -934,7 +927,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         try {
             AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
                     new AbstractItemStateListAdapterImplementation(getContext(),
-                            mock(Inflater.class), new ListDecoratorImplementation(), LogLevel.ALL,
+                            new ListDecoratorImplementation(), LogLevel.ALL,
                             new ArrayList<Item<Object>>(), false, true,
                             new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                             new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
@@ -957,7 +950,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         try {
             AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
                     new AbstractItemStateListAdapterImplementation(getContext(),
-                            mock(Inflater.class), new ListDecoratorImplementation(), LogLevel.ALL,
+                            new ListDecoratorImplementation(), LogLevel.ALL,
                             new ArrayList<Item<Object>>(), false, true,
                             new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                             new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
@@ -981,7 +974,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1011,7 +1004,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1042,7 +1035,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1071,7 +1064,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         try {
             AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
                     new AbstractItemStateListAdapterImplementation(getContext(),
-                            mock(Inflater.class), new ListDecoratorImplementation(), LogLevel.ALL,
+                            new ListDecoratorImplementation(), LogLevel.ALL,
                             new ArrayList<Item<Object>>(), false, true,
                             new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                             new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
@@ -1095,7 +1088,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1125,7 +1118,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1157,7 +1150,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1186,7 +1179,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         try {
             AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
                     new AbstractItemStateListAdapterImplementation(getContext(),
-                            mock(Inflater.class), new ListDecoratorImplementation(), LogLevel.ALL,
+                            new ListDecoratorImplementation(), LogLevel.ALL,
                             new ArrayList<Item<Object>>(), false, true,
                             new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                             new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
@@ -1208,7 +1201,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         try {
             AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
                     new AbstractItemStateListAdapterImplementation(getContext(),
-                            mock(Inflater.class), new ListDecoratorImplementation(), LogLevel.ALL,
+                            new ListDecoratorImplementation(), LogLevel.ALL,
                             new ArrayList<Item<Object>>(), false, true,
                             new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                             new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
@@ -1232,7 +1225,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1269,7 +1262,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1302,7 +1295,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         Object item1 = new Object();
         Object item2 = new Object();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1323,7 +1316,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         Object item1 = new Object();
         Object item2 = new Object();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1342,7 +1335,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
      */
     public final void testGetFirstIndexWithSpecificStateWhenAdapterIsEmpty() {
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1361,7 +1354,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         Object item1 = new Object();
         Object item2 = new Object();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1382,7 +1375,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         Object item1 = new Object();
         Object item2 = new Object();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1401,7 +1394,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
      */
     public final void testGetFirstItemWithSpecificStateWhenAdapterIsEmpty() {
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1420,7 +1413,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         Object item1 = new Object();
         Object item2 = new Object();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1441,7 +1434,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         Object item1 = new Object();
         Object item2 = new Object();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1460,7 +1453,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
      */
     public final void testGetLastIndexWithSpecificStateWhenAdapterIsEmpty() {
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1479,7 +1472,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         Object item1 = new Object();
         Object item2 = new Object();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1500,7 +1493,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         Object item1 = new Object();
         Object item2 = new Object();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1519,7 +1512,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
      */
     public final void testGetLastItemWithSpecificStateWhenAdapterIsEmpty() {
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1539,7 +1532,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         Object item2 = new Object();
         Object item3 = new Object();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1565,7 +1558,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
     public final void testGetIndicesWithSpecificStateWhenNoItemHasState() {
         Object item = new Object();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1584,7 +1577,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
      */
     public final void testGetIndicesWithSpecificStateWhenAdapterIsEmpty() {
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1605,7 +1598,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         Object item2 = new Object();
         Object item3 = new Object();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1631,7 +1624,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
     public final void testGetItemsWithSpecificStateWhenNoItemHasState() {
         Object item = new Object();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1650,7 +1643,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
      */
     public final void testGetItemsWithSpecificStateWhenAdapterIsEmpty() {
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1671,7 +1664,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         Object item2 = new Object();
         Object item3 = new Object();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1693,7 +1686,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
     public final void testGetItemStateCountWhenNotItemHasState() {
         Object item1 = new Object();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1711,7 +1704,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
      */
     public final void testGetItemStateCountWhenAdapterIsEmpty() {
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1729,11 +1722,10 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
     @SuppressWarnings("unchecked")
     public final void testTriggerItemStateOnClick() {
         Object item = new Object();
-        Inflater inflater = InflaterFactory.createInflater(R.layout.view);
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> itemStateListener = mock(ListItemStateListener.class);
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), inflater,
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1765,7 +1757,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
     @SuppressWarnings("unchecked")
     public final void testAddItemStateListener() {
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1790,7 +1782,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         try {
             AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
                     new AbstractItemStateListAdapterImplementation(getContext(),
-                            mock(Inflater.class), new ListDecoratorImplementation(), LogLevel.ALL,
+                            new ListDecoratorImplementation(), LogLevel.ALL,
                             new ArrayList<Item<Object>>(), false, true,
                             new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                             new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
@@ -1812,7 +1804,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
     public final void testRemoveItemStateListener() {
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1835,7 +1827,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         int numberOfItemStates = 2;
         boolean triggerItemStateOnClick = true;
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1859,7 +1851,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
      */
     public final void testOnRestoreInstanceState() {
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1887,7 +1879,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
      */
     public final void testHashCode() {
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter1 =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1896,7 +1888,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
                         new LinkedHashSet<ListEnableStateListener<Object>>(), 1, false,
                         new LinkedHashSet<ListItemStateListener<Object>>());
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter2 =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1930,7 +1922,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
      */
     public final void testEquals() {
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter1 =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1939,7 +1931,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
                         new LinkedHashSet<ListEnableStateListener<Object>>(), 1, false,
                         new LinkedHashSet<ListItemStateListener<Object>>());
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter2 =
-                new AbstractItemStateListAdapterImplementation(getContext(), mock(Inflater.class),
+                new AbstractItemStateListAdapterImplementation(getContext(),
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),

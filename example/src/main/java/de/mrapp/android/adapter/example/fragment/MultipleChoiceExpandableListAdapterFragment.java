@@ -43,8 +43,7 @@ public class MultipleChoiceExpandableListAdapterFragment extends
         ChoiceMode choiceMode = choiceModeValue == 0 ? ChoiceMode.GROUPS_AND_CHILDREN :
                 (choiceModeValue == 1 ? ChoiceMode.GROUPS_ONLY : ChoiceMode.CHILDREN_ONLY);
         return AdapterFactory.createMultipleChoiceExpandableListAdapter(getActivity(),
-                new SelectableExpandableListAdapterDecorator(), R.layout.country_item,
-                R.layout.contact_item, choiceMode);
+                new SelectableExpandableListAdapterDecorator(), choiceMode);
     }
 
     @Override

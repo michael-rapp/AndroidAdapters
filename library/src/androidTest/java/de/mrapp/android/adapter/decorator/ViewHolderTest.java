@@ -18,7 +18,6 @@ import android.test.AndroidTestCase;
 import android.view.View;
 
 import de.mrapp.android.adapter.R;
-import de.mrapp.android.adapter.inflater.InflaterFactory;
 
 /**
  * Tests the functionality of the class {@link ViewHolder}.
@@ -32,10 +31,8 @@ public class ViewHolderTest extends AndroidTestCase {
      * provided by the view holder.
      */
     public final void testGetViewIfViewHolderDoesNotProvideView() {
-        View parentView1 =
-                InflaterFactory.createInflater(R.layout.view).inflate(getContext(), null, false);
-        View parentView2 =
-                InflaterFactory.createInflater(R.layout.view2).inflate(getContext(), null, false);
+        View parentView1 = View.inflate(getContext(), R.layout.view, null);
+        View parentView2 = View.inflate(getContext(), R.layout.view2, null);
         ViewHolder viewHolder1 = new ViewHolder(parentView1);
         ViewHolder viewHolder2 = new ViewHolder(parentView2);
         View view1 = viewHolder1.getView(R.id.id, 0);
@@ -50,8 +47,7 @@ public class ViewHolderTest extends AndroidTestCase {
      * the view holder.
      */
     public final void testGetViewIfViewHolderDoesProvideView() {
-        View parentView =
-                InflaterFactory.createInflater(R.layout.view).inflate(getContext(), null, false);
+        View parentView = View.inflate(getContext(), R.layout.view, null);
         ViewHolder viewHolder = new ViewHolder(parentView);
         View view1 = viewHolder.getView(R.id.id, 0);
         View view2 = viewHolder.getView(R.id.id, 0);

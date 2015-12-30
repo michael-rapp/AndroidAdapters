@@ -36,8 +36,6 @@ import de.mrapp.android.adapter.R;
 import de.mrapp.android.adapter.SelectableListDecorator;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.item.Item;
-import de.mrapp.android.adapter.inflater.Inflater;
-import de.mrapp.android.adapter.inflater.InflaterFactory;
 import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
 import de.mrapp.android.adapter.list.ListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.list.ListAdapterListener;
@@ -125,7 +123,6 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
      */
     public final void testProtectedConstructor() {
         Context context = getContext();
-        Inflater inflater = mock(Inflater.class);
         SelectableListDecorator<Object> decorator = new SelectableListDecoratorImplementation();
         ArrayList<Item<Object>> items = new ArrayList<>();
         boolean allowDuplicates = true;
@@ -145,12 +142,12 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         Set<ListSelectionListener<Object>> selectionListeners = new LinkedHashSet<>();
         boolean adaptSelectionAutomatically = false;
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(context, inflater, decorator,
-                        LogLevel.ALL, items, allowDuplicates, notifyOnChange, itemClickListeners,
-                        itemLongClickListeners, adapterListeners, enableStateListeners,
-                        numberOfItemStates, triggerItemStateOnClick, itemStateListeners,
-                        sortingListeners, filterListeners, appliedFilters, selectItemOnClick,
-                        selectionListeners, adaptSelectionAutomatically);
+                new SingleChoiceListAdapterImplementation<>(context, decorator, LogLevel.ALL, items,
+                        allowDuplicates, notifyOnChange, itemClickListeners, itemLongClickListeners,
+                        adapterListeners, enableStateListeners, numberOfItemStates,
+                        triggerItemStateOnClick, itemStateListeners, sortingListeners,
+                        filterListeners, appliedFilters, selectItemOnClick, selectionListeners,
+                        adaptSelectionAutomatically);
         assertEquals(allowDuplicates, singleChoiceListAdapterImplementation.areDuplicatesAllowed());
         assertEquals(notifyOnChange, singleChoiceListAdapterImplementation.isNotifiedOnChange());
         assertEquals(numberOfItemStates,
@@ -170,9 +167,8 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
      */
     public final void testPublicConstructor() {
         Context context = getContext();
-        Inflater inflater = mock(Inflater.class);
         SelectableListDecorator<Object> decorator = new SelectableListDecoratorImplementation();
-        new SingleChoiceListAdapterImplementation<>(context, inflater, decorator);
+        new SingleChoiceListAdapterImplementation<>(context, decorator);
     }
 
     /**
@@ -183,7 +179,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         Object item1 = new Object();
         Object item2 = new Object();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new SingleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.addItem(item1);
         singleChoiceListAdapterImplementation.addItem(item2);
@@ -197,7 +193,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
      */
     public final void testGetSelectedIndexWhenAdapterIsEmpty() {
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new SingleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         assertEquals(-1, singleChoiceListAdapterImplementation.getSelectedIndex());
     }
@@ -209,7 +205,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
     public final void testGetSelectedIndexWhenAllItemsAreDisabled() {
         Object item = new Object();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new SingleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.addItem(item);
         singleChoiceListAdapterImplementation.setEnabled(item, false);
@@ -223,7 +219,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         Object item1 = new Object();
         Object item2 = new Object();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new SingleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.addItem(item1);
         singleChoiceListAdapterImplementation.addItem(item2);
@@ -237,7 +233,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
      */
     public final void testGetSelectedItemWhenAdapterIsEmpty() {
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new SingleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         assertNull(singleChoiceListAdapterImplementation.getSelectedItem());
     }
@@ -249,7 +245,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
     public final void testGetSelectedWhenNoItemIsEnabled() {
         Object item = new Object();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new SingleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.addItem(item);
         singleChoiceListAdapterImplementation.setEnabled(item, false);
@@ -267,7 +263,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new SingleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         singleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -294,7 +290,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new SingleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         singleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -319,7 +315,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new SingleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         singleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -344,7 +340,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
     public final void testSelectByIndexThrowsExceptionWhenIndexIsInvalid() {
         try {
             SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                    new SingleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                    new SingleChoiceListAdapterImplementation<>(getContext(),
                             new SelectableListDecoratorImplementation());
             singleChoiceListAdapterImplementation.select(-1);
             Assert.fail();
@@ -363,7 +359,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new SingleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         singleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -390,7 +386,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new SingleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         singleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -415,7 +411,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new SingleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         singleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -440,7 +436,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
     public final void testSelectThrowsExceptionWhenItemIsNull() {
         try {
             SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                    new SingleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                    new SingleChoiceListAdapterImplementation<>(getContext(),
                             new SelectableListDecoratorImplementation());
             singleChoiceListAdapterImplementation.select(null);
             Assert.fail();
@@ -456,7 +452,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
     public final void testSelectThrowsExceptionWhenAdapterDoesNotContainItem() {
         try {
             SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                    new SingleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                    new SingleChoiceListAdapterImplementation<>(getContext(),
                             new SelectableListDecoratorImplementation());
             singleChoiceListAdapterImplementation.select(new Object());
             Assert.fail();
@@ -472,7 +468,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
     public final void testAdaptSelectionAutomatically() {
         boolean adaptSelectionAutomatically = false;
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new SingleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation
                 .adaptSelectionAutomatically(adaptSelectionAutomatically);
@@ -489,7 +485,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new SingleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         singleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -512,7 +508,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new SingleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         singleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -540,7 +536,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new SingleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         singleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -564,7 +560,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
     public final void testSelectionIsAdaptedWhenSelectedItemIsRemovedAndNoOtherItemExists() {
         Object item = new Object();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new SingleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.addItem(item);
         singleChoiceListAdapterImplementation.removeItem(item);
@@ -580,7 +576,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         Object item2 = new Object();
         Object item3 = new Object();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new SingleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.addItem(item1);
         singleChoiceListAdapterImplementation.addItem(item2);
@@ -601,7 +597,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new SingleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         singleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -628,7 +624,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new SingleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         singleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -658,7 +654,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new SingleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         singleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -687,7 +683,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new SingleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         singleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -712,7 +708,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new SingleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         singleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -734,7 +730,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
      */
     public final void testAdaptUnfilteredItemsWhenItemIsSelected() {
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new SingleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         FilterableImplementation item1 = new FilterableImplementation("cdefghij");
         FilterableImplementation item2 = new FilterableImplementation("bcquerystringdef");
@@ -755,7 +751,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
      */
     public final void testAdaptUnfilteredItemsWhenDuplicateItemIsSelected() {
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new SingleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.allowDuplicates(true);
         FilterableImplementation item1 = new FilterableImplementation("cdefghij");
@@ -777,7 +773,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
      */
     public final void testAdaptSelectionWhenSelectedItemIsFiltered() {
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new SingleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.allowDuplicates(true);
         FilterableImplementation item1 = new FilterableImplementation("cdefghij");
@@ -796,7 +792,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
      */
     public final void testAdaptSelectionWhenAllItemsAreFiltered() {
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new SingleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.allowDuplicates(true);
         FilterableImplementation item1 = new FilterableImplementation("cdefghij");
@@ -820,11 +816,10 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         Object item1 = new Object();
         Object item2 = new Object();
         Context context = getContext();
-        Inflater inflater = InflaterFactory.createInflater(R.layout.view);
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(context, inflater,
+                new SingleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.selectItemOnClick(false);
         singleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
@@ -874,7 +869,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         boolean adaptSelectionAutomatically = false;
         Bundle parameters = new Bundle();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(), mock(Inflater.class),
+                new SingleChoiceListAdapterImplementation<>(getContext(),
                         new SelectableListDecoratorImplementation(), logLevel, items,
                         allowDuplicates, notifyOnchange, itemClickListeners, itemLongClickListeners,
                         adapterListeners, enableStateListeners, numberOfItemStates,
@@ -900,7 +895,6 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
      */
     public final void testClone() throws CloneNotSupportedException {
         Context context = getContext();
-        Inflater inflater = mock(Inflater.class);
         SelectableListDecorator<Object> decorator = new SelectableListDecoratorImplementation();
         ArrayList<Item<Object>> items = new ArrayList<>();
         boolean allowDuplicates = true;
@@ -920,12 +914,12 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         Set<ListFilterListener<Object>> filterListeners = new LinkedHashSet<>();
         LinkedHashSet<AppliedFilter<Object>> appliedFilters = new LinkedHashSet<>();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(context, inflater, decorator,
-                        LogLevel.ALL, items, allowDuplicates, notifyOnChange, itemClickListeners,
-                        itemLongClickListeners, adapterListeners, enableStateListeners,
-                        numberOfItemStates, triggerItemStateOnClick, itemStateListeners,
-                        sortingListeners, filterListeners, appliedFilters, selectItemOnClick,
-                        selectionListeners, adaptSelectionAutomatically);
+                new SingleChoiceListAdapterImplementation<>(context, decorator, LogLevel.ALL, items,
+                        allowDuplicates, notifyOnChange, itemClickListeners, itemLongClickListeners,
+                        adapterListeners, enableStateListeners, numberOfItemStates,
+                        triggerItemStateOnClick, itemStateListeners, sortingListeners,
+                        filterListeners, appliedFilters, selectItemOnClick, selectionListeners,
+                        adaptSelectionAutomatically);
         SingleChoiceListAdapterImplementation<Object> clonedSingleChoiceListAdapterImplementation =
                 singleChoiceListAdapterImplementation.clone();
         assertEquals(allowDuplicates,

@@ -173,140 +173,67 @@ public class AdapterFactoryTest extends AndroidTestCase {
 
     /**
      * Tests the functionality of the method, which allows to create an instance of the type {@link
-     * ListAdapter}, whose items are visualized using a specific view resource.
+     * ListAdapter}.
      */
-    public final void testCreateListAdapterWithViewIdParameter() {
-        ListAdapter<Object> listAdapter = AdapterFactory
-                .createListAdapter(getContext(), new ListDecoratorImplementation(), R.layout.view);
+    public final void testCreateListAdapter() {
+        ListAdapter<Object> listAdapter =
+                AdapterFactory.createListAdapter(getContext(), new ListDecoratorImplementation());
         assertNotNull(listAdapter);
     }
 
     /**
      * Tests the functionality of the method, which allows to create an instance of the type {@link
-     * ListAdapter}, whose items are visualized using a specific view.
+     * SingleChoiceListAdapter}.
      */
-    public final void testCreateListAdapterWithViewParameter() {
-        ListAdapter<Object> listAdapter = AdapterFactory
-                .createListAdapter(getContext(), new ListDecoratorImplementation(),
-                        new View(getContext()));
-        assertNotNull(listAdapter);
-    }
-
-    /**
-     * Tests the functionality of the method, which allows to create an instance of the type {@link
-     * SingleChoiceListAdapter}, whose items are visualized using a specific view resource.
-     */
-    public final void testCreateSingleChoiceListAdapterWithViewIdParameter() {
+    public final void testCreateSingleChoiceListAdapter() {
         SingleChoiceListAdapter<Object> singleChoiceListAdapter = AdapterFactory
                 .createSingleChoiceListAdapter(getContext(),
-                        new SelectableListDecoratorImplementation(), R.layout.view);
+                        new SelectableListDecoratorImplementation());
         assertNotNull(singleChoiceListAdapter);
     }
 
     /**
      * Tests the functionality of the method, which allows to create an instance of the type {@link
-     * SingleChoiceListAdapter}, whose items are visualized using a specific view.
+     * MultipleChoiceListAdapter}.
      */
-    public final void testCreateSingleChoiceListAdapterWithViewParameter() {
-        SingleChoiceListAdapter<Object> singleChoiceListAdapter = AdapterFactory
-                .createSingleChoiceListAdapter(getContext(),
-                        new SelectableListDecoratorImplementation(), new View(getContext()));
-        assertNotNull(singleChoiceListAdapter);
-    }
-
-    /**
-     * Tests the functionality of the method, which allows to create an instance of the type {@link
-     * MultipleChoiceListAdapter}, whose items are visualized using a specific view resource.
-     */
-    public final void testCreateMultipleChoiceListAdapterWithViewIdParameter() {
+    public final void testCreateMultipleChoiceListAdapter() {
         MultipleChoiceListAdapter<Object> multipleChoiceListAdapter = AdapterFactory
                 .createMultipleChoiceListAdapter(getContext(),
-                        new SelectableListDecoratorImplementation(), R.layout.view);
+                        new SelectableListDecoratorImplementation());
         assertNotNull(multipleChoiceListAdapter);
     }
 
     /**
      * Tests the functionality of the method, which allows to create an instance of the type {@link
-     * MultipleChoiceListAdapter}, whose items are visualized using a specific view.
+     * ExpandableListAdapter}.
      */
-    public final void testCreateMultipleChoiceListAdapterWithViewParameter() {
-        MultipleChoiceListAdapter<Object> multipleChoiceListAdapter = AdapterFactory
-                .createMultipleChoiceListAdapter(getContext(),
-                        new SelectableListDecoratorImplementation(), new View(getContext()));
-        assertNotNull(multipleChoiceListAdapter);
-    }
-
-    /**
-     * Tests the functionality of the method, which allows to create an instance of the type {@link
-     * ExpandableListAdapter}, whose items are visualized using specific view resources.
-     */
-    public final void testCreateExpandableListAdapterWithViewIdParameters() {
+    public final void testCreateExpandableListAdapter() {
         ExpandableListAdapter<Object, Object> expandableListAdapter = AdapterFactory
                 .createExpandableListAdapter(getContext(),
-                        new ExpandableListDecoratorImplementation(), R.layout.view, R.layout.view);
+                        new ExpandableListDecoratorImplementation());
         assertNotNull(expandableListAdapter);
     }
 
     /**
      * Tests the functionality of the method, which allows to create an instance of the type {@link
-     * ExpandableListAdapter}, whose items are visualized using specific views.
+     * SingleChoiceExpandableListAdapter}.
      */
-    public final void testCreateExpandableListAdapterWithViewParameters() {
-        ExpandableListAdapter<Object, Object> expandableListAdapter = AdapterFactory
-                .createExpandableListAdapter(getContext(),
-                        new ExpandableListDecoratorImplementation(), new View(getContext()),
-                        new View(getContext()));
-        assertNotNull(expandableListAdapter);
-    }
-
-    /**
-     * Tests the functionality of the method, which allows to create an instance of the type {@link
-     * SingleChoiceExpandableListAdapter}, whose items are visualized using specific view
-     * resources.
-     */
-    public final void testCreateSingleChoiceExpandableListAdapterWithViewIdParameters() {
-        SingleChoiceExpandableListAdapter<Object, Object> singleChoiceExpandableListAdapter =
-                AdapterFactory.createSingleChoiceExpandableListAdapter(getContext(),
-                        new SelectableExpandableListDecoratorImplementation(), R.layout.view,
-                        R.layout.view, ChoiceMode.GROUPS_AND_CHILDREN);
-        assertNotNull(singleChoiceExpandableListAdapter);
-    }
-
-    /**
-     * Tests the functionality of the method, which allows to create an instance of the type {@link
-     * SingleChoiceExpandableListAdapter}, whose items are visualized using specific views.
-     */
-    public final void testCreateSingleChoiceExpandableListAdapterWithViewParameters() {
+    public final void testCreateSingleChoiceExpandableListAdapter() {
         SingleChoiceExpandableListAdapter<Object, Object> singleChoiceExpandableListAdapter =
                 AdapterFactory.createSingleChoiceExpandableListAdapter(getContext(),
                         new SelectableExpandableListDecoratorImplementation(),
-                        new View(getContext()), new View(getContext()),
                         ChoiceMode.GROUPS_AND_CHILDREN);
         assertNotNull(singleChoiceExpandableListAdapter);
     }
 
     /**
      * Tests the functionality of the method, which allows to create an instance of the type {@link
-     * MultipleChoiceExpandableListAdapter}, whose items are visualized using specific view
-     * resources.
+     * MultipleChoiceExpandableListAdapter}.
      */
-    public final void testCreateMultipleChoiceExpandableListAdapterWithViewIdParameters() {
-        MultipleChoiceExpandableListAdapter<Object, Object> multipleChoiceExpandableListAdapter =
-                AdapterFactory.createMultipleChoiceExpandableListAdapter(getContext(),
-                        new SelectableExpandableListDecoratorImplementation(), R.layout.view,
-                        R.layout.view, ChoiceMode.GROUPS_AND_CHILDREN);
-        assertNotNull(multipleChoiceExpandableListAdapter);
-    }
-
-    /**
-     * Tests the functionality of the method, which allows to create an instance of the type {@link
-     * MultipleChoiceExpandableListAdapter}, whose items are visualized using specific views.
-     */
-    public final void testCreateMultipleChoiceExpandableListAdapterWithViewParameters() {
+    public final void testCreateMultipleChoiceExpandableListAdapter() {
         MultipleChoiceExpandableListAdapter<Object, Object> multipleChoiceExpandableListAdapter =
                 AdapterFactory.createMultipleChoiceExpandableListAdapter(getContext(),
                         new SelectableExpandableListDecoratorImplementation(),
-                        new View(getContext()), new View(getContext()),
                         ChoiceMode.GROUPS_AND_CHILDREN);
         assertNotNull(multipleChoiceExpandableListAdapter);
     }

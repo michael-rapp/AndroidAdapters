@@ -34,8 +34,7 @@ public class SingleChoiceListAdapterFragment
     @Override
     protected final SingleChoiceListAdapter<Contact> createAdapter() {
         return AdapterFactory
-                .createSingleChoiceListAdapter(getActivity(), new SelectableListAdapterDecorator(),
-                        R.layout.contact_item);
+                .createSingleChoiceListAdapter(getActivity(), new SelectableListAdapterDecorator());
     }
 
     @Override

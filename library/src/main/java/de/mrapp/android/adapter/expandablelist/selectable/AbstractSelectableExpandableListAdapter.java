@@ -35,7 +35,6 @@ import de.mrapp.android.adapter.expandablelist.filterable.AbstractFilterableExpa
 import de.mrapp.android.adapter.expandablelist.filterable.ExpandableListFilterListener;
 import de.mrapp.android.adapter.expandablelist.itemstate.ExpandableListItemStateListener;
 import de.mrapp.android.adapter.expandablelist.sortable.ExpandableListSortingListener;
-import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.logging.LogLevel;
 import de.mrapp.android.util.VisibleForTesting;
 
@@ -262,14 +261,6 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
      * @param context
      *         The context, the adapter belongs to, as an instance of the class {@link Context}. The
      *         context may not be null
-     * @param groupInflater
-     *         The inflater, which should be used to inflate the views, which are used to visualize
-     *         the adapter's group items, as an instance of the type {@link Inflater}. The inflater
-     *         may not be null
-     * @param childInflater
-     *         The inflater, which should be used to inflate the views, which are used to visualize
-     *         the adapter's child items, as an instance of the type {@link Inflater}. The inflater
-     *         may not be null
      * @param decorator
      *         The decorator, which should be used to customize the appearance of the views, which
      *         are used to visualize the group and child items of the adapter, as an instance of the
@@ -355,8 +346,6 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
      *         The choice mode of the adapter as a value of the enum {@link ChoiceMode}
      */
     protected AbstractSelectableExpandableListAdapter(@NonNull final Context context,
-                                                      @NonNull final Inflater groupInflater,
-                                                      @NonNull final Inflater childInflater,
                                                       @NonNull final SelectableExpandableListDecorator<GroupType, ChildType> decorator,
                                                       @NonNull final LogLevel logLevel,
                                                       @NonNull final MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter,
@@ -383,12 +372,12 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
                                                       final boolean expandGroupOnChildSelection,
                                                       @NonNull final Set<ExpandableListSelectionListener<GroupType, ChildType>> selectionListeners,
                                                       @NonNull final ChoiceMode choiceMode) {
-        super(context, groupInflater, childInflater, decorator, logLevel, groupAdapter,
-                allowDuplicateChildren, notifyOnChange, expandGroupOnClick, itemClickListeners,
-                itemLongClickListeners, adapterListeners, expansionListeners,
-                setChildEnableStatesImplicitly, enableStateListeners, numberOfGroupStates,
-                numberOfChildStates, triggerGroupStateOnClick, triggerChildStateOnClick,
-                setChildStatesImplicitly, itemStateListeners, sortingListeners, filterListeners);
+        super(context, decorator, logLevel, groupAdapter, allowDuplicateChildren, notifyOnChange,
+                expandGroupOnClick, itemClickListeners, itemLongClickListeners, adapterListeners,
+                expansionListeners, setChildEnableStatesImplicitly, enableStateListeners,
+                numberOfGroupStates, numberOfChildStates, triggerGroupStateOnClick,
+                triggerChildStateOnClick, setChildStatesImplicitly, itemStateListeners,
+                sortingListeners, filterListeners);
         ensureNotNull(choiceMode, "The choice mode may not be null");
         this.choiceMode = choiceMode;
         selectGroupOnClick(selectGroupOnClick);

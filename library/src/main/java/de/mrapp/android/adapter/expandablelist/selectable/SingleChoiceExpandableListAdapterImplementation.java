@@ -40,7 +40,6 @@ import de.mrapp.android.adapter.expandablelist.enablestate.ExpandableListEnableS
 import de.mrapp.android.adapter.expandablelist.filterable.ExpandableListFilterListener;
 import de.mrapp.android.adapter.expandablelist.itemstate.ExpandableListItemStateListener;
 import de.mrapp.android.adapter.expandablelist.sortable.ExpandableListSortingListener;
-import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.selectable.MultipleChoiceListAdapterImplementation;
 import de.mrapp.android.adapter.logging.LogLevel;
 import de.mrapp.android.util.VisibleForTesting;
@@ -447,14 +446,6 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
      * @param context
      *         The context, the adapter belongs to, as an instance of the class {@link Context}. The
      *         context may not be null
-     * @param groupInflater
-     *         The inflater, which should be used to inflate the views, which are used to visualize
-     *         the adapter's group items, as an instance of the type {@link Inflater}. The inflater
-     *         may not be null
-     * @param childInflater
-     *         The inflater, which should be used to inflate the views, which are used to visualize
-     *         the adapter's child items, as an instance of the type {@link Inflater}. The inflater
-     *         may not be null
      * @param decorator
      *         The decorator, which should be used to customize the appearance of the views, which
      *         are used to visualize the group and child items of the adapter, as an instance of the
@@ -542,8 +533,6 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
      *         True, if the adapter's selection should be automatically adapted, false otherwise
      */
     protected SingleChoiceExpandableListAdapterImplementation(@NonNull final Context context,
-                                                              @NonNull final Inflater groupInflater,
-                                                              @NonNull final Inflater childInflater,
                                                               @NonNull final SelectableExpandableListDecorator<GroupType, ChildType> decorator,
                                                               @NonNull final LogLevel logLevel,
                                                               @NonNull final MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter,
@@ -571,14 +560,14 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
                                                               @NonNull final Set<ExpandableListSelectionListener<GroupType, ChildType>> selectionListeners,
                                                               @NonNull final ChoiceMode choiceMode,
                                                               final boolean adaptSelectionAutomatically) {
-        super(context, groupInflater, childInflater, decorator, logLevel, groupAdapter,
-                allowDuplicateChildren, notifyOnChange, expandGroupOnClick, itemClickListeners,
-                itemLongClickListeners, adapterListeners, expansionListeners,
-                setChildEnableStatesImplicitly, enableStateListeners, numberOfGroupStates,
-                numberOfChildStates, triggerGroupStateOnClick, triggerChildStateOnClick,
-                setChildStatesImplicitly, itemStateListeners, sortingListeners, filterListeners,
-                selectGroupOnClick, selectChildOnClick, expandGroupOnSelection,
-                expandGroupOnChildSelection, selectionListeners, choiceMode);
+        super(context, decorator, logLevel, groupAdapter, allowDuplicateChildren, notifyOnChange,
+                expandGroupOnClick, itemClickListeners, itemLongClickListeners, adapterListeners,
+                expansionListeners, setChildEnableStatesImplicitly, enableStateListeners,
+                numberOfGroupStates, numberOfChildStates, triggerGroupStateOnClick,
+                triggerChildStateOnClick, setChildStatesImplicitly, itemStateListeners,
+                sortingListeners, filterListeners, selectGroupOnClick, selectChildOnClick,
+                expandGroupOnSelection, expandGroupOnChildSelection, selectionListeners,
+                choiceMode);
         addItemClickListener(createItemClickListener());
         addAdapterListener(createAdapterListener());
         addEnableStateListener(createEnableStateListener());
@@ -593,14 +582,6 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
      * @param context
      *         The context, the adapter belongs to, as an instance of the class {@link Context}. The
      *         context may not be null
-     * @param groupInflater
-     *         The inflater, which should be used to inflate the views, which are used to visualize
-     *         the adapter's group items, as an instance of the type {@link Inflater}. The inflater
-     *         may not be null
-     * @param childInflater
-     *         The inflater, which should be used to inflate the views, which are used to visualize
-     *         the adapter's child items, as an instance of the type {@link Inflater}. The inflater
-     *         may not be null
      * @param decorator
      *         The decorator, which should be used to customize the appearance of the views, which
      *         are used to visualize the group and child items of the adapter, as an instance of the
@@ -609,12 +590,10 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
      *         The choice mode of the adapter as a value of the enum {@link ChoiceMode}
      */
     public SingleChoiceExpandableListAdapterImplementation(@NonNull final Context context,
-                                                           @NonNull final Inflater groupInflater,
-                                                           @NonNull final Inflater childInflater,
                                                            @NonNull final SelectableExpandableListDecorator<GroupType, ChildType> decorator,
                                                            @NonNull final ChoiceMode choiceMode) {
-        this(context, groupInflater, childInflater, decorator, LogLevel.INFO,
-                new MultipleChoiceListAdapterImplementation<>(context, groupInflater,
+        this(context, decorator, LogLevel.INFO,
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new NullObjectDecorator<Group<GroupType, ChildType>>()), false, true, true,
                 new LinkedHashSet<ExpandableListAdapterItemClickListener<GroupType, ChildType>>(),
                 new LinkedHashSet<ExpandableListAdapterItemLongClickListener<GroupType, ChildType>>(),
@@ -906,17 +885,17 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
     @Override
     public final SingleChoiceExpandableListAdapterImplementation<GroupType, ChildType> clone()
             throws CloneNotSupportedException {
-        return new SingleChoiceExpandableListAdapterImplementation<>(getContext(),
-                getGroupInflater(), getChildInflater(), getDecorator(), getLogLevel(),
-                cloneGroupAdapter(), areDuplicateChildrenAllowed(), isNotifiedOnChange(),
-                isGroupExpandedOnClick(), getItemClickListeners(), getItemLongClickListeners(),
-                getAdapterListeners(), getExpansionListeners(), areChildEnableStatesSetImplicitly(),
-                getEnableStateListeners(), getNumberOfGroupStates(), getNumberOfChildStates(),
-                isGroupStateTriggeredOnClick(), isChildStateTriggeredOnClick(),
-                areChildStatesSetImplicitly(), getItemStateListeners(), getSortingListeners(),
-                getFilterListeners(), isGroupSelectedOnClick(), isChildSelectedOnClick(),
-                isGroupExpandedOnSelection(), isGroupExpandedOnChildSelection(),
-                getSelectionListeners(), getChoiceMode(), isSelectionAdaptedAutomatically());
+        return new SingleChoiceExpandableListAdapterImplementation<>(getContext(), getDecorator(),
+                getLogLevel(), cloneGroupAdapter(), areDuplicateChildrenAllowed(),
+                isNotifiedOnChange(), isGroupExpandedOnClick(), getItemClickListeners(),
+                getItemLongClickListeners(), getAdapterListeners(), getExpansionListeners(),
+                areChildEnableStatesSetImplicitly(), getEnableStateListeners(),
+                getNumberOfGroupStates(), getNumberOfChildStates(), isGroupStateTriggeredOnClick(),
+                isChildStateTriggeredOnClick(), areChildStatesSetImplicitly(),
+                getItemStateListeners(), getSortingListeners(), getFilterListeners(),
+                isGroupSelectedOnClick(), isChildSelectedOnClick(), isGroupExpandedOnSelection(),
+                isGroupExpandedOnChildSelection(), getSelectionListeners(), getChoiceMode(),
+                isSelectionAdaptedAutomatically());
     }
 
 }
