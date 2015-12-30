@@ -17,8 +17,11 @@ package de.mrapp.android.adapter.list.itemstate;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.test.AndroidTestCase;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import junit.framework.Assert;
 
@@ -254,12 +257,18 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
      */
     private class ListDecoratorImplementation extends ListDecorator<Object> {
 
+        @NonNull
         @Override
-        protected void onShowItem(@NonNull final Context context,
-                                  @NonNull final ListAdapter<Object> adapter,
-                                  @NonNull final View view, @NonNull final Object item,
-                                  final int viewType, final int index, final boolean enabled,
-                                  final int state, final boolean filtered) {
+        public View onInflateView(@NonNull final LayoutInflater inflater,
+                                  @Nullable final ViewGroup parent, final int viewType) {
+            return inflater.inflate(R.layout.view, parent, false);
+        }
+
+        @Override
+        public void onShowItem(@NonNull final Context context,
+                               @NonNull final ListAdapter<Object> adapter, @NonNull final View view,
+                               @NonNull final Object item, final int viewType, final int index,
+                               final boolean enabled, final int state, final boolean filtered) {
 
         }
 

@@ -38,6 +38,7 @@ import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemComparator;
+import de.mrapp.android.adapter.decorator.AbstractListDecorator;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
 import de.mrapp.android.adapter.list.ListAdapterItemLongClickListener;
@@ -66,7 +67,7 @@ import static de.mrapp.android.util.Condition.ensureNotNull;
  * @author Michael Rapp
  * @since 0.1.0
  */
-public abstract class AbstractFilterableListAdapter<DataType, DecoratorType>
+public abstract class AbstractFilterableListAdapter<DataType, DecoratorType extends AbstractListDecorator<DataType>>
         extends AbstractSortableListAdapter<DataType, DecoratorType>
         implements FilterableListAdapter<DataType> {
 

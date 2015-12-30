@@ -16,8 +16,11 @@ package de.mrapp.android.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.test.AndroidTestCase;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import static org.mockito.Mockito.mock;
 
@@ -100,12 +103,20 @@ public class ExpandableListDecoratorTest extends AndroidTestCase {
          */
         private boolean filtered;
 
+        @SuppressWarnings("ConstantConditions")
         @Override
-        protected void onShowGroup(@NonNull final Context context,
-                                   @NonNull final ExpandableListAdapter<Object, Object> adapter,
-                                   @NonNull final View view, @NonNull final Object group,
-                                   final int viewType, final int index, final boolean expanded,
-                                   final boolean enabled, final int state, final boolean filtered) {
+        @NonNull
+        public View onInflateGroupView(@NonNull final LayoutInflater inflater,
+                                       @Nullable final ViewGroup parent, final int groupType) {
+            return null;
+        }
+
+        @Override
+        public void onShowGroup(@NonNull final Context context,
+                                @NonNull final ExpandableListAdapter<Object, Object> adapter,
+                                @NonNull final View view, @NonNull final Object group,
+                                final int viewType, final int index, final boolean expanded,
+                                final boolean enabled, final int state, final boolean filtered) {
             this.context = context;
             this.adapter = adapter;
             this.view = view;
@@ -119,13 +130,21 @@ public class ExpandableListDecoratorTest extends AndroidTestCase {
             this.filtered = filtered;
         }
 
+        @SuppressWarnings("ConstantConditions")
         @Override
-        protected void onShowChild(@NonNull final Context context,
-                                   @NonNull final ExpandableListAdapter<Object, Object> adapter,
-                                   @NonNull final View view, @NonNull final Object child,
-                                   final int viewType, final int childIndex,
-                                   @NonNull final Object group, final int groupIndex,
-                                   final boolean enabled, final int state, final boolean filtered) {
+        @NonNull
+        public View onInflateChildView(@NonNull final LayoutInflater inflater,
+                                       @Nullable final ViewGroup parent, final int childType) {
+            return null;
+        }
+
+        @Override
+        public void onShowChild(@NonNull final Context context,
+                                @NonNull final ExpandableListAdapter<Object, Object> adapter,
+                                @NonNull final View view, @NonNull final Object child,
+                                final int viewType, final int childIndex,
+                                @NonNull final Object group, final int groupIndex,
+                                final boolean enabled, final int state, final boolean filtered) {
             this.context = context;
             this.adapter = adapter;
             this.view = view;

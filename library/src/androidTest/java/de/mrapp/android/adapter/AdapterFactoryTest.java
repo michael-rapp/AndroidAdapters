@@ -16,8 +16,11 @@ package de.mrapp.android.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.test.AndroidTestCase;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import de.mrapp.android.adapter.expandablelist.selectable.SelectableExpandableListAdapter;
 import de.mrapp.android.adapter.list.selectable.SelectableListAdapter;
@@ -35,12 +38,19 @@ public class AdapterFactoryTest extends AndroidTestCase {
      */
     private class ListDecoratorImplementation extends ListDecorator<Object> {
 
+        @SuppressWarnings("ConstantConditions")
+        @NonNull
         @Override
-        protected void onShowItem(@NonNull final Context context,
-                                  @NonNull final ListAdapter<Object> adapter,
-                                  @NonNull final View view, @NonNull final Object item,
-                                  final int viewType, final int index, final boolean enabled,
-                                  final int state, final boolean filtered) {
+        public View onInflateView(@NonNull final LayoutInflater inflater,
+                                  @Nullable final ViewGroup parent, final int viewType) {
+            return null;
+        }
+
+        @Override
+        public void onShowItem(@NonNull final Context context,
+                               @NonNull final ListAdapter<Object> adapter, @NonNull final View view,
+                               @NonNull final Object item, final int viewType, final int index,
+                               final boolean enabled, final int state, final boolean filtered) {
 
         }
 
@@ -52,12 +62,20 @@ public class AdapterFactoryTest extends AndroidTestCase {
      */
     private class SelectableListDecoratorImplementation extends SelectableListDecorator<Object> {
 
+        @SuppressWarnings("ConstantConditions")
+        @NonNull
         @Override
-        protected void onShowItem(@NonNull final Context context,
-                                  @NonNull final SelectableListAdapter<Object> adapter,
-                                  @NonNull final View view, @NonNull final Object item,
-                                  final int viewType, final int index, final boolean enabled,
-                                  final int state, final boolean filtered, final boolean selected) {
+        public View onInflateView(@NonNull final LayoutInflater inflater,
+                                  @Nullable final ViewGroup parent, final int viewType) {
+            return null;
+        }
+
+        @Override
+        public void onShowItem(@NonNull final Context context,
+                               @NonNull final SelectableListAdapter<Object> adapter,
+                               @NonNull final View view, @NonNull final Object item,
+                               final int viewType, final int index, final boolean enabled,
+                               final int state, final boolean filtered, final boolean selected) {
 
         }
 
@@ -70,22 +88,38 @@ public class AdapterFactoryTest extends AndroidTestCase {
     private class ExpandableListDecoratorImplementation
             extends ExpandableListDecorator<Object, Object> {
 
+        @SuppressWarnings("ConstantConditions")
         @Override
-        protected void onShowGroup(@NonNull final Context context,
-                                   @NonNull final ExpandableListAdapter<Object, Object> adapter,
-                                   @NonNull final View view, @NonNull final Object group,
-                                   final int viewType, final int index, final boolean expanded,
-                                   final boolean enabled, final int state, final boolean filtered) {
-
+        @NonNull
+        public View onInflateGroupView(@NonNull final LayoutInflater inflater,
+                                       @Nullable final ViewGroup parent, final int groupType) {
+            return null;
         }
 
         @Override
-        protected void onShowChild(@NonNull final Context context,
-                                   @NonNull final ExpandableListAdapter<Object, Object> adapter,
-                                   @NonNull final View view, @NonNull final Object child,
-                                   final int viewType, final int childIndex,
-                                   @NonNull final Object group, final int groupIndex,
-                                   final boolean enabled, final int state, final boolean filtered) {
+        public void onShowGroup(@NonNull final Context context,
+                                @NonNull final ExpandableListAdapter<Object, Object> adapter,
+                                @NonNull final View view, @NonNull final Object group,
+                                final int viewType, final int index, final boolean expanded,
+                                final boolean enabled, final int state, final boolean filtered) {
+
+        }
+
+        @SuppressWarnings("ConstantConditions")
+        @Override
+        @NonNull
+        public View onInflateChildView(@NonNull final LayoutInflater inflater,
+                                       @Nullable final ViewGroup parent, final int childType) {
+            return null;
+        }
+
+        @Override
+        public void onShowChild(@NonNull final Context context,
+                                @NonNull final ExpandableListAdapter<Object, Object> adapter,
+                                @NonNull final View view, @NonNull final Object child,
+                                final int viewType, final int childIndex,
+                                @NonNull final Object group, final int groupIndex,
+                                final boolean enabled, final int state, final boolean filtered) {
 
         }
 
@@ -98,24 +132,40 @@ public class AdapterFactoryTest extends AndroidTestCase {
     private class SelectableExpandableListDecoratorImplementation
             extends SelectableExpandableListDecorator<Object, Object> {
 
+        @SuppressWarnings("ConstantConditions")
         @Override
-        protected void onShowGroup(@NonNull final Context context,
-                                   @NonNull final SelectableExpandableListAdapter<Object, Object> adapter,
-                                   @NonNull final View view, @NonNull final Object group,
-                                   final int viewType, final int index, final boolean expanded,
-                                   final boolean enabled, final int state, final boolean filtered,
-                                   final boolean selected) {
-
+        @NonNull
+        public View onInflateGroupView(@NonNull final LayoutInflater inflater,
+                                       @Nullable final ViewGroup parent, final int groupType) {
+            return null;
         }
 
         @Override
-        protected void onShowChild(@NonNull final Context context,
-                                   @NonNull final SelectableExpandableListAdapter<Object, Object> adapter,
-                                   @NonNull final View view, @NonNull final Object child,
-                                   final int viewType, final int childIndex,
-                                   @NonNull final Object group, final int groupIndex,
-                                   final boolean enabled, final int state, final boolean filtered,
-                                   final boolean selected) {
+        public void onShowGroup(@NonNull final Context context,
+                                @NonNull final SelectableExpandableListAdapter<Object, Object> adapter,
+                                @NonNull final View view, @NonNull final Object group,
+                                final int viewType, final int index, final boolean expanded,
+                                final boolean enabled, final int state, final boolean filtered,
+                                final boolean selected) {
+
+        }
+
+        @SuppressWarnings("ConstantConditions")
+        @Override
+        @NonNull
+        public View onInflateChildView(@NonNull final LayoutInflater inflater,
+                                       @Nullable final ViewGroup parent, final int childType) {
+            return null;
+        }
+
+        @Override
+        public void onShowChild(@NonNull final Context context,
+                                @NonNull final SelectableExpandableListAdapter<Object, Object> adapter,
+                                @NonNull final View view, @NonNull final Object child,
+                                final int viewType, final int childIndex,
+                                @NonNull final Object group, final int groupIndex,
+                                final boolean enabled, final int state, final boolean filtered,
+                                final boolean selected) {
 
         }
 

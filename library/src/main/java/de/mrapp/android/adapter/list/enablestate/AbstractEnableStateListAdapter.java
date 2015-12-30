@@ -24,6 +24,7 @@ import java.util.Set;
 
 import de.mrapp.android.adapter.datastructure.UnmodifiableList;
 import de.mrapp.android.adapter.datastructure.item.Item;
+import de.mrapp.android.adapter.decorator.AbstractListDecorator;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.AbstractListAdapter;
 import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
@@ -46,7 +47,7 @@ import static de.mrapp.android.util.Condition.ensureNotNull;
  * @author Michael Rapp
  * @since 0.1.0
  */
-public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType>
+public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType extends AbstractListDecorator<DataType>>
         extends AbstractListAdapter<DataType, DecoratorType>
         implements EnableStateListAdapter<DataType> {
 

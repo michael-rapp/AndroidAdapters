@@ -16,7 +16,10 @@ package de.mrapp.android.adapter.expandablelist;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import de.mrapp.android.adapter.SelectableListDecorator;
 import de.mrapp.android.adapter.list.selectable.SelectableListAdapter;
@@ -32,13 +35,20 @@ import de.mrapp.android.adapter.list.selectable.SelectableListAdapter;
  */
 public class NullObjectDecorator<DataType> extends SelectableListDecorator<DataType> {
 
+    @SuppressWarnings("ConstantConditions")
+    @NonNull
     @Override
-    protected final void onShowItem(@NonNull final Context context,
-                                    @NonNull final SelectableListAdapter<DataType> adapter,
-                                    @NonNull final View view, @NonNull final DataType item,
-                                    final int viewType, final int index, final boolean enabled,
-                                    final int state, final boolean filtered,
-                                    final boolean selected) {
+    public final View onInflateView(@NonNull final LayoutInflater inflater,
+                                    @Nullable final ViewGroup parent, final int viewType) {
+        return null;
+    }
+
+    @Override
+    public final void onShowItem(@NonNull final Context context,
+                                 @NonNull final SelectableListAdapter<DataType> adapter,
+                                 @NonNull final View view, @NonNull final DataType item,
+                                 final int viewType, final int index, final boolean enabled,
+                                 final int state, final boolean filtered, final boolean selected) {
 
     }
 

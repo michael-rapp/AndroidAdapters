@@ -27,6 +27,7 @@ import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.datastructure.UnmodifiableList;
 import de.mrapp.android.adapter.datastructure.group.Group;
 import de.mrapp.android.adapter.datastructure.group.UnmodifiableGroupList;
+import de.mrapp.android.adapter.decorator.AbstractExpandableListDecorator;
 import de.mrapp.android.adapter.expandablelist.AbstractExpandableListAdapter;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemClickListener;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemLongClickListener;
@@ -53,7 +54,7 @@ import static de.mrapp.android.util.Condition.ensureNotNull;
  * @author Michael Rapp
  * @since 0.1.0
  */
-public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildType, DecoratorType>
+public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildType, DecoratorType extends AbstractExpandableListDecorator<GroupType, ChildType>>
         extends AbstractExpandableListAdapter<GroupType, ChildType, DecoratorType>
         implements EnableStateExpandableListAdapter<GroupType, ChildType> {
 

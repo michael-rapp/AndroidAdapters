@@ -16,8 +16,11 @@ package de.mrapp.android.adapter.example.decorator;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -176,14 +179,21 @@ public class SelectableExpandableListAdapterDecorator
         };
     }
 
+    @NonNull
+    @Override
+    public final View onInflateGroupView(@NonNull final LayoutInflater inflater,
+                                         @Nullable final ViewGroup parent, final int groupType) {
+        return inflater.inflate(R.layout.country_item, parent, false);
+    }
+
     @Override
     @SuppressWarnings("deprecation")
-    protected final void onShowGroup(@NonNull final Context context,
-                                     @NonNull final SelectableExpandableListAdapter<Country, Contact> adapter,
-                                     @NonNull final View view, @NonNull final Country group,
-                                     final int viewType, final int index, final boolean expanded,
-                                     final boolean enabled, final int state, final boolean filtered,
-                                     final boolean selected) {
+    public final void onShowGroup(@NonNull final Context context,
+                                  @NonNull final SelectableExpandableListAdapter<Country, Contact> adapter,
+                                  @NonNull final View view, @NonNull final Country group,
+                                  final int viewType, final int index, final boolean expanded,
+                                  final boolean enabled, final int state, final boolean filtered,
+                                  final boolean selected) {
         if (selected) {
             view.setBackgroundColor(
                     context.getResources().getColor(android.R.color.holo_blue_light));
@@ -216,15 +226,22 @@ public class SelectableExpandableListAdapterDecorator
         }
     }
 
+    @NonNull
+    @Override
+    public final View onInflateChildView(@NonNull final LayoutInflater inflater,
+                                         @Nullable final ViewGroup parent, final int childType) {
+        return inflater.inflate(R.layout.contact_item, parent, false);
+    }
+
     @Override
     @SuppressWarnings("deprecation")
-    protected final void onShowChild(@NonNull final Context context,
-                                     @NonNull final SelectableExpandableListAdapter<Country, Contact> adapter,
-                                     @NonNull final View view, @NonNull final Contact child,
-                                     final int viewType, final int childIndex,
-                                     @NonNull final Country group, final int groupIndex,
-                                     final boolean enabled, final int state, final boolean filtered,
-                                     final boolean selected) {
+    public final void onShowChild(@NonNull final Context context,
+                                  @NonNull final SelectableExpandableListAdapter<Country, Contact> adapter,
+                                  @NonNull final View view, @NonNull final Contact child,
+                                  final int viewType, final int childIndex,
+                                  @NonNull final Country group, final int groupIndex,
+                                  final boolean enabled, final int state, final boolean filtered,
+                                  final boolean selected) {
         if (selected) {
             view.setBackgroundColor(
                     context.getResources().getColor(android.R.color.holo_blue_light));

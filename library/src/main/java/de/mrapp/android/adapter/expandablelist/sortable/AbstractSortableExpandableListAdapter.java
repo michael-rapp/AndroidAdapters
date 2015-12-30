@@ -29,6 +29,7 @@ import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.datastructure.group.Group;
 import de.mrapp.android.adapter.datastructure.group.GroupComparator;
+import de.mrapp.android.adapter.decorator.AbstractExpandableListDecorator;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemClickListener;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterListener;
@@ -57,7 +58,7 @@ import static de.mrapp.android.util.Condition.ensureNotNull;
  * @author Michael Rapp
  * @since 0.1.0
  */
-public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType, DecoratorType>
+public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType, DecoratorType extends AbstractExpandableListDecorator<GroupType, ChildType>>
         extends AbstractItemStateExpandableListAdapter<GroupType, ChildType, DecoratorType>
         implements SortableExpandableListAdapter<GroupType, ChildType> {
 

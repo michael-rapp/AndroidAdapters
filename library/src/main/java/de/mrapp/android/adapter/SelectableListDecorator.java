@@ -18,7 +18,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import de.mrapp.android.adapter.decorator.AbstractDecorator;
+import de.mrapp.android.adapter.decorator.AbstractListDecorator;
 import de.mrapp.android.adapter.list.selectable.SelectableListAdapter;
 
 /**
@@ -30,7 +30,7 @@ import de.mrapp.android.adapter.list.selectable.SelectableListAdapter;
  * @author Michael Rapp
  * @since 0.1.0
  */
-public abstract class SelectableListDecorator<DataType> extends AbstractDecorator {
+public abstract class SelectableListDecorator<DataType> extends AbstractListDecorator<DataType> {
 
     /**
      * The method, which is invoked by an adapter to apply the decorator. It initializes the view
@@ -76,34 +76,6 @@ public abstract class SelectableListDecorator<DataType> extends AbstractDecorato
     }
 
     /**
-     * The method which is invoked in order to retrieve the view type of a specific item, which is
-     * about to be visualized. This method has to be overridden by custom decorators which should be
-     * able to visualize some items optically divergent from others, returning a different integer
-     * constant for each type.
-     *
-     * @param item
-     *         The item, which should be visualized, as an instance of the generic type DataType.
-     *         The item may not be null
-     * @return The view type of the item, which is about to be visualized, as an {@link Integer}
-     * value
-     */
-    public int getViewType(@NonNull final DataType item) {
-        return 0;
-    }
-
-    /**
-     * Returns the number of view types, which are used by the decorator in order to visualize
-     * items. This method has to be overridden by custom decorators in order to return a value,
-     * which is consistent with the implementation of the <code>getViewType</code>-method.
-     *
-     * @return The number of view types, which are used by the decorator in order to visualize
-     * items, as an {@link Integer} value
-     */
-    public int getViewTypeCount() {
-        return 1;
-    }
-
-    /**
      * The method which is invoked, when the view, which is used to visualize an item, should be
      * shown, respectively when it should be refreshed. The purpose of this method is to customize
      * the appearance of the view, which is used to visualize the appropriate item, depending on its
@@ -136,10 +108,10 @@ public abstract class SelectableListDecorator<DataType> extends AbstractDecorato
      *         True, if the item, which should be visualized, is currently selected, false
      *         otherwise
      */
-    protected abstract void onShowItem(@NonNull Context context,
-                                       @NonNull SelectableListAdapter<DataType> adapter,
-                                       @NonNull View view, @NonNull DataType item, int viewType,
-                                       int index, boolean enabled, int state, boolean filtered,
-                                       boolean selected);
+    public abstract void onShowItem(@NonNull Context context,
+                                    @NonNull SelectableListAdapter<DataType> adapter,
+                                    @NonNull View view, @NonNull DataType item, int viewType,
+                                    int index, boolean enabled, int state, boolean filtered,
+                                    boolean selected);
 
 }

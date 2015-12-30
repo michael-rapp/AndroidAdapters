@@ -17,8 +17,11 @@ package de.mrapp.android.adapter.list.sortable;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.test.AndroidTestCase;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import junit.framework.Assert;
 
@@ -63,7 +66,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
      * for test purposes.
      */
     private class AbstractSortableListAdapterImplementation extends
-            AbstractSortableListAdapter<ComparableImplementation, ListDecorator<ComparatorImplementation>> {
+            AbstractSortableListAdapter<ComparableImplementation, ListDecorator<ComparableImplementation>> {
 
         /**
          * The constant serial version UID.
@@ -134,7 +137,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
          */
         protected AbstractSortableListAdapterImplementation(final Context context,
                                                             final Inflater inflater,
-                                                            final ListDecorator<ComparatorImplementation> decorator,
+                                                            final ListDecorator<ComparableImplementation> decorator,
                                                             final LogLevel logLevel,
                                                             final ArrayList<Item<ComparableImplementation>> items,
                                                             final boolean allowDuplicates,
@@ -154,7 +157,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
         }
 
         @Override
-        public AbstractSortableListAdapter<ComparableImplementation, ListDecorator<ComparatorImplementation>> clone()
+        public AbstractSortableListAdapter<ComparableImplementation, ListDecorator<ComparableImplementation>> clone()
                 throws CloneNotSupportedException {
             throw new CloneNotSupportedException();
         }
@@ -222,15 +225,23 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
      * An implementation of the abstract class {@link ListDecorator}, which is needed for test
      * purposes.
      */
-    private class ListDecoratorImplementation extends ListDecorator<ComparatorImplementation> {
+    private class ListDecoratorImplementation extends ListDecorator<ComparableImplementation> {
+
+        @SuppressWarnings("ConstantConditions")
+        @NonNull
+        @Override
+        public View onInflateView(@NonNull final LayoutInflater inflater,
+                                  @Nullable final ViewGroup parent, final int viewType) {
+            return null;
+        }
 
         @Override
-        protected void onShowItem(@NonNull final Context context,
-                                  @NonNull final ListAdapter<ComparatorImplementation> adapter,
-                                  @NonNull final View view,
-                                  @NonNull final ComparatorImplementation item, final int viewType,
-                                  final int index, final boolean enabled, final int state,
-                                  final boolean filtered) {
+        public void onShowItem(@NonNull final Context context,
+                               @NonNull final ListAdapter<ComparableImplementation> adapter,
+                               @NonNull final View view,
+                               @NonNull final ComparableImplementation item, final int viewType,
+                               final int index, final boolean enabled, final int state,
+                               final boolean filtered) {
 
         }
 

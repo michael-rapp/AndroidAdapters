@@ -18,6 +18,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -41,6 +42,7 @@ import de.mrapp.android.adapter.datastructure.group.Group;
 import de.mrapp.android.adapter.datastructure.group.GroupIterator;
 import de.mrapp.android.adapter.datastructure.group.GroupListIterator;
 import de.mrapp.android.adapter.datastructure.group.UnmodifiableGroupList;
+import de.mrapp.android.adapter.decorator.AbstractExpandableListDecorator;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.list.selectable.MultipleChoiceListAdapterImplementation;
 import de.mrapp.android.adapter.logging.LogLevel;
@@ -64,7 +66,7 @@ import static de.mrapp.android.util.Condition.ensureNotNull;
  * @author Michael Rapp
  * @since 0.1.0
  */
-public abstract class AbstractExpandableListAdapter<GroupType, ChildType, DecoratorType>
+public abstract class AbstractExpandableListAdapter<GroupType, ChildType, DecoratorType extends AbstractExpandableListDecorator<GroupType, ChildType>>
         extends BaseExpandableListAdapter implements ExpandableListAdapter<GroupType, ChildType> {
 
     /**
@@ -2343,7 +2345,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         View view = convertView;
 
         if (view == null) {
-            view = getGroupInflater().inflate(getContext(), parent, false);
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            view = getDecorator().inflateGroupView(inflater, parent, getGroup(groupIndex));
             String message = "Inflated view to visualize the group at index " + groupIndex;
             getLogger().logVerbose(getClass(), message);
         }
@@ -2361,7 +2364,9 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         View view = convertView;
 
         if (view == null) {
-            view = getChildInflater().inflate(getContext(), parent, false);
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            view = getDecorator()
+                    .inflateChildView(inflater, parent, getChild(groupIndex, childIndex));
             String message = "Inflated view to visualize the child at index " + childIndex +
                     " of the group at index " + groupIndex;
             getLogger().logVerbose(getClass(), message);

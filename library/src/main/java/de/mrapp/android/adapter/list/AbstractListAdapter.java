@@ -21,6 +21,7 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -46,6 +47,7 @@ import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemIterator;
 import de.mrapp.android.adapter.datastructure.item.ItemListIterator;
 import de.mrapp.android.adapter.datastructure.item.UnmodifiableItemList;
+import de.mrapp.android.adapter.decorator.AbstractListDecorator;
 import de.mrapp.android.adapter.decorator.ViewHolder;
 import de.mrapp.android.adapter.inflater.Inflater;
 import de.mrapp.android.adapter.logging.LogLevel;
@@ -70,7 +72,7 @@ import static de.mrapp.android.util.Condition.ensureNotNull;
  * @author Michael Rapp
  * @since 0.1.0
  */
-public abstract class AbstractListAdapter<DataType, DecoratorType>
+public abstract class AbstractListAdapter<DataType, DecoratorType extends AbstractListDecorator<DataType>>
         extends RecyclerView.Adapter<ViewHolder> implements ListAdapter<DataType> {
 
     /**
@@ -1072,7 +1074,9 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
         View view = convertView;
 
         if (view == null) {
-            view = getInflater().inflate(getContext(), parent, false);
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            DataType item = getItem(index);
+            view = getDecorator().inflateView(inflater, parent, item);
             String message = "Inflated view to visualize the item at index " + index;
             getLogger().logVerbose(getClass(), message);
         }
@@ -1086,7 +1090,10 @@ public abstract class AbstractListAdapter<DataType, DecoratorType>
     @Override
     public final ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent,
                                                final int viewType) {
-        View view = getInflater().inflate(getContext(), parent, false);
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        View view = getDecorator().onInflateView(inflater, parent, viewType);
+        String message = "Inflated view to visualize item with view type " + viewType;
+        getLogger().logVerbose(getClass(), message);
         return new ViewHolder(view);
     }
 
