@@ -1,5 +1,11 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.2.0 (Dec. 30th 2015)
+
+A feature release, which introduces the following changes:
+
+- Decorators are now responsible for inflating views. This allows to inflate different layouts depending on different view types.
+
 ## Version 0.1.2 (Dec. 29th 2015)
 
 A bugfix release, which fixes the following issues:
