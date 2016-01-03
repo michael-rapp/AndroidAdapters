@@ -17,6 +17,7 @@ package de.mrapp.android.adapter.expandablelist.enablestate;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
@@ -34,7 +35,6 @@ import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemLongClic
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterListener;
 import de.mrapp.android.adapter.expandablelist.ExpansionListener;
 import de.mrapp.android.adapter.logging.LogLevel;
-import de.mrapp.android.util.VisibleForTesting;
 
 import static de.mrapp.android.util.Condition.ensureNotNull;
 

@@ -18,6 +18,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.widget.ExpandableListView;
 
 import java.util.LinkedHashSet;
@@ -42,7 +43,6 @@ import de.mrapp.android.adapter.expandablelist.itemstate.ExpandableListItemState
 import de.mrapp.android.adapter.expandablelist.sortable.ExpandableListSortingListener;
 import de.mrapp.android.adapter.list.selectable.MultipleChoiceListAdapterImplementation;
 import de.mrapp.android.adapter.logging.LogLevel;
-import de.mrapp.android.util.VisibleForTesting;
 
 /**
  * An adapter, whose underlying data is managed as a list of arbitrary group and child items, of
