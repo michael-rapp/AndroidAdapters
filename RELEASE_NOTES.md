@@ -1,5 +1,11 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.2.1 (Jan. 3rd 2016)
+
+A minor release, which introduces the following changes:
+
+- Updated dependency "AndroidUtil" to version 1.3.0.
+
 ## Version 0.2.0 (Dec. 30th 2015)
 
 A feature release, which introduces the following changes:
