@@ -44,6 +44,7 @@ import java.util.Set;
 
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.datastructure.UnmodifiableList;
+import de.mrapp.android.adapter.datastructure.group.Group;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemIterator;
 import de.mrapp.android.adapter.datastructure.item.ItemListIterator;
@@ -292,9 +293,13 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
      */
     private boolean isUnderlyingDataParcelable() {
         if (!getUnfilteredItems().isEmpty()) {
-            if (!Parcelable.class
-                    .isAssignableFrom(getUnfilteredItems().get(0).getData().getClass())) {
-                return false;
+            DataType item = getUnfilteredItems().get(0).getData();
+
+            if (item instanceof Group) {
+                Group<?, ?> group = (Group<?, ?>) item;
+                return Parcelable.class.isAssignableFrom(group.getData().getClass());
+            } else {
+                return Parcelable.class.isAssignableFrom(item.getClass());
             }
         }
 
@@ -352,9 +357,13 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
      */
     private boolean isUnderlyingDataSerializable() {
         if (!getUnfilteredItems().isEmpty()) {
-            if (!Serializable.class
-                    .isAssignableFrom(getUnfilteredItems().get(0).getData().getClass())) {
-                return false;
+            DataType item = getUnfilteredItems().get(0).getData();
+
+            if (item instanceof Group) {
+                Group<?, ?> group = (Group<?, ?>) item;
+                return Serializable.class.isAssignableFrom(group.getData().getClass());
+            } else {
+                return Serializable.class.isAssignableFrom(item.getClass());
             }
         }
 
