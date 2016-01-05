@@ -21,9 +21,8 @@ import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 
@@ -421,94 +420,72 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     /**
-     * Creates and returns an {@link OnClickListener}, which is invoked, when a specific group item
-     * has been clicked.
+     * Creates and returns an {@link ExpandableListView.OnGroupClickListener}, which is invoked,
+     * when a group item of the adapter has been clicked.
      *
-     * @param index
-     *         The index of the group item, which should cause the listener to be invoked, when
-     *         clicked, as an {@link Integer} value
      * @return The listener, which has been created, as an instance of the type {@link
-     * OnClickListener}
+     * ExpandableListView.OnGroupClickListener}
      */
-    private OnClickListener createGroupItemOnClickListener(final int index) {
-        return new OnClickListener() {
+    private ExpandableListView.OnGroupClickListener createAdapterViewOnGroupClickListener() {
+        return new ExpandableListView.OnGroupClickListener() {
 
             @Override
-            public void onClick(final View v) {
-                notifyOnGroupClicked(getGroup(index), index);
+            public boolean onGroupClick(final ExpandableListView parent, final View v,
+                                        final int groupPosition, final long id) {
+                notifyOnGroupClicked(getGroup(groupPosition), groupPosition);
+                return true;
             }
 
         };
     }
 
     /**
-     * Creates and returns an {@link OnClickListener}, which is invoked, when a specific child item
-     * has been clicked.
+     * Creates and returns an {@link ExpandableListView.OnChildClickListener}, which is invoked,
+     * when a child item of the adapter has been clicked.
      *
-     * @param groupIndex
-     *         The index of the group, the child item, which should cause the listener to be
-     *         invoked, when clicked, belongs to, as an {@link Integer} value
-     * @param childIndex
-     *         The index of the child item, which should cause the listener to be invoked, when
-     *         clicked, as an {@link Integer} value
      * @return The listener, which has been created, as an instance of the type {@link
-     * OnClickListener}
+     * ExpandableListView.OnChildClickListener}
      */
-    private OnClickListener createChildItemOnClickListener(final int groupIndex,
-                                                           final int childIndex) {
-        return new OnClickListener() {
+    private ExpandableListView.OnChildClickListener createAdapterViewOnChildClickListener() {
+        return new ExpandableListView.OnChildClickListener() {
 
             @Override
-            public void onClick(final View v) {
-                notifyOnChildClicked(getChild(groupIndex, childIndex), childIndex,
-                        getGroup(groupIndex), groupIndex);
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition,
+                                        int childPosition, long id) {
+                notifyOnChildClicked(getChild(groupPosition, childPosition), childPosition,
+                        getGroup(groupPosition), groupPosition);
+                return false;
             }
 
         };
     }
 
     /**
-     * Creates and returns an {@link OnLongClickListener}, which is invoked, when a specific group
-     * item has been long-clicked.
+     * Creates and returns an {@link AdapterView.OnItemLongClickListener}, which is invoked, when an
+     * item of the adapter has been long-clicked.
      *
-     * @param index
-     *         The index of the group item, which should cause the listener to be invoked, when
-     *         long-clicked, as an {@link Integer} value
      * @return The listener, which has been created, as an instance of the type {@link
-     * OnLongClickListener}
+     * AdapterView.OnItemLongClickListener}
      */
-    private OnLongClickListener createGroupItemOnLongClickListener(final int index) {
-        return new OnLongClickListener() {
+    private AdapterView.OnItemLongClickListener createAdapterViewOnItemLongClickListener() {
+        return new AdapterView.OnItemLongClickListener() {
 
             @Override
-            public boolean onLongClick(final View v) {
-                return notifyOnGroupLongClicked(getGroup(index), index);
-            }
+            public boolean onItemLongClick(final AdapterView<?> parent, final View view,
+                                           final int position, final long id) {
+                int itemType = ExpandableListView.getPackedPositionType(id);
 
-        };
-    }
-
-    /**
-     * Creates and returns an {@link OnLongClickListener}, which is invoked, when a specific child
-     * item has been long-clicked.
-     *
-     * @param groupIndex
-     *         The index of the group, the child item, which should cause the listener to be
-     *         invoked, when long-clicked, belongs to, as an {@link Integer} value
-     * @param childIndex
-     *         The index of the child item, which should cause the listener to be invoked, when
-     *         long-clicked, as an {@link Integer} value
-     * @return The listener, which has been created as an instance of the type {@link
-     * OnLongClickListener}
-     */
-    private OnLongClickListener createChildItemOnLongClickListener(final int groupIndex,
-                                                                   final int childIndex) {
-        return new OnLongClickListener() {
-
-            @Override
-            public boolean onLongClick(final View v) {
-                return notifyOnChildLongClicked(getChild(groupIndex, childIndex), childIndex,
-                        getGroup(groupIndex), groupIndex);
+                if (itemType == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+                    int groupIndex = ExpandableListView.getPackedPositionGroup(id);
+                    int childIndex = ExpandableListView.getPackedPositionChild(id);
+                    return notifyOnChildLongClicked(getChild(groupIndex, childIndex), childIndex,
+                            getGroup(groupIndex), groupIndex);
+                } else if (itemType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+                    int groupIndex = ExpandableListView.getPackedPositionGroup(id);
+                    return notifyOnGroupLongClicked(getGroup(groupIndex), groupIndex);
+                } else {
+                    return false;
+                }
             }
 
         };
@@ -2237,6 +2214,9 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         detach();
         this.adapterView = adapterView;
         this.adapterView.setAdapter(this);
+        this.adapterView.setOnGroupClickListener(createAdapterViewOnGroupClickListener());
+        this.adapterView.setOnChildClickListener(createAdapterViewOnChildClickListener());
+        this.adapterView.setOnItemLongClickListener(createAdapterViewOnItemLongClickListener());
         String message = "Attached adapter to view \"" + adapterView + "\"";
         getLogger().logDebug(getClass(), message);
     }
@@ -2291,6 +2271,11 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     public final View getGroupView(final int groupIndex, final boolean isExpanded,
                                    @Nullable final View convertView,
                                    @Nullable final ViewGroup parent) {
+        if (adapterView == null) {
+            throw new IllegalStateException(
+                    "Adapter must be attached to an ExpandableListView using its attach-method");
+        }
+
         View view = convertView;
 
         if (view == null) {
@@ -2300,8 +2285,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
             getLogger().logVerbose(getClass(), message);
         }
 
-        view.setOnClickListener(createGroupItemOnClickListener(groupIndex));
-        view.setOnLongClickListener(createGroupItemOnLongClickListener(groupIndex));
         applyDecoratorOnGroup(getContext(), view, groupIndex);
         return view;
     }
@@ -2310,6 +2293,11 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     public final View getChildView(final int groupIndex, final int childIndex,
                                    final boolean isLastChild, @Nullable final View convertView,
                                    @Nullable final ViewGroup parent) {
+        if (adapterView == null) {
+            throw new IllegalStateException(
+                    "Adapter must be attached to an ExpandableListView using its attach-method");
+        }
+
         View view = convertView;
 
         if (view == null) {
@@ -2321,8 +2309,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
             getLogger().logVerbose(getClass(), message);
         }
 
-        view.setOnClickListener(createChildItemOnClickListener(groupIndex, childIndex));
-        view.setOnLongClickListener(createChildItemOnLongClickListener(groupIndex, childIndex));
         applyDecoratorOnChild(getContext(), view, groupIndex, childIndex);
         return view;
     }
