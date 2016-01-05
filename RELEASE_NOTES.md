@@ -1,5 +1,11 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.2.2 (Jan. 5th 2015)
+
+A bugfix release, which fixes the following issues:
+
+- Groups items, which do not implement the `Serializable` or `Parcelable` interface do not cause crashes anymore, when the `onSaveInstanceState`-method is called.
+
 ## Version 0.2.1 (Jan. 3rd 2016)
 
 A minor release, which introduces the following changes:
