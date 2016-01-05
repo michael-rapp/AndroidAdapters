@@ -81,22 +81,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
             AbstractExpandableListAdapter.class.getSimpleName() + "::AdapterViewState";
 
     /**
-     * The key, which is used to store the adapter, which manages the adapter's group items, within
-     * a bundle.
-     */
-    @VisibleForTesting
-    protected static final String GROUP_ADAPTER_BUNDLE_KEY =
-            AbstractExpandableListAdapter.class.getSimpleName() + "::GroupAdapter";
-
-    /**
-     * The key, which is used to store the adapters, which manage the adapter's child items, within
-     * a bundle.
-     */
-    @VisibleForTesting
-    protected static final String CHILD_ADAPTER_BUNDLE_KEY =
-            AbstractExpandableListAdapter.class.getSimpleName() + "::ChildAdapter_%s";
-
-    /**
      * The key, which is used to store, whether duplicate child items should be allowed, or not,
      * within a bundle.
      */
