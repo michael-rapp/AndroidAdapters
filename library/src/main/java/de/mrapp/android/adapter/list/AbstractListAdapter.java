@@ -328,7 +328,26 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
     }
 
     /**
-     * Creates and returns a {@link OnClickListener}, which is invoked, when a specific item has
+     * Creates and returns an {@link android.widget.AdapterView.OnItemClickListener}, which is
+     * invoked, when an item of the adapter has been clicked.
+     *
+     * @return The listener, which has been created, as an instance of the type {@link
+     * android.widget.AdapterView.OnItemClickListener}
+     */
+    private AdapterView.OnItemClickListener createAdapterViewOnItemClickListener() {
+        return new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(final AdapterView<?> parent, final View view,
+                                    final int position, final long id) {
+                notifyOnItemClicked(getItem(position), position);
+            }
+
+        };
+    }
+
+    /**
+     * Creates and returns an {@link OnClickListener}, which is invoked, when a specific item has
      * been long-clicked.
      *
      * @param index
@@ -343,6 +362,25 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
             @Override
             public boolean onLongClick(final View v) {
                 return notifyOnItemLongClicked(getItem(index), index);
+            }
+
+        };
+    }
+
+    /**
+     * Creates and returns an {@link android.widget.AdapterView.OnItemLongClickListener}, which is
+     * invoked, when an item of the adapter has been long-clicked.
+     *
+     * @return The listener, which has been created, as an instance of the type {@link
+     * android.widget.AdapterView.OnItemLongClickListener}
+     */
+    private AdapterView.OnItemLongClickListener createAdapterViewOnItemLongClickListener() {
+        return new AdapterView.OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(final AdapterView<?> parent, final View view,
+                                           final int position, final long id) {
+                return notifyOnItemLongClicked(getItem(position), position);
             }
 
         };
@@ -992,6 +1030,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
         detach();
         ((AdapterView<android.widget.ListAdapter>) adapterView).setAdapter(this);
         this.adapterView = adapterView;
+        this.adapterView.setOnItemClickListener(createAdapterViewOnItemClickListener());
+        this.adapterView.setOnItemLongClickListener(createAdapterViewOnItemLongClickListener());
         getLogger().logDebug(getClass(), "Attached adapter to view \"" + adapterView + "\"");
     }
 
@@ -1056,6 +1096,11 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
     @Override
     public final View getView(final int index, @Nullable final View convertView,
                               @Nullable final ViewGroup parent) {
+        if (adapterView == null) {
+            throw new IllegalStateException(
+                    "Adapter must be attached to a AbsListView using its attach method");
+        }
+
         View view = convertView;
 
         if (view == null) {
@@ -1066,8 +1111,6 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
             getLogger().logVerbose(getClass(), message);
         }
 
-        view.setOnClickListener(createItemOnClickListener(index));
-        view.setOnLongClickListener(createItemOnLongClickListener(index));
         applyDecorator(getContext(), view, index);
         return view;
     }
@@ -1075,6 +1118,11 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
     @Override
     public final ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent,
                                                final int viewType) {
+        if (recyclerView == null) {
+            throw new IllegalStateException(
+                    "Adapter must be attached to a RecyclerView using its attach-method");
+        }
+
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View view = getDecorator().onInflateView(inflater, parent, viewType);
         String message = "Inflated view to visualize item with view type " + viewType;
