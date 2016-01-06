@@ -1,5 +1,11 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.2.5 (Jan. 7th 2015)
+
+A bugfix release, which fixes the following issues:
+
+- When filtering an empty group, no `FilteringNotSupportedException` is thrown anymore, even if the group's data does not implement the interface `Filterable`.
+
 ## Version 0.2.4 (Jan. 6th 2015)
 
 A bugfix release, which fixes the following issues:
