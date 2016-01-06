@@ -1,5 +1,12 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.2.3 (Jan. 6th 2015)
+
+A bugfix release, which fixes the following issues:
+
+- Click listeners and long-click listeners are now registered at adapter views. This enables the adapter views to highlight items when pressed. It is now mandatory to attach adapters to views using their `attach`-methods. 
+- The view state of an `SelectableExpandableListAdapter`'s group and child items are now correctly adapted depending on the items' selection.
+
 ## Version 0.2.2 (Jan. 5th 2015)
 
 A bugfix release, which fixes the following issues:
