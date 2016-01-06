@@ -18,6 +18,7 @@ import android.content.Context;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
@@ -1119,7 +1120,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder viewHolder, final int index) {
+    public final void onBindViewHolder(final ViewHolder viewHolder, final int index) {
         viewHolder.getParentView().setOnClickListener(createItemOnClickListener(index));
         viewHolder.getParentView().setOnLongClickListener(createItemOnLongClickListener(index));
         applyDecorator(getContext(), viewHolder.getParentView(), index);
@@ -1211,6 +1212,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
         }
     }
 
+    @CallSuper
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -1223,6 +1225,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
         return result;
     }
 
+    @CallSuper
     @Override
     public boolean equals(final Object obj) {
         if (this == obj)

@@ -16,6 +16,7 @@ package de.mrapp.android.adapter.list.selectable;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.view.View;
@@ -253,12 +254,14 @@ public abstract class AbstractSelectableListAdapter<DataType>
         addSelectionListener(createSelectionListener());
     }
 
+    @CallSuper
     @Override
     protected void onSaveInstanceState(@NonNull final Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(SELECT_ITEM_ON_CLICK_BUNDLE_KEY, isItemSelectedOnClick());
     }
 
+    @CallSuper
     @Override
     protected void onRestoreInstanceState(@NonNull final Bundle savedState) {
         super.onRestoreInstanceState(savedState);
@@ -346,6 +349,7 @@ public abstract class AbstractSelectableListAdapter<DataType>
         return getDecorator().getViewType(getItem(index));
     }
 
+    @CallSuper
     @Override
     public final int hashCode() {
         final int prime = 31;
@@ -354,6 +358,7 @@ public abstract class AbstractSelectableListAdapter<DataType>
         return result;
     }
 
+    @CallSuper
     @Override
     public final boolean equals(final Object obj) {
         if (this == obj)

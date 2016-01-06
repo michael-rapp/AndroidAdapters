@@ -16,6 +16,7 @@ package de.mrapp.android.adapter.expandablelist.enablestate;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.widget.ExpandableListView;
@@ -267,12 +268,14 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
         setChildEnableStatesImplicitly(setChildEnableStatesImplicitly);
     }
 
+    @CallSuper
     @Override
     protected void onSaveInstanceState(@NonNull final Bundle outState) {
         outState.putBoolean(SET_CHILD_ENABLE_STATES_IMPLICITLY_BUNDLE_KEY,
                 areChildEnableStatesSetImplicitly());
     }
 
+    @CallSuper
     @Override
     protected void onRestoreInstanceState(@NonNull final Bundle savedState) {
         setChildEnableStatesImplicitly =
@@ -765,6 +768,7 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
         getLogger().logDebug(getClass(), message);
     }
 
+    @CallSuper
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -773,6 +777,7 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
         return result;
     }
 
+    @CallSuper
     @Override
     public boolean equals(final Object obj) {
         if (this == obj)

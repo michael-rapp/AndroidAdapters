@@ -16,6 +16,7 @@ package de.mrapp.android.adapter.expandablelist.selectable;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.view.View;
@@ -416,6 +417,7 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
                         enabled, state, filtered, selected);
     }
 
+    @CallSuper
     @Override
     protected void onSaveInstanceState(@NonNull final Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -427,6 +429,7 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
         outState.putSerializable(CHOICE_MODE_BUNDLE_KEY, getChoiceMode());
     }
 
+    @CallSuper
     @Override
     protected void onRestoreInstanceState(@NonNull final Bundle savedState) {
         super.onRestoreInstanceState(savedState);
@@ -595,6 +598,7 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
         return getDecorator().getGroupType(getGroup(groupIndex));
     }
 
+    @CallSuper
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -607,6 +611,7 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
         return result;
     }
 
+    @CallSuper
     @Override
     public boolean equals(final Object obj) {
         if (this == obj)

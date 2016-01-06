@@ -16,6 +16,7 @@ package de.mrapp.android.adapter.expandablelist.itemstate;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.widget.ExpandableListView;
@@ -335,6 +336,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
         return groupItem;
     }
 
+    @CallSuper
     @Override
     protected void onSaveInstanceState(@NonNull final Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -344,6 +346,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
         outState.putBoolean(SET_CHILD_STATES_IMPLICITLY_BUNDLE_KEY, areChildStatesSetImplicitly());
     }
 
+    @CallSuper
     @Override
     protected void onRestoreInstanceState(@NonNull final Bundle savedState) {
         super.onRestoreInstanceState(savedState);
@@ -885,6 +888,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
         getLogger().logDebug(getClass(), message);
     }
 
+    @CallSuper
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -895,6 +899,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
         return result;
     }
 
+    @CallSuper
     @Override
     public boolean equals(final Object obj) {
         if (this == obj)

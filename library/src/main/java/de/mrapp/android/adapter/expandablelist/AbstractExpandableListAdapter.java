@@ -16,6 +16,7 @@ package de.mrapp.android.adapter.expandablelist;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
@@ -380,6 +381,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      * @return The adapter, which has been created, as an instance of the type {@link
      * MultipleChoiceListAdapter}. The adapter may not be null
      */
+    @CallSuper
     private MultipleChoiceListAdapter<ChildType> createChildAdapter() {
         MultipleChoiceListAdapter<ChildType> childAdapter =
                 new MultipleChoiceListAdapterImplementation<>(context,
@@ -2384,6 +2386,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         }
     }
 
+    @CallSuper
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -2395,6 +2398,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         return result;
     }
 
+    @CallSuper
     @Override
     public boolean equals(final Object obj) {
         if (this == obj)

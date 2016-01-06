@@ -16,6 +16,7 @@ package de.mrapp.android.adapter.list.itemstate;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.widget.AbsListView;
@@ -232,12 +233,14 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType exten
         addItemClickListener(createItemClickListener());
     }
 
+    @CallSuper
     @Override
     protected void onSaveInstanceState(@NonNull final Bundle outState) {
         outState.putInt(NUMBER_OF_ITEM_STATES_BUNDLE_KEY, getNumberOfItemStates());
         outState.putBoolean(TRIGGER_ITEM_STATE_ON_CLICK_BUNDLE_KEY, isItemStateTriggeredOnClick());
     }
 
+    @CallSuper
     @Override
     protected void onRestoreInstanceState(@NonNull final Bundle savedState) {
         numberOfItemStates = savedState.getInt(NUMBER_OF_ITEM_STATES_BUNDLE_KEY, 1);
@@ -475,6 +478,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType exten
         getLogger().logDebug(getClass(), message);
     }
 
+    @CallSuper
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -484,6 +488,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType exten
         return result;
     }
 
+    @CallSuper
     @Override
     public boolean equals(final Object obj) {
         if (this == obj)

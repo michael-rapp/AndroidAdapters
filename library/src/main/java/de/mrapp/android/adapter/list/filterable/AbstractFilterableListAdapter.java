@@ -16,6 +16,7 @@ package de.mrapp.android.adapter.list.filterable;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
@@ -534,6 +535,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType exte
         return unfilteredItems != null ? unfilteredItems : super.getUnfilteredItems();
     }
 
+    @CallSuper
     @Override
     protected void onSaveInstanceState(@NonNull final Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -541,6 +543,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType exte
     }
 
     @SuppressWarnings("unchecked")
+    @CallSuper
     @Override
     protected void onRestoreInstanceState(@NonNull final Bundle savedState) {
         super.onRestoreInstanceState(savedState);
@@ -671,6 +674,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType exte
         getLogger().logDebug(getClass(), message);
     }
 
+    @CallSuper
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -679,6 +683,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType exte
         return result;
     }
 
+    @CallSuper
     @Override
     public boolean equals(final Object obj) {
         if (this == obj)

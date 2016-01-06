@@ -16,6 +16,7 @@ package de.mrapp.android.adapter.expandablelist.sortable;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
@@ -311,12 +312,14 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
         addAdapterListener(createAdapterListener());
     }
 
+    @CallSuper
     @Override
     protected void onSaveInstanceState(@NonNull final Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable(CHILD_ORDER_BUNDLE_KEY, getChildOrder());
     }
 
+    @CallSuper
     @Override
     protected void onRestoreInstanceState(@NonNull final Bundle savedState) {
         super.onRestoreInstanceState(savedState);
@@ -510,6 +513,7 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
         getLogger().logDebug(getClass(), message);
     }
 
+    @CallSuper
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -518,6 +522,7 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
         return result;
     }
 
+    @CallSuper
     @Override
     public boolean equals(final Object obj) {
         if (this == obj)
