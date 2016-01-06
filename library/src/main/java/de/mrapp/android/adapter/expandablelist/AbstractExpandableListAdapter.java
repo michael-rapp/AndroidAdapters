@@ -2375,10 +2375,9 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
                         ADAPTER_VIEW_STATE_BUNDLE_KEY);
             }
 
-            allowDuplicateChildren(
-                    savedInstanceState.getBoolean(ALLOW_DUPLICATE_CHILDREN_BUNDLE_KEY));
-            expandGroupOnClick(savedInstanceState.getBoolean(EXPAND_GROUP_ON_CLICK_BUNDLE_KEY));
-            setLogLevel(LogLevel.fromRank(savedInstanceState.getInt(LOG_LEVEL_BUNDLE_KEY)));
+            allowDuplicateChildren(savedState.getBoolean(ALLOW_DUPLICATE_CHILDREN_BUNDLE_KEY));
+            expandGroupOnClick(savedState.getBoolean(EXPAND_GROUP_ON_CLICK_BUNDLE_KEY));
+            setLogLevel(LogLevel.fromRank(savedState.getInt(LOG_LEVEL_BUNDLE_KEY)));
             notifyDataSetChanged();
             getLogger().logDebug(getClass(), "Restored instance state");
         } else {
