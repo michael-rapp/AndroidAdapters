@@ -22,6 +22,7 @@ import android.test.AndroidTestCase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import junit.framework.Assert;
 
@@ -1713,41 +1714,6 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
                         new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
                         new LinkedHashSet<ListItemStateListener<Object>>());
         assertEquals(0, abstractItemStateListAdapter.getItemStateCount(0));
-    }
-
-    /**
-     * Tests the functionality of the method, which allows to set, whether the state of an item
-     * should be triggered, when it is clicked by the user, or not.
-     */
-    @SuppressWarnings("unchecked")
-    public final void testTriggerItemStateOnClick() {
-        Object item = new Object();
-        DataSetObserver dataSetObserver = new DataSetObserver();
-        ListItemStateListener<Object> itemStateListener = mock(ListItemStateListener.class);
-        AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
-                        new ListDecoratorImplementation(), LogLevel.ALL,
-                        new ArrayList<Item<Object>>(), false, true,
-                        new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
-                        new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
-                        new LinkedHashSet<ListAdapterListener<Object>>(),
-                        new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
-                        new LinkedHashSet<ListItemStateListener<Object>>());
-        abstractItemStateListAdapter.registerDataSetObserver(dataSetObserver);
-        abstractItemStateListAdapter.addItemStateListener(itemStateListener);
-        abstractItemStateListAdapter.addItem(item);
-        View view = abstractItemStateListAdapter.getView(0, null, null);
-        dataSetObserver.reset();
-        view.performClick();
-        assertFalse(dataSetObserver.hasOnChangedBeenCalled());
-        verify(itemStateListener, times(0))
-                .onItemStateChanged(abstractItemStateListAdapter, item, 0, 1);
-        abstractItemStateListAdapter.triggerItemStateOnClick(true);
-        assertTrue(abstractItemStateListAdapter.isItemStateTriggeredOnClick());
-        view.performClick();
-        assertTrue(dataSetObserver.hasOnChangedBeenCalled());
-        verify(itemStateListener, times(1))
-                .onItemStateChanged(abstractItemStateListAdapter, item, 0, 1);
     }
 
     /**

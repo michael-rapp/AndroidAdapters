@@ -1302,39 +1302,6 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
     }
 
     /**
-     * Tests the functionality of the method, which allows to set, whether an item should be
-     * selected, when it is clicked by the user, or not.
-     */
-    @SuppressWarnings("unchecked")
-    public final void testSelectItemOnClick() {
-        Object item = new Object();
-        Context context = getContext();
-        DataSetObserver dataSetObserver = new DataSetObserver();
-        ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
-        MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(context,
-                        new SelectableListDecoratorImplementation());
-        multipleChoiceListAdapterImplementation.selectItemOnClick(false);
-        multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
-        multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
-        multipleChoiceListAdapterImplementation.addItem(item);
-        View view = multipleChoiceListAdapterImplementation.getView(0, null, null);
-        dataSetObserver.reset();
-        view.performClick();
-        assertFalse(multipleChoiceListAdapterImplementation.isSelected(0));
-        assertFalse(dataSetObserver.hasOnChangedBeenCalled());
-        verify(listSelectionListener, times(0))
-                .onItemSelected(multipleChoiceListAdapterImplementation, item, 0);
-        multipleChoiceListAdapterImplementation.selectItemOnClick(true);
-        assertTrue(multipleChoiceListAdapterImplementation.isItemSelectedOnClick());
-        view.performClick();
-        assertTrue(multipleChoiceListAdapterImplementation.isSelected(0));
-        assertTrue(dataSetObserver.hasOnChangedBeenCalled());
-        verify(listSelectionListener, times(1))
-                .onItemSelected(multipleChoiceListAdapterImplementation, item, 0);
-    }
-
-    /**
      * Tests the functionality of the toString-method.
      */
     public final void testToString() {

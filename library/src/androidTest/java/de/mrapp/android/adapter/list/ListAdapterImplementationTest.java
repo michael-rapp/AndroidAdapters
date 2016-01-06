@@ -22,6 +22,7 @@ import android.test.AndroidTestCase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -139,6 +140,7 @@ public class ListAdapterImplementationTest extends AndroidTestCase {
         listAdapterImplementation.addItem(item);
         listAdapterImplementation.setEnabled(item, false);
         listAdapterImplementation.setItemState(item, 1);
+        listAdapterImplementation.attach(new ListView(context));
         View view = listAdapterImplementation.getView(0, null, null);
         view.performClick();
         assertTrue(decorator.hasOnShowItemBeenInvoked);

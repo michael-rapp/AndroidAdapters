@@ -808,43 +808,6 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
     }
 
     /**
-     * Tests the functionality of the method, which allows to set, whether an item should be
-     * selected, when it is clicked by the user, or not.
-     */
-    @SuppressWarnings("unchecked")
-    public final void testSelectItemOnClick() {
-        Object item1 = new Object();
-        Object item2 = new Object();
-        Context context = getContext();
-        DataSetObserver dataSetObserver = new DataSetObserver();
-        ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
-        SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(context,
-                        new SelectableListDecoratorImplementation());
-        singleChoiceListAdapterImplementation.selectItemOnClick(false);
-        singleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
-        singleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
-        singleChoiceListAdapterImplementation.addItem(item1);
-        singleChoiceListAdapterImplementation.addItem(item2);
-        View view = singleChoiceListAdapterImplementation.getView(1, null, null);
-        dataSetObserver.reset();
-        view.performClick();
-        assertTrue(singleChoiceListAdapterImplementation.isSelected(0));
-        assertFalse(singleChoiceListAdapterImplementation.isSelected(1));
-        assertFalse(dataSetObserver.hasOnChangedBeenCalled());
-        verify(listSelectionListener, times(0))
-                .onItemSelected(singleChoiceListAdapterImplementation, item2, 1);
-        singleChoiceListAdapterImplementation.selectItemOnClick(true);
-        assertTrue(singleChoiceListAdapterImplementation.isItemSelectedOnClick());
-        view.performClick();
-        assertFalse(singleChoiceListAdapterImplementation.isSelected(0));
-        assertTrue(singleChoiceListAdapterImplementation.isSelected(1));
-        assertTrue(dataSetObserver.hasOnChangedBeenCalled());
-        verify(listSelectionListener, times(1))
-                .onItemSelected(singleChoiceListAdapterImplementation, item2, 1);
-    }
-
-    /**
      * Tests the functionality of the toString-method.
      */
     public final void testToString() {

@@ -22,6 +22,7 @@ import android.test.AndroidTestCase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import junit.framework.Assert;
 
@@ -695,6 +696,7 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
         abstractSelectableListAdapter.setEnabled(item, false);
         abstractSelectableListAdapter.setItemState(item, 1);
         abstractSelectableListAdapter.setSelected(item, true);
+        abstractSelectableListAdapter.attach(new ListView(context));
         View view = abstractSelectableListAdapter.getView(0, null, null);
         view.performClick();
         assertTrue(decorator.hasOnShowItemBeenInvoked);

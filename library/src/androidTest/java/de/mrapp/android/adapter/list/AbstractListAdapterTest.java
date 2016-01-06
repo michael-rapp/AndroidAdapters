@@ -2411,21 +2411,18 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         Context context = getContext();
         ListDecoratorImplementation decorator = new ListDecoratorImplementation();
         Object item = new Object();
-        ListAdapterItemClickListener<Object> itemClickListener =
-                mock(ListAdapterItemClickListener.class);
         AbstractListAdapterImplementation abstractListAdapter =
                 new AbstractListAdapterImplementation(context, decorator, LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                         new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
                         new LinkedHashSet<ListAdapterListener<Object>>());
-        abstractListAdapter.addItemClickListener(itemClickListener);
         abstractListAdapter.addItem(item);
+        abstractListAdapter.attach(new ListView(context));
         View view = abstractListAdapter.getView(0, null, null);
         assertNotNull(view);
         view.performClick();
         assertTrue(decorator.hasOnShowItemBeenInvoked);
-        verify(itemClickListener, times(1)).onItemClicked(abstractListAdapter, item, 0);
     }
 
     /**
@@ -2442,6 +2439,7 @@ public class AbstractListAdapterTest extends AndroidTestCase {
                         new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
                         new LinkedHashSet<ListAdapterListener<Object>>());
         abstractListAdapter.addItem(item);
+        abstractListAdapter.attach(new ListView(context));
         View view1 = View.inflate(context, R.layout.view, null);
         View view2 = abstractListAdapter.getView(0, view1, null);
         assertEquals(view1, view2);
