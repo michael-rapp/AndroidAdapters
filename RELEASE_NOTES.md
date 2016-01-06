@@ -1,5 +1,12 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.2.4 (Jan. 6th 2015)
+
+A bugfix release, which fixes the following issues:
+
+- Possible `ClassCastException` when writing a `Group`, whose data does not implement the interface `Parcelable`, to a `Parcel`.
+- Restoring the scroll position of adapter views has been fixed.
+
 ## Version 0.2.3 (Jan. 6th 2015)
 
 A bugfix release, which fixes the following issues:
