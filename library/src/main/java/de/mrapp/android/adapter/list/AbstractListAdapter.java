@@ -53,6 +53,7 @@ import de.mrapp.android.adapter.decorator.AbstractListDecorator;
 import de.mrapp.android.adapter.decorator.ViewHolder;
 import de.mrapp.android.adapter.logging.LogLevel;
 import de.mrapp.android.adapter.logging.Logger;
+import de.mrapp.android.adapter.util.AdapterViewUtil;
 
 import static de.mrapp.android.util.Condition.ensureAtLeast;
 import static de.mrapp.android.util.Condition.ensureAtMaximum;
@@ -1135,8 +1136,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
         Bundle savedState = new Bundle();
 
         if (adapterView != null) {
-            savedState.putParcelable(ADAPTER_VIEW_STATE_BUNDLE_KEY,
-                    adapterView.onSaveInstanceState());
+            AdapterViewUtil
+                    .onSaveInstanceState(adapterView, savedState, ADAPTER_VIEW_STATE_BUNDLE_KEY);
         } else if (recyclerView != null) {
             RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
 
@@ -1183,8 +1184,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
         if (savedState != null) {
             if (savedState.containsKey(ADAPTER_VIEW_STATE_BUNDLE_KEY)) {
                 if (adapterView != null) {
-                    adapterView.onRestoreInstanceState(
-                            savedState.getParcelable(ADAPTER_VIEW_STATE_BUNDLE_KEY));
+                    AdapterViewUtil.onRestoreInstanceState(adapterView, savedState,
+                            ADAPTER_VIEW_STATE_BUNDLE_KEY);
                 } else if (recyclerView != null && recyclerView.getLayoutManager() != null) {
                     recyclerView.getLayoutManager().onRestoreInstanceState(
                             savedState.getParcelable(ADAPTER_VIEW_STATE_BUNDLE_KEY));

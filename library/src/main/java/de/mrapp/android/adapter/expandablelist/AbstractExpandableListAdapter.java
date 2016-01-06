@@ -47,6 +47,7 @@ import de.mrapp.android.adapter.decorator.AbstractExpandableListDecorator;
 import de.mrapp.android.adapter.list.selectable.MultipleChoiceListAdapterImplementation;
 import de.mrapp.android.adapter.logging.LogLevel;
 import de.mrapp.android.adapter.logging.Logger;
+import de.mrapp.android.adapter.util.AdapterViewUtil;
 
 import static de.mrapp.android.util.Condition.ensureNotNull;
 
@@ -2334,8 +2335,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         }
 
         if (adapterView != null) {
-            savedState.putParcelable(ADAPTER_VIEW_STATE_BUNDLE_KEY,
-                    adapterView.onSaveInstanceState());
+            AdapterViewUtil
+                    .onSaveInstanceState(adapterView, savedState, ADAPTER_VIEW_STATE_BUNDLE_KEY);
         } else {
             String message = "The state of the adapter view can not be stored, because the " +
                     "adapter has not been attached to a view";
@@ -2370,8 +2371,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
             }
 
             if (savedState.containsKey(ADAPTER_VIEW_STATE_BUNDLE_KEY) && adapterView != null) {
-                adapterView.onRestoreInstanceState(
-                        savedState.getParcelable(ADAPTER_VIEW_STATE_BUNDLE_KEY));
+                AdapterViewUtil.onRestoreInstanceState(adapterView, savedState,
+                        ADAPTER_VIEW_STATE_BUNDLE_KEY);
             }
 
             allowDuplicateChildren(
