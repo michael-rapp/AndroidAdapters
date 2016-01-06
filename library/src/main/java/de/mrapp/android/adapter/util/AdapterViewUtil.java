@@ -180,7 +180,7 @@ public final class AdapterViewUtil {
         if (savedState != null) {
             Parcelable viewState = savedState.getParcelable(VIEW_STATE_BUNDLE_KEY);
             int firstVisibleIndex = savedState.getInt(FIRST_VISIBLE_INDEX_BUNDLE_KEY, -1);
-            int offset = savedInstanceState.getInt(OFFSET_BUNDLE_KEY, -1);
+            int offset = savedState.getInt(OFFSET_BUNDLE_KEY, -1);
 
             if (viewState != null) {
                 adapterView.onRestoreInstanceState(viewState);
