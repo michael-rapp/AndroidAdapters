@@ -72,6 +72,16 @@ public class AbstractAdapterItemImplementation<DataType> extends AbstractAdapter
     }
 
     @Override
+    public final boolean isParcelable() {
+        return false;
+    }
+
+    @Override
+    public final boolean isSerializable() {
+        return false;
+    }
+
+    @Override
     public AbstractAdapterItemImplementation<DataType> clone() throws CloneNotSupportedException {
         return null;
     }

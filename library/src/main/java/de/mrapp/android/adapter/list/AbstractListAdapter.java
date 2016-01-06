@@ -44,7 +44,6 @@ import java.util.Set;
 
 import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.datastructure.UnmodifiableList;
-import de.mrapp.android.adapter.datastructure.group.Group;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemIterator;
 import de.mrapp.android.adapter.datastructure.item.ItemListIterator;
@@ -285,28 +284,6 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
     }
 
     /**
-     * Returns, whether the adapter's underlying data implements the interface {@link Parcelable},
-     * or not.
-     *
-     * @return True, if the adapter's underlying data implements the interface {@link Parcelable} or
-     * if the adapter is empty, false otherwise
-     */
-    private boolean isUnderlyingDataParcelable() {
-        if (!getUnfilteredItems().isEmpty()) {
-            DataType item = getUnfilteredItems().get(0).getData();
-
-            if (item instanceof Group) {
-                Group<?, ?> group = (Group<?, ?>) item;
-                return Parcelable.class.isAssignableFrom(group.getData().getClass());
-            } else {
-                return Parcelable.class.isAssignableFrom(item.getClass());
-            }
-        }
-
-        return true;
-    }
-
-    /**
      * Creates and returns an {@link OnClickListener}, which is invoked, when a specific item has
      * been clicked.
      *
@@ -387,6 +364,22 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
     }
 
     /**
+     * Returns, whether the adapter's underlying data implements the interface {@link Parcelable},
+     * or not.
+     *
+     * @return True, if the adapter's underlying data implements the interface {@link Parcelable} or
+     * if the adapter is empty, false otherwise
+     */
+    private boolean isUnderlyingDataParcelable() {
+        if (!getUnfilteredItems().isEmpty()) {
+            Item<DataType> item = getUnfilteredItems().get(0);
+            return item.isParcelable();
+        }
+
+        return true;
+    }
+
+    /**
      * Returns, whether the adapter's underlying data implements the interface {@link Serializable},
      * or not.
      *
@@ -395,14 +388,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
      */
     private boolean isUnderlyingDataSerializable() {
         if (!getUnfilteredItems().isEmpty()) {
-            DataType item = getUnfilteredItems().get(0).getData();
-
-            if (item instanceof Group) {
-                Group<?, ?> group = (Group<?, ?>) item;
-                return Serializable.class.isAssignableFrom(group.getData().getClass());
-            } else {
-                return Serializable.class.isAssignableFrom(item.getClass());
-            }
+            Item<DataType> item = getUnfilteredItems().get(0);
+            return item.isSerializable();
         }
 
         return true;
@@ -1066,6 +1053,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
             } else {
                 String message = "Adapter has not been detached, because the " +
                         "adapter of the corresponding view has been changed in the meantime";
+                getLogger().logVerbose(getClass(), message);
             }
         } else {
             String message = "Adapter has not been detached, because it has not " +

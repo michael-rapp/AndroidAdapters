@@ -15,8 +15,11 @@
 package de.mrapp.android.adapter.datastructure.group;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
+import java.io.Serializable;
 
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.datastructure.AbstractAdapterItem;
@@ -126,6 +129,20 @@ public class Group<GroupType, ChildType> extends AbstractAdapterItem<GroupType> 
     public final void setChildAdapter(
             @Nullable final MultipleChoiceListAdapter<ChildType> childAdapter) {
         this.childAdapter = childAdapter;
+    }
+
+    @Override
+    public final boolean isParcelable() {
+        return Parcelable.class.isAssignableFrom(getData().getClass()) &&
+                (childAdapter == null || childAdapter.isEmpty() ||
+                        Parcelable.class.isAssignableFrom(childAdapter.getItem(0).getClass()));
+    }
+
+    @Override
+    public final boolean isSerializable() {
+        return Serializable.class.isAssignableFrom(getData().getClass()) &&
+                (childAdapter == null || childAdapter.isEmpty() ||
+                        Serializable.class.isAssignableFrom(childAdapter.getItem(0).getClass()));
     }
 
     @Override

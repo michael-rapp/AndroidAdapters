@@ -15,7 +15,10 @@
 package de.mrapp.android.adapter.datastructure.item;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
+
+import java.io.Serializable;
 
 import de.mrapp.android.adapter.datastructure.AbstractAdapterItem;
 
@@ -155,6 +158,24 @@ public class Item<DataType> extends AbstractAdapterItem<DataType> {
     public final void setState(final int state) {
         ensureAtLeast(state, 0, "The state must be at least 0");
         this.state = state;
+    }
+
+    @Override
+    public final boolean isParcelable() {
+        if (getData() instanceof AbstractAdapterItem) {
+            return ((AbstractAdapterItem) getData()).isParcelable();
+        } else {
+            return Parcelable.class.isAssignableFrom(getData().getClass());
+        }
+    }
+
+    @Override
+    public final boolean isSerializable() {
+        if (getData() instanceof AbstractAdapterItem) {
+            return ((AbstractAdapterItem) getData()).isSerializable();
+        } else {
+            return Serializable.class.isAssignableFrom(getData().getClass());
+        }
     }
 
     @SuppressWarnings("unchecked")

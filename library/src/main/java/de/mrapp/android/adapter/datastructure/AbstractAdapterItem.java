@@ -16,7 +16,10 @@ package de.mrapp.android.adapter.datastructure;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
+
+import java.io.Serializable;
 
 import de.mrapp.android.adapter.Filterable;
 import de.mrapp.android.adapter.FilteringNotSupportedException;
@@ -93,6 +96,21 @@ public abstract class AbstractAdapterItem<DataType>
         this.data = data;
     }
 
+    /**
+     * Returns, whether the item's data implements the interface {@link Parcelable}, or not.
+     *
+     * @return True, if the item's data implements the interface {@link Parcelable}, false otherwise
+     */
+    public abstract boolean isParcelable();
+
+    /**
+     * Returns, whether the item's data implements the interface {@link Serializable}, or not.
+     *
+     * @return True, if the item's data implements the interface {@link Serializable}, false
+     * otherwise
+     */
+    public abstract boolean isSerializable();
+
     @SuppressWarnings("unchecked")
     @Override
     public final int compareTo(@NonNull final AbstractAdapterItem<DataType> another) {
@@ -114,6 +132,7 @@ public abstract class AbstractAdapterItem<DataType>
         }
     }
 
+    @CallSuper
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -122,6 +141,7 @@ public abstract class AbstractAdapterItem<DataType>
         return result;
     }
 
+    @CallSuper
     @Override
     public boolean equals(final Object obj) {
         if (this == obj)
@@ -141,6 +161,7 @@ public abstract class AbstractAdapterItem<DataType>
         return 0;
     }
 
+    @CallSuper
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeSerializable(getData().getClass());

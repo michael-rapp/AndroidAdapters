@@ -81,6 +81,22 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
             AbstractExpandableListAdapter.class.getSimpleName() + "::AdapterViewState";
 
     /**
+     * The key, which is used to store the adapter, which manages the adapter's group items, within
+     * a bundle.
+     */
+    @VisibleForTesting
+    protected static final String GROUP_ADAPTER_BUNDLE_KEY =
+            AbstractExpandableListAdapter.class.getSimpleName() + "::GroupAdapterState";
+
+    /**
+     * The key, which is used to store the adapters, which manage the adapter's child items, within
+     * a bundle.
+     */
+    @VisibleForTesting
+    protected static final String CHILD_ADAPTER_BUNDLE_KEY =
+            AbstractExpandableListAdapter.class.getSimpleName() + "::ChildAdapterState_%d";
+
+    /**
      * The key, which is used to store, whether duplicate child items should be allowed, or not,
      * within a bundle.
      */
@@ -2300,34 +2316,57 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     @Override
     public final void onSaveInstanceState(@NonNull final Bundle outState,
                                           @NonNull final String key) {
-        groupAdapter.onSaveInstanceState(outState, key);
-        Bundle savedState = outState.getBundle(key);
+        Bundle savedState = new Bundle();
+        groupAdapter.onSaveInstanceState(savedState, GROUP_ADAPTER_BUNDLE_KEY);
 
-        if (savedState != null) {
-            if (adapterView != null) {
-                savedState.putParcelable(ADAPTER_VIEW_STATE_BUNDLE_KEY,
-                        adapterView.onSaveInstanceState());
-            } else {
-                String message = "The state of the adapter view can not be stored, because the " +
-                        "adapter has not been attached to a view";
-                getLogger().logWarn(getClass(), message);
+        if (savedState.containsKey(GROUP_ADAPTER_BUNDLE_KEY)) {
+            for (int i = 0; i < groupAdapter.getCount(); i++) {
+                MultipleChoiceListAdapter<ChildType> childAdapter =
+                        groupAdapter.getItem(i).getChildAdapter();
+
+                if (childAdapter != null) {
+                    String childAdapterKey = String.format(CHILD_ADAPTER_BUNDLE_KEY, i);
+                    childAdapter.onSaveInstanceState(savedState, childAdapterKey);
+                }
             }
-
-            savedState
-                    .putBoolean(ALLOW_DUPLICATE_CHILDREN_BUNDLE_KEY, areDuplicateChildrenAllowed());
-            savedState.putBoolean(EXPAND_GROUP_ON_CLICK_BUNDLE_KEY, isGroupExpandedOnClick());
-            savedState.putInt(LOG_LEVEL_BUNDLE_KEY, getLogLevel().getRank());
-            getLogger().logDebug(getClass(), "Saved instance state");
         }
+
+        if (adapterView != null) {
+            savedState.putParcelable(ADAPTER_VIEW_STATE_BUNDLE_KEY,
+                    adapterView.onSaveInstanceState());
+        } else {
+            String message = "The state of the adapter view can not be stored, because the " +
+                    "adapter has not been attached to a view";
+            getLogger().logWarn(getClass(), message);
+        }
+
+        savedState.putBoolean(ALLOW_DUPLICATE_CHILDREN_BUNDLE_KEY, areDuplicateChildrenAllowed());
+        savedState.putBoolean(EXPAND_GROUP_ON_CLICK_BUNDLE_KEY, isGroupExpandedOnClick());
+        savedState.putInt(LOG_LEVEL_BUNDLE_KEY, getLogLevel().getRank());
+        outState.putBundle(key, savedState);
+        getLogger().logDebug(getClass(), "Saved instance state");
     }
 
     @Override
     public final void onRestoreInstanceState(@NonNull final Bundle savedInstanceState,
                                              @NonNull final String key) {
-        groupAdapter.onRestoreInstanceState(savedInstanceState, key);
         Bundle savedState = savedInstanceState.getBundle(key);
 
         if (savedState != null) {
+            if (savedState.containsKey(GROUP_ADAPTER_BUNDLE_KEY)) {
+                groupAdapter.onRestoreInstanceState(savedState, GROUP_ADAPTER_BUNDLE_KEY);
+
+                for (int i = 0; i < groupAdapter.getCount(); i++) {
+                    String childAdapterKey = String.format(CHILD_ADAPTER_BUNDLE_KEY, i);
+
+                    if (savedState.containsKey(childAdapterKey)) {
+                        MultipleChoiceListAdapter<ChildType> childAdapter = createChildAdapter();
+                        childAdapter.onRestoreInstanceState(savedState, childAdapterKey);
+                        groupAdapter.getItem(i).setChildAdapter(childAdapter);
+                    }
+                }
+            }
+
             if (savedState.containsKey(ADAPTER_VIEW_STATE_BUNDLE_KEY) && adapterView != null) {
                 adapterView.onRestoreInstanceState(
                         savedState.getParcelable(ADAPTER_VIEW_STATE_BUNDLE_KEY));
