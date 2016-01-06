@@ -58,9 +58,11 @@ public abstract class AbstractAdapterItem<DataType>
      */
     @SuppressWarnings("unchecked")
     protected AbstractAdapterItem(@NonNull final Parcel source) {
-        Class<DataType> clazz = (Class<DataType>) source.readSerializable();
-        ClassLoader classLoader = clazz.getClassLoader();
-        setData((DataType) source.readParcelable(classLoader));
+        if (source.readInt() >= 1) {
+            Class<DataType> clazz = (Class<DataType>) source.readSerializable();
+            ClassLoader classLoader = clazz.getClassLoader();
+            setData((DataType) source.readParcelable(classLoader));
+        }
     }
 
     /**
@@ -164,8 +166,13 @@ public abstract class AbstractAdapterItem<DataType>
     @CallSuper
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {
-        dest.writeSerializable(getData().getClass());
-        dest.writeParcelable((Parcelable) getData(), flags);
+        if (isParcelable()) {
+            dest.writeInt(1);
+            dest.writeSerializable(getData().getClass());
+            dest.writeParcelable((Parcelable) getData(), flags);
+        } else {
+            dest.writeInt(0);
+        }
     }
 
     @Override
