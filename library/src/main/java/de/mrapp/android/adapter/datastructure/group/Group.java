@@ -167,9 +167,11 @@ public class Group<GroupType, ChildType> extends AbstractAdapterItem<GroupType> 
 
     @Override
     public final boolean match(@NonNull final String query, final int flags) {
-        return !(flags == FLAG_FILTER_EMPTY_GROUPS &&
-                (getChildAdapter() == null || getChildAdapter().isEmpty())) &&
-                super.match(query, flags);
+        if (flags == FLAG_FILTER_EMPTY_GROUPS) {
+            return !(getChildAdapter() == null || getChildAdapter().isEmpty());
+        } else {
+            return super.match(query, flags);
+        }
 
     }
 

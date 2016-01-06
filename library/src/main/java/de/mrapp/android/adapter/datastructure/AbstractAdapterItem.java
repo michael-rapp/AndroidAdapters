@@ -124,6 +124,7 @@ public abstract class AbstractAdapterItem<DataType>
         }
     }
 
+    @CallSuper
     @Override
     public boolean match(@NonNull final String query, final int flags) {
         try {
