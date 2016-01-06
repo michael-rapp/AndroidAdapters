@@ -14,13 +14,12 @@
  */
 package de.mrapp.android.adapter;
 
-import de.mrapp.android.adapter.decorator.AbstractDecorator;
-import de.mrapp.android.adapter.decorator.AbstractExpandableListDecorator;
-import de.mrapp.android.adapter.expandablelist.selectable.SelectableExpandableListAdapter;
-
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
+
+import de.mrapp.android.adapter.decorator.AbstractExpandableListDecorator;
+import de.mrapp.android.adapter.expandablelist.selectable.SelectableExpandableListAdapter;
 
 /**
  * An abstract base class for all decorators, which should allow to customize the appearance of the
@@ -83,7 +82,7 @@ public abstract class SelectableExpandableListDecorator<GroupType, ChildType>
         setCurrentParentView(view);
         int viewType = getGroupType(group);
         setCurrentViewType(viewType);
-        adaptViewState(view, enabled, false);
+        adaptViewState(view, enabled, selected);
         onShowGroup(context, adapter, view, group, viewType, index, expanded, enabled, state,
                 filtered, selected);
     }
@@ -137,7 +136,7 @@ public abstract class SelectableExpandableListDecorator<GroupType, ChildType>
         setCurrentParentView(view);
         int viewType = getChildType(child);
         setCurrentViewType(viewType);
-        adaptViewState(view, enabled, false);
+        adaptViewState(view, enabled, selected);
         onShowChild(context, adapter, view, child, viewType, childIndex, group, groupIndex, enabled,
                 state, filtered, selected);
     }
