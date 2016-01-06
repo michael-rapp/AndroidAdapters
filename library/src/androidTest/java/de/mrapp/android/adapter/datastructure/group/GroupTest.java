@@ -166,11 +166,10 @@ public class GroupTest extends AndroidTestCase {
      */
     @SuppressWarnings("unchecked")
     public final void testCreatorCreateFromParcel() {
-        MultipleChoiceListAdapter<Bundle> childAdapter = mock(MultipleChoiceListAdapter.class);
         Bundle data = new Bundle();
         int parcelableValue = 1;
         data.putInt("key", parcelableValue);
-        Group<Bundle, Bundle> group = new Group<>(data, childAdapter);
+        Group<Bundle, Bundle> group = new Group<>(data, null);
         Parcel parcel = Parcel.obtain();
         group.writeToParcel(parcel, 1);
         parcel.setDataPosition(0);
