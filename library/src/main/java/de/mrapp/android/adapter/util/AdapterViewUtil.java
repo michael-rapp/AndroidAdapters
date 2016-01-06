@@ -18,7 +18,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ExpandableListView;
@@ -30,8 +29,8 @@ import static de.mrapp.android.util.Condition.ensureNotNull;
 
 /**
  * An utility class, which provides static methods, which allow to store the scroll position of
- * adapter views such as {@link ListView}, {@link GridView}, {@link RecyclerView} and {@link
- * ExpandableListView} and restore it afterwards.
+ * adapter views such as {@link ListView}, {@link GridView} and {@link ExpandableListView} and
+ * restore it afterwards.
  *
  * @author Michael Rapp
  * @since 0.2.3
@@ -117,8 +116,8 @@ public final class AdapterViewUtil {
 
     /**
      * Creates a new utility class, which provides static methods, which allow to store the scroll
-     * position of adapter views such as {@link ListView}, {@link GridView}, {@link RecyclerView}
-     * and {@link ExpandableListView} and restore it afterwards.
+     * position of adapter views such as {@link ListView}, {@link GridView} and {@link
+     * ExpandableListView} and restore it afterwards.
      */
     private AdapterViewUtil() {
 
