@@ -6,6 +6,8 @@ A bugfix release, which fixes the following issues:
 
 - Click listeners and long-click listeners are now registered at adapter views. This enables the adapter views to highlight items when pressed. It is now mandatory to attach adapters to views using their `attach`-methods. 
 - The view state of an `SelectableExpandableListAdapter`'s group and child items are now correctly adapted depending on the items' selection.
+- Storing and restoring the state of expandable list adapters has been fixed.
+- Restoring the scroll positions of adapter views has been improved.
 
 ## Version 0.2.2 (Jan. 5th 2015)
 
