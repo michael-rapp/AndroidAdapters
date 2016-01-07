@@ -1,5 +1,11 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.2.6 (Jan. 7th 2015)
+
+A bugfix release, which fixes the following issues:
+
+- Fixed possible `IndexOutOfBoundsException` when resetting filters, which have been applied on an `ExpandableListAdapter`'s child items.
+
 ## Version 0.2.5 (Jan. 7th 2015)
 
 A bugfix release, which fixes the following issues:
