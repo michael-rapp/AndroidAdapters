@@ -26,7 +26,6 @@ import java.util.Set;
 import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.FilterQuery;
 import de.mrapp.android.adapter.Filterable;
-import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.datastructure.group.Group;
 import de.mrapp.android.adapter.datastructure.group.GroupFilter;
@@ -39,7 +38,6 @@ import de.mrapp.android.adapter.expandablelist.enablestate.ExpandableListEnableS
 import de.mrapp.android.adapter.expandablelist.itemstate.ExpandableListItemStateListener;
 import de.mrapp.android.adapter.expandablelist.sortable.AbstractSortableExpandableListAdapter;
 import de.mrapp.android.adapter.expandablelist.sortable.ExpandableListSortingListener;
-import de.mrapp.android.adapter.list.filterable.ListFilterListener;
 import de.mrapp.android.adapter.logging.LogLevel;
 
 import static de.mrapp.android.util.Condition.ensureNotNull;
@@ -73,70 +71,6 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
      * data has been filtered.
      */
     private transient Set<ExpandableListFilterListener<GroupType, ChildType>> filterListeners;
-
-    /**
-     * Creates and returns a listener, which allows to notify all listeners, which have been
-     * registered to be notified when the adapter's underlying data is filtered, when a filter,
-     * which has been used to filter the adapter's group items, has been reseted.
-     *
-     * @return The listener, which has been created, as an instance of the type {@link
-     * ListFilterListener}
-     */
-    private ListFilterListener<Group<GroupType, ChildType>> createGroupFilterListener() {
-        return new ListFilterListener<Group<GroupType, ChildType>>() {
-
-            @Override
-            public void onApplyFilter(
-                    @NonNull final ListAdapter<Group<GroupType, ChildType>> adapter,
-                    @NonNull final String query, final int flags,
-                    @Nullable final Filter<Group<GroupType, ChildType>> filter,
-                    @NonNull final List<Group<GroupType, ChildType>> filteredItems) {
-
-            }
-
-            @Override
-            public void onResetFilter(
-                    @NonNull final ListAdapter<Group<GroupType, ChildType>> adapter,
-                    @NonNull final String query, final int flags,
-                    @NonNull final List<Group<GroupType, ChildType>> unfilteredItems) {
-                notifyOnResetGroupFilter(query, flags, getAllGroups());
-            }
-
-        };
-    }
-
-    /**
-     * Creates and returns a listener, which allows to notify all listeners, which have been
-     * registered to be notified when the adapter's underlying data is filtered, when a filter,
-     * which has been used to filter the adapter's child items, has been reseted.
-     *
-     * @param groupIndex
-     *         The index of the group to whose child adapter the filter should be attached as an
-     *         {@link Integer} value
-     * @return The listener, which has been created, as an instance of the type {@link
-     * ListFilterListener}
-     */
-    private ListFilterListener<ChildType> createChildFilterListener(final int groupIndex) {
-        return new ListFilterListener<ChildType>() {
-
-            @Override
-            public void onApplyFilter(@NonNull final ListAdapter<ChildType> adapter,
-                                      @NonNull final String query, final int flags,
-                                      @Nullable final Filter<ChildType> filter,
-                                      @NonNull final List<ChildType> filteredItems) {
-
-            }
-
-            @Override
-            public void onResetFilter(@NonNull final ListAdapter<ChildType> adapter,
-                                      @NonNull final String query, final int flags,
-                                      @NonNull final List<ChildType> unfilteredItems) {
-                notifyOnResetChildFilter(query, flags, getGroup(groupIndex), groupIndex,
-                        getAllChildren(groupIndex));
-            }
-
-        };
-    }
 
     /**
      * Notifies all listeners, which have been registered to be notified, when the adapter's
@@ -381,15 +315,6 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
                 triggerChildStateOnClick, setChildEnableStatesImplicitly, itemStateListeners,
                 sortingListeners);
         setFilterListeners(filterListeners);
-        getGroupAdapter().addFilterListener(createGroupFilterListener());
-    }
-
-    @Override
-    protected final Group<GroupType, ChildType> createGroup(final int groupIndex,
-                                                            @NonNull final GroupType group) {
-        Group<GroupType, ChildType> groupItem = super.createGroup(groupIndex, group);
-        groupItem.getChildAdapter().addFilterListener(createChildFilterListener(groupIndex));
-        return groupItem;
     }
 
     @Override
@@ -448,6 +373,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
 
         if (result) {
             notifyOnDataSetChanged();
+            notifyOnResetGroupFilter(query, flags, getAllGroups());
             String message =
                     "Reseted group filter with query \"" + query + "\" and flags \"" + flags + "\"";
             getLogger().logInfo(getClass(), message);
@@ -462,8 +388,10 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
 
     @Override
     public final void resetAllGroupFilters() {
-        getGroupAdapter().resetAllFilters();
-        notifyOnDataSetChanged();
+        for (FilterQuery filterQuery : getGroupFilterQueries()) {
+            resetGroupFilter(filterQuery.getQuery(), filterQuery.getFlags());
+        }
+
         String message = "Reseted all previously applied group filters";
         getLogger().logInfo(getClass(), message);
     }
@@ -653,6 +581,8 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
         boolean result = group.getChildAdapter().resetFilter(query, flags);
 
         if (result) {
+            notifyOnResetChildFilter(query, flags, group.getData(), groupIndex,
+                    getAllChildren(groupIndex));
             notifyOnDataSetChanged();
             String message = "Reseted child filter of group \"" + group.getData() + "\" at index " +
                     groupIndex + " with query \"" + query + "\" and flags \"" + flags + "\"";
@@ -689,11 +619,13 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
     @Override
     public final void resetAllChildFilters(final int groupIndex) {
         resetGroupFilter("", Group.FLAG_FILTER_EMPTY_GROUPS);
-        Group<GroupType, ChildType> group = getGroupAdapter().getItem(groupIndex);
-        group.getChildAdapter().resetAllFilters();
-        notifyOnDataSetChanged();
+
+        for (FilterQuery filterQuery : getChildFilterQueries(groupIndex)) {
+            resetChildFilter(groupIndex, filterQuery.getQuery(), filterQuery.getFlags());
+        }
+
         String message =
-                "Reseted all previously applied child filters of group \"" + group.getData() +
+                "Reseted all previously applied child filters of group \"" + getGroup(groupIndex) +
                         "\" at index " + groupIndex;
         getLogger().logInfo(getClass(), message);
     }

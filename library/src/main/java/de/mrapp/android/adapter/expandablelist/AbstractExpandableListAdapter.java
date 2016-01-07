@@ -677,6 +677,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      * @return The group, which has been created, as an instance of the class {@link Group}. The
      * group may not be null
      */
+    @CallSuper
     protected Group<GroupType, ChildType> createGroup(final int groupIndex,
                                                       @NonNull final GroupType group) {
         return new Group<>(group, createChildAdapter());
