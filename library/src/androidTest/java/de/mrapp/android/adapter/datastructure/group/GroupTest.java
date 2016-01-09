@@ -53,6 +53,7 @@ public class GroupTest extends AndroidTestCase {
         Group<Object, Object> group = new Group<>(data);
         assertEquals(data, group.getData());
         assertNull(group.getChildAdapter());
+        assertFalse(group.isExpanded());
     }
 
     /**
@@ -66,6 +67,7 @@ public class GroupTest extends AndroidTestCase {
         Group<Object, Object> group = new Group<>(data, childAdapter);
         assertEquals(data, group.getData());
         assertEquals(childAdapter, group.getChildAdapter());
+        assertFalse(group.isExpanded());
     }
 
     /**
@@ -80,6 +82,17 @@ public class GroupTest extends AndroidTestCase {
     }
 
     /**
+     * Tests the functionality of the method, which allows to set, whether the group is expanded, or
+     * not.
+     */
+    public final void testSetExpanded() {
+        boolean expanded = true;
+        Group<Object, Object> group = new Group<>(new Object());
+        group.setExpanded(expanded);
+        assertEquals(expanded, group.isExpanded());
+    }
+
+    /**
      * Tests the functionality of the clone-method.
      *
      * @throws CloneNotSupportedException
@@ -91,13 +104,16 @@ public class GroupTest extends AndroidTestCase {
                 mock(MultipleChoiceListAdapter.class);
         when(childAdapter.clone()).thenReturn(mock(MultipleChoiceListAdapter.class));
         CloneableImplementation data = new CloneableImplementation();
+        boolean expanded = true;
         Group<CloneableImplementation, CloneableImplementation> group =
                 new Group<>(data, childAdapter);
+        group.setExpanded(expanded);
         Group<CloneableImplementation, CloneableImplementation> clonedGroup = group.clone();
         assertNotNull(clonedGroup.getData());
         assertNotSame(clonedGroup.getData(), data);
         assertNotNull(clonedGroup.getChildAdapter());
         assertNotSame(clonedGroup.getChildAdapter(), childAdapter);
+        assertEquals(clonedGroup.isExpanded(), expanded);
     }
 
     /**
@@ -109,11 +125,14 @@ public class GroupTest extends AndroidTestCase {
      */
     public final void testCloneWhenChildAdapterIsNull() throws CloneNotSupportedException {
         CloneableImplementation data = new CloneableImplementation();
+        boolean expanded = true;
         Group<CloneableImplementation, CloneableImplementation> group = new Group<>(data);
+        group.setExpanded(expanded);
         Group<CloneableImplementation, CloneableImplementation> clonedGroup = group.clone();
         assertNotNull(clonedGroup.getData());
         assertNotSame(clonedGroup.getData(), data);
         assertNull(clonedGroup.getChildAdapter());
+        assertEquals(clonedGroup.isExpanded(), expanded);
     }
 
     /**
@@ -156,8 +175,38 @@ public class GroupTest extends AndroidTestCase {
      */
     public final void testToString() {
         Object data = new Object();
+        boolean expanded = true;
         Group<Object, Object> group = new Group<>(data);
-        assertEquals("Group [data=" + data + "]", group.toString());
+        group.setExpanded(expanded);
+        assertEquals("Group [data=" + data + ", expanded=" + expanded + "]", group.toString());
+    }
+
+    /**
+     * Tests the functionality of the hashCode-method.
+     */
+    public final void testHashCode() {
+        Object data = new Object();
+        Group<Object, Object> group1 = new Group<>(data);
+        Group<Object, Object> group2 = new Group<>(data);
+        assertEquals(group1.hashCode(), group1.hashCode());
+        assertEquals(group1.hashCode(), group2.hashCode());
+        group1.setExpanded(true);
+        assertNotSame(group1.hashCode(), group2.hashCode());
+    }
+
+    /**
+     * Tests the functionality of the equals-method.
+     */
+    public final void testEquals() {
+        Object data = new Object();
+        Group<Object, Object> group1 = new Group<>(data);
+        Group<Object, Object> group2 = new Group<>(data);
+        assertTrue(group1.equals(group1));
+        assertTrue(group1.equals(group2));
+        assertFalse(group1.equals(null));
+        assertFalse(group1.equals(new Object()));
+        group1.setExpanded(true);
+        assertFalse(group1.equals(group2));
     }
 
     /**
@@ -169,13 +218,16 @@ public class GroupTest extends AndroidTestCase {
         Bundle data = new Bundle();
         int parcelableValue = 1;
         data.putInt("key", parcelableValue);
+        boolean expanded = true;
         Group<Bundle, Bundle> group = new Group<>(data, null);
+        group.setExpanded(expanded);
         Parcel parcel = Parcel.obtain();
         group.writeToParcel(parcel, 1);
         parcel.setDataPosition(0);
         Group<?, ?> restoredGroup = Group.CREATOR.createFromParcel(parcel);
         assertEquals(parcelableValue, ((Bundle) restoredGroup.getData()).getInt("key"));
         assertNull(restoredGroup.getChildAdapter());
+        assertEquals(expanded, restoredGroup.isExpanded());
         parcel.recycle();
     }
 

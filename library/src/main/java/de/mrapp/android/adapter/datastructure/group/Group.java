@@ -71,6 +71,11 @@ public class Group<GroupType, ChildType> extends AbstractAdapterItem<GroupType> 
     private transient MultipleChoiceListAdapter<ChildType> childAdapter;
 
     /**
+     * True, if the group is expanded, false otherwise.
+     */
+    private boolean expanded;
+
+    /**
      * Creates a new data structure, which categorizes multiple items of an adapter.
      *
      * @param source
@@ -80,6 +85,7 @@ public class Group<GroupType, ChildType> extends AbstractAdapterItem<GroupType> 
     private Group(@NonNull final Parcel source) {
         super(source);
         setChildAdapter(null);
+        setExpanded(source.readInt() > 0);
     }
 
     /**
@@ -107,6 +113,7 @@ public class Group<GroupType, ChildType> extends AbstractAdapterItem<GroupType> 
                  @Nullable final MultipleChoiceListAdapter<ChildType> childAdapter) {
         super(data);
         setChildAdapter(childAdapter);
+        setExpanded(false);
     }
 
     /**
@@ -129,6 +136,25 @@ public class Group<GroupType, ChildType> extends AbstractAdapterItem<GroupType> 
     public final void setChildAdapter(
             @Nullable final MultipleChoiceListAdapter<ChildType> childAdapter) {
         this.childAdapter = childAdapter;
+    }
+
+    /**
+     * Returns, whether the group is expanded, or not.
+     *
+     * @return True, if the group is expanded, false otherwise
+     */
+    public final boolean isExpanded() {
+        return expanded;
+    }
+
+    /**
+     * Sets, whether the group is expanded, or not.
+     *
+     * @param expanded
+     *         True, if the group should be expanded, false otherwise
+     */
+    public final void setExpanded(final boolean expanded) {
+        this.expanded = expanded;
     }
 
     @Override
@@ -159,6 +185,7 @@ public class Group<GroupType, ChildType> extends AbstractAdapterItem<GroupType> 
             }
 
             clonedGroup.setChildAdapter(clonedChildAdapter);
+            clonedGroup.setExpanded(expanded);
             return clonedGroup;
         } catch (Exception e) {
             throw new CloneNotSupportedException();
@@ -177,7 +204,35 @@ public class Group<GroupType, ChildType> extends AbstractAdapterItem<GroupType> 
 
     @Override
     public final String toString() {
-        return "Group [data=" + getData() + "]";
+        return "Group [data=" + getData() + ", expanded=" + expanded + "]";
+    }
+
+    @Override
+    public final int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + (expanded ? 1231 : 1237);
+        return result;
+    }
+
+    @Override
+    public final boolean equals(final Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Group<?, ?> other = (Group<?, ?>) obj;
+        if (expanded != other.expanded)
+            return false;
+        return true;
+    }
+
+    @Override
+    public final void writeToParcel(final Parcel dest, final int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(isExpanded() ? 1 : 0);
     }
 
 }
