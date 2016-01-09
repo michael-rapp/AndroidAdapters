@@ -40,6 +40,7 @@ import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemComparator;
+import de.mrapp.android.adapter.datastructure.item.UnmodifiableItemList;
 import de.mrapp.android.adapter.decorator.AbstractListDecorator;
 import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
 import de.mrapp.android.adapter.list.ListAdapterItemLongClickListener;
@@ -243,14 +244,16 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType exte
      * @param filter
      *         The filter, which should be applied, as an instance of the class {@link
      *         AppliedFilter}. The filter may not be null
+     * @return A list, which contains all items, which have been filtered, as an instance of the
+     * type {@link List} or an empty list, if no items have been filtered
      */
-    private void applyFilter(@NonNull final AppliedFilter<DataType> filter) {
+    private List<DataType> applyFilter(@NonNull final AppliedFilter<DataType> filter) {
         if (unfilteredItems == null) {
             unfilteredItems = new ArrayList<>(getItems());
             indexMapping = new SparseIntArray();
         }
 
-        Collection<Item<DataType>> itemsToRemove = new LinkedList<>();
+        List<Item<DataType>> itemsToRemove = new LinkedList<>();
         int counter = 0;
 
         for (int i = 0; i < getCount(); i++) {
@@ -266,6 +269,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType exte
         }
 
         getItems().removeAll(itemsToRemove);
+        return new UnmodifiableItemList<>(itemsToRemove);
     }
 
     /**
@@ -321,14 +325,18 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType exte
      *         instance of the type {@link Filter} or null, if the items' implementations of the
      *         interface {@link Filterable} has been used instead
      * @param filteredItems
-     *         A collection, which contains the adapter's filtered items, as an instance of the type
-     *         {@link List} or an empty collection, if the adapter does not contain any items
+     *         A collection, which contains the items, which have been filtered, as an instance of
+     *         the type {@link List} or an empty collection, if no items have been filtered
+     * @param unfilteredItems
+     *         A collection, which contains the adapter's unfiltered items, as an instance of the
+     *         type {@link List} or an empty collection, if the adapter does not contain any items
      */
     private void notifyOnApplyFilter(@NonNull final String query, final int flags,
                                      @Nullable final Filter<DataType> filter,
-                                     @NonNull final List<DataType> filteredItems) {
+                                     @NonNull final List<DataType> filteredItems,
+                                     @NonNull final List<DataType> unfilteredItems) {
         for (ListFilterListener<DataType> listener : filterListeners) {
-            listener.onApplyFilter(this, query, flags, filter, filteredItems);
+            listener.onApplyFilter(this, query, flags, filter, filteredItems, unfilteredItems);
         }
     }
 
@@ -342,8 +350,8 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType exte
      * @param flags
      *         The flags of the filter, which has been reseted, as an {@link Integer} value
      * @param unfilteredItems
-     *         A collection, which contains the adapter's filtered items, as an instance of the type
-     *         {@link List} or an empty collection, if the adapter does not contain any items
+     *         A collection, which contains the adapter's unfiltered items, as an instance of the
+     *         type {@link List} or an empty collection, if the adapter does not contain any items
      */
     private void notifyOnResetFilter(@NonNull final String query, final int flags,
                                      @NonNull final List<DataType> unfilteredItems) {
@@ -558,49 +566,49 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType exte
     }
 
     @Override
-    public final boolean applyFilter(@NonNull final String query, final int flags) {
+    public final List<DataType> applyFilter(@NonNull final String query, final int flags) {
         AppliedFilter<DataType> appliedFilter = new AppliedFilter<>(query, flags);
         boolean added = appliedFilters.add(appliedFilter);
-        applyFilter(appliedFilter);
 
         if (added) {
-            notifyOnApplyFilter(query, flags, null, getAllItems());
+            List<DataType> filteredItems = applyFilter(appliedFilter);
+            notifyOnApplyFilter(query, flags, null, filteredItems, getAllItems());
+            notifyOnDataSetChanged();
             String message =
                     "Applied filter using the query \"" + query + "\" and flags \"" + flags + "\"";
             getLogger().logInfo(getClass(), message);
+            return filteredItems;
         } else {
             String message = "Filter using the query \"" + query + "\" and flags \"" + flags +
                     "\" not applied, because a filter using the same " +
                     "query and flags is already applied on the adapter";
             getLogger().logDebug(getClass(), message);
+            return new UnmodifiableItemList<>(new ArrayList<Item<DataType>>());
         }
-
-        notifyOnDataSetChanged();
-        return added;
     }
 
     @Override
-    public final boolean applyFilter(@NonNull final String query, final int flags,
-                                     @NonNull final Filter<DataType> filter) {
+    public final List<DataType> applyFilter(@NonNull final String query, final int flags,
+                                            @NonNull final Filter<DataType> filter) {
         AppliedFilter<DataType> appliedFilter = new AppliedFilter<>(query, flags, filter);
         boolean added = appliedFilters.add(appliedFilter);
 
         if (added) {
-            applyFilter(appliedFilter);
+            List<DataType> filteredItems = applyFilter(appliedFilter);
+            notifyOnApplyFilter(query, flags, filter, filteredItems, getAllItems());
+            notifyOnDataSetChanged();
             String message = "Applied filter using the query \"" + query + "\", flags \"" + flags +
                     "\" and filter \"" + filter + "\"";
             getLogger().logInfo(getClass(), message);
+            return filteredItems;
         } else {
             String message = "Filter using the query \"" + query + "\" flags \"" + flags +
                     "\" and filter \"" + filter +
                     "\" not applied, because a filter using the same query, flags and filter is already applied " +
                     "on the adapter";
             getLogger().logDebug(getClass(), message);
+            return new UnmodifiableItemList<>(new ArrayList<Item<DataType>>());
         }
-
-        notifyOnApplyFilter(query, flags, filter, getAllItems());
-        notifyOnDataSetChanged();
-        return added;
     }
 
     @Override

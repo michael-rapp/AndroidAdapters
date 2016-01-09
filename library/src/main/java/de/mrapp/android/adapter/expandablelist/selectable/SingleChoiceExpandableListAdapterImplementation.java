@@ -407,7 +407,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
             public void onResetGroupFilter(
                     @NonNull final ExpandableListAdapter<GroupType, ChildType> adapter,
                     @NonNull final String query, final int flags,
-                    @NonNull final List<GroupType> filteredGroups) {
+                    @NonNull final List<GroupType> unfilteredGroups) {
                 if (isSelectionAdaptedAutomatically() && !isEmpty() &&
                         getSelectedGroupIndex() == -1) {
                     selectNearestEnabledItem(0, -1);
@@ -419,7 +419,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
                     @NonNull final ExpandableListAdapter<GroupType, ChildType> adapter,
                     @NonNull final String query, final int flags,
                     @Nullable final Filter<ChildType> filter, @NonNull final GroupType group,
-                    final int groupIndex, @NonNull final List<ChildType> filteredChildren) {
+                    final int groupIndex, @NonNull final List<ChildType> unfilteredChildren) {
                 if (isSelectionAdaptedAutomatically() && getSelectedGroupIndex() == -1) {
                     selectNearestEnabledItem(groupIndex, 0);
                 }

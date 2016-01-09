@@ -17,6 +17,7 @@ package de.mrapp.android.adapter.expandablelist.filterable;
 import android.support.annotation.NonNull;
 import android.widget.ExpandableListView;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
@@ -61,9 +62,10 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
      * @param flags
      *         The flags, which should be used to filter the group items, as an {@link Integer}
      *         value or 0, if no flags should be used
-     * @return True, if the filter has been applied, false otherwise
+     * @return A list, which contains the group items, which have been filtered, as an instance of
+     * the type {@link List}, or an empty list, if no group items have been filtered
      */
-    boolean applyGroupFilter(@NonNull String query, int flags);
+    List<GroupType> applyGroupFilter(@NonNull String query, int flags);
 
     /**
      * Filters the adapter's group items by using a specific query and a filter, which is used to
@@ -80,9 +82,11 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
      * @param filter
      *         The filter, which should be used to apply the given query on the adapter's group
      *         items, as an instance of the type {@link Filter}. The filter may not be null
-     * @return True, if the filter has been applied, false otherwise
+     * @return A list, which contains the group items, which have been filtered, as an instance of
+     * the type {@link List}, or an empty list, if no group items have been filtered
      */
-    boolean applyGroupFilter(@NonNull String query, int flags, @NonNull Filter<GroupType> filter);
+    List<GroupType> applyGroupFilter(@NonNull String query, int flags,
+                                     @NonNull Filter<GroupType> filter);
 
     /**
      * Resets the filter, which has been applied on the adapter to filter its group items, which
@@ -149,9 +153,10 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
      * @param flags
      *         The flags, which should be used to filter the child items, as an {@link Integer}
      *         value or 0, if no flags should be used
-     * @return True, if the filter has been applied on all groups, false otherwise
+     * @return A list, which contains the child items, which have been filtered, as an instance of
+     * the type {@link List}, or an empty list, if no child items have been filtered
      */
-    boolean applyChildFilter(@NonNull String query, int flags);
+    List<ChildType> applyChildFilter(@NonNull String query, int flags);
 
     /**
      * Filters the adapter's child items, regardless of the group they belong to, by using a
@@ -170,9 +175,10 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
      * @param flags
      *         The flags, which should be used to filter the child items, as an {@link Integer}
      *         value or 0, if no flags should be used
-     * @return True, if the filter has been applied on all groups, false otherwise
+     * @return A list, which contains the child items, which have been filtered, as an instance of
+     * the type {@link List}, or an empty list, if no child items have been filtered
      */
-    boolean applyChildFilter(boolean filterEmptyGroups, @NonNull String query, int flags);
+    List<ChildType> applyChildFilter(boolean filterEmptyGroups, @NonNull String query, int flags);
 
     /**
      * Filters the child items of a specific group, by using a specific query, if no filter using
@@ -191,9 +197,10 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
      * @param flags
      *         The flags, which should be used to filter the child items, as an {@link Integer}
      *         value or 0, if no flags should be used
-     * @return True, if the filter has been applied, false otherwise
+     * @return A list, which contains the child items, which have been filtered, as an instance of
+     * the type {@link List}, or an empty list, if no child items have been filtered
      */
-    boolean applyChildFilter(@NonNull GroupType group, @NonNull String query, int flags);
+    List<ChildType> applyChildFilter(@NonNull GroupType group, @NonNull String query, int flags);
 
     /**
      * Filters the child items of a specific group, by using a specific query, if no filter using
@@ -215,10 +222,11 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
      * @param flags
      *         The flags, which should be used to filter the child items, as an {@link Integer}
      *         value or 0, if no flags should be used
-     * @return True, if the filter has been applied, false otherwise
+     * @return A list, which contains the child items, which have been filtered, as an instance of
+     * the type {@link List}, or an empty list, if no child items have been filtered
      */
-    boolean applyChildFilter(boolean filterEmptyGroup, @NonNull GroupType group,
-                             @NonNull String query, int flags);
+    List<ChildType> applyChildFilter(boolean filterEmptyGroup, @NonNull GroupType group,
+                                     @NonNull String query, int flags);
 
     /**
      * Filters the child items of the group, which belongs to a specific index, by using a specific
@@ -239,9 +247,10 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
      * @param flags
      *         The flags, which should be used to filter the child items, as an {@link Integer}
      *         value or 0, if no flags should be used
-     * @return True, if the filter has been applied, false otherwise
+     * @return A list, which contains the child items, which have been filtered, as an instance of
+     * the type {@link List}, or an empty list, if no child items have been filtered
      */
-    boolean applyChildFilter(int groupIndex, @NonNull String query, int flags);
+    List<ChildType> applyChildFilter(int groupIndex, @NonNull String query, int flags);
 
     /**
      * Filters the child items of the group, which belongs to a specific index, by using a specific
@@ -265,10 +274,11 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
      * @param flags
      *         The flags, which should be used to filter the child items, as an {@link Integer}
      *         value or 0, if no flags should be used
-     * @return True, if the filter has been applied, false otherwise
+     * @return A list, which contains the child items, which have been filtered, as an instance of
+     * the type {@link List}, or an empty list, if no child items have been filtered
      */
-    boolean applyChildFilter(boolean filterEmptyGroup, int groupIndex, @NonNull String query,
-                             int flags);
+    List<ChildType> applyChildFilter(boolean filterEmptyGroup, int groupIndex,
+                                     @NonNull String query, int flags);
 
     /**
      * Filters the adapter's child items, regardless of the group they belong to, by using a
@@ -286,9 +296,11 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
      * @param filter
      *         The filter, which should be used to apply the given query on the adapter's child
      *         items, as an instance of the type {@link Filter}. The filter may not be null
-     * @return True, if the filter has been applied, false otherwise
+     * @return A list, which contains the child items, which have been filtered, as an instance of
+     * the type {@link List}, or an empty list, if no child items have been filtered
      */
-    boolean applyChildFilter(@NonNull String query, int flags, @NonNull Filter<ChildType> filter);
+    List<ChildType> applyChildFilter(@NonNull String query, int flags,
+                                     @NonNull Filter<ChildType> filter);
 
     /**
      * Filters the adapter's child items, regardless of the group they belong to, by using a
@@ -309,10 +321,11 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
      * @param filter
      *         The filter, which should be used to apply the given query on the adapter's child
      *         items, as an instance of the type {@link Filter}. The filter may not be null
-     * @return True, if the filter has been applied, false otherwise
+     * @return A list, which contains the child items, which have been filtered, as an instance of
+     * the type {@link List}, or an empty list, if no child items have been filtered
      */
-    boolean applyChildFilter(boolean filterEmptyGroups, @NonNull String query, int flags,
-                             @NonNull Filter<ChildType> filter);
+    List<ChildType> applyChildFilter(boolean filterEmptyGroups, @NonNull String query, int flags,
+                                     @NonNull Filter<ChildType> filter);
 
     /**
      * Filters the child items of a specific group by using a specific query and a filter, which is
@@ -333,10 +346,11 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
      * @param filter
      *         The filter, which should be used to apply the given query on the group's child items,
      *         as an instance of the type {@link Filter}. The filter may not be null
-     * @return True, if the filter has been applied, false otherwise
+     * @return A list, which contains the child items, which have been filtered, as an instance of
+     * the type {@link List}, or an empty list, if no child items have been filtered
      */
-    boolean applyChildFilter(@NonNull GroupType group, @NonNull String query, int flags,
-                             @NonNull Filter<ChildType> filter);
+    List<ChildType> applyChildFilter(@NonNull GroupType group, @NonNull String query, int flags,
+                                     @NonNull Filter<ChildType> filter);
 
     /**
      * Filters the child items of a specific group by using a specific query and a filter, which is
@@ -360,10 +374,12 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
      * @param filter
      *         The filter, which should be used to apply the given query on the group's child items,
      *         as an instance of the type {@link Filter}. The filter may not be null
-     * @return True, if the filter has been applied, false otherwise
+     * @return A list, which contains the child items, which have been filtered, as an instance of
+     * the type {@link List}, or an empty list, if no child items have been filtered
      */
-    boolean applyChildFilter(boolean filterEmptyGroup, @NonNull GroupType group,
-                             @NonNull String query, int flags, @NonNull Filter<ChildType> filter);
+    List<ChildType> applyChildFilter(boolean filterEmptyGroup, @NonNull GroupType group,
+                                     @NonNull String query, int flags,
+                                     @NonNull Filter<ChildType> filter);
 
     /**
      * Filters the child items of the group, which belongs to a specific index, by using a specific
@@ -385,10 +401,11 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
      * @param filter
      *         The filter, which should be used to apply the given query on the group's child items,
      *         as an instance of the type {@link Filter}. The filter may not be null
-     * @return True, if the filter has been applied, false otherwise
+     * @return A list, which contains the child items, which have been filtered, as an instance of
+     * the type {@link List}, or an empty list, if no child items have been filtered
      */
-    boolean applyChildFilter(int groupIndex, @NonNull String query, int flags,
-                             @NonNull Filter<ChildType> filter);
+    List<ChildType> applyChildFilter(int groupIndex, @NonNull String query, int flags,
+                                     @NonNull Filter<ChildType> filter);
 
     /**
      * Filters the child items of the group, which belongs to a specific index, by using a specific
@@ -413,10 +430,12 @@ public interface FilterableExpandableListAdapter<GroupType, ChildType> {
      * @param filter
      *         The filter, which should be used to apply the given query on the group's child items,
      *         as an instance of the type {@link Filter}. The filter may not be null
-     * @return True, if the filter has been applied, false otherwise
+     * @return A list, which contains the child items, which have been filtered, as an instance of
+     * the type {@link List}, or an empty list, if no child items have been filtered
      */
-    boolean applyChildFilter(boolean filterEmptyGroup, int groupIndex, @NonNull String query,
-                             int flags, @NonNull Filter<ChildType> filter);
+    List<ChildType> applyChildFilter(boolean filterEmptyGroup, int groupIndex,
+                                     @NonNull String query, int flags,
+                                     @NonNull Filter<ChildType> filter);
 
     /**
      * Resets the filter, which has been applied on the adapter to filter its child items,

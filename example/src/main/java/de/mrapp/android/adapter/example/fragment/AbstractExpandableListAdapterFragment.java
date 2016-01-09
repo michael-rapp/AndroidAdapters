@@ -349,7 +349,7 @@ public abstract class AbstractExpandableListAdapterFragment<AdapterType extends 
     @Override
     public void onResetGroupFilter(@NonNull final ExpandableListAdapter<Country, Contact> adapter,
                                    @NonNull final String query, final int flags,
-                                   @NonNull final List<Country> filteredGroups) {
+                                   @NonNull final List<Country> unfilteredGroups) {
         updateItemCount();
         updateEnabledItemCount();
     }
@@ -359,7 +359,7 @@ public abstract class AbstractExpandableListAdapterFragment<AdapterType extends 
                                    @NonNull final String query, final int flags,
                                    final Filter<Contact> filter, @NonNull final Country group,
                                    final int groupIndex,
-                                   @NonNull final List<Contact> filteredChildren) {
+                                   @NonNull final List<Contact> unfilteredChildren) {
         updateItemCount();
         updateEnabledItemCount();
     }

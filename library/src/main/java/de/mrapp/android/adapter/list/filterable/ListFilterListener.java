@@ -50,11 +50,15 @@ public interface ListFilterListener<DataType> {
      *         instance of the type {@link Filter} or null, if the items' implementations of the
      *         interface {@link Filterable} have been used instead
      * @param filteredItems
-     *         A collection, which contains the adapter's filtered items, as an instance of the type
-     *         {@link List} or an empty collection, if the adapter does not contain any items
+     *         A collection, which contains the items, which have been filtered, as an instance of
+     *         the type {@link List} or an empty collection, if no items have been filtered
+     * @param unfilteredItems
+     *         A collection, which contains the adapter's unfiltered items, as an instance of the
+     *         type {@link List} or an empty collection, if the adapter does not contain any items
      */
     void onApplyFilter(@NonNull ListAdapter<DataType> adapter, @NonNull String query, int flags,
-                       @Nullable Filter<DataType> filter, @NonNull List<DataType> filteredItems);
+                       @Nullable Filter<DataType> filter, @NonNull List<DataType> filteredItems,
+                       @NonNull List<DataType> unfilteredItems);
 
     /**
      * The method, which is invoked, when a filter has been reseted.
@@ -69,8 +73,8 @@ public interface ListFilterListener<DataType> {
      *         The flags used by the filter, which has been reseted, as an {@link Integer} value or
      *         0, if no flags have been used by the filter
      * @param unfilteredItems
-     *         A collection, which contains the adapter's filtered items, as an instance of the type
-     *         {@link List} or an empty collection, if the adapter does not contain any items
+     *         A collection, which contains the adapter's unfiltered items, as an instance of the
+     *         type {@link List} or an empty collection, if the adapter does not contain any items
      */
     void onResetFilter(@NonNull ListAdapter<DataType> adapter, @NonNull String query, int flags,
                        @NonNull List<DataType> unfilteredItems);

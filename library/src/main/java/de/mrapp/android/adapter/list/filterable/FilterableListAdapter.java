@@ -24,7 +24,6 @@ import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.FilterQuery;
 import de.mrapp.android.adapter.Filterable;
 import de.mrapp.android.adapter.FilteringNotSupportedException;
-import de.mrapp.android.adapter.datastructure.AppliedFilter;
 
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a filterable list of
@@ -51,9 +50,10 @@ public interface FilterableListAdapter<DataType> {
      * @param flags
      *         The flags, which should be used to filter the item, as an {@link Integer} value, or
      *         0, if no flags should be used
-     * @return True, if the filter has been applied, false otherwise
+     * @return A list, which contains the items, which have been filtered, as an instance of the
+     * type {@link List}, or an empty list, if no items have been filtered
      */
-    boolean applyFilter(@NonNull String query, int flags);
+    List<DataType> applyFilter(@NonNull String query, int flags);
 
     /**
      * Filters the adapter's items by using a specific query and a filter, which is used to apply
@@ -70,9 +70,10 @@ public interface FilterableListAdapter<DataType> {
      * @param filter
      *         The filter, which should be used to apply the given query on the adapter's items, as
      *         an instance of the type {@link Filter} . The filter may not be null
-     * @return True, if the filter has been applied, false otherwise
+     * @return A list, which contains the items, which have been filtered, as an instance of the
+     * type {@link List}, or an empty list, if no items have been filtered
      */
-    boolean applyFilter(@NonNull String query, int flags, @NonNull Filter<DataType> filter);
+    List<DataType> applyFilter(@NonNull String query, int flags, @NonNull Filter<DataType> filter);
 
     /**
      * Resets the filter, which uses a specific query.

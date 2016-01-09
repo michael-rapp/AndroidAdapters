@@ -188,13 +188,13 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
         }
 
         @Override
-        public void addFilterListener(final ListFilterListener<ComparableImplementation> listener) {
+        public void addFilterListener(@NonNull final ListFilterListener<ComparableImplementation> listener) {
 
         }
 
         @Override
         public void removeFilterListener(
-                final ListFilterListener<ComparableImplementation> listener) {
+                @NonNull final ListFilterListener<ComparableImplementation> listener) {
 
         }
 

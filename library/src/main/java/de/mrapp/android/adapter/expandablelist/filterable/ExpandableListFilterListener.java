@@ -53,13 +53,18 @@ public interface ExpandableListFilterListener<GroupType, ChildType> {
      *         instance of the type {@link Filter} or null, if the group items' implementations of
      *         the interface {@link Filterable} have been used instead
      * @param filteredGroups
-     *         A collection, which contains the adapter's filtered group items, as an instance of
+     *         A collection, which contains the group items, which have been filtered, as an
+     *         instance of the type {@link List} or an empty collection, if no group items have been
+     *         filtered
+     * @param unfilteredGroups
+     *         A collection, which contains the adapter's unfiltered group items, as an instance of
      *         the type {@link List} or an empty collection, if the adapter does not contain any
      *         group items
      */
     void onApplyGroupFilter(@NonNull ExpandableListAdapter<GroupType, ChildType> adapter,
                             @NonNull String query, int flags, @Nullable Filter<GroupType> filter,
-                            @NonNull List<GroupType> filteredGroups);
+                            @NonNull List<GroupType> filteredGroups,
+                            @NonNull List<GroupType> unfilteredGroups);
 
     /**
      * The method, which is invoked, when a filter, which has been used to filter the adapter's
@@ -74,14 +79,14 @@ public interface ExpandableListFilterListener<GroupType, ChildType> {
      * @param flags
      *         The flags used by the filter, which has been reseted, as an {@link Integer} value or
      *         0, if no flags have been used by the filter
-     * @param filteredGroups
-     *         A collection, which contains the adapter's filtered group items, as an instance of
+     * @param unfilteredGroups
+     *         A collection, which contains the adapter's unfiltered group items, as an instance of
      *         the type {@link List} or an empty collection, if the adapter does not contain any
      *         group items
      */
     void onResetGroupFilter(@NonNull ExpandableListAdapter<GroupType, ChildType> adapter,
                             @NonNull String query, int flags,
-                            @NonNull List<GroupType> filteredGroups);
+                            @NonNull List<GroupType> unfilteredGroups);
 
     /**
      * The method, which is invoked, when the child items of a specific group have been filtered by
@@ -106,14 +111,19 @@ public interface ExpandableListFilterListener<GroupType, ChildType> {
      *         The index of the group, whose child items have been filtered, as an {@link Integer}
      *         value
      * @param filteredChildren
-     *         A collection, which contains the group's filtered child items, as an instance of the
-     *         type {@link List} or an empty collection, if the group does not contain any child
+     *         A collection, which contains the child items, which have been filtered, as an
+     *         instance of the type {@link List} or an empty collection, if no child items have been
+     *         filtered
+     * @param unfilteredChildren
+     *         A collection, which contains the group's unfiltered child items, as an instance of
+     *         the type {@link List} or an empty collection, if the group does not contain any child
      *         items
      */
     void onApplyChildFilter(@NonNull ExpandableListAdapter<GroupType, ChildType> adapter,
                             @NonNull String query, int flags, @Nullable Filter<ChildType> filter,
                             @NonNull GroupType group, int groupIndex,
-                            @NonNull List<ChildType> filteredChildren);
+                            @NonNull List<ChildType> filteredChildren,
+                            @NonNull List<ChildType> unfilteredChildren);
 
     /**
      * The method, which is invoked, when a filter, which has been used to filter the child items of
@@ -135,8 +145,8 @@ public interface ExpandableListFilterListener<GroupType, ChildType> {
      *         The index of the group, whose child items have been filtered, as an {@link Integer}
      *         value
      * @param unfilteredChildren
-     *         A collection, which contains the group's filtered child items, as an instance of the
-     *         type {@link List} or an empty collection, if the group does not contain any child
+     *         A collection, which contains the group's unfiltered child items, as an instance of
+     *         the type {@link List} or an empty collection, if the group does not contain any child
      *         items
      */
     void onResetChildFilter(@NonNull ExpandableListAdapter<GroupType, ChildType> adapter,
