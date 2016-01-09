@@ -321,7 +321,8 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
                 expansionListeners, setChildEnableStatesImplicitly, enableStateListeners);
         setNumberOfGroupStates(numberOfGroupStates);
         setNumberOfChildStates(numberOfChildStates);
-        setChildStatesImplicitly(setChildEnableStatesImplicitly);
+        setChildEnableStatesImplicitly(setChildEnableStatesImplicitly);
+        setChildStatesImplicitly(setChildStatesImplicitly);
         triggerGroupStateOnClick(triggerGroupStateOnClick);
         triggerChildStateOnClick(triggerChildStateOnClick);
         setItemStateListeners(itemStateListeners);
@@ -330,7 +331,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 
     @Override
     protected final Group<GroupType, ChildType> createGroup(final int groupIndex,
-                                                      @NonNull final GroupType group) {
+                                                            @NonNull final GroupType group) {
         Group<GroupType, ChildType> groupItem = super.createGroup(groupIndex, group);
         groupItem.getChildAdapter().setNumberOfItemStates(getNumberOfChildStates());
         return groupItem;
