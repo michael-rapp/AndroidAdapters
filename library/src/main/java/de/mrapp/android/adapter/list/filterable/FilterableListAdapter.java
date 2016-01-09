@@ -15,6 +15,7 @@
 package de.mrapp.android.adapter.list.filterable;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.widget.AbsListView;
 
 import java.util.List;
@@ -51,8 +52,9 @@ public interface FilterableListAdapter<DataType> {
      *         The flags, which should be used to filter the item, as an {@link Integer} value, or
      *         0, if no flags should be used
      * @return A list, which contains the items, which have been filtered, as an instance of the
-     * type {@link List}, or an empty list, if no items have been filtered
+     * type {@link List}, or null, if the filter has not been applied
      */
+    @Nullable
     List<DataType> applyFilter(@NonNull String query, int flags);
 
     /**
@@ -71,8 +73,9 @@ public interface FilterableListAdapter<DataType> {
      *         The filter, which should be used to apply the given query on the adapter's items, as
      *         an instance of the type {@link Filter} . The filter may not be null
      * @return A list, which contains the items, which have been filtered, as an instance of the
-     * type {@link List}, or an empty list, if no items have been filtered
+     * type {@link List}, or null, if the filter has not been applied
      */
+    @Nullable
     List<DataType> applyFilter(@NonNull String query, int flags, @NonNull Filter<DataType> filter);
 
     /**

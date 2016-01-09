@@ -565,6 +565,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType exte
         }
     }
 
+    @Nullable
     @Override
     public final List<DataType> applyFilter(@NonNull final String query, final int flags) {
         AppliedFilter<DataType> appliedFilter = new AppliedFilter<>(query, flags);
@@ -583,10 +584,11 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType exte
                     "\" not applied, because a filter using the same " +
                     "query and flags is already applied on the adapter";
             getLogger().logDebug(getClass(), message);
-            return new UnmodifiableItemList<>(new ArrayList<Item<DataType>>());
+            return null;
         }
     }
 
+    @Nullable
     @Override
     public final List<DataType> applyFilter(@NonNull final String query, final int flags,
                                             @NonNull final Filter<DataType> filter) {
@@ -607,7 +609,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType exte
                     "\" not applied, because a filter using the same query, flags and filter is already applied " +
                     "on the adapter";
             getLogger().logDebug(getClass(), message);
-            return new UnmodifiableItemList<>(new ArrayList<Item<DataType>>());
+            return null;
         }
     }
 

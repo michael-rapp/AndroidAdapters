@@ -372,50 +372,54 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
         return areGroupsFiltered() || areChildrenFiltered();
     }
 
+    @Nullable
     @Override
     public final List<GroupType> applyGroupFilter(@NonNull final String query, final int flags) {
-        List<GroupType> filteredGroups =
-                new UnmodifiableGroupList<>(getGroupAdapter().applyFilter(query, flags));
+        List<Group<GroupType, ChildType>> filteredGroups =
+                getGroupAdapter().applyFilter(query, flags);
 
-        if (!filteredGroups.isEmpty()) {
-            notifyOnApplyGroupFilter(query, flags, null, filteredGroups, getAllGroups());
+        if (filteredGroups != null) {
+            notifyOnApplyGroupFilter(query, flags, null,
+                    new UnmodifiableGroupList<>(filteredGroups), getAllGroups());
             notifyOnDataSetChanged();
             String message =
                     "Applied group filter using the query \"" + query + "\" and flags \"" + flags +
                             "\"";
             getLogger().logInfo(getClass(), message);
+            return new UnmodifiableGroupList<>(filteredGroups);
         } else {
             String message = "Group filter using the query \"" + query + "\" and flags \"" + flags +
                     "\" not applied, because a filter using the same query and flags is already " +
                     "applied on the adapter";
             getLogger().logDebug(getClass(), message);
+            return null;
         }
-
-        return filteredGroups;
     }
 
+    @Nullable
     @Override
     public final List<GroupType> applyGroupFilter(@NonNull final String query, final int flags,
                                                   @NonNull final Filter<GroupType> filter) {
-        List<GroupType> filteredGroups = new UnmodifiableGroupList<>(getGroupAdapter()
-                .applyFilter(query, flags, new GroupFilter<GroupType, ChildType>(filter)));
+        List<Group<GroupType, ChildType>> filteredGroups = getGroupAdapter()
+                .applyFilter(query, flags, new GroupFilter<GroupType, ChildType>(filter));
 
-        if (!filteredGroups.isEmpty()) {
-            notifyOnApplyGroupFilter(query, flags, filter, filteredGroups, getAllGroups());
+        if (filteredGroups != null) {
+            notifyOnApplyGroupFilter(query, flags, filter,
+                    new UnmodifiableGroupList<>(filteredGroups), getAllGroups());
             notifyOnDataSetChanged();
             String message =
                     "Applied group filter using the query \"" + query + "\", flags \"" + flags +
                             "\" and filter \"" + filter + "\"";
             getLogger().logInfo(getClass(), message);
+            return new UnmodifiableGroupList<>(filteredGroups);
         } else {
             String message = "Group filter using the query \"" + query + "\" flags \"" + flags +
                     "\" and filter \"" + filter +
                     "\" not applied, because a filter using the same query, flags and filter is already " +
                     "applied on the adapter";
             getLogger().logDebug(getClass(), message);
+            return null;
         }
-
-        return filteredGroups;
     }
 
     @Override
@@ -467,28 +471,39 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
         return applyChildFilter(false, query, flags);
     }
 
+    @Nullable
     @Override
     public final List<ChildType> applyChildFilter(final boolean filterEmptyGroups,
                                                   @NonNull final String query, final int flags) {
-        List<ChildType> filteredChildren = new ArrayList<>();
+        List<ChildType> result = null;
 
         for (int i = 0; i < getGroupCount(); i++) {
-            filteredChildren.addAll(applyChildFilter(i, query, flags));
+            List<ChildType> filteredChildren = applyChildFilter(i, query, flags);
+
+            if (filteredChildren != null) {
+                if (result == null) {
+                    result = new ArrayList<>();
+                }
+
+                result.addAll(filteredChildren);
+            }
         }
 
         if (filterEmptyGroups) {
             applyGroupFilter("", Group.FLAG_FILTER_EMPTY_GROUPS);
         }
 
-        return new UnmodifiableList<>(filteredChildren);
+        return result != null ? new UnmodifiableList<>(result) : null;
     }
 
+    @Nullable
     @Override
     public final List<ChildType> applyChildFilter(@NonNull final GroupType group,
                                                   @NonNull final String query, final int flags) {
         return applyChildFilter(false, group, query, flags);
     }
 
+    @Nullable
     @Override
     public final List<ChildType> applyChildFilter(final boolean filterEmptyGroup,
                                                   @NonNull final GroupType group,
@@ -497,12 +512,14 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
                 flags);
     }
 
+    @Nullable
     @Override
     public final List<ChildType> applyChildFilter(final int groupIndex, @NonNull final String query,
                                                   final int flags) {
         return applyChildFilter(false, groupIndex, query, flags);
     }
 
+    @Nullable
     @Override
     public final List<ChildType> applyChildFilter(final boolean filterEmptyGroup,
                                                   final int groupIndex, @NonNull final String query,
@@ -510,7 +527,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
         Group<GroupType, ChildType> group = getGroupAdapter().getItem(groupIndex);
         List<ChildType> filteredChildren = group.getChildAdapter().applyFilter(query, flags);
 
-        if (!filteredChildren.isEmpty()) {
+        if (filteredChildren != null) {
             notifyOnApplyChildFilter(query, flags, null, group.getData(), groupIndex,
                     filteredChildren, getAllChildren(groupIndex));
             notifyOnDataSetChanged();
@@ -532,29 +549,40 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
         return filteredChildren;
     }
 
+    @Nullable
     @Override
     public final List<ChildType> applyChildFilter(@NonNull final String query, final int flags,
                                                   @NonNull final Filter<ChildType> filter) {
         return applyChildFilter(false, query, flags, filter);
     }
 
+    @Nullable
     @Override
     public final List<ChildType> applyChildFilter(final boolean filterEmptyGroups,
                                                   @NonNull final String query, final int flags,
                                                   @NonNull final Filter<ChildType> filter) {
-        List<ChildType> filteredChildren = new ArrayList<>();
+        List<ChildType> result = null;
 
         for (int i = 0; i < getGroupCount(); i++) {
-            filteredChildren.addAll(applyChildFilter(i, query, flags, filter));
+            List<ChildType> filteredChildren = applyChildFilter(i, query, flags, filter);
+
+            if (filteredChildren != null) {
+                if (result == null) {
+                    result = new ArrayList<>();
+                }
+
+                result.addAll(filteredChildren);
+            }
         }
 
         if (filterEmptyGroups) {
             applyGroupFilter("", Group.FLAG_FILTER_EMPTY_GROUPS);
         }
 
-        return new UnmodifiableList<>(filteredChildren);
+        return result != null ? new UnmodifiableList<>(result) : null;
     }
 
+    @Nullable
     @Override
     public final List<ChildType> applyChildFilter(@NonNull final GroupType group,
                                                   @NonNull final String query, final int flags,
@@ -562,6 +590,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
         return applyChildFilter(false, group, query, flags, filter);
     }
 
+    @Nullable
     @Override
     public final List<ChildType> applyChildFilter(final boolean filterEmptyGroup,
                                                   @NonNull final GroupType group,
@@ -571,6 +600,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
                 filter);
     }
 
+    @Nullable
     @Override
     public final List<ChildType> applyChildFilter(final int groupIndex, @NonNull final String query,
                                                   final int flags,
@@ -578,6 +608,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
         return applyChildFilter(false, groupIndex, query, flags, filter);
     }
 
+    @Nullable
     @Override
     public final List<ChildType> applyChildFilter(final boolean filterEmptyGroup,
                                                   final int groupIndex, @NonNull final String query,
@@ -587,7 +618,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
         List<ChildType> filteredChildren =
                 group.getChildAdapter().applyFilter(query, flags, filter);
 
-        if (!filteredChildren.isEmpty()) {
+        if (filteredChildren != null) {
             notifyOnApplyChildFilter(query, flags, filter, group.getData(), groupIndex,
                     filteredChildren, getAllChildren(groupIndex));
             notifyOnDataSetChanged();
