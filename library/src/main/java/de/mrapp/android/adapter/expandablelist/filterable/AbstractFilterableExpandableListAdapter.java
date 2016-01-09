@@ -312,7 +312,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
                 expandGroupOnClick, itemClickListeners, itemLongClickListeners, adapterListeners,
                 expansionListeners, setChildEnableStatesImplicitly, enableStateListeners,
                 numberOfGroupStates, numberOfChildStates, triggerGroupStateOnClick,
-                triggerChildStateOnClick, setChildEnableStatesImplicitly, itemStateListeners,
+                triggerChildStateOnClick, setChildStatesImplicitly, itemStateListeners,
                 sortingListeners);
         setFilterListeners(filterListeners);
     }
