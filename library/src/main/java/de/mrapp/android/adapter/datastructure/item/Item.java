@@ -130,7 +130,7 @@ public class Item<DataType> extends AbstractAdapterItem<DataType> {
     }
 
     /**
-     * Sets, whether the item is be enabled, or not.
+     * Sets, whether the item is enabled, or not.
      *
      * @param enabled
      *         True, if the item should be enabled, false otherwise
