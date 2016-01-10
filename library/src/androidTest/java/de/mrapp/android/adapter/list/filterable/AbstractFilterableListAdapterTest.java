@@ -498,11 +498,13 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         dataSetObserver.reset();
         String query = "querystring";
         int flags = 1;
-        List<FilterableImplementation> filteredItems =
+        List<FilterableImplementation> result =
                 abstractFilterableListAdapter.applyFilter(query, flags);
-        assertNotNull(filteredItems);
+        assertNotNull(result);
+        List<FilterableImplementation> unfilteredItems =
+                abstractFilterableListAdapter.getAllItems();
         assertEquals(2, abstractFilterableListAdapter.getCount());
-        Iterator<FilterableImplementation> iterator = filteredItems.iterator();
+        Iterator<FilterableImplementation> iterator = unfilteredItems.iterator();
         assertEquals(item2, iterator.next());
         assertEquals(item3, iterator.next());
         verify(filterListener, times(1))
@@ -510,8 +512,8 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
                         isNull(Filter.class), any(UnmodifiableItemList.class),
                         any(UnmodifiableItemList.class));
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
-        filteredItems = abstractFilterableListAdapter.applyFilter("querystring2", 1);
-        assertNotNull(filteredItems);
+        result = abstractFilterableListAdapter.applyFilter("querystring2", 1);
+        assertNotNull(result);
         assertEquals(1, abstractFilterableListAdapter.getCount());
         iterator = abstractFilterableListAdapter.iterator();
         assertEquals(item3, iterator.next());
@@ -596,19 +598,21 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         String query = "querystring";
         int flags = 1;
         Filter<FilterableImplementation> filter = new FilterImplementation();
-        List<FilterableImplementation> filteredItems =
+        List<FilterableImplementation> result =
                 abstractFilterableListAdapter.applyFilter(query, 1, filter);
-        assertNotNull(filteredItems);
+        assertNotNull(result);
         assertEquals(2, abstractFilterableListAdapter.getCount());
-        Iterator<FilterableImplementation> iterator = filteredItems.iterator();
+        List<FilterableImplementation> unfilteredItems =
+                abstractFilterableListAdapter.getAllItems();
+        Iterator<FilterableImplementation> iterator = unfilteredItems.iterator();
         assertEquals(item2, iterator.next());
         assertEquals(item3, iterator.next());
         verify(filterListener, times(1))
                 .onApplyFilter(eq(abstractFilterableListAdapter), eq(query), eq(flags), eq(filter),
                         any(UnmodifiableItemList.class), any(UnmodifiableItemList.class));
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
-        filteredItems = abstractFilterableListAdapter.applyFilter("querystring2", 1, filter);
-        assertNotNull(filteredItems);
+        result = abstractFilterableListAdapter.applyFilter("querystring2", 1, filter);
+        assertNotNull(result);
         assertEquals(1, abstractFilterableListAdapter.getCount());
         iterator = abstractFilterableListAdapter.iterator();
         assertEquals(item3, iterator.next());
@@ -650,11 +654,11 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         Filter<FilterableImplementation> filter = new FilterImplementation();
         abstractFilterableListAdapter.applyFilter(query, flags, filter);
         dataSetObserver.reset();
-        List<FilterableImplementation> filteredItems =
+        List<FilterableImplementation> result =
                 abstractFilterableListAdapter.applyFilter(query, flags, filter);
-        assertNull(filteredItems);
+        assertNull(result);
         assertEquals(2, abstractFilterableListAdapter.getCount());
-        verify(filterListener, times(2))
+        verify(filterListener, times(1))
                 .onApplyFilter(eq(abstractFilterableListAdapter), eq(query), eq(flags), eq(filter),
                         any(UnmodifiableItemList.class), any(UnmodifiableItemList.class));
     }
