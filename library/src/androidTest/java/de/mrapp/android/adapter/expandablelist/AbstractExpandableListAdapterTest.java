@@ -1380,7 +1380,7 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
                         new NullObjectDecorator<Group<Object, Object>>());
         boolean allowDuplicateChildren = false;
         boolean notifyOnChange = true;
-        boolean expandGroupOnClick = true;
+        boolean triggerGroupExpansionOnClick = true;
         Set<ExpandableListAdapterItemClickListener<Object, Object>> itemClickListeners =
                 new LinkedHashSet<>();
         Set<ExpandableListAdapterItemLongClickListener<Object, Object>> itemLongClickListeners =
@@ -1389,9 +1389,9 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         Set<ExpansionListener<Object, Object>> expansionListeners = new LinkedHashSet<>();
         AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
                 new AbstractExpandableListAdapterImplementation(context, decorator, logLevel,
-                        groupAdapter, allowDuplicateChildren, notifyOnChange, expandGroupOnClick,
-                        itemClickListeners, itemLongClickListeners, adapterListeners,
-                        expansionListeners);
+                        groupAdapter, allowDuplicateChildren, notifyOnChange,
+                        triggerGroupExpansionOnClick, itemClickListeners, itemLongClickListeners,
+                        adapterListeners, expansionListeners);
         assertEquals(context, abstractExpandableListAdapter.getContext());
         assertEquals(decorator, abstractExpandableListAdapter.getDecorator());
         assertEquals(logLevel, abstractExpandableListAdapter.getLogLevel());
@@ -1399,7 +1399,8 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertEquals(allowDuplicateChildren,
                 abstractExpandableListAdapter.areDuplicateChildrenAllowed());
         assertEquals(notifyOnChange, abstractExpandableListAdapter.isNotifiedOnChange());
-        assertEquals(expandGroupOnClick, abstractExpandableListAdapter.isGroupExpandedOnClick());
+        assertEquals(triggerGroupExpansionOnClick,
+                abstractExpandableListAdapter.isGroupExpansionTriggeredOnClick());
         assertEquals(itemClickListeners, abstractExpandableListAdapter.getItemClickListeners());
         assertEquals(itemLongClickListeners,
                 abstractExpandableListAdapter.getItemLongClickListeners());

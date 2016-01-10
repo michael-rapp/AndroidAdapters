@@ -253,8 +253,9 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
      * @param notifyOnChange
      *         True, if the method <code>notifyDataSetChanged():void</code> should be automatically
      *         called when the adapter's underlying data has been changed, false otherwise
-     * @param expandGroupOnClick
-     *         True, if a group should be expanded, when it is clicked by the user, false otherwise
+     * @param triggerGroupExpansionOnClick
+     *         True, if a group's expansion should be triggered, when it is clicked by the user,
+     *         false otherwise
      * @param itemClickListeners
      *         A set, which contains the listeners, which should be notified, when an item of the
      *         adapter has been clicked by the user, as an instance of the type {@link Set}, or an
@@ -303,7 +304,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
                                                      @NonNull final MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter,
                                                      final boolean allowDuplicateChildren,
                                                      final boolean notifyOnChange,
-                                                     final boolean expandGroupOnClick,
+                                                     final boolean triggerGroupExpansionOnClick,
                                                      @NonNull final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
                                                      @NonNull final Set<ExpandableListAdapterItemLongClickListener<GroupType, ChildType>> itemLongClickListeners,
                                                      @NonNull final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
@@ -317,8 +318,9 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
                                                      final boolean setChildStatesImplicitly,
                                                      @NonNull final Set<ExpandableListItemStateListener<GroupType, ChildType>> itemStateListeners) {
         super(context, decorator, logLevel, groupAdapter, allowDuplicateChildren, notifyOnChange,
-                expandGroupOnClick, itemClickListeners, itemLongClickListeners, adapterListeners,
-                expansionListeners, setChildEnableStatesImplicitly, enableStateListeners);
+                triggerGroupExpansionOnClick, itemClickListeners, itemLongClickListeners,
+                adapterListeners, expansionListeners, setChildEnableStatesImplicitly,
+                enableStateListeners);
         setNumberOfGroupStates(numberOfGroupStates);
         setNumberOfChildStates(numberOfChildStates);
         setChildEnableStatesImplicitly(setChildEnableStatesImplicitly);

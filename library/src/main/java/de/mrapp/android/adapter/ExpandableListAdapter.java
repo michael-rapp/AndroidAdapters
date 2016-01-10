@@ -2122,19 +2122,22 @@ public interface ExpandableListAdapter<GroupType, ChildType>
     void triggerAllGroupExpansions();
 
     /**
-     * Returns, whether a group is expanded, when it is clicked by the user, or not.
+     * Returns, whether a group's expansion is triggered, when it is clicked by the user, or not.
      *
-     * @return True, if a group is expanded, when it is clicked by the user, false otherwise
+     * @return True, if a group's expansion is triggered, when it is clicked by the user, false
+     * otherwise
      */
-    boolean isGroupExpandedOnClick();
+    boolean isGroupExpansionTriggeredOnClick();
 
     /**
-     * Sets, whether a group should be expanded, when it is clicked by the user, or not.
+     * Sets, whether a group's expansion should be triggered, when it is clicked by the user, or
+     * not.
      *
-     * @param expandGroupOnClick
-     *         True, if a group should be expanded, when it is clicked by the user, false otherwise
+     * @param triggerGroupExpansionOnClick
+     *         True, if a group's expansion should be triggered, when it is clicked by the user,
+     *         false otherwise
      */
-    void expandGroupOnClick(boolean expandGroupOnClick);
+    void triggerGroupExpansionOnClick(boolean triggerGroupExpansionOnClick);
 
     /**
      * Adds a new listener, which should be notified, when the adapter's underlying data has been
