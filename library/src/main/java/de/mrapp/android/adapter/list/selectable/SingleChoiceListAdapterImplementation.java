@@ -171,7 +171,8 @@ public class SingleChoiceListAdapterImplementation<DataType>
             public void onApplyFilter(@NonNull final ListAdapter<DataType> adapter,
                                       @NonNull final String query, final int flags,
                                       @Nullable final Filter<DataType> filter,
-                                      @NonNull final List<DataType> filteredItems) {
+                                      @NonNull final List<DataType> filteredItems,
+                                      @NonNull final List<DataType> unfilteredItems) {
                 if (isSelectionAdaptedAutomatically() && !isEmpty() && getSelectedIndex() == -1) {
                     select(0);
                 }
@@ -180,7 +181,7 @@ public class SingleChoiceListAdapterImplementation<DataType>
             @Override
             public void onResetFilter(@NonNull final ListAdapter<DataType> adapter,
                                       @NonNull final String query, final int flags,
-                                      @NonNull final List<DataType> filteredItems) {
+                                      @NonNull final List<DataType> unfilteredItems) {
                 if (isSelectionAdaptedAutomatically() && !isEmpty() && getSelectedIndex() == -1) {
                     select(0);
                 }

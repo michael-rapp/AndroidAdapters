@@ -183,8 +183,9 @@ public abstract class AbstractSelectableExpandableListAdapterFragment<AdapterTyp
     public final void onApplyGroupFilter(
             @NonNull final ExpandableListAdapter<Country, Contact> adapter,
             @NonNull final String query, final int flags, final Filter<Country> filter,
-            @NonNull final List<Country> filteredGroups) {
-        super.onApplyGroupFilter(adapter, query, flags, filter, filteredGroups);
+            @NonNull final List<Country> filteredGroups,
+            @NonNull final List<Country> unfilteredGroups) {
+        super.onApplyGroupFilter(adapter, query, flags, filter, filteredGroups, unfilteredGroups);
         updateSelectedItemCount();
     }
 
@@ -202,8 +203,9 @@ public abstract class AbstractSelectableExpandableListAdapterFragment<AdapterTyp
             @NonNull final ExpandableListAdapter<Country, Contact> adapter,
             @NonNull final String query, final int flags, @NonNull final Filter<Contact> filter,
             @NonNull final Country group, final int groupIndex,
+            @NonNull final List<Contact> filteredChildren,
             @NonNull final List<Contact> unfilteredChildren) {
-        super.onApplyChildFilter(adapter, query, flags, filter, group, groupIndex,
+        super.onApplyChildFilter(adapter, query, flags, filter, group, groupIndex, filteredChildren,
                 unfilteredChildren);
         updateSelectedItemCount();
     }

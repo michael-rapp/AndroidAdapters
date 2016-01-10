@@ -126,8 +126,9 @@ public abstract class AbstractSelectableListAdapterFragment<AdapterType extends 
     public final void onApplyFilter(@NonNull final ListAdapter<Contact> adapter,
                                     @NonNull final String query, final int flags,
                                     final Filter<Contact> filter,
-                                    @NonNull final List<Contact> filteredItems) {
-        super.onApplyFilter(adapter, query, flags, filter, filteredItems);
+                                    @NonNull final List<Contact> filteredItems,
+                                    @NonNull final List<Contact> unfilteredItems) {
+        super.onApplyFilter(adapter, query, flags, filter, filteredItems, unfilteredItems);
         updateSelectedItemCount();
     }
 

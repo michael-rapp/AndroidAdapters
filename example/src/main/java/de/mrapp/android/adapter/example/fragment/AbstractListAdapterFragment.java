@@ -316,7 +316,8 @@ public abstract class AbstractListAdapterFragment<AdapterType extends ListAdapte
     public void onApplyFilter(@NonNull final ListAdapter<Contact> adapter,
                               @NonNull final String query, final int flags,
                               final Filter<Contact> filter,
-                              @NonNull final List<Contact> filteredItems) {
+                              @NonNull final List<Contact> filteredItems,
+                              @NonNull final List<Contact> unfilteredItems) {
         updateItemCount();
         updateEnabledItemCount();
     }

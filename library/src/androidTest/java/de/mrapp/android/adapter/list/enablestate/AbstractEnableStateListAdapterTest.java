@@ -298,15 +298,17 @@ public class AbstractEnableStateListAdapterTest extends AndroidTestCase {
             return null;
         }
 
+        @Nullable
         @Override
-        public boolean applyFilter(@NonNull final String query, final int flags) {
-            return false;
+        public List<Object> applyFilter(@NonNull final String query, final int flags) {
+            return null;
         }
 
+        @Nullable
         @Override
-        public boolean applyFilter(@NonNull final String query, final int flags,
-                                   @NonNull final Filter<Object> filter) {
-            return false;
+        public List<Object> applyFilter(@NonNull final String query, final int flags,
+                                        @NonNull final Filter<Object> filter) {
+            return null;
         }
 
         @Override

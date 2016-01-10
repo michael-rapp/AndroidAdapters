@@ -22,7 +22,6 @@ import android.test.AndroidTestCase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import junit.framework.Assert;
 
@@ -31,6 +30,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
@@ -187,15 +187,17 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
             return null;
         }
 
+        @Nullable
         @Override
-        public boolean applyFilter(@NonNull final String query, final int flags) {
-            return false;
+        public List<Object> applyFilter(@NonNull final String query, final int flags) {
+            return null;
         }
 
+        @Nullable
         @Override
-        public boolean applyFilter(@NonNull final String query, final int flags,
-                                   @NonNull final Filter<Object> filter) {
-            return false;
+        public List<Object> applyFilter(@NonNull final String query, final int flags,
+                                        @NonNull final Filter<Object> filter) {
+            return null;
         }
 
         @Override

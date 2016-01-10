@@ -498,19 +498,20 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         dataSetObserver.reset();
         String query = "querystring";
         int flags = 1;
-        boolean applied = abstractFilterableListAdapter.applyFilter(query, flags);
-        assertTrue(applied);
+        List<FilterableImplementation> filteredItems =
+                abstractFilterableListAdapter.applyFilter(query, flags);
+        assertNotNull(filteredItems);
         assertEquals(2, abstractFilterableListAdapter.getCount());
-        List<FilterableImplementation> filteredItems = abstractFilterableListAdapter.getAllItems();
         Iterator<FilterableImplementation> iterator = filteredItems.iterator();
         assertEquals(item2, iterator.next());
         assertEquals(item3, iterator.next());
         verify(filterListener, times(1))
                 .onApplyFilter(eq(abstractFilterableListAdapter), eq(query), eq(flags),
-                        isNull(Filter.class), any(UnmodifiableItemList.class));
+                        isNull(Filter.class), any(UnmodifiableItemList.class),
+                        any(UnmodifiableItemList.class));
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
-        applied = abstractFilterableListAdapter.applyFilter("querystring2", 1);
-        assertTrue(applied);
+        filteredItems = abstractFilterableListAdapter.applyFilter("querystring2", 1);
+        assertNotNull(filteredItems);
         assertEquals(1, abstractFilterableListAdapter.getCount());
         iterator = abstractFilterableListAdapter.iterator();
         assertEquals(item3, iterator.next());
@@ -551,12 +552,14 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         int flags = 1;
         abstractFilterableListAdapter.applyFilter(query, flags);
         dataSetObserver.reset();
-        boolean applied = abstractFilterableListAdapter.applyFilter(query, flags);
-        assertFalse(applied);
+        List<FilterableImplementation> filteredItems =
+                abstractFilterableListAdapter.applyFilter(query, flags);
+        assertNull(filteredItems);
         assertEquals(2, abstractFilterableListAdapter.getCount());
         verify(filterListener, times(1))
                 .onApplyFilter(eq(abstractFilterableListAdapter), eq(query), eq(flags),
-                        isNull(Filter.class), any(UnmodifiableItemList.class));
+                        isNull(Filter.class), any(UnmodifiableItemList.class),
+                        any(UnmodifiableItemList.class));
     }
 
     /**
@@ -593,19 +596,19 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         String query = "querystring";
         int flags = 1;
         Filter<FilterableImplementation> filter = new FilterImplementation();
-        boolean applied = abstractFilterableListAdapter.applyFilter(query, 1, filter);
-        assertTrue(applied);
+        List<FilterableImplementation> filteredItems =
+                abstractFilterableListAdapter.applyFilter(query, 1, filter);
+        assertNotNull(filteredItems);
         assertEquals(2, abstractFilterableListAdapter.getCount());
-        List<FilterableImplementation> filteredItems = abstractFilterableListAdapter.getAllItems();
         Iterator<FilterableImplementation> iterator = filteredItems.iterator();
         assertEquals(item2, iterator.next());
         assertEquals(item3, iterator.next());
         verify(filterListener, times(1))
                 .onApplyFilter(eq(abstractFilterableListAdapter), eq(query), eq(flags), eq(filter),
-                        any(UnmodifiableItemList.class));
+                        any(UnmodifiableItemList.class), any(UnmodifiableItemList.class));
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
-        applied = abstractFilterableListAdapter.applyFilter("querystring2", 1, filter);
-        assertTrue(applied);
+        filteredItems = abstractFilterableListAdapter.applyFilter("querystring2", 1, filter);
+        assertNotNull(filteredItems);
         assertEquals(1, abstractFilterableListAdapter.getCount());
         iterator = abstractFilterableListAdapter.iterator();
         assertEquals(item3, iterator.next());
@@ -647,12 +650,13 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         Filter<FilterableImplementation> filter = new FilterImplementation();
         abstractFilterableListAdapter.applyFilter(query, flags, filter);
         dataSetObserver.reset();
-        boolean applied = abstractFilterableListAdapter.applyFilter(query, flags, filter);
-        assertFalse(applied);
+        List<FilterableImplementation> filteredItems =
+                abstractFilterableListAdapter.applyFilter(query, flags, filter);
+        assertNull(filteredItems);
         assertEquals(2, abstractFilterableListAdapter.getCount());
         verify(filterListener, times(2))
                 .onApplyFilter(eq(abstractFilterableListAdapter), eq(query), eq(flags), eq(filter),
-                        any(UnmodifiableItemList.class));
+                        any(UnmodifiableItemList.class), any(UnmodifiableItemList.class));
     }
 
     /**

@@ -341,7 +341,8 @@ public abstract class AbstractExpandableListAdapterFragment<AdapterType extends 
     public void onApplyGroupFilter(@NonNull final ExpandableListAdapter<Country, Contact> adapter,
                                    @NonNull final String query, final int flags,
                                    final Filter<Country> filter,
-                                   @NonNull final List<Country> filteredGroups) {
+                                   @NonNull final List<Country> filteredGroups,
+                                   @NonNull final List<Country> unfilteredGroups) {
         updateItemCount();
         updateEnabledItemCount();
     }
@@ -359,6 +360,7 @@ public abstract class AbstractExpandableListAdapterFragment<AdapterType extends 
                                    @NonNull final String query, final int flags,
                                    final Filter<Contact> filter, @NonNull final Country group,
                                    final int groupIndex,
+                                   @NonNull final List<Contact> filteredChildren,
                                    @NonNull final List<Contact> unfilteredChildren) {
         updateItemCount();
         updateEnabledItemCount();

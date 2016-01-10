@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import de.mrapp.android.adapter.DataSetObserver;
@@ -156,15 +157,19 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
             throw new CloneNotSupportedException();
         }
 
+        @Nullable
         @Override
-        public boolean applyFilter(@NonNull final String query, final int flags) {
-            return false;
+        public List<ComparableImplementation> applyFilter(@NonNull final String query,
+                                                          final int flags) {
+            return null;
         }
 
+        @Nullable
         @Override
-        public boolean applyFilter(@NonNull final String query, final int flags,
-                                   @NonNull final Filter<ComparableImplementation> filter) {
-            return false;
+        public List<ComparableImplementation> applyFilter(@NonNull final String query,
+                                                          final int flags,
+                                                          @NonNull final Filter<ComparableImplementation> filter) {
+            return null;
         }
 
         @Override
@@ -188,7 +193,8 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
         }
 
         @Override
-        public void addFilterListener(@NonNull final ListFilterListener<ComparableImplementation> listener) {
+        public void addFilterListener(
+                @NonNull final ListFilterListener<ComparableImplementation> listener) {
 
         }
 

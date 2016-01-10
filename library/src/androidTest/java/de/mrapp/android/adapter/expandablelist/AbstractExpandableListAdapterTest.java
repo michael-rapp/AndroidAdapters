@@ -554,15 +554,17 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
             return null;
         }
 
+        @Nullable
         @Override
-        public boolean applyGroupFilter(@NonNull String query, int flags) {
-            return false;
+        public List<Object> applyGroupFilter(@NonNull String query, int flags) {
+            return null;
         }
 
+        @Nullable
         @Override
-        public boolean applyGroupFilter(@NonNull String query, int flags,
-                                        @NonNull Filter<Object> filter) {
-            return false;
+        public List<Object> applyGroupFilter(@NonNull String query, int flags,
+                                             @NonNull Filter<Object> filter) {
+            return null;
         }
 
         @Override
@@ -585,75 +587,88 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
             return false;
         }
 
+        @Nullable
         @Override
-        public boolean applyChildFilter(@NonNull String query, int flags) {
-            return false;
+        public List<Object> applyChildFilter(@NonNull String query, int flags) {
+            return null;
         }
 
+        @Nullable
         @Override
-        public boolean applyChildFilter(boolean filterEmptyGroups, @NonNull String query,
-                                        int flags) {
-            return false;
+        public List<Object> applyChildFilter(boolean filterEmptyGroups, @NonNull String query,
+                                             int flags) {
+            return null;
         }
 
+        @Nullable
         @Override
-        public boolean applyChildFilter(@NonNull Object group, @NonNull String query, int flags) {
-            return false;
+        public List<Object> applyChildFilter(@NonNull Object group, @NonNull String query,
+                                             int flags) {
+            return null;
         }
 
+        @Nullable
         @Override
-        public boolean applyChildFilter(boolean filterEmptyGroup, @NonNull Object group,
-                                        @NonNull String query, int flags) {
-            return false;
+        public List<Object> applyChildFilter(boolean filterEmptyGroup, @NonNull Object group,
+                                             @NonNull String query, int flags) {
+            return null;
         }
 
+        @Nullable
         @Override
-        public boolean applyChildFilter(int groupIndex, @NonNull String query, int flags) {
-            return false;
+        public List<Object> applyChildFilter(int groupIndex, @NonNull String query, int flags) {
+            return null;
         }
 
+        @Nullable
         @Override
-        public boolean applyChildFilter(boolean filterEmptyGroup, int groupIndex,
-                                        @NonNull String query, int flags) {
-            return false;
+        public List<Object> applyChildFilter(boolean filterEmptyGroup, int groupIndex,
+                                             @NonNull String query, int flags) {
+            return null;
         }
 
+        @Nullable
         @Override
-        public boolean applyChildFilter(@NonNull String query, int flags,
-                                        @NonNull Filter<Object> filter) {
-            return false;
+        public List<Object> applyChildFilter(@NonNull String query, int flags,
+                                             @NonNull Filter<Object> filter) {
+            return null;
         }
 
+        @Nullable
         @Override
-        public boolean applyChildFilter(boolean filterEmptyGroups, @NonNull String query, int flags,
-                                        @NonNull Filter<Object> filter) {
-            return false;
+        public List<Object> applyChildFilter(boolean filterEmptyGroups, @NonNull String query,
+                                             int flags, @NonNull Filter<Object> filter) {
+            return null;
         }
 
+        @Nullable
         @Override
-        public boolean applyChildFilter(@NonNull Object group, @NonNull String query, int flags,
-                                        @NonNull Filter<Object> filter) {
-            return false;
+        public List<Object> applyChildFilter(@NonNull Object group, @NonNull String query,
+                                             int flags, @NonNull Filter<Object> filter) {
+            return null;
         }
 
+        @Nullable
         @Override
-        public boolean applyChildFilter(boolean filterEmptyGroup, @NonNull Object group,
-                                        @NonNull String query, int flags,
-                                        @NonNull Filter<Object> filter) {
-            return false;
+        public List<Object> applyChildFilter(boolean filterEmptyGroup, @NonNull Object group,
+                                             @NonNull String query, int flags,
+                                             @NonNull Filter<Object> filter) {
+            return null;
         }
 
+        @Nullable
         @Override
-        public boolean applyChildFilter(int groupIndex, @NonNull String query, int flags,
-                                        @NonNull Filter<Object> filter) {
-            return false;
+        public List<Object> applyChildFilter(int groupIndex, @NonNull String query, int flags,
+                                             @NonNull Filter<Object> filter) {
+            return null;
         }
 
+        @Nullable
         @Override
-        public boolean applyChildFilter(boolean filterEmptyGroup, int groupIndex,
-                                        @NonNull String query, int flags,
-                                        @NonNull Filter<Object> filter) {
-            return false;
+        public List<Object> applyChildFilter(boolean filterEmptyGroup, int groupIndex,
+                                             @NonNull String query, int flags,
+                                             @NonNull Filter<Object> filter) {
+            return null;
         }
 
         @Override
