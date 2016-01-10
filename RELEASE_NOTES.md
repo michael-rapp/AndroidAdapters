@@ -1,18 +1,25 @@
 # AndroidAdapters - RELEASE NOTES
 
-## Version 0.2.6 (Jan. 7th 2015)
+## Version 0.3.0 (Jan. 10th 2016)
+
+A feature release, which introduces the following changes:
+
+- The expansion states of an `ExpandableListAdapter`'s groups are now stored separately from the view, the adapter is attached to. This enables to attach the adapter to an other view while maintaining the expansion states and to restore the expansion states when reseting a group filter. In order to implement this feature, the API for expanding/collapsing groups has been slightly changed.
+- Child items of an `SingleChoiceExpandableListAdapter` or `MultipleChoiceExpandaleListAdapter` are now properly unselected when filtering the group they belong to. In order to implement this bugfix, the API for applying filters has been slightly changed.
+
+## Version 0.2.6 (Jan. 7th 2016)
 
 A bugfix release, which fixes the following issues:
 
 - Fixed possible `IndexOutOfBoundsException` when resetting filters, which have been applied on an `ExpandableListAdapter`'s child items.
 
-## Version 0.2.5 (Jan. 7th 2015)
+## Version 0.2.5 (Jan. 7th 2016)
 
 A bugfix release, which fixes the following issues:
 
 - When filtering an empty group, no `FilteringNotSupportedException` is thrown anymore, even if the group's data does not implement the interface `Filterable`.
 
-## Version 0.2.4 (Jan. 6th 2015)
+## Version 0.2.4 (Jan. 6th 2016)
 
 A bugfix release, which fixes the following issues:
 
@@ -20,7 +27,7 @@ A bugfix release, which fixes the following issues:
 - Restoring the scroll position of adapter views has been fixed.
 - Fixed restoring attributes in the `onRestoreInstanceState`-method of the class `AbstractExpandableListAdapter`.
 
-## Version 0.2.3 (Jan. 6th 2015)
+## Version 0.2.3 (Jan. 6th 2016)
 
 A bugfix release, which fixes the following issues:
 
@@ -29,7 +36,7 @@ A bugfix release, which fixes the following issues:
 - Storing and restoring the state of expandable list adapters has been fixed.
 - Restoring the scroll positions of adapter views has been improved.
 
-## Version 0.2.2 (Jan. 5th 2015)
+## Version 0.2.2 (Jan. 5th 2016)
 
 A bugfix release, which fixes the following issues:
 
