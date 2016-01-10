@@ -684,6 +684,21 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     /**
+     * Synchronizes the adapter view, the adapter is currently attached to, with the adapter's
+     * underlying data, e.g. by collapsing or expanding its groups depending on their current
+     * expansion states.
+     */
+    protected final void syncAdapterView() {
+        for (int i = 0; i < getGroupCount(); i++) {
+            if (isGroupExpanded(i)) {
+                getAdapterView().expandGroup(i);
+            } else {
+                getAdapterView().collapseGroup(i);
+            }
+        }
+    }
+
+    /**
      * This method is invoked when the state of the adapter is about to be stored within a bundle.
      *
      * @param outState
@@ -1888,22 +1903,12 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @Override
     public final boolean isGroupExpanded(final int index) {
-        return getAdapterView() != null && getAdapterView().isGroupExpanded(index);
+        return getGroupAdapter().getItem(index).isExpanded();
     }
 
     @Override
     public final boolean isGroupExpanded(@NonNull final GroupType group) {
         return isGroupExpanded(indexOfGroup(group));
-    }
-
-    @Override
-    public final boolean isGroupCollapsed(final int index) {
-        return !isGroupExpanded(index);
-    }
-
-    @Override
-    public final boolean isGroupCollapsed(@NonNull final GroupType group) {
-        return !isGroupExpanded(group);
     }
 
     @Override
@@ -1919,11 +1924,9 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @Override
     public final int getFirstExpandedGroupIndex() {
-        if (getAdapterView() != null) {
-            for (int i = 0; i < getGroupCount(); i++) {
-                if (getAdapterView().isGroupExpanded(i)) {
-                    return i;
-                }
+        for (int i = 0; i < getGroupCount(); i++) {
+            if (isGroupExpanded(i)) {
+                return i;
             }
         }
 
@@ -1943,11 +1946,9 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @Override
     public final int getLastExpandedGroupIndex() {
-        if (getAdapterView() != null) {
-            for (int i = getGroupCount() - 1; i >= 0; i--) {
-                if (getAdapterView().isGroupExpanded(i)) {
-                    return i;
-                }
+        for (int i = getGroupCount() - 1; i >= 0; i--) {
+            if (isGroupExpanded(i)) {
+                return i;
             }
         }
 
@@ -1967,11 +1968,9 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @Override
     public final int getFirstCollapsedGroupIndex() {
-        if (getAdapterView() != null) {
-            for (int i = 0; i < getGroupCount(); i++) {
-                if (!getAdapterView().isGroupExpanded(i)) {
-                    return i;
-                }
+        for (int i = 0; i < getGroupCount(); i++) {
+            if (!isGroupExpanded(i)) {
+                return i;
             }
         }
 
@@ -1991,11 +1990,9 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @Override
     public final int getLastCollapsedGroupIndex() {
-        if (getAdapterView() != null) {
-            for (int i = getGroupCount() - 1; i >= 0; i--) {
-                if (!getAdapterView().isGroupExpanded(i)) {
-                    return i;
-                }
+        for (int i = getGroupCount() - 1; i >= 0; i--) {
+            if (!isGroupExpanded(i)) {
+                return i;
             }
         }
 
@@ -2006,11 +2003,9 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     public final List<GroupType> getExpandedGroups() {
         List<GroupType> expandedGroups = new ArrayList<>();
 
-        if (getAdapterView() != null) {
-            for (int i = 0; i < getGroupCount(); i++) {
-                if (getAdapterView().isGroupExpanded(i)) {
-                    expandedGroups.add(getGroup(i));
-                }
+        for (int i = 0; i < getGroupCount(); i++) {
+            if (isGroupExpanded(i)) {
+                expandedGroups.add(getGroup(i));
             }
         }
 
@@ -2021,11 +2016,9 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     public final List<Integer> getExpandedGroupIndices() {
         List<Integer> expandedGroupIndices = new ArrayList<>();
 
-        if (getAdapterView() != null) {
-            for (int i = 0; i < getGroupCount(); i++) {
-                if (getAdapterView().isGroupExpanded(i)) {
-                    expandedGroupIndices.add(i);
-                }
+        for (int i = 0; i < getGroupCount(); i++) {
+            if (isGroupExpanded(i)) {
+                expandedGroupIndices.add(i);
             }
         }
 
@@ -2034,28 +2027,24 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @Override
     public final List<GroupType> getCollapsedGroups() {
-        List<GroupType> collapedGroups = new ArrayList<>();
+        List<GroupType> collapsedGroups = new ArrayList<>();
 
-        if (getAdapterView() != null) {
-            for (int i = 0; i < getGroupCount(); i++) {
-                if (!getAdapterView().isGroupExpanded(i)) {
-                    collapedGroups.add(getGroup(i));
-                }
+        for (int i = 0; i < getGroupCount(); i++) {
+            if (!isGroupExpanded(i)) {
+                collapsedGroups.add(getGroup(i));
             }
         }
 
-        return new UnmodifiableList<>(collapedGroups);
+        return new UnmodifiableList<>(collapsedGroups);
     }
 
     @Override
     public final List<Integer> getCollapsedGroupIndices() {
         List<Integer> collapsedGroupIndices = new ArrayList<>();
 
-        if (getAdapterView() != null) {
-            for (int i = 0; i < getGroupCount(); i++) {
-                if (!getAdapterView().isGroupExpanded(i)) {
-                    collapsedGroupIndices.add(i);
-                }
+        for (int i = 0; i < getGroupCount(); i++) {
+            if (isGroupExpanded(i)) {
+                collapsedGroupIndices.add(i);
             }
         }
 
@@ -2068,134 +2057,50 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final int getCollapsedGroupCount() {
-        return getCollapsedGroups().size();
+    public final void setGroupExpanded(@NonNull final GroupType group, final boolean expanded) {
+        setGroupExpanded(indexOfGroupOrThrowException(group), expanded);
     }
 
     @Override
-    public final void expandGroup(@NonNull final GroupType group) {
-        if (getAdapterView() != null) {
-            getAdapterView().expandGroup(indexOfGroupOrThrowException(group));
-        } else {
-            String message = "The group \"" + group + "\" has not been expanded, because the " +
-                    "adapter is not attached to a view";
-            getLogger().logWarn(getClass(), message);
-        }
-    }
+    public final void setGroupExpanded(final int index, final boolean expanded) {
+        getGroupAdapter().getItem(index).setExpanded(expanded);
 
-    @Override
-    public final void expandGroup(final int index) {
         if (getAdapterView() != null) {
-            getAdapterView().expandGroup(index);
-        } else {
-            String message =
-                    "The group at index " + index + " has not been expanded, because the " +
-                            "adapter is not attached to a view";
-            getLogger().logWarn(getClass(), message);
-        }
-    }
-
-    @Override
-    public final void collapseGroup(@NonNull final GroupType group) {
-        if (getAdapterView() != null) {
-            getAdapterView().collapseGroup(indexOfGroupOrThrowException(group));
-        } else {
-            String message = "The group \"" + group + "\" has not been collapsed, because the " +
-                    "adapter is not attached to a view";
-            getLogger().logWarn(getClass(), message);
-        }
-    }
-
-    @Override
-    public final void collapseGroup(final int index) {
-        if (getAdapterView() != null) {
-            getAdapterView().collapseGroup(index);
-        } else {
-            String message =
-                    "The group at index " + index + "has not been collapsed, because the " +
-                            "adapter is not attached to a view";
-            getLogger().logWarn(getClass(), message);
+            if (expanded) {
+                getAdapterView().expandGroup(index);
+            } else {
+                getAdapterView().collapseGroup(index);
+            }
         }
     }
 
     @Override
     public final boolean triggerGroupExpansion(@NonNull final GroupType group) {
-        if (getAdapterView() != null) {
-            int index = indexOfGroupOrThrowException(group);
-
-            if (getAdapterView().isGroupExpanded(index)) {
-                getAdapterView().collapseGroup(index);
-                return false;
-            } else {
-                getAdapterView().expandGroup(index);
-                return true;
-            }
-        } else {
-            String message = "The expansion of the group \"" + group +
-                    "\" has not been triggered, because the " + "adapter is not attached to a view";
-            getLogger().logWarn(getClass(), message);
-            return false;
-        }
+        return triggerGroupExpansion(indexOfGroupOrThrowException(group));
     }
 
     @Override
     public final boolean triggerGroupExpansion(final int index) {
-        if (getAdapterView() != null) {
-            if (getAdapterView().isGroupExpanded(index)) {
-                getAdapterView().collapseGroup(index);
-                return false;
-            } else {
-                getAdapterView().expandGroup(index);
-                return true;
-            }
-        } else {
-            String message = "The expansion of the group at index " + index +
-                    " has not been triggered, because the " + "adapter is not attached to a view";
-            getLogger().logWarn(getClass(), message);
+        if (isGroupExpanded(index)) {
+            setGroupExpanded(index, false);
             return false;
+        } else {
+            setGroupExpanded(index, true);
+            return true;
         }
     }
 
     @Override
-    public final void expandAllGroups() {
-        if (getAdapterView() != null) {
-            for (int i = 0; i < getGroupCount(); i++) {
-                getAdapterView().expandGroup(i);
-            }
-        } else {
-            String message = "All groups have not been expanded, because the " +
-                    "adapter is not attached to a view";
-            getLogger().logWarn(getClass(), message);
-        }
-    }
-
-    @Override
-    public final void collapseAllGroups() {
-        if (getAdapterView() != null) {
-            for (int i = 0; i < getGroupCount(); i++) {
-                getAdapterView().expandGroup(i);
-            }
-        } else {
-            String message = "All groups have not been collapsed, because the " +
-                    "adapter is not attached to a view";
-            getLogger().logWarn(getClass(), message);
+    public final void setAllGroupsExpanded(final boolean expanded) {
+        for (int i = 0; i < getGroupCount(); i++) {
+            setGroupExpanded(i, expanded);
         }
     }
 
     @Override
     public final void triggerAllGroupExpansions() {
-        if (getAdapterView() != null) {
-            for (int i = 0; i < getGroupCount(); i++) {
-                if (getAdapterView().isGroupExpanded(i)) {
-                    getAdapterView().collapseGroup(i);
-                } else {
-                    getAdapterView().expandGroup(i);
-                }
-            }
-        } else {
-            String message = "The expansion states of all groups have not been " +
-                    "triggered, because the adapter is not attached to a view";
-            getLogger().logWarn(getClass(), message);
+        for (int i = 0; i < getGroupCount(); i++) {
+            triggerGroupExpansion(i);
         }
     }
 
@@ -2221,6 +2126,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         this.adapterView.setOnGroupClickListener(createAdapterViewOnGroupClickListener());
         this.adapterView.setOnChildClickListener(createAdapterViewOnChildClickListener());
         this.adapterView.setOnItemLongClickListener(createAdapterViewOnItemLongClickListener());
+        syncAdapterView();
         String message = "Attached adapter to view \"" + adapterView + "\"";
         getLogger().logDebug(getClass(), message);
     }

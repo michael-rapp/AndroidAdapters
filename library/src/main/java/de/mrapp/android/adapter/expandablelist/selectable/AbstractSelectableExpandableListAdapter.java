@@ -544,7 +544,7 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
         if (expandGroupOnSelection && getChoiceMode() != ChoiceMode.CHILDREN_ONLY) {
             for (int i = 0; i < getGroupCount(); i++) {
                 if (isGroupSelected(i)) {
-                    expandGroup(i);
+                    setGroupExpanded(i, true);
                 }
             }
         }
@@ -562,7 +562,7 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
         if (expandGroupOnChildSelection && getChoiceMode() != ChoiceMode.GROUPS_ONLY) {
             for (int i = 0; i < getGroupCount(); i++) {
                 if (getSelectedChildCount(i) > 0) {
-                    expandGroup(i);
+                    setGroupExpanded(i, true);
                 }
             }
         }

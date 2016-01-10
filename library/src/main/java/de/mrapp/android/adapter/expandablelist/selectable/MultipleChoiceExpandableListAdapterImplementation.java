@@ -347,7 +347,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
                 getLogger().logInfo(getClass(), message);
 
                 if (isGroupExpandedOnSelection() && selected) {
-                    expandGroup(index);
+                    setGroupExpanded(index, true);
                 }
 
                 return true;
@@ -572,7 +572,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
                 getLogger().logInfo(getClass(), message);
 
                 if (isGroupExpandedOnChildSelection() && selected) {
-                    expandGroup(groupIndex);
+                    setGroupExpanded(groupIndex, true);
                 }
 
                 return true;

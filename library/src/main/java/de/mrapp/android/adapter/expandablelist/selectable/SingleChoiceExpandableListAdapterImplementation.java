@@ -721,7 +721,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
                 }
 
                 if (isGroupExpandedOnSelection()) {
-                    expandGroup(groupIndex);
+                    setGroupExpanded(groupIndex, true);
                 }
 
                 notifyOnDataSetChanged();
@@ -802,7 +802,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
                 }
 
                 if (isGroupExpandedOnChildSelection()) {
-                    expandGroup(groupIndex);
+                    setGroupExpanded(groupIndex, true);
                 }
 
                 notifyOnDataSetChanged();
