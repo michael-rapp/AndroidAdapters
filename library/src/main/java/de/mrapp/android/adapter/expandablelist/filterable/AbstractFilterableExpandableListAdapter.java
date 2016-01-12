@@ -276,7 +276,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
             getLogger().logDebug(getClass(), message);
         }
 
-        if (filterEmptyGroups) {
+        if (filterEmptyGroups && !areChildrenFiltered()) {
             applyGroupFilter("", Group.FLAG_FILTER_EMPTY_GROUPS);
         }
 
@@ -695,10 +695,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
     public final boolean resetChildFilter(@NonNull final String query, final int flags) {
         boolean result = true;
         boolean emptyGroupFilterApplied = isGroupFilterApplied("", Group.FLAG_FILTER_EMPTY_GROUPS);
-
-        if (emptyGroupFilterApplied) {
-            resetGroupFilter("", Group.FLAG_FILTER_EMPTY_GROUPS);
-        }
+        resetGroupFilter("", Group.FLAG_FILTER_EMPTY_GROUPS);
 
         for (int i = 0; i < getGroupCount(); i++) {
             result &= resetChildFilter(i, query, flags, emptyGroupFilterApplied);
