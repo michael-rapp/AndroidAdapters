@@ -237,6 +237,53 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
     }
 
     /**
+     * Resets the filter, which has been applied on the group, which belongs to a specific index, to
+     * filter its child items, which uses a specific query.
+     *
+     * @param groupIndex
+     *         The index of the group, the child items, which have been filtered, belong to, as an
+     *         {@link Integer} value. The value must be between 0 and the value of the method
+     *         <code>getGroupCount():int</code> - 1, otherwise an {@link IndexOutOfBoundsException}
+     *         will be thrown
+     * @param query
+     *         The query of the filter, which should be reseted, as a {@link String}. The query may
+     *         not be null
+     * @param flags
+     *         The flags of the filter, which should be reseted, as an {@link Integer} value
+     * @param filterEmptyGroups
+     *         True, if the filter, which filters empty groups, should be applied on the adapter's
+     *         groups after the filter has been reseted
+     * @return True, if the filter has been reseted, false otherwise
+     */
+    private boolean resetChildFilter(final int groupIndex, @NonNull final String query,
+                                     final int flags, boolean filterEmptyGroups) {
+        resetGroupFilter("", Group.FLAG_FILTER_EMPTY_GROUPS);
+        Group<GroupType, ChildType> group = getGroupAdapter().getItem(groupIndex);
+        boolean result = group.getChildAdapter().resetFilter(query, flags);
+
+        if (result) {
+            notifyOnResetChildFilter(query, flags, group.getData(), groupIndex,
+                    getAllChildren(groupIndex));
+            notifyOnDataSetChanged();
+            String message = "Reseted child filter of group \"" + group.getData() + "\" at index " +
+                    groupIndex + " with query \"" + query + "\" and flags \"" + flags + "\"";
+            getLogger().logInfo(getClass(), message);
+        } else {
+            String message =
+                    "Child filter of group \"" + group.getData() + "\" at index " + groupIndex +
+                            " with query \"" + query + "\" and flags \"" + flags +
+                            "\" not reseted, because no such filter is applied on the adapter";
+            getLogger().logDebug(getClass(), message);
+        }
+
+        if (filterEmptyGroups) {
+            applyGroupFilter("", Group.FLAG_FILTER_EMPTY_GROUPS);
+        }
+
+        return result;
+    }
+
+    /**
      * Returns a set, which contains the listeners, which should be notified, when the adapter's
      * underlying data has been filtered.
      *
@@ -647,9 +694,14 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
     @Override
     public final boolean resetChildFilter(@NonNull final String query, final int flags) {
         boolean result = true;
+        boolean emptyGroupFilterApplied = isGroupFilterApplied("", Group.FLAG_FILTER_EMPTY_GROUPS);
+
+        if (emptyGroupFilterApplied) {
+            resetGroupFilter("", Group.FLAG_FILTER_EMPTY_GROUPS);
+        }
 
         for (int i = 0; i < getGroupCount(); i++) {
-            result &= resetChildFilter(i, query, flags);
+            result &= resetChildFilter(i, query, flags, emptyGroupFilterApplied);
         }
 
         return result;
@@ -664,29 +716,8 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
     @Override
     public final boolean resetChildFilter(final int groupIndex, @NonNull final String query,
                                           final int flags) {
-        Group<GroupType, ChildType> group = getGroupAdapter().getItem(groupIndex);
-        boolean result = group.getChildAdapter().resetFilter(query, flags);
-
-        if (result) {
-            notifyOnResetChildFilter(query, flags, group.getData(), groupIndex,
-                    getAllChildren(groupIndex));
-            notifyOnDataSetChanged();
-            String message = "Reseted child filter of group \"" + group.getData() + "\" at index " +
-                    groupIndex + " with query \"" + query + "\" and flags \"" + flags + "\"";
-            getLogger().logInfo(getClass(), message);
-
-            if (isGroupFilterApplied("", Group.FLAG_FILTER_EMPTY_GROUPS)) {
-                resetGroupFilter("", Group.FLAG_FILTER_EMPTY_GROUPS);
-            }
-        } else {
-            String message =
-                    "Child filter of group \"" + group.getData() + "\" at index " + groupIndex +
-                            " with query \"" + query + "\" and flags \"" + flags +
-                            "\" not reseted, because no such filter is applied on the adapter";
-            getLogger().logDebug(getClass(), message);
-        }
-
-        return result;
+        return resetChildFilter(groupIndex, query, flags,
+                isGroupFilterApplied("", Group.FLAG_FILTER_EMPTY_GROUPS));
     }
 
     @Override

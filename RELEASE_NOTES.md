@@ -4,6 +4,7 @@
 
 A bugfix release, which fixes the following issues:
 
+- The `resetChildFilter`-methods of an expandable list adapter do now work correctly when empty groups are currently filtered. 
 - A method, which allows to set the selection of all children, regardless of the group they belong to, has been added to the `MultipleChoiceExpandableListAdapter`.
 
 ## Version 0.3.0 (Jan. 10th 2016)
