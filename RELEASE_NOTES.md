@@ -1,5 +1,11 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.3.1 (Jan. 12th 2016)
+
+A bugfix release, which fixes the following issues:
+
+- A method, which allows to set the selection of all children, regardless of the group they belong to, has been added to the `MultipleChoiceExpandableListAdapter`.
+
 ## Version 0.3.0 (Jan. 10th 2016)
 
 A feature release, which introduces the following changes:
