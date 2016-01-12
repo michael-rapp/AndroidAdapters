@@ -663,6 +663,16 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
     boolean triggerChildSelection(int groupIndex, @NonNull ChildType child);
 
     /**
+     * Sets the selection of all child items, regardless of the group they belong to, if they are
+     * currently enabled.
+     *
+     * @param selected
+     *         True, if all child items should be selected, false otherwise
+     * @return True, if the selections of all child items have been changed, false otherwise
+     */
+    boolean setAllChildrenSelected(boolean selected);
+
+    /**
      * Sets the selection of all child items of a specific group, if they are currently enabled.
      *
      * @param group
@@ -670,8 +680,8 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      *         the generic type GroupType. The group may not be null. If the group does not belong
      *         to the adapter, a {@link NoSuchElementException} will be thrown
      * @param selected
-     *         True, if all group items should be selected, false otherwise
-     * @return True, if the selections of all group items have been changed, false otherwise
+     *         True, if all child items should be selected, false otherwise
+     * @return True, if the selections of all child items have been changed, false otherwise
      */
     boolean setAllChildrenSelected(@NonNull GroupType group, boolean selected);
 
@@ -684,8 +694,8 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      *         <code>getGroupCount():int</code> - 1, otherwise an {@link IndexOutOfBoundsException}
      *         will be thrown
      * @param selected
-     *         True, if all group items should be selected, false otherwise
-     * @return True, if the selections of all group items have been changed, false otherwise
+     *         True, if all child items should be selected, false otherwise
+     * @return True, if the selections of all child items have been changed, false otherwise
      */
     boolean setAllChildrenSelected(int groupIndex, boolean selected);
 

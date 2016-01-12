@@ -629,6 +629,17 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
     }
 
     @Override
+    public final boolean setAllChildrenSelected(final boolean selected) {
+        boolean result = true;
+
+        for (int i = 0; i < getGroupCount(); i++) {
+            result &= setAllChildrenSelected(i, selected);
+        }
+
+        return result;
+    }
+
+    @Override
     public final boolean setAllChildrenSelected(@NonNull final GroupType group,
                                                 final boolean selected) {
         return setAllChildrenSelected(indexOfGroupOrThrowException(group), selected);
