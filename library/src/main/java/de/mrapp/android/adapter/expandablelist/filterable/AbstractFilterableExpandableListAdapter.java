@@ -276,7 +276,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
             getLogger().logDebug(getClass(), message);
         }
 
-        if (filterEmptyGroups && !areChildrenFiltered()) {
+        if (filterEmptyGroups && areChildrenFiltered()) {
             applyGroupFilter("", Group.FLAG_FILTER_EMPTY_GROUPS);
         }
 
