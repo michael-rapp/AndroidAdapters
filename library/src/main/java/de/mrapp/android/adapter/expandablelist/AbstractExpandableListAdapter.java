@@ -2275,7 +2275,11 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
                     if (savedState.containsKey(childAdapterKey)) {
                         MultipleChoiceListAdapter<ChildType> childAdapter = createChildAdapter();
                         childAdapter.onRestoreInstanceState(savedState, childAdapterKey);
-                        groupAdapter.getItem(i).setChildAdapter(childAdapter);
+                        Group<GroupType, ChildType> group = groupAdapter.getItem(i);
+
+                        if (group != null) {
+                            group.setChildAdapter(childAdapter);
+                        }
                     }
                 }
             }
