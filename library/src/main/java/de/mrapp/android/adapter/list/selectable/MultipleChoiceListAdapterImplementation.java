@@ -16,6 +16,7 @@ package de.mrapp.android.adapter.list.selectable;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.widget.AbsListView;
 
 import java.util.ArrayList;
@@ -74,6 +75,18 @@ public class MultipleChoiceListAdapterImplementation<DataType>
                     getLogger().logVerbose(getClass(), "Triggering item selection on click...");
                     triggerSelection(index);
                 }
+            }
+
+            @Override
+            public void onHeaderClicked(@NonNull final ListAdapter<DataType> adapter,
+                                        @NonNull final View view, final int index) {
+
+            }
+
+            @Override
+            public void onFooterClicked(@NonNull final ListAdapter<DataType> adapter,
+                                        @NonNull final View view, final int index) {
+
             }
 
         };

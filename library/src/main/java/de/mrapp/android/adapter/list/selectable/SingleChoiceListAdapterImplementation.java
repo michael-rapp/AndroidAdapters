@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
+import android.view.View;
 import android.widget.AbsListView;
 
 import java.util.ArrayList;
@@ -91,6 +92,18 @@ public class SingleChoiceListAdapterImplementation<DataType>
                     getLogger().logVerbose(getClass(), "Selecting item on click...");
                     select(index);
                 }
+            }
+
+            @Override
+            public void onHeaderClicked(@NonNull final ListAdapter<DataType> adapter,
+                                        @NonNull final View view, final int index) {
+
+            }
+
+            @Override
+            public void onFooterClicked(@NonNull final ListAdapter<DataType> adapter,
+                                        @NonNull final View view, final int index) {
+
             }
 
         };

@@ -16,6 +16,7 @@ package de.mrapp.android.adapter.expandablelist.selectable;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.widget.ExpandableListView;
 
 import java.util.LinkedHashSet;
@@ -91,6 +92,20 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
                     getLogger().logVerbose(getClass(), "Triggering child selection on click...");
                     triggerChildSelection(groupIndex, childIndex);
                 }
+            }
+
+            @Override
+            public void onHeaderClicked(
+                    @NonNull final ExpandableListAdapter<GroupType, ChildType> adapter,
+                    @NonNull final View view, final int index) {
+
+            }
+
+            @Override
+            public void onFooterClicked(
+                    @NonNull final ExpandableListAdapter<GroupType, ChildType> adapter,
+                    @NonNull final View view, final int index) {
+
             }
 
         };

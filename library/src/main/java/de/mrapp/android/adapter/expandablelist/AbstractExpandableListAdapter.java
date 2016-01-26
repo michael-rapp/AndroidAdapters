@@ -211,6 +211,40 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     /**
      * Notifies all listeners, which have been registered to be notified, when an item of the
+     * adapter has been clicked by the user, about a header, which has been clicked.
+     *
+     * @param view
+     *         The header view, which has been clicked by the user, as an instance of the class
+     *         {@link View}. The view may not be null
+     * @param index
+     *         The index of the header, which has been clicked by the user, as an {@link Integer}
+     *         value
+     */
+    private void notifyOnHeaderClicked(@NonNull final View view, final int index) {
+        for (ExpandableListAdapterItemClickListener<GroupType, ChildType> listener : itemClickListeners) {
+            listener.onHeaderClicked(this, view, index);
+        }
+    }
+
+    /**
+     * Notifies all listeners, which have been registered to be notified, when an item of the
+     * adapter has been clicked by the user, about a footer, which has been clicked.
+     *
+     * @param view
+     *         The footer view, which has been clicked by the user, as an instance of the class
+     *         {@link View}. The view may not be null
+     * @param index
+     *         The index of the footer, which has been clicked by the user, as an {@link Integer}
+     *         value
+     */
+    private void notifyOnFooterClicked(@NonNull final View view, final int index) {
+        for (ExpandableListAdapterItemClickListener<GroupType, ChildType> listener : itemClickListeners) {
+            listener.onFooterClicked(this, view, index);
+        }
+    }
+
+    /**
+     * Notifies all listeners, which have been registered to be notified, when an item of the
      * adapter has been clicked by the user, about a child, which has been clicked.
      *
      * @param child
@@ -420,6 +454,20 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
             }
 
+            @Override
+            public void onHeaderClicked(
+                    @NonNull final ExpandableListAdapter<GroupType, ChildType> adapter,
+                    @NonNull final View view, final int index) {
+
+            }
+
+            @Override
+            public void onFooterClicked(
+                    @NonNull final ExpandableListAdapter<GroupType, ChildType> adapter,
+                    @NonNull final View view, final int index) {
+
+            }
+
         };
     }
 
@@ -436,7 +484,17 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
             @Override
             public boolean onGroupClick(final ExpandableListView parent, final View v,
                                         final int groupPosition, final long id) {
-                notifyOnGroupClicked(getGroup(groupPosition), groupPosition);
+                if (groupPosition < getAdapterView().getHeaderViewsCount()) {
+                    notifyOnHeaderClicked(v, groupPosition);
+                } else if (groupPosition >=
+                        getGroupCount() + getAdapterView().getHeaderViewsCount()) {
+                    notifyOnFooterClicked(v, groupPosition - getGroupCount() -
+                            getAdapterView().getHeaderViewsCount());
+                } else {
+                    int index = groupPosition - getAdapterView().getHeaderViewsCount();
+                    notifyOnGroupClicked(getGroup(index), index);
+                }
+
                 return true;
             }
 

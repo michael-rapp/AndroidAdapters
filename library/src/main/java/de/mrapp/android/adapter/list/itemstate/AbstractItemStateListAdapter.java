@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
+import android.view.View;
 import android.widget.AbsListView;
 
 import java.util.ArrayList;
@@ -112,6 +113,18 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType exten
                     getLogger().logVerbose(getClass(), "Triggering item state on click...");
                     triggerItemState(index);
                 }
+            }
+
+            @Override
+            public void onHeaderClicked(@NonNull final ListAdapter<DataType> adapter,
+                                        @NonNull final View view, final int index) {
+
+            }
+
+            @Override
+            public void onFooterClicked(@NonNull final ListAdapter<DataType> adapter,
+                                        @NonNull final View view, final int index) {
+
             }
 
         };

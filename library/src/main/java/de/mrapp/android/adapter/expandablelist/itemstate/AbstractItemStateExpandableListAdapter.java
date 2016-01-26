@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
+import android.view.View;
 import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
@@ -145,6 +146,20 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
                     getLogger().logVerbose(getClass(), "Triggering child state on click...");
                     triggerChildState(groupIndex, childIndex);
                 }
+            }
+
+            @Override
+            public void onHeaderClicked(
+                    @NonNull final ExpandableListAdapter<GroupType, ChildType> adapter,
+                    @NonNull final View view, final int index) {
+
+            }
+
+            @Override
+            public void onFooterClicked(
+                    @NonNull final ExpandableListAdapter<GroupType, ChildType> adapter,
+                    @NonNull final View view, final int index) {
+
             }
 
         };

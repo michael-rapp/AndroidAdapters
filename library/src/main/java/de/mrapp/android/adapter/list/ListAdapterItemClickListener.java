@@ -15,6 +15,7 @@
 package de.mrapp.android.adapter.list;
 
 import android.support.annotation.NonNull;
+import android.view.View;
 
 import de.mrapp.android.adapter.ListAdapter;
 
@@ -43,5 +44,37 @@ public interface ListAdapterItemClickListener<DataType> {
      *         value
      */
     void onItemClicked(@NonNull ListAdapter<DataType> adapter, @NonNull DataType item, int index);
+
+    /**
+     * The method, which is invoked, when a header of the adapter view, the adapter is attached to,
+     * has been clicked by the user.
+     *
+     * @param adapter
+     *         The observed adapter as an instance of the type {@link ListAdapter}. The adapter may
+     *         not be null
+     * @param view
+     *         The header view, which has been clicked by the user, as an instance of the class
+     *         {@link View}. The view may not be null
+     * @param index
+     *         The index of the header, which has been clicked by the user, as an {@link Integer}
+     *         value
+     */
+    void onHeaderClicked(@NonNull ListAdapter<DataType> adapter, @NonNull View view, int index);
+
+    /**
+     * The method, which is invoked, when a footer of the adapter view, the adapter is attached to,
+     * has been clicked by the user.
+     *
+     * @param adapter
+     *         The observed adapter as an instance of the type {@link ListAdapter}. The adapter may
+     *         not be null
+     * @param view
+     *         The footer view, which has been clicked by the user, as an instance of the class
+     *         {@link View}. The view may not be null
+     * @param index
+     *         The index of the footer, which has been clicked by the user, as an {@link Integer}
+     *         value
+     */
+    void onFooterClicked(@NonNull ListAdapter<DataType> adapter, @NonNull View view, int index);
 
 }

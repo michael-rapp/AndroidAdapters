@@ -30,6 +30,7 @@ import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ListView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -228,6 +229,40 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
 
     /**
      * Notifies all listeners, which have been registered to be notified, when an item of the
+     * adapter has been clicked by the user, about a header, which has been clicked.
+     *
+     * @param view
+     *         The header view, which has been clicked by the user, as an instance of the class
+     *         {@link View}. The view may not be null
+     * @param index
+     *         The index of the header, which has been clicked by the user, as an {@link Integer}
+     *         value
+     */
+    private void notifyOnHeaderClicked(@NonNull final View view, final int index) {
+        for (ListAdapterItemClickListener<DataType> listener : itemClickListeners) {
+            listener.onHeaderClicked(this, view, index);
+        }
+    }
+
+    /**
+     * Notifies all listeners, which have been registered to be notified, when an item of the
+     * adapter has been clicked by the user, about a footer, which has been clicked.
+     *
+     * @param view
+     *         The footer view, which has been clicked by the user, as an instance of the class
+     *         {@link View}. The view may not be null
+     * @param index
+     *         The index of the footer, which has been clicked by the user, as an {@link Integer}
+     *         value
+     */
+    private void notifyOnFooterClicked(@NonNull final View view, final int index) {
+        for (ListAdapterItemClickListener<DataType> listener : itemClickListeners) {
+            listener.onFooterClicked(this, view, index);
+        }
+    }
+
+    /**
+     * Notifies all listeners, which have been registered to be notified, when an item of the
      * adapter has been long-clicked by the user, about an item, which has been long-clicked.
      *
      * @param item
@@ -319,7 +354,22 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view,
                                     final int position, final long id) {
-                notifyOnItemClicked(getItem(position), position);
+                if (getAdapterView() instanceof ListView) {
+                    ListView listView = (ListView) getAdapterView();
+
+                    if (position < listView.getHeaderViewsCount()) {
+                        notifyOnHeaderClicked(view, position);
+                    } else if (position >= getCount() + listView.getHeaderViewsCount()) {
+                        notifyOnFooterClicked(view,
+                                position - getCount() - listView.getHeaderViewsCount());
+                    } else {
+                        int index = position - listView.getHeaderViewsCount();
+                        notifyOnItemClicked(getItem(index), index);
+                    }
+                } else {
+                    notifyOnItemClicked(getItem(position), position);
+                }
+
             }
 
         };

@@ -15,6 +15,7 @@
 package de.mrapp.android.adapter.expandablelist;
 
 import android.support.annotation.NonNull;
+import android.view.View;
 
 import de.mrapp.android.adapter.ExpandableListAdapter;
 
@@ -69,5 +70,39 @@ public interface ExpandableListAdapterItemClickListener<GroupType, ChildType> {
     void onChildClicked(@NonNull ExpandableListAdapter<GroupType, ChildType> adapter,
                         @NonNull ChildType child, int childIndex, @NonNull GroupType group,
                         int groupIndex);
+
+    /**
+     * The method, which is invoked, when a header of the adapter view, the adapter is attached to,
+     * has been clicked by the user.
+     *
+     * @param adapter
+     *         The observed adapter as an instance of the type {@link ExpandableListAdapter}. The
+     *         adapter may not be null
+     * @param view
+     *         The header view, which has been clicked by the user, as an instance of the class
+     *         {@link View}. The view may not be null
+     * @param index
+     *         The index of the header, which has been clicked by the user, as an {@link Integer}
+     *         value
+     */
+    void onHeaderClicked(@NonNull ExpandableListAdapter<GroupType, ChildType> adapter,
+                         @NonNull View view, int index);
+
+    /**
+     * The method, which is invoked, when a footer of the adapter view, the adapter is attached to,
+     * has been clicked by the user.
+     *
+     * @param adapter
+     *         The observed adapter as an instance of the type {@link ExpandableListAdapter}. The
+     *         adapter may not be null
+     * @param view
+     *         The footer view, which has been clicked by the user, as an instance of the class
+     *         {@link View}. The view may not be null
+     * @param index
+     *         The index of the footer, which has been clicked by the user, as an {@link Integer}
+     *         value
+     */
+    void onFooterClicked(@NonNull ExpandableListAdapter<GroupType, ChildType> adapter,
+                         @NonNull View view, int index);
 
 }

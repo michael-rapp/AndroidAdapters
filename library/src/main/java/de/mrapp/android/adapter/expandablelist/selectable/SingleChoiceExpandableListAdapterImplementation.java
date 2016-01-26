@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
+import android.view.View;
 import android.widget.ExpandableListView;
 
 import java.util.LinkedHashSet;
@@ -108,6 +109,20 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
                     getLogger().logVerbose(getClass(), "Selecting child on click...");
                     selectChild(groupIndex, childIndex);
                 }
+            }
+
+            @Override
+            public void onHeaderClicked(
+                    @NonNull final ExpandableListAdapter<GroupType, ChildType> adapter,
+                    @NonNull final View view, final int index) {
+
+            }
+
+            @Override
+            public void onFooterClicked(
+                    @NonNull final ExpandableListAdapter<GroupType, ChildType> adapter,
+                    @NonNull final View view, final int index) {
+
             }
 
         };
