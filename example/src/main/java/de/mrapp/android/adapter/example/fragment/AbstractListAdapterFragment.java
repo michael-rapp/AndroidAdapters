@@ -131,6 +131,18 @@ public abstract class AbstractListAdapterFragment<AdapterType extends ListAdapte
                 return true;
             }
 
+            @Override
+            public boolean onHeaderLongClicked(@NonNull final ListAdapter<Contact> adapter,
+                                               @NonNull final View view, final int index) {
+                return false;
+            }
+
+            @Override
+            public boolean onFooterLongClicked(@NonNull final ListAdapter<Contact> adapter,
+                                               @NonNull final View view, final int index) {
+                return false;
+            }
+
         };
     }
 
