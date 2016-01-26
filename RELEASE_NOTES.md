@@ -1,5 +1,11 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.4.0 (Jan. 26th 2016)
+
+A feature release, which introduces the following changes:
+
+- Adding header and footer views to adapter views is now supported. The listeners `ListAdapterItemClickListener` and `ExpandableListAdapterItemClickListener` do now provide methods, which allow to observe if header or footer views are clicked by the user.
+
 ## Version 0.3.2 (Jan. 12th 2016)
 
 A bugfix release, which fixes the following issues:
