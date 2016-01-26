@@ -294,6 +294,50 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     /**
      * Notifies all listeners, which have been registered to be notified, when an item of the
+     * adapter has been long-clicked by the user, about a header, which has been long-clicked.
+     *
+     * @param view
+     *         The header view, which has been long-clicked by the user, as an instance of the class
+     *         {@link View}. The view may not be null
+     * @param index
+     *         The index of the header, which has been long-clicked by the user, as an {@link
+     *         Integer} value
+     * @return True, if a listener has consumed the long-click-false otherwise
+     */
+    private boolean notifyOnHeaderLongClicked(@NonNull final View view, final int index) {
+        for (ExpandableListAdapterItemLongClickListener<GroupType, ChildType> listener : itemLongClickListeners) {
+            if (listener.onHeaderLongClicked(this, view, index)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Notifies all listeners, which have been registered to be notified, when an item of the
+     * adapter has been long-clicked by the user, about a footer, which has been long-clicked.
+     *
+     * @param view
+     *         The footer view, which has been long-clicked by the user, as an instance of the class
+     *         {@link View}. The view may not be null
+     * @param index
+     *         The index of the footer, which has been long-clicked by the user, as an {@link
+     *         Integer} value
+     * @return True, if a listener has consumed the long-click-false otherwise
+     */
+    private boolean notifyOnFooterLongClicked(@NonNull final View view, final int index) {
+        for (ExpandableListAdapterItemLongClickListener<GroupType, ChildType> listener : itemLongClickListeners) {
+            if (listener.onFooterLongClicked(this, view, index)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Notifies all listeners, which have been registered to be notified, when an item of the
      * adapter has been long-clicked by the user, about a child, which has been long-clicked.
      *
      * @param child
@@ -544,7 +588,17 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
                             getGroup(groupIndex), groupIndex);
                 } else if (itemType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
                     int groupIndex = ExpandableListView.getPackedPositionGroup(id);
-                    return notifyOnGroupLongClicked(getGroup(groupIndex), groupIndex);
+
+                    if (groupIndex < getAdapterView().getHeaderViewsCount()) {
+                        return notifyOnHeaderLongClicked(view, groupIndex);
+                    } else if (groupIndex >=
+                            getGroupCount() + getAdapterView().getHeaderViewsCount()) {
+                        return notifyOnFooterLongClicked(view, groupIndex - getGroupCount() -
+                                getAdapterView().getHeaderViewsCount());
+                    } else {
+                        int index = groupIndex - getAdapterView().getHeaderViewsCount();
+                        return notifyOnGroupLongClicked(getGroup(index), index);
+                    }
                 } else {
                     return false;
                 }

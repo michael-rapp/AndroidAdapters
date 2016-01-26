@@ -285,6 +285,50 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
     }
 
     /**
+     * Notifies all listeners, which have been registered to be notified, when an item of the
+     * adapter has been long-clicked by the user, about a header, which has been long-clicked.
+     *
+     * @param view
+     *         The header view, which has been clicked by the user, as an instance of the class
+     *         {@link View}. The view may not be null
+     * @param index
+     *         The index of the header, which has been clicked by the user, as an {@link Integer}
+     *         value
+     * @return True, if a listener has consumed the long-click, false otherwise
+     */
+    private boolean notifyOnHeaderLongClicked(@NonNull final View view, final int index) {
+        for (ListAdapterItemLongClickListener<DataType> listener : itemLongClickListeners) {
+            if (listener.onHeaderLongClicked(this, view, index)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Notifies all listeners, which have been registered to be notified, when an item of the
+     * adapter has been long-clicked by the user, about a footer, which has been long-clicked.
+     *
+     * @param view
+     *         The footer view, which has been clicked by the user, as an instance of the class
+     *         {@link View}. The view may not be null
+     * @param index
+     *         The index of the footer, which has been clicked by the user, as an {@link Integer}
+     *         value
+     * @return True, if a listener has consumed the long-click, false otherwise
+     */
+    private boolean notifyOnFooterLongClicked(@NonNull final View view, final int index) {
+        for (ListAdapterItemLongClickListener<DataType> listener : itemLongClickListeners) {
+            if (listener.onFooterLongClicked(this, view, index)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Notifies all listeners, which have been registered to be notified, when the adapter's
      * underlying data has been modified, about an item, which has been added to the adapter.
      *
@@ -369,7 +413,6 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
                 } else {
                     notifyOnItemClicked(getItem(position), position);
                 }
-
             }
 
         };
@@ -409,7 +452,21 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
             @Override
             public boolean onItemLongClick(final AdapterView<?> parent, final View view,
                                            final int position, final long id) {
-                return notifyOnItemLongClicked(getItem(position), position);
+                if (getAdapterView() instanceof ListView) {
+                    ListView listView = (ListView) getAdapterView();
+
+                    if (position < listView.getHeaderViewsCount()) {
+                        return notifyOnHeaderLongClicked(view, position);
+                    } else if (position >= getCount() + listView.getHeaderViewsCount()) {
+                        return notifyOnFooterLongClicked(view,
+                                position - getCount() - listView.getHeaderViewsCount());
+                    } else {
+                        int index = position - listView.getHeaderViewsCount();
+                        return notifyOnItemLongClicked(getItem(index), index);
+                    }
+                } else {
+                    return notifyOnItemLongClicked(getItem(position), position);
+                }
             }
 
         };
