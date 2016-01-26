@@ -1,5 +1,12 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.4.1 (Jan. 26th 2016)
+
+A bugfix release, which fixes the following issues:
+
+- Possible `IndexOutOfBoundException` is now avoided when adding header or footer views to an adapter view.
+- The listeners `ListAdapterItemLongClickListener` and `ExpandableListAdapterItemLongClickListener` do now provide methods, which allow to observe if header or footer views are long-clicked by the user.
+
 ## Version 0.4.0 (Jan. 26th 2016)
 
 A feature release, which introduces the following changes:
