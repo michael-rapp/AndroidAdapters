@@ -582,23 +582,22 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
                 int itemType = ExpandableListView.getPackedPositionType(id);
 
                 if (itemType == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-                    int groupIndex = ExpandableListView.getPackedPositionGroup(id);
-                    int childIndex = ExpandableListView.getPackedPositionChild(id);
-                    return notifyOnChildLongClicked(getChild(groupIndex, childIndex), childIndex,
-                            getGroup(groupIndex), groupIndex);
-                } else if (itemType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-                    int groupIndex = ExpandableListView.getPackedPositionGroup(id);
+                    int index = ExpandableListView.getPackedPositionGroup(id);
 
-                    if (groupIndex < getAdapterView().getHeaderViewsCount()) {
-                        return notifyOnHeaderLongClicked(view, groupIndex);
-                    } else if (groupIndex >=
-                            getGroupCount() + getAdapterView().getHeaderViewsCount()) {
-                        return notifyOnFooterLongClicked(view, groupIndex - getGroupCount() -
+                    if (index < getAdapterView().getHeaderViewsCount()) {
+                        return notifyOnHeaderLongClicked(view, index);
+                    } else if (index >= getGroupCount() + getAdapterView().getHeaderViewsCount()) {
+                        return notifyOnFooterLongClicked(view, index - getGroupCount() -
                                 getAdapterView().getHeaderViewsCount());
                     } else {
-                        int index = groupIndex - getAdapterView().getHeaderViewsCount();
-                        return notifyOnGroupLongClicked(getGroup(index), index);
+                        int groupIndex = index - getAdapterView().getHeaderViewsCount();
+                        int childIndex = ExpandableListView.getPackedPositionChild(id);
+                        return notifyOnChildLongClicked(getChild(groupIndex, childIndex),
+                                childIndex, getGroup(groupIndex), groupIndex);
                     }
+                } else if (itemType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+                    int index = ExpandableListView.getPackedPositionGroup(id);
+                    return notifyOnGroupLongClicked(getGroup(index), index);
                 } else {
                     return false;
                 }
