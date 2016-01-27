@@ -757,6 +757,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     protected final void notifyOnDataSetChanged() {
         if (isNotifiedOnChange()) {
             notifyDataSetChanged();
+            syncAdapterView();
         }
     }
 
@@ -2208,7 +2209,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     public final void setGroupExpanded(final int index, final boolean expanded) {
         getGroupAdapter().getItem(index).setExpanded(expanded);
 
-        if (getAdapterView() != null) {
+        if (getAdapterView() != null && isNotifiedOnChange()) {
             if (expanded) {
                 getAdapterView().expandGroup(index);
             } else {
