@@ -578,8 +578,11 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
                         if (position < getAdapterView().getHeaderViewsCount()) {
                             notifyOnHeaderClicked(view, position);
                         } else {
-                            notifyOnFooterClicked(view, position - getGroupCount() -
-                                    getAdapterView().getHeaderViewsCount());
+                            int totalCount = getAdapterView().getCount();
+                            int headerCount = getAdapterView().getHeaderViewsCount();
+                            int footerCount = getAdapterView().getFooterViewsCount();
+                            int itemCount = totalCount - headerCount - footerCount;
+                            notifyOnFooterClicked(view, position - headerCount - itemCount);
                         }
                     }
                 }
@@ -610,8 +613,12 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
                         if (position < getAdapterView().getHeaderViewsCount()) {
                             return notifyOnHeaderLongClicked(view, position);
                         } else {
-                            return notifyOnFooterLongClicked(view, position - getGroupCount() -
-                                    getAdapterView().getHeaderViewsCount());
+                            int totalCount = getAdapterView().getCount();
+                            int headerCount = getAdapterView().getHeaderViewsCount();
+                            int footerCount = getAdapterView().getFooterViewsCount();
+                            int itemCount = totalCount - headerCount - footerCount;
+                            return notifyOnFooterLongClicked(view,
+                                    position - headerCount - itemCount);
                         }
                     } else {
                         int childIndex = ExpandableListView.getPackedPositionChild(id);
@@ -619,11 +626,11 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
                                 childIndex, getGroup(groupIndex), groupIndex);
                     }
                 } else if (itemType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-                    int index = ExpandableListView.getPackedPositionGroup(id);
-                    return notifyOnGroupLongClicked(getGroup(index), index);
-                } else {
-                    return false;
+                    int groupIndex = ExpandableListView.getPackedPositionGroup(id);
+                    return notifyOnGroupLongClicked(getGroup(groupIndex), groupIndex);
                 }
+
+                return false;
             }
 
         };
