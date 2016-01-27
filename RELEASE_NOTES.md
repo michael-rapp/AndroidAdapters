@@ -1,5 +1,12 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.4.2 (Jan. 27th 2016)
+ 
+A bugfix release, which fixes the following issues:
+
+- Fixed 'IndexOfBoundsException', which was thrown when long-clicking a footer of an 'ExpandableListView'.
+- The correct index is now passed to the listener `ExpandableListAdapterItemClickListener` or `ExpandableListAdapterItemLongClickListener` when a footer has been clicked, respectively long-clicked.
+
 ## Version 0.4.1 (Jan. 26th 2016)
 
 A bugfix release, which fixes the following issues:
