@@ -528,17 +528,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
             @Override
             public boolean onGroupClick(final ExpandableListView parent, final View v,
                                         final int groupPosition, final long id) {
-                if (groupPosition < getAdapterView().getHeaderViewsCount()) {
-                    notifyOnHeaderClicked(v, groupPosition);
-                } else if (groupPosition >=
-                        getGroupCount() + getAdapterView().getHeaderViewsCount()) {
-                    notifyOnFooterClicked(v, groupPosition - getGroupCount() -
-                            getAdapterView().getHeaderViewsCount());
-                } else {
-                    int index = groupPosition - getAdapterView().getHeaderViewsCount();
-                    notifyOnGroupClicked(getGroup(index), index);
-                }
-
+                notifyOnGroupClicked(getGroup(groupPosition), groupPosition);
                 return true;
             }
 
@@ -560,7 +550,39 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
                                         int childPosition, long id) {
                 notifyOnChildClicked(getChild(groupPosition, childPosition), childPosition,
                         getGroup(groupPosition), groupPosition);
-                return false;
+                return true;
+            }
+
+        };
+    }
+
+    /**
+     * Creates and returns an {@link AdapterView.OnItemClickListener}, which is invoked, when an
+     * item of the adapter has been clicked.
+     *
+     * @return The listener, which has been created, as an instance of the type {@link
+     * AdapterView.OnItemClickListener}
+     */
+    private AdapterView.OnItemClickListener createAdapterViewOnItemClickListener() {
+        return new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(final AdapterView<?> parent, final View view,
+                                    final int position, final long id) {
+                int itemType = ExpandableListView.getPackedPositionType(id);
+
+                if (itemType == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+                    int groupIndex = ExpandableListView.getPackedPositionGroup(id);
+
+                    if (groupIndex == Integer.MAX_VALUE) {
+                        if (position < getAdapterView().getHeaderViewsCount()) {
+                            notifyOnHeaderClicked(view, position);
+                        } else {
+                            notifyOnFooterClicked(view, position - getGroupCount() -
+                                    getAdapterView().getHeaderViewsCount());
+                        }
+                    }
+                }
             }
 
         };
@@ -2239,6 +2261,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         this.adapterView.setAdapter(this);
         this.adapterView.setOnGroupClickListener(createAdapterViewOnGroupClickListener());
         this.adapterView.setOnChildClickListener(createAdapterViewOnChildClickListener());
+        this.adapterView.setOnItemClickListener(createAdapterViewOnItemClickListener());
         this.adapterView.setOnItemLongClickListener(createAdapterViewOnItemLongClickListener());
         syncAdapterView();
         String message = "Attached adapter to view \"" + adapterView + "\"";
