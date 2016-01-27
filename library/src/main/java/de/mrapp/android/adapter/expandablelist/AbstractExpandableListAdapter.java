@@ -582,15 +582,16 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
                 int itemType = ExpandableListView.getPackedPositionType(id);
 
                 if (itemType == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-                    int index = ExpandableListView.getPackedPositionGroup(id);
+                    int groupIndex = ExpandableListView.getPackedPositionGroup(id);
 
-                    if (index < getAdapterView().getHeaderViewsCount()) {
-                        return notifyOnHeaderLongClicked(view, index);
-                    } else if (index >= getGroupCount() + getAdapterView().getHeaderViewsCount()) {
-                        return notifyOnFooterLongClicked(view, index - getGroupCount() -
-                                getAdapterView().getHeaderViewsCount());
+                    if (groupIndex == Integer.MAX_VALUE) {
+                        if (position < getAdapterView().getHeaderViewsCount()) {
+                            return notifyOnHeaderLongClicked(view, position);
+                        } else {
+                            return notifyOnFooterLongClicked(view, position - getGroupCount() -
+                                    getAdapterView().getHeaderViewsCount());
+                        }
                     } else {
-                        int groupIndex = index - getAdapterView().getHeaderViewsCount();
                         int childIndex = ExpandableListView.getPackedPositionChild(id);
                         return notifyOnChildLongClicked(getChild(groupIndex, childIndex),
                                 childIndex, getGroup(groupIndex), groupIndex);
