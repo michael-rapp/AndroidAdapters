@@ -1,5 +1,11 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.4.3 (Jan. 28th 2016)
+
+A bugfix release, which fixes the following issues:
+
+- When setting the expansion state of an `ExpandableListAdapter`'s group, the adapter view is not updated anymore, when the `isNotifiedOnChange`-method returns `false`. Instead, it is updated as soon as the `notifyDataSetChanged`-method is called.  
+
 ## Version 0.4.2 (Jan. 27th 2016)
  
 A bugfix release, which fixes the following issues:
