@@ -192,6 +192,12 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     private MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter;
 
     /**
+     * True, if the adapter view has been marked to be tainted, false otherwise. If the adapter is
+     * marked as tainted, it will be synchronized with the adapter's underlying data.
+     */
+    private boolean adapterViewTainted;
+
+    /**
      * Notifies all listeners, which have been registered to be notified, when an item of the
      * adapter has been clicked by the user, about a group, which has been clicked.
      *
@@ -757,7 +763,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     protected final void notifyOnDataSetChanged() {
         if (isNotifiedOnChange()) {
             notifyDataSetChanged();
-            syncAdapterView();
         }
     }
 
@@ -832,11 +837,13 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      * expansion states.
      */
     protected final void syncAdapterView() {
-        for (int i = 0; i < getGroupCount(); i++) {
-            if (isGroupExpanded(i)) {
-                getAdapterView().expandGroup(i);
-            } else {
-                getAdapterView().collapseGroup(i);
+        if (getAdapterView() != null) {
+            for (int i = 0; i < getGroupCount(); i++) {
+                if (isGroupExpanded(i)) {
+                    getAdapterView().expandGroup(i);
+                } else {
+                    getAdapterView().collapseGroup(i);
+                }
             }
         }
     }
@@ -2209,11 +2216,15 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     public final void setGroupExpanded(final int index, final boolean expanded) {
         getGroupAdapter().getItem(index).setExpanded(expanded);
 
-        if (getAdapterView() != null && isNotifiedOnChange()) {
-            if (expanded) {
-                getAdapterView().expandGroup(index);
+        if (getAdapterView() != null) {
+            if (isNotifiedOnChange()) {
+                if (expanded) {
+                    getAdapterView().expandGroup(index);
+                } else {
+                    getAdapterView().collapseGroup(index);
+                }
             } else {
-                getAdapterView().collapseGroup(index);
+                adapterViewTainted = true;
             }
         }
     }
@@ -2295,6 +2306,17 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
                     "been attached to a view yet";
             getLogger().logVerbose(getClass(), message);
         }
+    }
+
+    @Override
+    public final void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+
+        if (adapterViewTainted) {
+            syncAdapterView();
+        }
+
+        adapterViewTainted = false;
     }
 
     @Override
