@@ -1,5 +1,12 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.4.4 (Jan. 28th 2016)
+
+A bugfix release, which fixes the following issues:
+
+- Fixed possible `NullPointerException` when the `notifyOnDataSetChanged`-method of an `ExpandableListAdapter` is called internally.
+- The adapter view is now synchronized with the adapter's underlying data when the public `notifyDataSetChanged`-method of a `ExpandableListAdapter` is called.
+
 ## Version 0.4.3 (Jan. 28th 2016)
 
 A bugfix release, which fixes the following issues:
