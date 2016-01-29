@@ -1,5 +1,11 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.4.5 (Jan. 29th 2016)
+
+A bugfix release, which fixes the following issues:
+
+- Fixed a bug, which prevented the child filters, which are applied on all groups except of the first one, from being reset, when resetting all child filters while empty groups are filtered.
+
 ## Version 0.4.4 (Jan. 28th 2016)
 
 A bugfix release, which fixes the following issues:
