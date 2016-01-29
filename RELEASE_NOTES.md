@@ -1,5 +1,11 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.4.6 (Jan. 29th 2016)
+
+A bugfix release, which fixes the following issues:
+
+- When resetting group filters, the adapter view is not synchronized anymore, if the `isNotifiedOnChange`-method returns false.
+
 ## Version 0.4.5 (Jan. 29th 2016)
 
 A bugfix release, which fixes the following issues:
