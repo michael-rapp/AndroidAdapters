@@ -475,7 +475,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
         boolean result = getGroupAdapter().resetFilter(query, flags);
 
         if (result) {
-            syncAdapterView();
+            taintAdapterView();
             notifyOnDataSetChanged();
             notifyOnResetGroupFilter(query, flags, getAllGroups());
             String message =

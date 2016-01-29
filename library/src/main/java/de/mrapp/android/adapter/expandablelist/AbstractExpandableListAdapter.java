@@ -193,7 +193,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     /**
      * True, if the adapter view has been marked to be tainted, false otherwise. If the adapter is
-     * marked as tainted, it will be synchronized with the adapter's underlying data.
+     * marked as tainted, it will be synchronized with the adapter's underlying data, when calling
+     * the method <code>notifyDataSetChanged</code> the next time
      */
     private boolean adapterViewTainted;
 
@@ -643,6 +644,25 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     /**
+     * Synchronizes the adapter view, the adapter is currently attached to, with the adapter's
+     * underlying data, e.g. by collapsing or expanding its groups depending on their current
+     * expansion states.
+     */
+    private void syncAdapterView() {
+        if (getAdapterView() != null) {
+            for (int i = 0; i < getGroupCount(); i++) {
+                if (isGroupExpanded(i)) {
+                    getAdapterView().expandGroup(i);
+                } else {
+                    getAdapterView().collapseGroup(i);
+                }
+            }
+
+            adapterViewTainted = false;
+        }
+    }
+
+    /**
      * Returns, the context, the adapter belongs to.
      *
      * @return The context, the adapter belongs to, as an instance of the class {@link Context}. The
@@ -832,19 +852,12 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     /**
-     * Synchronizes the adapter view, the adapter is currently attached to, with the adapter's
-     * underlying data, e.g. by collapsing or expanding its groups depending on their current
-     * expansion states.
+     * Marks the adapter view to be tainted. This causes it to be synchronized with the adapter's
+     * underlying data, when calling the method <code>notifyDataSetChanged</code> the next time.
      */
-    protected final void syncAdapterView() {
+    protected final void taintAdapterView() {
         if (getAdapterView() != null) {
-            for (int i = 0; i < getGroupCount(); i++) {
-                if (isGroupExpanded(i)) {
-                    getAdapterView().expandGroup(i);
-                } else {
-                    getAdapterView().collapseGroup(i);
-                }
-            }
+            this.adapterViewTainted = true;
         }
     }
 
@@ -2224,7 +2237,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
                     getAdapterView().collapseGroup(index);
                 }
             } else {
-                adapterViewTainted = true;
+                taintAdapterView();
             }
         }
     }
@@ -2315,8 +2328,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         if (adapterViewTainted) {
             syncAdapterView();
         }
-
-        adapterViewTainted = false;
     }
 
     @Override
