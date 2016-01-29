@@ -698,7 +698,8 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
         resetGroupFilter("", Group.FLAG_FILTER_EMPTY_GROUPS);
 
         for (int i = 0; i < getGroupCount(); i++) {
-            result &= resetChildFilter(i, query, flags, emptyGroupFilterApplied);
+            result &= resetChildFilter(i, query, flags,
+                    emptyGroupFilterApplied && i == getGroupCount() - 1);
         }
 
         return result;
