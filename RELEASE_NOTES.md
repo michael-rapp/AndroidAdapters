@@ -1,5 +1,11 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.4.7 (Feb. 1st 2016)
+
+A bugfix release, which fixes the following issues:
+
+- Possible `ConcurrentModificationException` when resetting the filters of an `FilterableExpandableListAdapter` has been fixed. 
+
 ## Version 0.4.6 (Jan. 29th 2016)
 
 A bugfix release, which fixes the following issues:
