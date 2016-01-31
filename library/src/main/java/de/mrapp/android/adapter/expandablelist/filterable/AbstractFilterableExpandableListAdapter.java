@@ -492,7 +492,9 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
 
     @Override
     public final void resetAllGroupFilters() {
-        for (FilterQuery filterQuery : getGroupFilterQueries()) {
+        Set<? extends FilterQuery> filterQueries = getGroupFilterQueries();
+
+        for (FilterQuery filterQuery : filterQueries) {
             resetGroupFilter(filterQuery.getQuery(), filterQuery.getFlags());
         }
 
@@ -735,8 +737,9 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
     @Override
     public final void resetAllChildFilters(final int groupIndex) {
         resetGroupFilter("", Group.FLAG_FILTER_EMPTY_GROUPS);
+        Set<? extends FilterQuery> filterQueries = getChildFilterQueries();
 
-        for (FilterQuery filterQuery : getChildFilterQueries(groupIndex)) {
+        for (FilterQuery filterQuery : filterQueries) {
             resetChildFilter(groupIndex, filterQuery.getQuery(), filterQuery.getFlags());
         }
 
