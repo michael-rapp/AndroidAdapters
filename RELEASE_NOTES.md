@@ -1,5 +1,12 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.4.8 (Feb. 24th 2016)
+
+A minor release, which introduces the following changes:
+
+- The library is from now on distributed under the Apache License version 2.0. 
+- Updated the dependency "AndroidUtil" to version 1.4.3.
+
 ## Version 0.4.7 (Feb. 1st 2016)
 
 A bugfix release, which fixes the following issues:
