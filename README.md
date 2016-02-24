@@ -25,7 +25,7 @@ The latest release of this library can be downloaded as a zip archive from the d
 
 Alternatively, the library can be added to your Android app as a Gradle dependency by adding the following to the respective module's `build.gradle` file:
 
-```
+```groovy
 dependencies {
     compile 'com.github.michael-rapp:android-adapters:0.4.8'
 }
