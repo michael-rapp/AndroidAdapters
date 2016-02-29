@@ -1,5 +1,11 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.4.9 (Feb. 29th 2016)
+
+A bugfix release, which fixes the following issues:
+
+- The return value of an ExpandableListAdapter's `isChildSelectable`-method does now only depend on whether the child item is currently enabled, or not.
+
 ## Version 0.4.8 (Feb. 24th 2016)
 
 A minor release, which introduces the following changes:
