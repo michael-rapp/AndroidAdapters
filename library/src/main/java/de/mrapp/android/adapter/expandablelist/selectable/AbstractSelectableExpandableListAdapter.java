@@ -574,11 +574,6 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
     }
 
     @Override
-    public final boolean isChildSelectable(final int groupIndex, final int childIndex) {
-        return getChoiceMode() != ChoiceMode.GROUPS_ONLY && isChildEnabled(groupIndex, childIndex);
-    }
-
-    @Override
     public final int getChildTypeCount() {
         return getDecorator().getChildTypeCount();
     }

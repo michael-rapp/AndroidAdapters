@@ -212,11 +212,6 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType> extends
     }
 
     @Override
-    public final boolean isChildSelectable(final int groupPosition, final int childPosition) {
-        return false;
-    }
-
-    @Override
     public final int getChildTypeCount() {
         return getDecorator().getChildTypeCount();
     }

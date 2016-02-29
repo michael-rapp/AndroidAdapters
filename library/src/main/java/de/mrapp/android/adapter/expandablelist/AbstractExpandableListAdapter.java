@@ -2330,6 +2330,11 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
+    public final boolean isChildSelectable(final int groupIndex, final int childIndex) {
+        return isChildEnabled(groupIndex, childIndex);
+    }
+
+    @Override
     public final long getChildId(final int groupIndex, final int childIndex) {
         return childIndex;
     }

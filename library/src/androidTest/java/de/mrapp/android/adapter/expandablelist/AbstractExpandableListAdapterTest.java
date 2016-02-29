@@ -539,11 +539,6 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         }
 
         @Override
-        public boolean isChildSelectable(int groupPosition, int childPosition) {
-            return false;
-        }
-
-        @Override
         public boolean isFiltered() {
             return false;
         }
