@@ -1,5 +1,12 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.4.10 (Mar. 2nd 2016)
+
+A bugfix release, which fixes the following issues:
+
+- All properties of an `ExpandableListAdapter` are now properly stored and restored when calling its `onSaveInstanceState`- or `onRestoreInstanceState`-method.
+- The child order of an `ExpandableListAdapter` is now properly updated when sorting its children using a method, which expects a `Comparator` as a parameter.
+
 ## Version 0.4.9 (Feb. 29th 2016)
 
 A bugfix release, which fixes the following issues:
