@@ -2436,6 +2436,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         savedState.putBoolean(TRIGGER_GROUP_EXPANSION_ON_CLICK_BUNDLE_KEY,
                 isGroupExpansionTriggeredOnClick());
         savedState.putInt(LOG_LEVEL_BUNDLE_KEY, getLogLevel().getRank());
+        onSaveInstanceState(savedState);
         outState.putBundle(key, savedState);
         getLogger().logDebug(getClass(), "Saved instance state");
     }
@@ -2473,6 +2474,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
             triggerGroupExpansionOnClick(
                     savedState.getBoolean(TRIGGER_GROUP_EXPANSION_ON_CLICK_BUNDLE_KEY));
             setLogLevel(LogLevel.fromRank(savedState.getInt(LOG_LEVEL_BUNDLE_KEY)));
+            onRestoreInstanceState(savedState);
             notifyDataSetChanged();
             getLogger().logDebug(getClass(), "Restored instance state");
         } else {
