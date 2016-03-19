@@ -21,6 +21,7 @@ import android.widget.AbsListView;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import de.mrapp.android.adapter.ListDecorator;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
@@ -141,13 +142,13 @@ public class ListAdapterImplementation<DataType>
     public ListAdapterImplementation(@NonNull final Context context,
                                      @NonNull final ListDecorator<DataType> decorator) {
         this(context, decorator, LogLevel.INFO, new ArrayList<Item<DataType>>(), false, true,
-                new LinkedHashSet<ListAdapterItemClickListener<DataType>>(),
-                new LinkedHashSet<ListAdapterItemLongClickListener<DataType>>(),
-                new LinkedHashSet<ListAdapterListener<DataType>>(),
-                new LinkedHashSet<ListEnableStateListener<DataType>>(), 1, false,
-                new LinkedHashSet<ListItemStateListener<DataType>>(),
-                new LinkedHashSet<ListSortingListener<DataType>>(),
-                new LinkedHashSet<ListFilterListener<DataType>>(),
+                new CopyOnWriteArraySet<ListAdapterItemClickListener<DataType>>(),
+                new CopyOnWriteArraySet<ListAdapterItemLongClickListener<DataType>>(),
+                new CopyOnWriteArraySet<ListAdapterListener<DataType>>(),
+                new CopyOnWriteArraySet<ListEnableStateListener<DataType>>(), 1, false,
+                new CopyOnWriteArraySet<ListItemStateListener<DataType>>(),
+                new CopyOnWriteArraySet<ListSortingListener<DataType>>(),
+                new CopyOnWriteArraySet<ListFilterListener<DataType>>(),
                 new LinkedHashSet<AppliedFilter<DataType>>());
     }
 

@@ -21,9 +21,9 @@ import android.support.annotation.VisibleForTesting;
 import android.view.View;
 import android.widget.ExpandableListView;
 
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import de.mrapp.android.adapter.ChoiceMode;
 import de.mrapp.android.adapter.ExpandableListAdapter;
@@ -612,17 +612,17 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
         this(context, decorator, LogLevel.INFO,
                 new MultipleChoiceListAdapterImplementation<>(context,
                         new NullObjectDecorator<Group<GroupType, ChildType>>()), false, true, true,
-                new LinkedHashSet<ExpandableListAdapterItemClickListener<GroupType, ChildType>>(),
-                new LinkedHashSet<ExpandableListAdapterItemLongClickListener<GroupType, ChildType>>(),
-                new LinkedHashSet<ExpandableListAdapterListener<GroupType, ChildType>>(),
-                new LinkedHashSet<ExpansionListener<GroupType, ChildType>>(), true,
-                new LinkedHashSet<ExpandableListEnableStateListener<GroupType, ChildType>>(), 1, 1,
-                false, false, false,
-                new LinkedHashSet<ExpandableListItemStateListener<GroupType, ChildType>>(),
-                new LinkedHashSet<ExpandableListSortingListener<GroupType, ChildType>>(),
-                new LinkedHashSet<ExpandableListFilterListener<GroupType, ChildType>>(), true, true,
-                false, true,
-                new LinkedHashSet<ExpandableListSelectionListener<GroupType, ChildType>>(),
+                new CopyOnWriteArraySet<ExpandableListAdapterItemClickListener<GroupType, ChildType>>(),
+                new CopyOnWriteArraySet<ExpandableListAdapterItemLongClickListener<GroupType, ChildType>>(),
+                new CopyOnWriteArraySet<ExpandableListAdapterListener<GroupType, ChildType>>(),
+                new CopyOnWriteArraySet<ExpansionListener<GroupType, ChildType>>(), true,
+                new CopyOnWriteArraySet<ExpandableListEnableStateListener<GroupType, ChildType>>(),
+                1, 1, false, false, false,
+                new CopyOnWriteArraySet<ExpandableListItemStateListener<GroupType, ChildType>>(),
+                new CopyOnWriteArraySet<ExpandableListSortingListener<GroupType, ChildType>>(),
+                new CopyOnWriteArraySet<ExpandableListFilterListener<GroupType, ChildType>>(), true,
+                true, false, true,
+                new CopyOnWriteArraySet<ExpandableListSelectionListener<GroupType, ChildType>>(),
                 choiceMode, true);
     }
 
