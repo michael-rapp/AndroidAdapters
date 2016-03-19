@@ -1,5 +1,11 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.4.11 (Mar. 19th 2016)
+
+A minor release, which introduces the following changes:
+
+- The collection `CopyOnWriteArraySet` is now used to manage listeners.
+
 ## Version 0.4.10 (Mar. 2nd 2016)
 
 A bugfix release, which fixes the following issues:
