@@ -1,5 +1,14 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.4.12 (Jun. 2nd 2016)
+
+A bugfix release, which fixes the following issues:
+
+- The `indexOfGroup`-method of the class `AbstractExpandableListAdapter` does now use the `equals`-method to compare groups instead of the `==` operator.
+- Updated dependency "AndroidUtil" to version 1.4.11.
+- Updated AppCompat annotation support library to version 23.4.0.
+- Updated RecyclerView support library to version 23.4.0.
+
 ## Version 0.4.11 (Mar. 19th 2016)
 
 A minor release, which introduces the following changes:
