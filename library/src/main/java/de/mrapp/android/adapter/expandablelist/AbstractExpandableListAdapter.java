@@ -1290,7 +1290,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         ensureNotNull(group, "The group may not be null");
 
         for (int i = 0; i < getGroupCount(); i++) {
-            if (getGroup(i) == group) {
+            if (getGroup(i).equals(group)) {
                 return i;
             }
         }
