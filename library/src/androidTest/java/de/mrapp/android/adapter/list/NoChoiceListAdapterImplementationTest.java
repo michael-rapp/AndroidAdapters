@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import de.mrapp.android.adapter.ListAdapter;
 import de.mrapp.android.adapter.ListDecorator;
 import de.mrapp.android.adapter.R;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
@@ -39,11 +38,11 @@ import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 import de.mrapp.android.adapter.logging.LogLevel;
 
 /**
- * Tests the functionality of the class {@link ListAdapterImplementation}.
+ * Tests the functionality of the class {@link NoChoiceListAdapterImplementation}.
  *
  * @author Michael Rapp
  */
-public class ListAdapterImplementationTest extends AndroidTestCase {
+public class NoChoiceListAdapterImplementationTest extends AndroidTestCase {
 
     /**
      * An implementation of the abstract class {@link ListDecorator}, which is needed for test
@@ -93,23 +92,23 @@ public class ListAdapterImplementationTest extends AndroidTestCase {
         Set<ListSortingListener<Object>> sortingListeners = new LinkedHashSet<>();
         Set<ListFilterListener<Object>> filterListeners = new LinkedHashSet<>();
         LinkedHashSet<AppliedFilter<Object>> appliedFilters = new LinkedHashSet<>();
-        ListAdapterImplementation<Object> listAdapterImplementation =
-                new ListAdapterImplementation<>(context, decorator, LogLevel.ALL, items,
+        NoChoiceListAdapterImplementation<Object> noChoiceListAdapterImplementation =
+                new NoChoiceListAdapterImplementation<>(context, decorator, LogLevel.ALL, items,
                         allowDuplicates, notifyOnChange, itemClickListeners, itemLongClickListeners,
                         adapterListeners, enableStateListeners, numberOfItemStates,
                         triggerItemStateOnClick, itemStateListeners, sortingListeners,
                         filterListeners, appliedFilters);
-        assertEquals(context, listAdapterImplementation.getContext());
-        assertEquals(decorator, listAdapterImplementation.getDecorator());
-        assertEquals(items, listAdapterImplementation.getItems());
-        assertEquals(allowDuplicates, listAdapterImplementation.areDuplicatesAllowed());
-        assertEquals(notifyOnChange, listAdapterImplementation.isNotifiedOnChange());
-        assertEquals(itemClickListeners, listAdapterImplementation.getItemClickListeners());
-        assertEquals(itemLongClickListeners, listAdapterImplementation.getItemLongClickListeners());
-        assertEquals(adapterListeners, listAdapterImplementation.getAdapterListeners());
-        assertEquals(numberOfItemStates, listAdapterImplementation.getNumberOfItemStates());
+        assertEquals(context, noChoiceListAdapterImplementation.getContext());
+        assertEquals(decorator, noChoiceListAdapterImplementation.getDecorator());
+        assertEquals(items, noChoiceListAdapterImplementation.getItems());
+        assertEquals(allowDuplicates, noChoiceListAdapterImplementation.areDuplicatesAllowed());
+        assertEquals(notifyOnChange, noChoiceListAdapterImplementation.isNotifiedOnChange());
+        assertEquals(itemClickListeners, noChoiceListAdapterImplementation.getItemClickListeners());
+        assertEquals(itemLongClickListeners, noChoiceListAdapterImplementation.getItemLongClickListeners());
+        assertEquals(adapterListeners, noChoiceListAdapterImplementation.getAdapterListeners());
+        assertEquals(numberOfItemStates, noChoiceListAdapterImplementation.getNumberOfItemStates());
         assertEquals(triggerItemStateOnClick,
-                listAdapterImplementation.isItemStateTriggeredOnClick());
+                noChoiceListAdapterImplementation.isItemStateTriggeredOnClick());
     }
 
     /**
@@ -118,12 +117,12 @@ public class ListAdapterImplementationTest extends AndroidTestCase {
     public final void testPublicConstructor() {
         Context context = getContext();
         ListDecorator<Object> decorator = new ListDecoratorImplementation();
-        ListAdapterImplementation<Object> listAdapterImplementation =
-                new ListAdapterImplementation<>(context, decorator);
-        assertEquals(context, listAdapterImplementation.getContext());
-        assertEquals(decorator, listAdapterImplementation.getDecorator());
-        assertEquals(false, listAdapterImplementation.areDuplicatesAllowed());
-        assertEquals(true, listAdapterImplementation.isNotifiedOnChange());
+        NoChoiceListAdapterImplementation<Object> noChoiceListAdapterImplementation =
+                new NoChoiceListAdapterImplementation<>(context, decorator);
+        assertEquals(context, noChoiceListAdapterImplementation.getContext());
+        assertEquals(decorator, noChoiceListAdapterImplementation.getDecorator());
+        assertEquals(false, noChoiceListAdapterImplementation.areDuplicatesAllowed());
+        assertEquals(true, noChoiceListAdapterImplementation.isNotifiedOnChange());
     }
 
     /**
@@ -133,14 +132,14 @@ public class ListAdapterImplementationTest extends AndroidTestCase {
         Object item = new Object();
         Context context = getContext();
         ListDecoratorImplementation decorator = new ListDecoratorImplementation();
-        ListAdapterImplementation<Object> listAdapterImplementation =
-                new ListAdapterImplementation<>(context, decorator);
-        listAdapterImplementation.setNumberOfItemStates(2);
-        listAdapterImplementation.addItem(item);
-        listAdapterImplementation.setEnabled(item, false);
-        listAdapterImplementation.setItemState(item, 1);
-        listAdapterImplementation.attach(new ListView(context));
-        View view = listAdapterImplementation.getView(0, null, null);
+        NoChoiceListAdapterImplementation<Object> noChoiceListAdapterImplementation =
+                new NoChoiceListAdapterImplementation<>(context, decorator);
+        noChoiceListAdapterImplementation.setNumberOfItemStates(2);
+        noChoiceListAdapterImplementation.addItem(item);
+        noChoiceListAdapterImplementation.setEnabled(item, false);
+        noChoiceListAdapterImplementation.setItemState(item, 1);
+        noChoiceListAdapterImplementation.attach(new ListView(context));
+        View view = noChoiceListAdapterImplementation.getView(0, null, null);
         view.performClick();
         assertTrue(decorator.hasOnShowItemBeenInvoked);
     }
@@ -166,19 +165,19 @@ public class ListAdapterImplementationTest extends AndroidTestCase {
         Set<ListFilterListener<Object>> filterListeners = new LinkedHashSet<>();
         LinkedHashSet<AppliedFilter<Object>> appliedFilters = new LinkedHashSet<>();
         Bundle parameters = new Bundle();
-        ListAdapterImplementation<Object> listAdapterImplementation =
-                new ListAdapterImplementation<>(getContext(), new ListDecoratorImplementation(),
+        NoChoiceListAdapterImplementation<Object> noChoiceListAdapterImplementation =
+                new NoChoiceListAdapterImplementation<>(getContext(), new ListDecoratorImplementation(),
                         logLevel, items, allowDuplicates, notifyOnChange, itemClickListeners,
                         itemLongClickListeners, adapterListeners, enableStateListeners,
                         numberOfItemStates, triggerItemStateOnClick, itemStateListeners,
                         sortingListeners, filterListeners, appliedFilters);
-        listAdapterImplementation.setParameters(parameters);
+        noChoiceListAdapterImplementation.setParameters(parameters);
         assertEquals(
                 "ListAdapter (" + items.size() + " items) [logLevel=" + logLevel + ", parameters=" +
                         parameters + ", notifyOnChange=" + notifyOnChange + ", allowDuplicates=" +
                         allowDuplicates + ", numberOfItemStates=" + numberOfItemStates +
                         ", triggerItemStateOnClick=" + triggerItemStateOnClick + ", filtered=" +
-                        false + "]", listAdapterImplementation.toString());
+                        false + "]", noChoiceListAdapterImplementation.toString());
     }
 
     /**
@@ -204,26 +203,26 @@ public class ListAdapterImplementationTest extends AndroidTestCase {
         Set<ListSortingListener<Object>> sortingListeners = new LinkedHashSet<>();
         Set<ListFilterListener<Object>> filterListeners = new LinkedHashSet<>();
         LinkedHashSet<AppliedFilter<Object>> appliedFilters = new LinkedHashSet<>();
-        ListAdapterImplementation<Object> listAdapterImplementation =
-                new ListAdapterImplementation<>(context, decorator, LogLevel.ALL, items,
+        NoChoiceListAdapterImplementation<Object> noChoiceListAdapterImplementation =
+                new NoChoiceListAdapterImplementation<>(context, decorator, LogLevel.ALL, items,
                         allowDuplicates, notifyOnChange, itemClickListeners, itemLongClickListeners,
                         adapterListeners, enableStateListeners, numberOfItemStates,
                         triggerItemStateOnClick, itemStateListeners, sortingListeners,
                         filterListeners, appliedFilters);
-        ListAdapterImplementation<Object> clonedListAdapterImplementation =
-                listAdapterImplementation.clone();
-        assertEquals(context, clonedListAdapterImplementation.getContext());
-        assertEquals(decorator, clonedListAdapterImplementation.getDecorator());
-        assertEquals(items, clonedListAdapterImplementation.getItems());
-        assertEquals(allowDuplicates, clonedListAdapterImplementation.areDuplicatesAllowed());
-        assertEquals(notifyOnChange, clonedListAdapterImplementation.isNotifiedOnChange());
-        assertEquals(itemClickListeners, clonedListAdapterImplementation.getItemClickListeners());
+        NoChoiceListAdapterImplementation<Object> clonedNoChoiceListAdapterImplementation =
+                noChoiceListAdapterImplementation.clone();
+        assertEquals(context, clonedNoChoiceListAdapterImplementation.getContext());
+        assertEquals(decorator, clonedNoChoiceListAdapterImplementation.getDecorator());
+        assertEquals(items, clonedNoChoiceListAdapterImplementation.getItems());
+        assertEquals(allowDuplicates, clonedNoChoiceListAdapterImplementation.areDuplicatesAllowed());
+        assertEquals(notifyOnChange, clonedNoChoiceListAdapterImplementation.isNotifiedOnChange());
+        assertEquals(itemClickListeners, clonedNoChoiceListAdapterImplementation.getItemClickListeners());
         assertEquals(itemLongClickListeners,
-                clonedListAdapterImplementation.getItemLongClickListeners());
-        assertEquals(adapterListeners, clonedListAdapterImplementation.getAdapterListeners());
-        assertEquals(numberOfItemStates, clonedListAdapterImplementation.getNumberOfItemStates());
+                clonedNoChoiceListAdapterImplementation.getItemLongClickListeners());
+        assertEquals(adapterListeners, clonedNoChoiceListAdapterImplementation.getAdapterListeners());
+        assertEquals(numberOfItemStates, clonedNoChoiceListAdapterImplementation.getNumberOfItemStates());
         assertEquals(triggerItemStateOnClick,
-                clonedListAdapterImplementation.isItemStateTriggeredOnClick());
+                clonedNoChoiceListAdapterImplementation.isItemStateTriggeredOnClick());
     }
 
 }

@@ -11,7 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package de.mrapp.android.adapter;
+package de.mrapp.android.adapter.expandablelist;
 
 import android.support.annotation.NonNull;
 import android.widget.ExpandableListView;
@@ -22,10 +22,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
-import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemClickListener;
-import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemLongClickListener;
-import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterListener;
-import de.mrapp.android.adapter.expandablelist.ExpansionListener;
+import de.mrapp.android.adapter.Adapter;
 import de.mrapp.android.adapter.expandablelist.enablestate.EnableStateExpandableListAdapter;
 import de.mrapp.android.adapter.expandablelist.filterable.FilterableExpandableListAdapter;
 import de.mrapp.android.adapter.expandablelist.itemstate.ItemStateExpandableListAdapter;

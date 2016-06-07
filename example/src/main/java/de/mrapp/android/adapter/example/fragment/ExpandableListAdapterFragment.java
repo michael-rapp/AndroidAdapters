@@ -18,22 +18,22 @@ import android.preference.PreferenceManager;
 import android.view.View;
 
 import de.mrapp.android.adapter.AdapterFactory;
-import de.mrapp.android.adapter.ExpandableListAdapter;
+import de.mrapp.android.adapter.NoChoiceExpandableListAdapter;
 import de.mrapp.android.adapter.example.R;
 import de.mrapp.android.adapter.example.decorator.ExpandableListAdapterDecorator;
 import de.mrapp.android.adapter.example.model.Contact;
 import de.mrapp.android.adapter.example.model.Country;
 
 /**
- * A fragment, which demonstrates the functionality of an {@link ExpandableListAdapter}.
+ * A fragment, which demonstrates the functionality of an {@link NoChoiceExpandableListAdapter}.
  *
  * @author Michael Rapp
  */
-public class ExpandableListAdapterFragment
-        extends AbstractExpandableListAdapterFragment<ExpandableListAdapter<Country, Contact>> {
+public class ExpandableListAdapterFragment extends
+        AbstractExpandableListAdapterFragment<NoChoiceExpandableListAdapter<Country, Contact>> {
 
     @Override
-    protected final ExpandableListAdapter<Country, Contact> createAdapter() {
+    protected final NoChoiceExpandableListAdapter<Country, Contact> createAdapter() {
         return AdapterFactory
                 .createExpandableListAdapter(getActivity(), new ExpandableListAdapterDecorator());
     }

@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
-import de.mrapp.android.adapter.ListAdapter;
+import de.mrapp.android.adapter.list.ListAdapter;
 
 import static de.mrapp.android.util.Condition.ensureAtLeast;
 import static de.mrapp.android.util.Condition.ensureAtMaximum;

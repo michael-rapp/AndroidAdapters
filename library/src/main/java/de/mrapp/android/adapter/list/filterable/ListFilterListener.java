@@ -20,7 +20,7 @@ import java.util.List;
 
 import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.Filterable;
-import de.mrapp.android.adapter.ListAdapter;
+import de.mrapp.android.adapter.list.ListAdapter;
 
 /**
  * Defines the interface, all listeners, which should be notified when the underlying data of a

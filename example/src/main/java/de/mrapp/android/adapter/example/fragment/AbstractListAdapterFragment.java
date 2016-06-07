@@ -26,7 +26,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import de.mrapp.android.adapter.Filter;
-import de.mrapp.android.adapter.ListAdapter;
+import de.mrapp.android.adapter.list.ListAdapter;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.SingleChoiceListAdapter;

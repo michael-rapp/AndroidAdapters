@@ -18,20 +18,20 @@ import android.preference.PreferenceManager;
 import android.view.View;
 
 import de.mrapp.android.adapter.AdapterFactory;
-import de.mrapp.android.adapter.ListAdapter;
+import de.mrapp.android.adapter.NoChoiceListAdapter;
 import de.mrapp.android.adapter.example.R;
 import de.mrapp.android.adapter.example.decorator.ListAdapterDecorator;
 import de.mrapp.android.adapter.example.model.Contact;
 
 /**
- * A fragment, which demonstrates the functionality of a {@link ListAdapter}.
+ * A fragment, which demonstrates the functionality of a {@link NoChoiceListAdapter}.
  *
  * @author Michael Rapp
  */
-public class ListAdapterFragment extends AbstractListViewFragment<ListAdapter<Contact>> {
+public class ListAdapterFragment extends AbstractListViewFragment<NoChoiceListAdapter<Contact>> {
 
     @Override
-    protected final ListAdapter<Contact> createAdapter() {
+    protected final NoChoiceListAdapter<Contact> createAdapter() {
         return AdapterFactory.createListAdapter(getActivity(), new ListAdapterDecorator());
     }
 

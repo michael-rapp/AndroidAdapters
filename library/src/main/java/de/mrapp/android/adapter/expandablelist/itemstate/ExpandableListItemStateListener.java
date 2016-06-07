@@ -16,7 +16,7 @@ package de.mrapp.android.adapter.expandablelist.itemstate;
 import android.support.annotation.NonNull;
 import android.widget.ListAdapter;
 
-import de.mrapp.android.adapter.ExpandableListAdapter;
+import de.mrapp.android.adapter.expandablelist.ExpandableListAdapter;
 
 /**
  * Defines the interface, all listeners, which should be notified, when the state of a group or

@@ -13,7 +13,6 @@
  */
 package de.mrapp.android.adapter.expandablelist;
 
-import de.mrapp.android.adapter.ExpandableListAdapter;
 import de.mrapp.android.adapter.SelectableListDecorator;
 
 /**

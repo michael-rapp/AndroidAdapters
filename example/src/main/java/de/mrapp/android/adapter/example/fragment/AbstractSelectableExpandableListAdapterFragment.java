@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import de.mrapp.android.adapter.ExpandableListAdapter;
+import de.mrapp.android.adapter.expandablelist.ExpandableListAdapter;
 import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.MultipleChoiceExpandableListAdapter;
 import de.mrapp.android.adapter.SingleChoiceExpandableListAdapter;

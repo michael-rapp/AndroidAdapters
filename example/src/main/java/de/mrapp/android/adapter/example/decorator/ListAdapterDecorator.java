@@ -24,7 +24,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import de.mrapp.android.adapter.ListAdapter;
+import de.mrapp.android.adapter.list.ListAdapter;
 import de.mrapp.android.adapter.ListDecorator;
 import de.mrapp.android.adapter.example.R;
 import de.mrapp.android.adapter.example.model.Contact;

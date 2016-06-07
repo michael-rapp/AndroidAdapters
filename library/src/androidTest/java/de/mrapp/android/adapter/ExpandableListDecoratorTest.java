@@ -21,6 +21,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import de.mrapp.android.adapter.expandablelist.ExpandableListAdapter;
+
 import static org.mockito.Mockito.mock;
 
 /**

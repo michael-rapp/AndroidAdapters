@@ -17,8 +17,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import de.mrapp.android.adapter.decorator.AbstractDecorator;
 import de.mrapp.android.adapter.decorator.AbstractExpandableListDecorator;
+import de.mrapp.android.adapter.expandablelist.ExpandableListAdapter;
 
 /**
  * An abstract base class for all decorators, which should allow to customize the appearance of the

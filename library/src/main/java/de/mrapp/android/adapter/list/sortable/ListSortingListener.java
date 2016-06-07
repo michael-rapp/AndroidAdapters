@@ -19,7 +19,7 @@ import android.support.annotation.Nullable;
 import java.util.Collection;
 import java.util.Comparator;
 
-import de.mrapp.android.adapter.ListAdapter;
+import de.mrapp.android.adapter.list.ListAdapter;
 import de.mrapp.android.adapter.Order;
 
 /**

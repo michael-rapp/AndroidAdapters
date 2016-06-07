@@ -13,6 +13,8 @@
  */
 package de.mrapp.android.adapter;
 
+import de.mrapp.android.adapter.list.ListAdapter;
+
 /**
  * Contains all possible orders, which may be used to sort the items of a {@link ListAdapter}.
  *

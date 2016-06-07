@@ -13,18 +13,15 @@
  */
 package de.mrapp.android.adapter.example.fragment;
 
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import de.mrapp.android.adapter.ListAdapter;
+import de.mrapp.android.adapter.list.ListAdapter;
 import de.mrapp.android.adapter.example.R;
 import de.mrapp.android.adapter.example.model.Contact;
-import de.mrapp.android.adapter.list.ListAdapterItemLongClickListener;
 
 /**
  * An abstract base class for all fragments, which demonstrate the functionality of adapters, which

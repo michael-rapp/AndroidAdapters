@@ -36,7 +36,7 @@ import java.util.Set;
 import de.mrapp.android.adapter.DataSetObserver;
 import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.FilterQuery;
-import de.mrapp.android.adapter.ListAdapter;
+import de.mrapp.android.adapter.list.ListAdapter;
 import de.mrapp.android.adapter.ListDecorator;
 import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.datastructure.item.Item;

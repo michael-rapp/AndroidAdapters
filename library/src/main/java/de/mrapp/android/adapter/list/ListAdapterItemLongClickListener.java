@@ -16,8 +16,6 @@ package de.mrapp.android.adapter.list;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import de.mrapp.android.adapter.ListAdapter;
-
 /**
  * Defines the interface, all listeners, which should be notified, when an item of a {@link
  * ListAdapter} has been long-clicked by the user, must implement.

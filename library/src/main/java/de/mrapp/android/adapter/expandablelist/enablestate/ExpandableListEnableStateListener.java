@@ -15,7 +15,7 @@ package de.mrapp.android.adapter.expandablelist.enablestate;
 
 import android.support.annotation.NonNull;
 
-import de.mrapp.android.adapter.ExpandableListAdapter;
+import de.mrapp.android.adapter.expandablelist.ExpandableListAdapter;
 
 /**
  * Defines the interface, all listeners, which should be notified, when a group or child item of a

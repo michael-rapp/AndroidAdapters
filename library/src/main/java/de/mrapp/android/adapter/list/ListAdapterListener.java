@@ -15,8 +15,6 @@ package de.mrapp.android.adapter.list;
 
 import android.support.annotation.NonNull;
 
-import de.mrapp.android.adapter.ListAdapter;
-
 /**
  * Defines the interface, all listeners, which should be notified, when the underlying data of a
  * {@link ListAdapter} has been modified, must implement.

@@ -16,8 +16,6 @@ package de.mrapp.android.adapter.expandablelist;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import de.mrapp.android.adapter.ExpandableListAdapter;
-
 /**
  * Defines the interface, all listeners, which should be notified, when an item of an {@link
  * ExpandableListAdapter} has been long-clicked by the user, must implement.

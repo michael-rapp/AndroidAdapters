@@ -18,7 +18,8 @@ import android.widget.AbsListView;
 
 import java.util.NoSuchElementException;
 
-import de.mrapp.android.adapter.ListAdapter;
+import de.mrapp.android.adapter.list.ListAdapter;
+import de.mrapp.android.adapter.SelectableListDecorator;
 
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a list of arbitrary items,
@@ -31,6 +32,27 @@ import de.mrapp.android.adapter.ListAdapter;
  * @since 0.1.0
  */
 public interface SelectableListAdapter<DataType> extends ListAdapter<DataType> {
+
+    /**
+     * Returns the decorator, which allows to customize the appearance of the views, which are used
+     * to visualize the items of the adapter.
+     *
+     * @return The decorator, which allows to customize the appearance of the views, which are used
+     * to visualize the items of the adapter, as an instance of the type {@link
+     * SelectableListDecorator}. The decorator may not be null
+     */
+    SelectableListDecorator<DataType> getDecorator();
+
+    /**
+     * Sets the decorator, which allows to customize the appearance of the views, which are used to
+     * visualize the items of the adapter.
+     *
+     * @param decorator
+     *         The decorator, which should be set, as an instance of the type {@link
+     *         SelectableListDecorator}. The decorator may not be null
+     */
+
+    void setDecorator(@NonNull SelectableListDecorator<DataType> decorator);
 
     /**
      * Adds a new listener, which should be notified when the selection of an item has been

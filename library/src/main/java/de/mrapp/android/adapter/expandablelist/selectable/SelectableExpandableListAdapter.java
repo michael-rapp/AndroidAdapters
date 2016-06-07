@@ -19,7 +19,8 @@ import android.widget.ExpandableListView;
 import java.util.NoSuchElementException;
 
 import de.mrapp.android.adapter.ChoiceMode;
-import de.mrapp.android.adapter.ExpandableListAdapter;
+import de.mrapp.android.adapter.expandablelist.ExpandableListAdapter;
+import de.mrapp.android.adapter.SelectableExpandableListDecorator;
 
 /**
  * Defines the interface, an adapter, whose underlying data is managed as a list of arbitrary group
@@ -36,6 +37,27 @@ import de.mrapp.android.adapter.ExpandableListAdapter;
  */
 public interface SelectableExpandableListAdapter<GroupType, ChildType>
         extends ExpandableListAdapter<GroupType, ChildType> {
+
+    /**
+     * Returns the decorator, which allows to customize the appearance of the views, which are used
+     * to visualize the items of the adapter.
+     *
+     * @return The decorator, which allows to customize the appearance of the views, which are used
+     * to visualize the items of the adapter, as an instance of the type {@link
+     * SelectableExpandableListDecorator}. The decorator may not be null
+     */
+    SelectableExpandableListDecorator<GroupType, ChildType> getDecorator();
+
+    /**
+     * Sets the decorator, which allows to customize the appearance of the views, which are used to
+     * visualize the items of the adapter.
+     *
+     * @param decorator
+     *         The decorator, which should be set, as an instance of the type {@link
+     *         SelectableExpandableListDecorator}. The decorator may not be null
+     */
+
+    void setDecorator(@NonNull SelectableExpandableListDecorator<GroupType, ChildType> decorator);
 
     /**
      * Adds a new listener, which should be notified when the selection of an item has been

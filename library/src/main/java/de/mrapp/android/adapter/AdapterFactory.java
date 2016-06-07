@@ -16,16 +16,19 @@ package de.mrapp.android.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import de.mrapp.android.adapter.expandablelist.ExpandableListAdapter;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterImplementation;
 import de.mrapp.android.adapter.expandablelist.selectable.MultipleChoiceExpandableListAdapterImplementation;
 import de.mrapp.android.adapter.expandablelist.selectable.SingleChoiceExpandableListAdapterImplementation;
-import de.mrapp.android.adapter.list.ListAdapterImplementation;
+import de.mrapp.android.adapter.list.NoChoiceListAdapterImplementation;
 import de.mrapp.android.adapter.list.selectable.MultipleChoiceListAdapterImplementation;
 import de.mrapp.android.adapter.list.selectable.SingleChoiceListAdapterImplementation;
 
 /**
  * An utility class, which offers factory methods, which allow to initialize instances of the types
- * {@link ListAdapter}, {@link SingleChoiceListAdapter} or {@link MultipleChoiceListAdapter}.
+ * {@link NoChoiceListAdapter}, {@link SingleChoiceListAdapter}, {@link MultipleChoiceListAdapter},
+ * {@link NoChoiceExpandableListAdapter}, {@link SingleChoiceExpandableListAdapter} or {@link
+ * MultipleChoiceExpandableListAdapter}.
  *
  * @author Michael Rapp
  * @since 0.1.0
@@ -34,8 +37,9 @@ public final class AdapterFactory {
 
     /**
      * Creates a new utility class, which offers factory methods, which allow to initialize
-     * instances of the types {@link ListAdapter}, {@link SingleChoiceListAdapter} or {@link
-     * MultipleChoiceListAdapter}.
+     * instances of the  types {@link NoChoiceListAdapter}, {@link SingleChoiceListAdapter}, {@link
+     * MultipleChoiceListAdapter}, {@link NoChoiceExpandableListAdapter}, {@link
+     * SingleChoiceExpandableListAdapter} or {@link MultipleChoiceExpandableListAdapter}.
      */
     private AdapterFactory() {
 
@@ -54,11 +58,12 @@ public final class AdapterFactory {
      *         The decorator, which should be used to customize the appearance of the views, which
      *         are used to visualize the items of the adapter, as an instance of the type {@link
      *         ListDecorator}. The decorator may not be null
-     * @return The adapter, which has been created, as an instance of the type {@link ListAdapter}
+     * @return The adapter, which has been created, as an instance of the type {@link
+     * NoChoiceListAdapter}
      */
-    public static <DataType> ListAdapter<DataType> createListAdapter(@NonNull final Context context,
-                                                                     @NonNull final ListDecorator<DataType> decorator) {
-        return new ListAdapterImplementation<>(context, decorator);
+    public static <DataType> NoChoiceListAdapter<DataType> createListAdapter(
+            @NonNull final Context context, @NonNull final ListDecorator<DataType> decorator) {
+        return new NoChoiceListAdapterImplementation<>(context, decorator);
     }
 
     /**
@@ -123,7 +128,7 @@ public final class AdapterFactory {
      * @return The adapter, which has been created, as an instance of the type {@link
      * ExpandableListAdapter}
      */
-    public static <GroupType, ChildType> ExpandableListAdapter<GroupType, ChildType> createExpandableListAdapter(
+    public static <GroupType, ChildType> NoChoiceExpandableListAdapter<GroupType, ChildType> createExpandableListAdapter(
             @NonNull final Context context,
             @NonNull final ExpandableListDecorator<GroupType, ChildType> decorator) {
         return new ExpandableListAdapterImplementation<>(context, decorator);

@@ -19,22 +19,22 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import de.mrapp.android.adapter.AdapterFactory;
-import de.mrapp.android.adapter.ListAdapter;
+import de.mrapp.android.adapter.NoChoiceListAdapter;
 import de.mrapp.android.adapter.example.R;
 import de.mrapp.android.adapter.example.decorator.ListAdapterDecorator;
 import de.mrapp.android.adapter.example.model.Contact;
 
 /**
- * A fragment, which demonstrates the functionality of a {@link ListAdapter} when populating a
- * {@link RecyclerView}.
+ * A fragment, which demonstrates the functionality of a {@link NoChoiceListAdapter} when populating
+ * a {@link RecyclerView}.
  *
  * @author Michael Rapp
  */
 public class RecyclerViewListAdapterFragment
-        extends AbstractRecyclerViewFragment<ListAdapter<Contact>> {
+        extends AbstractRecyclerViewFragment<NoChoiceListAdapter<Contact>> {
 
     @Override
-    protected ListAdapter<Contact> createAdapter() {
+    protected NoChoiceListAdapter<Contact> createAdapter() {
         return AdapterFactory.createListAdapter(getActivity(), new ListAdapterDecorator());
     }
 

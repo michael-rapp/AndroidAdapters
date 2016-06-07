@@ -27,7 +27,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import de.mrapp.android.adapter.ChoiceMode;
-import de.mrapp.android.adapter.ExpandableListAdapter;
+import de.mrapp.android.adapter.expandablelist.ExpandableListAdapter;
 import de.mrapp.android.adapter.MultipleChoiceExpandableListAdapter;
 import de.mrapp.android.adapter.SelectableExpandableListDecorator;
 import de.mrapp.android.adapter.SingleChoiceExpandableListAdapter;

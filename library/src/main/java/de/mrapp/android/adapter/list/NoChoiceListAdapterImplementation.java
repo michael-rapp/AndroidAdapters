@@ -24,6 +24,7 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import de.mrapp.android.adapter.ListDecorator;
+import de.mrapp.android.adapter.NoChoiceListAdapter;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
@@ -42,8 +43,9 @@ import de.mrapp.android.adapter.logging.LogLevel;
  * @author Michael Rapp
  * @since 0.1.0
  */
-public class ListAdapterImplementation<DataType>
-        extends AbstractFilterableListAdapter<DataType, ListDecorator<DataType>> {
+public class NoChoiceListAdapterImplementation<DataType>
+        extends AbstractFilterableListAdapter<DataType, ListDecorator<DataType>>
+        implements NoChoiceListAdapter<DataType> {
 
     /**
      * The constant serial version UID.
@@ -107,21 +109,22 @@ public class ListAdapterImplementation<DataType>
      *         underlying data or an empty set, if the adapter's underlying data should not be
      *         filtered
      */
-    protected ListAdapterImplementation(@NonNull final Context context,
-                                        @NonNull final ListDecorator<DataType> decorator,
-                                        @NonNull final LogLevel logLevel,
-                                        @NonNull final ArrayList<Item<DataType>> items,
-                                        final boolean allowDuplicates, final boolean notifyOnChange,
-                                        @NonNull final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
-                                        @NonNull final Set<ListAdapterItemLongClickListener<DataType>> itemLongClickListeners,
-                                        @NonNull final Set<ListAdapterListener<DataType>> adapterListeners,
-                                        @NonNull final Set<ListEnableStateListener<DataType>> enableStateListeners,
-                                        final int numberOfItemStates,
-                                        final boolean triggerItemStateOnClick,
-                                        @NonNull final Set<ListItemStateListener<DataType>> itemStateListeners,
-                                        @NonNull final Set<ListSortingListener<DataType>> sortingListeners,
-                                        @NonNull final Set<ListFilterListener<DataType>> filterListeners,
-                                        @NonNull final LinkedHashSet<AppliedFilter<DataType>> appliedFilters) {
+    protected NoChoiceListAdapterImplementation(@NonNull final Context context,
+                                                @NonNull final ListDecorator<DataType> decorator,
+                                                @NonNull final LogLevel logLevel,
+                                                @NonNull final ArrayList<Item<DataType>> items,
+                                                final boolean allowDuplicates,
+                                                final boolean notifyOnChange,
+                                                @NonNull final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
+                                                @NonNull final Set<ListAdapterItemLongClickListener<DataType>> itemLongClickListeners,
+                                                @NonNull final Set<ListAdapterListener<DataType>> adapterListeners,
+                                                @NonNull final Set<ListEnableStateListener<DataType>> enableStateListeners,
+                                                final int numberOfItemStates,
+                                                final boolean triggerItemStateOnClick,
+                                                @NonNull final Set<ListItemStateListener<DataType>> itemStateListeners,
+                                                @NonNull final Set<ListSortingListener<DataType>> sortingListeners,
+                                                @NonNull final Set<ListFilterListener<DataType>> filterListeners,
+                                                @NonNull final LinkedHashSet<AppliedFilter<DataType>> appliedFilters) {
         super(context, decorator, logLevel, items, allowDuplicates, notifyOnChange,
                 itemClickListeners, itemLongClickListeners, adapterListeners, enableStateListeners,
                 numberOfItemStates, triggerItemStateOnClick, itemStateListeners, sortingListeners,
@@ -139,8 +142,8 @@ public class ListAdapterImplementation<DataType>
      *         are used to visualize the items of the adapter, as an instance of the type {@link
      *         ListDecorator}. The decorator may not be null
      */
-    public ListAdapterImplementation(@NonNull final Context context,
-                                     @NonNull final ListDecorator<DataType> decorator) {
+    public NoChoiceListAdapterImplementation(@NonNull final Context context,
+                                             @NonNull final ListDecorator<DataType> decorator) {
         this(context, decorator, LogLevel.INFO, new ArrayList<Item<DataType>>(), false, true,
                 new CopyOnWriteArraySet<ListAdapterItemClickListener<DataType>>(),
                 new CopyOnWriteArraySet<ListAdapterItemLongClickListener<DataType>>(),
@@ -188,8 +191,9 @@ public class ListAdapterImplementation<DataType>
     }
 
     @Override
-    public final ListAdapterImplementation<DataType> clone() throws CloneNotSupportedException {
-        return new ListAdapterImplementation<>(getContext(), getDecorator(), getLogLevel(),
+    public final NoChoiceListAdapterImplementation<DataType> clone()
+            throws CloneNotSupportedException {
+        return new NoChoiceListAdapterImplementation<>(getContext(), getDecorator(), getLogLevel(),
                 cloneItems(), areDuplicatesAllowed(), isNotifiedOnChange(), getItemClickListeners(),
                 getItemLongClickListeners(), getAdapterListeners(), getEnableStateListeners(),
                 getNumberOfItemStates(), isItemStateTriggeredOnClick(), getItemStateListeners(),

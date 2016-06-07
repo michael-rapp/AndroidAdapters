@@ -18,6 +18,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import de.mrapp.android.adapter.decorator.AbstractListDecorator;
+import de.mrapp.android.adapter.list.ListAdapter;
 
 /**
  * An abstract base class for all decorators, which should allow to customize the appearance of the

@@ -15,8 +15,6 @@ package de.mrapp.android.adapter.expandablelist;
 
 import android.support.annotation.NonNull;
 
-import de.mrapp.android.adapter.ExpandableListAdapter;
-
 /**
  * Defines the interface, all listeners, which should be notified, when the underlying data of an
  * {@link ExpandableListAdapter} has been modified, must implement.

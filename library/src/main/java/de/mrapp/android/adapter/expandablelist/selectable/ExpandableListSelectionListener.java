@@ -15,7 +15,7 @@ package de.mrapp.android.adapter.expandablelist.selectable;
 
 import android.support.annotation.NonNull;
 
-import de.mrapp.android.adapter.ExpandableListAdapter;
+import de.mrapp.android.adapter.expandablelist.ExpandableListAdapter;
 
 /**
  * Defines the interface, all listeners, which should be notified when the selection of a group or

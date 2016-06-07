@@ -23,6 +23,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 import de.mrapp.android.adapter.ExpandableListDecorator;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
+import de.mrapp.android.adapter.NoChoiceExpandableListAdapter;
 import de.mrapp.android.adapter.datastructure.group.Group;
 import de.mrapp.android.adapter.expandablelist.enablestate.ExpandableListEnableStateListener;
 import de.mrapp.android.adapter.expandablelist.filterable.AbstractFilterableExpandableListAdapter;
@@ -45,7 +46,8 @@ import de.mrapp.android.adapter.logging.LogLevel;
  * @since 0.1.0
  */
 public class ExpandableListAdapterImplementation<GroupType, ChildType> extends
-        AbstractFilterableExpandableListAdapter<GroupType, ChildType, ExpandableListDecorator<GroupType, ChildType>> {
+        AbstractFilterableExpandableListAdapter<GroupType, ChildType, ExpandableListDecorator<GroupType, ChildType>>
+        implements NoChoiceExpandableListAdapter<GroupType, ChildType> {
 
     /**
      * The constant serial version UID.
@@ -233,7 +235,7 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType> extends
 
     @Override
     public final String toString() {
-        return "ExpandableListAdapter (" + getGroupCount() + " groups, " + getChildCount() +
+        return "NoChoiceExpandableListAdapter (" + getGroupCount() + " groups, " + getChildCount() +
                 " children) [logLevel=" + getLogLevel() + ", parameters=" + getParameters() +
                 ", notifyOnChange=" + isNotifiedOnChange() + ", allowDuplicateGroups=" +
                 areDuplicateGroupsAllowed() + ", allowDuplicateChildren=" +

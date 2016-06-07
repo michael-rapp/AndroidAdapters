@@ -36,7 +36,6 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 import de.mrapp.android.adapter.DataSetObserver;
-import de.mrapp.android.adapter.ExpandableListAdapter;
 import de.mrapp.android.adapter.ExpandableListDecorator;
 import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.FilterQuery;

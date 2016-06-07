@@ -15,7 +15,7 @@ package de.mrapp.android.adapter.list.selectable;
 
 import android.support.annotation.NonNull;
 
-import de.mrapp.android.adapter.ListAdapter;
+import de.mrapp.android.adapter.list.ListAdapter;
 
 /**
  * Defines the interface, all listeners, which should be notified when the selection of an item of a

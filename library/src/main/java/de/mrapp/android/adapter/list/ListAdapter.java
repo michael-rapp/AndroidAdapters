@@ -11,7 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package de.mrapp.android.adapter;
+package de.mrapp.android.adapter.list;
 
 import android.support.annotation.NonNull;
 import android.widget.AbsListView;
@@ -21,9 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
-import de.mrapp.android.adapter.list.ListAdapterItemLongClickListener;
-import de.mrapp.android.adapter.list.ListAdapterListener;
+import de.mrapp.android.adapter.RecyclerViewAdapter;
 import de.mrapp.android.adapter.list.enablestate.EnableStateListAdapter;
 import de.mrapp.android.adapter.list.filterable.FilterableListAdapter;
 import de.mrapp.android.adapter.list.itemstate.ItemStateListAdapter;

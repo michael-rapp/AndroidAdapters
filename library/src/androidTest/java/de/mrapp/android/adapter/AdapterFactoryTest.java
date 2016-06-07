@@ -21,7 +21,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import de.mrapp.android.adapter.expandablelist.ExpandableListAdapter;
 import de.mrapp.android.adapter.expandablelist.selectable.SelectableExpandableListAdapter;
+import de.mrapp.android.adapter.list.ListAdapter;
 import de.mrapp.android.adapter.list.selectable.SelectableListAdapter;
 
 /**
@@ -172,10 +174,10 @@ public class AdapterFactoryTest extends AndroidTestCase {
 
     /**
      * Tests the functionality of the method, which allows to create an instance of the type {@link
-     * ListAdapter}.
+     * NoChoiceListAdapter}.
      */
     public final void testCreateListAdapter() {
-        ListAdapter<Object> listAdapter =
+        NoChoiceListAdapter<Object> listAdapter =
                 AdapterFactory.createListAdapter(getContext(), new ListDecoratorImplementation());
         assertNotNull(listAdapter);
     }
@@ -204,10 +206,10 @@ public class AdapterFactoryTest extends AndroidTestCase {
 
     /**
      * Tests the functionality of the method, which allows to create an instance of the type {@link
-     * ExpandableListAdapter}.
+     * NoChoiceExpandableListAdapter}.
      */
     public final void testCreateExpandableListAdapter() {
-        ExpandableListAdapter<Object, Object> expandableListAdapter = AdapterFactory
+        NoChoiceExpandableListAdapter<Object, Object> expandableListAdapter = AdapterFactory
                 .createExpandableListAdapter(getContext(),
                         new ExpandableListDecoratorImplementation());
         assertNotNull(expandableListAdapter);
