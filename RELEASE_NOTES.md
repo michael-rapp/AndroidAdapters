@@ -1,5 +1,11 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.5.0 (Jun. 8th 2016)
+
+A feature release, which introduces the following changes:
+
+- Getter and setter methods, which allow to retrieving or change an adapter's decorator, are now publicly exposed. This required to introduce the interfaces `NoChoiceListAdapter` and `NoChoiceExpandableListAdapter`, which are now used as return types by the factory `AdapterFactory`. 
+
 ## Version 0.4.12 (Jun. 2nd 2016)
 
 A bugfix release, which fixes the following issues:
