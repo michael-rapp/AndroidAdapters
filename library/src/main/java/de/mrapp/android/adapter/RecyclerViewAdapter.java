@@ -29,8 +29,8 @@ public interface RecyclerViewAdapter extends Adapter<AbsListView> {
      * Attaches the adapter to a view.
      *
      * @param adapterView
-     *         The view, the adapter should be attached to, as an instance of the generic type
-     *         AdapterViewType. The view may not be null
+     *         The view, the adapter should be attached to, as an instance of the class
+     *         RecyclerView. The view may not be null
      */
     void attach(@NonNull final RecyclerView adapterView);
 
