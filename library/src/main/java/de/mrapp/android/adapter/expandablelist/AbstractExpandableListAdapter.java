@@ -129,7 +129,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      * The decorator, which allows to customize the appearance of the views, which are used to
      * visualize the group and child items of the adapter.
      */
-    private final transient DecoratorType decorator;
+    private transient DecoratorType decorator;
 
     /**
      * The logger, which is used for logging.
@@ -989,6 +989,20 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         this.adapterListeners = adapterListeners;
         this.expansionListeners = expansionListeners;
         addItemClickListener(createGroupClickListener());
+    }
+
+    /**
+     * Sets the decorator, which allows to customize the appearance of the views, which are used to
+     * visualize the group and child items of the adapter.
+     *
+     * @param decorator
+     *         The decorator, which should be set, as an instance of the generic type DecoratorType.
+     *         The decorator may not be null
+     */
+    public final void setDecorator(@NonNull final DecoratorType decorator) {
+        ensureNotNull(decorator, "The decorator may not be null");
+        this.decorator = decorator;
+        notifyOnDataSetChanged();
     }
 
     @Override

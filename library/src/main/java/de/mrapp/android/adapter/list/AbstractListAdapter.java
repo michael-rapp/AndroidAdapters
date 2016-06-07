@@ -146,7 +146,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
      * The decorator, which allows to customize the appearance of the views, which are used to
      * visualize the items of the adapter.
      */
-    private final transient DecoratorType decorator;
+    private transient DecoratorType decorator;
 
     /**
      * A map, which contains the data set observers, which are notified, when the underlying data of
@@ -756,6 +756,20 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
         this.itemClickListeners = itemClickListeners;
         this.itemLongClickListeners = itemLongClickListeners;
         this.adapterListeners = adapterListeners;
+    }
+
+    /**
+     * Sets the decorator, which allows to customize the appearance of the views, which are used to
+     * visualize the items of the adapter.
+     *
+     * @param decorator
+     *         The decorator, which should be set, as an instance of the generic type DecoratorType.
+     *         The decorator may not be null
+     */
+    public final void setDecorator(@NonNull final DecoratorType decorator) {
+        ensureNotNull(decorator, "The decorator may not be null");
+        this.decorator = decorator;
+        notifyOnDataSetChanged();
     }
 
     @Override
