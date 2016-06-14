@@ -396,8 +396,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view,
                                     final int position, final long id) {
-                if (getAdapterView() instanceof ListView) {
-                    ListView listView = (ListView) getAdapterView();
+                if (adapterView instanceof ListView) {
+                    ListView listView = (ListView) adapterView;
 
                     if (position < listView.getHeaderViewsCount()) {
                         notifyOnHeaderClicked(view, position);
@@ -450,8 +450,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
             @Override
             public boolean onItemLongClick(final AdapterView<?> parent, final View view,
                                            final int position, final long id) {
-                if (getAdapterView() instanceof ListView) {
-                    ListView listView = (ListView) getAdapterView();
+                if (adapterView instanceof ListView) {
+                    ListView listView = (ListView) adapterView;
 
                     if (position < listView.getHeaderViewsCount()) {
                         return notifyOnHeaderLongClicked(view, position);
@@ -599,6 +599,16 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
     }
 
     /**
+     * Returns the view, the adapter is currently attached to.
+     *
+     * @return The view, the adapter is currently attached to, as an instance of the class {@link
+     * AbsListView}, or null, if the adapter is currently not attached to a view
+     */
+    protected final AbsListView getAdapterView() {
+        return adapterView;
+    }
+
+    /**
      * Returns a set, which contains the listeners, which should be notified, when the adapter's
      * underlying data has been modified.
      *
@@ -608,16 +618,6 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
      */
     protected final Set<ListAdapterListener<DataType>> getAdapterListeners() {
         return adapterListeners;
-    }
-
-    /**
-     * Returns the view, the adapter is currently attached to.
-     *
-     * @return The view, the adapter is currently attached to, as an instance of the class {@link
-     * AbsListView}, or null, if the adapter is currently not attached to a view
-     */
-    protected final AbsListView getAdapterView() {
-        return adapterView;
     }
 
     /**

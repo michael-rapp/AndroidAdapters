@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ListAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,6 +47,7 @@ import de.mrapp.android.adapter.list.selectable.MultipleChoiceListAdapterImpleme
 import de.mrapp.android.adapter.logging.LogLevel;
 import de.mrapp.android.adapter.logging.Logger;
 import de.mrapp.android.adapter.util.AdapterViewUtil;
+import de.mrapp.android.adapter.view.ExpandableGridView;
 
 import static de.mrapp.android.util.Condition.ensureNotNull;
 
@@ -165,6 +167,11 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      * The view, the adapter is currently attached to.
      */
     private transient ExpandableListView adapterView;
+
+    /**
+     * The expandable grid view, the adapter is currently attached to.
+     */
+    private transient ExpandableGridView expandableGridView;
 
     /**
      * True, if duplicate children, regardless from the group they belong to, are allowed, false
@@ -551,8 +558,9 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         return new ExpandableListView.OnChildClickListener() {
 
             @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition,
-                                        int childPosition, long id) {
+            public boolean onChildClick(final ExpandableListView parent, final View v,
+                                        final int groupPosition, final int childPosition,
+                                        final long id) {
                 notifyOnChildClicked(getChild(groupPosition, childPosition), childPosition,
                         getGroup(groupPosition), groupPosition);
                 return true;
@@ -580,13 +588,11 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
                     int groupIndex = ExpandableListView.getPackedPositionGroup(id);
 
                     if (groupIndex == Integer.MAX_VALUE) {
-                        if (position < getAdapterView().getHeaderViewsCount()) {
+                        if (position < adapterView.getHeaderViewsCount()) {
                             notifyOnHeaderClicked(view, position);
                         } else {
-                            int totalCount = getAdapterView().getCount();
-                            int headerCount = getAdapterView().getHeaderViewsCount();
-                            int footerCount = getAdapterView().getFooterViewsCount();
-                            int itemCount = totalCount - headerCount - footerCount;
+                            int headerCount = expandableGridView.getHeaderViewsCount();
+                            int itemCount = getGroupCount() - getChildCount();
                             notifyOnFooterClicked(view, position - headerCount - itemCount);
                         }
                     }
@@ -615,13 +621,130 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
                     int groupIndex = ExpandableListView.getPackedPositionGroup(id);
 
                     if (groupIndex == Integer.MAX_VALUE) {
-                        if (position < getAdapterView().getHeaderViewsCount()) {
+                        if (position < adapterView.getHeaderViewsCount()) {
                             return notifyOnHeaderLongClicked(view, position);
                         } else {
-                            int totalCount = getAdapterView().getCount();
-                            int headerCount = getAdapterView().getHeaderViewsCount();
-                            int footerCount = getAdapterView().getFooterViewsCount();
-                            int itemCount = totalCount - headerCount - footerCount;
+                            int headerCount = adapterView.getHeaderViewsCount();
+                            int itemCount = getGroupCount() + getChildCount();
+                            return notifyOnFooterLongClicked(view,
+                                    position - headerCount - itemCount);
+                        }
+                    } else {
+                        int childIndex = ExpandableListView.getPackedPositionChild(id);
+                        return notifyOnChildLongClicked(getChild(groupIndex, childIndex),
+                                childIndex, getGroup(groupIndex), groupIndex);
+                    }
+                } else if (itemType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+                    int groupIndex = ExpandableListView.getPackedPositionGroup(id);
+                    return notifyOnGroupLongClicked(getGroup(groupIndex), groupIndex);
+                }
+
+                return false;
+            }
+
+        };
+    }
+
+    /**
+     * Creates and returns an {@link ExpandableGridView.OnGroupClickListener}, which is invoked,
+     * when a group item of the adapter has been clicked.
+     *
+     * @return The listener, which has been created, as an instance of the type {@link
+     * ExpandableGridView.OnGroupClickListener}
+     */
+    private ExpandableGridView.OnGroupClickListener createExpandableGridViewOnGroupClickListener() {
+        return new ExpandableGridView.OnGroupClickListener() {
+
+            @Override
+            public boolean onGroupClick(@NonNull final ExpandableGridView parent,
+                                        @NonNull final View v, final int groupPosition,
+                                        final long id) {
+                notifyOnGroupClicked(getGroup(groupPosition), groupPosition);
+                return true;
+            }
+
+        };
+    }
+
+    /**
+     * Creates and returns an {@link ExpandableGridView.OnChildClickListener}, which is invoked,
+     * when a child item of the adapter has been clicked.
+     *
+     * @return The listener, which has been created, as an instance of the type {@link
+     * ExpandableGridView.OnChildClickListener}
+     */
+    private ExpandableGridView.OnChildClickListener createExpandableGridViewOnChildClickListener() {
+        return new ExpandableGridView.OnChildClickListener() {
+
+            @Override
+            public boolean onChildClick(@NonNull final ExpandableGridView parent,
+                                        @NonNull final View v, final int groupPosition,
+                                        final int childPosition, final long id) {
+                notifyOnChildClicked(getChild(groupPosition, childPosition), childPosition,
+                        getGroup(groupPosition), groupPosition);
+                return true;
+            }
+
+        };
+    }
+
+    /**
+     * Creates and returns an {@link AdapterView.OnItemClickListener}, which is invoked, when an
+     * item of the adapter has been clicked.
+     *
+     * @return The listener, which has been created, as an instance of the type {@link
+     * AdapterView.OnItemClickListener}
+     */
+    private AdapterView.OnItemClickListener createExpandableGridViewOnItemClickListener() {
+        return new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(final AdapterView<?> parent, final View view,
+                                    final int position, final long id) {
+                int itemType = ExpandableGridView.getPackedPositionType(id);
+
+                if (itemType == ExpandableGridView.PACKED_POSITION_TYPE_CHILD) {
+                    int groupIndex = ExpandableGridView.getPackedPositionGroup(id);
+
+                    if (groupIndex == Integer.MAX_VALUE) {
+                        if (position < expandableGridView.getHeaderViewsCount()) {
+                            notifyOnHeaderClicked(view, position);
+                        } else {
+                            int headerCount = expandableGridView.getHeaderViewsCount();
+                            int itemCount = getGroupCount() - getChildCount();
+                            notifyOnFooterClicked(view, position - headerCount - itemCount);
+                        }
+                    }
+                }
+            }
+
+        };
+    }
+
+    /**
+     * Creates and returns an {@link AdapterView.OnItemLongClickListener}, which is invoked, when an
+     * item of the adapter has been long-clicked.
+     *
+     * @return The listener, which has been created, as an instance of the type {@link
+     * AdapterView.OnItemLongClickListener}
+     */
+    private AdapterView.OnItemLongClickListener createExpandableGridViewOnItemLongClickListener() {
+        return new AdapterView.OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(final AdapterView<?> parent, final View view,
+                                           final int position, final long id) {
+                int itemType = ExpandableGridView.getPackedPositionType(id);
+
+                if (itemType == ExpandableGridView.PACKED_POSITION_TYPE_CHILD) {
+                    int groupIndex = ExpandableGridView.getPackedPositionGroup(id);
+
+                    if (groupIndex == Integer.MAX_VALUE) {
+                        if (position < expandableGridView.getHeaderViewsCount()) {
+                            return notifyOnHeaderLongClicked(view, position);
+                        } else {
+                            int headerCount = adapterView.getHeaderViewsCount();
+                            int itemCount = getGroupCount() + getChildCount();
                             return notifyOnFooterLongClicked(view,
                                     position - headerCount - itemCount);
                         }
@@ -647,12 +770,20 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      * expansion states.
      */
     private void syncAdapterView() {
-        if (getAdapterView() != null) {
+        if (adapterView != null || expandableGridView != null) {
             for (int i = 0; i < getGroupCount(); i++) {
                 if (isGroupExpanded(i)) {
-                    getAdapterView().expandGroup(i);
+                    if (adapterView != null) {
+                        adapterView.expandGroup(i);
+                    } else {
+                        expandableGridView.expandGroup(i);
+                    }
                 } else {
-                    getAdapterView().collapseGroup(i);
+                    if (adapterView != null) {
+                        adapterView.collapseGroup(i);
+                    } else {
+                        expandableGridView.collapseGroup(i);
+                    }
                 }
             }
 
@@ -753,16 +884,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     /**
-     * Returns the view, the adapter is currently attached to.
-     *
-     * @return The view, the adapter is currently attached to, as an instance of the class {@link
-     * ExpandableListView}, or null, if the adapter is currently not attached to a view
-     */
-    protected final ExpandableListView getAdapterView() {
-        return adapterView;
-    }
-
-    /**
      * Notifies, that the adapter's underlying data has been changed, if automatically notifying
      * such events is currently enabled.
      */
@@ -842,7 +963,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      * underlying data, when calling the method <code>notifyDataSetChanged</code> the next time.
      */
     protected final void taintAdapterView() {
-        if (getAdapterView() != null) {
+        if (adapterView != null || expandableGridView != null) {
             this.adapterViewTainted = true;
         }
     }
@@ -2241,12 +2362,20 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     public final void setGroupExpanded(final int index, final boolean expanded) {
         getGroupAdapter().getItem(index).setExpanded(expanded);
 
-        if (getAdapterView() != null) {
+        if (adapterView != null || expandableGridView != null) {
             if (isNotifiedOnChange()) {
                 if (expanded) {
-                    getAdapterView().expandGroup(index);
+                    if (adapterView != null) {
+                        adapterView.expandGroup(index);
+                    } else {
+                        notifyDataSetChanged();
+                    }
                 } else {
-                    getAdapterView().collapseGroup(index);
+                    if (adapterView != null) {
+                        adapterView.collapseGroup(index);
+                    } else {
+                        notifyDataSetChanged();
+                    }
                 }
             } else {
                 taintAdapterView();
@@ -2313,6 +2442,26 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
+    public final void attach(@NonNull final ExpandableGridView adapterView) {
+        ensureNotNull(adapterView, "The adapter view may not be null");
+        detach();
+        this.expandableGridView = adapterView;
+        this.expandableGridView.setAdapter(this);
+        this.expandableGridView
+                .setOnGroupClickListener(createExpandableGridViewOnGroupClickListener());
+        this.expandableGridView
+                .setOnChildClickListener(createExpandableGridViewOnChildClickListener());
+        this.expandableGridView
+                .setOnItemClickListener(createExpandableGridViewOnItemClickListener());
+        this.expandableGridView
+                .setOnItemLongClickListener(createExpandableGridViewOnItemLongClickListener());
+        syncAdapterView();
+        String message = "Attached adapter to view \"" + adapterView + "\"";
+        getLogger().logDebug(getClass(), message);
+
+    }
+
+    @Override
     public final void detach() {
         if (adapterView != null) {
             if (adapterView.getAdapter() == this) {
@@ -2326,6 +2475,16 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
             }
 
             adapterView = null;
+        } else if (expandableGridView != null) {
+            if (expandableGridView.getAdapter() == this) {
+                expandableGridView.setAdapter((ListAdapter) null);
+                String message = "Detached adapter from view \"" + expandableGridView + "\"";
+                getLogger().logDebug(getClass(), message);
+            } else {
+                String message = "Adapter has not been detached, because the " +
+                        "adapter of the corresponding view has been changed in the meantime";
+                getLogger().logVerbose(getClass(), message);
+            }
         } else {
             String message = "Adapter has not been detached, because it has not " +
                     "been attached to a view yet";
@@ -2376,9 +2535,9 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     public final View getGroupView(final int groupIndex, final boolean isExpanded,
                                    @Nullable final View convertView,
                                    @Nullable final ViewGroup parent) {
-        if (adapterView == null) {
+        if (adapterView == null && expandableGridView == null) {
             throw new IllegalStateException(
-                    "Adapter must be attached to an ExpandableListView using its attach-method");
+                    "Adapter must be attached to an ExpandableListView or ExpandableGridView using its attach-method");
         }
 
         View view = convertView;
@@ -2398,9 +2557,9 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     public final View getChildView(final int groupIndex, final int childIndex,
                                    final boolean isLastChild, @Nullable final View convertView,
                                    @Nullable final ViewGroup parent) {
-        if (adapterView == null) {
+        if (adapterView == null && expandableGridView == null) {
             throw new IllegalStateException(
-                    "Adapter must be attached to an ExpandableListView using its attach-method");
+                    "Adapter must be attached to an ExpandableListView or ExpandableGridView using its attach-method");
         }
 
         View view = convertView;
@@ -2439,6 +2598,9 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         if (adapterView != null) {
             AdapterViewUtil
                     .onSaveInstanceState(adapterView, savedState, ADAPTER_VIEW_STATE_BUNDLE_KEY);
+        } else if (expandableGridView != null) {
+            AdapterViewUtil.onSaveInstanceState(expandableGridView, savedState,
+                    ADAPTER_VIEW_STATE_BUNDLE_KEY);
         } else {
             String message = "The state of the adapter view can not be stored, because the " +
                     "adapter has not been attached to a view";
@@ -2478,9 +2640,14 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
                 }
             }
 
-            if (savedState.containsKey(ADAPTER_VIEW_STATE_BUNDLE_KEY) && adapterView != null) {
-                AdapterViewUtil.onRestoreInstanceState(adapterView, savedState,
-                        ADAPTER_VIEW_STATE_BUNDLE_KEY);
+            if (savedState.containsKey(ADAPTER_VIEW_STATE_BUNDLE_KEY)) {
+                if (adapterView != null) {
+                    AdapterViewUtil.onRestoreInstanceState(adapterView, savedState,
+                            ADAPTER_VIEW_STATE_BUNDLE_KEY);
+                } else if (expandableGridView != null) {
+                    AdapterViewUtil.onRestoreInstanceState(expandableGridView, savedState,
+                            ADAPTER_VIEW_STATE_BUNDLE_KEY);
+                }
             }
 
             allowDuplicateChildren(savedState.getBoolean(ALLOW_DUPLICATE_CHILDREN_BUNDLE_KEY));
