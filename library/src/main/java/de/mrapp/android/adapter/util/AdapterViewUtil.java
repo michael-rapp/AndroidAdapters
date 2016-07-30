@@ -182,7 +182,11 @@ public final class AdapterViewUtil {
             int offset = savedState.getInt(OFFSET_BUNDLE_KEY, -1);
 
             if (viewState != null) {
-                adapterView.onRestoreInstanceState(viewState);
+                try {
+                    adapterView.onRestoreInstanceState(viewState);
+                } catch (Exception e) {
+                    // No need to handle
+                }
             }
 
             if (firstVisibleIndex != -1 && offset != -1) {
