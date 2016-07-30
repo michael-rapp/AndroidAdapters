@@ -125,7 +125,7 @@ public class SelectableExpandableListAdapterDecorator
                 } else if (!adapter.isGroupSelected(index)) {
                     if (adapter instanceof SingleChoiceExpandableListAdapter) {
                         ((SingleChoiceExpandableListAdapter<Country, Contact>) adapter)
-                                .selectGroup(index);
+                                .triggerGroupSelection(index);
                     }
                 } else {
                     ((CompoundButton) v).setChecked(true);
@@ -168,7 +168,7 @@ public class SelectableExpandableListAdapterDecorator
                 } else if (!adapter.isChildSelected(groupIndex, childIndex)) {
                     if (adapter instanceof SingleChoiceExpandableListAdapter) {
                         ((SingleChoiceExpandableListAdapter<Country, Contact>) adapter)
-                                .selectChild(groupIndex, childIndex);
+                                .triggerChildSelection(groupIndex, childIndex);
                     }
                 } else {
                     ((CompoundButton) v).setChecked(true);

@@ -26,12 +26,12 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import de.mrapp.android.adapter.ChoiceMode;
-import de.mrapp.android.adapter.expandablelist.ExpandableListAdapter;
 import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.SelectableExpandableListDecorator;
 import de.mrapp.android.adapter.SingleChoiceExpandableListAdapter;
 import de.mrapp.android.adapter.datastructure.group.Group;
+import de.mrapp.android.adapter.expandablelist.ExpandableListAdapter;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemClickListener;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterListener;
@@ -80,8 +80,8 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
     private boolean adaptSelectionAutomatically;
 
     /**
-     * Creates and returns a listener, which allows to triggerSelection an item, when it is clicked by the
-     * user.
+     * Creates and returns a listener, which allows to triggerSelection an item, when it is clicked
+     * by the user.
      *
      * @return The listener, which has been created, as an instance of the type {@link
      * ExpandableListAdapterItemClickListener}
@@ -95,7 +95,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
                     @NonNull final GroupType group, final int index) {
                 if (isGroupSelectedOnClick() && getChoiceMode() != ChoiceMode.CHILDREN_ONLY) {
                     getLogger().logVerbose(getClass(), "Selecting group on click...");
-                    selectGroup(index);
+                    selectGroupItem(index);
                 }
             }
 
@@ -106,7 +106,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
                     @NonNull final GroupType group, final int groupIndex) {
                 if (isChildSelectedOnClick() && getChoiceMode() != ChoiceMode.GROUPS_ONLY) {
                     getLogger().logVerbose(getClass(), "Selecting child on click...");
-                    selectChild(groupIndex, childIndex);
+                    selectChildItem(groupIndex, childIndex);
                 }
             }
 
@@ -233,10 +233,10 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 
             while (ascendingIndex < getGroupCount() || descendingIndex >= 0) {
                 if (ascendingIndex < getGroupCount() && isGroupEnabled(ascendingIndex)) {
-                    selectGroup(ascendingIndex);
+                    selectGroupItem(ascendingIndex);
                     return true;
                 } else if (descendingIndex >= 0 && isGroupEnabled(descendingIndex)) {
-                    selectGroup(descendingIndex);
+                    selectGroupItem(descendingIndex);
                     return true;
                 }
 
@@ -269,10 +269,10 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
             while (ascendingIndex < getChildCount(groupIndex) || descendingIndex >= 0) {
                 if (ascendingIndex < getChildCount(groupIndex) &&
                         isChildEnabled(groupIndex, ascendingIndex)) {
-                    selectChild(groupIndex, ascendingIndex);
+                    selectChildItem(groupIndex, ascendingIndex);
                     return true;
                 } else if (descendingIndex >= 0 && isChildEnabled(groupIndex, descendingIndex)) {
-                    selectChild(groupIndex, descendingIndex);
+                    selectChildItem(groupIndex, descendingIndex);
                     return true;
                 }
 
@@ -282,6 +282,96 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
         }
 
         return false;
+    }
+
+    /**
+     * Selects the group item, which corresponds to a specific index. This causes all other items to
+     * become unselected.
+     *
+     * @param groupIndex
+     *         The index of the group item, which should be selected, as an {@link Integer} value
+     */
+    private void selectGroupItem(final int groupIndex) {
+        if (isGroupEnabled(groupIndex)) {
+            if (!isGroupSelected(groupIndex)) {
+                for (int i = 0; i < getGroupCount(); i++) {
+                    Group<GroupType, ChildType> currentGroup = getGroupAdapter().getItem(i);
+
+                    if (i == groupIndex) {
+                        getGroupAdapter().setSelected(i, true);
+                        notifyOnGroupSelected(currentGroup.getData(), i);
+                        String message =
+                                "Selected group \"" + currentGroup.getData() + "\" at index " + i;
+                        getLogger().logInfo(getClass(), message);
+                        unselectChildren(groupIndex, currentGroup);
+                    } else {
+                        unselectGroupAndChildren(i, currentGroup);
+                    }
+                }
+
+                if (isGroupExpandedOnSelection()) {
+                    setGroupExpanded(groupIndex, true);
+                }
+
+                notifyOnDataSetChanged();
+            }
+        }
+    }
+
+    /**
+     * Selects the child item, which corresponds to a specific index of a specific group. This
+     * causes all other items to become unselected.
+     *
+     * @param groupIndex
+     *         The index of the group, the child item, which should be selected, belongs to, as an
+     *         {@link Integer} value
+     * @param childIndex
+     *         The index of the child item, which should be selected, as an {@link Integer} value
+     */
+    private void selectChildItem(final int groupIndex, final int childIndex) {
+        MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter = getGroupAdapter();
+        Group<GroupType, ChildType> group = groupAdapter.getItem(groupIndex);
+        MultipleChoiceListAdapter<ChildType> childAdapter = group.getChildAdapter();
+
+        if (childAdapter.isEnabled(childIndex)) {
+            if (!childAdapter.isSelected(childIndex)) {
+                groupAdapter.setSelected(groupIndex, false);
+
+                for (int i = 0; i < getGroupCount(); i++) {
+                    if (i != groupIndex) {
+                        unselectGroupAndChildren(i, groupAdapter.getItem(i));
+                    }
+                }
+
+                for (int i = 0; i < childAdapter.getCount(); i++) {
+                    if (i == childIndex) {
+                        childAdapter.setSelected(i, true);
+                        notifyOnChildSelected(group.getData(), groupIndex, childAdapter.getItem(i),
+                                i);
+                        String message =
+                                "Selected child \"" + childAdapter.getItemId(i) + "\" at index " +
+                                        i + " of group \"" + group.getData() + "\" at index " +
+                                        groupIndex;
+                        getLogger().logInfo(getClass(), message);
+                    } else if (childAdapter.isSelected(i)) {
+                        childAdapter.setSelected(i, false);
+                        notifyOnChildUnselected(group.getData(), groupIndex,
+                                childAdapter.getItem(i), i);
+                        String message =
+                                "Unselected child \"" + childAdapter.getItem(i) + "\" at index " +
+                                        i + " of group \"" + group.getData() + " at index " +
+                                        groupIndex;
+                        getLogger().logInfo(getClass(), message);
+                    }
+                }
+
+                if (isGroupExpandedOnChildSelection()) {
+                    setGroupExpanded(groupIndex, true);
+                }
+
+                notifyOnDataSetChanged();
+            }
+        }
     }
 
     /**
@@ -300,7 +390,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
                     @NonNull final GroupType group, final int index) {
                 if (isSelectionAdaptedAutomatically() && getGroupCount() == 1 &&
                         getChoiceMode() != ChoiceMode.CHILDREN_ONLY) {
-                    selectGroup(0);
+                    selectGroupItem(0);
                 }
             }
 
@@ -322,7 +412,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
                 if (isSelectionAdaptedAutomatically() &&
                         getChoiceMode() != ChoiceMode.GROUPS_ONLY &&
                         getSelectedGroupIndex() == -1) {
-                    selectChild(groupIndex, childIndex);
+                    selectNearestEnabledItem(groupIndex, childIndex);
                 }
             }
 
@@ -357,7 +447,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
                 if (isSelectionAdaptedAutomatically() &&
                         getChoiceMode() != ChoiceMode.CHILDREN_ONLY &&
                         getSelectedGroupIndex() == -1) {
-                    selectGroup(index);
+                    selectGroupItem(index);
                 }
             }
 
@@ -378,7 +468,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
                 if (isSelectionAdaptedAutomatically() &&
                         getChoiceMode() != ChoiceMode.GROUPS_ONLY &&
                         getSelectedGroupIndex() == -1) {
-                    selectChild(groupIndex, childIndex);
+                    selectChildItem(groupIndex, childIndex);
                 }
             }
 
@@ -708,7 +798,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
     }
 
     @Override
-    public final boolean selectGroup(final int groupIndex) {
+    public final boolean triggerGroupSelection(final int groupIndex) {
         if (getChoiceMode() == ChoiceMode.CHILDREN_ONLY) {
             throw new IllegalStateException(
                     "Groups are not allowed to be selected when using the choice mode " +
@@ -720,36 +810,20 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 
         if (groupAdapter.isEnabled(groupIndex)) {
             if (!groupAdapter.isSelected(groupIndex)) {
-                for (int i = 0; i < getGroupCount(); i++) {
-                    Group<GroupType, ChildType> currentGroup = getGroupAdapter().getItem(i);
-
-                    if (i == groupIndex) {
-                        getGroupAdapter().setSelected(i, true);
-                        notifyOnGroupSelected(currentGroup.getData(), i);
-                        String message =
-                                "Selected group \"" + currentGroup.getData() + "\" at index " + i;
-                        getLogger().logInfo(getClass(), message);
-                        unselectChildren(groupIndex, currentGroup);
-                    } else {
-                        unselectGroupAndChildren(i, currentGroup);
-                    }
-                }
-
-                if (isGroupExpandedOnSelection()) {
-                    setGroupExpanded(groupIndex, true);
-                }
-
-                notifyOnDataSetChanged();
+                selectGroupItem(groupIndex);
                 return true;
             } else {
-                String message = "The selection of group \"" + group.getData() + "\" at index " +
-                        groupIndex + " has not been changed, because it is already selected";
+                groupAdapter.setSelected(groupIndex, false);
+                notifyOnGroupUnselected(group.getData(), groupIndex);
+                String message = "Unselected group \"" + group.getData() + "\" at index " +
+                        groupIndex;
                 getLogger().logDebug(getClass(), message);
-                return false;
+                notifyOnDataSetChanged();
+                return true;
             }
         } else {
             String message =
-                    "The selectionn of group \"" + group.getData() + "\" at index " + groupIndex +
+                    "The selection of group \"" + group.getData() + "\" at index " + groupIndex +
                             " has not been changed, because it is disabled";
             getLogger().logDebug(getClass(), message);
             return false;
@@ -757,23 +831,24 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
     }
 
     @Override
-    public final boolean selectGroup(@NonNull final GroupType group) {
-        return selectGroup(indexOfGroupOrThrowException(group));
+    public final boolean triggerGroupSelection(@NonNull final GroupType group) {
+        return triggerGroupSelection(indexOfGroupOrThrowException(group));
     }
 
     @Override
-    public final boolean selectChild(@NonNull final GroupType group, final int childIndex) {
-        return selectChild(indexOfGroupOrThrowException(group), childIndex);
+    public final boolean triggerChildSelection(@NonNull final GroupType group,
+                                               final int childIndex) {
+        return triggerChildSelection(indexOfGroupOrThrowException(group), childIndex);
     }
 
     @Override
-    public final boolean selectChild(@NonNull final GroupType group,
-                                     @NonNull final ChildType child) {
-        return selectChild(indexOfGroupOrThrowException(group), child);
+    public final boolean triggerChildSelection(@NonNull final GroupType group,
+                                               @NonNull final ChildType child) {
+        return triggerChildSelection(indexOfGroupOrThrowException(group), child);
     }
 
     @Override
-    public final boolean selectChild(final int groupIndex, final int childIndex) {
+    public final boolean triggerChildSelection(final int groupIndex, final int childIndex) {
         if (getChoiceMode() == ChoiceMode.GROUPS_ONLY) {
             throw new IllegalStateException(
                     "Children are not allowed to be selected when using the choice mode " +
@@ -786,41 +861,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
 
         if (childAdapter.isEnabled(childIndex)) {
             if (!childAdapter.isSelected(childIndex)) {
-                groupAdapter.setSelected(groupIndex, false);
-
-                for (int i = 0; i < getGroupCount(); i++) {
-                    if (i != groupIndex) {
-                        unselectGroupAndChildren(i, groupAdapter.getItem(i));
-                    }
-                }
-
-                for (int i = 0; i < childAdapter.getCount(); i++) {
-                    if (i == childIndex) {
-                        childAdapter.setSelected(i, true);
-                        notifyOnChildSelected(group.getData(), groupIndex, childAdapter.getItem(i),
-                                i);
-                        String message =
-                                "Selected child \"" + childAdapter.getItemId(i) + "\" at index " +
-                                        i + " of group \"" + group.getData() + "\" at index " +
-                                        groupIndex;
-                        getLogger().logInfo(getClass(), message);
-                    } else if (childAdapter.isSelected(i)) {
-                        childAdapter.setSelected(i, false);
-                        notifyOnChildUnselected(group.getData(), groupIndex,
-                                childAdapter.getItem(i), i);
-                        String message =
-                                "Unselected child \"" + childAdapter.getItem(i) + "\" at index " +
-                                        i + " of group \"" + group.getData() + " at index " +
-                                        groupIndex;
-                        getLogger().logInfo(getClass(), message);
-                    }
-                }
-
-                if (isGroupExpandedOnChildSelection()) {
-                    setGroupExpanded(groupIndex, true);
-                }
-
-                notifyOnDataSetChanged();
+                selectChildItem(groupIndex, childIndex);
                 return true;
             } else {
                 String message = "The selection of child \"" + childAdapter.getItem(childIndex) +
@@ -831,17 +872,22 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
                 return false;
             }
         } else {
-            String message = "The selection of child \"" + childAdapter.getItem(childIndex) +
+            childAdapter.setSelected(childIndex, false);
+            ChildType child = childAdapter.getItem(childIndex);
+            notifyOnChildUnselected(group.getData(), groupIndex, child, childIndex);
+            String message = "Unselected child \"" + child +
                     "\" at index " + childIndex + " of group \"" + group.getData() + " at index " +
-                    groupIndex + " has not been changed, because it is disabled";
+                    groupIndex;
             getLogger().logDebug(getClass(), message);
+            notifyOnDataSetChanged();
             return false;
         }
     }
 
     @Override
-    public final boolean selectChild(final int groupIndex, @NonNull final ChildType child) {
-        return selectChild(groupIndex, indexOfChildOrThrowException(groupIndex, child));
+    public final boolean triggerChildSelection(final int groupIndex,
+                                               @NonNull final ChildType child) {
+        return triggerChildSelection(groupIndex, indexOfChildOrThrowException(groupIndex, child));
     }
 
     @Override

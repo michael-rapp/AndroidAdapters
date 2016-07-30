@@ -84,102 +84,115 @@ public interface SingleChoiceExpandableListAdapter<GroupType, ChildType>
     ChildType getSelectedChild();
 
     /**
-     * Selects the group item, which belongs to a specific index, if it is currently enabled. This
-     * causes any other selected item to become unselected. If the adapter's choice mode does not
-     * allow group items to be selected, an {@link IllegalStateException} is thrown.
+     * Triggers the selection of the group item, which belongs to a specific index, if it is
+     * currently enabled. If the item is not currently selected, the item becomes selected and any
+     * other selected item becomes unselected. If the item is already selected, the item becomes
+     * unselected. If the adapter's choice mode does not allow group items to be selected, an {@link
+     * IllegalStateException} is thrown.
      *
      * @param groupIndex
-     *         The index of the group item, which should be selected, as an {@link Integer} value.
-     *         The index must be between 0 and the value of the method <code>getGroupCount():int</code>
-     *         - 1, otherwise an {@link IndexOutOfBoundsException} will be thrown
+     *         The index of the group item, whose selection should be triggered, as an {@link
+     *         Integer} value. The index must be between 0 and the value of the method
+     *         <code>getGroupCount():int</code> - 1, otherwise an {@link IndexOutOfBoundsException}
+     *         will be thrown
      * @return True, if the selection of the group item, which belongs to the given index, has been
      * changed, false otherwise
      */
-    boolean selectGroup(int groupIndex);
+    boolean triggerGroupSelection(int groupIndex);
 
     /**
-     * Selects a specific group item, if it is currently enabled. This causes any other selected
-     * item to become unselected. If the adapter's choice mode does not allow group items to be
-     * selected, an {@link IllegalStateException} is thrown.
-     *
-     * @param group
-     *         The group item, which should be selected, as an instance of the generic type
-     *         DataType. The group item may not be null. If the group item does not belong to the
-     *         adapter, a {@link NoSuchElementException} will be thrown
-     * @return True, if the selection of the group item has been changed, false otherwise
-     */
-    boolean selectGroup(@NonNull GroupType group);
-
-    /**
-     * Selects the child item, which belongs to a specific index of a specific group if it is
-     * currently enabled. This causes any other selected item to become unselected. If the adapter's
-     * choice mode does not allow child items to be selected, an {@link IllegalStateException} is
+     * Triggers the selection of a specific group item, if it is currently enabled. If the item is
+     * not currently selected, the item becomes selected and any other selected item becomes
+     * unselected. If the item is already selected, the item becomes unselected. If the adapter's
+     * choice mode does not allow group items to be selected, an {@link IllegalStateException} is
      * thrown.
      *
      * @param group
-     *         The group, the child item, which should be selected, belongs to, as an instance of
-     *         the generic type GroupType. The group may not be null. If the group does not belong
-     *         to the adapter, a {@link NoSuchElementException} will be thrown
-     * @param childIndex
-     *         The index of the child item, which should be selected, as an {@link Integer} value.
-     *         The index must be between 0 and the value of the method <code>getChildCount(group):int</code>
-     *         - 1, otherwise an {@link IndexOutOfBoundsException} will be thrown
-     * @return True, if the selection of the child item has changed, false otherwise
+     *         The group item, whose selection should be triggered, as an instance of the generic
+     *         type DataType. The group item may not be null. If the group item does not belong to
+     *         the adapter, a {@link NoSuchElementException} will be thrown
+     * @return True, if the selection of the group item has been changed, false otherwise
      */
-    boolean selectChild(@NonNull GroupType group, int childIndex);
+    boolean triggerGroupSelection(@NonNull GroupType group);
 
     /**
-     * Selects a specific child item of a specific group, if it is currently enabled. This causes
-     * any other selected item to become unselected. If the adapter's choice mode does not allow
-     * child items to be selected, an {@link IllegalStateException} is thrown.
+     * Triggers the selection of the child item, which belongs to a specific index of a specific
+     * group if it is currently enabled. If the item is not currently selected, the item becomes
+     * selected and any other selected item becomes unselected. If the item is already selected, the
+     * item becomes unselected. If the adapter's choice mode does not allow child items to be
+     * selected, an {@link IllegalStateException} is thrown.
      *
      * @param group
-     *         The group, the child item, which should be selected, belongs to, as an instance of
-     *         the generic type GroupType. The group may not be null. If the group does not belong
-     *         to the adapter, a {@link NoSuchElementException} will be thrown
-     * @param child
-     *         The child item, which should be selected, as an instance of the generic type
-     *         ChildType. The child item may not be null. If the child item does not belong to the
-     *         adapter, a {@link NoSuchElementException} will be thrown
-     * @return True if the selection of the child item has changed, false otherwise
-     */
-    boolean selectChild(@NonNull GroupType group, @NonNull ChildType child);
-
-    /**
-     * Selects the child item, which belongs to a specific index of a specific group. This causes
-     * any other selected item to become unselected. If the adapter's choice mode does not allow
-     * child items to be selected, an {@link IllegalStateException} is thrown.
-     *
-     * @param groupIndex
-     *         The index of the group, the child item, which should be selected, belongs to, as an
-     *         {@link Integer} value. The value must be between 0 and the value of the method
-     *         <code>getGroupCount():int</code> - 1, otherwise an {@link IndexOutOfBoundsException}
-     *         will be thrown
+     *         The group, the child item, whose selection should be triggered, belongs to, as an
+     *         instance of the generic type GroupType. The group may not be null. If the group does
+     *         not belong to the adapter, a {@link NoSuchElementException} will be thrown
      * @param childIndex
-     *         The index of the child item, which should be selected, as an {@link Integer} value.
-     *         The index must be between 0 and the value of the method <code>getChildCount(groupIndex):int</code>
-     *         - 1, otherwise an {@link IndexOutOfBoundsException} will be thrown
+     *         The index of the child item, whose selection should be triggered, as an {@link
+     *         Integer} value. The index must be between 0 and the value of the method
+     *         <code>getChildCount(group):int</code> - 1, otherwise an {@link
+     *         IndexOutOfBoundsException} will be thrown
      * @return True, if the selection of the child item has changed, false otherwise
      */
-    boolean selectChild(int groupIndex, int childIndex);
+    boolean triggerChildSelection(@NonNull GroupType group, int childIndex);
 
     /**
-     * Selects a specific child item of a specific group. This causes any other selected item to
-     * become unselected. If the adapter's choice mode does not allow child items to be selected, an
+     * Triggers the selection of a specific child item of a specific group, if it is currently
+     * enabled. If the item is not currently selected, the item becomes selected and any other
+     * selected item becomes unselected. If the item is already selected, the item becomes
+     * unselected.  If the adapter's choice mode does not allow child items to be selected, an
      * {@link IllegalStateException} is thrown.
      *
-     * @param groupIndex
-     *         The index of the group, the child item, which should be selected, belongs to, as an
-     *         {@link Integer} value. The value must be between 0 and the value of the method
-     *         <code>getGroupCount():int</code> - 1, otherwise an {@link IndexOutOfBoundsException}
-     *         will be thrown
+     * @param group
+     *         The group, the child item, whose selection should be triggered, belongs to, as an
+     *         instance of the generic type GroupType. The group may not be null. If the group does
+     *         not belong to the adapter, a {@link NoSuchElementException} will be thrown
      * @param child
-     *         The child item, which should be selected, as an instance of the generic type
-     *         ChildType. The child item may not be null. If the child item does not belong to the
-     *         adapter, a {@link NoSuchElementException} will be thrown
+     *         The child item, whose selection should be triggered, as an instance of the generic
+     *         type ChildType. The child item may not be null. If the child item does not belong to
+     *         the adapter, a {@link NoSuchElementException} will be thrown
+     * @return True if the selection of the child item has changed, false otherwise
+     */
+    boolean triggerChildSelection(@NonNull GroupType group, @NonNull ChildType child);
+
+    /**
+     * Triggers the selection of the child item, which belongs to a specific index of a specific
+     * group. If the item is not currently selected, the item becomes selected and any other
+     * selected item becomes unselected. If the item is already selected, the item becomes
+     * unselected. If the adapter's choice mode does not allow child items to be selected, an {@link
+     * IllegalStateException} is thrown.
+     *
+     * @param groupIndex
+     *         The index of the group, the child item, whose selection should be triggered, belongs
+     *         to, as an {@link Integer} value. The value must be between 0 and the value of the
+     *         method <code>getGroupCount():int</code> - 1, otherwise an {@link
+     *         IndexOutOfBoundsException} will be thrown
+     * @param childIndex
+     *         The index of the child item, whose selection should be triggered, as an {@link
+     *         Integer} value. The index must be between 0 and the value of the method
+     *         <code>getChildCount(groupIndex):int</code> - 1, otherwise an {@link
+     *         IndexOutOfBoundsException} will be thrown
      * @return True, if the selection of the child item has changed, false otherwise
      */
-    boolean selectChild(int groupIndex, @NonNull ChildType child);
+    boolean triggerChildSelection(int groupIndex, int childIndex);
+
+    /**
+     * Triggers the selection of a specific child item of a specific group. If the item is not
+     * currently selected, the item becomes selected and any other selected item becomes unselected.
+     * If the item is already selected, the item becomes unselected. If the adapter's choice mode
+     * does not allow child items to be selected, an {@link IllegalStateException} is thrown.
+     *
+     * @param groupIndex
+     *         The index of the group, the child item, whose selection should be triggered, belongs
+     *         to, as an {@link Integer} value. The value must be between 0 and the value of the
+     *         method <code>getGroupCount():int</code> - 1, otherwise an {@link
+     *         IndexOutOfBoundsException} will be thrown
+     * @param child
+     *         The child item, whose selection should be triggered, as an instance of the generic
+     *         type ChildType. The child item may not be null. If the child item does not belong to
+     *         the adapter, a {@link NoSuchElementException} will be thrown
+     * @return True, if the selection of the child item has changed, false otherwise
+     */
+    boolean triggerChildSelection(int groupIndex, @NonNull ChildType child);
 
     /**
      * Sets, whether the adapter's selection should be automatically adapted in order to ensure that
