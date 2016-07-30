@@ -182,7 +182,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.addItem(item1);
         singleChoiceListAdapterImplementation.addItem(item2);
-        singleChoiceListAdapterImplementation.select(item2);
+        singleChoiceListAdapterImplementation.triggerSelection(item2);
         assertEquals(1, singleChoiceListAdapterImplementation.getSelectedIndex());
     }
 
@@ -222,7 +222,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.addItem(item1);
         singleChoiceListAdapterImplementation.addItem(item2);
-        singleChoiceListAdapterImplementation.select(item2);
+        singleChoiceListAdapterImplementation.triggerSelection(item2);
         assertEquals(item2, singleChoiceListAdapterImplementation.getSelectedItem());
     }
 
@@ -252,8 +252,8 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
     }
 
     /**
-     * Tests the functionality of the method, which allows to select the item, which belongs to a
-     * specific index.
+     * Tests the functionality of the method, which allows to triggerSelection the item, which
+     * belongs to a specific index.
      */
     @SuppressWarnings("unchecked")
     public final void testSelectByIndex() {
@@ -269,7 +269,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         singleChoiceListAdapterImplementation.addItem(item1);
         singleChoiceListAdapterImplementation.addItem(item2);
         dataSetObserver.reset();
-        boolean selected = singleChoiceListAdapterImplementation.select(1);
+        boolean selected = singleChoiceListAdapterImplementation.triggerSelection(1);
         assertTrue(selected);
         assertEquals(1, singleChoiceListAdapterImplementation.getSelectedIndex());
         verify(listSelectionListener, times(1))
@@ -280,8 +280,8 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
     }
 
     /**
-     * Tests the functionality of the method, which allows to select the item, which belongs to a
-     * specific index, if the item is already selected.
+     * Tests the functionality of the method, which allows to triggerSelection the item, which
+     * belongs to a specific index, if the item is already selected.
      */
     @SuppressWarnings("unchecked")
     public final void testSelectByIndexWhenItemIsAlreadySelected() {
@@ -295,17 +295,17 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         singleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
         singleChoiceListAdapterImplementation.addItem(item1);
         dataSetObserver.reset();
-        boolean selected = singleChoiceListAdapterImplementation.select(0);
-        assertFalse(selected);
-        assertEquals(0, singleChoiceListAdapterImplementation.getSelectedIndex());
+        boolean result = singleChoiceListAdapterImplementation.triggerSelection(0);
+        assertTrue(result);
+        assertEquals(-1, singleChoiceListAdapterImplementation.getSelectedIndex());
         verify(listSelectionListener, times(1))
-                .onItemSelected(singleChoiceListAdapterImplementation, item1, 0);
-        assertFalse(dataSetObserver.hasOnChangedBeenCalled());
+                .onItemUnselected(singleChoiceListAdapterImplementation, item1, 0);
+        assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
     /**
-     * Tests the functionality of the method, which allows to select the item, which belongs to a
-     * specific index, if the item is disabled.
+     * Tests the functionality of the method, which allows to triggerSelection the item, which
+     * belongs to a specific index, if the item is disabled.
      */
     @SuppressWarnings("unchecked")
     public final void testSelectByIndexWhenItemIsDisabled() {
@@ -322,7 +322,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         singleChoiceListAdapterImplementation.addItem(item2);
         singleChoiceListAdapterImplementation.setEnabled(item2, false);
         dataSetObserver.reset();
-        boolean selected = singleChoiceListAdapterImplementation.select(1);
+        boolean selected = singleChoiceListAdapterImplementation.triggerSelection(1);
         assertFalse(selected);
         assertEquals(0, singleChoiceListAdapterImplementation.getSelectedIndex());
         verify(listSelectionListener, times(0))
@@ -334,14 +334,14 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
 
     /**
      * Ensures, that an {@link IndexOutOfBoundsException} is thrown by the method, which allows to
-     * select the item, which belongs to a specific index, if the index is invalid.
+     * triggerSelection the item, which belongs to a specific index, if the index is invalid.
      */
     public final void testSelectByIndexThrowsExceptionWhenIndexIsInvalid() {
         try {
             SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
                     new SingleChoiceListAdapterImplementation<>(getContext(),
                             new SelectableListDecoratorImplementation());
-            singleChoiceListAdapterImplementation.select(-1);
+            singleChoiceListAdapterImplementation.triggerSelection(-1);
             Assert.fail();
         } catch (IndexOutOfBoundsException e) {
 
@@ -349,7 +349,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
     }
 
     /**
-     * Tests the functionality of the method, which allows to select a specific item.
+     * Tests the functionality of the method, which allows to triggerSelection a specific item.
      */
     @SuppressWarnings("unchecked")
     public final void testSelect() {
@@ -365,7 +365,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         singleChoiceListAdapterImplementation.addItem(item1);
         singleChoiceListAdapterImplementation.addItem(item2);
         dataSetObserver.reset();
-        boolean selected = singleChoiceListAdapterImplementation.select(item2);
+        boolean selected = singleChoiceListAdapterImplementation.triggerSelection(item2);
         assertTrue(selected);
         assertEquals(item2, singleChoiceListAdapterImplementation.getSelectedItem());
         verify(listSelectionListener, times(1))
@@ -376,8 +376,8 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
     }
 
     /**
-     * Tests the functionality of the method, which allows to select a specific item, if the item is
-     * already selected.
+     * Tests the functionality of the method, which allows to triggerSelection a specific item, if
+     * the item is already selected.
      */
     @SuppressWarnings("unchecked")
     public final void testSelectWhenItemIsAlreadySelected() {
@@ -391,17 +391,17 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         singleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
         singleChoiceListAdapterImplementation.addItem(item1);
         dataSetObserver.reset();
-        boolean selected = singleChoiceListAdapterImplementation.select(item1);
-        assertFalse(selected);
-        assertEquals(0, singleChoiceListAdapterImplementation.getSelectedIndex());
+        boolean result = singleChoiceListAdapterImplementation.triggerSelection(item1);
+        assertTrue(result);
+        assertEquals(-1, singleChoiceListAdapterImplementation.getSelectedIndex());
         verify(listSelectionListener, times(1))
-                .onItemSelected(singleChoiceListAdapterImplementation, item1, 0);
-        assertFalse(dataSetObserver.hasOnChangedBeenCalled());
+                .onItemUnselected(singleChoiceListAdapterImplementation, item1, 0);
+        assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
     /**
-     * Tests the functionality of the method, which allows to select a specific item, if the item is
-     * disabled.
+     * Tests the functionality of the method, which allows to triggerSelection a specific item, if
+     * the item is disabled.
      */
     @SuppressWarnings("unchecked")
     public final void testSelectWhenItemIsDisabled() {
@@ -418,7 +418,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         singleChoiceListAdapterImplementation.addItem(item2);
         singleChoiceListAdapterImplementation.setEnabled(item2, false);
         dataSetObserver.reset();
-        boolean selected = singleChoiceListAdapterImplementation.select(item2);
+        boolean selected = singleChoiceListAdapterImplementation.triggerSelection(item2);
         assertFalse(selected);
         assertEquals(item1, singleChoiceListAdapterImplementation.getSelectedItem());
         verify(listSelectionListener, times(0))
@@ -429,15 +429,15 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
     }
 
     /**
-     * Ensures, that a {@link NullPointerException} is thrown by the method, which allows to select
-     * a specific item, if the item is null.
+     * Ensures, that a {@link NullPointerException} is thrown by the method, which allows to
+     * triggerSelection a specific item, if the item is null.
      */
     public final void testSelectThrowsExceptionWhenItemIsNull() {
         try {
             SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
                     new SingleChoiceListAdapterImplementation<>(getContext(),
                             new SelectableListDecoratorImplementation());
-            singleChoiceListAdapterImplementation.select(null);
+            singleChoiceListAdapterImplementation.triggerSelection(null);
             Assert.fail();
         } catch (NullPointerException e) {
 
@@ -446,14 +446,14 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
 
     /**
      * Ensures, that a {@link NoSuchElementException} is thrown by the method, which allows to
-     * select a specific item, if the item does not belong to the adapter.
+     * triggerSelection a specific item, if the item does not belong to the adapter.
      */
     public final void testSelectThrowsExceptionWhenAdapterDoesNotContainItem() {
         try {
             SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
                     new SingleChoiceListAdapterImplementation<>(getContext(),
                             new SelectableListDecoratorImplementation());
-            singleChoiceListAdapterImplementation.select(new Object());
+            singleChoiceListAdapterImplementation.triggerSelection(new Object());
             Assert.fail();
         } catch (NoSuchElementException e) {
 
@@ -543,7 +543,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         singleChoiceListAdapterImplementation.addItem(item2);
         singleChoiceListAdapterImplementation.addItem(item3);
         singleChoiceListAdapterImplementation.setEnabled(item2, false);
-        singleChoiceListAdapterImplementation.select(item3);
+        singleChoiceListAdapterImplementation.triggerSelection(item3);
         dataSetObserver.reset();
         singleChoiceListAdapterImplementation.removeItem(item3);
         assertEquals(item1, singleChoiceListAdapterImplementation.getSelectedItem());
@@ -661,7 +661,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         singleChoiceListAdapterImplementation.addItem(item2);
         singleChoiceListAdapterImplementation.addItem(item3);
         singleChoiceListAdapterImplementation.setEnabled(item2, false);
-        singleChoiceListAdapterImplementation.select(item3);
+        singleChoiceListAdapterImplementation.triggerSelection(item3);
         dataSetObserver.reset();
         singleChoiceListAdapterImplementation.setEnabled(item3, false);
         assertEquals(item1, singleChoiceListAdapterImplementation.getSelectedItem());
@@ -738,7 +738,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         singleChoiceListAdapterImplementation.addItem(item2);
         singleChoiceListAdapterImplementation.addItem(item3);
         singleChoiceListAdapterImplementation.applyFilter("querystring", 0);
-        singleChoiceListAdapterImplementation.select(item3);
+        singleChoiceListAdapterImplementation.triggerSelection(item3);
         assertEquals(item3, singleChoiceListAdapterImplementation.getSelectedItem());
         singleChoiceListAdapterImplementation.resetAllFilters();
         assertEquals(item3, singleChoiceListAdapterImplementation.getSelectedItem());
@@ -759,7 +759,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         singleChoiceListAdapterImplementation.addItem(item2);
         singleChoiceListAdapterImplementation.addItem(item2);
         singleChoiceListAdapterImplementation.applyFilter("querystring", 0);
-        singleChoiceListAdapterImplementation.select(1);
+        singleChoiceListAdapterImplementation.triggerSelection(1);
         assertEquals(1, singleChoiceListAdapterImplementation.getSelectedIndex());
         singleChoiceListAdapterImplementation.resetAllFilters();
         assertFalse(singleChoiceListAdapterImplementation.isSelected(0));
@@ -798,7 +798,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         FilterableImplementation item2 = new FilterableImplementation("bcdef");
         singleChoiceListAdapterImplementation.addItem(item1);
         singleChoiceListAdapterImplementation.addItem(item2);
-        singleChoiceListAdapterImplementation.select(item2);
+        singleChoiceListAdapterImplementation.triggerSelection(item2);
         singleChoiceListAdapterImplementation.applyFilter("querystring", 0);
         assertNull(singleChoiceListAdapterImplementation.getSelectedItem());
         singleChoiceListAdapterImplementation.resetAllFilters();

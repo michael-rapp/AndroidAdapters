@@ -92,7 +92,7 @@ public class SelectableListAdapterDecorator extends SelectableListDecorator<Cont
                     }
                 } else if (!adapter.isSelected(index)) {
                     if (adapter instanceof SingleChoiceListAdapter) {
-                        ((SingleChoiceListAdapter<Contact>) adapter).select(index);
+                        ((SingleChoiceListAdapter<Contact>) adapter).triggerSelection(index);
                     } else {
                         ((MultipleChoiceListAdapter<Contact>) adapter).setSelected(index, true);
                     }

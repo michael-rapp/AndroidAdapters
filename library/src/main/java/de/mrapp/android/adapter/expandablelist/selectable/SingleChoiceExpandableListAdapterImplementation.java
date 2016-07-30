@@ -80,7 +80,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
     private boolean adaptSelectionAutomatically;
 
     /**
-     * Creates and returns a listener, which allows to select an item, when it is clicked by the
+     * Creates and returns a listener, which allows to triggerSelection an item, when it is clicked by the
      * user.
      *
      * @return The listener, which has been created, as an instance of the type {@link

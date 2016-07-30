@@ -28,11 +28,11 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import de.mrapp.android.adapter.Filter;
-import de.mrapp.android.adapter.list.ListAdapter;
 import de.mrapp.android.adapter.SelectableListDecorator;
 import de.mrapp.android.adapter.SingleChoiceListAdapter;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.item.Item;
+import de.mrapp.android.adapter.list.ListAdapter;
 import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
 import de.mrapp.android.adapter.list.ListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.list.ListAdapterListener;
@@ -76,8 +76,8 @@ public class SingleChoiceListAdapterImplementation<DataType>
     private boolean adaptSelectionAutomatically;
 
     /**
-     * Creates and returns a listener, which allows to select an item, when it is clicked by the
-     * user.
+     * Creates and returns a listener, which allows to triggerSelection an item, when it is clicked
+     * by the user.
      *
      * @return The listener, which has been created, as an instance of the type {@link
      * ListAdapterItemClickListener}
@@ -90,7 +90,7 @@ public class SingleChoiceListAdapterImplementation<DataType>
                                       @NonNull final DataType item, final int index) {
                 if (isItemSelectedOnClick()) {
                     getLogger().logVerbose(getClass(), "Selecting item on click...");
-                    select(index);
+                    selectItem(index);
                 }
             }
 
@@ -123,7 +123,7 @@ public class SingleChoiceListAdapterImplementation<DataType>
             public void onItemAdded(@NonNull final ListAdapter<DataType> adapter,
                                     @NonNull final DataType item, final int index) {
                 if (isSelectionAdaptedAutomatically() && getCount() == 1) {
-                    select(index);
+                    selectItem(index);
                 }
             }
 
@@ -152,7 +152,7 @@ public class SingleChoiceListAdapterImplementation<DataType>
             public void onItemEnabled(@NonNull final ListAdapter<DataType> adapter,
                                       @NonNull final DataType item, final int index) {
                 if (isSelectionAdaptedAutomatically() && getEnabledItemCount() == 1) {
-                    select(index);
+                    selectItem(index);
                 }
             }
 
@@ -187,7 +187,7 @@ public class SingleChoiceListAdapterImplementation<DataType>
                                       @NonNull final List<DataType> filteredItems,
                                       @NonNull final List<DataType> unfilteredItems) {
                 if (isSelectionAdaptedAutomatically() && !isEmpty() && getSelectedIndex() == -1) {
-                    select(0);
+                    selectItem(0);
                 }
             }
 
@@ -196,7 +196,7 @@ public class SingleChoiceListAdapterImplementation<DataType>
                                       @NonNull final String query, final int flags,
                                       @NonNull final List<DataType> unfilteredItems) {
                 if (isSelectionAdaptedAutomatically() && !isEmpty() && getSelectedIndex() == -1) {
-                    select(0);
+                    selectItem(0);
                 }
             }
         };
@@ -217,15 +217,50 @@ public class SingleChoiceListAdapterImplementation<DataType>
 
         while (ascendingIndex < getCount() || descendingIndex >= 0) {
             if (ascendingIndex < getCount() && isEnabled(ascendingIndex)) {
-                select(ascendingIndex);
+                selectItem(ascendingIndex);
                 return;
             } else if (descendingIndex >= 0 && isEnabled(descendingIndex)) {
-                select(descendingIndex);
+                selectItem(descendingIndex);
                 return;
             }
 
             ascendingIndex++;
             descendingIndex--;
+        }
+    }
+
+    /**
+     * Selects the item,which corresponds to a specific index. This causes all other items to become
+     * unselected.
+     *
+     * @param index
+     *         The index of the item, which should be selected, as an {@link Integer} value
+     */
+    private void selectItem(final int index) {
+        Item<DataType> item = getItems().get(index);
+
+        if (item.isEnabled()) {
+            if (!item.isSelected()) {
+                for (int i = 0; i < getCount(); i++) {
+                    Item<DataType> currentItem = getItems().get(i);
+
+                    if (i == index && !currentItem.isSelected()) {
+                        currentItem.setSelected(true);
+                        notifyOnItemSelected(currentItem.getData(), i);
+                        String message =
+                                "Selected item \"" + currentItem.getData() + "\" at index " + i;
+                        getLogger().logInfo(getClass(), message);
+                    } else if (i != index && currentItem.isSelected()) {
+                        currentItem.setSelected(false);
+                        notifyOnItemUnselected(currentItem.getData(), i);
+                        String message =
+                                "Unselected item \"" + currentItem.getData() + "\" at index " + i;
+                        getLogger().logInfo(getClass(), message);
+                    }
+                }
+
+                notifyOnDataSetChanged();
+            }
         }
     }
 
@@ -373,35 +408,20 @@ public class SingleChoiceListAdapterImplementation<DataType>
     }
 
     @Override
-    public final boolean select(final int index) {
+    public final boolean triggerSelection(final int index) {
         Item<DataType> item = getItems().get(index);
 
         if (item.isEnabled()) {
             if (!item.isSelected()) {
-                for (int i = 0; i < getCount(); i++) {
-                    Item<DataType> currentItem = getItems().get(i);
-
-                    if (i == index && !currentItem.isSelected()) {
-                        currentItem.setSelected(true);
-                        notifyOnItemSelected(currentItem.getData(), i);
-                        String message = "Selected item \"" + currentItem + "\" at index " + i;
-                        getLogger().logInfo(getClass(), message);
-                    } else if (i != index && currentItem.isSelected()) {
-                        currentItem.setSelected(false);
-                        notifyOnItemUnselected(currentItem.getData(), i);
-                        String message = "Unselected item \"" + currentItem + "\" at index " + i;
-                        getLogger().logInfo(getClass(), message);
-                    }
-                }
-
-                notifyOnDataSetChanged();
+                selectItem(index);
                 return true;
             } else {
-                String message =
-                        "The selection of item \"" + item.getData() + "\" at index " + index +
-                                " has not been changed, because it is already selected";
+                item.setSelected(false);
+                notifyOnItemUnselected(item.getData(), index);
+                String message = "Unselected item \"" + item.getData() + "\" at index " + index;
                 getLogger().logDebug(getClass(), message);
-                return false;
+                notifyOnDataSetChanged();
+                return true;
             }
         } else {
             String message = "Item \"" + item.getData() + "\" at index " + index +
@@ -412,8 +432,8 @@ public class SingleChoiceListAdapterImplementation<DataType>
     }
 
     @Override
-    public final boolean select(@NonNull final DataType item) {
-        return select(indexOfOrThrowException(item));
+    public final boolean triggerSelection(@NonNull final DataType item) {
+        return triggerSelection(indexOfOrThrowException(item));
     }
 
     @Override

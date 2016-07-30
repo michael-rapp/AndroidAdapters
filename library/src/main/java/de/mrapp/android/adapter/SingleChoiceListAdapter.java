@@ -49,21 +49,24 @@ public interface SingleChoiceListAdapter<DataType> extends SelectableListAdapter
     DataType getSelectedItem();
 
     /**
-     * Selects the item, which belongs to a specific index, if it is currently enabled. This causes
-     * any other selected item to become unselected.
+     * Triggers the selection of the item, which belongs to a specific index, if it is currently
+     * enabled. If the item is not currently selected, the item becomes selected and any other
+     * selected item becomes unselected. If the item is already selected, the item becomes
+     * unselected.
      *
      * @param index
-     *         The index of the item, which should be selected, as an {@link Integer} value. The
-     *         index must be between 0 and the value of the method <code>getCount():int</code> - 1,
-     *         otherwise an {@link IndexOutOfBoundsException} will be thrown
-     * @return True, if the selection of the item, which belongs to the given index, has been
-     * changed, false otherwise
+     *         The index of the item, whose selection should be triggered, as an {@link Integer}
+     *         value. The index must be between 0 and the value of the method
+     *         <code>getCount():int</code> - 1, otherwise an {@link IndexOutOfBoundsException} will
+     *         be thrown
+     * @return True, if the selection of the given item has been changed, false otherwise
      */
-    boolean select(int index);
+    boolean triggerSelection(int index);
 
     /**
-     * Selects a specific item, if it is currently enabled. This causes any other selected item to
-     * become unselected.
+     * Triggers the selection of a specific item, if it is currently enabled. If the item is not
+     * currently selected, the item becomes selected and any other selected item becomes unselected.
+     * If the item is already selected, the item becomes unselected.
      *
      * @param item
      *         The item, which should be selected, as an instance of the generic type DataType. The
@@ -71,7 +74,7 @@ public interface SingleChoiceListAdapter<DataType> extends SelectableListAdapter
      *         NoSuchElementException} will be thrown
      * @return True, if the selection of the given item has been changed, false otherwise
      */
-    boolean select(@NonNull DataType item);
+    boolean triggerSelection(@NonNull DataType item);
 
     /**
      * Sets, whether the adapter's selection should be automatically adapted in order to ensure that
