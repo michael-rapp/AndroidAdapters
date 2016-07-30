@@ -1,5 +1,11 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.6.0 (Jul. 31th 2016)
+
+A feature release, which introduces the following changes:
+
+- The `SingleChoiceListAdapter`'s `select`-method has been replaced with the `triggerSelection`-method. It causes an item to become unselected, if it is currently selected. 
+
 ## Version 0.5.0 (Jun. 15th 2016)
 
 A feature release, which introduces the following changes:
