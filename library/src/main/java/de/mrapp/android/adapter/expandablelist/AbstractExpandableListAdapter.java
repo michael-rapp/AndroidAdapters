@@ -2627,15 +2627,15 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
                 for (int i = 0; i < groupAdapter.getCount(); i++) {
                     String childAdapterKey = String.format(CHILD_ADAPTER_BUNDLE_KEY, i);
+                    MultipleChoiceListAdapter<ChildType> childAdapter = createChildAdapter();
 
                     if (savedState.containsKey(childAdapterKey)) {
-                        MultipleChoiceListAdapter<ChildType> childAdapter = createChildAdapter();
                         childAdapter.onRestoreInstanceState(savedState, childAdapterKey);
-                        Group<GroupType, ChildType> group = groupAdapter.getItem(i);
+                    }
+                    Group<GroupType, ChildType> group = groupAdapter.getItem(i);
 
-                        if (group != null) {
-                            group.setChildAdapter(childAdapter);
-                        }
+                    if (group != null) {
+                        group.setChildAdapter(childAdapter);
                     }
                 }
             }
