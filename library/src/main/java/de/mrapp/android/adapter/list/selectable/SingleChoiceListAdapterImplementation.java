@@ -237,10 +237,8 @@ public class SingleChoiceListAdapterImplementation<DataType>
      *         The index of the item, which should be selected, as an {@link Integer} value
      */
     private void selectItem(final int index) {
-        Item<DataType> item = getItems().get(index);
-
-        if (item.isEnabled()) {
-            if (!item.isSelected()) {
+        if (isEnabled(index)) {
+            if (!isSelected(index)) {
                 for (int i = 0; i < getCount(); i++) {
                     Item<DataType> currentItem = getItems().get(i);
 
