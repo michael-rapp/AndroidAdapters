@@ -6,6 +6,7 @@ A feature release, which introduces the following changes:
 
 - The `SingleChoiceListAdapter`'s `select`-methods have been replaced with `triggerSelection`-methods. They cause an item to become unselected, if it is currently selected. 
 - The `SingleChoiceExpandableListAdapter`'s `selectGroup`- and `selectChild`-methods have been replaced with `triggerGroupSelection`- and `triggerChildSelection`-methods. They cause an item to become unselected, if it is currently selected.
+- Fixed possible exceptions when calling the `onRestoreInstanceState`-method of a `ExpandableListAdapter`, `SingleChoiceExpandableListAdapter` or `MultipleChoiceExpandableListAdapter`.
 
 ## Version 0.5.0 (Jun. 15th 2016)
 
