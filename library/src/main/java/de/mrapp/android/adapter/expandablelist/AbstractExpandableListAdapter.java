@@ -1487,7 +1487,11 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
         while (iterator.hasNext()) {
             Group<GroupType, ChildType> group = iterator.next();
-            group.getChildAdapter().allowDuplicates(allowDuplicateChildren);
+            MultipleChoiceListAdapter<ChildType> childAdapter = group.getChildAdapter();
+
+            if (childAdapter != null) {
+                childAdapter.allowDuplicates(allowDuplicateChildren);
+            }
         }
 
         String message =
