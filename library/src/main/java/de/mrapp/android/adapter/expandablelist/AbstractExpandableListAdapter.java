@@ -1488,10 +1488,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         while (iterator.hasNext()) {
             Group<GroupType, ChildType> group = iterator.next();
             MultipleChoiceListAdapter<ChildType> childAdapter = group.getChildAdapter();
-
-            if (childAdapter != null) {
-                childAdapter.allowDuplicates(allowDuplicateChildren);
-            }
+            childAdapter.allowDuplicates(allowDuplicateChildren);
         }
 
         String message =
@@ -2629,17 +2626,20 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
             if (savedState.containsKey(GROUP_ADAPTER_BUNDLE_KEY)) {
                 groupAdapter.onRestoreInstanceState(savedState, GROUP_ADAPTER_BUNDLE_KEY);
 
-                for (int i = 0; i < groupAdapter.getCount(); i++) {
-                    String childAdapterKey = String.format(CHILD_ADAPTER_BUNDLE_KEY, i);
-                    MultipleChoiceListAdapter<ChildType> childAdapter = createChildAdapter();
-
-                    if (savedState.containsKey(childAdapterKey)) {
-                        childAdapter.onRestoreInstanceState(savedState, childAdapterKey);
-                    }
+                for (int i = groupAdapter.getCount() - 1; i >= 0; i--) {
                     Group<GroupType, ChildType> group = groupAdapter.getItem(i);
 
                     if (group != null) {
+                        String childAdapterKey = String.format(CHILD_ADAPTER_BUNDLE_KEY, i);
+                        MultipleChoiceListAdapter<ChildType> childAdapter = createChildAdapter();
+
+                        if (savedState.containsKey(childAdapterKey)) {
+                            childAdapter.onRestoreInstanceState(savedState, childAdapterKey);
+                        }
+
                         group.setChildAdapter(childAdapter);
+                    } else {
+                        groupAdapter.removeItem(i);
                     }
                 }
             }
