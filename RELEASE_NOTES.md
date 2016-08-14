@@ -1,5 +1,11 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.6.3 (Aug. 14th 2016)
+
+A bugfix release, which fixes the following issues:
+
+- A `NullPointerException` when restoring individual items of a `ListAdapter`, `SingleChoiceListAdapter` or `MultipleChoiceListAdapter` fails, is now prevented.
+
 ## Version 0.6.2 (Aug. 14th 2016)
 
 A bugfix release, which fixes the following issues:
