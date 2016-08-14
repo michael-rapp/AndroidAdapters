@@ -1311,11 +1311,21 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
                 }
             }
 
+            ArrayList<Item<DataType>> restoredItems = null;
+
             if (savedState.containsKey(PARCELABLE_ITEMS_BUNDLE_KEY)) {
-                items = savedState.getParcelableArrayList(PARCELABLE_ITEMS_BUNDLE_KEY);
+                restoredItems = savedState.getParcelableArrayList(PARCELABLE_ITEMS_BUNDLE_KEY);
             } else if (savedState.containsKey(SERIALIZABLE_ITEMS_BUNDLE_KEY)) {
-                items = (ArrayList<Item<DataType>>) savedState
+                restoredItems = (ArrayList<Item<DataType>>) savedState
                         .getSerializable(SERIALIZABLE_ITEMS_BUNDLE_KEY);
+            }
+
+            if (restoredItems != null) {
+                for (Item<DataType> item : restoredItems) {
+                    if (item != null) {
+                        items.add(item);
+                    }
+                }
             }
 
             parameters = savedState.getBundle(PARAMETERS_BUNDLE_KEY);
