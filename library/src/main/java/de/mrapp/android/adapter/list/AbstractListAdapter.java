@@ -54,8 +54,6 @@ import de.mrapp.android.adapter.logging.LogLevel;
 import de.mrapp.android.adapter.logging.Logger;
 import de.mrapp.android.adapter.util.AdapterViewUtil;
 
-import static de.mrapp.android.util.Condition.ensureAtLeast;
-import static de.mrapp.android.util.Condition.ensureAtMaximum;
 import static de.mrapp.android.util.Condition.ensureNotEmpty;
 import static de.mrapp.android.util.Condition.ensureNotNull;
 
@@ -1195,10 +1193,6 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
 
     @Override
     public final long getItemId(final int index) {
-        ensureAtLeast(index, 0, "The index must be at least 0", IndexOutOfBoundsException.class);
-        ensureAtMaximum(index, items.size() - 1,
-                isEmpty() ? "The index must be at maximum " + (items.size() - 1) :
-                        "The adapter is empty", IndexOutOfBoundsException.class);
         return index;
     }
 
