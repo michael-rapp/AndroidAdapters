@@ -1,5 +1,11 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.6.4 (Aug. 20th 2016)
+
+A minor release, which introduces the following changes:
+
+- No exceptions are thrown by the `getItemId`-method of the class `AbstractListAdapter` anymore.
+
 ## Version 0.6.3 (Aug. 14th 2016)
 
 A bugfix release, which fixes the following issues:
