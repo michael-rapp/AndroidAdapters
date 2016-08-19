@@ -2360,50 +2360,6 @@ public class AbstractListAdapterTest extends AndroidTestCase {
     }
 
     /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown, if the id of the item, which
-     * belongs to an index, which is negative, should be retrieved.
-     */
-    public final void testGetItemIdThrowsExceptionWhenIdIsNegative() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-            abstractListAdapter.addItem(new Object());
-            abstractListAdapter.getItemId(-1);
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
-    }
-
-    /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown, if the id of the item, which
-     * belongs to an index, which is greater than the number of items - 1, should be retrieved.
-     */
-    public final void testGetItemIdThrowsExceptionWhenIdIsTooLarge() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-            abstractListAdapter.addItem(new Object());
-            abstractListAdapter.getItemId(1);
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
-    }
-
-    /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown, if the id of the item, which
-     * belongs to a specific index should be retrieved and the adapter is empty.
-     */
-    public final void testGetItemIdThrowsExceptionWhenAdapterIsEmpty() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-            abstractListAdapter.getItemId(0);
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
-    }
-
-    /**
      * Tests the functionality of the getView-method.
      */
     @SuppressWarnings("unchecked")
