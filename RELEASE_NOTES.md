@@ -1,5 +1,12 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.7.0 (Sep. 25th 2016)
+
+A feature release, which introduces the following changes:
+
+- Added support for the individual `notify`-methods of a `RecyclerView.Adapter`. These methods are now part of the interface `RecyclerViewAdapter`.
+- When the `notifyOnChange` property of a ``NoChoiceListAdapter`, `SingleChoiceListAdapter` or `MultipleChoiceListAdapter` is set to `true` and the adapter is attached to a `RecyclerView`, the correct `notify`-method is now automatically chosen depending on the performed action. 
+
 ## Version 0.6.5 (Sep. 12th 2016)
 
 A minor release, which introduces the following changes:
