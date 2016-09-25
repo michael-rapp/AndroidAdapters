@@ -344,7 +344,7 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
             getLogger().logInfo(getClass(), message);
         }
 
-        notifyOnDataSetChanged();
+        notifyObserversOnDataSetChanged();
         notifyOnGroupsSorted(getAllGroups(), order, null);
     }
 
@@ -369,7 +369,7 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
             getLogger().logInfo(getClass(), message);
         }
 
-        notifyOnDataSetChanged();
+        notifyObserversOnDataSetChanged();
         notifyOnGroupsSorted(getAllGroups(), order, comparator);
     }
 
@@ -427,7 +427,7 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
             getLogger().logInfo(getClass(), message);
         }
 
-        notifyOnDataSetChanged();
+        notifyObserversOnDataSetChanged();
         notifyOnChildrenSorted(getAllChildren(groupIndex), order, null, group.getData(),
                 groupIndex);
     }
@@ -456,7 +456,7 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
             getLogger().logInfo(getClass(), message);
         }
 
-        notifyOnDataSetChanged();
+        notifyObserversOnDataSetChanged();
         notifyOnChildrenSorted(getAllChildren(groupIndex), order, null, group.getData(),
                 groupIndex);
     }

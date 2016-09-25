@@ -346,7 +346,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType ext
                 notifyOnItemDisabled(item.getData(), index);
             }
 
-            notifyOnDataSetChanged();
+            notifyObserversOnItemChanged(index);
             String message = enabled ? "Enabled" :
                     "Disabled" + " item \"" + item.getData() + "\" at index " + index;
             getLogger().logInfo(getClass(), message);

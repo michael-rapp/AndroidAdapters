@@ -162,7 +162,7 @@ public class SingleChoiceListAdapterImplementation<DataType>
                 if (isSelectionAdaptedAutomatically() && isSelected(index)) {
                     getItems().get(index).setSelected(false);
                     notifyOnItemUnselected(item, index);
-                    notifyOnDataSetChanged();
+                    notifyObserversOnItemChanged(index);
                     selectNearestEnabledItem(index);
                 }
             }
@@ -245,19 +245,19 @@ public class SingleChoiceListAdapterImplementation<DataType>
                     if (i == index && !currentItem.isSelected()) {
                         currentItem.setSelected(true);
                         notifyOnItemSelected(currentItem.getData(), i);
+                        notifyObserversOnItemChanged(i);
                         String message =
                                 "Selected item \"" + currentItem.getData() + "\" at index " + i;
                         getLogger().logInfo(getClass(), message);
                     } else if (i != index && currentItem.isSelected()) {
                         currentItem.setSelected(false);
                         notifyOnItemUnselected(currentItem.getData(), i);
+                        notifyObserversOnItemChanged(i);
                         String message =
                                 "Unselected item \"" + currentItem.getData() + "\" at index " + i;
                         getLogger().logInfo(getClass(), message);
                     }
                 }
-
-                notifyOnDataSetChanged();
             }
         }
     }
@@ -416,9 +416,9 @@ public class SingleChoiceListAdapterImplementation<DataType>
             } else {
                 item.setSelected(false);
                 notifyOnItemUnselected(item.getData(), index);
+                notifyObserversOnItemChanged(index);
                 String message = "Unselected item \"" + item.getData() + "\" at index " + index;
                 getLogger().logDebug(getClass(), message);
-                notifyOnDataSetChanged();
                 return true;
             }
         } else {

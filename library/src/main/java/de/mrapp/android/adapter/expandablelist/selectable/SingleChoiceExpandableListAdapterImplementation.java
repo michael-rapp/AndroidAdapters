@@ -313,7 +313,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
                     setGroupExpanded(groupIndex, true);
                 }
 
-                notifyOnDataSetChanged();
+                notifyObserversOnDataSetChanged();
             }
         }
     }
@@ -369,7 +369,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
                     setGroupExpanded(groupIndex, true);
                 }
 
-                notifyOnDataSetChanged();
+                notifyObserversOnDataSetChanged();
             }
         }
     }
@@ -818,7 +818,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
                 String message = "Unselected group \"" + group.getData() + "\" at index " +
                         groupIndex;
                 getLogger().logDebug(getClass(), message);
-                notifyOnDataSetChanged();
+                notifyObserversOnDataSetChanged();
                 return true;
             }
         } else {
@@ -879,7 +879,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
                     "\" at index " + childIndex + " of group \"" + group.getData() + " at index " +
                     groupIndex;
             getLogger().logDebug(getClass(), message);
-            notifyOnDataSetChanged();
+            notifyObserversOnDataSetChanged();
             return false;
         }
     }

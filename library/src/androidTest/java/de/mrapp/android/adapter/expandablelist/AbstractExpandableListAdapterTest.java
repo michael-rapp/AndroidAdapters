@@ -1624,13 +1624,13 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
         abstractExpandableListAdapter.registerDataSetObserver(dataSetObserver);
-        abstractExpandableListAdapter.notifyOnDataSetChanged();
+        abstractExpandableListAdapter.notifyObserversOnDataSetChanged();
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
         dataSetObserver.reset();
         boolean notifyOnChange = false;
         abstractExpandableListAdapter.notifyOnChange(notifyOnChange);
         assertEquals(notifyOnChange, abstractExpandableListAdapter.isNotifiedOnChange());
-        abstractExpandableListAdapter.notifyOnDataSetChanged();
+        abstractExpandableListAdapter.notifyObserversOnDataSetChanged();
         assertFalse(dataSetObserver.hasOnChangedBeenCalled());
     }
 

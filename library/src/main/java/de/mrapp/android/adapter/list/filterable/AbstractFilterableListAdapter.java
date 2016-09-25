@@ -34,13 +34,13 @@ import java.util.Set;
 import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.FilterQuery;
 import de.mrapp.android.adapter.Filterable;
-import de.mrapp.android.adapter.list.ListAdapter;
 import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemComparator;
 import de.mrapp.android.adapter.datastructure.item.UnmodifiableItemList;
 import de.mrapp.android.adapter.decorator.AbstractListDecorator;
+import de.mrapp.android.adapter.list.ListAdapter;
 import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
 import de.mrapp.android.adapter.list.ListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.list.ListAdapterListener;
@@ -573,7 +573,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType exte
         if (added) {
             List<DataType> filteredItems = applyFilter(appliedFilter);
             notifyOnApplyFilter(query, flags, null, filteredItems, getAllItems());
-            notifyOnDataSetChanged();
+            notifyObserversOnDataSetChanged();
             String message =
                     "Applied filter using the query \"" + query + "\" and flags \"" + flags + "\"";
             getLogger().logInfo(getClass(), message);
@@ -597,7 +597,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType exte
         if (added) {
             List<DataType> filteredItems = applyFilter(appliedFilter);
             notifyOnApplyFilter(query, flags, filter, filteredItems, getAllItems());
-            notifyOnDataSetChanged();
+            notifyObserversOnDataSetChanged();
             String message = "Applied filter using the query \"" + query + "\", flags \"" + flags +
                     "\" and filter \"" + filter + "\"";
             getLogger().logInfo(getClass(), message);
@@ -623,7 +623,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType exte
             indexMapping = null;
             applyAllFilters();
             notifyOnResetFilter(query, flags, getAllItems());
-            notifyOnDataSetChanged();
+            notifyObserversOnDataSetChanged();
             String message =
                     "Reseted filter with query \"" + query + "\" and flags \"" + flags + "\"";
             getLogger().logInfo(getClass(), message);

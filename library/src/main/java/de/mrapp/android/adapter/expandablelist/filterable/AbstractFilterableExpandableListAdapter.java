@@ -263,7 +263,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
         if (result) {
             notifyOnResetChildFilter(query, flags, group.getData(), groupIndex,
                     getAllChildren(groupIndex));
-            notifyOnDataSetChanged();
+            notifyObserversOnDataSetChanged();
             String message = "Reseted child filter of group \"" + group.getData() + "\" at index " +
                     groupIndex + " with query \"" + query + "\" and flags \"" + flags + "\"";
             getLogger().logInfo(getClass(), message);
@@ -428,7 +428,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
         if (filteredGroups != null) {
             notifyOnApplyGroupFilter(query, flags, null,
                     new UnmodifiableGroupList<>(filteredGroups), getAllGroups());
-            notifyOnDataSetChanged();
+            notifyObserversOnDataSetChanged();
             String message =
                     "Applied group filter using the query \"" + query + "\" and flags \"" + flags +
                             "\"";
@@ -453,7 +453,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
         if (filteredGroups != null) {
             notifyOnApplyGroupFilter(query, flags, filter,
                     new UnmodifiableGroupList<>(filteredGroups), getAllGroups());
-            notifyOnDataSetChanged();
+            notifyObserversOnDataSetChanged();
             String message =
                     "Applied group filter using the query \"" + query + "\", flags \"" + flags +
                             "\" and filter \"" + filter + "\"";
@@ -475,7 +475,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
 
         if (result) {
             taintAdapterView();
-            notifyOnDataSetChanged();
+            notifyObserversOnDataSetChanged();
             notifyOnResetGroupFilter(query, flags, getAllGroups());
             String message =
                     "Reseted group filter with query \"" + query + "\" and flags \"" + flags + "\"";
@@ -580,7 +580,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
         if (filteredChildren != null) {
             notifyOnApplyChildFilter(query, flags, null, group.getData(), groupIndex,
                     filteredChildren, getAllChildren(groupIndex));
-            notifyOnDataSetChanged();
+            notifyObserversOnDataSetChanged();
             String message =
                     "Applied child filter using the query \"" + query + "\" and flags \"" + flags +
                             "\" on the group \"" + group.getData() + "\" at index " + groupIndex;
@@ -671,7 +671,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
         if (filteredChildren != null) {
             notifyOnApplyChildFilter(query, flags, filter, group.getData(), groupIndex,
                     filteredChildren, getAllChildren(groupIndex));
-            notifyOnDataSetChanged();
+            notifyObserversOnDataSetChanged();
             String message =
                     "Applied child filter using the query \"" + query + "\", flags \"" + flags +
                             "\" and filter \"" + filter + "\" on the group \"" + group.getData() +

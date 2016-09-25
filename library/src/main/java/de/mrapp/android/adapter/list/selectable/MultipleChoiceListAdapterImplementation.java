@@ -24,12 +24,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import de.mrapp.android.adapter.list.ListAdapter;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.SelectableListDecorator;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.UnmodifiableList;
 import de.mrapp.android.adapter.datastructure.item.Item;
+import de.mrapp.android.adapter.list.ListAdapter;
 import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
 import de.mrapp.android.adapter.list.ListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.list.ListAdapterListener;
@@ -113,7 +113,7 @@ public class MultipleChoiceListAdapterImplementation<DataType>
                                        @NonNull final DataType item, final int index) {
                 getItems().get(index).setSelected(false);
                 notifyOnItemUnselected(item, index);
-                notifyOnDataSetChanged();
+                notifyObserversOnItemChanged(index);
             }
 
         };
@@ -388,7 +388,7 @@ public class MultipleChoiceListAdapterImplementation<DataType>
                     notifyOnItemUnselected(item.getData(), index);
                 }
 
-                notifyOnDataSetChanged();
+                notifyObserversOnItemChanged(index);
                 String message = selected ? "Selected" :
                         "Unselected" + " item \"" + item + "\" at index " + index;
                 getLogger().logInfo(getClass(), message);

@@ -425,7 +425,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
             if (previousState != state) {
                 groupAdapter.setItemState(groupIndex, state);
                 notifyOnGroupStateChanged(group.getData(), groupIndex, state);
-                notifyOnDataSetChanged();
+                notifyObserversOnDataSetChanged();
                 String message = "Changed state of group \"" + group.getData() + "\" at index " +
                         groupIndex + " from " + previousState + " to " + state;
                 getLogger().logInfo(getClass(), message);
@@ -639,7 +639,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
                 childAdapter.setItemState(childIndex, state);
                 notifyOnChildStateChanged(childAdapter.getItem(childIndex), childIndex,
                         group.getData(), groupIndex, state);
-                notifyOnDataSetChanged();
+                notifyObserversOnDataSetChanged();
                 String message = "Changed state of child \"" + childAdapter.getItem(childIndex) +
                         "\" at index " + childIndex + " of group \"" + group.getData() +
                         "\" at index " + groupIndex + " from " + previousState + " to " + state;

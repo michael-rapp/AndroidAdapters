@@ -371,7 +371,7 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
                 notifyOnGroupDisabled(group.getData(), groupIndex);
             }
 
-            notifyOnDataSetChanged();
+            notifyObserversOnDataSetChanged();
             String message = enabled ? "Enabled" :
                     "Disabled" + " group \"" + group.getData() + "\" at index " + groupIndex;
             getLogger().logInfo(getClass(), message);
@@ -648,7 +648,7 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
                         groupIndex);
             }
 
-            notifyOnDataSetChanged();
+            notifyObserversOnDataSetChanged();
             String message = enabled ? "Enabled" :
                     "Disabled" + " child \"" + childAdapter.getItem(childIndex) + "\" at index " +
                             childIndex + " of group \"" + group.getData() + "\" at index " +

@@ -884,10 +884,10 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     /**
-     * Notifies, that the adapter's underlying data has been changed, if automatically notifying
-     * such events is currently enabled.
+     * Notifies all observers, that the adapter's underlying data has been changed, if automatically
+     * notifying such events is currently enabled.
      */
-    protected final void notifyOnDataSetChanged() {
+    protected final void notifyObserversOnDataSetChanged() {
         if (isNotifiedOnChange()) {
             notifyDataSetChanged();
         }
@@ -1122,7 +1122,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     public final void setDecorator(@NonNull final DecoratorType decorator) {
         ensureNotNull(decorator, "The decorator may not be null");
         this.decorator = decorator;
-        notifyOnDataSetChanged();
+        notifyObserversOnDataSetChanged();
     }
 
     @Override
@@ -1250,7 +1250,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
         if (added) {
             notifyOnGroupAdded(group, index);
-            notifyOnDataSetChanged();
+            notifyObserversOnDataSetChanged();
             String message = "Group \"" + group + "\" added at index " + index;
             getLogger().logInfo(getClass(), message);
             return true;
@@ -1306,7 +1306,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
                 groupAdapter.replaceItem(index, new Group<>(group, createChildAdapter())).getData();
         notifyOnGroupRemoved(replacedGroup, index);
         notifyOnGroupAdded(group, index);
-        notifyOnDataSetChanged();
+        notifyObserversOnDataSetChanged();
         String message =
                 "Replaced group \"" + replacedGroup + "\" at index " + index + " with item \"" +
                         group + "\"";
@@ -1318,7 +1318,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     public final GroupType removeGroup(final int index) {
         GroupType removedGroup = groupAdapter.removeItem(index).getData();
         notifyOnGroupRemoved(removedGroup, index);
-        notifyOnDataSetChanged();
+        notifyObserversOnDataSetChanged();
         String message = "Removed group \"" + removedGroup + "\" from index " + index;
         getLogger().logInfo(getClass(), message);
         return removedGroup;
@@ -1331,7 +1331,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         if (index != -1) {
             groupAdapter.removeItem(index);
             notifyOnGroupRemoved(group, index);
-            notifyOnDataSetChanged();
+            notifyObserversOnDataSetChanged();
             String message = "Removed group \"" + group + "\" from index " + index;
             getLogger().logInfo(getClass(), message);
             return true;
@@ -1548,7 +1548,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
             if (added) {
                 notifyOnChildAdded(child, index, group.getData(), groupIndex);
-                notifyOnDataSetChanged();
+                notifyObserversOnDataSetChanged();
                 String message =
                         "Child \"" + child + "\" added at index " + index + " to group \"" +
                                 group.getData() + "\" at index " + groupIndex;
@@ -1655,7 +1655,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         ChildType replacedChild = group.getChildAdapter().replaceItem(index, child);
         notifyOnChildRemoved(replacedChild, index, group.getData(), groupIndex);
         notifyOnChildAdded(replacedChild, index, group.getData(), groupIndex);
-        notifyOnDataSetChanged();
+        notifyObserversOnDataSetChanged();
         String message =
                 "Replaced child \"" + replacedChild + "\" at index " + index + " of group \"" +
                         group.getData() + "\" at index " + groupIndex + " with child \"" + child +
@@ -1690,7 +1690,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
             removeGroup(groupIndex);
         }
 
-        notifyOnDataSetChanged();
+        notifyObserversOnDataSetChanged();
         return removedChild;
     }
 

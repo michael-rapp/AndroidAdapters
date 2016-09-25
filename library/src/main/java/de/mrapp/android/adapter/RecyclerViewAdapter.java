@@ -34,6 +34,179 @@ public interface RecyclerViewAdapter extends Adapter<AbsListView> {
      */
     void attach(@NonNull final RecyclerView adapterView);
 
+    /**
+     * Notifies any registered observers that the item at <code>index</code> has changed. Equivalent
+     * to calling <code>notifyItemChanged(index, null);</code>.
+     *
+     * This is an item change event, not a structural change event. It indicates that any reflection
+     * of the data at <code>index</code> is out of date and should be updated. The item at
+     * <code>index</code> retains the same identity.
+     *
+     * @param index
+     *         The index of the item, which has been changed, as an {@link Integer} value
+     * @see #notifyItemRangeChanged(int, int)
+     */
+    void notifyItemChanged(int index);
+
+    /**
+     * Notifies any registered observers that the item at <code>index</code> has changed with an
+     * optional payload object.
+     *
+     * This is an item change event, not a structural change event. It indicates that any reflection
+     * of the data at <code>index</code> is out of date and should be updated. The item at
+     * <code>index</code> retains the same identity.
+     *
+     * The client can optionally pass a payload for partial change. These payloads will be merged
+     * and may be passed to the adapter's <code>onBindViewHolder</code>-method, if the item is
+     * already represented by a view holder and it will be rebound to the same view holder. Calling
+     * the <code>notifyItemRangeChanged</code>-method with null payload will clear all existing
+     * payloads on that item and prevent future payload until the <code>onBindViewHolder</code>-method
+     * is called. Adapters should not assume that the payload will always be passed to the
+     * <code>onBindViewHolder</code>-method, e.g. when the view is not attached, the payload will be
+     * simply dropped.
+     *
+     * @param index
+     *         The index of the item, which has been changed, as an {@link Integer} value
+     * @param payload
+     *         An optional payload as an instance of the class {@link Object} or null to identify a
+     *         "full" update
+     * @see #notifyItemRangeChanged(int, int)
+     */
+    void notifyItemChanged(int index, Object payload);
+
+    /**
+     * Notifies any registered observers that the <code>itemCount</code> items starting at
+     * <code>startIndex</code> have changed. Equivalent to calling <code>notifyItemRangeChanged(startIndex,
+     * itemCount, null);</code>.
+     *
+     * This is an item change event, not a structural change event. It indicates that any reflection
+     * of the data in the given position range is out of date and should be updated. The items in
+     * the given range retain the same identity.
+     *
+     * @param startIndex
+     *         The index of the first item, which has been changed, as an {@link Integer} value
+     * @param itemCount
+     *         The number of items, which have been changed, as an {@link Integer} value. The number
+     *         of items must be at least 1
+     * @see #notifyItemChanged(int)
+     */
+    void notifyItemRangeChanged(int startIndex, int itemCount);
+
+    /**
+     * Notifies any registered observers that the <code>itemCount</code> items starting at
+     * <code>startIndex</code> have changed. An optional payload can be passed to each changed
+     * item.
+     *
+     * This is an item change event, not a structural change event. It indicates that any reflection
+     * of the data in the given position range is out of date and should be updated. The items in
+     * the given range retain the same identity.
+     *
+     * The client can optionally pass a payload for partial change. These payloads will be merged
+     * and may be passed to the adapter's <code>onBindViewHolder</code>-method, if the item is
+     * already represented by a view holder and it will be rebound to the same view holder. Calling
+     * the <code>notifyItemRangeChanged</code>-method with null payload will clear all existing
+     * payloads on that item and prevent future payload until the <code>onBindViewHolder</code>-method
+     * is called. Adapters should not assume that the payload will always be passed to the
+     * <code>onBindViewHolder</code>-method, e.g. when the view is not attached, the payload will be
+     * simply dropped.
+     *
+     * @param startIndex
+     *         The index of the first item, which has been changed, as an {@link Integer} value. The
+     *         index must be between 0 and the value of the method <code>getCount():int</code> - 1,
+     *         otherwise an {@link IndexOutOfBoundsException} will be thrown
+     * @param itemCount
+     *         The number of items, which have been changed, as an {@link Integer} value
+     * @param payload
+     *         An optional payload as an instance of the class {@link Object} or null to identify a
+     *         "full" update
+     * @see #notifyItemChanged(int)
+     */
+    void notifyItemRangeChanged(int startIndex, int itemCount, Object payload);
+
+    /**
+     * Notifies any registered observers that the item at <code>index</code> has been newly
+     * inserted. The item previously at <code>index</code> is now at <code>index + 1</code>.
+     *
+     * This is a structural change event. Representations of other existing items in the data set
+     * are still considered up to date and will not be rebound, though their positions may be
+     * altered.
+     *
+     * @param index
+     *         The index of the item, which has been inserted, as an {@link Integer} value
+     * @see #notifyItemRangeInserted(int, int)
+     */
+    void notifyItemInserted(int index);
+
+    /**
+     * Notifies any registered observers that the item reflected at <code>fromIndex</code> has been
+     * moved to <code>toIndex</code>.
+     *
+     * This is a structural change event. Representations of other existing items in the data set
+     * are still considered up to date and will not be rebound, though their positions may be
+     * altered.
+     *
+     * @param fromIndex
+     *         The previous index of the item, as an {@link Integer} value
+     * @param toIndex
+     *         The new index of the item as an {@link Integer} value. The index must be between 0
+     *         and the value of the method <code>getCount():int</code> - 1, otherwise an {@link
+     *         IndexOutOfBoundsException} will be thrown
+     */
+    void notifyItemMoved(int fromIndex, int toIndex);
+
+    /**
+     * Notifies any registered observers that the currently reflected <code>itemCount</code> items
+     * starting at <code>startIndex</code> have been newly inserted. The items previously located at
+     * <code>startIndex</code> and beyond can now be found starting at <code>startIndex +
+     * itemCount</code>.
+     *
+     * This is a structural change event. Representations of other existing items in the data set
+     * are still considered up to date and will not be rebound, though their positions may be
+     * altered.
+     *
+     * @param startIndex
+     *         The index of the first item, which has been inserted, as an {@link Integer} value
+     * @param itemCount
+     *         The number of items, which have been inserted, as an {@link Integer} value. The
+     *         number of items must at least 1
+     * @see #notifyItemInserted(int)
+     */
+    void notifyItemRangeInserted(int startIndex, int itemCount);
+
+    /**
+     * Notifies any registered observers that the item previously located at <code>index</code> has
+     * been removed from the data set. The items previously located at and after <code>index</code>
+     * may now be found at the <code>oldIndex - 1</code>.
+     *
+     * This is a structural change event. Representations of other existing items in the data set
+     * are still considered up to date and will not be rebound, though their positions may be
+     * altered.
+     *
+     * @param index
+     *         The index of the item, which has been removed, as an {@link Integer} value
+     * @see #notifyItemRangeRemoved(int, int)
+     */
+    void notifyItemRemoved(int index);
+
+    /**
+     * Notifies any registered observers that the <code>itemCount</code> items previously located at
+     * <code>startIndex</code> have been removed from the data set. The items previously located at
+     * and after <code>startIndex + itemCount</code> may now be found at <code>oldIndex -
+     * itemCount</code>.
+     *
+     * This is a structural change event. Representations of other existing items in the data set
+     * are still considered up to date and will not be rebound, though their positions may be
+     * altered.
+     *
+     * @param positionStart
+     *         The previous index of the first item, which has been removed, as an {@link Integer}
+     *         value
+     * @param itemCount
+     *         The number of items, which has been removed, as an {@link Integer} value. The number
+     *         of items must be at least 1
+     */
+    void notifyItemRangeRemoved(int positionStart, int itemCount);
+
     @Override
     RecyclerViewAdapter clone() throws CloneNotSupportedException;
 

@@ -263,7 +263,7 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType extend
         }
 
         notifyOnSorted(getAllItems(), order, null);
-        notifyOnDataSetChanged();
+        notifyObserversOnDataSetChanged();
     }
 
     @Override
@@ -291,7 +291,7 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType extend
         }
 
         notifyOnSorted(getAllItems(), order, comparator);
-        notifyOnDataSetChanged();
+        notifyObserversOnDataSetChanged();
     }
 
     @Override

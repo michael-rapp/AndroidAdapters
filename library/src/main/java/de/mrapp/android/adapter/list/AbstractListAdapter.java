@@ -607,6 +607,16 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
     }
 
     /**
+     * Returns the recycler view, the adapter is currently attached to.
+     *
+     * @return The recycler view, the adapter is currently attached to, as an instance of the class
+     * RecyclerView, or null, if the adapter is currently not attached to a recycler view
+     */
+    protected final RecyclerView getRecyclerView() {
+        return recyclerView;
+    }
+
+    /**
      * Returns a set, which contains the listeners, which should be notified, when the adapter's
      * underlying data has been modified.
      *
@@ -619,10 +629,61 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
     }
 
     /**
-     * Notifies, that the adapter's underlying data has been changed, if automatically notifying
-     * such events is currently enabled.
+     * Notifies all observers, that an item has been changed, if automatically notifying such evens
+     * is currently enabled.
+     *
+     * @param index
+     *         The index of the item, which has been changed, as an {@link Integer} value
      */
-    protected final void notifyOnDataSetChanged() {
+    protected final void notifyObserversOnItemChanged(final int index) {
+        if (isNotifiedOnChange()) {
+            if (getRecyclerView() != null) {
+                notifyItemChanged(index);
+            } else {
+                notifyDataSetChanged();
+            }
+        }
+    }
+
+    /**
+     * Notifies all observers, that an item has been added, if automatically notifying such events
+     * is currently enabled.
+     *
+     * @param index
+     *         The index of the item, which has been added, as an {@link Integer} value
+     */
+    protected final void notifyObserversOnItemInserted(final int index) {
+        if (isNotifiedOnChange()) {
+            if (getRecyclerView() != null) {
+                notifyItemInserted(index);
+            } else {
+                notifyDataSetChanged();
+            }
+        }
+    }
+
+    /**
+     * Notifies all observers, that an item has been removed, if automatically notifying such events
+     * is currently enabled.
+     *
+     * @param index
+     *         The index of the item, which has been removed, as an {@link Integer} value
+     */
+    protected final void notifyObserversOnItemRemoved(final int index) {
+        if (isNotifiedOnChange()) {
+            if (getRecyclerView() != null) {
+                notifyItemRemoved(index);
+            } else {
+                notifyDataSetChanged();
+            }
+        }
+    }
+
+    /**
+     * Notifies all observers, that the adapter's underlying data has been changed, if automatically
+     * notifying such events is currently enabled.
+     */
+    protected final void notifyObserversOnDataSetChanged() {
         if (isNotifiedOnChange()) {
             notifyDataSetChanged();
         }
@@ -766,7 +827,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
     public final void setDecorator(@NonNull final DecoratorType decorator) {
         ensureNotNull(decorator, "The decorator may not be null");
         this.decorator = decorator;
-        notifyOnDataSetChanged();
+        notifyObserversOnDataSetChanged();
     }
 
     @Override
@@ -896,7 +957,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
 
         items.add(index, new Item<>(item));
         notifyOnItemAdded(item, index);
-        notifyOnDataSetChanged();
+        notifyObserversOnItemInserted(index);
         String message = "Item \"" + item + "\" added at index " + index;
         getLogger().logInfo(getClass(), message);
         return true;
@@ -944,7 +1005,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
         DataType replacedItem = items.set(index, new Item<>(item)).getData();
         notifyOnItemRemoved(replacedItem, index);
         notifyOnItemAdded(item, index);
-        notifyOnDataSetChanged();
+        notifyObserversOnItemChanged(index);
         String message =
                 "Replaced item \"" + replacedItem + "\" at index " + index + " with item \"" +
                         item + "\"";
@@ -956,7 +1017,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
     public final DataType removeItem(final int index) {
         DataType removedItem = items.remove(index).getData();
         notifyOnItemRemoved(removedItem, index);
-        notifyOnDataSetChanged();
+        notifyObserversOnItemRemoved(index);
         String message = "Removed item \"" + removedItem + "\" from index " + index;
         getLogger().logInfo(getClass(), message);
         return removedItem;
@@ -970,7 +1031,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
         if (index != -1) {
             items.remove(index);
             notifyOnItemRemoved(item, index);
-            notifyOnDataSetChanged();
+            notifyObserversOnItemRemoved(index);
             String message = "Removed item \"" + item + "\" from index " + index;
             getLogger().logInfo(getClass(), message);
             return true;

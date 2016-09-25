@@ -25,10 +25,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import de.mrapp.android.adapter.list.ListAdapter;
 import de.mrapp.android.adapter.datastructure.UnmodifiableList;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.decorator.AbstractListDecorator;
+import de.mrapp.android.adapter.list.ListAdapter;
 import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
 import de.mrapp.android.adapter.list.ListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.list.ListAdapterListener;
@@ -311,7 +311,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType exten
             if (previousState != state) {
                 item.setState(state);
                 notifyOnItemStateChanged(item.getData(), index, state);
-                notifyOnDataSetChanged();
+                notifyObserversOnItemChanged(index);
                 String message =
                         "Changed state of item \"" + item.getData() + "\" at index " + index +
                                 " from " + previousState + " to " + state;
