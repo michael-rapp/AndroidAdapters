@@ -40,8 +40,7 @@ License.
         </activity>
         <activity
             android:name="de.mrapp.android.adapter.example.activity.PreferenceActivity"
-            android:label="@string/preference_activity_title"
-            android:parentActivityName="de.mrapp.android.adapter.example.activity.MainActivity">
+            android:label="@string/preference_activity_title">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.mrapp.android.adapter.example.activity.MainActivity"/>
