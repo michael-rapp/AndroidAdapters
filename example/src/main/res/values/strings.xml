@@ -119,7 +119,7 @@ License.
     <string name="multiple_choice_expandable_list_adapter_choice_mode_preference_title">Choice mode</string>
     <string name="multiple_choice_expandable_list_adapter_choice_mode_preference_summary">Specifies the kind of items, which are allowed to be selected</string>
     <string name="preferences_menu_item">Settings</string>
-    <string name="item_count" formatted="false">Items: d</string>
+    <string name="item_count" formatted="false">Items: %d</string>
     <string name="enabled_item_count" formatted="false">, enabled: %d</string>
     <string name="selected_item_count" formatted="false">, selected: %d</string>
     <string name="enabled_item_toast">Enabled item</string>
