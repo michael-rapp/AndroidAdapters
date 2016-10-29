@@ -25,7 +25,7 @@ import de.mrapp.android.adapter.view.ExpandableRecyclerView;
  * @author Michael Rapp
  * @since 0.8.0
  */
-public interface ExpandableRecyclerViewAdapter extends Adapter<ExpandableListView> {
+public interface ExpandableRecyclerViewAdapter extends ExpandableGridViewAdapter {
 
     /**
      * Attaches the adapter to a view.
