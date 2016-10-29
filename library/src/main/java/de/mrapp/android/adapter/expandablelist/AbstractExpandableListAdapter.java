@@ -19,6 +19,7 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,7 @@ import de.mrapp.android.adapter.logging.LogLevel;
 import de.mrapp.android.adapter.logging.Logger;
 import de.mrapp.android.adapter.util.AdapterViewUtil;
 import de.mrapp.android.adapter.view.ExpandableGridView;
+import de.mrapp.android.adapter.view.ExpandableRecyclerView;
 
 import static de.mrapp.android.util.Condition.ensureNotNull;
 
@@ -172,6 +174,11 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      * The expandable grid view, the adapter is currently attached to.
      */
     private transient ExpandableGridView expandableGridView;
+
+    /**
+     * The expandable recycler view, the adapter is currently attached to.
+     */
+    private transient ExpandableRecyclerView expandableRecyclerView;
 
     /**
      * True, if duplicate children, regardless from the group they belong to, are allowed, false
@@ -770,19 +777,23 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      * expansion states.
      */
     private void syncAdapterView() {
-        if (adapterView != null || expandableGridView != null) {
+        if (adapterView != null || expandableGridView != null || expandableRecyclerView != null) {
             for (int i = 0; i < getGroupCount(); i++) {
                 if (isGroupExpanded(i)) {
                     if (adapterView != null) {
                         adapterView.expandGroup(i);
-                    } else {
+                    } else if (expandableGridView != null) {
                         expandableGridView.expandGroup(i);
+                    } else {
+                        expandableRecyclerView.expandGroup(i);
                     }
                 } else {
                     if (adapterView != null) {
                         adapterView.collapseGroup(i);
-                    } else {
+                    } else if (expandableGridView != null) {
                         expandableGridView.collapseGroup(i);
+                    } else {
+                        expandableRecyclerView.collapseGroup(i);
                     }
                 }
             }
@@ -963,7 +974,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      * underlying data, when calling the method <code>notifyDataSetChanged</code> the next time.
      */
     protected final void taintAdapterView() {
-        if (adapterView != null || expandableGridView != null) {
+        if (adapterView != null || expandableGridView != null || expandableRecyclerView != null) {
             this.adapterViewTainted = true;
         }
     }
@@ -2363,7 +2374,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     public final void setGroupExpanded(final int index, final boolean expanded) {
         getGroupAdapter().getItem(index).setExpanded(expanded);
 
-        if (adapterView != null || expandableGridView != null) {
+        if (adapterView != null || expandableGridView != null || expandableRecyclerView != null) {
             if (isNotifiedOnChange()) {
                 if (expanded) {
                     if (adapterView != null) {
@@ -2459,7 +2470,18 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         syncAdapterView();
         String message = "Attached adapter to view \"" + adapterView + "\"";
         getLogger().logDebug(getClass(), message);
+    }
 
+    @Override
+    public final void attach(@NonNull final ExpandableRecyclerView adapterView) {
+        ensureNotNull(adapterView, "The adapter view may not be null");
+        detach();
+        this.expandableRecyclerView = adapterView;
+        this.expandableRecyclerView.setAdapter(this);
+        // TODO: Maybe here is more to do!?
+        syncAdapterView();
+        String message = "Attached adapter to view \"" + adapterView + "\"";
+        getLogger().logDebug(getClass(), message);
     }
 
     @Override
@@ -2470,22 +2492,36 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
                 String message = "Detached adapter from view \"" + adapterView + "\"";
                 getLogger().logDebug(getClass(), message);
             } else {
-                String message = "Adapter has not been detached, because the " +
-                        "adapter of the corresponding view has been changed " + "in the meantime";
+                String message = "Adapter has not been detached, because the adapter of the " +
+                        "corresponding view has been changed " + "in the meantime";
                 getLogger().logVerbose(getClass(), message);
             }
 
             adapterView = null;
         } else if (expandableGridView != null) {
-            if (expandableGridView.getAdapter() == this) {
+            if (expandableGridView.getExpandableListAdapter() == this) {
                 expandableGridView.setAdapter((ListAdapter) null);
                 String message = "Detached adapter from view \"" + expandableGridView + "\"";
                 getLogger().logDebug(getClass(), message);
             } else {
-                String message = "Adapter has not been detached, because the " +
-                        "adapter of the corresponding view has been changed in the meantime";
+                String message = "Adapter has not been detached, because the adapter of the " +
+                        "corresponding view has been changed in the meantime";
                 getLogger().logVerbose(getClass(), message);
             }
+
+            expandableGridView = null;
+        } else if (expandableRecyclerView != null) {
+            if (expandableRecyclerView.getExpandableListAdapter() == this) {
+                expandableRecyclerView.setAdapter((RecyclerView.Adapter) null);
+                String message = "Detached adapter from view \"" + expandableRecyclerView + "\"";
+                getLogger().logDebug(getClass(), message);
+            } else {
+                String message = "Adapter has not been detached, because the adapter of the " +
+                        " corresponding view has been changed in the meantime";
+                getLogger().logVerbose(getClass(), message);
+            }
+
+            expandableRecyclerView = null;
         } else {
             String message = "Adapter has not been detached, because it has not " +
                     "been attached to a view yet";
@@ -2602,6 +2638,13 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         } else if (expandableGridView != null) {
             AdapterViewUtil.onSaveInstanceState(expandableGridView, savedState,
                     ADAPTER_VIEW_STATE_BUNDLE_KEY);
+        } else if (expandableRecyclerView != null) {
+            RecyclerView.LayoutManager layoutManager = expandableRecyclerView.getLayoutManager();
+
+            if (layoutManager != null) {
+                savedState.putParcelable(ADAPTER_VIEW_STATE_BUNDLE_KEY,
+                        layoutManager.onSaveInstanceState());
+            }
         } else {
             String message = "The state of the adapter view can not be stored, because the " +
                     "adapter has not been attached to a view";
@@ -2646,6 +2689,9 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
                 } else if (expandableGridView != null) {
                     AdapterViewUtil.onRestoreInstanceState(expandableGridView, savedState,
                             ADAPTER_VIEW_STATE_BUNDLE_KEY);
+                } else if (expandableRecyclerView != null) {
+                    expandableRecyclerView.getLayoutManager().onRestoreInstanceState(
+                            savedState.getParcelable(ADAPTER_VIEW_STATE_BUNDLE_KEY));
                 }
             }
 
