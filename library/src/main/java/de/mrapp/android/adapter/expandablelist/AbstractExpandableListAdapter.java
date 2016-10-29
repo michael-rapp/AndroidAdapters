@@ -14,6 +14,8 @@
 package de.mrapp.android.adapter.expandablelist;
 
 import android.content.Context;
+import android.database.DataSetObservable;
+import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
@@ -24,7 +26,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ListAdapter;
 
@@ -44,6 +45,7 @@ import de.mrapp.android.adapter.datastructure.group.GroupIterator;
 import de.mrapp.android.adapter.datastructure.group.GroupListIterator;
 import de.mrapp.android.adapter.datastructure.group.UnmodifiableGroupList;
 import de.mrapp.android.adapter.decorator.AbstractExpandableListDecorator;
+import de.mrapp.android.adapter.decorator.ViewHolder;
 import de.mrapp.android.adapter.list.selectable.MultipleChoiceListAdapterImplementation;
 import de.mrapp.android.adapter.logging.LogLevel;
 import de.mrapp.android.adapter.logging.Logger;
@@ -69,7 +71,8 @@ import static de.mrapp.android.util.Condition.ensureNotNull;
  * @since 0.1.0
  */
 public abstract class AbstractExpandableListAdapter<GroupType, ChildType, DecoratorType extends AbstractExpandableListDecorator<GroupType, ChildType>>
-        extends BaseExpandableListAdapter implements ExpandableListAdapter<GroupType, ChildType> {
+        extends RecyclerView.Adapter<ViewHolder>
+        implements ExpandableListAdapter<GroupType, ChildType> {
 
     /**
      * The constant serial version UID.
@@ -138,6 +141,12 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      * The logger, which is used for logging.
      */
     private final transient Logger logger;
+
+    /**
+     * The data set observable, which is notified, when the underlying data of the adapter has been
+     * changed.
+     */
+    private final transient DataSetObservable dataSetObservable;
 
     /**
      * A set, which contains the listeners, which should be notified, when an item of the adapter
@@ -803,6 +812,51 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     /**
+     * Creates an observer, which allows to notify the data set observable, when the underlying data
+     * of the adapter has been changed.
+     *
+     * @return The observer, which has been created, as an instance of the class {@link
+     * RecyclerView.AdapterDataObserver}
+     */
+    private RecyclerView.AdapterDataObserver createAdapterDataSetObserver() {
+        return new RecyclerView.AdapterDataObserver() {
+
+            @Override
+            public void onChanged() {
+                dataSetObservable.notifyChanged();
+            }
+
+            @Override
+            public void onItemRangeChanged(final int positionStart, final int itemCount) {
+                dataSetObservable.notifyChanged();
+            }
+
+            @Override
+            public void onItemRangeChanged(final int positionStart, final int itemCount,
+                                           final Object payload) {
+                dataSetObservable.notifyChanged();
+            }
+
+            @Override
+            public void onItemRangeInserted(final int positionStart, final int itemCount) {
+                dataSetObservable.notifyChanged();
+            }
+
+            @Override
+            public void onItemRangeRemoved(final int positionStart, final int itemCount) {
+                dataSetObservable.notifyChanged();
+            }
+
+            @Override
+            public void onItemRangeMoved(final int fromPosition, final int toPosition,
+                                         final int itemCount) {
+                dataSetObservable.notifyChanged();
+            }
+
+        };
+    }
+
+    /**
      * Returns, the context, the adapter belongs to.
      *
      * @return The context, the adapter belongs to, as an instance of the class {@link Context}. The
@@ -1097,6 +1151,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         this.context = context;
         this.decorator = decorator;
         this.logger = new Logger(logLevel);
+        this.dataSetObservable = new DataSetObservable();
         this.groupAdapter = groupAdapter;
         this.groupAdapter.setLogLevel(LogLevel.OFF);
         this.groupAdapter.notifyOnChange(false);
@@ -1108,6 +1163,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         this.adapterListeners = adapterListeners;
         this.expansionListeners = expansionListeners;
         addItemClickListener(createGroupClickListener());
+        registerAdapterDataObserver(createAdapterDataSetObserver());
     }
 
     /**
@@ -1134,6 +1190,103 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         ensureNotNull(decorator, "The decorator may not be null");
         this.decorator = decorator;
         notifyObserversOnDataSetChanged();
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return 0 for any group or child position, since only one child type count is declared.
+     */
+    public int getChildType(final int groupPosition, final int childPosition) {
+        return 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return 1 as a default value in BaseExpandableListAdapter.
+     */
+    public int getChildTypeCount() {
+        return 1;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return 0 for any groupPosition, since only one group type count is declared.
+     */
+    public int getGroupType(final int groupPosition) {
+        return 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return 1 as a default value in BaseExpandableListAdapter.
+     */
+    public int getGroupTypeCount() {
+        return 1;
+    }
+
+    /**
+     * @see DataSetObservable#notifyInvalidated()
+     */
+    public void notifyDataSetInvalidated() {
+        dataSetObservable.notifyInvalidated();
+    }
+
+    @Override
+    public void registerDataSetObserver(final DataSetObserver observer) {
+        dataSetObservable.registerObserver(observer);
+    }
+
+    @Override
+    public void unregisterDataSetObserver(final DataSetObserver observer) {
+        dataSetObservable.unregisterObserver(observer);
+    }
+
+    @Override
+    public final void onGroupExpanded(final int groupPosition) {
+    }
+
+    @Override
+    public final void onGroupCollapsed(final int groupPosition) {
+
+    }
+
+    @Override
+    public final long getCombinedChildId(final long groupId, final long childId) {
+        return 0x8000000000000000L | ((groupId & 0x7FFFFFFF) << 32) | (childId & 0xFFFFFFFF);
+    }
+
+    @Override
+    public final long getCombinedGroupId(final long groupId) {
+        return (groupId & 0x7FFFFFFF) << 32;
+    }
+
+    @Override
+    public boolean areAllItemsEnabled() {
+        return true;
+    }
+
+    @Override
+    public final boolean isEmpty() {
+        return getGroupCount() == 0;
+    }
+
+    @Override
+    public final int getItemCount() {
+        int count = 0;
+
+        for (int i = 0; i < getGroupCount(); i++) {
+            count++;
+
+            if (isGroupExpanded(i)) {
+                count += getChildCount(i);
+            }
+        }
+
+        return count;
     }
 
     @Override
@@ -2477,7 +2630,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         ensureNotNull(adapterView, "The adapter view may not be null");
         detach();
         this.expandableRecyclerView = adapterView;
-        this.expandableRecyclerView.setAdapter(this);
+        this.expandableRecyclerView.setAdapter((ExpandableListAdapter) this);
         // TODO: Maybe here is more to do!?
         syncAdapterView();
         String message = "Attached adapter to view \"" + adapterView + "\"";
@@ -2530,15 +2683,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final void notifyDataSetChanged() {
-        super.notifyDataSetChanged();
-
-        if (adapterViewTainted) {
-            syncAdapterView();
-        }
-    }
-
-    @Override
     public final boolean isChildSelectable(final int groupIndex, final int childIndex) {
         return isChildEnabled(groupIndex, childIndex);
     }
@@ -2561,11 +2705,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     @Override
     public final long getGroupId(final int groupIndex) {
         return groupIndex;
-    }
-
-    @Override
-    public final boolean hasStableIds() {
-        return true;
     }
 
     @Override
@@ -2612,6 +2751,17 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
         applyDecoratorOnChild(getContext(), view, groupIndex, childIndex);
         return view;
+    }
+
+    @Override
+    public final ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
+        // TODO: Implement
+        return null;
+    }
+
+    @Override
+    public final void onBindViewHolder(final ViewHolder holder, final int position) {
+        // TODO: Implement
     }
 
     @Override
