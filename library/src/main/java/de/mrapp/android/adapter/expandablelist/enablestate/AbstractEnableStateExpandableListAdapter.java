@@ -268,6 +268,12 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
         setChildEnableStatesImplicitly(setChildEnableStatesImplicitly);
     }
 
+    @Override
+    public final boolean areAllItemsEnabled() {
+        return getEnabledGroupCount() == getGroupCount() &&
+                getEnabledChildCount() == getChildCount();
+    }
+
     @CallSuper
     @Override
     protected void onSaveInstanceState(@NonNull final Bundle outState) {
