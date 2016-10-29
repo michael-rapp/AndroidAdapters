@@ -23,7 +23,6 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
 import de.mrapp.android.adapter.ExpandableGridViewAdapter;
-import de.mrapp.android.adapter.ExpandableRecyclerViewAdapter;
 import de.mrapp.android.adapter.expandablelist.enablestate.EnableStateExpandableListAdapter;
 import de.mrapp.android.adapter.expandablelist.filterable.FilterableExpandableListAdapter;
 import de.mrapp.android.adapter.expandablelist.itemstate.ItemStateExpandableListAdapter;
@@ -43,8 +42,7 @@ import de.mrapp.android.adapter.expandablelist.sortable.SortableExpandableListAd
  */
 @SuppressWarnings("unused")
 public interface ExpandableListAdapter<GroupType, ChildType>
-        extends ExpandableGridViewAdapter, ExpandableRecyclerViewAdapter,
-        android.widget.ExpandableListAdapter,
+        extends ExpandableGridViewAdapter, android.widget.ExpandableListAdapter,
         EnableStateExpandableListAdapter<GroupType, ChildType>,
         ItemStateExpandableListAdapter<GroupType, ChildType>,
         SortableExpandableListAdapter<GroupType, ChildType>,
