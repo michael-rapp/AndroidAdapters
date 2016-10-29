@@ -812,8 +812,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     /**
-     * Creates an observer, which allows to notify the data set observable, when the underlying data
-     * of the adapter has been changed.
+     * Creates an observer, which allows to notify the adapter's data set observable, when the
+     * underlying data of the adapter has been changed.
      *
      * @return The observer, which has been created, as an instance of the class {@link
      * RecyclerView.AdapterDataObserver}
@@ -821,36 +821,47 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     private RecyclerView.AdapterDataObserver createAdapterDataSetObserver() {
         return new RecyclerView.AdapterDataObserver() {
 
+            /**
+             * Notifies the adapter's data set observable, that the underlying data of the adapter has been changed.
+             */
+            private void notifyChanged() {
+                dataSetObservable.notifyChanged();
+
+                if (adapterViewTainted) {
+                    syncAdapterView();
+                }
+            }
+
             @Override
             public void onChanged() {
-                dataSetObservable.notifyChanged();
+                notifyChanged();
             }
 
             @Override
             public void onItemRangeChanged(final int positionStart, final int itemCount) {
-                dataSetObservable.notifyChanged();
+                notifyChanged();
             }
 
             @Override
             public void onItemRangeChanged(final int positionStart, final int itemCount,
                                            final Object payload) {
-                dataSetObservable.notifyChanged();
+                notifyChanged();
             }
 
             @Override
             public void onItemRangeInserted(final int positionStart, final int itemCount) {
-                dataSetObservable.notifyChanged();
+                notifyChanged();
             }
 
             @Override
             public void onItemRangeRemoved(final int positionStart, final int itemCount) {
-                dataSetObservable.notifyChanged();
+                notifyChanged();
             }
 
             @Override
             public void onItemRangeMoved(final int fromPosition, final int toPosition,
                                          final int itemCount) {
-                dataSetObservable.notifyChanged();
+                notifyChanged();
             }
 
         };
