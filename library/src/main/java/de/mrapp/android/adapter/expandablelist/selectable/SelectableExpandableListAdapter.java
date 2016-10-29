@@ -56,7 +56,6 @@ public interface SelectableExpandableListAdapter<GroupType, ChildType>
      *         The decorator, which should be set, as an instance of the type {@link
      *         SelectableExpandableListDecorator}. The decorator may not be null
      */
-
     void setDecorator(@NonNull SelectableExpandableListDecorator<GroupType, ChildType> decorator);
 
     /**
