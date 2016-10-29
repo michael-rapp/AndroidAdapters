@@ -14,7 +14,6 @@
 package de.mrapp.android.adapter;
 
 import android.support.annotation.NonNull;
-import android.widget.ExpandableListView;
 
 import de.mrapp.android.adapter.view.ExpandableGridView;
 
@@ -25,7 +24,7 @@ import de.mrapp.android.adapter.view.ExpandableGridView;
  * @author Michael Rapp
  * @since 0.5.0
  */
-public interface ExpandableGridViewAdapter extends Adapter<ExpandableListView> {
+public interface ExpandableGridViewAdapter extends Adapter<ExpandableGridView> {
 
     /**
      * Attaches the adapter to a view.
