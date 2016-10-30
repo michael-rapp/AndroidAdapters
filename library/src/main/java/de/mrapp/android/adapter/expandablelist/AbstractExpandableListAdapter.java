@@ -21,9 +21,12 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ExpandableListView;
@@ -51,7 +54,6 @@ import de.mrapp.android.adapter.logging.LogLevel;
 import de.mrapp.android.adapter.logging.Logger;
 import de.mrapp.android.adapter.util.AdapterViewUtil;
 import de.mrapp.android.adapter.view.ExpandableGridView;
-import de.mrapp.android.adapter.view.ExpandableRecyclerView;
 
 import static de.mrapp.android.util.Condition.ensureNotNull;
 
@@ -127,6 +129,16 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
             AbstractExpandableListAdapter.class.getSimpleName() + "::LogLevel";
 
     /**
+     * The view type, which is used to visualize group items.
+     */
+    private static final int VIEW_TYPE_GROUP = 2334;
+
+    /**
+     * The view type, which is used to visualize child items.
+     */
+    private static final int VIEW_TYPE_CHILD = 2335;
+
+    /**
      * The context, the adapter belongs to.
      */
     private final transient Context context;
@@ -187,7 +199,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     /**
      * The expandable recycler view, the adapter is currently attached to.
      */
-    private transient ExpandableRecyclerView expandableRecyclerView;
+    private transient RecyclerView expandableRecyclerView;
 
     /**
      * True, if duplicate children, regardless from the group they belong to, are allowed, false
@@ -781,28 +793,118 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     /**
+     * Creates and returns an {@link OnClickListener}, which is invoked, when a group item of the
+     * adapter has been clicked.
+     *
+     * @param groupIndex
+     *         The index of the group item, which has been clicked, as an {@link Integer} value
+     * @return The listener, which has been created, as an instance of the type {@link
+     * OnClickListener}
+     */
+    private OnClickListener createRecyclerViewOnGroupClickListener(final int groupIndex) {
+        return new OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                GroupType group = getGroup(groupIndex);
+                notifyOnGroupClicked(group, groupIndex);
+            }
+
+        };
+    }
+
+    /**
+     * Creates and returns an {@link OnClickListener}, which is invoked, when a group item of the
+     * adapter has been clicked.
+     *
+     * @param groupIndex
+     *         The index of the group item, which has been clicked, as an {@link Integer} value
+     * @return The listener, which has been created, as an instance of the type {@link
+     * OnClickListener}
+     */
+    private OnClickListener createRecyclerViewOnChildClickListener(final int groupIndex,
+                                                                   final int childIndex) {
+        return new OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                GroupType group = getGroup(groupIndex);
+                ChildType child = getChild(groupIndex, childIndex);
+                notifyOnChildClicked(child, childIndex, group, groupIndex);
+            }
+
+        };
+    }
+
+    /**
+     * Creates and returns an {@link OnLongClickListener}, which is invoked, when a group item of
+     * the adapter has been long-clicked.
+     *
+     * @param groupIndex
+     *         The index of the group item, which has been long-clicked, as an {@link Integer}
+     *         value
+     * @return The listener, which has been created, as an instance of the type {@link
+     * OnLongClickListener}
+     */
+    private OnLongClickListener createRecyclerViewOnGroupLongClickListener(final int groupIndex) {
+        return new OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(final View v) {
+                GroupType group = getGroup(groupIndex);
+                return notifyOnGroupLongClicked(group, groupIndex);
+            }
+
+        };
+    }
+
+    /**
+     * Creates and returns an {@link OnLongClickListener}, which is invoked, when a child item of
+     * the adapter has been long-clicked.
+     *
+     * @param groupIndex
+     *         The index of the group, the child item, which has been long-clicked, belongs to, as
+     *         an {@link Integer} value
+     * @param childIndex
+     *         The index of the child item which has been long-clicked, as an {@link Integer} value
+     * @return The listener, which has been created, as an instance of the type {@link
+     * OnLongClickListener}
+     */
+    private OnLongClickListener createRecyclerViewOnChildLongClickListener(final int groupIndex,
+                                                                           final int childIndex) {
+        return new OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(final View v) {
+                GroupType group = getGroup(groupIndex);
+                ChildType child = getChild(groupIndex, childIndex);
+                return notifyOnChildLongClicked(child, childIndex, group, groupIndex);
+            }
+
+        };
+    }
+
+    /**
      * Synchronizes the adapter view, the adapter is currently attached to, with the adapter's
      * underlying data, e.g. by collapsing or expanding its groups depending on their current
      * expansion states.
      */
     private void syncAdapterView() {
-        if (adapterView != null || expandableGridView != null || expandableRecyclerView != null) {
-            for (int i = 0; i < getGroupCount(); i++) {
-                if (isGroupExpanded(i)) {
-                    if (adapterView != null) {
-                        adapterView.expandGroup(i);
-                    } else if (expandableGridView != null) {
-                        expandableGridView.expandGroup(i);
+        if (adapterView != null || expandableGridView != null || expandableRecyclerView == null) {
+            if (adapterView != null || expandableGridView != null) {
+                for (int i = 0; i < getGroupCount(); i++) {
+                    if (isGroupExpanded(i)) {
+                        if (adapterView != null) {
+                            adapterView.expandGroup(i);
+                        } else {
+                            expandableGridView.expandGroup(i);
+                        }
                     } else {
-                        expandableRecyclerView.expandGroup(i);
-                    }
-                } else {
-                    if (adapterView != null) {
-                        adapterView.collapseGroup(i);
-                    } else if (expandableGridView != null) {
-                        expandableGridView.collapseGroup(i);
-                    } else {
-                        expandableRecyclerView.collapseGroup(i);
+                        if (adapterView != null) {
+                            adapterView.collapseGroup(i);
+                        } else {
+                            expandableGridView.collapseGroup(i);
+                        }
                     }
                 }
             }
@@ -818,6 +920,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      * @return The observer, which has been created, as an instance of the class {@link
      * RecyclerView.AdapterDataObserver}
      */
+
     private RecyclerView.AdapterDataObserver createAdapterDataSetObserver() {
         return new RecyclerView.AdapterDataObserver() {
 
@@ -865,6 +968,45 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
             }
 
         };
+    }
+
+    /**
+     * Returns a pair, which contains the group and child index of the item, which corresponds to a
+     * specific packed position.
+     *
+     * @param packedPosition
+     *         The packed position of the item, whose group and child index should be returned, as
+     *         an {@link Integer} value
+     * @return A pair, which contains the group and child index of the item, which corresponds to
+     * the given packed position, as an instance of the class {@link Pair}
+     */
+    private Pair<Integer, Integer> getItemPosition(final int packedPosition) {
+        int currentPosition = packedPosition;
+        int groupIndex = -1;
+        int childIndex = -1;
+
+        for (int i = 0; i < getGroupCount(); i++) {
+            if (currentPosition == 0) {
+                groupIndex = i;
+                break;
+            } else {
+                currentPosition--;
+
+                if (isGroupExpanded(i)) {
+                    int childCount = getChildCount(i);
+
+                    if (currentPosition < childCount) {
+                        groupIndex = i;
+                        childIndex = currentPosition;
+                        break;
+                    } else {
+                        currentPosition -= childCount;
+                    }
+                }
+            }
+        }
+
+        return new Pair<>(groupIndex, childIndex);
     }
 
     /**
@@ -1298,6 +1440,15 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         }
 
         return count;
+    }
+
+    @Override
+    public int getItemViewType(final int position) {
+        if (getItemPosition(position).second != -1) {
+            return VIEW_TYPE_CHILD;
+        }
+
+        return VIEW_TYPE_GROUP;
     }
 
     @Override
@@ -2637,12 +2788,11 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final void attach(@NonNull final ExpandableRecyclerView adapterView) {
+    public final void attach(@NonNull final RecyclerView adapterView) {
         ensureNotNull(adapterView, "The adapter view may not be null");
         detach();
         this.expandableRecyclerView = adapterView;
-        this.expandableRecyclerView.setAdapter((ExpandableListAdapter) this);
-        // TODO: Maybe here is more to do!?
+        this.expandableRecyclerView.setAdapter(this);
         syncAdapterView();
         String message = "Attached adapter to view \"" + adapterView + "\"";
         getLogger().logDebug(getClass(), message);
@@ -2675,8 +2825,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
             expandableGridView = null;
         } else if (expandableRecyclerView != null) {
-            if (expandableRecyclerView.getExpandableListAdapter() == this) {
-                expandableRecyclerView.setAdapter((RecyclerView.Adapter) null);
+            if (expandableRecyclerView.getAdapter() == this) {
+                expandableRecyclerView.setAdapter(null);
                 String message = "Detached adapter from view \"" + expandableRecyclerView + "\"";
                 getLogger().logDebug(getClass(), message);
             } else {
@@ -2766,13 +2916,44 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @Override
     public final ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
-        // TODO: Implement
-        return null;
+        if (expandableRecyclerView == null) {
+            throw new IllegalStateException(
+                    "Adapter must be attached to a RecyclerView using its attach-method");
+        }
+
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        View view;
+
+        if (viewType == VIEW_TYPE_GROUP) {
+            view = getDecorator().onInflateGroupView(inflater, parent, viewType);
+            getLogger().logVerbose(getClass(), "Inflated view to visualize the group item");
+        } else {
+            view = getDecorator().onInflateChildView(inflater, parent, viewType);
+            getLogger().logVerbose(getClass(), "Inflated view to visualize the child item");
+        }
+
+        return new ViewHolder(view);
     }
 
     @Override
-    public final void onBindViewHolder(final ViewHolder holder, final int position) {
-        // TODO: Implement
+    public final void onBindViewHolder(final ViewHolder viewHolder, final int position) {
+        Pair<Integer, Integer> pair = getItemPosition(position);
+        int groupIndex = pair.first;
+        int childIndex = pair.second;
+
+        if (childIndex != -1) {
+            applyDecoratorOnChild(getContext(), viewHolder.getParentView(), groupIndex, childIndex);
+            viewHolder.getParentView().setOnClickListener(
+                    createRecyclerViewOnChildClickListener(groupIndex, childIndex));
+            viewHolder.getParentView().setOnLongClickListener(
+                    createRecyclerViewOnChildLongClickListener(groupIndex, childIndex));
+        } else {
+            applyDecoratorOnGroup(getContext(), viewHolder.getParentView(), groupIndex);
+            viewHolder.getParentView()
+                    .setOnClickListener(createRecyclerViewOnGroupClickListener(groupIndex));
+            viewHolder.getParentView()
+                    .setOnLongClickListener(createRecyclerViewOnGroupLongClickListener(groupIndex));
+        }
     }
 
     @Override

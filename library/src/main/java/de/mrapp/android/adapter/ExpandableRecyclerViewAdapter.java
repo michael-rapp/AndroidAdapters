@@ -14,13 +14,11 @@
 package de.mrapp.android.adapter;
 
 import android.support.annotation.NonNull;
-import android.widget.ExpandableListView;
-
-import de.mrapp.android.adapter.view.ExpandableRecyclerView;
+import android.support.v7.widget.RecyclerView;
 
 /**
- * Defines the interface, all adapters, which can be attached to a {@link ExpandableListView}, must
- * implement.
+ * Defines the interface, all expandable list adapters, which can be attached to a {@link
+ * RecyclerView}, must implement.
  *
  * @author Michael Rapp
  * @since 0.8.0
@@ -32,9 +30,9 @@ public interface ExpandableRecyclerViewAdapter extends ExpandableGridViewAdapter
      *
      * @param adapterView
      *         The view, the adapter should be attached to, as an instance of the class {@link
-     *         ExpandableRecyclerView}. The view may not be null
+     *         RecyclerView}. The view may not be null
      */
-    void attach(@NonNull final ExpandableRecyclerView adapterView);
+    void attach(@NonNull final RecyclerView adapterView);
 
     @Override
     ExpandableRecyclerViewAdapter clone() throws CloneNotSupportedException;
