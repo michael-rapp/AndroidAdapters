@@ -17,8 +17,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 
 /**
- * Defines the interface, all expandable list adapters, which can be attached to a {@link
- * RecyclerView}, must implement.
+ * Defines the interface, all expandable list adapters, which can be attached to a RecyclerView,
+ * must implement.
  *
  * @author Michael Rapp
  * @since 0.8.0
@@ -29,8 +29,8 @@ public interface ExpandableRecyclerViewAdapter extends ExpandableGridViewAdapter
      * Attaches the adapter to a view.
      *
      * @param adapterView
-     *         The view, the adapter should be attached to, as an instance of the class {@link
-     *         RecyclerView}. The view may not be null
+     *         The view, the adapter should be attached to, as an instance of the class
+     *         RecyclerView. The view may not be null
      */
     void attach(@NonNull final RecyclerView adapterView);
 
