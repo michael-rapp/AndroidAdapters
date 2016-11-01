@@ -53,7 +53,7 @@ import de.mrapp.android.adapter.list.selectable.MultipleChoiceListAdapterImpleme
 import de.mrapp.android.adapter.logging.LogLevel;
 import de.mrapp.android.adapter.logging.Logger;
 import de.mrapp.android.adapter.util.AdapterViewUtil;
-import de.mrapp.android.adapter.view.ExpandableGridView;
+import de.mrapp.android.util.view.ExpandableGridView;
 
 import static de.mrapp.android.util.Condition.ensureNotNull;
 
