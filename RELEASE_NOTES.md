@@ -1,5 +1,14 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.8.0 (Nov. 1st 2016)
+
+A feature release, which introduces the following changes:
+
+- The `NoChoiceExpandableListAdapter`, `SingleChoiceExpandableListAdapter` and `MultipleChoiceExpandableListAdapter` can now be attached to a `RecyclerView`.
+- Updated dependency "AndroidUtil" to version 1.12.0. The library's implementation of the class `ExpandableGridView` is now used.
+- Updated AppCompat support annotations library to version 24.2.1.
+- Updated AppCompat v7 RecyclerView library to version 24.2.1.
+
 ## Version 0.7.0 (Sep. 25th 2016)
 
 A feature release, which introduces the following changes:
