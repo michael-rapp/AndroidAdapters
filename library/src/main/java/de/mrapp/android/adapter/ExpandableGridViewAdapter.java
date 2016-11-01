@@ -19,7 +19,7 @@ import android.widget.ExpandableListView;
 import de.mrapp.android.util.view.ExpandableGridView;
 
 /**
- * Defines the interface, all adapters, which can be attached to a {@link ExpandableGridView}, must
+ * Defines the interface, all adapters, which can be attached to an ExpandableGridView, must
  * implement.
  *
  * @author Michael Rapp
@@ -31,8 +31,8 @@ public interface ExpandableGridViewAdapter extends Adapter<ExpandableListView> {
      * Attaches the adapter to a view.
      *
      * @param adapterView
-     *         The view, the adapter should be attached to, as an instance of the class {@link
-     *         ExpandableGridView}. The view may not be null
+     *         The view, the adapter should be attached to, as an instance of the class
+     *         ExpandableGridView. The view may not be null
      */
     void attach(@NonNull final ExpandableGridView adapterView);
 
