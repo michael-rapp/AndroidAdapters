@@ -1,5 +1,11 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.8.1 (Nov. 6th 2016)
+
+A minor release, which introduces the following changes:
+
+- Added `isEmpty`-method to interface `Adapter`.
+
 ## Version 0.8.0 (Nov. 1st 2016)
 
 A feature release, which introduces the following changes:
