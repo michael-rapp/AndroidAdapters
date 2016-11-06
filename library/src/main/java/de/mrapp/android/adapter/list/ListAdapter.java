@@ -381,13 +381,6 @@ public interface ListAdapter<DataType>
     List<DataType> getAllItems();
 
     /**
-     * Returns, whether the adapter is empty, or not.
-     *
-     * @return True, if the adapter is empty, false otherwise
-     */
-    boolean isEmpty();
-
-    /**
      * Adds a new listener, which should be notified, when the adapter's underlying data has been
      * modified.
      *

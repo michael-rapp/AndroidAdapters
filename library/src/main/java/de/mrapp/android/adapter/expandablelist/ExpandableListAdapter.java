@@ -389,13 +389,6 @@ public interface ExpandableListAdapter<GroupType, ChildType>
     List<GroupType> getAllGroups();
 
     /**
-     * Returns, whether the adapter is empty, or not.
-     *
-     * @return True, if the adapter is empty, false otherwise
-     */
-    boolean isEmpty();
-
-    /**
      * Returns, whether the group, which belongs to a specific index, is empty or not.
      *
      * @param groupIndex

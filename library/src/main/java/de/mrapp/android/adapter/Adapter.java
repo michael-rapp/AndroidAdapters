@@ -71,6 +71,13 @@ public interface Adapter<AdapterViewType extends AdapterView<? extends android.w
      */
     void notifyOnChange(boolean notifyOnChange);
 
+    /**
+     * Returns, whether the adapter is empty, or not.
+     *
+     * @return True, if the adapter is empty, false otherwise
+     */
+    boolean isEmpty();
+
     @Override
     Adapter<AdapterViewType> clone() throws CloneNotSupportedException;
 
