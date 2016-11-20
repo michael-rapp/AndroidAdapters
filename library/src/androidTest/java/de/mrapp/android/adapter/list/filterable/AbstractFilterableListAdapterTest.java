@@ -170,16 +170,6 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
             return null;
         }
 
-        @Override
-        public int getItemViewType(final int position) {
-            return 0;
-        }
-
-        @Override
-        public int getViewTypeCount() {
-            return 1;
-        }
-
     }
 
     /**

@@ -129,14 +129,14 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
             AbstractExpandableListAdapter.class.getSimpleName() + "::LogLevel";
 
     /**
-     * The view type, which is used to visualize group items.
+     * The flag, which is used to identify view types, which correspond to group items.
      */
-    private static final int VIEW_TYPE_GROUP = 2334;
+    private static final int FLAG_VIEW_TYPE_GROUP = 0x10;
 
     /**
-     * The view type, which is used to visualize child items.
+     * The flag, which is used to identify view types, which correspond to child items.
      */
-    private static final int VIEW_TYPE_CHILD = 2335;
+    private static final int FLAG_VIEW_TYPE_CHILD = 0x01;
 
     /**
      * The context, the adapter belongs to.
@@ -1346,42 +1346,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @return 0 for any group or child position, since only one child type count is declared.
-     */
-    public int getChildType(final int groupPosition, final int childPosition) {
-        return 0;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @return 1 as a default value in BaseExpandableListAdapter.
-     */
-    public int getChildTypeCount() {
-        return 1;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @return 0 for any groupPosition, since only one group type count is declared.
-     */
-    public int getGroupType(final int groupPosition) {
-        return 0;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @return 1 as a default value in BaseExpandableListAdapter.
-     */
-    public int getGroupTypeCount() {
-        return 1;
-    }
-
-    /**
      * @see DataSetObservable#notifyInvalidated()
      */
     public void notifyDataSetInvalidated() {
@@ -1440,15 +1404,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         }
 
         return count;
-    }
-
-    @Override
-    public int getItemViewType(final int position) {
-        if (getItemPosition(position).second != -1) {
-            return VIEW_TYPE_CHILD;
-        }
-
-        return VIEW_TYPE_GROUP;
     }
 
     @Override
@@ -2873,6 +2828,39 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
+    public final int getChildType(final int groupIndex, final int childIndex) {
+        return getDecorator().getChildType(getChild(groupIndex, childIndex));
+    }
+
+    @Override
+    public final int getChildTypeCount() {
+        return getDecorator().getChildTypeCount();
+    }
+
+    @Override
+    public final int getGroupType(final int groupIndex) {
+        return getDecorator().getGroupType(getGroup(groupIndex));
+    }
+
+    @Override
+    public final int getGroupTypeCount() {
+        return getDecorator().getGroupTypeCount();
+    }
+
+    @Override
+    public final int getItemViewType(final int position) {
+        Pair<Integer, Integer> pair = getItemPosition(position);
+
+        if (pair.second != -1) {
+            int viewType = getChildType(pair.first, pair.second);
+            return viewType * 256 | FLAG_VIEW_TYPE_CHILD;
+        }
+
+        int viewType = getGroupType(pair.first);
+        return viewType * 256 | FLAG_VIEW_TYPE_GROUP;
+    }
+
+    @Override
     public final View getGroupView(final int groupIndex, final boolean isExpanded,
                                    @Nullable final View convertView,
                                    @Nullable final ViewGroup parent) {
@@ -2928,11 +2916,11 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View view;
 
-        if (viewType == VIEW_TYPE_GROUP) {
-            view = getDecorator().onInflateGroupView(inflater, parent, viewType);
+        if ((viewType & FLAG_VIEW_TYPE_GROUP) == FLAG_VIEW_TYPE_GROUP) {
+            view = getDecorator().onInflateGroupView(inflater, parent, viewType / 256);
             getLogger().logVerbose(getClass(), "Inflated view to visualize the group item");
         } else {
-            view = getDecorator().onInflateChildView(inflater, parent, viewType);
+            view = getDecorator().onInflateChildView(inflater, parent, viewType / 256);
             getLogger().logVerbose(getClass(), "Inflated view to visualize the child item");
         }
 

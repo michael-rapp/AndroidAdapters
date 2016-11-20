@@ -172,16 +172,6 @@ public class NoChoiceListAdapterImplementation<DataType>
     }
 
     @Override
-    public final int getViewTypeCount() {
-        return getDecorator().getViewTypeCount();
-    }
-
-    @Override
-    public final int getItemViewType(final int index) {
-        return getDecorator().getViewType(getItem(index));
-    }
-
-    @Override
     public final String toString() {
         return "ListAdapter (" + getCount() + " items) [logLevel=" + getLogLevel() +
                 ", parameters=" + getParameters() + ", notifyOnChange=" + isNotifiedOnChange() +

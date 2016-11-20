@@ -214,26 +214,6 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType> extends
     }
 
     @Override
-    public final int getChildTypeCount() {
-        return getDecorator().getChildTypeCount();
-    }
-
-    @Override
-    public final int getChildType(final int groupIndex, final int childIndex) {
-        return getDecorator().getChildType(getChild(groupIndex, childIndex));
-    }
-
-    @Override
-    public final int getGroupTypeCount() {
-        return getDecorator().getGroupTypeCount();
-    }
-
-    @Override
-    public final int getGroupType(final int groupIndex) {
-        return getDecorator().getGroupType(getGroup(groupIndex));
-    }
-
-    @Override
     public final String toString() {
         return "NoChoiceExpandableListAdapter (" + getGroupCount() + " groups, " + getChildCount() +
                 " children) [logLevel=" + getLogLevel() + ", parameters=" + getParameters() +

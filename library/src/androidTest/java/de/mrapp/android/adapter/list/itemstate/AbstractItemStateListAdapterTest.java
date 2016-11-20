@@ -230,16 +230,6 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         }
 
         @Override
-        public int getItemViewType(final int position) {
-            return 0;
-        }
-
-        @Override
-        public int getViewTypeCount() {
-            return 1;
-        }
-
-        @Override
         public boolean isFilterApplied(@NonNull final String query, final int flags) {
             return false;
         }

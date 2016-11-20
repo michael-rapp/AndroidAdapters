@@ -338,16 +338,6 @@ public abstract class AbstractSelectableListAdapter<DataType>
         getLogger().logDebug(getClass(), message);
     }
 
-    @Override
-    public final int getViewTypeCount() {
-        return getDecorator().getViewTypeCount();
-    }
-
-    @Override
-    public final int getItemViewType(final int index) {
-        return getDecorator().getViewType(getItem(index));
-    }
-
     @CallSuper
     @Override
     public final int hashCode() {

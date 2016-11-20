@@ -573,26 +573,6 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
         return choiceMode;
     }
 
-    @Override
-    public final int getChildTypeCount() {
-        return getDecorator().getChildTypeCount();
-    }
-
-    @Override
-    public final int getChildType(final int groupIndex, final int childIndex) {
-        return getDecorator().getChildType(getChild(groupIndex, childIndex));
-    }
-
-    @Override
-    public final int getGroupTypeCount() {
-        return getDecorator().getGroupTypeCount();
-    }
-
-    @Override
-    public final int getGroupType(final int groupIndex) {
-        return getDecorator().getGroupType(getGroup(groupIndex));
-    }
-
     @CallSuper
     @Override
     public int hashCode() {

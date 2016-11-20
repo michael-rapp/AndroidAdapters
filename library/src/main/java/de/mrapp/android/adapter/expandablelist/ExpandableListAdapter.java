@@ -15,6 +15,7 @@ package de.mrapp.android.adapter.expandablelist;
 
 import android.support.annotation.NonNull;
 import android.widget.ExpandableListView;
+import android.widget.HeterogeneousExpandableList;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -43,7 +44,7 @@ import de.mrapp.android.adapter.expandablelist.sortable.SortableExpandableListAd
 @SuppressWarnings("unused")
 public interface ExpandableListAdapter<GroupType, ChildType>
         extends ExpandableRecyclerViewAdapter, android.widget.ExpandableListAdapter,
-        EnableStateExpandableListAdapter<GroupType, ChildType>,
+        HeterogeneousExpandableList, EnableStateExpandableListAdapter<GroupType, ChildType>,
         ItemStateExpandableListAdapter<GroupType, ChildType>,
         SortableExpandableListAdapter<GroupType, ChildType>,
         FilterableExpandableListAdapter<GroupType, ChildType> {

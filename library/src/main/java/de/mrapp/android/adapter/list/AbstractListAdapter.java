@@ -1258,6 +1258,16 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
     }
 
     @Override
+    public final int getViewTypeCount() {
+        return getDecorator().getViewTypeCount();
+    }
+
+    @Override
+    public final int getItemViewType(final int index) {
+        return getDecorator().getViewType(getItem(index));
+    }
+
+    @Override
     public final View getView(final int index, @Nullable final View convertView,
                               @Nullable final ViewGroup parent) {
         if (adapterView == null) {
