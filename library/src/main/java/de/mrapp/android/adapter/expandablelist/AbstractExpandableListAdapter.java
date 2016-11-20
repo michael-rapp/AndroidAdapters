@@ -2694,12 +2694,16 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
                 if (expanded) {
                     if (adapterView != null) {
                         adapterView.expandGroup(index);
+                    } else if (expandableGridView != null) {
+                        expandableGridView.expandGroup(index);
                     } else {
                         notifyDataSetChanged();
                     }
                 } else {
                     if (adapterView != null) {
                         adapterView.collapseGroup(index);
+                    } else if (expandableGridView != null) {
+                        expandableGridView.collapseGroup(index);
                     } else {
                         notifyDataSetChanged();
                     }
