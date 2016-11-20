@@ -5,6 +5,7 @@
 A bugfix release, which fixes the following issues:
 
 - When attached to an `ExpandableGridView`, the groups of a `NoChoiceExpandableListAdapter`, `SingleChoiceExpandableListAdapter` and `MultipleChoiceListAdapter` are now properly expanded or collapsed.
+- Fixed problems when using decorators with multiple view types.
 
 ## Version 0.8.1 (Nov. 6th 2016)
 
