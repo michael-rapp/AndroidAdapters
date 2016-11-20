@@ -1,5 +1,11 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.8.2 (Nov. 20th 2016)
+
+A bugfix release, which fixes the following issues:
+
+- When attached to an `ExpandableGridView`, the groups of a `NoChoiceExpandableListAdapter`, `SingleChoiceExpandableListAdapter` and `MultipleChoiceListAdapter` are now properly expanded or collapsed.
+
 ## Version 0.8.1 (Nov. 6th 2016)
 
 A minor release, which introduces the following changes:
