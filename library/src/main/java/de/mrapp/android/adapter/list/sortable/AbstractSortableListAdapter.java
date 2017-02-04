@@ -27,11 +27,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Set;
 
-import de.mrapp.android.adapter.list.ListAdapter;
 import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemComparator;
 import de.mrapp.android.adapter.decorator.AbstractListDecorator;
+import de.mrapp.android.adapter.list.ListAdapter;
 import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
 import de.mrapp.android.adapter.list.ListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.list.ListAdapterListener;
@@ -168,8 +168,8 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType extend
      *         are used to visualize the items of the adapter, as an instance of the generic type
      *         DecoratorType. The decorator may not be null
      * @param logLevel
-     *         The log level, which should be used for logging, as a value of the enum {@link
-     *         LogLevel}. The log level may not be null
+     *         The log level, which should be used for logging, as a value of the enum LogLevel. The
+     *         log level may not be null
      * @param items
      *         A list, which contains the the adapter's items, or an empty list, if the adapter
      *         should not contain any items

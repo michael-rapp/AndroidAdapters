@@ -26,7 +26,6 @@ import java.util.Set;
 import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.FilterQuery;
 import de.mrapp.android.adapter.Filterable;
-import de.mrapp.android.adapter.list.ListAdapter;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.datastructure.UnmodifiableList;
 import de.mrapp.android.adapter.datastructure.group.Group;
@@ -41,6 +40,7 @@ import de.mrapp.android.adapter.expandablelist.enablestate.ExpandableListEnableS
 import de.mrapp.android.adapter.expandablelist.itemstate.ExpandableListItemStateListener;
 import de.mrapp.android.adapter.expandablelist.sortable.AbstractSortableExpandableListAdapter;
 import de.mrapp.android.adapter.expandablelist.sortable.ExpandableListSortingListener;
+import de.mrapp.android.adapter.list.ListAdapter;
 import de.mrapp.android.adapter.list.filterable.ListFilterListener;
 import de.mrapp.android.util.logging.LogLevel;
 
@@ -320,8 +320,8 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
      *         are used to visualize the group and child items of the adapter, as an instance of the
      *         generic type DecoratorType. The decorator may not be null
      * @param logLevel
-     *         The log level, which should be used for logging, as a value of the enum {@link
-     *         LogLevel}. The log level may not be null
+     *         The log level, which should be used for logging, as a value of the enum LogLevel. The
+     *         log level may not be null
      * @param groupAdapter
      *         The adapter, which should manage the adapter's group items, as an instance of the
      *         type {@link MultipleChoiceListAdapter}. The adapter may not be null

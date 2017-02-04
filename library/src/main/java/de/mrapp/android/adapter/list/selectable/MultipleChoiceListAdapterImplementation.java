@@ -131,8 +131,8 @@ public class MultipleChoiceListAdapterImplementation<DataType>
      *         are used to visualize the items of the adapter, as an instance of the generic type
      *         DecoratorType. The decorator may not be null
      * @param logLevel
-     *         The log level, which should be used for logging, as a value of the enum {@link
-     *         LogLevel}. The log level may not be null
+     *         The log level, which should be used for logging, as a value of the enum LogLevel. The
+     *         log level may not be null
      * @param items
      *         A list, which contains the the adapter's items, or an empty list, if the adapter
      *         should not contain any items

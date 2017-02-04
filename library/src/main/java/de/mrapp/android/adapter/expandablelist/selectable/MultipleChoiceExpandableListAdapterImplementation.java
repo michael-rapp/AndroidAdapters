@@ -23,12 +23,12 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import de.mrapp.android.adapter.ChoiceMode;
-import de.mrapp.android.adapter.expandablelist.ExpandableListAdapter;
 import de.mrapp.android.adapter.MultipleChoiceExpandableListAdapter;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.SelectableExpandableListDecorator;
 import de.mrapp.android.adapter.datastructure.group.Group;
 import de.mrapp.android.adapter.datastructure.group.UnmodifiableGroupList;
+import de.mrapp.android.adapter.expandablelist.ExpandableListAdapter;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemClickListener;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterListener;
@@ -63,8 +63,8 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
     private static final long serialVersionUID = 1L;
 
     /**
-     * Creates and returns a listener, which allows to triggerSelection an item, when it is clicked by the
-     * user.
+     * Creates and returns a listener, which allows to triggerSelection an item, when it is clicked
+     * by the user.
      *
      * @return The listener, which has been created, as an instance of the type {@link
      * ExpandableListAdapterItemClickListener}
@@ -122,8 +122,8 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
      *         are used to visualize the group and child items of the adapter, as an instance of the
      *         generic type DecoratorType. The decorator may not be null
      * @param logLevel
-     *         The log level, which should be used for logging, as a value of the enum {@link
-     *         LogLevel}. The log level may not be null
+     *         The log level, which should be used for logging, as a value of the enum LogLevel. The
+     *         log level may not be null
      * @param groupAdapter
      *         The adapter, which should manage the adapter's group items, as an instance of the
      *         type {@link MultipleChoiceListAdapter}. The adapter may not be null
