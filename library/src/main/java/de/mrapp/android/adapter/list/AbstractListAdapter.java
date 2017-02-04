@@ -513,8 +513,8 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
     /**
      * Returns the logger, which is used for logging.
      *
-     * @return The logger, which is used for logging, as an instance of the class {@link Logger}.
-     * The logger may not be null
+     * @return The logger, which is used for logging, as an instance of the class Logger. The logger
+     * may not be null
      */
     protected final Logger getLogger() {
         return logger;
