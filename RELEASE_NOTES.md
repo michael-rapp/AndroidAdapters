@@ -1,5 +1,11 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.9.0 (Feb. 4th 2017)
+
+A feature release, which introduces the following changes:
+
+- Updated dependency "AndroidUtil" to version 1.13.0. This version provides a `Logger`, which is is now used instead of including an own implementation.
+
 ## Version 0.8.3 (Jan. 26th 2017)
 
 A minor release, which introduces the following changes:
