@@ -36,7 +36,7 @@ import de.mrapp.android.adapter.list.filterable.AbstractFilterableListAdapter;
 import de.mrapp.android.adapter.list.filterable.ListFilterListener;
 import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
-import de.mrapp.android.adapter.logging.LogLevel;
+import de.mrapp.android.util.logging.LogLevel;
 
 import static de.mrapp.android.util.Condition.ensureNotNull;
 

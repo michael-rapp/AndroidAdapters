@@ -22,7 +22,7 @@ import java.util.ListIterator;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.expandablelist.NullObjectDecorator;
 import de.mrapp.android.adapter.list.selectable.MultipleChoiceListAdapterImplementation;
-import de.mrapp.android.adapter.logging.LogLevel;
+import de.mrapp.android.util.logging.LogLevel;
 
 import static de.mrapp.android.util.Condition.ensureNotNull;
 

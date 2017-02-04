@@ -34,7 +34,7 @@ import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemClickLis
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterListener;
 import de.mrapp.android.adapter.expandablelist.ExpansionListener;
-import de.mrapp.android.adapter.logging.LogLevel;
+import de.mrapp.android.util.logging.LogLevel;
 
 import static de.mrapp.android.util.Condition.ensureNotNull;
 

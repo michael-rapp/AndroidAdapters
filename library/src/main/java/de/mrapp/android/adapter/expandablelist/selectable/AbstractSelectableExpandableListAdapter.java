@@ -36,7 +36,7 @@ import de.mrapp.android.adapter.expandablelist.filterable.AbstractFilterableExpa
 import de.mrapp.android.adapter.expandablelist.filterable.ExpandableListFilterListener;
 import de.mrapp.android.adapter.expandablelist.itemstate.ExpandableListItemStateListener;
 import de.mrapp.android.adapter.expandablelist.sortable.ExpandableListSortingListener;
-import de.mrapp.android.adapter.logging.LogLevel;
+import de.mrapp.android.util.logging.LogLevel;
 
 import static de.mrapp.android.util.Condition.ensureNotNull;
 

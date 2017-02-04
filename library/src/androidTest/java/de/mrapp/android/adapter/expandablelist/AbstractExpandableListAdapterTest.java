@@ -47,7 +47,7 @@ import de.mrapp.android.adapter.expandablelist.filterable.ExpandableListFilterLi
 import de.mrapp.android.adapter.expandablelist.itemstate.ExpandableListItemStateListener;
 import de.mrapp.android.adapter.expandablelist.sortable.ExpandableListSortingListener;
 import de.mrapp.android.adapter.list.selectable.MultipleChoiceListAdapterImplementation;
-import de.mrapp.android.adapter.logging.LogLevel;
+import de.mrapp.android.util.logging.LogLevel;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;

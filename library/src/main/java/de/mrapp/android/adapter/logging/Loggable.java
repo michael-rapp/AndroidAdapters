@@ -15,6 +15,8 @@ package de.mrapp.android.adapter.logging;
 
 import android.support.annotation.NonNull;
 
+import de.mrapp.android.util.logging.LogLevel;
+
 /**
  * Defines the interface, a class, which should allow to use logging, must implement.
  *

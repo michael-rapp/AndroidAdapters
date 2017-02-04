@@ -39,7 +39,7 @@ import de.mrapp.android.adapter.expandablelist.filterable.ExpandableListFilterLi
 import de.mrapp.android.adapter.expandablelist.itemstate.ExpandableListItemStateListener;
 import de.mrapp.android.adapter.expandablelist.sortable.ExpandableListSortingListener;
 import de.mrapp.android.adapter.list.selectable.MultipleChoiceListAdapterImplementation;
-import de.mrapp.android.adapter.logging.LogLevel;
+import de.mrapp.android.util.logging.LogLevel;
 
 /**
  * An adapter, whose underlying data is managed as a list of arbitrary group and child items, of
