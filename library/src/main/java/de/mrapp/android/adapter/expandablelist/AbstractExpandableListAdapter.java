@@ -48,12 +48,12 @@ import de.mrapp.android.adapter.datastructure.group.GroupIterator;
 import de.mrapp.android.adapter.datastructure.group.GroupListIterator;
 import de.mrapp.android.adapter.datastructure.group.UnmodifiableGroupList;
 import de.mrapp.android.adapter.decorator.AbstractExpandableListDecorator;
-import de.mrapp.android.adapter.decorator.ViewHolder;
 import de.mrapp.android.adapter.list.selectable.MultipleChoiceListAdapterImplementation;
 import de.mrapp.android.adapter.util.AdapterViewUtil;
 import de.mrapp.android.util.logging.LogLevel;
 import de.mrapp.android.util.logging.Logger;
 import de.mrapp.android.util.view.ExpandableGridView;
+import de.mrapp.android.util.view.ViewHolder;
 
 import static de.mrapp.android.util.Condition.ensureNotNull;
 

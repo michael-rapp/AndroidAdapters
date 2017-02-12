@@ -20,7 +20,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 
-import static de.mrapp.android.util.Condition.ensureNotNull;
+import de.mrapp.android.util.view.AbstractViewHolderAdapter;
 
 /**
  * An abstract base class for all decorators, which should allow to customize the appearance of the
@@ -30,19 +30,7 @@ import static de.mrapp.android.util.Condition.ensureNotNull;
  * @author Michael Rapp
  * @since 0.1.0
  */
-public abstract class AbstractDecorator {
-
-    /**
-     * The parent view of the item, whose appearance should currently be customized by the
-     * decorator. This parent view is used to reference the views, which are used to visualize the
-     * appropriate item, if the view holder does not already provide such references.
-     */
-    private View currentParentView;
-
-    /**
-     * The view type of the item, whose appearance should currently be customized by the decorator.
-     */
-    private int currentViewType;
+public abstract class AbstractDecorator extends AbstractViewHolderAdapter {
 
     /**
      * Adapts the children of a view group, which is used to visualize an item.
@@ -98,31 +86,6 @@ public abstract class AbstractDecorator {
     }
 
     /**
-     * Sets the index of the item, whose appearance should currently be customized by the decorator.
-     * This method should never be called or overridden by any custom decorator implementation.
-     *
-     * @param currentParentView
-     *         The parent view, which should be set, as an instance of the class {@link View}. The
-     *         parent view may not be null
-     */
-    protected final void setCurrentParentView(@NonNull final View currentParentView) {
-        ensureNotNull(currentParentView, "The parent view may not be null");
-        this.currentParentView = currentParentView;
-    }
-
-    /**
-     * Sets the view type of the item, whose appearance should currently be customized by the
-     * decorator. This method should never be called or overridden by any custom decorator
-     * implementation.
-     *
-     * @param currentViewType
-     *         The view type, which should be set, as an {@link Integer} value
-     */
-    protected final void setCurrentViewType(final int currentViewType) {
-        this.currentViewType = currentViewType;
-    }
-
-    /**
      * Returns the view, which belongs to a specific resource ID by using the view holder pattern in
      * order gain a better performance. The view will be implicitly casted to the type of the
      * attribute it should be assigned to.
@@ -136,17 +99,12 @@ public abstract class AbstractDecorator {
      *         appearance is currently customized by the decorator
      * @return The view, which belongs to the given resource ID, as an instance of the class {@link
      * View} or null, if no view with the given ID is available
+     * @deprecated Has been replaced by method <code>findViewById</code>
      */
+    @Deprecated
     @SuppressWarnings("unchecked")
     protected final <ViewType extends View> ViewType getView(@IdRes final int viewId) {
-        ViewHolder viewHolder = (ViewHolder) currentParentView.getTag();
-
-        if (viewHolder == null) {
-            viewHolder = new ViewHolder(currentParentView);
-            currentParentView.setTag(viewHolder);
-        }
-
-        return (ViewType) viewHolder.getView(viewId, currentViewType);
+        return findViewById(viewId);
     }
 
     /**

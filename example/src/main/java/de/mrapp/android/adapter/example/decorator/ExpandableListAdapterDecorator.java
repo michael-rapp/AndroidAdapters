@@ -102,14 +102,14 @@ public class ExpandableListAdapterDecorator extends ExpandableListDecorator<Coun
                                   @NonNull final View view, @NonNull final Country group,
                                   final int viewType, final int index, final boolean expanded,
                                   final boolean enabled, final int state, final boolean filtered) {
-        CheckBox selectionCheckBox = getView(R.id.selection_check_box);
+        CheckBox selectionCheckBox = findViewById(R.id.selection_check_box);
         selectionCheckBox.setVisibility(View.GONE);
 
-        TextView label = getView(R.id.label);
+        TextView label = findViewById(R.id.label);
         label.setText(group.getName());
         label.setEnabled(enabled);
 
-        ImageButton expandButton = getView(R.id.expand_button);
+        ImageButton expandButton = findViewById(R.id.expand_button);
         expandButton.setOnClickListener(createExpandButtonListener(adapter, index));
         expandButton.setEnabled(enabled);
 
@@ -138,13 +138,13 @@ public class ExpandableListAdapterDecorator extends ExpandableListDecorator<Coun
         triggerItemStateButton.setOnClickListener(
                 createTriggerItemStateButtonListener(adapter, groupIndex, childIndex));
 
-        CheckBox selectionCheckBox = getView(R.id.selection_check_box);
+        CheckBox selectionCheckBox = findViewById(R.id.selection_check_box);
         selectionCheckBox.setVisibility(View.GONE);
 
-        TextView label1Header = getView(R.id.label_1_header);
-        TextView label1Value = getView(R.id.label_1_value);
-        TextView label2Header = getView(R.id.label_2_header);
-        TextView label2Value = getView(R.id.label_2_value);
+        TextView label1Header = findViewById(R.id.label_1_header);
+        TextView label1Value = findViewById(R.id.label_1_value);
+        TextView label2Header = findViewById(R.id.label_2_header);
+        TextView label2Value = findViewById(R.id.label_2_value);
 
         if (state == 0) {
             label1Header.setText(R.string.last_name);

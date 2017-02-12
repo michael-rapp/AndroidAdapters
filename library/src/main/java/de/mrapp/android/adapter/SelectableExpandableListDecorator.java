@@ -80,7 +80,6 @@ public abstract class SelectableExpandableListDecorator<GroupType, ChildType>
                                             final boolean selected) {
         setCurrentParentView(view);
         int viewType = getGroupType(group);
-        setCurrentViewType(viewType);
         adaptViewState(view, enabled, selected);
         onShowGroup(context, adapter, view, group, viewType, index, expanded, enabled, state,
                 filtered, selected);
@@ -134,7 +133,6 @@ public abstract class SelectableExpandableListDecorator<GroupType, ChildType>
                                             final boolean filtered, final boolean selected) {
         setCurrentParentView(view);
         int viewType = getChildType(child);
-        setCurrentViewType(viewType);
         adaptViewState(view, enabled, selected);
         onShowChild(context, adapter, view, child, viewType, childIndex, group, groupIndex, enabled,
                 state, filtered, selected);

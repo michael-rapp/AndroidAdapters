@@ -76,7 +76,6 @@ public abstract class ExpandableListDecorator<GroupType, ChildType>
                                             final int state, final boolean filtered) {
         setCurrentParentView(view);
         int viewType = getGroupType(group);
-        setCurrentViewType(viewType);
         adaptViewState(view, enabled, false);
         onShowGroup(context, adapter, view, group, viewType, index, expanded, enabled, state,
                 filtered);
@@ -127,7 +126,6 @@ public abstract class ExpandableListDecorator<GroupType, ChildType>
                                             final boolean filtered) {
         setCurrentParentView(view);
         int viewType = getChildType(child);
-        setCurrentViewType(viewType);
         adaptViewState(view, enabled, false);
         onShowChild(context, adapter, view, child, viewType, childIndex, group, groupIndex, enabled,
                 state, filtered);

@@ -68,7 +68,6 @@ public abstract class SelectableListDecorator<DataType> extends AbstractListDeco
                                      final boolean selected) {
         setCurrentParentView(view);
         int viewType = getViewType(item);
-        setCurrentViewType(viewType);
         adaptViewState(view, enabled, selected);
         onShowItem(context, adapter, view, item, viewType, index, enabled, state, filtered,
                 selected);

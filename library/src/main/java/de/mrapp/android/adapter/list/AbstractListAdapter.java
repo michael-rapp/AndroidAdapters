@@ -49,10 +49,10 @@ import de.mrapp.android.adapter.datastructure.item.ItemIterator;
 import de.mrapp.android.adapter.datastructure.item.ItemListIterator;
 import de.mrapp.android.adapter.datastructure.item.UnmodifiableItemList;
 import de.mrapp.android.adapter.decorator.AbstractListDecorator;
-import de.mrapp.android.adapter.decorator.ViewHolder;
 import de.mrapp.android.adapter.util.AdapterViewUtil;
 import de.mrapp.android.util.logging.LogLevel;
 import de.mrapp.android.util.logging.Logger;
+import de.mrapp.android.util.view.ViewHolder;
 
 import static de.mrapp.android.util.Condition.ensureNotEmpty;
 import static de.mrapp.android.util.Condition.ensureNotNull;

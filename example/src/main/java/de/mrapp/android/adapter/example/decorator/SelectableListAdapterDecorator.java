@@ -25,12 +25,12 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import de.mrapp.android.adapter.list.ListAdapter;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.SelectableListDecorator;
 import de.mrapp.android.adapter.SingleChoiceListAdapter;
 import de.mrapp.android.adapter.example.R;
 import de.mrapp.android.adapter.example.model.Contact;
+import de.mrapp.android.adapter.list.ListAdapter;
 import de.mrapp.android.adapter.list.selectable.MultipleChoiceListAdapterImplementation;
 import de.mrapp.android.adapter.list.selectable.SelectableListAdapter;
 
@@ -125,18 +125,18 @@ public class SelectableListAdapterDecorator extends SelectableListDecorator<Cont
             view.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
         }
 
-        CheckBox selectionCheckBox = getView(R.id.selection_check_box);
+        CheckBox selectionCheckBox = findViewById(R.id.selection_check_box);
         selectionCheckBox.setOnClickListener(createSelectionCheckBoxClickListener(adapter, index));
         selectionCheckBox.setChecked(selected);
 
-        Button triggerItemStateButton = getView(R.id.trigger_item_state_button);
+        Button triggerItemStateButton = findViewById(R.id.trigger_item_state_button);
         triggerItemStateButton
                 .setOnClickListener(createTriggerItemStateButtonListener(adapter, index));
 
-        TextView label1Header = getView(R.id.label_1_header);
-        TextView label1Value = getView(R.id.label_1_value);
-        TextView label2Header = getView(R.id.label_2_header);
-        TextView label2Value = getView(R.id.label_2_value);
+        TextView label1Header = findViewById(R.id.label_1_header);
+        TextView label1Value = findViewById(R.id.label_1_value);
+        TextView label2Header = findViewById(R.id.label_2_header);
+        TextView label2Value = findViewById(R.id.label_2_value);
 
         if (state == 0) {
             label1Header.setText(R.string.last_name);

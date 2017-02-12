@@ -27,13 +27,13 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import de.mrapp.android.adapter.ChoiceMode;
-import de.mrapp.android.adapter.expandablelist.ExpandableListAdapter;
 import de.mrapp.android.adapter.MultipleChoiceExpandableListAdapter;
 import de.mrapp.android.adapter.SelectableExpandableListDecorator;
 import de.mrapp.android.adapter.SingleChoiceExpandableListAdapter;
 import de.mrapp.android.adapter.example.R;
 import de.mrapp.android.adapter.example.model.Contact;
 import de.mrapp.android.adapter.example.model.Country;
+import de.mrapp.android.adapter.expandablelist.ExpandableListAdapter;
 import de.mrapp.android.adapter.expandablelist.selectable.SelectableExpandableListAdapter;
 
 /**
@@ -200,7 +200,7 @@ public class SelectableExpandableListAdapterDecorator
             view.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
         }
 
-        CheckBox selectionCheckBox = getView(R.id.selection_check_box);
+        CheckBox selectionCheckBox = findViewById(R.id.selection_check_box);
 
         if (adapter.getChoiceMode() != ChoiceMode.CHILDREN_ONLY) {
             selectionCheckBox
@@ -210,11 +210,11 @@ public class SelectableExpandableListAdapterDecorator
             selectionCheckBox.setVisibility(View.GONE);
         }
 
-        TextView label = getView(R.id.label);
+        TextView label = findViewById(R.id.label);
         label.setText(group.getName());
         label.setEnabled(enabled);
 
-        ImageButton expandButton = getView(R.id.expand_button);
+        ImageButton expandButton = findViewById(R.id.expand_button);
         expandButton.setOnClickListener(createExpandButtonListener(adapter, index));
         expandButton.setEnabled(enabled);
 
@@ -252,7 +252,7 @@ public class SelectableExpandableListAdapterDecorator
         triggerItemStateButton.setOnClickListener(
                 createTriggerItemStateButtonListener(adapter, groupIndex, childIndex));
 
-        CheckBox selectionCheckBox = getView(R.id.selection_check_box);
+        CheckBox selectionCheckBox = findViewById(R.id.selection_check_box);
 
         if (adapter.getChoiceMode() != ChoiceMode.GROUPS_ONLY) {
             selectionCheckBox.setOnClickListener(
@@ -262,10 +262,10 @@ public class SelectableExpandableListAdapterDecorator
             selectionCheckBox.setVisibility(View.GONE);
         }
 
-        TextView label1Header = getView(R.id.label_1_header);
-        TextView label1Value = getView(R.id.label_1_value);
-        TextView label2Header = getView(R.id.label_2_header);
-        TextView label2Value = getView(R.id.label_2_value);
+        TextView label1Header = findViewById(R.id.label_1_header);
+        TextView label1Value = findViewById(R.id.label_1_value);
+        TextView label2Header = findViewById(R.id.label_2_header);
+        TextView label2Value = findViewById(R.id.label_2_value);
 
         if (state == 0) {
             label1Header.setText(R.string.last_name);

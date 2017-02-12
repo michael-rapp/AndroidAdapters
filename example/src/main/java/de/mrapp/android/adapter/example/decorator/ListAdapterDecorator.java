@@ -73,17 +73,17 @@ public class ListAdapterDecorator extends ListDecorator<Contact> {
                                  @NonNull final View view, @NonNull final Contact item,
                                  final int viewType, final int index, final boolean enabled,
                                  final int state, final boolean filtered) {
-        CheckBox selectionCheckBox = getView(R.id.selection_check_box);
+        CheckBox selectionCheckBox = findViewById(R.id.selection_check_box);
         selectionCheckBox.setVisibility(View.GONE);
 
-        Button triggerItemStateButton = getView(R.id.trigger_item_state_button);
+        Button triggerItemStateButton = findViewById(R.id.trigger_item_state_button);
         triggerItemStateButton
                 .setOnClickListener(createTriggerItemStateButtonListener(adapter, index));
 
-        TextView label1Header = getView(R.id.label_1_header);
-        TextView label1Value = getView(R.id.label_1_value);
-        TextView label2Header = getView(R.id.label_2_header);
-        TextView label2Value = getView(R.id.label_2_value);
+        TextView label1Header = findViewById(R.id.label_1_header);
+        TextView label1Value = findViewById(R.id.label_1_value);
+        TextView label2Header = findViewById(R.id.label_2_header);
+        TextView label2Value = findViewById(R.id.label_2_value);
 
         if (state == 0) {
             label1Header.setText(R.string.last_name);

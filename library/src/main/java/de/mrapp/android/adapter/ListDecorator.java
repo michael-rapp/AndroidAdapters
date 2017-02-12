@@ -65,7 +65,6 @@ public abstract class ListDecorator<DataType> extends AbstractListDecorator<Data
                                      final boolean filtered) {
         setCurrentParentView(view);
         int viewType = getViewType(item);
-        setCurrentViewType(viewType);
         adaptViewState(view, enabled, false);
         onShowItem(context, adapter, view, item, viewType, index, enabled, state, filtered);
     }
