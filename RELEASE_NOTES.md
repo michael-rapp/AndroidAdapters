@@ -1,5 +1,12 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.9.1 (Feb. 12th 2017)
+
+A minor release, which introduces the following changes:
+
+- Updated dependency "AndroidUtil" to version 1.14.0. The classes `ViewHolder` and `AbstractViewHolderAdapter` of this release are now used instead of included own implementations.
+- The `getView`-method of decorators is now deprecated. The new `findViewById`-method should be used instead.
+
 ## Version 0.9.0 (Feb. 4th 2017)
 
 A feature release, which introduces the following changes:
