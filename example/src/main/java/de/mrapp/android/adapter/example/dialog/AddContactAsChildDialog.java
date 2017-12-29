@@ -206,7 +206,8 @@ public final class AddContactAsChildDialog {
             @Override
             public boolean onEditorAction(final TextView v, final int actionId,
                                           final KeyEvent event) {
-                if (actionId == R.id.add_contact_action || actionId == EditorInfo.IME_NULL) {
+                if (actionId == v.getResources().getInteger(R.integer.add_contact_action) ||
+                        actionId == EditorInfo.IME_NULL) {
                     attemptAddingContact(dialog, context, countrySpinner, lastNameEditText,
                             firstNameEditText, addressEditText, cityEditText, adapter);
                     return true;

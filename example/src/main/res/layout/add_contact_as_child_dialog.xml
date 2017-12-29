@@ -86,7 +86,7 @@ License.
         android:layout_gravity="center_vertical|fill_horizontal"
         android:layout_row="4"
         android:hint="@string/city_hint"
-        android:imeActionId="@+id/add_contact_action"
+        android:imeActionId="@integer/add_contact_action"
         android:imeActionLabel="@string/add_contact_action"
         android:imeOptions="actionUnspecified"
         android:inputType="text"/>
