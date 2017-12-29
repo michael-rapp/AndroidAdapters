@@ -1,5 +1,14 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.9.2 (Dec. 29th 2017)
+
+A minor release, which introduces the following changes:
+
+- Updated `targetSdkVersion` to API level 26 (Android 8.0). This required to increase the minimum API level to 14.
+- Updated AppCompat support annotations library to version 27.0.2.
+- Updated AppCompat v7 RecyclerView library to version 27.0.2.
+- Updated dependency "AndroidUtil" to version 1.18.3.
+
 ## Version 0.9.1 (Feb. 12th 2017)
 
 A minor release, which introduces the following changes:
