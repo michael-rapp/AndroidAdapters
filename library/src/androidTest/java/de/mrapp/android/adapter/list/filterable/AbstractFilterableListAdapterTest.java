@@ -1331,6 +1331,18 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         savedState.putSerializable(AbstractFilterableListAdapter.APPLIED_FILTERS_BUNDLE_KEY,
                 appliedFilters);
         DataSetObserver dataSetObserver = new DataSetObserver();
+        abstractFilterableListAdapter =
+                new AbstractFilterableListAdapterImplementation(getContext(),
+                        new ListDecoratorImplementation(), LogLevel.ALL,
+                        new ArrayList<Item<FilterableImplementation>>(), false, true,
+                        new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<FilterableImplementation>>(),
+                        new LinkedHashSet<ListAdapterListener<FilterableImplementation>>(),
+                        new LinkedHashSet<ListEnableStateListener<FilterableImplementation>>(), 1,
+                        false, new LinkedHashSet<ListItemStateListener<FilterableImplementation>>(),
+                        new LinkedHashSet<ListSortingListener<FilterableImplementation>>(),
+                        new LinkedHashSet<ListFilterListener<FilterableImplementation>>(),
+                        new LinkedHashSet<AppliedFilter<FilterableImplementation>>());
         abstractFilterableListAdapter.registerDataSetObserver(dataSetObserver);
         abstractFilterableListAdapter.onRestoreInstanceState(savedInstanceState, key);
         Iterator<AppliedFilter<FilterableImplementation>> appliedFiltersIterator =

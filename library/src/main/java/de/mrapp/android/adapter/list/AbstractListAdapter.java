@@ -1386,7 +1386,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
             }
 
             if (restoredItems != null) {
-                for (Item<DataType> item : restoredItems) {
+                for (Item<DataType> item : new ArrayList<>(restoredItems)) {
                     if (item != null) {
                         items.add(item);
                     }
