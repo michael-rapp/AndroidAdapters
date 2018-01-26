@@ -792,13 +792,13 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         DataSetObserver dataSetObserver = new DataSetObserver();
         AbstractListAdapterImplementation abstractListAdapter = createAdapter();
         abstractListAdapter.registerDataSetObserver(dataSetObserver);
-        abstractListAdapter.notifyDataSetChanged();
+        abstractListAdapter.notifyObserversOnDataSetChanged();
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
         dataSetObserver.reset();
         boolean notifyOnChange = false;
         abstractListAdapter.notifyOnChange(notifyOnChange);
         assertEquals(notifyOnChange, abstractListAdapter.isNotifiedOnChange());
-        abstractListAdapter.notifyDataSetChanged();
+        abstractListAdapter.notifyObserversOnDataSetChanged();
         assertFalse(dataSetObserver.hasOnChangedBeenCalled());
     }
 
