@@ -1,5 +1,13 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.9.3 (Jan. 26th 2018)
+
+A minor release, which introduces the following changes:
+
+- Updated `targetSdkVersion` to API level 27 (Android 8.1).
+- Updated dependency "AndroidUtil" to version 1.19.0.
+- The data structure `ListListener` is now used to manage event listeners.
+
 ## Version 0.9.2 (Dec. 29th 2017)
 
 A minor release, which introduces the following changes:
