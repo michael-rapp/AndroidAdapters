@@ -18,9 +18,6 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ExpandableListView;
 
-import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
-
 import de.mrapp.android.adapter.ExpandableListDecorator;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.NoChoiceExpandableListAdapter;
@@ -31,6 +28,7 @@ import de.mrapp.android.adapter.expandablelist.filterable.ExpandableListFilterLi
 import de.mrapp.android.adapter.expandablelist.itemstate.ExpandableListItemStateListener;
 import de.mrapp.android.adapter.expandablelist.sortable.ExpandableListSortingListener;
 import de.mrapp.android.adapter.list.selectable.MultipleChoiceListAdapterImplementation;
+import de.mrapp.android.util.datastructure.ListenerList;
 import de.mrapp.android.util.logging.LogLevel;
 
 /**
@@ -81,28 +79,28 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType> extends
      *         True, if a group's expansion should be triggered, when it is clicked by the user,
      *         false otherwise
      * @param itemClickListeners
-     *         A set, which contains the listeners, which should be notified, when an item of the
-     *         adapter has been clicked by the user, as an instance of the type {@link Set}, or an
-     *         empty set, if no listeners should be notified
+     *         A list, which contains the listeners, which should be notified, when an item of the
+     *         adapter has been clicked by the user, as an instance of the class ListenerList, or an
+     *         empty list, if no listeners should be notified
      * @param itemLongClickListeners
-     *         A set, which contains the listeners, which should be notified, when an item of the
-     *         adapter has been long-clicked by the user, as an instance of the type {@link Set}, or
-     *         an empty set, if no listeners should be notified
+     *         A list, which contains the listeners, which should be notified, when an item of the
+     *         adapter has been long-clicked by the user, as an instance of the class ListenerList,
+     *         or an empty list, if no listeners should be notified
      * @param adapterListeners
-     *         A set, which contains the listeners, which should be notified, when the adapter's
-     *         underlying data has been modified, as an instance of the type {@link Set}, or an
-     *         empty set, if no listeners should be notified
+     *         A list, which contains the listeners, which should be notified, when the adapter's
+     *         underlying data has been modified, as an instance of the class ListenerList, or an
+     *         empty list, if no listeners should be notified
      * @param expansionListeners
-     *         A set, which contains the listeners, which should be notified, when a group item has
-     *         been expanded or collapsed, as an instance of the type {@link Set}, or an empty set,
-     *         if no listeners should be notified
+     *         A list, which contains the listeners, which should be notified, when a group item has
+     *         been expanded or collapsed, as an instance of the class ListenerList, or an empty
+     *         list, if no listeners should be notified
      * @param setChildEnableStatesImplicitly
      *         True, if the enable states of children should be also set, when the enable state of
      *         the group, they belong to, is set
      * @param enableStateListeners
-     *         A set, which contains the listeners, which should be notified, when an item has been
-     *         disabled or enabled, as an instance of the type {@link Set}, or an empty set, if no
-     *         listeners should be notified
+     *         A list, which contains the listeners, which should be notified, when an item has been
+     *         disabled or enabled, as an instance of the class ListenerList, or an empty list, if
+     *         no listeners should be notified
      * @param numberOfGroupStates
      *         The number of states, the adapter's group items may have, as an {@link Integer}
      *         value. The value must be at least 1
@@ -119,15 +117,17 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType> extends
      *         True, if the states of children should be also set, when the state of the group, they
      *         belong to, is set, false otherwise
      * @param itemStateListeners
-     *         A set, which contains the listeners, which should be notified, when the state of an
-     *         item has been changed, or an empty set, if no listeners should be notified
+     *         A list, which contains the listeners, which should be notified, when the state of an
+     *         item has been changed, as an instance of the class ListenerList or an empty list, if
+     *         no listeners should be notified
      * @param sortingListeners
-     *         A set, which contains the listeners, which should be notified, when the adapter's
-     *         underlying data has been sorted, or an empty set, if no listeners should be notified
+     *         A list, which contains the listeners, which should be notified, when the adapter's
+     *         underlying data has been sorted, as an instance of the class ListenerList or an empty
+     *         list, if no listeners should be notified
      * @param filterListeners
-     *         A set, which contains the listeners, which should be notified, when the adapter's
-     *         underlying data has been filtered, or an empty set, if no listeners should be
-     *         notified
+     *         A list, which contains the listeners, which should be notified, when the adapter's
+     *         underlying data has been filtered, as an instance of the class ListenerList or an
+     *         empty list, if no listeners should be notified
      */
     protected ExpandableListAdapterImplementation(@NonNull final Context context,
                                                   @NonNull final ExpandableListDecorator<GroupType, ChildType> decorator,
@@ -136,20 +136,20 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType> extends
                                                   final boolean allowDuplicateChildren,
                                                   final boolean notifyOnChange,
                                                   final boolean triggerGroupExpansionOnClick,
-                                                  @NonNull final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
-                                                  @NonNull final Set<ExpandableListAdapterItemLongClickListener<GroupType, ChildType>> itemLongClickListeners,
-                                                  @NonNull final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
-                                                  @NonNull final Set<ExpansionListener<GroupType, ChildType>> expansionListeners,
+                                                  @NonNull final ListenerList<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
+                                                  @NonNull final ListenerList<ExpandableListAdapterItemLongClickListener<GroupType, ChildType>> itemLongClickListeners,
+                                                  @NonNull final ListenerList<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
+                                                  @NonNull final ListenerList<ExpansionListener<GroupType, ChildType>> expansionListeners,
                                                   final boolean setChildEnableStatesImplicitly,
-                                                  @NonNull final Set<ExpandableListEnableStateListener<GroupType, ChildType>> enableStateListeners,
+                                                  @NonNull final ListenerList<ExpandableListEnableStateListener<GroupType, ChildType>> enableStateListeners,
                                                   final int numberOfGroupStates,
                                                   final int numberOfChildStates,
                                                   final boolean triggerGroupStateOnClick,
                                                   final boolean triggerChildStateOnClick,
                                                   final boolean setChildStatesImplicitly,
-                                                  @NonNull final Set<ExpandableListItemStateListener<GroupType, ChildType>> itemStateListeners,
-                                                  @NonNull final Set<ExpandableListSortingListener<GroupType, ChildType>> sortingListeners,
-                                                  @NonNull final Set<ExpandableListFilterListener<GroupType, ChildType>> filterListeners) {
+                                                  @NonNull final ListenerList<ExpandableListItemStateListener<GroupType, ChildType>> itemStateListeners,
+                                                  @NonNull final ListenerList<ExpandableListSortingListener<GroupType, ChildType>> sortingListeners,
+                                                  @NonNull final ListenerList<ExpandableListFilterListener<GroupType, ChildType>> filterListeners) {
         super(context, decorator, logLevel, groupAdapter, allowDuplicateChildren, notifyOnChange,
                 triggerGroupExpansionOnClick, itemClickListeners, itemLongClickListeners,
                 adapterListeners, expansionListeners, setChildEnableStatesImplicitly,
@@ -175,15 +175,15 @@ public class ExpandableListAdapterImplementation<GroupType, ChildType> extends
         this(context, decorator, LogLevel.INFO,
                 new MultipleChoiceListAdapterImplementation<>(context,
                         new NullObjectDecorator<Group<GroupType, ChildType>>()), false, true, true,
-                new CopyOnWriteArraySet<ExpandableListAdapterItemClickListener<GroupType, ChildType>>(),
-                new CopyOnWriteArraySet<ExpandableListAdapterItemLongClickListener<GroupType, ChildType>>(),
-                new CopyOnWriteArraySet<ExpandableListAdapterListener<GroupType, ChildType>>(),
-                new CopyOnWriteArraySet<ExpansionListener<GroupType, ChildType>>(), true,
-                new CopyOnWriteArraySet<ExpandableListEnableStateListener<GroupType, ChildType>>(),
-                1, 1, false, false, false,
-                new CopyOnWriteArraySet<ExpandableListItemStateListener<GroupType, ChildType>>(),
-                new CopyOnWriteArraySet<ExpandableListSortingListener<GroupType, ChildType>>(),
-                new CopyOnWriteArraySet<ExpandableListFilterListener<GroupType, ChildType>>());
+                new ListenerList<ExpandableListAdapterItemClickListener<GroupType, ChildType>>(),
+                new ListenerList<ExpandableListAdapterItemLongClickListener<GroupType, ChildType>>(),
+                new ListenerList<ExpandableListAdapterListener<GroupType, ChildType>>(),
+                new ListenerList<ExpansionListener<GroupType, ChildType>>(), true,
+                new ListenerList<ExpandableListEnableStateListener<GroupType, ChildType>>(), 1, 1,
+                false, false, false,
+                new ListenerList<ExpandableListItemStateListener<GroupType, ChildType>>(),
+                new ListenerList<ExpandableListSortingListener<GroupType, ChildType>>(),
+                new ListenerList<ExpandableListFilterListener<GroupType, ChildType>>());
     }
 
     @Override

@@ -50,6 +50,7 @@ import de.mrapp.android.adapter.datastructure.group.UnmodifiableGroupList;
 import de.mrapp.android.adapter.decorator.AbstractExpandableListDecorator;
 import de.mrapp.android.adapter.list.selectable.MultipleChoiceListAdapterImplementation;
 import de.mrapp.android.adapter.util.AdapterViewUtil;
+import de.mrapp.android.util.datastructure.ListenerList;
 import de.mrapp.android.util.logging.LogLevel;
 import de.mrapp.android.util.logging.Logger;
 import de.mrapp.android.util.view.ExpandableGridView;
@@ -164,27 +165,28 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      * A set, which contains the listeners, which should be notified, when an item of the adapter
      * has been clicked by the user.
      */
-    private transient Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>>
+    private transient ListenerList<ExpandableListAdapterItemClickListener<GroupType, ChildType>>
             itemClickListeners;
 
     /**
      * A set, which contains the listeners, which should be notified, when an item of the adapter
      * has been long-clicked by the user.
      */
-    private transient Set<ExpandableListAdapterItemLongClickListener<GroupType, ChildType>>
+    private transient ListenerList<ExpandableListAdapterItemLongClickListener<GroupType, ChildType>>
             itemLongClickListeners;
 
     /**
      * A set, which contains the listeners, which should be notified, when the adapter's underlying
      * data has been modified.
      */
-    private transient Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners;
+    private transient ListenerList<ExpandableListAdapterListener<GroupType, ChildType>>
+            adapterListeners;
 
     /**
      * A set, which contains the listeners, which should be notified, when a group item has been
      * expanded or collapsed.
      */
-    private transient Set<ExpansionListener<GroupType, ChildType>> expansionListeners;
+    private transient ListenerList<ExpansionListener<GroupType, ChildType>> expansionListeners;
 
     /**
      * The view, the adapter is currently attached to.
@@ -1054,50 +1056,50 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     /**
-     * Returns a set, which contains the listeners, which should be notified, when an item of the
+     * Returns a list, which contains the listeners, which should be notified, when an item of the
      * adapter has been clicked by the user.
      *
-     * @return A set, which contains the listeners, which should be notified, when an item of the
-     * adapter has been clicked by the user, as an instance of the type {@link Set} or an empty set,
-     * if no listeners should be notified
+     * @return A list, which contains the listeners, which should be notified, when an item of the
+     * adapter has been clicked by the user, as an instance of the class ListenerList or an empty
+     * list, if no listeners should be notified
      */
-    protected final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> getItemClickListeners() {
+    protected final ListenerList<ExpandableListAdapterItemClickListener<GroupType, ChildType>> getItemClickListeners() {
         return itemClickListeners;
     }
 
     /**
-     * Returns a set, which contains the listeners, which should be notified, when an item of the
+     * Returns a list, which contains the listeners, which should be notified, when an item of the
      * adapter has been long-clicked by the user.
      *
-     * @return A set, which contains the listeners, which should be notified, when an item of the
-     * adapter has been long-clicked by the user, as an instance of the type {@link Set} or an empty
-     * set, if no listeners should be notified
+     * @return A list, which contains the listeners, which should be notified, when an item of the
+     * adapter has been long-clicked by the user, as an instance of the class ListenerList or an
+     * empty list, if no listeners should be notified
      */
-    protected final Set<ExpandableListAdapterItemLongClickListener<GroupType, ChildType>> getItemLongClickListeners() {
+    protected final ListenerList<ExpandableListAdapterItemLongClickListener<GroupType, ChildType>> getItemLongClickListeners() {
         return itemLongClickListeners;
     }
 
     /**
-     * Returns a set, which contains the listeners, which should be notified, when the adapter's
+     * Returns a list, which contains the listeners, which should be notified, when the adapter's
      * underlying data has been modified.
      *
-     * @return A set, which contains the listeners, which should be notified, when the adapter's
-     * underlying data has been modified, as an instance of the type {@link Set} or an empty set, if
-     * no listeners should be notified
+     * @return A list, which contains the listeners, which should be notified, when the adapter's
+     * underlying data has been modified, as an instance of the class ListenerList or an empty list,
+     * if no listeners should be notified
      */
-    protected final Set<ExpandableListAdapterListener<GroupType, ChildType>> getAdapterListeners() {
+    protected final ListenerList<ExpandableListAdapterListener<GroupType, ChildType>> getAdapterListeners() {
         return adapterListeners;
     }
 
     /**
-     * Returns a set, which contains the listeners, which should be notified, when a group item has
+     * Returns a list, which contains the listeners, which should be notified, when a group item has
      * been expanded or collapsed.
      *
-     * @return A set, which contains the listeners which should be notified, when a group item has
-     * been expanded or collapsed, as an instance of the type {@link Set} or an empty set, if no
+     * @return A list, which contains the listeners which should be notified, when a group item has
+     * been expanded or collapsed, as an instance of the class ListenerList or an empty list, if no
      * listeners should be notified
      */
-    protected final Set<ExpansionListener<GroupType, ChildType>> getExpansionListeners() {
+    protected final ListenerList<ExpansionListener<GroupType, ChildType>> getExpansionListeners() {
         return expansionListeners;
     }
 
@@ -1268,21 +1270,21 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      *         True, if a group's expansion should be triggered, when it is clicked by the user,
      *         false otherwise
      * @param itemClickListeners
-     *         A set, which contains the listeners, which should be notified, when an item of the
-     *         adapter has been clicked by the user, as an instance of the type {@link Set}, or an
-     *         empty set, if no listeners should be notified
+     *         A list, which contains the listeners, which should be notified, when an item of the
+     *         adapter has been clicked by the user, as an instance of the class ListenerList, or an
+     *         empty list, if no listeners should be notified
      * @param itemLongClickListeners
-     *         A set, which contains the listeners, which should be notified, when an item of the
-     *         adapter has been long-clicked by the user, as an instance of the type {@link Set}, or
-     *         an empty set, if no listeners should be notified
+     *         A list, which contains the listeners, which should be notified, when an item of the
+     *         adapter has been long-clicked by the user, as an instance of the class ListenerList,
+     *         or an empty list, if no listeners should be notified
      * @param adapterListeners
-     *         A set, which contains the listeners, which should be notified, when the adapter's
-     *         underlying data has been modified, as an instance of the type {@link Set}, or an
-     *         empty set, if no listeners should be notified
+     *         A list, which contains the listeners, which should be notified, when the adapter's
+     *         underlying data has been modified, as an instance of the class ListenerList, or an
+     *         empty list, if no listeners should be notified
      * @param expansionListeners
-     *         A set, which contains the listeners, which should be notified, when a group item has
-     *         been expanded or collapsed, as an instance of the type {@link Set}, or an empty set,
-     *         if no listeners should be notified
+     *         A list, which contains the listeners, which should be notified, when a group item has
+     *         been expanded or collapsed, as an instance of the class ListenerList, or an empty
+     *         list, if no listeners should be notified
      */
     protected AbstractExpandableListAdapter(@NonNull final Context context,
                                             @NonNull final DecoratorType decorator,
@@ -1291,10 +1293,10 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
                                             final boolean allowDuplicateChildren,
                                             final boolean notifyOnChange,
                                             final boolean triggerGroupExpansionOnClick,
-                                            @NonNull final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
-                                            @NonNull final Set<ExpandableListAdapterItemLongClickListener<GroupType, ChildType>> itemLongClickListeners,
-                                            @NonNull final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
-                                            @NonNull final Set<ExpansionListener<GroupType, ChildType>> expansionListeners) {
+                                            @NonNull final ListenerList<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
+                                            @NonNull final ListenerList<ExpandableListAdapterItemLongClickListener<GroupType, ChildType>> itemLongClickListeners,
+                                            @NonNull final ListenerList<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
+                                            @NonNull final ListenerList<ExpansionListener<GroupType, ChildType>> expansionListeners) {
         ensureNotNull(context, "The context may not be null");
         ensureNotNull(decorator, "The decorator may not be null");
         ensureNotNull(itemClickListeners, "The item click listeners may not be null");

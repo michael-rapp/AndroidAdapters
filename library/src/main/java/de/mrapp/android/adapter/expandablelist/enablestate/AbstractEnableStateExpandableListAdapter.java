@@ -34,6 +34,7 @@ import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemClickLis
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterListener;
 import de.mrapp.android.adapter.expandablelist.ExpansionListener;
+import de.mrapp.android.util.datastructure.ListenerList;
 import de.mrapp.android.util.logging.LogLevel;
 
 import static de.mrapp.android.util.Condition.ensureNotNull;
@@ -72,10 +73,10 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
                     "::SetChildEnableStatesImplicitly";
 
     /**
-     * A set, which contains the listeners, which should be notified, when an item has been disabled
-     * or enabled.
+     * A list, which contains the listeners, which should be notified, when an item has been
+     * disabled or enabled.
      */
-    private transient Set<ExpandableListEnableStateListener<GroupType, ChildType>>
+    private transient ListenerList<ExpandableListEnableStateListener<GroupType, ChildType>>
             enableStateListeners;
 
     /**
@@ -173,27 +174,27 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
     }
 
     /**
-     * Returns a set, which contains the listeners, which should be notified, when an item has been
+     * Returns a list, which contains the listeners, which should be notified, when an item has been
      * disabled or enabled.
      *
-     * @return A set, which contains the listeners, which should be notified, when an item has been
-     * disabled or enabled, as an instance of the type {@link Set} or an empty setr, if no listeners
-     * should be notified
+     * @return A list, which contains the listeners, which should be notified, when an item has been
+     * disabled or enabled, as an instance of the class ListenerList or an empty list, if no
+     * listeners should be notified
      */
-    protected final Set<ExpandableListEnableStateListener<GroupType, ChildType>> getEnableStateListeners() {
+    protected final ListenerList<ExpandableListEnableStateListener<GroupType, ChildType>> getEnableStateListeners() {
         return enableStateListeners;
     }
 
     /**
-     * Sets the set, which contains the listeners, which should be notified, when an item has been
+     * Sets the list, which contains the listeners, which should be notified, when an item has been
      * disabled or enabled.
      *
      * @param enableStateListeners
-     *         The set, which should be set, as an instance of the type {@link Set} or an empty set,
-     *         if no listeners should be notified
+     *         The list, which should be set, as an instance of the class ListenerList or an empty
+     *         list, if no listeners should be notified
      */
     protected final void setEnableStateListeners(
-            @NonNull final Set<ExpandableListEnableStateListener<GroupType, ChildType>> enableStateListeners) {
+            @NonNull final ListenerList<ExpandableListEnableStateListener<GroupType, ChildType>> enableStateListeners) {
         ensureNotNull(enableStateListeners, "The enable state listeners may not be null");
         this.enableStateListeners = enableStateListeners;
     }
@@ -225,28 +226,28 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
      *         True, if a group's expansion should be triggered, when it is clicked by the user,
      *         false otherwise
      * @param itemClickListeners
-     *         A set, which contains the listeners, which should be notified, when an item of the
-     *         adapter has been clicked by the user, as an instance of the type {@link Set}, or an
-     *         empty set, if no listeners should be notified
+     *         A list, which contains the listeners, which should be notified, when an item of the
+     *         adapter has been clicked by the user, as an instance of the class ListenerList, or an
+     *         empty list, if no listeners should be notified
      * @param itemLongClickListeners
-     *         A set, which contains the listeners, which should be notified, when an item of the
-     *         adapter has been long-clicked by the user, as an instance of the type {@link Set}, or
-     *         an empty set, if no listeners should be notified
+     *         A list, which contains the listeners, which should be notified, when an item of the
+     *         adapter has been long-clicked by the user, as an instance of the class ListenerList,
+     *         or an empty list, if no listeners should be notified
      * @param adapterListeners
-     *         A set, which contains the listeners, which should be notified, when the adapter's
-     *         underlying data has been modified, as an instance of the type {@link Set}, or an
-     *         empty set, if no listeners should be notified
+     *         A list, which contains the listeners, which should be notified, when the adapter's
+     *         underlying data has been modified, as an instance of the class ListenerList, or an
+     *         empty list, if no listeners should be notified
      * @param expansionListeners
-     *         A set, which contains the listeners, which should be notified, when a group item has
-     *         been expanded or collapsed, as an instance of the type {@link Set}, or an empty set,
-     *         if no listeners should be notified
+     *         A list, which contains the listeners, which should be notified, when a group item has
+     *         been expanded or collapsed, as an instance of the class ListenerList, or an empty
+     *         list, if no listeners should be notified
      * @param setChildEnableStatesImplicitly
      *         True, if the enable states of children should be also set, when the enable state of
      *         the group, they belong to, is set
      * @param enableStateListeners
-     *         A set, which contains the listeners, which should be notified, when an item has been
-     *         disabled or enabled, as an instance of the type {@link Set}, or an empty set, if no
-     *         listeners should be notified
+     *         A list, which contains the listeners, which should be notified, when an item has been
+     *         disabled or enabled, as an instance of the class ListenerList, or an empty list, if
+     *         no listeners should be notified
      */
     protected AbstractEnableStateExpandableListAdapter(@NonNull final Context context,
                                                        @NonNull final DecoratorType decorator,
@@ -255,12 +256,12 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
                                                        final boolean allowDuplicateChildren,
                                                        final boolean notifyOnChange,
                                                        final boolean triggerGroupExpansionOnClick,
-                                                       @NonNull final Set<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
-                                                       @NonNull final Set<ExpandableListAdapterItemLongClickListener<GroupType, ChildType>> itemLongClickListeners,
-                                                       @NonNull final Set<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
-                                                       @NonNull final Set<ExpansionListener<GroupType, ChildType>> expansionListeners,
+                                                       @NonNull final ListenerList<ExpandableListAdapterItemClickListener<GroupType, ChildType>> itemClickListeners,
+                                                       @NonNull final ListenerList<ExpandableListAdapterItemLongClickListener<GroupType, ChildType>> itemLongClickListeners,
+                                                       @NonNull final ListenerList<ExpandableListAdapterListener<GroupType, ChildType>> adapterListeners,
+                                                       @NonNull final ListenerList<ExpansionListener<GroupType, ChildType>> expansionListeners,
                                                        final boolean setChildEnableStatesImplicitly,
-                                                       @NonNull final Set<ExpandableListEnableStateListener<GroupType, ChildType>> enableStateListeners) {
+                                                       @NonNull final ListenerList<ExpandableListEnableStateListener<GroupType, ChildType>> enableStateListeners) {
         super(context, decorator, logLevel, groupAdapter, allowDuplicateChildren, notifyOnChange,
                 triggerGroupExpansionOnClick, itemClickListeners, itemLongClickListeners,
                 adapterListeners, expansionListeners);
