@@ -802,6 +802,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
         this.itemClickListeners = itemClickListeners;
         this.itemLongClickListeners = itemLongClickListeners;
         this.adapterListeners = adapterListeners;
+        setHasStableIds(true);
     }
 
     /**
@@ -1254,7 +1255,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
 
     @Override
     public final long getItemId(final int index) {
-        return index;
+        return System.identityHashCode(getItem(index));
     }
 
     @Override
