@@ -1,5 +1,12 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.9.4 (Feb. 4th 2018)
+
+A minor release, which introduces the following changes:
+
+- The `System.identityHashCode`-method is now used to determine the ids of an adapter's items. This enables to use stable ids for recycler views. 
+- Updated dependency "AndroidUtil" to version 1.20.0.
+
 ## Version 0.9.3 (Jan. 26th 2018)
 
 A minor release, which introduces the following changes:
