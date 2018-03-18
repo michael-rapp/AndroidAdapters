@@ -114,7 +114,7 @@ public interface ExpandableRecyclerViewAdapter extends ExpandableGridViewAdapter
      *         The index of the first group, which has been changed, as an {@link Integer} value
      * @param groupCount
      *         The number of groups, which have been changed, as an {@link Integer} value. The
-     *         number of items must be at least 1
+     *         number of groups must be at least 1
      * @see #notifyGroupChanged(int)
      */
     void notifyGroupRangeChanged(int startIndex, int groupCount);
@@ -136,7 +136,7 @@ public interface ExpandableRecyclerViewAdapter extends ExpandableGridViewAdapter
      *         The index of the first group, which has been changed, as an {@link Integer} value
      * @param groupCount
      *         The number of groups, which have been changed, as an {@link Integer} value. The
-     *         number of items must be at least 1
+     *         number of groups must be at least 1
      * @param childrenChanged
      *         True, if the children of the groups have been changed as well, false otherwise
      * @see #notifyGroupChanged(int, boolean)
@@ -164,7 +164,7 @@ public interface ExpandableRecyclerViewAdapter extends ExpandableGridViewAdapter
      * @param startIndex
      *         The index of the first group, which has been changed, as an {@link Integer} value
      * @param groupCount
-     *         The number of items, which have been changed, as an {@link Integer} value
+     *         The number of groups, which have been changed, as an {@link Integer} value
      * @param childrenChanged
      *         True, if the children of the groups have been changed as well, false otherwise
      * @param payload
@@ -252,8 +252,8 @@ public interface ExpandableRecyclerViewAdapter extends ExpandableGridViewAdapter
     void notifyGroupRemoved(int groupIndex);
 
     /**
-     * Notifies any registered observers that the <code>groupCount</code> items previously located
-     * at <code>startIndex</code> have been removed from the data set. The items previously located
+     * Notifies any registered observers that the <code>groupCount</code> groups previously located
+     * at <code>startIndex</code> have been removed from the data set. The groups previously located
      * at and after <code>startIndex + groupCount</code> may now be found at <code>oldIndex -
      * groupCount</code>.
      * <p>
@@ -273,6 +273,210 @@ public interface ExpandableRecyclerViewAdapter extends ExpandableGridViewAdapter
      *         of groups must be at least 1
      */
     void notifyGroupRangeRemoved(int startIndex, int groupCount);
+
+    /**
+     * Notifies any registered observers that the child at <code>childIndex</code> of the group at
+     * <code>groupIndex</code>has changed. Equivalent to calling <code>notifyChildChanged(groupIndex,
+     * childIndex, null);</code>.
+     * <p>
+     * This is a child change event, not a structural change event. It indicates that any reflection
+     * of the data at <code>childIndex</code> is out of date and should be updated. The child at
+     * <code>childIndex</code> retains the same identity.
+     * <p>
+     *
+     * @param groupIndex
+     *         The index of the group, the child, which has been changed, corresponds to, as an
+     *         {@link Integer} value
+     * @param childIndex
+     *         The index of the child, which has been changed, as an {@link Integer} value
+     * @see #notifyChildRangeChanged(int, int, int)
+     */
+    void notifyChildChanged(int groupIndex, int childIndex);
+
+    /**
+     * Notifies any registered observers that the child at <code>childIndex</code> of the group at
+     * <code>groupIndex</code> has changed with an optional payload object.
+     * <p>
+     * This is a child change event, not a structural change event. It indicates that any reflection
+     * of the data at <code>childIndex</code> is out of date and should be updated. The child at
+     * <code>childIndex</code> retains the same identity.
+     * <p>
+     * The client can optionally pass a payload for partial change. These payloads will be merged
+     * and may be passed to the adapter's <code>onBindViewHolder</code>-method, if the child is
+     * already represented by a view holder and it will be rebound to the same view holder. Calling
+     * the <code>notifyChildRangeChanged</code>-method with null payload will clear all existing
+     * payloads on that child and prevent future payload until the <code>onBindViewHolder</code>-method
+     * is called. Adapters should not assume that the payload will always be passed to the
+     * <code>onBindViewHolder</code>-method, e.g. when the view is not attached, the payload will be
+     * simply dropped.
+     *
+     * @param groupIndex
+     *         The index of the group, the child, which has been changed, corresponds to, as an
+     *         {@link Integer} value
+     * @param childIndex
+     *         The index of the child, which has been changed, as an {@link Integer} value
+     * @param payload
+     *         An optional payload as an instance of the class {@link Object} or null to identify a
+     *         "full" update
+     * @see #notifyChildRangeChanged(int, int, int)
+     */
+    void notifyChildChanged(int groupIndex, int childIndex, Object payload);
+
+    /**
+     * Notifies any registered observers that the <code>childCount</code> children starting at
+     * <code>startIndex</code> of the group at <code>groupIndex</code> have changed. Equivalent to
+     * calling <code>notifyChildRangeChanged(groupInex, startIndex, childCount, null);</code>.
+     * <p>
+     * This is a child change event, not a structural change event. It indicates that any reflection
+     * of the data in the given position range is out of date and should be updated. The children in
+     * the given range retain the same identity.
+     *
+     * @param groupIndex
+     *         The index of the group, the children, which have been changed, correspond to, as an
+     *         {@link Integer} value
+     * @param startIndex
+     *         The index of the first child, which has been changed, as an {@link Integer} value
+     * @param childCount
+     *         The number of children, which have been changed, as an {@link Integer} value. The
+     *         number of children must be at least 1
+     * @see #notifyChildChanged(int, int)
+     */
+    void notifyChildRangeChanged(int groupIndex, int startIndex, int childCount);
+
+    /**
+     * Notifies any registered observers that the <code>childCount</code> children starting at
+     * <code>startIndex</code> of the group at <code>groupIndex</code> have changed. An optional
+     * payload can be passed to each changed child.
+     * <p>
+     * This is a child change event, not a structural change event. It indicates that any reflection
+     * of the data in the given position range is out of date and should be updated. The children in
+     * the given range retain the same identity.
+     * <p>
+     * The client can optionally pass a payload for partial change. These payloads will be merged
+     * and may be passed to the adapter's <code>onBindViewHolder</code>-method, if the child is
+     * already represented by a view holder and it will be rebound to the same view holder. Calling
+     * the <code>notifyChildRangeChanged</code>-method with null payload will clear all existing
+     * payloads on that group and prevent future payload until the <code>onBindViewHolder</code>-method
+     * is called. Adapters should not assume that the payload will always be passed to the
+     * <code>onBindViewHolder</code>-method, e.g. when the view is not attached, the payload will be
+     * simply dropped.
+     *
+     * @param groupIndex
+     *         The index of the group, the children, which have been changed, corresponds to, as an
+     *         {@link Integer} value
+     * @param startIndex
+     *         The index of the first child, which has been changed, as an {@link Integer} value
+     * @param childCount
+     *         The number of children, which have been changed, as an {@link Integer} value
+     * @param payload
+     *         An optional payload as an instance of the class {@link Object} or null to identify a
+     *         "full" update
+     * @see #notifyChildChanged(int, int, Object)
+     */
+    void notifyChildRangeChanged(int groupIndex, int startIndex, int childCount, Object payload);
+
+    /**
+     * Notifies any registered observers that the child at <code>childIndex</code> of the group at
+     * <code>groupIndex</code> has been newly inserted. The child previously at
+     * <code>childIndex</code> is now at <code>childIndex + 1</code>.
+     * <p>
+     * This is a structural change event. Representations of other existing children in the data set
+     * are still considered up to date and will not be rebound, though their positions may be
+     * altered.
+     *
+     * @param groupIndex
+     *         The index of hte group, the child, which has been inserted, corresponds to, as an
+     *         {@link Integer} value
+     * @param childIndex
+     *         The index of the child, which has been inserted, as an {@link Integer} value
+     * @see #notifyChildRangeInserted(int, int, int)
+     */
+    void notifyChildInserted(int groupIndex, int childIndex);
+
+    /**
+     * Notifies any registered observers that the currently reflected <code>childCount</code>
+     * children starting at <code>startIndex</code> of the group at <code>groupIndex</code> have
+     * been newly inserted. The children previously located at <code>startIndex</code> and beyond
+     * can now be found starting at <code>startIndex + childCount</code>.
+     * <p>
+     * This is a structural change event. Representations of other existing children in the data set
+     * are still considered up to date and will not be rebound, though their positions may be
+     * altered.
+     *
+     * @param groupIndex
+     *         The index of hte group, the child, which has been inserted, corresponds to, as an
+     *         {@link Integer} value
+     * @param startIndex
+     *         The index of the first group, which has been inserted, as an {@link Integer} value
+     * @param childCount
+     *         The number of groups, which have been inserted, as an {@link Integer} value. The
+     *         number of groups must at least 1
+     * @see #notifyChildInserted(int, int)
+     */
+    void notifyChildRangeInserted(int groupIndex, int startIndex, int childCount);
+
+    /**
+     * Notifies any registered observers that the child reflected at <code>fromChildIndex</code> of
+     * the group at <code>fromGroupIndex</code>has been moved to <code>toChildIndex</code> of the
+     * group at <code>toGroupIndex</code>.
+     * <p>
+     * This is a structural change event. Representations of other existing children in the data set
+     * are still considered up to date and will not be rebound, though their positions may be
+     * altered.
+     *
+     * @param fromGroupIndex
+     *         The index of the group, the child previously corresponded to, as an {@link Integer}
+     *         value
+     * @param fromChildIndex
+     *         The previous index of the child, as an {@link Integer} value
+     * @param toGroupIndex
+     *         The index of the group, the child now corresponds to, as an {@link Integer} value
+     * @param toChildIndex
+     *         The new index of the child as an {@link Integer} value
+     */
+    void notifyChildMoved(int fromGroupIndex, int fromChildIndex, int toGroupIndex,
+                          int toChildIndex);
+
+    /**
+     * Notifies any registered observers that the child previously located at
+     * <code>childIndex</code> of the group at <code>groupIndex</code> has been removed from the
+     * data set. The children previously located at and after <code>childIndex</code> may now be
+     * found at <code>oldIndex - 1</code>.
+     * <p>
+     * This is a structural change event. Representations of other existing children in the data set
+     * are still considered up to date and will not be rebound, though their positions may be
+     * altered.
+     *
+     * @param groupIndex
+     *         The index of the group, the child, which has been removed, corresponds to, as an
+     *         {@link Integer} value
+     * @param childIndex
+     *         The index of the child, which has been removed, as an {@link Integer} value
+     * @see #notifyChildRangeRemoved(int, int, int)
+     */
+    void notifyChildRemoved(int groupIndex, int childIndex);
+
+    /**
+     * Notifies any registered observers that the <code>childCount</code> children previously
+     * located at <code>startIndex</code> of the group at <code>groupIndex</code> have been removed
+     * from the data set. The children previously located at and after <code>startIndex +
+     * childCount</code> may now be found at <code>oldIndex - childCount</code>.
+     * <p>
+     * This is a structural change event. Representations of other existing children in the data set
+     * are still considered up to date and will not be rebound, though their positions may be
+     * altered.
+     *
+     * @param groupIndex
+     *         The index of the group, the children, which have been removed, correspond to, as an
+     *         {@link Integer} value
+     * @param startIndex
+     *         The previous index of the first child, which has been removed, as an {@link Integer}
+     *         value
+     * @param childCount
+     *         The number of children, which have been removed, as an {@link Integer} value. The
+     *         number of children must be at least 1
+     */
+    void notifyChildRangeRemoved(int groupIndex, int startIndex, int childCount);
 
     @Override
     ExpandableRecyclerViewAdapter clone() throws CloneNotSupportedException;

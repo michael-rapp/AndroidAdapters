@@ -1413,12 +1413,63 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final void notifyGroupRemoved(final int groupIndex) {
-        notifyGroupRangeRemoved(groupIndex, 1);
+    public final void notifyGroupRemoved(final int childIndex) {
+        notifyGroupRangeRemoved(childIndex, 1);
     }
 
     @Override
     public final void notifyGroupRangeRemoved(final int startIndex, final int groupCount) {
+        // TODO: Implement
+    }
+
+    @Override
+    public final void notifyChildChanged(final int groupIndex, final int childIndex) {
+        notifyChildChanged(groupIndex, childIndex, null);
+    }
+
+    @Override
+    public final void notifyChildChanged(final int groupIndex, final int childIndex,
+                                         final Object payload) {
+        notifyChildRangeChanged(groupIndex, childIndex, 1);
+    }
+
+    @Override
+    public final void notifyChildRangeChanged(final int groupIndex, final int startIndex,
+                                              final int childCount) {
+        notifyChildRangeChanged(groupIndex, startIndex, childCount, null);
+    }
+
+    @Override
+    public final void notifyChildRangeChanged(final int groupIndex, final int startIndex,
+                                              final int childCount, final Object payload) {
+        // TODO: Implement
+    }
+
+    @Override
+    public final void notifyChildInserted(final int groupIndex, final int childIndex) {
+        notifyChildRangeInserted(groupIndex, childIndex, 1);
+    }
+
+    @Override
+    public final void notifyChildRangeInserted(final int groupIndex, final int startIndex,
+                                               final int childCount) {
+        // TODO: Implement
+    }
+
+    @Override
+    public final void notifyChildMoved(final int fromGroupIndex, final int fromChildIndex,
+                                       final int toGroupIndex, final int toChildIndex) {
+        // TODO: Implement
+    }
+
+    @Override
+    public final void notifyChildRemoved(final int groupIndex, final int childIndex) {
+        notifyChildRangeRemoved(groupIndex, childIndex, 1);
+    }
+
+    @Override
+    public final void notifyChildRangeRemoved(final int groupIndex, final int startIndex,
+                                              final int childCount) {
         // TODO: Implement
     }
 
