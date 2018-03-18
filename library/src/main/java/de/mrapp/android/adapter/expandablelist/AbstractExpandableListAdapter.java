@@ -39,7 +39,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
-import java.util.Set;
 
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.datastructure.UnmodifiableList;
@@ -1365,7 +1364,67 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
+    public final void notifyGroupChanged(final int groupIndex) {
+        notifyGroupChanged(groupIndex, false);
+    }
+
+    @Override
+    public final void notifyGroupChanged(final int groupIndex, final boolean childrenChanged) {
+        notifyGroupChanged(groupIndex, childrenChanged, null);
+    }
+
+    @Override
+    public final void notifyGroupChanged(final int groupIndex, final boolean childrenChanged,
+                                         @Nullable  final Object payload) {
+        notifyGroupRangeChanged(groupIndex, 1, childrenChanged, payload);
+    }
+
+    @Override
+    public final void notifyGroupRangeChanged(final int startIndex, final int groupCount) {
+        notifyGroupRangeChanged(startIndex, groupCount, false);
+    }
+
+    @Override
+    public final void notifyGroupRangeChanged(final int startIndex, final int groupCount,
+                                              final boolean childrenChanged) {
+        notifyGroupRangeChanged(startIndex, groupCount, childrenChanged, null);
+    }
+
+    @Override
+    public final void notifyGroupRangeChanged(final int startIndex, final int groupCount,
+                                              final boolean childrenChanged,
+                                              @Nullable final Object payload) {
+        // TODO: Implement
+    }
+
+    @Override
+    public final void notifyGroupInserted(final int groupIndex) {
+        notifyGroupRangeInserted(groupIndex, 1);
+    }
+
+    @Override
+    public final void notifyGroupRangeInserted(final int startIndex, final int groupCount) {
+        // TODO: Implement
+    }
+
+    @Override
+    public final void notifyGroupMoved(final int fromIndex, final int toIndex) {
+        // TODO: Implement
+    }
+
+    @Override
+    public final void notifyGroupRemoved(final int groupIndex) {
+        notifyGroupRangeRemoved(groupIndex, 1);
+    }
+
+    @Override
+    public final void notifyGroupRangeRemoved(final int startIndex, final int groupCount) {
+        // TODO: Implement
+    }
+
+    @Override
     public final void onGroupExpanded(final int groupPosition) {
+
     }
 
     @Override
