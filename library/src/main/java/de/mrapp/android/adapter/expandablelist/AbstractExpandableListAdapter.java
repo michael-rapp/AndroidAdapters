@@ -55,7 +55,10 @@ import de.mrapp.android.util.logging.Logger;
 import de.mrapp.android.util.view.ExpandableGridView;
 import de.mrapp.android.util.view.ViewHolder;
 
+import static de.mrapp.android.util.Condition.ensureAtLeast;
 import static de.mrapp.android.util.Condition.ensureNotNull;
+import static de.mrapp.android.util.Condition.ensureSmaller;
+import static de.mrapp.android.util.Condition.ensureTrue;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as a list of arbitrary
@@ -981,7 +984,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      * @return A pair, which contains the group and child index of the item, which corresponds to
      * the given packed position, as an instance of the class {@link Pair}
      */
-    private Pair<Integer, Integer> getItemPosition(final int packedPosition) {
+    @NonNull
+    private Pair<Integer, Integer> getPackedPositionGroupAndChild(final int packedPosition) {
         int currentPosition = packedPosition;
         int groupIndex = -1;
         int childIndex = -1;
@@ -1375,7 +1379,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @Override
     public final void notifyGroupChanged(final int groupIndex, final boolean childrenChanged,
-                                         @Nullable  final Object payload) {
+                                         @Nullable final Object payload) {
         notifyGroupRangeChanged(groupIndex, 1, childrenChanged, payload);
     }
 
@@ -1394,7 +1398,16 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     public final void notifyGroupRangeChanged(final int startIndex, final int groupCount,
                                               final boolean childrenChanged,
                                               @Nullable final Object payload) {
-        // TODO: Implement
+        if (childrenChanged) {
+            int packedPosition = getPackedPositionForGroup(startIndex);
+            int count = groupCount + (isGroupExpanded(startIndex + groupCount) ?
+                    getChildCount(startIndex + groupCount) : 0);
+            notifyItemRangeChanged(packedPosition, count, payload);
+        } else {
+            for (int i = 0; i < groupCount; i++) {
+                notifyItemChanged(startIndex + i, payload);
+            }
+        }
     }
 
     @Override
@@ -1404,12 +1417,18 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @Override
     public final void notifyGroupRangeInserted(final int startIndex, final int groupCount) {
-        // TODO: Implement
+        int packedPosition = getPackedPositionForGroup(startIndex);
+        int count = groupCount +
+                (isGroupExpanded(startIndex + groupCount) ? getChildCount(startIndex + groupCount) :
+                        0);
+        notifyItemRangeInserted(packedPosition, count);
     }
 
     @Override
     public final void notifyGroupMoved(final int fromIndex, final int toIndex) {
-        // TODO: Implement
+        int fromPackedPosition = getPackedPositionForGroup(fromIndex);
+        int toPackedPosition = getPackedPositionForGroup(toIndex);
+        notifyItemMoved(fromPackedPosition, toPackedPosition);
     }
 
     @Override
@@ -1419,7 +1438,11 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @Override
     public final void notifyGroupRangeRemoved(final int startIndex, final int groupCount) {
-        // TODO: Implement
+        int packedPosition = getPackedPositionForGroup(startIndex);
+        int count = groupCount +
+                (isGroupExpanded(startIndex + groupCount) ? getChildCount(startIndex + groupCount) :
+                        0);
+        notifyItemRangeRemoved(packedPosition, count);
     }
 
     @Override
@@ -1442,7 +1465,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     @Override
     public final void notifyChildRangeChanged(final int groupIndex, final int startIndex,
                                               final int childCount, final Object payload) {
-        // TODO: Implement
+        int packedPosition = getPackedPositionForChild(groupIndex, startIndex);
+        notifyItemRangeChanged(packedPosition, childCount, payload);
     }
 
     @Override
@@ -1453,13 +1477,16 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     @Override
     public final void notifyChildRangeInserted(final int groupIndex, final int startIndex,
                                                final int childCount) {
-        // TODO: Implement
+        int packedPosition = getPackedPositionForChild(groupIndex, startIndex);
+        notifyItemRangeInserted(packedPosition, childCount);
     }
 
     @Override
     public final void notifyChildMoved(final int fromGroupIndex, final int fromChildIndex,
                                        final int toGroupIndex, final int toChildIndex) {
-        // TODO: Implement
+        int fromPackedPosition = getPackedPositionForChild(fromGroupIndex, fromChildIndex);
+        int toPackedPosition = getPackedPositionForChild(toGroupIndex, toChildIndex);
+        notifyItemMoved(fromPackedPosition, toPackedPosition);
     }
 
     @Override
@@ -1470,7 +1497,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     @Override
     public final void notifyChildRangeRemoved(final int groupIndex, final int startIndex,
                                               final int childCount) {
-        // TODO: Implement
+        int packedPosition = getPackedPositionForChild(groupIndex, startIndex);
+        notifyItemRangeRemoved(packedPosition, childCount);
     }
 
     @Override
@@ -1481,6 +1509,57 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     @Override
     public final void onGroupCollapsed(final int groupPosition) {
 
+    }
+
+    @Override
+    public final int getPackedPositionType(final int packedPosition) {
+        Pair<Integer, Integer> pair = getPackedPositionGroupAndChild(packedPosition);
+        int groupIndex = pair.first;
+        int childIndex = pair.second;
+        return childIndex != -1 ? PACKED_POSITION_TYPE_CHILD :
+                groupIndex != -1 ? PACKED_POSITION_TYPE_GROUP : PACKED_POSITION_TYPE_NULL;
+    }
+
+    @Override
+    public final int getPackedPositionGroup(final int packedPosition) {
+        Pair<Integer, Integer> pair = getPackedPositionGroupAndChild(packedPosition);
+        int groupIndex = pair.first;
+        return groupIndex != -1 ? groupIndex : PACKED_POSITION_TYPE_NULL;
+    }
+
+    @Override
+    public final int getPackedPositionChild(final int packedPosition) {
+        Pair<Integer, Integer> pair = getPackedPositionGroupAndChild(packedPosition);
+        int groupIndex = pair.first;
+        int childIndex = pair.second;
+        return groupIndex != -1 && childIndex != -1 ? childIndex : PACKED_POSITION_TYPE_NULL;
+    }
+
+    @Override
+    public final int getPackedPositionForGroup(final int groupIndex) {
+        int packedPosition = 0;
+
+        for (int i = 0; i < groupIndex; i++) {
+            packedPosition++;
+
+            if (isGroupExpanded(i)) {
+                packedPosition += getChildCount(i);
+            }
+        }
+
+        return packedPosition;
+    }
+
+    @Override
+    public final int getPackedPositionForChild(final int groupIndex, final int childIndex) {
+        int packedPosition = getPackedPositionForGroup(groupIndex);
+        ensureTrue(isGroupExpanded(groupIndex),
+                "The group at index " + groupIndex + " is not currently expanded");
+        ensureAtLeast(childIndex, 0, "The child index must be at least 0",
+                IndexOutOfBoundsException.class);
+        int childCount = getChildCount(groupIndex);
+        ensureSmaller(childIndex, childCount, "The child index must be less than " + childCount);
+        return packedPosition + childIndex + 1;
     }
 
     @Override
@@ -2961,7 +3040,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @Override
     public final int getItemViewType(final int position) {
-        Pair<Integer, Integer> pair = getItemPosition(position);
+        Pair<Integer, Integer> pair = getPackedPositionGroupAndChild(position);
 
         if (pair.second != -1) {
             int viewType = getChildType(pair.first, pair.second);
@@ -3041,7 +3120,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @Override
     public final void onBindViewHolder(final ViewHolder viewHolder, final int position) {
-        Pair<Integer, Integer> pair = getItemPosition(position);
+        Pair<Integer, Integer> pair = getPackedPositionGroupAndChild(position);
         int groupIndex = pair.first;
         int childIndex = pair.second;
 

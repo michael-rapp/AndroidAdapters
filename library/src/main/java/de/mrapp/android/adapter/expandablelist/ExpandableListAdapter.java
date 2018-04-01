@@ -50,6 +50,79 @@ public interface ExpandableListAdapter<GroupType, ChildType>
         FilterableExpandableListAdapter<GroupType, ChildType> {
 
     /**
+     * The type of an invalid packed position.
+     */
+    int PACKED_POSITION_TYPE_NULL = 2;
+
+    /**
+     * The type of a packed position, which represents a group.
+     */
+    int PACKED_POSITION_TYPE_GROUP = 0;
+
+    /**
+     * The type of a packed position, which represents a group.
+     */
+    int PACKED_POSITION_TYPE_CHILD = 1;
+
+    /**
+     * Returns the type of a specific packed position.
+     *
+     * @param packedPosition
+     *         The packed position, whose type should be returned, as an {@link Integer} value
+     * @return The type of the given packed position as an {@link Integer} value. The type may
+     * either be {@link #PACKED_POSITION_TYPE_GROUP}, {@link #PACKED_POSITION_TYPE_CHILD} or -1, if
+     * the given packed position is invalid
+     */
+    int getPackedPositionType(int packedPosition);
+
+    /**
+     * Returns the index of the group, which corresponds to a specific packed position.
+     *
+     * @param packedPosition
+     *         The packed position as an {@link Integer} value
+     * @return The index of the group, which corresponds to the given packed position, as an {@link
+     * Integer} value or -1, if the packed position does not correspond to a group
+     */
+    int getPackedPositionGroup(int packedPosition);
+
+    /**
+     * Returns the index of the child, which corresponds to a specific packed position.
+     *
+     * @param packedPosition
+     *         The packed position as an {@link Integer} value
+     * @return The index of the child, which corresponds to the given packed position, as an {@link
+     * Integer} value or -1, if the packed position does not correspond to a child
+     */
+    int getPackedPositionChild(int packedPosition);
+
+    /**
+     * Returns the packed position for a specific group item.
+     *
+     * @param groupIndex
+     *         The index of the group item, whose packed position should be returned, as an {@link
+     *         Integer} value. If the given group index is invalid, an {@link
+     *         IndexOutOfBoundsException} will be thrown
+     * @return The packed position of the given group item as an {@link Integer} value
+     */
+    int getPackedPositionForGroup(int groupIndex);
+
+    /**
+     * Returns the packed position for a specific child item.
+     *
+     * @param groupIndex
+     *         The index of the group, the child item, whose packed position should be returned,
+     *         belongs to, as an {@link Integer} value. If the given group index is invalid, an
+     *         {@link IndexOutOfBoundsException} will be thrown. if it is currently collapsed, an
+     *         {@link IllegalArgumentException} will be thrown
+     * @param childIndex
+     *         The index of the child item, whose packed position should be returned, as an {@link
+     *         Integer} value. If the given child index is invalid, an {@link
+     *         IndexOutOfBoundsException} will be thrown
+     * @return The packed position of the given child item as an {@link Integer} value
+     */
+    int getPackedPositionForChild(int groupIndex, int childIndex);
+
+    /**
      * Returns, whether duplicate group items are allowed, or not.
      *
      * @return True, if duplicate group items are allowed, false otherwise
