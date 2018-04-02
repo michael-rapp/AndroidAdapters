@@ -1577,6 +1577,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @Override
     public final void notifyGroupRangeInserted(final int startIndex, final int groupCount) {
+        ensureAtLeast(groupCount, 1, "The group count must be at least 1");
         int packedPosition = getPackedPositionForGroup(startIndex);
         int count = groupCount +
                 (isGroupExpanded(startIndex + groupCount) ? getChildCount(startIndex + groupCount) :
@@ -1598,6 +1599,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @Override
     public final void notifyGroupRangeRemoved(final int startIndex, final int groupCount) {
+        ensureAtLeast(groupCount, 1, "The group count must be at least 1");
         int packedPosition = getPackedPositionForGroup(startIndex);
         int count = groupCount +
                 (isGroupExpanded(startIndex + groupCount) ? getChildCount(startIndex + groupCount) :
@@ -1637,6 +1639,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     @Override
     public final void notifyChildRangeInserted(final int groupIndex, final int startIndex,
                                                final int childCount) {
+        ensureAtLeast(childCount, 1, "The child count must be at least 1");
         int packedPosition = getPackedPositionForChild(groupIndex, startIndex);
         notifyItemRangeInserted(packedPosition, childCount);
     }
@@ -1657,6 +1660,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     @Override
     public final void notifyChildRangeRemoved(final int groupIndex, final int startIndex,
                                               final int childCount) {
+        ensureAtLeast(childCount, 1, "The child count must be at least 1");
         int packedPosition = getPackedPositionForChild(groupIndex, startIndex);
         notifyItemRangeRemoved(packedPosition, childCount);
     }
