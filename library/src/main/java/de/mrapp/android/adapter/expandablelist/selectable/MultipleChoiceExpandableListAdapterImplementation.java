@@ -358,7 +358,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
                     notifyOnGroupUnselected(group.getData(), index);
                 }
 
-                notifyObserversOnDataSetChanged();
+                notifyObserversOnGroupChanged(index);
                 String message = selected ? "Selected" :
                         "Unselected" + "group \"" + group.getData() + "\" at index " + index;
                 getLogger().logInfo(getClass(), message);
@@ -581,7 +581,7 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
                             childAdapter.getItem(childIndex), childIndex);
                 }
 
-                notifyObserversOnDataSetChanged();
+                notifyObserversOnChildChanged(groupIndex, childIndex);
                 String message = selected ? "Selected" :
                         "Unselected" + " child \"" + childAdapter.getItemId(childIndex) +
                                 "\" at index " + childIndex + " of group \"" + group.getData() +

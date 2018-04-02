@@ -140,6 +140,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
         if (getGroupAdapter().isSelected(groupIndex)) {
             getGroupAdapter().setSelected(groupIndex, false);
             notifyOnGroupUnselected(group.getData(), groupIndex);
+            notifyObserversOnGroupChanged(groupIndex);
             String message = "Unselected group \"" + group.getData() + "\" at index " + groupIndex;
             getLogger().logInfo(getClass(), message);
         }
@@ -167,6 +168,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
                     childAdapter.setSelected(i, false);
                     notifyOnChildUnselected(group.getData(), groupIndex, childAdapter.getItem(i),
                             i);
+                    notifyObserversOnChildChanged(groupIndex, i);
                     String message =
                             "Unselected child \"" + childAdapter.getItem(i) + "\" at index " + i +
                                     " of group " + group.getData() + " at index " + groupIndex;
@@ -300,6 +302,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
                     if (i == groupIndex) {
                         getGroupAdapter().setSelected(i, true);
                         notifyOnGroupSelected(currentGroup.getData(), i);
+                        notifyObserversOnGroupChanged(i);
                         String message =
                                 "Selected group \"" + currentGroup.getData() + "\" at index " + i;
                         getLogger().logInfo(getClass(), message);
@@ -312,8 +315,6 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
                 if (isGroupExpandedOnSelection()) {
                     setGroupExpanded(groupIndex, true);
                 }
-
-                notifyObserversOnDataSetChanged();
             }
         }
     }
@@ -336,6 +337,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
         if (childAdapter.isEnabled(childIndex)) {
             if (!childAdapter.isSelected(childIndex)) {
                 groupAdapter.setSelected(groupIndex, false);
+                notifyObserversOnGroupChanged(groupIndex);
 
                 for (int i = 0; i < getGroupCount(); i++) {
                     if (i != groupIndex) {
@@ -348,6 +350,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
                         childAdapter.setSelected(i, true);
                         notifyOnChildSelected(group.getData(), groupIndex, childAdapter.getItem(i),
                                 i);
+                        notifyObserversOnChildChanged(groupIndex, i);
                         String message =
                                 "Selected child \"" + childAdapter.getItemId(i) + "\" at index " +
                                         i + " of group \"" + group.getData() + "\" at index " +
@@ -357,6 +360,7 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
                         childAdapter.setSelected(i, false);
                         notifyOnChildUnselected(group.getData(), groupIndex,
                                 childAdapter.getItem(i), i);
+                        notifyObserversOnChildChanged(groupIndex, i);
                         String message =
                                 "Unselected child \"" + childAdapter.getItem(i) + "\" at index " +
                                         i + " of group \"" + group.getData() + " at index " +
@@ -368,8 +372,6 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
                 if (isGroupExpandedOnChildSelection()) {
                     setGroupExpanded(groupIndex, true);
                 }
-
-                notifyObserversOnDataSetChanged();
             }
         }
     }
@@ -818,10 +820,10 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
             } else {
                 groupAdapter.setSelected(groupIndex, false);
                 notifyOnGroupUnselected(group.getData(), groupIndex);
+                notifyObserversOnGroupChanged(groupIndex);
                 String message =
                         "Unselected group \"" + group.getData() + "\" at index " + groupIndex;
                 getLogger().logDebug(getClass(), message);
-                notifyObserversOnDataSetChanged();
                 return true;
             }
         } else {
@@ -878,11 +880,11 @@ public class SingleChoiceExpandableListAdapterImplementation<GroupType, ChildTyp
             childAdapter.setSelected(childIndex, false);
             ChildType child = childAdapter.getItem(childIndex);
             notifyOnChildUnselected(group.getData(), groupIndex, child, childIndex);
+            notifyObserversOnChildChanged(groupIndex, childIndex);
             String message =
                     "Unselected child \"" + child + "\" at index " + childIndex + " of group \"" +
                             group.getData() + " at index " + groupIndex;
             getLogger().logDebug(getClass(), message);
-            notifyObserversOnDataSetChanged();
             return false;
         }
     }

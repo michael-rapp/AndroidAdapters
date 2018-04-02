@@ -1117,6 +1117,166 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     /**
+     * Notifies all observers, that a group has been added, if notifying such events is currently
+     * enabled.
+     *
+     * @param groupIndex
+     *         The index of the group, which has been added, as an {@link Integer} value
+     */
+    protected final void notifyObserversOnGroupInserted(final int groupIndex) {
+        if (isNotifiedOnChange()) {
+            if (expandableRecyclerView != null) {
+                notifyGroupInserted(groupIndex);
+            } else {
+                notifyDataSetChanged();
+            }
+        }
+    }
+
+    /**
+     * Notifies all observers, that a group has been removed, if notifying such events is currently
+     * enabled.
+     *
+     * @param groupIndex
+     *         The index of the group, which has been removed, as an {@link Integer} value
+     */
+    protected final void notifyObserversOnGroupRemoved(final int groupIndex) {
+        if (isNotifiedOnChange()) {
+            if (expandableRecyclerView != null) {
+                notifyGroupRemoved(groupIndex);
+            } else {
+                notifyDataSetChanged();
+            }
+        }
+    }
+
+    /**
+     * Notifies all observers, that a group has been changed, if notifying such events is currently
+     * enabled.
+     *
+     * @param groupIndex
+     *         The index of the group, which has been changed, as an {@link Integer} value
+     */
+    protected final void notifyObserversOnGroupChanged(final int groupIndex) {
+        if (isNotifiedOnChange()) {
+            if (expandableRecyclerView != null) {
+                notifyGroupChanged(groupIndex);
+            } else {
+                notifyDataSetChanged();
+            }
+        }
+    }
+
+    /**
+     * Notifies all observers, that a child has been added, if notifying such events is currently
+     * enabled.
+     *
+     * @param groupIndex
+     *         The index of the group, the child, which has been added, belongs to, as an {@link
+     *         Integer} value
+     * @param childIndex
+     *         The index of the child, which has been added, as an {@link Integer} value
+     */
+    protected final void notifyObserversOnChildInserted(final int groupIndex,
+                                                        final int childIndex) {
+        if (isNotifiedOnChange()) {
+            if (expandableRecyclerView != null) {
+                notifyChildInserted(groupIndex, childIndex);
+            } else {
+                notifyDataSetChanged();
+            }
+        }
+    }
+
+    /**
+     * Notifies all observers, that multiple children have been added, if notifying such events is
+     * currently enabled.
+     *
+     * @param groupIndex
+     *         The index of the group, the children, which have been added, belong to, as an {@link
+     *         Integer} value
+     * @param startIndex
+     *         The index of the first child, which has been added, as an {@link Integer} value
+     * @param childCount
+     *         The number of children, which have been added, as an {@link Integer} value
+     */
+    protected final void notifyObserversOnChildRangeInserted(final int groupIndex,
+                                                             final int startIndex,
+                                                             final int childCount) {
+        if (isNotifiedOnChange()) {
+            if (expandableRecyclerView != null) {
+                notifyChildRangeInserted(groupIndex, startIndex, childCount);
+            } else {
+                notifyDataSetChanged();
+            }
+        }
+    }
+
+    /**
+     * Notifies all observers, that a child has been removed, if notifying such events is currently
+     * enabled.
+     *
+     * @param groupIndex
+     *         The index of the group, the child, which has been removed, belongs to, as an {@link
+     *         Integer} value
+     * @param childIndex
+     *         The index of the child, which has been removed, as an {@link Integer} value
+     */
+    protected final void notifyObserversOnChildRemoved(final int groupIndex, final int childIndex) {
+        if (isNotifiedOnChange()) {
+            if (expandableRecyclerView != null) {
+                notifyChildRemoved(groupIndex, childIndex);
+            } else {
+                notifyDataSetChanged();
+            }
+        }
+    }
+
+    /**
+     * Notifies all observers, that multiple children have been removed, if notifying such events is
+     * currently enabled.
+     *
+     * @param groupIndex
+     *         The index of the group, the children, which have been removed, belong to, as an
+     *         {@link Integer} value
+     * @param startIndex
+     *         The index of the first child, which has been removed, as an {@link Integer} value
+     * @param childCount
+     *         The number of children, which have been removed, as an {@link Integer} value
+     */
+    protected final void notifyObserversOnChildRangeRemoved(final int groupIndex,
+                                                            final int startIndex,
+                                                            final int childCount) {
+        if (isNotifiedOnChange()) {
+            if (expandableRecyclerView != null) {
+                notifyChildRangeRemoved(groupIndex, startIndex, childCount);
+            } else {
+                notifyDataSetChanged();
+            }
+        }
+    }
+
+    /**
+     * Notifies all obserers, that a child has been changed, if notifying such events is currently
+     * enabled.
+     *
+     * @param groupIndex
+     *         The index of the group, the child, which has been changed, belongs to, as an {@link
+     *         Integer} value
+     * @param childIndex
+     *         The index of the child, which has been changed, as an {@link Integer} value
+     */
+    protected final void notifyObserversOnChildChanged(final int groupIndex, final int childIndex) {
+        if (isNotifiedOnChange()) {
+            if (expandableRecyclerView != null) {
+                notifyChildChanged(groupIndex, childIndex);
+            } else {
+                notifyDataSetChanged();
+            }
+        }
+    }
+
+    /**
      * Returns the index of a specific group item or throws a {@link NoSuchElementException} if the
      * adapter does not contain the group item.
      *
@@ -1722,7 +1882,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
         if (added) {
             notifyOnGroupAdded(group, index);
-            notifyObserversOnDataSetChanged();
+            notifyObserversOnGroupInserted(index);
             String message = "Group \"" + group + "\" added at index " + index;
             getLogger().logInfo(getClass(), message);
             return true;
@@ -1778,7 +1938,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
                 groupAdapter.replaceItem(index, new Group<>(group, createChildAdapter())).getData();
         notifyOnGroupRemoved(replacedGroup, index);
         notifyOnGroupAdded(group, index);
-        notifyObserversOnDataSetChanged();
+        notifyObserversOnGroupChanged(index);
         String message =
                 "Replaced group \"" + replacedGroup + "\" at index " + index + " with item \"" +
                         group + "\"";
@@ -1790,7 +1950,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     public final GroupType removeGroup(final int index) {
         GroupType removedGroup = groupAdapter.removeItem(index).getData();
         notifyOnGroupRemoved(removedGroup, index);
-        notifyObserversOnDataSetChanged();
+        notifyObserversOnGroupRemoved(index);
         String message = "Removed group \"" + removedGroup + "\" from index " + index;
         getLogger().logInfo(getClass(), message);
         return removedGroup;
@@ -1803,7 +1963,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         if (index != -1) {
             groupAdapter.removeItem(index);
             notifyOnGroupRemoved(group, index);
-            notifyObserversOnDataSetChanged();
+            notifyObserversOnGroupRemoved(index);
             String message = "Removed group \"" + group + "\" from index " + index;
             getLogger().logInfo(getClass(), message);
             return true;
@@ -2020,7 +2180,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
             if (added) {
                 notifyOnChildAdded(child, index, group.getData(), groupIndex);
-                notifyObserversOnDataSetChanged();
+                notifyObserversOnChildInserted(groupIndex, index);
                 String message =
                         "Child \"" + child + "\" added at index " + index + " to group \"" +
                                 group.getData() + "\" at index " + groupIndex;
@@ -2127,7 +2287,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         ChildType replacedChild = group.getChildAdapter().replaceItem(index, child);
         notifyOnChildRemoved(replacedChild, index, group.getData(), groupIndex);
         notifyOnChildAdded(replacedChild, index, group.getData(), groupIndex);
-        notifyObserversOnDataSetChanged();
+        notifyObserversOnChildChanged(groupIndex, index);
         String message =
                 "Replaced child \"" + replacedChild + "\" at index " + index + " of group \"" +
                         group.getData() + "\" at index " + groupIndex + " with child \"" + child +
@@ -2162,7 +2322,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
             removeGroup(groupIndex);
         }
 
-        notifyObserversOnDataSetChanged();
+        notifyObserversOnChildRemoved(groupIndex, index);
         return removedChild;
     }
 
@@ -2843,7 +3003,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
                     } else if (expandableGridView != null) {
                         expandableGridView.expandGroup(index);
                     } else {
-                        notifyDataSetChanged();
+                        notifyObserversOnGroupChanged(index);
+                        notifyObserversOnChildRangeInserted(index, 0, getChildCount(index));
                     }
                 } else {
                     if (adapterView != null) {
@@ -2851,7 +3012,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
                     } else if (expandableGridView != null) {
                         expandableGridView.collapseGroup(index);
                     } else {
-                        notifyDataSetChanged();
+                        notifyObserversOnGroupChanged(index);
+                        notifyObserversOnChildRangeRemoved(index, 0, getChildCount(index));
                     }
                 }
             } else {
