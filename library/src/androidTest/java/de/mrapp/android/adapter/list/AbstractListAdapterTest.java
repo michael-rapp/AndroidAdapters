@@ -2346,7 +2346,7 @@ public class AbstractListAdapterTest extends AndroidTestCase {
     public final void testGetItemId() {
         AbstractListAdapterImplementation abstractListAdapter = createAdapter();
         abstractListAdapter.addItem(new Object());
-        assertEquals(0, abstractListAdapter.getItemId(0));
+        assertNotSame(0, abstractListAdapter.getItemId(0));
     }
 
     /**
