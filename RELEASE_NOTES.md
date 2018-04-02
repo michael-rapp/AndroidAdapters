@@ -4,6 +4,7 @@
 
 A feature release, which introduces the following changes:
 
+- Added fine-grained methods for notifying changes of an adapter's underlying data to the interface `ExpandableListAdapter`.
 - Updated dependency "AndroidUtil" to version 1.20.1.
 
 ## Version 0.9.4 (Feb. 4th 2018)
