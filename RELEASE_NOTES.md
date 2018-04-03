@@ -1,5 +1,12 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.10.2 (Apr. 4th 2018)
+
+A bugfix release, which fixes the following issues:
+
+- Made `getPackedPositionForGroup`- and `getPackedPositionForChild`-methods less restrictive.
+- Removed `notifyGroupMoved`- and `notifyChildMoved`-methods as they will not work as expected.
+
 ## Version 0.10.1 (Apr. 4th 2018)
 
 A bugfix release, which fixes the following issues:
