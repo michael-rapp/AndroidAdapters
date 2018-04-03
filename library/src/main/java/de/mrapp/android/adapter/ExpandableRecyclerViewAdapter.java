@@ -214,25 +214,6 @@ public interface ExpandableRecyclerViewAdapter extends ExpandableGridViewAdapter
     void notifyGroupRangeInserted(int startIndex, int groupCount);
 
     /**
-     * Notifies any registered observers that the group reflected at <code>fromIndex</code> has been
-     * moved to <code>toIndex</code>.
-     * <p>
-     * This is a structural change event. Representations of other existing groups in the data set
-     * are still considered up to date and will not be rebound, though their positions may be
-     * altered.
-     * <p>
-     * If the group is currently expanded, the registered observers will implicitly be notified that
-     * the children of the group have been inserted as well. This is equivalent to calling the
-     * <code>notifyChildMoved</code>-method for all children.
-     *
-     * @param fromIndex
-     *         The previous index of the group, as an {@link Integer} value
-     * @param toIndex
-     *         The new index of the group as an {@link Integer} value
-     */
-    void notifyGroupMoved(int fromIndex, int toIndex);
-
-    /**
      * Notifies any registered observers that the group previously located at
      * <code>groupIndex</code> has been removed from the data set. The groups previously located at
      * and after <code>groupIndex</code> may now be found at the <code>oldIndex - 1</code>.
@@ -414,28 +395,6 @@ public interface ExpandableRecyclerViewAdapter extends ExpandableGridViewAdapter
      * @see #notifyChildInserted(int, int)
      */
     void notifyChildRangeInserted(int groupIndex, int startIndex, int childCount);
-
-    /**
-     * Notifies any registered observers that the child reflected at <code>fromChildIndex</code> of
-     * the group at <code>fromGroupIndex</code>has been moved to <code>toChildIndex</code> of the
-     * group at <code>toGroupIndex</code>.
-     * <p>
-     * This is a structural change event. Representations of other existing children in the data set
-     * are still considered up to date and will not be rebound, though their positions may be
-     * altered.
-     *
-     * @param fromGroupIndex
-     *         The index of the group, the child previously corresponded to, as an {@link Integer}
-     *         value
-     * @param fromChildIndex
-     *         The previous index of the child, as an {@link Integer} value
-     * @param toGroupIndex
-     *         The index of the group, the child now corresponds to, as an {@link Integer} value
-     * @param toChildIndex
-     *         The new index of the child as an {@link Integer} value
-     */
-    void notifyChildMoved(int fromGroupIndex, int fromChildIndex, int toGroupIndex,
-                          int toChildIndex);
 
     /**
      * Notifies any registered observers that the child previously located at

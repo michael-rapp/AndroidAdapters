@@ -57,8 +57,6 @@ import de.mrapp.android.util.view.ViewHolder;
 
 import static de.mrapp.android.util.Condition.ensureAtLeast;
 import static de.mrapp.android.util.Condition.ensureNotNull;
-import static de.mrapp.android.util.Condition.ensureSmaller;
-import static de.mrapp.android.util.Condition.ensureTrue;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as a list of arbitrary
@@ -1586,13 +1584,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final void notifyGroupMoved(final int fromIndex, final int toIndex) {
-        int fromPackedPosition = getPackedPositionForGroup(fromIndex);
-        int toPackedPosition = getPackedPositionForGroup(toIndex);
-        notifyItemMoved(fromPackedPosition, toPackedPosition);
-    }
-
-    @Override
     public final void notifyGroupRemoved(final int childIndex) {
         notifyGroupRangeRemoved(childIndex, 1);
     }
@@ -1645,14 +1636,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final void notifyChildMoved(final int fromGroupIndex, final int fromChildIndex,
-                                       final int toGroupIndex, final int toChildIndex) {
-        int fromPackedPosition = getPackedPositionForChild(fromGroupIndex, fromChildIndex);
-        int toPackedPosition = getPackedPositionForChild(toGroupIndex, toChildIndex);
-        notifyItemMoved(fromPackedPosition, toPackedPosition);
-    }
-
-    @Override
     public final void notifyChildRemoved(final int groupIndex, final int childIndex) {
         notifyChildRangeRemoved(groupIndex, childIndex, 1);
     }
@@ -1701,12 +1684,13 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @Override
     public final int getPackedPositionForGroup(final int groupIndex) {
+        ensureAtLeast(groupIndex, 0, "The group index must be at least 0");
         int packedPosition = 0;
 
         for (int i = 0; i < groupIndex; i++) {
             packedPosition++;
 
-            if (isGroupExpanded(i)) {
+            if (i < getGroupCount() && isGroupExpanded(i)) {
                 packedPosition += getChildCount(i);
             }
         }
@@ -1716,13 +1700,9 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @Override
     public final int getPackedPositionForChild(final int groupIndex, final int childIndex) {
-        int packedPosition = getPackedPositionForGroup(groupIndex);
-        ensureTrue(isGroupExpanded(groupIndex),
-                "The group at index " + groupIndex + " is not currently expanded");
         ensureAtLeast(childIndex, 0, "The child index must be at least 0",
                 IndexOutOfBoundsException.class);
-        int childCount = getChildCount(groupIndex);
-        ensureSmaller(childIndex, childCount, "The child index must be less than " + childCount);
+        int packedPosition = getPackedPositionForGroup(groupIndex);
         return packedPosition + childIndex + 1;
     }
 
