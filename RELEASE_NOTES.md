@@ -1,6 +1,12 @@
 # AndroidAdapters - RELEASE NOTES
 
-## Version 0.10.0 (Mar. 18th 2018)
+## Version 0.10.1 (Apr. 4th 2018)
+
+A bugfix release, which fixes the following issues:
+
+- Fixed a possible crash when collapsing a group of an `ExpandableListAdapter`, which is attached to a `RecyclerView`.
+
+## Version 0.10.0 (Apr. 1st 2018)
 
 A feature release, which introduces the following changes:
 
