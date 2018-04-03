@@ -2987,7 +2987,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
                     } else if (expandableGridView != null) {
                         expandableGridView.expandGroup(index);
                     } else {
-                        notifyObserversOnDataSetChanged();
+                        notifyObserversOnGroupChanged(index);
+                        notifyObserversOnChildRangeInserted(index, 0, getChildCount(index));
                     }
                 } else {
                     if (adapterView != null) {
@@ -2995,7 +2996,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
                     } else if (expandableGridView != null) {
                         expandableGridView.collapseGroup(index);
                     } else {
-                        notifyObserversOnDataSetChanged();
+                        notifyObserversOnGroupChanged(index);
+                        notifyObserversOnChildRangeRemoved(index, 0, getChildCount(index));
                     }
                 }
             } else {
