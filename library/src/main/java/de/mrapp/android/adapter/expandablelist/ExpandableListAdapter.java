@@ -100,8 +100,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *
      * @param groupIndex
      *         The index of the group item, whose packed position should be returned, as an {@link
-     *         Integer} value. If the given group index is invalid, an {@link
-     *         IndexOutOfBoundsException} will be thrown
+     *         Integer} value. The index must be at least 0
      * @return The packed position of the given group item as an {@link Integer} value
      */
     int getPackedPositionForGroup(int groupIndex);
@@ -111,13 +110,10 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *
      * @param groupIndex
      *         The index of the group, the child item, whose packed position should be returned,
-     *         belongs to, as an {@link Integer} value. If the given group index is invalid, an
-     *         {@link IndexOutOfBoundsException} will be thrown. if it is currently collapsed, an
-     *         {@link IllegalArgumentException} will be thrown
+     *         belongs to, as an {@link Integer} value. The index must be at least 0
      * @param childIndex
      *         The index of the child item, whose packed position should be returned, as an {@link
-     *         Integer} value. If the given child index is invalid, an {@link
-     *         IndexOutOfBoundsException} will be thrown
+     *         Integer} value. The index must be at least 0
      * @return The packed position of the given child item as an {@link Integer} value
      */
     int getPackedPositionForChild(int groupIndex, int childIndex);
