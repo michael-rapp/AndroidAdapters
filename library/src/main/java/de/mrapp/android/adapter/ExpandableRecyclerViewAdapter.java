@@ -50,26 +50,6 @@ public interface ExpandableRecyclerViewAdapter extends ExpandableGridViewAdapter
     void notifyGroupChanged(int groupIndex);
 
     /**
-     * Notifies any registered observers that the group at <code>groupIndex</code> has changed.
-     * Equivalent to calling <code>notifyGroupChanged(groupIndex, null);</code>.
-     * <p>
-     * This is a group change event, not a structural change event. It indicates that any reflection
-     * of the data at <code>groupIndex</code> is out of date and should be updated. The group at
-     * <code>groupIndex</code> retains the same identity.
-     * <p>
-     * Optionally, if the group is currently expanded, the registered observers can be notified that
-     * the children of the changed group have been changed as well. This is equivalent to calling
-     * the <code>notifyChildRangeChanged</code>-method for all children of the according group.
-     *
-     * @param groupIndex
-     *         The index of the group, which has been changed, as an {@link Integer} value
-     * @param childrenChanged
-     *         True, if the children of the group have been changed as well, false otherwise
-     * @see #notifyGroupRangeChanged(int, int)
-     */
-    void notifyGroupChanged(int groupIndex, boolean childrenChanged);
-
-    /**
      * Notifies any registered observers that the group at <code>groupIndex</code> has changed with
      * an optional payload object.
      * <p>
@@ -92,14 +72,12 @@ public interface ExpandableRecyclerViewAdapter extends ExpandableGridViewAdapter
      *
      * @param index
      *         The index of the group, which has been changed, as an {@link Integer} value
-     * @param childrenChanged
-     *         True, if the children of the group have been changed as well, false otherwise
      * @param payload
      *         An optional payload as an instance of the class {@link Object} or null to identify a
      *         "full" update
      * @see #notifyGroupRangeChanged(int, int)
      */
-    void notifyGroupChanged(int index, boolean childrenChanged, Object payload);
+    void notifyGroupChanged(int index, Object payload);
 
     /**
      * Notifies any registered observers that the <code>groupCount</code> groups starting at
@@ -118,30 +96,6 @@ public interface ExpandableRecyclerViewAdapter extends ExpandableGridViewAdapter
      * @see #notifyGroupChanged(int)
      */
     void notifyGroupRangeChanged(int startIndex, int groupCount);
-
-    /**
-     * Notifies any registered observers that the <code>groupCount</code> groups starting at
-     * <code>startIndex</code> have changed. Equivalent to calling <code>notifyGroupRangeChanged(startIndex,
-     * groupCount, null);</code>.
-     * <p>
-     * This is a group change event, not a structural change event. It indicates that any reflection
-     * of the data in the given position range is out of date and should be updated. The groups in
-     * the given range retain the same identity.
-     * <p>
-     * Optionally, if the group is currently expanded, the registered observers can be notified that
-     * the children of the changed groups have been changed as well. This is equivalent to calling
-     * the <code>notifyChildRangeChanged</code>-method for all children of the according groups.
-     *
-     * @param startIndex
-     *         The index of the first group, which has been changed, as an {@link Integer} value
-     * @param groupCount
-     *         The number of groups, which have been changed, as an {@link Integer} value. The
-     *         number of groups must be at least 1
-     * @param childrenChanged
-     *         True, if the children of the groups have been changed as well, false otherwise
-     * @see #notifyGroupChanged(int, boolean)
-     */
-    void notifyGroupRangeChanged(int startIndex, int groupCount, boolean childrenChanged);
 
     /**
      * Notifies any registered observers that the <code>groupCount</code> groups starting at
@@ -165,15 +119,12 @@ public interface ExpandableRecyclerViewAdapter extends ExpandableGridViewAdapter
      *         The index of the first group, which has been changed, as an {@link Integer} value
      * @param groupCount
      *         The number of groups, which have been changed, as an {@link Integer} value
-     * @param childrenChanged
-     *         True, if the children of the groups have been changed as well, false otherwise
      * @param payload
      *         An optional payload as an instance of the class {@link Object} or null to identify a
      *         "full" update
-     * @see #notifyGroupChanged(int, boolean, Object)
+     * @see #notifyGroupChanged(int, Object)
      */
-    void notifyGroupRangeChanged(int startIndex, int groupCount, boolean childrenChanged,
-                                 Object payload);
+    void notifyGroupRangeChanged(int startIndex, int groupCount, Object payload);
 
     /**
      * Notifies any registered observers that the group at <code>groupIndex</code> has been newly

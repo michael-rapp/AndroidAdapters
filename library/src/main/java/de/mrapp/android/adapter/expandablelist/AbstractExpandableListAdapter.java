@@ -1531,14 +1531,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final void notifyGroupChanged(final int groupIndex, final boolean childrenChanged) {
-        notifyGroupChanged(groupIndex, childrenChanged, null);
-    }
-
-    @Override
-    public final void notifyGroupChanged(final int groupIndex, final boolean childrenChanged,
-                                         @Nullable final Object payload) {
-        notifyGroupRangeChanged(groupIndex, 1, childrenChanged, payload);
+    public final void notifyGroupChanged(final int groupIndex, @Nullable final Object payload) {
+        notifyGroupRangeChanged(groupIndex, 1, payload);
     }
 
     @Override
@@ -1548,23 +1542,13 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @Override
     public final void notifyGroupRangeChanged(final int startIndex, final int groupCount,
-                                              final boolean childrenChanged) {
-        notifyGroupRangeChanged(startIndex, groupCount, childrenChanged, null);
-    }
-
-    @Override
-    public final void notifyGroupRangeChanged(final int startIndex, final int groupCount,
-                                              final boolean childrenChanged,
                                               @Nullable final Object payload) {
-        if (childrenChanged) {
-            int packedPosition = getPackedPositionForGroup(startIndex);
-            int count = groupCount + (isGroupExpanded(startIndex + groupCount) ?
-                    getChildCount(startIndex + groupCount) : 0);
-            notifyItemRangeChanged(packedPosition, count, payload);
-        } else {
-            for (int i = 0; i < groupCount; i++) {
-                notifyItemChanged(startIndex + i, payload);
-            }
+        ensureAtLeast(groupCount, 1, "The group count must be at least 1");
+
+        for (int i = 0; i < groupCount; i++) {
+            int groupIndex = startIndex + i;
+            int packedPosition = getPackedPositionForGroup(groupIndex);
+            notifyItemChanged(packedPosition, payload);
         }
     }
 
@@ -1576,11 +1560,12 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     @Override
     public final void notifyGroupRangeInserted(final int startIndex, final int groupCount) {
         ensureAtLeast(groupCount, 1, "The group count must be at least 1");
-        int packedPosition = getPackedPositionForGroup(startIndex);
-        int count = groupCount +
-                (isGroupExpanded(startIndex + groupCount) ? getChildCount(startIndex + groupCount) :
-                        0);
-        notifyItemRangeInserted(packedPosition, count);
+
+        for (int i = 0; i < groupCount; i++) {
+            int groupIndex = startIndex + i;
+            int packedPosition = getPackedPositionForGroup(groupIndex);
+            notifyItemInserted(packedPosition);
+        }
     }
 
     @Override
@@ -1591,11 +1576,12 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     @Override
     public final void notifyGroupRangeRemoved(final int startIndex, final int groupCount) {
         ensureAtLeast(groupCount, 1, "The group count must be at least 1");
-        int packedPosition = getPackedPositionForGroup(startIndex);
-        int count = groupCount +
-                (isGroupExpanded(startIndex + groupCount) ? getChildCount(startIndex + groupCount) :
-                        0);
-        notifyItemRangeRemoved(packedPosition, count);
+
+        for (int i = 0; i < groupCount; i++) {
+            int groupIndex = startIndex + i;
+            int packedPosition = getPackedPositionForGroup(groupIndex);
+            notifyItemRemoved(packedPosition);
+        }
     }
 
     @Override
@@ -1618,6 +1604,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     @Override
     public final void notifyChildRangeChanged(final int groupIndex, final int startIndex,
                                               final int childCount, final Object payload) {
+        ensureAtLeast(childCount, 1, "The child count must be at least 1");
         int packedPosition = getPackedPositionForChild(groupIndex, startIndex);
         notifyItemRangeChanged(packedPosition, childCount, payload);
     }
