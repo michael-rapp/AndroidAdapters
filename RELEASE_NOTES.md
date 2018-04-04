@@ -1,5 +1,11 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.10.3 (Apr. 4th 2018)
+
+A bugfix release, which fixes the following issues:
+
+- Fixed possible crashes when invoking `notifyGroupRangeInserted`-, `notifyGroupRangeChanged`- or `notifyGroupRangeRemoved`-methods.
+
 ## Version 0.10.2 (Apr. 4th 2018)
 
 A bugfix release, which fixes the following issues:
