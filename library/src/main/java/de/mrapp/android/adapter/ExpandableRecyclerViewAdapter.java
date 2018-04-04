@@ -179,32 +179,8 @@ public interface ExpandableRecyclerViewAdapter extends ExpandableGridViewAdapter
      *
      * @param groupIndex
      *         The index of the group, which has been removed, as an {@link Integer} value
-     * @see #notifyGroupRangeRemoved(int, int)
      */
     void notifyGroupRemoved(int groupIndex);
-
-    /**
-     * Notifies any registered observers that the <code>groupCount</code> groups previously located
-     * at <code>startIndex</code> have been removed from the data set. The groups previously located
-     * at and after <code>startIndex + groupCount</code> may now be found at <code>oldIndex -
-     * groupCount</code>.
-     * <p>
-     * This is a structural change event. Representations of other existing groups in the data set
-     * are still considered up to date and will not be rebound, though their positions may be
-     * altered.
-     * <p>
-     * If a group is currently expanded, the registered observers will implicitly be notified that
-     * the children of the group have been removed as well. This is equivalent to calling the
-     * <code>notifyChildRangeRemoved</code>-method for all children.
-     *
-     * @param startIndex
-     *         The previous index of the first group, which has been removed, as an {@link Integer}
-     *         value
-     * @param groupCount
-     *         The number of groups, which has been removed, as an {@link Integer} value. The number
-     *         of groups must be at least 1
-     */
-    void notifyGroupRangeRemoved(int startIndex, int groupCount);
 
     /**
      * Notifies any registered observers that the child at <code>childIndex</code> of the group at

@@ -1569,19 +1569,9 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final void notifyGroupRemoved(final int childIndex) {
-        notifyGroupRangeRemoved(childIndex, 1);
-    }
-
-    @Override
-    public final void notifyGroupRangeRemoved(final int startIndex, final int groupCount) {
-        ensureAtLeast(groupCount, 1, "The group count must be at least 1");
-
-        for (int i = 0; i < groupCount; i++) {
-            int groupIndex = startIndex + i;
-            int packedPosition = getPackedPositionForGroup(groupIndex);
-            notifyItemRemoved(packedPosition);
-        }
+    public final void notifyGroupRemoved(final int groupIndex) {
+        int packedPosition = getPackedPositionForGroup(groupIndex);
+        notifyItemRemoved(packedPosition);
     }
 
     @Override
