@@ -2,6 +2,13 @@
 
 ## Version 0.10.3 (Apr. 4th 2018)
 
+A minor release, which introduces the following changes:
+
+- Updated dependency "AndroidUtil" to version 1.20.2.
+- Updated AppCompat v7 RecyclerView library to version 27.1.1.
+
+## Version 0.10.3 (Apr. 4th 2018)
+
 A bugfix release, which fixes the following issues:
 
 - Fixed possible crashes when invoking `notifyGroupRangeInserted`-, `notifyGroupRangeChanged`- or `notifyGroupRangeRemoved`-methods.
