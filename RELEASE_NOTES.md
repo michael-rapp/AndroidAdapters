@@ -1,6 +1,6 @@
 # AndroidAdapters - RELEASE NOTES
 
-## Version 0.10.3 (Apr. 4th 2018)
+## Version 0.10.4 (May 5th 2018)
 
 A minor release, which introduces the following changes:
 
