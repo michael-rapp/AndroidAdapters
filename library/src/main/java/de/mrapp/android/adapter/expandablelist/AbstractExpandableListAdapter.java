@@ -1647,8 +1647,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     @Override
     public final int getPackedPositionGroup(final int packedPosition) {
         Pair<Integer, Integer> pair = getPackedPositionGroupAndChild(packedPosition);
-        int groupIndex = pair.first;
-        return groupIndex != -1 ? groupIndex : PACKED_POSITION_TYPE_NULL;
+        return pair.first;
     }
 
     @Override
@@ -1656,7 +1655,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         Pair<Integer, Integer> pair = getPackedPositionGroupAndChild(packedPosition);
         int groupIndex = pair.first;
         int childIndex = pair.second;
-        return groupIndex != -1 && childIndex != -1 ? childIndex : PACKED_POSITION_TYPE_NULL;
+        return groupIndex != -1 && childIndex != -1 ? childIndex : -1;
     }
 
     @Override
