@@ -498,6 +498,38 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     /**
+     * Notifies all listener, which have been registered to be notified, when a group item has been
+     * expanded or collapsed, that a group has been expanded.
+     *
+     * @param group
+     *         The group, which has been expanded, as an instance of the generic type GroupType. The
+     *         group may not be null
+     * @param groupIndex
+     *         The index of the group, which has been expanded, as an {@link Integer} value
+     */
+    private void notifyOnGroupExpanded(@NonNull final GroupType group, final int groupIndex) {
+        for (ExpansionListener<GroupType, ChildType> listener : expansionListeners) {
+            listener.onGroupExpanded(this, group, groupIndex);
+        }
+    }
+
+    /**
+     * Notifies all listener, which have been registered to be notified, when a group item has been
+     * expanded or collapsed, that a group has been collapsed.
+     *
+     * @param group
+     *         The group, which has been collapsed, as an instance of the generic type GroupType.
+     *         The group may not be null
+     * @param groupIndex
+     *         The index of the group, which has been collapsed, as an {@link Integer} value
+     */
+    private void notifyOnGroupCollapsed(@NonNull final GroupType group, final int groupIndex) {
+        for (ExpansionListener<GroupType, ChildType> listener : expansionListeners) {
+            listener.onGroupCollapsed(this, group, groupIndex);
+        }
+    }
+
+    /**
      * Creates and returns an adapter, which may be used to manage the adapter's child items.
      *
      * @return The adapter, which has been created, as an instance of the type {@link
@@ -2953,32 +2985,52 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @Override
     public final void setGroupExpanded(final int index, final boolean expanded) {
-        getGroupAdapter().getItem(index).setExpanded(expanded);
+        Group<GroupType, ChildType> group = getGroupAdapter().getItem(index);
 
-        if (adapterView != null || expandableGridView != null || expandableRecyclerView != null) {
-            if (isNotifiedOnChange()) {
-                if (expanded) {
-                    if (adapterView != null) {
-                        adapterView.expandGroup(index);
-                    } else if (expandableGridView != null) {
-                        expandableGridView.expandGroup(index);
+        if (group.isExpanded() != expanded) {
+            group.setExpanded(expanded);
+
+            if (adapterView != null || expandableGridView != null ||
+                    expandableRecyclerView != null) {
+                if (isNotifiedOnChange()) {
+                    if (expanded) {
+                        if (adapterView != null) {
+                            adapterView.expandGroup(index);
+                        } else if (expandableGridView != null) {
+                            expandableGridView.expandGroup(index);
+                        } else {
+                            notifyObserversOnGroupChanged(index);
+                            notifyObserversOnChildRangeInserted(index, 0, getChildCount(index));
+                        }
                     } else {
-                        notifyObserversOnGroupChanged(index);
-                        notifyObserversOnChildRangeInserted(index, 0, getChildCount(index));
+                        if (adapterView != null) {
+                            adapterView.collapseGroup(index);
+                        } else if (expandableGridView != null) {
+                            expandableGridView.collapseGroup(index);
+                        } else {
+                            notifyObserversOnGroupChanged(index);
+                            notifyObserversOnChildRangeRemoved(index, 0, getChildCount(index));
+                        }
                     }
                 } else {
-                    if (adapterView != null) {
-                        adapterView.collapseGroup(index);
-                    } else if (expandableGridView != null) {
-                        expandableGridView.collapseGroup(index);
-                    } else {
-                        notifyObserversOnGroupChanged(index);
-                        notifyObserversOnChildRangeRemoved(index, 0, getChildCount(index));
-                    }
+                    taintAdapterView();
                 }
-            } else {
-                taintAdapterView();
             }
+
+            if (expanded) {
+                notifyOnGroupExpanded(group.getData(), index);
+                getLogger().logInfo(getClass(),
+                        "Group \"" + group.getData() + "\" at index " + index + "expanded");
+            } else {
+                notifyOnGroupCollapsed(group.getData(), index);
+                getLogger().logInfo(getClass(),
+                        "Group \"" + group.getData() + "\" at index " + index + "collapsed");
+            }
+        } else {
+            String message = "Group \"" + group.getData() + "\" at index " + index + " not " +
+                    (expanded ? "expanded" : "collapsed") + ", because group is already " +
+                    (expanded ? "expanded" : "collapsed");
+            getLogger().logDebug(getClass(), message);
         }
     }
 
