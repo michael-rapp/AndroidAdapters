@@ -1,5 +1,11 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.10.5 (Jun. 29th 2018)
+
+A bugfix release, which fixes the following issues:
+
+- The `getPackedPositionGroup`- and `getPackedPositionChild`-methods of the class `AbstractExpandableListAdapter` do now return the correct value when the given position is invalid.
+
 ## Version 0.10.4 (May 5th 2018)
 
 A minor release, which introduces the following changes:
