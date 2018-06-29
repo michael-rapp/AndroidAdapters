@@ -1287,7 +1287,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     /**
-     * Notifies all obserers, that a child has been changed, if notifying such events is currently
+     * Notifies all observers, that a child has been changed, if notifying such events is currently
      * enabled.
      *
      * @param groupIndex
@@ -1303,6 +1303,27 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
             } else {
                 notifyDataSetChanged();
             }
+        }
+    }
+
+    /**
+     * Notifies all observers, that a group has been expanded or collapsed, if notifying such events
+     * is currently enabled.
+     *
+     * @param index
+     *         The index of the group, which has been expanded or collapsed, as an {@link Integer}
+     *         value
+     */
+    protected final void notifyObserversOnExpansion(final int index) {
+        if (index > 0) {
+            notifyObserversOnGroupChanged(index - 1);
+        }
+
+        notifyObserversOnGroupChanged(index);
+        notifyObserversOnChildRangeRemoved(index, 0, getChildCount(index));
+
+        if (index < getGroupCount() - 1) {
+            notifyObserversOnGroupChanged(index + 1);
         }
     }
 
@@ -2999,8 +3020,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
                         } else if (expandableGridView != null) {
                             expandableGridView.expandGroup(index);
                         } else {
-                            notifyObserversOnGroupChanged(index);
-                            notifyObserversOnChildRangeInserted(index, 0, getChildCount(index));
+                            notifyObserversOnExpansion(index);
                         }
                     } else {
                         if (adapterView != null) {
@@ -3008,8 +3028,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
                         } else if (expandableGridView != null) {
                             expandableGridView.collapseGroup(index);
                         } else {
-                            notifyObserversOnGroupChanged(index);
-                            notifyObserversOnChildRangeRemoved(index, 0, getChildCount(index));
+                            notifyObserversOnExpansion(index);
                         }
                     }
                 } else {
