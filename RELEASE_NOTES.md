@@ -6,6 +6,7 @@ A bugfix release, which fixes the following issues:
 
 - The `getPackedPositionGroup`- and `getPackedPositionChild`-methods of the class `AbstractExpandableListAdapter` do now return the correct value when the given position is invalid.
 - `ExpansionListeners` are now actually notified when a group of an `ExpandableListAdapter` has been collapsed or expanded.
+- When expanding or collapsing a group of an `ExpandableListAdapter` that is attached to a `RecyclerView`, the view is now notified to update the previous and subsequent group as well.
 - Added additional log messages.
 
 ## Version 0.10.4 (May 5th 2018)
