@@ -1313,14 +1313,25 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      * @param index
      *         The index of the group, which has been expanded or collapsed, as an {@link Integer}
      *         value
+     * @param expanded
+     *         True, if the group has been expanded, false, if it has been collapsed
      */
-    protected final void notifyObserversOnExpansion(final int index) {
+    protected final void notifyObserversOnExpansion(final int index, final boolean expanded) {
         if (index > 0) {
-            notifyObserversOnGroupChanged(index - 1);
+            if (isGroupExpanded(index - 1)) {
+                notifyObserversOnChildChanged(index - 1, getChildCount(index - 1) - 1);
+            } else {
+                notifyObserversOnGroupChanged(index - 1);
+            }
         }
 
         notifyObserversOnGroupChanged(index);
-        notifyObserversOnChildRangeRemoved(index, 0, getChildCount(index));
+
+        if (expanded) {
+            notifyObserversOnChildRangeInserted(index, 0, getChildCount(index));
+        } else {
+            notifyObserversOnChildRangeRemoved(index, 0, getChildCount(index));
+        }
 
         if (index < getGroupCount() - 1) {
             notifyObserversOnGroupChanged(index + 1);
@@ -1533,7 +1544,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         this.expansionListeners = expansionListeners;
         addItemClickListener(createGroupClickListener());
         registerAdapterDataObserver(createAdapterDataSetObserver());
-        super.setHasStableIds(false);
+        super.setHasStableIds(true);
     }
 
     /**
@@ -1774,6 +1785,15 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         }
 
         return count;
+    }
+
+    @Override
+    public final long getItemId(final int index) {
+        Pair<Integer, Integer> pair = getPackedPositionGroupAndChild(index);
+        int groupIndex = pair.first;
+        int childIndex = pair.second;
+        Object item = childIndex == -1 ? getGroup(groupIndex) : getChild(groupIndex, childIndex);
+        return System.identityHashCode(item);
     }
 
     @Override
@@ -3026,7 +3046,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
                         } else if (expandableGridView != null) {
                             expandableGridView.expandGroup(index);
                         } else {
-                            notifyObserversOnExpansion(index);
+                            notifyObserversOnExpansion(index, expanded);
                         }
                     } else {
                         if (adapterView != null) {
@@ -3034,7 +3054,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
                         } else if (expandableGridView != null) {
                             expandableGridView.collapseGroup(index);
                         } else {
-                            notifyObserversOnExpansion(index);
+                            notifyObserversOnExpansion(index, expanded);
                         }
                     }
                 } else {
@@ -3294,12 +3314,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
         applyDecoratorOnChild(getContext(), view, groupIndex, childIndex);
         return view;
-    }
-
-    @Override
-    public final void setHasStableIds(final boolean hasStableIds) {
-        throw new UnsupportedOperationException(
-                "Cannot change whether this adapter has stable IDs");
     }
 
     @Override

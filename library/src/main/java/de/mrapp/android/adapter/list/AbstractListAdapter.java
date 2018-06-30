@@ -1291,12 +1291,6 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
     }
 
     @Override
-    public final void setHasStableIds(final boolean hasStableIds) {
-        throw new UnsupportedOperationException(
-                "Cannot change whether this adapter has stable IDs");
-    }
-
-    @Override
     public final ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent,
                                                final int viewType) {
         if (recyclerView == null) {
