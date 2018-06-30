@@ -802,7 +802,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
         this.itemClickListeners = itemClickListeners;
         this.itemLongClickListeners = itemLongClickListeners;
         this.adapterListeners = adapterListeners;
-        super.setHasStableIds(true);
+        setHasStableIds(true);
     }
 
     /**

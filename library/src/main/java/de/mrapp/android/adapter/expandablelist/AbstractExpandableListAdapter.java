@@ -1542,9 +1542,9 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         this.itemLongClickListeners = itemLongClickListeners;
         this.adapterListeners = adapterListeners;
         this.expansionListeners = expansionListeners;
+        setHasStableIds(true);
         addItemClickListener(createGroupClickListener());
         registerAdapterDataObserver(createAdapterDataSetObserver());
-        super.setHasStableIds(true);
     }
 
     /**
