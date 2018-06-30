@@ -1,5 +1,12 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.10.6 (Jun 30th 2018)
+
+A minor release, which introduces the following changes:
+
+- The `getPackedPosition*`-methods of the interface `ExpandableListAdapter` are now deprecated.
+- When using the library's adapters together with a `RecyclerView`, view holders of the type `ListAdapter.ListItemViewHolder` or `ExpandableListAdapter.ExpandableListItemViewHolder` are now used.
+
 ## Version 0.10.5 (Jun. 29th 2018)
 
 A bugfix release, which fixes the following issues:
