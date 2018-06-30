@@ -50,10 +50,19 @@ public interface RecyclerViewAdapter extends Adapter<AbsListView> {
         }
 
         /**
+         * Returns, whether the view holder has already been bound, or not.
+         *
+         * @return True, if the view holder has been bound, false otherwise
+         */
+        public final boolean isBound() {
+            return itemIndex != -1;
+        }
+
+        /**
          * Returns the index of the item, the view holder corresponds to.
          *
          * @return The index of the item, the view holder corresponds to, as an {@link Integer}
-         * value
+         * value or -1, if the view holder has not been bound yet
          */
         public final int getItemIndex() {
             return itemIndex;
