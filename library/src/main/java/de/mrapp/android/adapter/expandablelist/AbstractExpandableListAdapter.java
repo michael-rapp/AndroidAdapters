@@ -130,16 +130,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
             AbstractExpandableListAdapter.class.getSimpleName() + "::LogLevel";
 
     /**
-     * The flag, which is used to identify view types, which correspond to group items.
-     */
-    private static final int FLAG_VIEW_TYPE_GROUP = 0x10;
-
-    /**
-     * The flag, which is used to identify view types, which correspond to child items.
-     */
-    private static final int FLAG_VIEW_TYPE_CHILD = 0x01;
-
-    /**
      * The context, the adapter belongs to.
      */
     private final transient Context context;

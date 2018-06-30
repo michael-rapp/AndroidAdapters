@@ -65,6 +65,16 @@ public interface ExpandableListAdapter<GroupType, ChildType>
     int PACKED_POSITION_TYPE_CHILD = 1;
 
     /**
+     * The flag, which is used to identify view types, which correspond to group items.
+     */
+    int FLAG_VIEW_TYPE_GROUP = 0x10;
+
+    /**
+     * The flag, which is used to identify view types, which correspond to child items.
+     */
+    int FLAG_VIEW_TYPE_CHILD = 0x01;
+
+    /**
      * Returns the type of a specific packed position.
      *
      * @param packedPosition
