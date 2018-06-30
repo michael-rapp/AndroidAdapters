@@ -1196,7 +1196,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
     public final void attach(@NonNull final AbsListView adapterView) {
         ensureNotNull(adapterView, "The adapter view may not be null");
         detach();
-        ((AdapterView<android.widget.ListAdapter>) adapterView).setAdapter(this);
+        adapterView.setAdapter(this);
         this.adapterView = adapterView;
         this.adapterView.setOnItemClickListener(createAdapterViewOnItemClickListener());
         this.adapterView.setOnItemLongClickListener(createAdapterViewOnItemLongClickListener());
@@ -1216,7 +1216,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
     public final void detach() {
         if (adapterView != null) {
             if (adapterView.getAdapter() == this) {
-                ((AdapterView<android.widget.ListAdapter>) adapterView).setAdapter(null);
+                adapterView.setAdapter(null);
                 String message = "Detached adapter from view \"" + adapterView + "\"";
                 getLogger().logDebug(getClass(), message);
             } else {
@@ -1306,12 +1306,13 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
     }
 
     @Override
-    public final void onBindViewHolder(final ViewHolder viewHolder, final int index) {
+    public final void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int index) {
         ListItemViewHolder listItemViewHolder = (ListItemViewHolder) viewHolder;
         listItemViewHolder.setItemIndex(index);
-        viewHolder.getParentView().setOnClickListener(createItemOnClickListener(index));
-        viewHolder.getParentView().setOnLongClickListener(createItemOnLongClickListener(index));
-        applyDecorator(getContext(), viewHolder.getParentView(), index);
+        listItemViewHolder.getParentView().setOnClickListener(createItemOnClickListener(index));
+        listItemViewHolder.getParentView()
+                .setOnLongClickListener(createItemOnLongClickListener(index));
+        applyDecorator(getContext(), listItemViewHolder.getParentView(), index);
     }
 
     @Override
