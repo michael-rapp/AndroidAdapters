@@ -1302,11 +1302,13 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
         View view = getDecorator().onInflateView(inflater, parent, viewType);
         String message = "Inflated view to visualize item with view type " + viewType;
         getLogger().logVerbose(getClass(), message);
-        return new ViewHolder(view);
+        return new ListItemViewHolder(view);
     }
 
     @Override
     public final void onBindViewHolder(final ViewHolder viewHolder, final int index) {
+        ListItemViewHolder listItemViewHolder = (ListItemViewHolder) viewHolder;
+        listItemViewHolder.setItemIndex(index);
         viewHolder.getParentView().setOnClickListener(createItemOnClickListener(index));
         viewHolder.getParentView().setOnLongClickListener(createItemOnLongClickListener(index));
         applyDecorator(getContext(), viewHolder.getParentView(), index);
