@@ -52,27 +52,20 @@ public interface ExpandableListAdapter<GroupType, ChildType>
     /**
      * The type of an invalid packed position.
      */
+    @Deprecated
     int PACKED_POSITION_TYPE_NULL = 2;
 
     /**
      * The type of a packed position, which represents a group.
      */
+    @Deprecated
     int PACKED_POSITION_TYPE_GROUP = 0;
 
     /**
      * The type of a packed position, which represents a group.
      */
+    @Deprecated
     int PACKED_POSITION_TYPE_CHILD = 1;
-
-    /**
-     * The flag, which is used to identify view types, which correspond to group items.
-     */
-    int FLAG_VIEW_TYPE_GROUP = 0x10;
-
-    /**
-     * The flag, which is used to identify view types, which correspond to child items.
-     */
-    int FLAG_VIEW_TYPE_CHILD = 0x01;
 
     /**
      * Returns the type of a specific packed position.
@@ -83,6 +76,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * either be {@link #PACKED_POSITION_TYPE_GROUP}, {@link #PACKED_POSITION_TYPE_CHILD} or -1, if
      * the given packed position is invalid
      */
+    @Deprecated
     int getPackedPositionType(int packedPosition);
 
     /**
@@ -93,6 +87,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return The index of the group, which corresponds to the given packed position, as an {@link
      * Integer} value or -1, if the packed position does not correspond to a group
      */
+    @Deprecated
     int getPackedPositionGroup(int packedPosition);
 
     /**
@@ -103,6 +98,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @return The index of the child, which corresponds to the given packed position, as an {@link
      * Integer} value or -1, if the packed position does not correspond to a child
      */
+    @Deprecated
     int getPackedPositionChild(int packedPosition);
 
     /**
@@ -113,6 +109,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         Integer} value. The index must be at least 0
      * @return The packed position of the given group item as an {@link Integer} value
      */
+    @Deprecated
     int getPackedPositionForGroup(int groupIndex);
 
     /**
@@ -126,6 +123,7 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      *         Integer} value. The index must be at least 0
      * @return The packed position of the given child item as an {@link Integer} value
      */
+    @Deprecated
     int getPackedPositionForChild(int groupIndex, int childIndex);
 
     /**

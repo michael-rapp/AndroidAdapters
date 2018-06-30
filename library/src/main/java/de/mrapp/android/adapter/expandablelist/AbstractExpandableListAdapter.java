@@ -130,6 +130,16 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
             AbstractExpandableListAdapter.class.getSimpleName() + "::LogLevel";
 
     /**
+     * The flag, which is used to identify view types, which correspond to group items.
+     */
+    private static final int FLAG_VIEW_TYPE_GROUP = 0x10;
+
+    /**
+     * The flag, which is used to identify view types, which correspond to child items.
+     */
+    private static final int FLAG_VIEW_TYPE_CHILD = 0x01;
+
+    /**
      * The context, the adapter belongs to.
      */
     private final transient Context context;
@@ -1678,6 +1688,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     }
 
+    @Deprecated
     @Override
     public final int getPackedPositionType(final int packedPosition) {
         Pair<Integer, Integer> pair = getPackedPositionGroupAndChild(packedPosition);
@@ -1687,12 +1698,14 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
                 groupIndex != -1 ? PACKED_POSITION_TYPE_GROUP : PACKED_POSITION_TYPE_NULL;
     }
 
+    @Deprecated
     @Override
     public final int getPackedPositionGroup(final int packedPosition) {
         Pair<Integer, Integer> pair = getPackedPositionGroupAndChild(packedPosition);
         return pair.first;
     }
 
+    @Deprecated
     @Override
     public final int getPackedPositionChild(final int packedPosition) {
         Pair<Integer, Integer> pair = getPackedPositionGroupAndChild(packedPosition);
@@ -1701,6 +1714,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         return groupIndex != -1 && childIndex != -1 ? childIndex : -1;
     }
 
+    @Deprecated
     @Override
     public final int getPackedPositionForGroup(final int groupIndex) {
         ensureAtLeast(groupIndex, 0, "The group index must be at least 0");
@@ -1717,6 +1731,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         return packedPosition;
     }
 
+    @Deprecated
     @Override
     public final int getPackedPositionForChild(final int groupIndex, final int childIndex) {
         ensureAtLeast(childIndex, 0, "The child index must be at least 0",
