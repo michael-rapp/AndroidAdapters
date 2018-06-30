@@ -1,5 +1,11 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.10.8 (Jun 30th 2018)
+
+A bugfix release, which fixes the following issues:
+
+- Fixed exception being thrown in constructor of the class `AbstractExpandableListAdapter`.
+
 ## Version 0.10.7 (Jun 30th 2018)
 
 A bugfix release, which fixes the following issues:
