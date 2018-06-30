@@ -78,6 +78,13 @@ public interface Adapter<AdapterViewType extends AdapterView<? extends android.w
      */
     boolean isEmpty();
 
+    /**
+     * Returns, whether the adapter's items have stable ids, or not.
+     *
+     * @return True, if the items have stable ids, false otherwise
+     */
+    boolean hasStableIds();
+
     @Override
     Adapter<AdapterViewType> clone() throws CloneNotSupportedException;
 

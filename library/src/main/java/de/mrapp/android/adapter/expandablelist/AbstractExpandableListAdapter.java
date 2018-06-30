@@ -1533,6 +1533,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         this.expansionListeners = expansionListeners;
         addItemClickListener(createGroupClickListener());
         registerAdapterDataObserver(createAdapterDataSetObserver());
+        super.setHasStableIds(false);
     }
 
     /**
@@ -3293,6 +3294,12 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
         applyDecoratorOnChild(getContext(), view, groupIndex, childIndex);
         return view;
+    }
+
+    @Override
+    public final void setHasStableIds(final boolean hasStableIds) {
+        throw new UnsupportedOperationException(
+                "Cannot change whether this adapter has stable IDs");
     }
 
     @Override

@@ -802,7 +802,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
         this.itemClickListeners = itemClickListeners;
         this.itemLongClickListeners = itemLongClickListeners;
         this.adapterListeners = adapterListeners;
-        setHasStableIds(true);
+        super.setHasStableIds(true);
     }
 
     /**
@@ -1288,6 +1288,12 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
 
         applyDecorator(getContext(), view, index);
         return view;
+    }
+
+    @Override
+    public final void setHasStableIds(final boolean hasStableIds) {
+        throw new UnsupportedOperationException(
+                "Cannot change whether this adapter has stable IDs");
     }
 
     @Override
