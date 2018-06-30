@@ -15,6 +15,9 @@ package de.mrapp.android.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+
+import de.mrapp.android.util.view.ViewHolder;
 
 /**
  * Defines the interface, all expandable list adapters, which can be attached to a RecyclerView,
@@ -24,6 +27,106 @@ import android.support.v7.widget.RecyclerView;
  * @since 0.8.0
  */
 public interface ExpandableRecyclerViewAdapter extends ExpandableGridViewAdapter {
+
+    /**
+     * The view holder, which is used by a {@link ExpandableRecyclerViewAdapter}.
+     */
+    class ExpandableListItemViewHolder extends ViewHolder {
+
+        /**
+         * The index of the group, the view holder corresponds to.
+         */
+        private int groupIndex = -1;
+
+        /**
+         * The index of the child, the view holder corresponds to.
+         */
+        private int childIndex = -1;
+
+        /**
+         * Creates a new view holder.
+         *
+         * @param itemView
+         *         The view, the view holder corresponds to, as an instance of the class {@link
+         *         View}. The view may not be null
+         */
+        public ExpandableListItemViewHolder(@NonNull final View itemView) {
+            super(itemView);
+        }
+
+        /**
+         * Returns, whether the view holder has already been bound, or not.
+         *
+         * @return True, if the view holder has already been bound, false otherwise
+         */
+        public final boolean isBound() {
+            return groupIndex != -1;
+        }
+
+        /**
+         * Returns, whether the view holder corresponds to a group item, or not.
+         *
+         * @return True, if the view holder corresponds to a group item, false otherwise or if the
+         * view holder has not already been bound
+         */
+        public final boolean isGroup() {
+            return isBound() && childIndex == -1;
+        }
+
+        /**
+         * Returns, whether the view holder corresponds to a child item, or not.
+         *
+         * @return True, if the view holder corresponds to a child item, false otherwise or if the
+         * view holder has not already been bound
+         */
+        public final boolean isChild() {
+            return isBound() && childIndex != -1;
+        }
+
+        /**
+         * Returns the index of the group, the view holder corresponds to.
+         *
+         * @return The index of the group, the view holder corresponds to, as an {@link Integer}
+         * value or -1, if the view holder has not be bound yet
+         */
+        public final int getGroupIndex() {
+            return groupIndex;
+        }
+
+        /**
+         * Sets the index of the group, the view holder corresponds to. This method should never be
+         * called manually!
+         *
+         * @param groupIndex
+         *         The group index, which should be set, as an {@link Integer} value
+         */
+        public final void setGroupIndex(final int groupIndex) {
+            this.groupIndex = groupIndex;
+        }
+
+        /**
+         * Returns the index of the child, the view holder corresponds to.
+         *
+         * @return The index of the child, the view holder corresponds to, as an {@link Integer}
+         * value or -1, if the view holder has not be bound yet or if the view holder corresponds to
+         * a group item
+         */
+        public final int getChildIndex() {
+            return childIndex;
+        }
+
+        /**
+         * Sets the index of the child, the view holder corresponds to. This method should never be
+         * called manually!
+         *
+         * @param childIndex
+         *         The child index, which should be set, as an {@link Integer} value
+         */
+        public final void setChildIndex(final int childIndex) {
+            this.childIndex = childIndex;
+        }
+
+    }
 
     /**
      * Attaches the adapter to a view.

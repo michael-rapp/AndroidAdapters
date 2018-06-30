@@ -3314,7 +3314,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
             getLogger().logVerbose(getClass(), "Inflated view to visualize the child item");
         }
 
-        return new ViewHolder(view);
+        return new ExpandableListItemViewHolder(view);
     }
 
     @Override
@@ -3322,18 +3322,24 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         Pair<Integer, Integer> pair = getPackedPositionGroupAndChild(position);
         int groupIndex = pair.first;
         int childIndex = pair.second;
+        ExpandableListItemViewHolder expandableListItemViewHolder =
+                (ExpandableListItemViewHolder) viewHolder;
+        expandableListItemViewHolder.setGroupIndex(groupIndex);
+        expandableListItemViewHolder.setChildIndex(childIndex);
 
         if (childIndex != -1) {
-            applyDecoratorOnChild(getContext(), viewHolder.getParentView(), groupIndex, childIndex);
-            viewHolder.getParentView().setOnClickListener(
+            applyDecoratorOnChild(getContext(), expandableListItemViewHolder.getParentView(),
+                    groupIndex, childIndex);
+            expandableListItemViewHolder.getParentView().setOnClickListener(
                     createRecyclerViewOnChildClickListener(groupIndex, childIndex));
-            viewHolder.getParentView().setOnLongClickListener(
+            expandableListItemViewHolder.getParentView().setOnLongClickListener(
                     createRecyclerViewOnChildLongClickListener(groupIndex, childIndex));
         } else {
-            applyDecoratorOnGroup(getContext(), viewHolder.getParentView(), groupIndex);
-            viewHolder.getParentView()
+            applyDecoratorOnGroup(getContext(), expandableListItemViewHolder.getParentView(),
+                    groupIndex);
+            expandableListItemViewHolder.getParentView()
                     .setOnClickListener(createRecyclerViewOnGroupClickListener(groupIndex));
-            viewHolder.getParentView()
+            expandableListItemViewHolder.getParentView()
                     .setOnLongClickListener(createRecyclerViewOnGroupLongClickListener(groupIndex));
         }
     }
