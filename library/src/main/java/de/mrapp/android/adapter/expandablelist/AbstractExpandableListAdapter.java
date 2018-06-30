@@ -3281,7 +3281,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
+    public final ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent,
+                                               final int viewType) {
         if (expandableRecyclerView == null) {
             throw new IllegalStateException(
                     "Adapter must be attached to a RecyclerView using its attach-method");
@@ -3302,7 +3303,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
-    public final void onBindViewHolder(final ViewHolder viewHolder, final int position) {
+    public final void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int position) {
         Pair<Integer, Integer> pair = getPackedPositionGroupAndChild(position);
         int groupIndex = pair.first;
         int childIndex = pair.second;
