@@ -1,5 +1,12 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.10.7 (Jun 30th 2018)
+
+A bugfix release, which fixes the following issues:
+
+- When expanding or collapsing a group of an `ExpandableListAdapter` that is attached to a `RecyclerView`, the observers are now notified correctly.
+- The group and child items of an `ExpandableListAdapter` now have stable IDs.
+
 ## Version 0.10.6 (Jun 30th 2018)
 
 A minor release, which introduces the following changes:
