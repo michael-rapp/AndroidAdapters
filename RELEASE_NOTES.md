@@ -4,7 +4,7 @@
 
 A minor release, which introduces the following changes:
 
-- Added `isAttached`- and `getAdapterView`-method to interface `Adapter.
+- Added `isAttached`- and `getAdapterView`-method to interface `Adapter`.
 
 ## Version 0.10.8 (Jun. 30th 2018)
 
