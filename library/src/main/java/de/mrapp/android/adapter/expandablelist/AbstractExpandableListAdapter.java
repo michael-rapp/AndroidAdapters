@@ -3213,6 +3213,25 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     }
 
     @Override
+    public final boolean isAttached() {
+        return getAdapterView() != null;
+    }
+
+    @Nullable
+    @Override
+    public final View getAdapterView() {
+        if (adapterView != null) {
+            return adapterView;
+        } else if (expandableGridView != null) {
+            return expandableGridView;
+        } else if (expandableRecyclerView != null) {
+            return expandableRecyclerView;
+        }
+
+        return null;
+    }
+
+    @Override
     public final boolean isChildSelectable(final int groupIndex, final int childIndex) {
         return isChildEnabled(groupIndex, childIndex);
     }

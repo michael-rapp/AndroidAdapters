@@ -597,26 +597,6 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
     }
 
     /**
-     * Returns the view, the adapter is currently attached to.
-     *
-     * @return The view, the adapter is currently attached to, as an instance of the class {@link
-     * AbsListView}, or null, if the adapter is currently not attached to a view
-     */
-    protected final AbsListView getAdapterView() {
-        return adapterView;
-    }
-
-    /**
-     * Returns the recycler view, the adapter is currently attached to.
-     *
-     * @return The recycler view, the adapter is currently attached to, as an instance of the class
-     * RecyclerView, or null, if the adapter is currently not attached to a recycler view
-     */
-    protected final RecyclerView getRecyclerView() {
-        return recyclerView;
-    }
-
-    /**
      * Returns a set, which contains the listeners, which should be notified, when the adapter's
      * underlying data has been modified.
      *
@@ -637,7 +617,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
      */
     protected final void notifyObserversOnItemChanged(final int index) {
         if (isNotifiedOnChange()) {
-            if (getRecyclerView() != null) {
+            if (recyclerView != null) {
                 notifyItemChanged(index);
             } else {
                 notifyDataSetChanged();
@@ -654,7 +634,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
      */
     protected final void notifyObserversOnItemInserted(final int index) {
         if (isNotifiedOnChange()) {
-            if (getRecyclerView() != null) {
+            if (recyclerView != null) {
                 notifyItemInserted(index);
             } else {
                 notifyDataSetChanged();
@@ -671,7 +651,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
      */
     protected final void notifyObserversOnItemRemoved(final int index) {
         if (isNotifiedOnChange()) {
-            if (getRecyclerView() != null) {
+            if (recyclerView != null) {
                 notifyItemRemoved(index);
             } else {
                 notifyDataSetChanged();
@@ -1241,6 +1221,23 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
                     "been attached to a view yet";
             getLogger().logVerbose(getClass(), message);
         }
+    }
+
+    @Override
+    public final boolean isAttached() {
+        return getAdapterView() != null;
+    }
+
+    @Nullable
+    @Override
+    public final View getAdapterView() {
+        if (adapterView != null) {
+            return adapterView;
+        } else if (recyclerView != null) {
+            return recyclerView;
+        }
+
+        return null;
     }
 
     @Override

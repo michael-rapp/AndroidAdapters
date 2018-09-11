@@ -14,6 +14,8 @@
 package de.mrapp.android.adapter;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.AdapterView;
 
 import de.mrapp.android.adapter.datastructure.DataStructure;
@@ -45,6 +47,22 @@ public interface Adapter<AdapterViewType extends AdapterView<? extends android.w
      * Detaches the adapter from the view, it is currently attached to.
      */
     void detach();
+
+    /**
+     * Returns, whether the adapter is currently attached to a view, or not.
+     *
+     * @return True, if the adapter is currently attached to a view, false otherwise
+     */
+    boolean isAttached();
+
+    /**
+     * Returns the view, the adapter is attached to.
+     *
+     * @return The view, the adapter is attached to, as an instance of the class {@link View} or
+     * null, if the adapter is not attached to a view
+     */
+    @Nullable
+    View getAdapterView();
 
     /**
      * Notifies all attached observers about the underlying data of the adapter having changed. This
