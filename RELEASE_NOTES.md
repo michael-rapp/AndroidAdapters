@@ -1,5 +1,13 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.11.0 (Oct. 30th 2018)
+
+A feature release, which introduces the following changes:
+
+- Migrated library to Android X.
+- Updated dependency "AndroidUtil" to version 2.0.0.
+- Updated targetSdkVersion to 28.
+
 ## Version 0.10.9 (Sep. 11th 2018)
 
 A minor release, which introduces the following changes:
