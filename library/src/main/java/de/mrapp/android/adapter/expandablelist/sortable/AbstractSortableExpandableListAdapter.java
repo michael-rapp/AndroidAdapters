@@ -15,16 +15,15 @@ package de.mrapp.android.adapter.expandablelist.sortable;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
 import android.widget.ExpandableListView;
 
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.Set;
 
+import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.datastructure.group.Group;
@@ -38,10 +37,9 @@ import de.mrapp.android.adapter.expandablelist.ExpansionListener;
 import de.mrapp.android.adapter.expandablelist.enablestate.ExpandableListEnableStateListener;
 import de.mrapp.android.adapter.expandablelist.itemstate.AbstractItemStateExpandableListAdapter;
 import de.mrapp.android.adapter.expandablelist.itemstate.ExpandableListItemStateListener;
-import de.mrapp.android.util.datastructure.ListenerList;
 import de.mrapp.android.util.logging.LogLevel;
-
-import static de.mrapp.android.util.Condition.ensureNotNull;
+import de.mrapp.util.Condition;
+import de.mrapp.util.datastructure.ListenerList;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as a sortable list of
@@ -209,7 +207,7 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
      */
     protected final void setSortingListeners(
             @NonNull final ListenerList<ExpandableListSortingListener<GroupType, ChildType>> sortingListeners) {
-        ensureNotNull(sortingListeners, "The sorting listeners may not be null");
+        Condition.INSTANCE.ensureNotNull(sortingListeners, "The sorting listeners may not be null");
         this.sortingListeners = sortingListeners;
     }
 
@@ -505,7 +503,7 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
     @Override
     public final void addSortingListener(
             @NonNull final ExpandableListSortingListener<GroupType, ChildType> listener) {
-        ensureNotNull(listener, "The listener may not be null");
+        Condition.INSTANCE.ensureNotNull(listener, "The listener may not be null");
         sortingListeners.add(listener);
         String message = "Added sorting listener \"" + listener + "\"";
         getLogger().logDebug(getClass(), message);
@@ -514,7 +512,7 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
     @Override
     public final void removeSortingListener(
             @NonNull final ExpandableListSortingListener<GroupType, ChildType> listener) {
-        ensureNotNull(listener, "The listener may not be null");
+        Condition.INSTANCE.ensureNotNull(listener, "The listener may not be null");
         sortingListeners.remove(listener);
         String message = "Removed sorting listener \"" + listener + "\"";
         getLogger().logDebug(getClass(), message);

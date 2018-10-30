@@ -15,16 +15,15 @@ package de.mrapp.android.adapter.expandablelist.itemstate;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
 import android.view.View;
 import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
+import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.datastructure.UnmodifiableList;
 import de.mrapp.android.adapter.datastructure.group.Group;
@@ -37,12 +36,9 @@ import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterListener;
 import de.mrapp.android.adapter.expandablelist.ExpansionListener;
 import de.mrapp.android.adapter.expandablelist.enablestate.AbstractEnableStateExpandableListAdapter;
 import de.mrapp.android.adapter.expandablelist.enablestate.ExpandableListEnableStateListener;
-import de.mrapp.android.util.datastructure.ListenerList;
 import de.mrapp.android.util.logging.LogLevel;
-
-import static de.mrapp.android.util.Condition.ensureAtLeast;
-import static de.mrapp.android.util.Condition.ensureAtMaximum;
-import static de.mrapp.android.util.Condition.ensureNotNull;
+import de.mrapp.util.Condition;
+import de.mrapp.util.datastructure.ListenerList;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as a list of arbitrary
@@ -242,7 +238,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
      */
     protected final void setItemStateListeners(
             @NonNull final ListenerList<ExpandableListItemStateListener<GroupType, ChildType>> itemStateListeners) {
-        ensureNotNull(itemStateListeners, "The item state listeners may not be null");
+        Condition.INSTANCE.ensureNotNull(itemStateListeners, "The item state listeners may not be null");
         this.itemStateListeners = itemStateListeners;
     }
 
@@ -382,7 +378,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 
     @Override
     public final void setNumberOfGroupStates(final int numberOfGroupStates) {
-        ensureAtLeast(numberOfGroupStates, 1, "The number of group states must be at least 1");
+        Condition.INSTANCE.ensureAtLeast(numberOfGroupStates, 1, "The number of group states must be at least 1");
         getGroupAdapter().setNumberOfItemStates(numberOfGroupStates);
         String message = "Set number of group states to " + numberOfGroupStates;
         getLogger().logDebug(getClass(), message);
@@ -410,9 +406,9 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 
     @Override
     public final int setGroupState(final int groupIndex, final int state) {
-        ensureAtLeast(state, minGroupState(),
+        Condition.INSTANCE.ensureAtLeast(state, minGroupState(),
                 "The group state must be at minimum " + minGroupState());
-        ensureAtMaximum(state, maxGroupState(),
+        Condition.INSTANCE.ensureAtMaximum(state, maxGroupState(),
                 "The group state must be at maximum " + maxGroupState());
 
         MultipleChoiceListAdapter<Group<GroupType, ChildType>> groupAdapter = getGroupAdapter();
@@ -573,7 +569,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 
     @Override
     public final void setNumberOfChildStates(final int numberOfChildStates) {
-        ensureAtLeast(numberOfChildStates, 1, "The number of child states must be at least 1");
+        Condition.INSTANCE.ensureAtLeast(numberOfChildStates, 1, "The number of child states must be at least 1");
         this.numberOfChildStates = numberOfChildStates;
         String message = "Set number of child states to " + numberOfChildStates;
         getLogger().logDebug(getClass(), message);
@@ -628,9 +624,9 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
 
     @Override
     public final int setChildState(final int groupIndex, final int childIndex, final int state) {
-        ensureAtLeast(state, minChildState(),
+        Condition.INSTANCE.ensureAtLeast(state, minChildState(),
                 "The child state must be at minimum " + minChildState());
-        ensureAtMaximum(state, maxChildState(),
+        Condition.INSTANCE.ensureAtMaximum(state, maxChildState(),
                 "The child state must be at maximum " + maxChildState());
         Group<GroupType, ChildType> group = getGroupAdapter().getItem(groupIndex);
         MultipleChoiceListAdapter<ChildType> childAdapter = group.getChildAdapter();
@@ -893,7 +889,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
     @Override
     public final void addItemStateListener(
             @NonNull final ExpandableListItemStateListener<GroupType, ChildType> listener) {
-        ensureNotNull(listener, "The listener may not be null");
+        Condition.INSTANCE.ensureNotNull(listener, "The listener may not be null");
         itemStateListeners.add(listener);
         String message = "Added item state listener \"" + listener + "\"";
         getLogger().logDebug(getClass(), message);
@@ -902,7 +898,7 @@ public abstract class AbstractItemStateExpandableListAdapter<GroupType, ChildTyp
     @Override
     public final void removeItemStateListener(
             @NonNull final ExpandableListItemStateListener<GroupType, ChildType> listener) {
-        ensureNotNull(listener, "The listener may not be null");
+        Condition.INSTANCE.ensureNotNull(listener, "The listener may not be null");
         itemStateListeners.remove(listener);
         String message = "Removed item state listener \"" + listener + "\"";
         getLogger().logDebug(getClass(), message);

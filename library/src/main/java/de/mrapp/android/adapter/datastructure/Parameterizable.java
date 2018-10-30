@@ -14,7 +14,7 @@
 package de.mrapp.android.adapter.datastructure;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 /**
  * Defines the interface, all classes, which should allow to store key value pairs, must implement.

@@ -14,10 +14,9 @@
 package de.mrapp.android.adapter.list;
 
 import android.database.DataSetObserver;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.AdapterDataObserver;
 
-import static de.mrapp.android.util.Condition.ensureNotNull;
+import androidx.recyclerview.widget.RecyclerView;
+import de.mrapp.util.Condition;
 
 /**
  * An implementation of the abstract class AdapterDataObserver, which delegates all method calls to
@@ -42,7 +41,7 @@ public class DataSetObserverWrapper extends RecyclerView.AdapterDataObserver {
      *         observer may not be null
      */
     public DataSetObserverWrapper(final DataSetObserver encapsulatedObserver) {
-        ensureNotNull(encapsulatedObserver, "The observer may not be null");
+        Condition.INSTANCE.ensureNotNull(encapsulatedObserver, "The observer may not be null");
         this.encapsulatedObserver = encapsulatedObserver;
     }
 

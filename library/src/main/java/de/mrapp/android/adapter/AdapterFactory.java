@@ -14,7 +14,7 @@
 package de.mrapp.android.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapter;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterImplementation;

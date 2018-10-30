@@ -13,7 +13,7 @@
  */
 package de.mrapp.android.adapter.list;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.widget.AbsListView;
 
 import java.util.Collection;

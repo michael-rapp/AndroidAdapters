@@ -16,15 +16,14 @@ package de.mrapp.android.adapter.util;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ExpandableListView;
 import android.widget.GridView;
 import android.widget.ListView;
 
-import static de.mrapp.android.util.Condition.ensureNotEmpty;
-import static de.mrapp.android.util.Condition.ensureNotNull;
+import androidx.annotation.NonNull;
+import de.mrapp.util.Condition;
 
 /**
  * An utility class, which provides static methods, which allow to store the scroll position of
@@ -138,10 +137,10 @@ public final class AdapterViewUtil {
     public static void onSaveInstanceState(@NonNull final AbsListView adapterView,
                                            @NonNull final Bundle outState,
                                            @NonNull final String key) {
-        ensureNotNull(adapterView, "The adapter view may not be null");
-        ensureNotNull(outState, "The bundle may not be null");
-        ensureNotNull(key, "The key may not be null");
-        ensureNotEmpty(key, "The key may not be empty");
+        Condition.INSTANCE.ensureNotNull(adapterView, "The adapter view may not be null");
+        Condition.INSTANCE.ensureNotNull(outState, "The bundle may not be null");
+        Condition.INSTANCE.ensureNotNull(key, "The key may not be null");
+        Condition.INSTANCE.ensureNotEmpty(key, "The key may not be empty");
         Parcelable viewState = adapterView.onSaveInstanceState();
         int firstVisibleIndex = adapterView.getFirstVisiblePosition();
         View firstVisibleView = adapterView.getChildAt(0);
@@ -170,10 +169,10 @@ public final class AdapterViewUtil {
     public static void onRestoreInstanceState(@NonNull final AbsListView adapterView,
                                               @NonNull final Bundle savedInstanceState,
                                               @NonNull final String key) {
-        ensureNotNull(adapterView, "The adapter view may not be null");
-        ensureNotNull(savedInstanceState, "The bundle may not be null");
-        ensureNotNull(key, "The key may not be null");
-        ensureNotEmpty(key, "key may not be empty");
+        Condition.INSTANCE.ensureNotNull(adapterView, "The adapter view may not be null");
+        Condition.INSTANCE.ensureNotNull(savedInstanceState, "The bundle may not be null");
+        Condition.INSTANCE.ensureNotNull(key, "The key may not be null");
+        Condition.INSTANCE.ensureNotEmpty(key, "key may not be empty");
         Bundle savedState = savedInstanceState.getBundle(key);
 
         if (savedState != null) {

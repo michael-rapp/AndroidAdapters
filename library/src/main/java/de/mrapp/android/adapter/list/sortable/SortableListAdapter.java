@@ -13,7 +13,7 @@
  */
 package de.mrapp.android.adapter.list.sortable;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.widget.AbsListView;
 
 import java.util.Comparator;

@@ -14,8 +14,6 @@
 package de.mrapp.android.adapter.expandablelist.filterable;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
@@ -23,6 +21,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.FilterQuery;
 import de.mrapp.android.adapter.Filterable;
@@ -42,10 +42,9 @@ import de.mrapp.android.adapter.expandablelist.sortable.AbstractSortableExpandab
 import de.mrapp.android.adapter.expandablelist.sortable.ExpandableListSortingListener;
 import de.mrapp.android.adapter.list.ListAdapter;
 import de.mrapp.android.adapter.list.filterable.ListFilterListener;
-import de.mrapp.android.util.datastructure.ListenerList;
 import de.mrapp.android.util.logging.LogLevel;
-
-import static de.mrapp.android.util.Condition.ensureNotNull;
+import de.mrapp.util.Condition;
+import de.mrapp.util.datastructure.ListenerList;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as a filterable list of
@@ -306,7 +305,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
      */
     protected final void setFilterListeners(
             @NonNull final ListenerList<ExpandableListFilterListener<GroupType, ChildType>> filterListeners) {
-        ensureNotNull(filterListeners, "The listeners may not be null");
+        Condition.INSTANCE.ensureNotNull(filterListeners, "The listeners may not be null");
         this.filterListeners = filterListeners;
     }
 
@@ -755,7 +754,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
     @Override
     public final void addFilterListener(
             @NonNull final ExpandableListFilterListener<GroupType, ChildType> listener) {
-        ensureNotNull(listener, "The listener may not be null");
+        Condition.INSTANCE.ensureNotNull(listener, "The listener may not be null");
         filterListeners.add(listener);
         String message = "Added filter listener \"" + listener + "\"";
         getLogger().logDebug(getClass(), message);
@@ -764,7 +763,7 @@ public abstract class AbstractFilterableExpandableListAdapter<GroupType, ChildTy
     @Override
     public final void removeFilterListener(
             @NonNull final ExpandableListFilterListener<GroupType, ChildType> listener) {
-        ensureNotNull(listener, "The listener may not be null");
+        Condition.INSTANCE.ensureNotNull(listener, "The listener may not be null");
         filterListeners.remove(listener);
         String message = "Removed filter listener \"" + listener + "\"";
         getLogger().logDebug(getClass(), message);

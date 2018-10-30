@@ -15,14 +15,12 @@ package de.mrapp.android.adapter.expandablelist.selectable;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
 import android.view.View;
 import android.widget.ExpandableListView;
 
-import java.util.Set;
-
+import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 import de.mrapp.android.adapter.ChoiceMode;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.SelectableExpandableListDecorator;
@@ -36,10 +34,9 @@ import de.mrapp.android.adapter.expandablelist.filterable.AbstractFilterableExpa
 import de.mrapp.android.adapter.expandablelist.filterable.ExpandableListFilterListener;
 import de.mrapp.android.adapter.expandablelist.itemstate.ExpandableListItemStateListener;
 import de.mrapp.android.adapter.expandablelist.sortable.ExpandableListSortingListener;
-import de.mrapp.android.util.datastructure.ListenerList;
 import de.mrapp.android.util.logging.LogLevel;
-
-import static de.mrapp.android.util.Condition.ensureNotNull;
+import de.mrapp.util.Condition;
+import de.mrapp.util.datastructure.ListenerList;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as a list of arbitrary
@@ -159,7 +156,8 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
      */
     protected final void setSelectionListeners(
             @NonNull final ListenerList<ExpandableListSelectionListener<GroupType, ChildType>> selectionListeners) {
-        ensureNotNull(selectionListeners, "The selection listeners may not be null");
+        Condition.INSTANCE
+                .ensureNotNull(selectionListeners, "The selection listeners may not be null");
         this.selectionListeners = selectionListeners;
     }
 
@@ -384,7 +382,7 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
                 enableStateListeners, numberOfGroupStates, numberOfChildStates,
                 triggerGroupStateOnClick, triggerChildStateOnClick, setChildStatesImplicitly,
                 itemStateListeners, sortingListeners, filterListeners);
-        ensureNotNull(choiceMode, "The choice mode may not be null");
+        Condition.INSTANCE.ensureNotNull(choiceMode, "The choice mode may not be null");
         this.choiceMode = choiceMode;
         selectGroupOnClick(selectGroupOnClick);
         selectChildOnClick(selectChildOnClick);
@@ -449,14 +447,14 @@ public abstract class AbstractSelectableExpandableListAdapter<GroupType, ChildTy
     @Override
     public final void addSelectionListener(
             @NonNull final ExpandableListSelectionListener<GroupType, ChildType> listener) {
-        ensureNotNull(listener, "The listener may not be null");
+        Condition.INSTANCE.ensureNotNull(listener, "The listener may not be null");
         selectionListeners.add(listener);
     }
 
     @Override
     public final void removeSelectionListener(
             @NonNull final ExpandableListSelectionListener<GroupType, ChildType> listener) {
-        ensureNotNull(listener, "The listener may not be null");
+        Condition.INSTANCE.ensureNotNull(listener, "The listener may not be null");
         selectionListeners.remove(listener);
     }
 

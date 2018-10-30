@@ -15,7 +15,7 @@ package de.mrapp.android.adapter.example.fragment;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import de.mrapp.android.adapter.AdapterFactory;

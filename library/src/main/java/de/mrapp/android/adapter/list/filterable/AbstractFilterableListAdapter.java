@@ -15,10 +15,6 @@ package de.mrapp.android.adapter.list.filterable;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
 import android.util.SparseIntArray;
 import android.widget.AbsListView;
 
@@ -31,6 +27,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.FilterQuery;
 import de.mrapp.android.adapter.Filterable;
@@ -49,10 +49,7 @@ import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
 import de.mrapp.android.adapter.list.sortable.AbstractSortableListAdapter;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 import de.mrapp.android.util.logging.LogLevel;
-
-import static de.mrapp.android.util.Condition.ensureAtLeast;
-import static de.mrapp.android.util.Condition.ensureAtMaximum;
-import static de.mrapp.android.util.Condition.ensureNotNull;
+import de.mrapp.util.Condition;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as a filterable list of
@@ -381,7 +378,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType exte
      */
     protected final void setFilterListeners(
             @NonNull final Set<ListFilterListener<DataType>> filterListeners) {
-        ensureNotNull(filterListeners, "The listeners may not be null");
+        Condition.INSTANCE.ensureNotNull(filterListeners, "The listeners may not be null");
         this.filterListeners = filterListeners;
     }
 
@@ -407,7 +404,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType exte
      */
     protected final void setAppliedFilters(
             @NonNull final LinkedHashSet<AppliedFilter<DataType>> appliedFilters) {
-        ensureNotNull(appliedFilters, "The applied filters may not be null");
+        Condition.INSTANCE.ensureNotNull(appliedFilters, "The applied filters may not be null");
         this.appliedFilters = appliedFilters;
         applyAllFilters();
     }
@@ -422,9 +419,9 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType exte
      * Integer} value
      */
     protected final int getUnfilteredIndex(final int filteredIndex) {
-        ensureAtLeast(filteredIndex, 0, "The index must be at least 0",
+        Condition.INSTANCE.ensureAtLeast(filteredIndex, 0, "The index must be at least 0",
                 IndexOutOfBoundsException.class);
-        ensureAtMaximum(filteredIndex, getCount() - 1,
+        Condition.INSTANCE.ensureAtMaximum(filteredIndex, getCount() - 1,
                 "The index must be at maximum " + (getCount() - 1),
                 IndexOutOfBoundsException.class);
 
@@ -669,7 +666,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType exte
 
     @Override
     public final void addFilterListener(@NonNull final ListFilterListener<DataType> listener) {
-        ensureNotNull(listener, "The listener may not be null");
+        Condition.INSTANCE.ensureNotNull(listener, "The listener may not be null");
         filterListeners.add(listener);
         String message = "Added filter listener \"" + listener + "\"";
         getLogger().logDebug(getClass(), message);
@@ -677,7 +674,7 @@ public abstract class AbstractFilterableListAdapter<DataType, DecoratorType exte
 
     @Override
     public final void removeFilterListener(@NonNull final ListFilterListener<DataType> listener) {
-        ensureNotNull(listener, "The listener may not be null");
+        Condition.INSTANCE.ensureNotNull(listener, "The listener may not be null");
         filterListeners.remove(listener);
         String message = "Removed filter listener \"" + listener + "\"";
         getLogger().logDebug(getClass(), message);

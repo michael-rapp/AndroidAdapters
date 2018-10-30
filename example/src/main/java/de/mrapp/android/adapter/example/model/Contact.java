@@ -15,7 +15,7 @@ package de.mrapp.android.adapter.example.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 import java.util.Locale;

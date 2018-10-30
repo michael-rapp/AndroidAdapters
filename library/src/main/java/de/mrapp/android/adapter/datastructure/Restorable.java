@@ -14,7 +14,7 @@
 package de.mrapp.android.adapter.datastructure;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * Defines the interface, a class whose state should be able to be stored, before an activity is

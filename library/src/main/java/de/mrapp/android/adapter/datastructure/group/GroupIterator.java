@@ -13,11 +13,10 @@
  */
 package de.mrapp.android.adapter.datastructure.group;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
+import de.mrapp.util.Condition;
 
 import java.util.Iterator;
-
-import static de.mrapp.android.util.Condition.ensureNotNull;
 
 /**
  * An iterator, which allows to iterate the data of groups, which can be iterated by using an other
@@ -46,7 +45,7 @@ public class GroupIterator<GroupType, ChildType> implements Iterator<GroupType> 
      *         Iterator}. The iterator may not be null
      */
     public GroupIterator(@NonNull final Iterator<Group<GroupType, ChildType>> iterator) {
-        ensureNotNull(iterator, "The iterator may not be null");
+        Condition.INSTANCE.ensureNotNull(iterator, "The iterator may not be null");
         this.iterator = iterator;
     }
 

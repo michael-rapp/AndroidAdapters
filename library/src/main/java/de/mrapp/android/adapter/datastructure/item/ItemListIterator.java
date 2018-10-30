@@ -13,18 +13,14 @@
  */
 package de.mrapp.android.adapter.datastructure.item;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import de.mrapp.android.adapter.list.ListAdapter;
-
-import static de.mrapp.android.util.Condition.ensureAtLeast;
-import static de.mrapp.android.util.Condition.ensureAtMaximum;
-import static de.mrapp.android.util.Condition.ensureNotNull;
+import de.mrapp.util.Condition;
 
 /**
  * A list iterator, which allows to iterate the data of items, which are contained by a list. When
@@ -78,9 +74,10 @@ public class ItemListIterator<DataType> implements ListIterator<DataType> {
      */
     public ItemListIterator(@NonNull final List<Item<DataType>> items,
                             @Nullable final ListAdapter<DataType> adapter, final int index) {
-        ensureNotNull(items, "The items may not be null");
-        ensureAtLeast(index, 0, "The index must be at least 0", IndexOutOfBoundsException.class);
-        ensureAtMaximum(index, items.isEmpty() ? 0 : items.size(),
+        Condition.INSTANCE.ensureNotNull(items, "The items may not be null");
+        Condition.INSTANCE.ensureAtLeast(index, 0, "The index must be at least 0",
+                IndexOutOfBoundsException.class);
+        Condition.INSTANCE.ensureAtMaximum(index, items.isEmpty() ? 0 : items.size(),
                 "The index must be at maximum " + items.size(), IndexOutOfBoundsException.class);
         this.items = items;
         this.adapter = adapter;
@@ -107,7 +104,7 @@ public class ItemListIterator<DataType> implements ListIterator<DataType> {
 
     @Override
     public final void add(@NonNull final DataType item) {
-        ensureNotNull(item, "The item may not be null");
+        Condition.INSTANCE.ensureNotNull(item, "The item may not be null");
 
         if (adapter == null) {
             throw new UnsupportedOperationException();
@@ -184,7 +181,7 @@ public class ItemListIterator<DataType> implements ListIterator<DataType> {
 
     @Override
     public final void set(@NonNull final DataType item) {
-        ensureNotNull(item, "The item may not be null");
+        Condition.INSTANCE.ensureNotNull(item, "The item may not be null");
 
         if (adapter == null) {
             throw new UnsupportedOperationException();

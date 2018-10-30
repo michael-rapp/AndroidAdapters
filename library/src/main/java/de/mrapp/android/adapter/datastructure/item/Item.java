@@ -15,13 +15,12 @@ package de.mrapp.android.adapter.datastructure.item;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 
+import androidx.annotation.NonNull;
 import de.mrapp.android.adapter.datastructure.AbstractAdapterItem;
-
-import static de.mrapp.android.util.Condition.ensureAtLeast;
+import de.mrapp.util.Condition;
 
 /**
  * A data structure, which holds the data of an item of an adapter. It has a state, a selection
@@ -155,7 +154,7 @@ public class Item<DataType> extends AbstractAdapterItem<DataType> {
      *         least 0
      */
     public final void setState(final int state) {
-        ensureAtLeast(state, 0, "The state must be at least 0");
+        Condition.INSTANCE.ensureAtLeast(state, 0, "The state must be at least 0");
         this.state = state;
     }
 

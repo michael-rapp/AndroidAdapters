@@ -13,7 +13,7 @@
  */
 package de.mrapp.android.adapter.expandablelist.sortable;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.widget.ExpandableListView;
 
 import java.util.Comparator;

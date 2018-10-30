@@ -15,15 +15,14 @@ package de.mrapp.android.adapter.expandablelist.enablestate;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
 import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
+import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.datastructure.UnmodifiableList;
 import de.mrapp.android.adapter.datastructure.group.Group;
@@ -34,10 +33,9 @@ import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemClickLis
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterListener;
 import de.mrapp.android.adapter.expandablelist.ExpansionListener;
-import de.mrapp.android.util.datastructure.ListenerList;
 import de.mrapp.android.util.logging.LogLevel;
-
-import static de.mrapp.android.util.Condition.ensureNotNull;
+import de.mrapp.util.Condition;
+import de.mrapp.util.datastructure.ListenerList;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as a list of arbitrary
@@ -195,7 +193,7 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
      */
     protected final void setEnableStateListeners(
             @NonNull final ListenerList<ExpandableListEnableStateListener<GroupType, ChildType>> enableStateListeners) {
-        ensureNotNull(enableStateListeners, "The enable state listeners may not be null");
+        Condition.INSTANCE.ensureNotNull(enableStateListeners, "The enable state listeners may not be null");
         this.enableStateListeners = enableStateListeners;
     }
 
@@ -760,7 +758,7 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
     @Override
     public final void addEnableStateListener(
             @NonNull final ExpandableListEnableStateListener<GroupType, ChildType> listener) {
-        ensureNotNull(listener, "The listener may not be null");
+        Condition.INSTANCE.ensureNotNull(listener, "The listener may not be null");
         enableStateListeners.add(listener);
         String message = "Added enable state listener \"" + listener + "\"";
         getLogger().logDebug(getClass(), message);
@@ -769,7 +767,7 @@ public abstract class AbstractEnableStateExpandableListAdapter<GroupType, ChildT
     @Override
     public final void removeEnableStateListener(
             @NonNull final ExpandableListEnableStateListener<GroupType, ChildType> listener) {
-        ensureNotNull(listener, "The listener may not be null");
+        Condition.INSTANCE.ensureNotNull(listener, "The listener may not be null");
         enableStateListeners.remove(listener);
         String message = "Removed enable state listener \"" + listener + "\"";
         getLogger().logDebug(getClass(), message);

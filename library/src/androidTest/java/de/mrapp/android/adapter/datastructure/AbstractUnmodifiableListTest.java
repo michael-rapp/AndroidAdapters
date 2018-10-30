@@ -13,7 +13,7 @@
  */
 package de.mrapp.android.adapter.datastructure;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;

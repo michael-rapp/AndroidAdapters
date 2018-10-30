@@ -13,7 +13,7 @@
  */
 package de.mrapp.android.adapter;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.widget.ExpandableListView;
 
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapter;

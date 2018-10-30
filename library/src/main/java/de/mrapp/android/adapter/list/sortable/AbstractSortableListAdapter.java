@@ -15,10 +15,6 @@ package de.mrapp.android.adapter.list.sortable;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
 import android.widget.AbsListView;
 
 import java.util.ArrayList;
@@ -27,6 +23,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Set;
 
+import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemComparator;
@@ -39,8 +39,7 @@ import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.itemstate.AbstractItemStateListAdapter;
 import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
 import de.mrapp.android.util.logging.LogLevel;
-
-import static de.mrapp.android.util.Condition.ensureNotNull;
+import de.mrapp.util.Condition;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as a sortable list of
@@ -152,7 +151,7 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType extend
      */
     protected final void setSortingListeners(
             @NonNull final Set<ListSortingListener<DataType>> sortingListeners) {
-        ensureNotNull(sortingListeners, "The sorting listeners may not be null");
+        Condition.INSTANCE.ensureNotNull(sortingListeners, "The sorting listeners may not be null");
         this.sortingListeners = sortingListeners;
     }
 
@@ -249,7 +248,7 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType extend
 
     @Override
     public final void sort(@NonNull final Order order) {
-        ensureNotNull(order, "The order may not be null");
+        Condition.INSTANCE.ensureNotNull(order, "The order may not be null");
         this.order = order;
 
         if (order == Order.ASCENDING) {
@@ -274,7 +273,7 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType extend
     @Override
     public final void sort(@NonNull final Order order,
                            @NonNull final Comparator<DataType> comparator) {
-        ensureNotNull(order, "The order may not be null");
+        Condition.INSTANCE.ensureNotNull(order, "The order may not be null");
         this.order = order;
         Comparator<Item<DataType>> itemComparator = new ItemComparator<>(comparator);
 
@@ -301,7 +300,7 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType extend
 
     @Override
     public final void addSortingListener(@NonNull final ListSortingListener<DataType> listener) {
-        ensureNotNull(listener, "The listener may not be null");
+        Condition.INSTANCE.ensureNotNull(listener, "The listener may not be null");
         sortingListeners.add(listener);
         String message = "Added sorting listener \"" + listener + "\"";
         getLogger().logDebug(getClass(), message);
@@ -309,7 +308,7 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType extend
 
     @Override
     public final void removeSortingListener(@NonNull final ListSortingListener<DataType> listener) {
-        ensureNotNull(listener, "The listener may not be null");
+        Condition.INSTANCE.ensureNotNull(listener, "The listener may not be null");
         sortingListeners.remove(listener);
         String message = "Removed sorting listener \"" + listener + "\"";
         getLogger().logDebug(getClass(), message);

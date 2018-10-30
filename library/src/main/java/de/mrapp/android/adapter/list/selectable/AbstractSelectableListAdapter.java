@@ -15,9 +15,6 @@ package de.mrapp.android.adapter.list.selectable;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
 import android.view.View;
 import android.widget.AbsListView;
 
@@ -25,6 +22,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 import de.mrapp.android.adapter.SelectableListDecorator;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.item.Item;
@@ -37,8 +37,7 @@ import de.mrapp.android.adapter.list.filterable.ListFilterListener;
 import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 import de.mrapp.android.util.logging.LogLevel;
-
-import static de.mrapp.android.util.Condition.ensureNotNull;
+import de.mrapp.util.Condition;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as a list of arbitrary
@@ -163,7 +162,8 @@ public abstract class AbstractSelectableListAdapter<DataType>
      */
     protected final void setSelectionListeners(
             @NonNull final Set<ListSelectionListener<DataType>> selectionListeners) {
-        ensureNotNull(selectionListeners, "The selection listeners may not be null");
+        Condition.INSTANCE
+                .ensureNotNull(selectionListeners, "The selection listeners may not be null");
         this.selectionListeners = selectionListeners;
     }
 
@@ -288,7 +288,7 @@ public abstract class AbstractSelectableListAdapter<DataType>
     @Override
     public final void addSelectionListener(
             @NonNull final ListSelectionListener<DataType> listener) {
-        ensureNotNull(listener, "The listener may not be null");
+        Condition.INSTANCE.ensureNotNull(listener, "The listener may not be null");
         selectionListeners.add(listener);
         String message = "Added selection listener \"" + listener + "\"";
         getLogger().logDebug(getClass(), message);
@@ -297,7 +297,7 @@ public abstract class AbstractSelectableListAdapter<DataType>
     @Override
     public final void removeSelectionListener(
             @NonNull final ListSelectionListener<DataType> listener) {
-        ensureNotNull(listener, "The listener may not be null");
+        Condition.INSTANCE.ensureNotNull(listener, "The listener may not be null");
         selectionListeners.remove(listener);
         String message = "Removed selection listener \"" + listener + "\"";
         getLogger().logDebug(getClass(), message);

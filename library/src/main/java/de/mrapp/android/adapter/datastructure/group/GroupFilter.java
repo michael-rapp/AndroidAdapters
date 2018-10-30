@@ -13,11 +13,9 @@
  */
 package de.mrapp.android.adapter.datastructure.group;
 
-import android.support.annotation.NonNull;
-
+import androidx.annotation.NonNull;
 import de.mrapp.android.adapter.Filter;
-
-import static de.mrapp.android.util.Condition.ensureNotNull;
+import de.mrapp.util.Condition;
 
 /**
  * A filter, which allows to filter groups, depending on their data.
@@ -49,7 +47,7 @@ public class GroupFilter<GroupType, ChildType> implements Filter<Group<GroupType
      *         instance of the type {@link Filter}. The filter may not be null
      */
     public GroupFilter(@NonNull final Filter<GroupType> filter) {
-        ensureNotNull(filter, "The filter may not be null");
+        Condition.INSTANCE.ensureNotNull(filter, "The filter may not be null");
         this.filter = filter;
     }
 

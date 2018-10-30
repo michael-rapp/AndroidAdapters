@@ -13,16 +13,14 @@
  */
 package de.mrapp.android.adapter.datastructure.item;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import de.mrapp.android.adapter.list.ListAdapter;
-
-import static de.mrapp.android.util.Condition.ensureNotNull;
+import de.mrapp.util.Condition;
 
 /**
  * An iterator, which allows to iterate the data of items, which are contained by a list. When the
@@ -71,7 +69,7 @@ public class ItemIterator<DataType> implements Iterator<DataType> {
      */
     public ItemIterator(@NonNull final List<Item<DataType>> items,
                         @Nullable final ListAdapter<DataType> adapter) {
-        ensureNotNull(items, "The items may not be null");
+        Condition.INSTANCE.ensureNotNull(items, "The items may not be null");
         this.items = items;
         this.adapter = adapter;
         this.currentIndex = -1;

@@ -15,9 +15,6 @@ package de.mrapp.android.adapter.list.itemstate;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
 import android.view.View;
 import android.widget.AbsListView;
 
@@ -25,6 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 import de.mrapp.android.adapter.datastructure.UnmodifiableList;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.decorator.AbstractListDecorator;
@@ -35,10 +35,7 @@ import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.AbstractEnableStateListAdapter;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.util.logging.LogLevel;
-
-import static de.mrapp.android.util.Condition.ensureAtLeast;
-import static de.mrapp.android.util.Condition.ensureAtMaximum;
-import static de.mrapp.android.util.Condition.ensureNotNull;
+import de.mrapp.util.Condition;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as a list of arbitrary
@@ -173,7 +170,8 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType exten
      */
     protected final void setItemStateListeners(
             final Set<ListItemStateListener<DataType>> itemStateListeners) {
-        ensureNotNull(itemStateListeners, "The item state listeners may not be null");
+        Condition.INSTANCE
+                .ensureNotNull(itemStateListeners, "The item state listeners may not be null");
         this.itemStateListeners = itemStateListeners;
     }
 
@@ -267,7 +265,8 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType exten
 
     @Override
     public final void setNumberOfItemStates(final int numberOfItemStates) {
-        ensureAtLeast(numberOfItemStates, 1, "The number of items states must be at least 1");
+        Condition.INSTANCE.ensureAtLeast(numberOfItemStates, 1,
+                "The number of items states must be at least 1");
         this.numberOfItemStates = numberOfItemStates;
         String message = "Set number of item states to " + numberOfItemStates;
         getLogger().logDebug(getClass(), message);
@@ -301,8 +300,10 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType exten
 
     @Override
     public final int setItemState(final int index, final int state) {
-        ensureAtLeast(state, minItemState(), "The state must be at minimum " + minItemState());
-        ensureAtMaximum(state, maxItemState(), "The state must be at maximum " + maxItemState());
+        Condition.INSTANCE.ensureAtLeast(state, minItemState(),
+                "The state must be at minimum " + minItemState());
+        Condition.INSTANCE.ensureAtMaximum(state, maxItemState(),
+                "The state must be at maximum " + maxItemState());
         Item<DataType> item = getItems().get(index);
 
         if (item.isEnabled()) {
@@ -338,8 +339,10 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType exten
 
     @Override
     public final boolean setAllItemStates(final int state) {
-        ensureAtLeast(state, minItemState(), "The state must be at least " + minItemState());
-        ensureAtMaximum(state, maxItemState(), "The state must be at maximum " + maxItemState());
+        Condition.INSTANCE.ensureAtLeast(state, minItemState(),
+                "The state must be at least " + minItemState());
+        Condition.INSTANCE.ensureAtMaximum(state, maxItemState(),
+                "The state must be at maximum " + maxItemState());
         boolean result = true;
 
         for (int i = 0; i < getCount(); i++) {
@@ -475,7 +478,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType exten
     @Override
     public final void addItemStateListener(
             @NonNull final ListItemStateListener<DataType> listener) {
-        ensureNotNull(listener, "The listener may not be null");
+        Condition.INSTANCE.ensureNotNull(listener, "The listener may not be null");
         itemStateListeners.add(listener);
         String message = "Added item state listener \"" + listener + "\"";
         getLogger().logDebug(getClass(), message);
@@ -484,7 +487,7 @@ public abstract class AbstractItemStateListAdapter<DataType, DecoratorType exten
     @Override
     public final void removeItemStateListener(
             @NonNull final ListItemStateListener<DataType> listener) {
-        ensureNotNull(listener, "The listener may not be null");
+        Condition.INSTANCE.ensureNotNull(listener, "The listener may not be null");
         itemStateListeners.remove(listener);
         String message = "Removed item state listener \"" + listener + "\"";
         getLogger().logDebug(getClass(), message);

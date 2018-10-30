@@ -13,7 +13,7 @@
  */
 package de.mrapp.android.adapter.expandablelist;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * Defines the interface, all listeners, which should be notified, when a group item of an {@link

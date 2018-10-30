@@ -17,11 +17,6 @@ import android.content.Context;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.CallSuper;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -43,6 +38,11 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+import androidx.recyclerview.widget.RecyclerView;
 import de.mrapp.android.adapter.datastructure.UnmodifiableList;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemIterator;
@@ -53,9 +53,7 @@ import de.mrapp.android.adapter.util.AdapterViewUtil;
 import de.mrapp.android.util.logging.LogLevel;
 import de.mrapp.android.util.logging.Logger;
 import de.mrapp.android.util.view.ViewHolder;
-
-import static de.mrapp.android.util.Condition.ensureNotEmpty;
-import static de.mrapp.android.util.Condition.ensureNotNull;
+import de.mrapp.util.Condition;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as a list of arbitrary
@@ -549,7 +547,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
      *         empty list, if the adapter should not contain any data
      */
     protected final void setItems(@NonNull final ArrayList<Item<DataType>> items) {
-        ensureNotNull(items, "The items may not be null");
+        Condition.INSTANCE.ensureNotNull(items, "The items may not be null");
         this.items = items;
     }
 
@@ -765,12 +763,14 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
                                   @NonNull final Set<ListAdapterItemClickListener<DataType>> itemClickListeners,
                                   @NonNull final Set<ListAdapterItemLongClickListener<DataType>> itemLongClickListeners,
                                   @NonNull final Set<ListAdapterListener<DataType>> adapterListeners) {
-        ensureNotNull(context, "The context may not be null");
-        ensureNotNull(decorator, "The decorator may not be null");
-        ensureNotNull(items, "The items may not be null");
-        ensureNotNull(itemClickListeners, "The item click listeners may not be null");
-        ensureNotNull(itemLongClickListeners, "The item long click listeners may not be null");
-        ensureNotNull(adapterListeners, "The adapter listeners may not be null");
+        Condition.INSTANCE.ensureNotNull(context, "The context may not be null");
+        Condition.INSTANCE.ensureNotNull(decorator, "The decorator may not be null");
+        Condition.INSTANCE.ensureNotNull(items, "The items may not be null");
+        Condition.INSTANCE
+                .ensureNotNull(itemClickListeners, "The item click listeners may not be null");
+        Condition.INSTANCE.ensureNotNull(itemLongClickListeners,
+                "The item long click listeners may not be null");
+        Condition.INSTANCE.ensureNotNull(adapterListeners, "The adapter listeners may not be null");
         this.context = context;
         this.decorator = decorator;
         this.dataSetObservers = new HashMap<>();
@@ -806,7 +806,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
      *         The decorator may not be null
      */
     public final void setDecorator(@NonNull final DecoratorType decorator) {
-        ensureNotNull(decorator, "The decorator may not be null");
+        Condition.INSTANCE.ensureNotNull(decorator, "The decorator may not be null");
         this.decorator = decorator;
         notifyObserversOnDataSetChanged();
     }
@@ -876,7 +876,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
 
     @Override
     public final void addAdapterListener(@NonNull final ListAdapterListener<DataType> listener) {
-        ensureNotNull(listener, "The listener may not be null");
+        Condition.INSTANCE.ensureNotNull(listener, "The listener may not be null");
         adapterListeners.add(listener);
         String message = "Added adapter listener \"" + listener + "\"";
         getLogger().logDebug(getClass(), message);
@@ -884,7 +884,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
 
     @Override
     public final void removeAdapterListener(@NonNull final ListAdapterListener<DataType> listener) {
-        ensureNotNull(listener, "The listener may not be null");
+        Condition.INSTANCE.ensureNotNull(listener, "The listener may not be null");
         adapterListeners.remove(listener);
         String message = "Removed adapter listener \"" + listener + "\"";
         getLogger().logDebug(getClass(), message);
@@ -893,28 +893,28 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
     @Override
     public final void addItemClickListener(
             @NonNull final ListAdapterItemClickListener<DataType> listener) {
-        ensureNotNull(listener, "The listener may not be null");
+        Condition.INSTANCE.ensureNotNull(listener, "The listener may not be null");
         itemClickListeners.add(listener);
     }
 
     @Override
     public final void removeItemClickListener(
             @NonNull final ListAdapterItemClickListener<DataType> listener) {
-        ensureNotNull(listener, "The listener may not be null");
+        Condition.INSTANCE.ensureNotNull(listener, "The listener may not be null");
         itemClickListeners.remove(listener);
     }
 
     @Override
     public final void addItemLongClickListener(
             @NonNull final ListAdapterItemLongClickListener<DataType> listener) {
-        ensureNotNull(listener, "The listener may not be null");
+        Condition.INSTANCE.ensureNotNull(listener, "The listener may not be null");
         itemLongClickListeners.add(listener);
     }
 
     @Override
     public final void removeItemLongClickListener(
             @NonNull final ListAdapterItemLongClickListener<DataType> listener) {
-        ensureNotNull(listener, "The listener may not be null");
+        Condition.INSTANCE.ensureNotNull(listener, "The listener may not be null");
         itemLongClickListeners.add(listener);
     }
 
@@ -927,7 +927,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
 
     @Override
     public final boolean addItem(final int index, @NonNull final DataType item) {
-        ensureNotNull(item, "The item may not be null");
+        Condition.INSTANCE.ensureNotNull(item, "The item may not be null");
 
         if (!areDuplicatesAllowed() && containsItem(item)) {
             String message = "Item \"" + item + "\" at index " + index +
@@ -952,7 +952,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
     @Override
     public final boolean addAllItems(final int index,
                                      @NonNull final Collection<? extends DataType> items) {
-        ensureNotNull(items, "The collection may not be null");
+        Condition.INSTANCE.ensureNotNull(items, "The collection may not be null");
         boolean result = true;
         int currentIndex = index;
 
@@ -982,7 +982,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
 
     @Override
     public final DataType replaceItem(final int index, @NonNull final DataType item) {
-        ensureNotNull(item, "The item may not be null");
+        Condition.INSTANCE.ensureNotNull(item, "The item may not be null");
         DataType replacedItem = items.set(index, new Item<>(item)).getData();
         notifyOnItemRemoved(replacedItem, index);
         notifyOnItemAdded(item, index);
@@ -1006,7 +1006,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
 
     @Override
     public final boolean removeItem(@NonNull final DataType item) {
-        ensureNotNull(item, "The item may not be null");
+        Condition.INSTANCE.ensureNotNull(item, "The item may not be null");
         int index = indexOf(item);
 
         if (index != -1) {
@@ -1025,7 +1025,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
 
     @Override
     public final boolean removeAllItems(@NonNull final Collection<? extends DataType> items) {
-        ensureNotNull(items, "The collection may not be null");
+        Condition.INSTANCE.ensureNotNull(items, "The collection may not be null");
         int numberOfRemovedItems = 0;
 
         for (int i = getCount() - 1; i >= 0; i--) {
@@ -1041,13 +1041,13 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
     @SafeVarargs
     @Override
     public final boolean removeAllItems(@NonNull final DataType... items) {
-        ensureNotNull(items, "The array may not be null");
+        Condition.INSTANCE.ensureNotNull(items, "The array may not be null");
         return removeAllItems(Arrays.asList(items));
     }
 
     @Override
     public final void retainAllItems(@NonNull final Collection<? extends DataType> items) {
-        ensureNotNull(items, "The collection may not be null");
+        Condition.INSTANCE.ensureNotNull(items, "The collection may not be null");
 
         for (int i = getCount() - 1; i >= 0; i--) {
             if (!items.contains(getItem(i))) {
@@ -1059,7 +1059,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
     @SafeVarargs
     @Override
     public final void retainAllItems(@NonNull final DataType... items) {
-        ensureNotNull(items, "The array may not be null");
+        Condition.INSTANCE.ensureNotNull(items, "The array may not be null");
         retainAllItems(Arrays.asList(items));
     }
 
@@ -1108,7 +1108,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
 
     @Override
     public final int indexOf(@NonNull final DataType item) {
-        ensureNotNull(item, "The item may not be null");
+        Condition.INSTANCE.ensureNotNull(item, "The item may not be null");
 
         for (int i = 0; i < getCount(); i++) {
             if (getItem(i).equals(item)) {
@@ -1121,7 +1121,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
 
     @Override
     public final int lastIndexOf(@NonNull final DataType item) {
-        ensureNotNull(item, "The item may not be null");
+        Condition.INSTANCE.ensureNotNull(item, "The item may not be null");
 
         for (int i = getCount() - 1; i >= 0; i--) {
             if (getItem(i).equals(item)) {
@@ -1134,13 +1134,13 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
 
     @Override
     public final boolean containsItem(@NonNull final DataType item) {
-        ensureNotNull(item, "The item may not be null");
+        Condition.INSTANCE.ensureNotNull(item, "The item may not be null");
         return indexOf(item) != -1;
     }
 
     @Override
     public final boolean containsAllItems(@NonNull final Collection<? extends DataType> items) {
-        ensureNotNull(items, "The collection may not be null");
+        Condition.INSTANCE.ensureNotNull(items, "The collection may not be null");
         boolean result = true;
 
         for (DataType item : items) {
@@ -1153,7 +1153,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
     @SafeVarargs
     @Override
     public final boolean containsAllItems(@NonNull final DataType... items) {
-        ensureNotNull(items, "The array may not be null");
+        Condition.INSTANCE.ensureNotNull(items, "The array may not be null");
         return containsAllItems(Arrays.asList(items));
     }
 
@@ -1174,7 +1174,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
 
     @Override
     public final void attach(@NonNull final AbsListView adapterView) {
-        ensureNotNull(adapterView, "The adapter view may not be null");
+        Condition.INSTANCE.ensureNotNull(adapterView, "The adapter view may not be null");
         detach();
         adapterView.setAdapter(this);
         this.adapterView = adapterView;
@@ -1185,7 +1185,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
 
     @Override
     public final void attach(@NonNull final RecyclerView adapterView) {
-        ensureNotNull(adapterView, "The adapter view may not be null");
+        Condition.INSTANCE.ensureNotNull(adapterView, "The adapter view may not be null");
         detach();
         adapterView.setAdapter(this);
         this.recyclerView = adapterView;
@@ -1315,9 +1315,9 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
     @Override
     public final void onSaveInstanceState(@NonNull final Bundle outState,
                                           @NonNull final String key) {
-        ensureNotNull(outState, "The bundle may not be null");
-        ensureNotNull(key, "The key may not be null");
-        ensureNotEmpty(key, "The key may not be null");
+        Condition.INSTANCE.ensureNotNull(outState, "The bundle may not be null");
+        Condition.INSTANCE.ensureNotNull(key, "The key may not be null");
+        Condition.INSTANCE.ensureNotEmpty(key, "The key may not be null");
         Bundle savedState = new Bundle();
 
         if (adapterView != null) {
@@ -1361,9 +1361,9 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
     @Override
     public final void onRestoreInstanceState(@NonNull final Bundle savedInstanceState,
                                              @NonNull final String key) {
-        ensureNotNull(savedInstanceState, "The bundle may not be null");
-        ensureNotNull(key, "The key may not be null");
-        ensureNotEmpty(key, "The key may not be null");
+        Condition.INSTANCE.ensureNotNull(savedInstanceState, "The bundle may not be null");
+        Condition.INSTANCE.ensureNotNull(key, "The key may not be null");
+        Condition.INSTANCE.ensureNotEmpty(key, "The key may not be null");
         Bundle savedState = savedInstanceState.getBundle(key);
 
         if (savedState != null) {

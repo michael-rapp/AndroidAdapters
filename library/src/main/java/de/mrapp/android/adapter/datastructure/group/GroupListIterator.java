@@ -14,17 +14,16 @@
 package de.mrapp.android.adapter.datastructure.group;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import java.util.ListIterator;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.expandablelist.NullObjectDecorator;
 import de.mrapp.android.adapter.list.selectable.MultipleChoiceListAdapterImplementation;
 import de.mrapp.android.util.logging.LogLevel;
-
-import static de.mrapp.android.util.Condition.ensureNotNull;
+import de.mrapp.util.Condition;
 
 /**
  * A list iterator, which allows to iterate the data of groups, which can be iterated by using an
@@ -80,7 +79,7 @@ public class GroupListIterator<GroupType, ChildType> implements ListIterator<Gro
      */
     public GroupListIterator(@NonNull final ListIterator<Group<GroupType, ChildType>> iterator,
                              @Nullable final Context context) {
-        ensureNotNull(iterator, "The list iterator may not be null");
+        Condition.INSTANCE.ensureNotNull(iterator, "The list iterator may not be null");
         this.listIterator = iterator;
         this.context = context;
     }

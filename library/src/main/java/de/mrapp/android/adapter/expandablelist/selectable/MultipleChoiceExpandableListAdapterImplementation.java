@@ -14,12 +14,12 @@
 package de.mrapp.android.adapter.expandablelist.selectable;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ExpandableListView;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import de.mrapp.android.adapter.ChoiceMode;
 import de.mrapp.android.adapter.MultipleChoiceExpandableListAdapter;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
@@ -37,8 +37,8 @@ import de.mrapp.android.adapter.expandablelist.filterable.ExpandableListFilterLi
 import de.mrapp.android.adapter.expandablelist.itemstate.ExpandableListItemStateListener;
 import de.mrapp.android.adapter.expandablelist.sortable.ExpandableListSortingListener;
 import de.mrapp.android.adapter.list.selectable.MultipleChoiceListAdapterImplementation;
-import de.mrapp.android.util.datastructure.ListenerList;
 import de.mrapp.android.util.logging.LogLevel;
+import de.mrapp.util.datastructure.ListenerList;
 
 /**
  * An adapter, whose underlying data is managed as a list of arbitrary group and child items, of

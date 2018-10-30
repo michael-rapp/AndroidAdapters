@@ -14,15 +14,14 @@
 package de.mrapp.android.adapter.datastructure;
 
 import android.os.Parcel;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.FilterQuery;
 import de.mrapp.android.adapter.Filterable;
-
-import static de.mrapp.android.util.ClassUtil.getTruncatedName;
-import static de.mrapp.android.util.Condition.ensureNotNull;
+import de.mrapp.util.ClassUtil;
+import de.mrapp.util.Condition;
 
 /**
  * A representation of a filter, which has been applied on an adapter's underlying data.
@@ -120,7 +119,7 @@ public class AppliedFilter<DataType> implements FilterQuery {
      */
     public AppliedFilter(@NonNull final String query, final int flags,
                          @Nullable final Filter<DataType> filter) {
-        ensureNotNull(query, "The query may not be null");
+        Condition.INSTANCE.ensureNotNull(query, "The query may not be null");
         this.query = query;
         this.flags = flags;
         this.filter = filter;
@@ -150,8 +149,8 @@ public class AppliedFilter<DataType> implements FilterQuery {
 
     @Override
     public final String toString() {
-        return "AppliedFilter [query=" + query + ", flags=" + flags +
-                (filter != null ? ", filter=" + getTruncatedName(filter.getClass()) : "") + "]";
+        return "AppliedFilter [query=" + query + ", flags=" + flags + (filter != null ?
+                ", filter=" + ClassUtil.INSTANCE.getTruncatedName(filter.getClass()) : "") + "]";
     }
 
     @Override

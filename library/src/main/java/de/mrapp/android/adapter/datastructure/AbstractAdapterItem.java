@@ -15,16 +15,15 @@ package de.mrapp.android.adapter.datastructure;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.CallSuper;
-import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 
+import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
 import de.mrapp.android.adapter.Filterable;
 import de.mrapp.android.adapter.FilteringNotSupportedException;
 import de.mrapp.android.adapter.SortingNotSupportedException;
-
-import static de.mrapp.android.util.Condition.ensureNotNull;
+import de.mrapp.util.Condition;
 
 /**
  * An abstract base class for all data structure, which holds the data of an item of an adapter.
@@ -93,7 +92,7 @@ public abstract class AbstractAdapterItem<DataType>
      *         may not be null
      */
     public final void setData(@NonNull final DataType data) {
-        ensureNotNull(data, "The data may not be null");
+        Condition.INSTANCE.ensureNotNull(data, "The data may not be null");
         this.data = data;
     }
 

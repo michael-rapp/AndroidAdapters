@@ -14,13 +14,13 @@
 package de.mrapp.android.adapter.list.enablestate;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.widget.AbsListView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import androidx.annotation.NonNull;
 import de.mrapp.android.adapter.datastructure.UnmodifiableList;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.decorator.AbstractListDecorator;
@@ -29,8 +29,7 @@ import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
 import de.mrapp.android.adapter.list.ListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.util.logging.LogLevel;
-
-import static de.mrapp.android.util.Condition.ensureNotNull;
+import de.mrapp.util.Condition;
 
 /**
  * An abstract base class for all adapters, whose underlying data is managed as a list of arbitrary
@@ -116,7 +115,8 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType ext
      */
     protected final void setEnableStateListeners(
             @NonNull final Set<ListEnableStateListener<DataType>> enableStateListeners) {
-        ensureNotNull(enableStateListeners, "The enable state listeners may not be null");
+        Condition.INSTANCE
+                .ensureNotNull(enableStateListeners, "The enable state listeners may not be null");
         this.enableStateListeners = enableStateListeners;
     }
 
@@ -393,7 +393,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType ext
     @Override
     public final void addEnableStateListener(
             @NonNull final ListEnableStateListener<DataType> listener) {
-        ensureNotNull(listener, "The listener may not be null");
+        Condition.INSTANCE.ensureNotNull(listener, "The listener may not be null");
         enableStateListeners.add(listener);
         String message = "Added enable state listener \"" + listener + "\"";
         getLogger().logDebug(getClass(), message);
@@ -402,7 +402,7 @@ public abstract class AbstractEnableStateListAdapter<DataType, DecoratorType ext
     @Override
     public final void removeEnableStateListener(
             @NonNull final ListEnableStateListener<DataType> listener) {
-        ensureNotNull(listener, "The listener may not be null");
+        Condition.INSTANCE.ensureNotNull(listener, "The listener may not be null");
         enableStateListeners.remove(listener);
         String message = "Removed enable state listener \"" + listener + "\"";
         getLogger().logDebug(getClass(), message);

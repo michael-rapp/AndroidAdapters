@@ -13,13 +13,12 @@
  */
 package de.mrapp.android.adapter.datastructure;
 
-import android.support.annotation.NonNull;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static de.mrapp.android.util.Condition.ensureNotNull;
+import androidx.annotation.NonNull;
+import de.mrapp.util.Condition;
 
 /**
  * An abstract base class for all implementations of the type {@link List}, which should throw
@@ -60,7 +59,7 @@ public abstract class AbstractUnmodifiableList<DataType, EncapsulatedType>
      *         {@link List}. The list may not be null
      */
     public AbstractUnmodifiableList(@NonNull final List<EncapsulatedType> encapsulatedList) {
-        ensureNotNull(encapsulatedList, "The encapsulated list may not be null");
+        Condition.INSTANCE.ensureNotNull(encapsulatedList, "The encapsulated list may not be null");
         this.encapsulatedList = encapsulatedList;
     }
 

@@ -13,7 +13,7 @@
  */
 package de.mrapp.android.adapter.list.enablestate;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import de.mrapp.android.adapter.list.ListAdapter;
 
