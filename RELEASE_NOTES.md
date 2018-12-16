@@ -1,5 +1,11 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.11.1 (Dec. 16th 2018)
+
+A bugfix release, which fixes the following issues:
+
+- Fixed a crash when expanding/collapsing an empty group of an `ExpandableListAdapter`.
+
 ## Version 0.11.0 (Oct. 30th 2018)
 
 A feature release, which introduces the following changes:
