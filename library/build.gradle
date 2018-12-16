@@ -19,7 +19,7 @@ android {
 }
 
 dependencies {
-    api 'androidx.annotation:annotation:1.0.0'
+    api 'androidx.annotation:annotation:1.0.1'
     api 'androidx.recyclerview:recyclerview:1.0.0'
     api 'com.github.michael-rapp:android-util:2.0.0'
     testImplementation 'junit:junit:4.12'
