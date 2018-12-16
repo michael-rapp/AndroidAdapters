@@ -1231,7 +1231,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     protected final void notifyObserversOnChildRangeInserted(final int groupIndex,
                                                              final int startIndex,
                                                              final int childCount) {
-        if (isNotifiedOnChange()) {
+        if (isNotifiedOnChange() && childCount > 0) {
             if (expandableRecyclerView != null) {
                 notifyChildRangeInserted(groupIndex, startIndex, childCount);
             } else {
@@ -1275,7 +1275,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     protected final void notifyObserversOnChildRangeRemoved(final int groupIndex,
                                                             final int startIndex,
                                                             final int childCount) {
-        if (isNotifiedOnChange()) {
+        if (isNotifiedOnChange() && childCount > 0) {
             if (expandableRecyclerView != null) {
                 notifyChildRangeRemoved(groupIndex, startIndex, childCount);
             } else {
