@@ -1,5 +1,12 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.11.2 (Feb. 23th 2019)
+
+A bugfix release, which fixes the following issues:
+
+- Fixed the `removeAllChildren`-methods of an `ExpandableListAdapter` that accept the children to be removed as an argument.
+- Updated dependency "AndroidUtil" to version 2.0.1.
+
 ## Version 0.11.1 (Dec. 16th 2018)
 
 A bugfix release, which fixes the following issues:
