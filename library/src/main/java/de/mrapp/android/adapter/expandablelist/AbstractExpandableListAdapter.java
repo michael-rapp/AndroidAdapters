@@ -2440,7 +2440,9 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         Group<GroupType, ChildType> group = groupAdapter.getItem(groupIndex);
 
         for (int i = group.getChildAdapter().getCount() - 1; i >= 0; i--) {
-            result &= removeChild(removeEmptyGroup, groupIndex, i) != null;
+            if (children.contains(getChild(groupIndex, i))) {
+                result &= removeChild(removeEmptyGroup, groupIndex, i) != null;
+            }
         }
 
         return result;
