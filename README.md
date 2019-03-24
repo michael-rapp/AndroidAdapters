@@ -31,7 +31,7 @@ Alternatively, the library can be added to your Android app as a Gradle dependen
 
 ```groovy
 dependencies {
-    implementation 'com.github.michael-rapp:android-adapters:0.11.2'
+    implementation 'com.github.michael-rapp:android-adapters:0.12.0'
 }
 ```
 
