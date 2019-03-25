@@ -13,11 +13,13 @@
  */
 package de.mrapp.android.adapter.list.sortable;
 
-import androidx.annotation.NonNull;
 import android.widget.AbsListView;
 
+import java.util.Collection;
 import java.util.Comparator;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.SortingNotSupportedException;
 
@@ -56,21 +58,115 @@ public interface SortableListAdapter<DataType> {
      *
      * @param comparator
      *         The comparator, which should be used to sort the items, as an instance of the type
-     *         {@link Comparator}. The comparator may not be null
+     *         {@link Comparator} or null, if the natural order should be used
      */
-    void sort(@NonNull Comparator<DataType> comparator);
+    void sort(@Nullable Comparator<DataType> comparator);
 
     /**
      * Sorts the adapter's items in a specific order, by using a comparator.
      *
      * @param comparator
      *         The comparator, which should be used to sort the items, as an instance of the type
-     *         {@link Comparator}. The comparator may not be null
+     *         {@link Comparator} or null, if the natural order should be used
      * @param order
      *         The order, which should be used to sort the items, as a value of the enum {@link
      *         Order}. The order may either be <code>ASCENDING</code> or <code>DESCENDING</code>
      */
-    void sort(@NonNull Order order, @NonNull Comparator<DataType> comparator);
+    void sort(@NonNull Order order, @Nullable Comparator<DataType> comparator);
+
+    /**
+     * Adds a specific item to the adapter. If the adapter's items are currently sorted, the item
+     * will be added at the correct position regarding the current order. Otherwise, it will be
+     * added at the end. If the adapter's underlying data does not implement the interface {@link
+     * Comparable} a {@link SortingNotSupportedException} will be thrown.
+     *
+     * @param item
+     *         The item, which should be added to the adapter, as an instance of the generic type
+     *         DataType. The item may not be null
+     * @return The index of the the item, which has been added to the adapter, as an {@link Integer}
+     * value or -1, if the item has not been added
+     */
+    int addItemSorted(@NonNull DataType item);
+
+    /**
+     * Adds a specific item to the adapter. If the adapter's items are currently sorted, the item
+     * will be added at the correct position regarding the current order. Otherwise, it will be
+     * added at the end.
+     *
+     * @param item
+     *         The item, which should be added to the adapter, as an instance of the generic type
+     *         DataType. The item may not be null
+     * @param comparator
+     *         The comparator, which should be used to sort the items, as an instance of the type
+     *         {@link Comparator} or null, if the natural order should be used
+     * @return The index of the the item, which has been added to the adapter, as an {@link Integer}
+     * value or -1, if the item has not been added
+     */
+    int addItemSorted(@NonNull DataType item, @Nullable Comparator<DataType> comparator);
+
+    /**
+     * Adds all items, which are contained by a specific collection, to the adapter. If the
+     * adapter's items are currently sorted, the items will be added at the correct position
+     * regarding the current order. Otherwise, they will be added at the end. If the adapter's
+     * underlying data does not implement the interface {@link Comparable} a {@link
+     * SortingNotSupportedException} will be thrown.
+     *
+     * @param items
+     *         The collection, which contains the items, which should be added to the adapter, as an
+     *         instance of the type {@link Collection} or an empty collection, if no items should be
+     *         added
+     * @return True, if all items have been added to the adapter, false otherwise
+     */
+    boolean addAllItemsSorted(@NonNull Collection<? extends DataType> items);
+
+    /**
+     * Adds all items, which are contained by a specific collection, to the adapter. If the
+     * adapter's items are currently sorted, the items will be added at the correct position
+     * regarding the current order. Otherwise, they will be added at the end.
+     *
+     * @param items
+     *         The collection, which contains the items, which should be added to the adapter, as an
+     *         instance of the type {@link Collection} or an empty collection, if no items should be
+     *         added
+     * @param comparator
+     *         The comparator, which should be used to sort the items, as an instance of the type
+     *         {@link Comparator} or null, if the natural order should be used
+     * @return True, if all items have been added to the adapter, false otherwise
+     */
+    boolean addAllItemsSorted(@NonNull Collection<? extends DataType> items,
+                              @Nullable Comparator<DataType> comparator);
+
+    /**
+     * Adds all items, which are contained by a specific array, to the adapter. If the adapter's
+     * items are currently sorted, the items will be added at the correct position regarding the
+     * current order. Otherwise, they will be added at the end. If the adapter's underlying data
+     * does not implement the interface {@link Comparable} a {@link SortingNotSupportedException}
+     * will be thrown.
+     *
+     * @param items
+     *         The array, which contains the items, which should be added to the adapter, as an
+     *         array of the generic type DataType or an empty array, if no items should be added
+     * @return True, if all items have been added to the adapter, false otherwise
+     */
+    @SuppressWarnings("unchecked")
+    boolean addAllItemsSorted(@NonNull DataType... items);
+
+    /**
+     * Adds all items, which are contained by a specific array, to the adapter. If the adapter's
+     * items are currently sorted, the items will be added at the correct position regarding the
+     * current order. Otherwise, they will be added at the end.
+     *
+     * @param comparator
+     *         The comparator, which should be used to sort the items, as an instance of the type
+     *         {@link Comparator} or null, if the natural order should be used
+     * @param items
+     *         The array, which contains the items, which should be added to the adapter, as an
+     *         array of the generic type DataType or an empty array, if no items should be added
+     * @return True, if all items have been added to the adapter, false otherwise
+     */
+    @SuppressWarnings("unchecked")
+    boolean addAllItemsSorted(@Nullable Comparator<DataType> comparator,
+                              @NonNull DataType... items);
 
     /**
      * Returns the current order of the adapter's items.

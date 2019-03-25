@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.widget.AbsListView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -248,49 +249,97 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType extend
 
     @Override
     public final void sort(@NonNull final Order order) {
-        Condition.INSTANCE.ensureNotNull(order, "The order may not be null");
-        this.order = order;
-
-        if (order == Order.ASCENDING) {
-            Collections.sort(getItems());
-            String message = "Sorted items in ascending order";
-            getLogger().logInfo(getClass(), message);
-        } else {
-            Collections.sort(getItems(), Collections.reverseOrder());
-            String message = "Sorted items in descending order";
-            getLogger().logInfo(getClass(), message);
-        }
-
-        notifyOnSorted(getAllItems(), order, null);
-        notifyObserversOnDataSetChanged();
+        sort(order, null);
     }
 
     @Override
-    public final void sort(@NonNull final Comparator<DataType> comparator) {
+    public final void sort(@Nullable final Comparator<DataType> comparator) {
         sort(Order.ASCENDING, comparator);
     }
 
     @Override
     public final void sort(@NonNull final Order order,
-                           @NonNull final Comparator<DataType> comparator) {
+                           @Nullable final Comparator<DataType> comparator) {
         Condition.INSTANCE.ensureNotNull(order, "The order may not be null");
         this.order = order;
         Comparator<Item<DataType>> itemComparator = new ItemComparator<>(comparator);
 
         if (order == Order.ASCENDING) {
             Collections.sort(getItems(), itemComparator);
-            String message = "Sorted items in ascending order using the comparator \"" +
-                    comparator.getClass().getSimpleName() + "\"";
+            String message = "Sorted items in ascending order";
             getLogger().logInfo(getClass(), message);
         } else {
             Collections.sort(getItems(), Collections.reverseOrder(itemComparator));
-            String message = "Sorted items in descending order using the comparator \"" +
-                    comparator.getClass().getSimpleName() + "\"";
+            String message = "Sorted items in descending order";
             getLogger().logInfo(getClass(), message);
         }
 
         notifyOnSorted(getAllItems(), order, comparator);
         notifyObserversOnDataSetChanged();
+    }
+
+    @Override
+    public final int addItemSorted(@NonNull final DataType item) {
+        return addItemSorted(item, null);
+    }
+
+    @Override
+    public final int addItemSorted(@NonNull final DataType item,
+                                   @Nullable final Comparator<DataType> comparator) {
+        Condition.INSTANCE.ensureNotNull(item, "The item may not be null");
+        Order currentOrder = order;
+
+        if (currentOrder != null) {
+            Comparator<Item<DataType>> itemComparator =
+                    order == Order.ASCENDING ? new ItemComparator<>(comparator) :
+                            Collections.reverseOrder(new ItemComparator<>(comparator));
+            Item<DataType> itemToAdd = new Item<>(item);
+            int index = Collections.binarySearch(getItems(), itemToAdd, itemComparator);
+
+            if (index < 0) {
+                index = ~index;
+            }
+
+            boolean added = addItem(index, itemToAdd);
+            this.order = currentOrder;
+            return added ? index : -1;
+        } else {
+            String message = "Adapter is currently not sorted. Item will be added at the end...";
+            getLogger().logDebug(getClass(), message);
+            return addItem(item);
+        }
+    }
+
+    @Override
+    public final boolean addAllItemsSorted(@NonNull final Collection<? extends DataType> items) {
+        return addAllItemsSorted(items, null);
+    }
+
+    @Override
+    public final boolean addAllItemsSorted(@NonNull final Collection<? extends DataType> items,
+                                           @Nullable final Comparator<DataType> comparator) {
+        Condition.INSTANCE.ensureNotNull(items, "The collection may not be null");
+        boolean result = true;
+
+        for (DataType item : items) {
+            int index = addItemSorted(item, comparator);
+            result &= index != -1;
+        }
+
+        return result;
+    }
+
+    @SafeVarargs
+    @Override
+    public final boolean addAllItemsSorted(@NonNull final DataType... items) {
+        return addAllItemsSorted(null, items);
+    }
+
+    @SafeVarargs
+    @Override
+    public final boolean addAllItemsSorted(@Nullable final Comparator<DataType> comparator,
+                                           @NonNull final DataType... items) {
+        return addAllItemsSorted(Arrays.asList(items), comparator);
     }
 
     @Override

@@ -687,6 +687,32 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
     }
 
     /**
+     * Adds a new item at a specific index.
+     *
+     * @param index
+     *         The index, the item should be added at, as an {@link Integer} value
+     * @param item
+     *         The item, which should be added, as an instance of the class {@link Item}. The item
+     *         may not be null
+     * @return True, if the item has been added, false otherwise
+     */
+    protected boolean addItem(final int index, @NonNull final Item<DataType> item) {
+        if (!areDuplicatesAllowed() && containsItem(item.getData())) {
+            String message = "Item \"" + item.getData() + "\" at index " + index +
+                    " not added, because adapter already contains item";
+            getLogger().logDebug(getClass(), message);
+            return false;
+        }
+
+        items.add(index, item);
+        notifyOnItemAdded(item.getData(), index);
+        notifyObserversOnItemInserted(index);
+        String message = "Item \"" + item.getData() + "\" added at index " + index;
+        getLogger().logInfo(getClass(), message);
+        return true;
+    }
+
+    /**
      * This method is invoked when the state of the adapter is about to be stored within a bundle.
      *
      * @param outState
@@ -928,20 +954,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
     @Override
     public final boolean addItem(final int index, @NonNull final DataType item) {
         Condition.INSTANCE.ensureNotNull(item, "The item may not be null");
-
-        if (!areDuplicatesAllowed() && containsItem(item)) {
-            String message = "Item \"" + item + "\" at index " + index +
-                    " not added, because adapter already contains item";
-            getLogger().logDebug(getClass(), message);
-            return false;
-        }
-
-        items.add(index, new Item<>(item));
-        notifyOnItemAdded(item, index);
-        notifyObserversOnItemInserted(index);
-        String message = "Item \"" + item + "\" added at index " + index;
-        getLogger().logInfo(getClass(), message);
-        return true;
+        return addItem(index, new Item<>(item));
     }
 
     @Override

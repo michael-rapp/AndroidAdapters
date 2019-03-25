@@ -15,8 +15,7 @@ package de.mrapp.android.adapter.datastructure.item;
 
 import java.util.Comparator;
 
-import androidx.annotation.NonNull;
-import de.mrapp.util.Condition;
+import androidx.annotation.Nullable;
 
 /**
  * A comparator, which allows to compare two items by comparing their data.
@@ -38,16 +37,19 @@ public class ItemComparator<DataType> implements Comparator<Item<DataType>> {
      *
      * @param comparator
      *         The comparator, which should be used to compare the items' data, as an instance of
-     *         the type {@link Comparator}. The comparator may not be null
+     *         the type {@link Comparator} or null, if the natural order should be used
      */
-    public ItemComparator(@NonNull final Comparator<DataType> comparator) {
-        Condition.INSTANCE.ensureNotNull(comparator, "The comparator may not be null");
+    public ItemComparator(@Nullable final Comparator<DataType> comparator) {
         this.comparator = comparator;
     }
 
     @Override
     public final int compare(final Item<DataType> lhs, final Item<DataType> rhs) {
-        return comparator.compare(lhs.getData(), rhs.getData());
+        if (comparator != null) {
+            return comparator.compare(lhs.getData(), rhs.getData());
+        } else {
+            return lhs.compareTo(rhs);
+        }
     }
 
 }
