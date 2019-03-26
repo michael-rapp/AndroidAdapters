@@ -13,18 +13,22 @@
  */
 package de.mrapp.android.adapter;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import static org.junit.Assert.assertNull;
 
 /**
  * Tests the functionality of the class {@link FilteringNotSupportedException}.
  *
  * @author Michael Rapp
  */
-public class FilteringNotSupportedExceptionTest extends TestCase {
+@RunWith(AndroidJUnit4.class)
+public class FilteringNotSupportedExceptionTest {
 
-    /**
-     * Tests, if all properties are set correctly by the default constructor.
-     */
+    @Test
     public final void testDefaultConstructor() {
         FilteringNotSupportedException filteringNotSupportedException =
                 new FilteringNotSupportedException();

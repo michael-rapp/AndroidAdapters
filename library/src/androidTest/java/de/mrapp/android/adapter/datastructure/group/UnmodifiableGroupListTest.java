@@ -15,21 +15,24 @@ package de.mrapp.android.adapter.datastructure.group;
 
 import junit.framework.TestCase;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ListIterator;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 /**
  * Tests the functionality of the class {@link UnmodifiableGroupList}.
  *
  * @author Michael Rapp
  */
+@RunWith(AndroidJUnit4.class)
 public class UnmodifiableGroupListTest extends TestCase {
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the item, which corresponds
-     * to a specific index.
-     */
+    @Test
     public final void testGet() {
         Group<Object, Object> item1 = new Group<>(new Object());
         Group<Object, Object> item2 = new Group<>(new Object());
@@ -42,9 +45,7 @@ public class UnmodifiableGroupListTest extends TestCase {
         assertEquals(item2.getData(), unmodifiableGroupList.get(1));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve an iterator.
-     */
+    @Test
     public final void testIterator() {
         Group<Object, Object> item1 = new Group<>(new Object());
         Group<Object, Object> item2 = new Group<>(new Object());
@@ -59,9 +60,7 @@ public class UnmodifiableGroupListTest extends TestCase {
         assertFalse(iterator.hasNext());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve a list iterator.
-     */
+    @Test
     public final void testListIterator() {
         Group<Object, Object> item1 = new Group<>(new Object());
         Group<Object, Object> item2 = new Group<>(new Object());
@@ -76,10 +75,7 @@ public class UnmodifiableGroupListTest extends TestCase {
         assertFalse(iterator.hasNext());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve a list iterator and expects a
-     * start index as a parameter.
-     */
+    @Test
     public final void testListIteratorWithStartParameter() {
         Group<Object, Object> item1 = new Group<>(new Object());
         Group<Object, Object> item2 = new Group<>(new Object());

@@ -15,17 +15,14 @@ package de.mrapp.android.adapter.list;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Parcelable;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import android.test.AndroidTestCase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ListView;
 
-import junit.framework.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -37,6 +34,10 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 import de.mrapp.android.adapter.DataSetObserver;
 import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.FilterQuery;
@@ -51,6 +52,12 @@ import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 import de.mrapp.android.util.logging.LogLevel;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -60,7 +67,8 @@ import static org.mockito.Mockito.verify;
  *
  * @author Michael Rapp
  */
-public class AbstractListAdapterTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class AbstractListAdapterTest {
 
     /**
      * An implementation of the abstract class {@link AbstractListAdapter}, which is needed for test
@@ -269,6 +277,39 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         @Override
         public void sort(@NonNull final Order order, @NonNull final Comparator<Object> comparator) {
 
+        }
+
+        @Override
+        public int addItemSorted(@NonNull final Object item) {
+            return 0;
+        }
+
+        @Override
+        public int addItemSorted(@NonNull final Object item,
+                                 @Nullable final Comparator<Object> comparator) {
+            return 0;
+        }
+
+        @Override
+        public boolean addAllItemsSorted(@NonNull final Collection<?> items) {
+            return false;
+        }
+
+        @Override
+        public boolean addAllItemsSorted(@NonNull final Collection<?> items,
+                                         @Nullable final Comparator<Object> comparator) {
+            return false;
+        }
+
+        @Override
+        public boolean addAllItemsSorted(@NonNull final Object... items) {
+            return false;
+        }
+
+        @Override
+        public boolean addAllItemsSorted(@Nullable final Comparator<Object> comparator,
+                                         @NonNull final Object... items) {
+            return false;
         }
 
         @Override
@@ -580,21 +621,15 @@ public class AbstractListAdapterTest extends AndroidTestCase {
      * @return The instance, which has been created
      */
     private AbstractListAdapterImplementation createAdapter(final boolean allowDuplicates) {
-        return new AbstractListAdapterImplementation(getContext(),
-                new ListDecoratorImplementation(), LogLevel.ALL, new ArrayList<Item<Object>>(),
-                allowDuplicates, true, new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        return new AbstractListAdapterImplementation(context, new ListDecoratorImplementation(),
+                LogLevel.ALL, new ArrayList<Item<Object>>(), allowDuplicates, true,
+                new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
                 new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
                 new LinkedHashSet<ListAdapterListener<Object>>());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to create a deep copy of the list, which
-     * contains the adapter's items.
-     *
-     * @throws CloneNotSupportedException
-     *         The exception, which is thrown, if cloning is not supported by the adapter's
-     *         underlying data
-     */
+    @Test
     public final void testCloneItems() throws CloneNotSupportedException {
         Object item1 = new SerializableImplementation(1);
         Object item2 = new SerializableImplementation(2);
@@ -606,11 +641,9 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertEquals(item2, clonedItems.get(1).getData());
     }
 
-    /**
-     * Tests, if all properties are set correctly by the constructor.
-     */
+    @Test
     public final void testConstructor() {
-        Context context = getContext();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         ListDecorator<Object> decorator = new ListDecoratorImplementation();
         ArrayList<Item<Object>> items = new ArrayList<>();
         boolean allowDuplicates = true;
@@ -635,125 +668,73 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertEquals(logLevel, abstractListAdapter.getLogLevel());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if the context, which is passed to
-     * the constructor, is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testConstructorThrowsExceptionWhenContextIsNull() {
-        try {
-            new AbstractListAdapterImplementation(null, new ListDecoratorImplementation(),
-                    LogLevel.ALL, new ArrayList<Item<Object>>(), false, true,
-                    new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
-                    new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
-                    new LinkedHashSet<ListAdapterListener<Object>>());
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        new AbstractListAdapterImplementation(null, new ListDecoratorImplementation(), LogLevel.ALL,
+                new ArrayList<Item<Object>>(), false, true,
+                new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+                new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
+                new LinkedHashSet<ListAdapterListener<Object>>());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if the decorator, which is passed to
-     * the constructor, is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testConstructorThrowsExceptionWhenDecoratorIsNull() {
-        try {
-            new AbstractListAdapterImplementation(getContext(), null, LogLevel.ALL,
-                    new ArrayList<Item<Object>>(), false, true,
-                    new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
-                    new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
-                    new LinkedHashSet<ListAdapterListener<Object>>());
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        new AbstractListAdapterImplementation(context, null, LogLevel.ALL,
+                new ArrayList<Item<Object>>(), false, true,
+                new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+                new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
+                new LinkedHashSet<ListAdapterListener<Object>>());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if the collection, which contains the
-     * items, which is passed to the constructor, is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testConstructorThrowsExceptionWhenItemsIsNull() {
-        try {
-            new AbstractListAdapterImplementation(getContext(), new ListDecoratorImplementation(),
-                    LogLevel.ALL, null, false, true,
-                    new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
-                    new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
-                    new LinkedHashSet<ListAdapterListener<Object>>());
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        new AbstractListAdapterImplementation(context, new ListDecoratorImplementation(),
+                LogLevel.ALL, null, false, true,
+                new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+                new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
+                new LinkedHashSet<ListAdapterListener<Object>>());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if the set, which contains the item
-     * click listeners, which is passed to the constructor, is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testConstructorThrowsExceptionWhenItemClickListenersIsNull() {
-        try {
-            new AbstractListAdapterImplementation(getContext(), new ListDecoratorImplementation(),
-                    LogLevel.ALL, new ArrayList<Item<Object>>(), false, true, null,
-                    new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
-                    new LinkedHashSet<ListAdapterListener<Object>>());
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        new AbstractListAdapterImplementation(context, new ListDecoratorImplementation(),
+                LogLevel.ALL, new ArrayList<Item<Object>>(), false, true, null,
+                new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
+                new LinkedHashSet<ListAdapterListener<Object>>());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if the set, which contains the item
-     * long click listeners, which is passed to the constructor, is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testConstructorThrowsExceptionWhenItemLongClickListenersIsNull() {
-        try {
-            new AbstractListAdapterImplementation(getContext(), new ListDecoratorImplementation(),
-                    LogLevel.ALL, new ArrayList<Item<Object>>(), false, true,
-                    new LinkedHashSet<ListAdapterItemClickListener<Object>>(), null,
-                    new LinkedHashSet<ListAdapterListener<Object>>());
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        new AbstractListAdapterImplementation(context, new ListDecoratorImplementation(),
+                LogLevel.ALL, new ArrayList<Item<Object>>(), false, true,
+                new LinkedHashSet<ListAdapterItemClickListener<Object>>(), null,
+                new LinkedHashSet<ListAdapterListener<Object>>());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if the set, which contains the
-     * adapter listeners, which is passed to the constructor, is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testConstructorThrowsExceptionWhenAdapterListenersIsNull() {
-        try {
-            new AbstractListAdapterImplementation(getContext(), new ListDecoratorImplementation(),
-                    LogLevel.ALL, new ArrayList<Item<Object>>(), false, true,
-                    new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
-                    new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(), null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        new AbstractListAdapterImplementation(context, new ListDecoratorImplementation(),
+                LogLevel.ALL, new ArrayList<Item<Object>>(), false, true,
+                new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+                new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(), null);
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if the log level, which is passed to
-     * the constructor, is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testConstructorThrowsExceptionWhenLogLevelIsNull() {
-        try {
-            new AbstractListAdapterImplementation(getContext(), new ListDecoratorImplementation(),
-                    null, new ArrayList<Item<Object>>(), false, true,
-                    new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
-                    new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
-                    new LinkedHashSet<ListAdapterListener<Object>>());
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        new AbstractListAdapterImplementation(context, new ListDecoratorImplementation(), null,
+                new ArrayList<Item<Object>>(), false, true,
+                new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+                new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
+                new LinkedHashSet<ListAdapterListener<Object>>());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set the log level.
-     */
+    @Test
     public final void testSetLogLevel() {
         AbstractListAdapterImplementation abstractListAdapter = createAdapter();
         LogLevel logLevel = LogLevel.ERROR;
@@ -761,10 +742,7 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertEquals(logLevel, abstractListAdapter.getLogLevel());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set a bundle, which contains the key
-     * value pairs, which should be stored within the adapter.
-     */
+    @Test
     public final void testSetParameters() {
         AbstractListAdapterImplementation abstractListAdapter = createAdapter();
         Bundle parameters = new Bundle();
@@ -772,10 +750,7 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertEquals(parameters, abstractListAdapter.getParameters());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set, whether duplicate items should be
-     * allowed, or not.
-     */
+    @Test
     public final void testAllowDuplicates() {
         AbstractListAdapterImplementation abstractListAdapter = createAdapter();
         boolean allowDuplicates = true;
@@ -783,11 +758,7 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertEquals(allowDuplicates, abstractListAdapter.areDuplicatesAllowed());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set, whether the method
-     * <code>notifyDataSetChanged():void</code> should be automatically called when the adapter's
-     * underlying data has been changed, or not.
-     */
+    @Test
     public final void testNotifyOnChange() {
         DataSetObserver dataSetObserver = new DataSetObserver();
         AbstractListAdapterImplementation abstractListAdapter = createAdapter();
@@ -802,11 +773,8 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertFalse(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add a listener, which should be
-     * notified, when the adapter's underlying data has been modified.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddAdapterListener() {
         AbstractListAdapterImplementation abstractListAdapter = createAdapter();
         ListAdapterListener<Object> listAdapterListener = mock(ListAdapterListener.class);
@@ -817,25 +785,14 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(abstractListAdapter.getAdapterListeners().contains(listAdapterListener));
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if a {@link ListAdapterListener},
-     * which is null, should be added to the adapter.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testAddAdapterListenerThrowsExceptionWhenListenerIsNull() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-            abstractListAdapter.addAdapterListener(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter();
+        abstractListAdapter.addAdapterListener(null);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to remove a listener, which should not be
-     * notified, when the adapter's underlying data has been changed, anymore.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testRemoveAdapterListener() {
         ListAdapterListener<Object> listAdapterListener = mock(ListAdapterListener.class);
         AbstractListAdapterImplementation abstractListAdapter = createAdapter();
@@ -846,24 +803,14 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(abstractListAdapter.getAdapterListeners().isEmpty());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if a {@link ListAdapterListener},
-     * which is null, should be removed from the adapter.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testRemoveAdapterListenerThrowsExceptionWhenListenerIsNull() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-            abstractListAdapter.removeAdapterListener(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter();
+        abstractListAdapter.removeAdapterListener(null);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add an item to the adapter.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddItem() {
         Object item = new Object();
         ListAdapterListener<Object> listAdapterListener = mock(ListAdapterListener.class);
@@ -878,25 +825,14 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if an item, which is null, should be
-     * added to the adapter.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testAddItemThrowsExceptionWhenItemIsNull() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter(true);
-            abstractListAdapter.addItem(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter(true);
+        abstractListAdapter.addItem(null);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add an item to the adapter, if the
-     * adapter does already contain the item and duplicates are allowed.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddItemWhenDuplicatesAreAllowed() {
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
@@ -915,11 +851,8 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add an item to the adapter, if the
-     * adapter does already contain the item and duplicates are not allowed.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddItemWhenDuplicatesAreNotAllowed() {
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
@@ -937,11 +870,8 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertFalse(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add an item to the adapter at a
-     * specific index, if the adapter does already contain the item and duplicates are allowed.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddItemAtSpecificIndex() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -963,39 +893,20 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if an item, which is null, should be
-     * added to the adapter at a specific index.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testAddItemAtSpecificIndexThrowsExceptionWhenItemIsNull() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-            abstractListAdapter.addItem(0, null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter();
+        abstractListAdapter.addItem(0, (Object) null);
     }
 
-    /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown, if an item should be added to
-     * the adapter at an invalid index.
-     */
+    @Test(expected = IndexOutOfBoundsException.class)
     public final void testAddItemAtSpecificIndexThrowsExceptionWhenIndexIsInvalid() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter(true);
-            abstractListAdapter.addItem(-1, new Object());
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter(true);
+        abstractListAdapter.addItem(-1, new Object());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add an item to the adapter at a
-     * specific index, if the adapter does already contain the item and duplicates are allowed.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddItemAtSpecificIndexWhenDuplicatesAreAllowed() {
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
@@ -1014,11 +925,8 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add an item to the adapter at a
-     * specific index, if the adapter does already contain the item and duplicates are allowed.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddItemAtSpecificIndexWhenDuplicatesAreNotAllowed() {
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
@@ -1037,11 +945,8 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertFalse(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add all items, which are contained by
-     * a specific collection, to the adapter.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddAllItemsFromCollection() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -1064,26 +969,15 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if all items of a collection, which
-     * is null, should be added to the adapter.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testAddAllItemsFromCollectionThrowsExceptionWhenCollectionIsNull() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-            Collection<Object> items = null;
-            abstractListAdapter.addAllItems(items);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter();
+        Collection<Object> items = null;
+        abstractListAdapter.addAllItems(items);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add all items, which are contained by
-     * a specific collection, if the collection contains duplicates and duplicates are allowed.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddAllItemsFromCollectionContainsDuplicatesWhenDuplicatesAreAllowed() {
         Object item = new Object();
         Collection<Object> items = new ArrayList<>();
@@ -1104,11 +998,8 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add all items, which are contained by
-     * a specific collection, if the collection contains duplicates and duplicates are not allowed.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddAllItemsFromCollectionContainsDuplicatesWhenDuplicatesAreNotAllowed() {
         Object item = new Object();
         Collection<Object> items = new ArrayList<>();
@@ -1128,11 +1019,8 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add all items, which are contained by
-     * a specific collection, to the adapter at a specific index.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddAllItemsFromCollectionAtSpecificIndex() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -1162,12 +1050,8 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add all items, which are contained by
-     * a specific collection, to the adapter at a specific index, if the collection contains
-     * duplicates and duplicates are allowed.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddAllItemsFromCollectionAtSpecificIndexWhenDuplicatesAreAllowed() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -1194,12 +1078,8 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add all items, which are contained by
-     * a specific collection, to the adapter at a specific index, if the collection contains
-     * duplicates and duplicates are not allowed.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddAllItemsFromCollectionAtSpecificIndexWhenDuplicatesAreNotAllowed() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -1225,42 +1105,23 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if all items of a collection, which
-     * is null, should be added to the adapter at a specific index.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testAddAllItemsFromCollectionAtSpecificIndexThrowsExceptionWhenCollectionIsNull() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-            Collection<Object> items = null;
-            abstractListAdapter.addAllItems(0, items);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter();
+        Collection<Object> items = null;
+        abstractListAdapter.addAllItems(0, items);
     }
 
-    /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown, if all items, which are
-     * contained by a specific collection, should be added to the adapter at an invalid index.
-     */
+    @Test(expected = IndexOutOfBoundsException.class)
     public final void testAddAllItemsFromCollectionAtSpecificIndexThrowsExceptionWhenIndexIsInvalid() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter(true);
-            Collection<Object> items = new ArrayList<>();
-            items.add(new Object());
-            abstractListAdapter.addAllItems(-1, items);
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter(true);
+        Collection<Object> items = new ArrayList<>();
+        items.add(new Object());
+        abstractListAdapter.addAllItems(-1, items);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add all items, which are contained by
-     * a specific array, to the adapter.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddAllItemsFromArray() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -1283,26 +1144,15 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if all items of an array, which is
-     * null, should be added to the adapter.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testAddAllItemsFromArrayThrowsExceptionWhenArrayIsNull() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-            Object[] items = null;
-            abstractListAdapter.addAllItems(items);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter();
+        Object[] items = null;
+        abstractListAdapter.addAllItems(items);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add all items, which are contained by
-     * a specific array, if the array contains duplicates and duplicates are allowed.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddAllItemsFromArrayContainsDuplicatesWhenDuplicatesAreAllowed() {
         Object item = new Object();
         Object[] items = new Object[2];
@@ -1323,11 +1173,8 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add all items, which are contained by
-     * a specific array, if the array contains duplicates and duplicates are not allowed.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddAllItemsFromArrayContainsDuplicatesWhenDuplicatesAreNotAllowed() {
         Object item = new Object();
         Object[] items = new Object[2];
@@ -1347,11 +1194,8 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add all items, which are contained by
-     * a specific array, to the adapter at a specific index.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddAllItemsFromArrayAtSpecificIndex() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -1381,12 +1225,8 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add all items, which are contained by
-     * a specific array, to the adapter at a specific index, if the collection contains duplicates
-     * and duplicates are allowed.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddAllItemsFromArrayAtSpecificIndexWhenDuplicatesAreAllowed() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -1413,12 +1253,8 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add all items, which are contained by
-     * a specific array, to the adapter at a specific index, if the array contains duplicates and
-     * duplicates are not allowed.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddAllItemsFromArrayAtSpecificIndexWhenDuplicatesAreNotAllowed() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -1444,41 +1280,23 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if all items of an array, which is
-     * null, should be added to the adapter at a specific index.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testAddAllItemsFromArrayAtSpecificIndexThrowsExceptionWhenItemIsNull() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-            Object[] items = null;
-            abstractListAdapter.addAllItems(0, items);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter();
+        Object[] items = null;
+        abstractListAdapter.addAllItems(0, items);
     }
 
-    /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown, if all items, which are
-     * contained by a specific array, should be added to the adapter at an invalid index.
-     */
+    @Test(expected = IndexOutOfBoundsException.class)
     public final void testAddAllItemsFromArrayAtSpecificIndexThrowsExceptionWhenIndexIsInvalid() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter(true);
-            Object[] items = new Object[1];
-            items[0] = new Object();
-            abstractListAdapter.addAllItems(-1, items);
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter(true);
+        Object[] items = new Object[1];
+        items[0] = new Object();
+        abstractListAdapter.addAllItems(-1, items);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to replace the item at a specific index.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testReplaceItem() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -1498,39 +1316,20 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if the item at a specific index
-     * should be replaced by an item, which is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testReplaceItemThrowsExceptionWhenItemIsNull() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-            abstractListAdapter.replaceItem(0, null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter();
+        abstractListAdapter.replaceItem(0, null);
     }
 
-    /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown, if the item at an invalid index
-     * should be replaced.
-     */
+    @Test(expected = IndexOutOfBoundsException.class)
     public final void testReplaceItemThrowsExceptionWhenIndexIsInvalid() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-            abstractListAdapter.replaceItem(-1, new Object());
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter();
+        abstractListAdapter.replaceItem(-1, new Object());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to remove the item at a specific index
-     * from the adapter.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testRemoveItemAtSpecificIndex() {
         Object item = new Object();
         ListAdapterListener<Object> listAdapterListener = mock(ListAdapterListener.class);
@@ -1547,25 +1346,14 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown, if the item at an invalid index
-     * should be removed from the adapter.
-     */
+    @Test(expected = IndexOutOfBoundsException.class)
     public final void testRemoveItemAtSpecificIndexThrowsExceptionWhenIndexIsInvalid() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-            abstractListAdapter.removeItem(-1);
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter();
+        abstractListAdapter.removeItem(-1);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to remove a specific item from the
-     * adapter, if the adapter does actually contain the item.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testRemoveItemWhenAdapterDoesContainItem() {
         Object item = new Object();
         ListAdapterListener<Object> listAdapterListener = mock(ListAdapterListener.class);
@@ -1582,11 +1370,8 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to remove a specific item from the
-     * adapter, if the adapter does not contain the item.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testRemoveItemWhenAdapterDoesNotContainItem() {
         Object item = new Object();
         ListAdapterListener<Object> listAdapterListener = mock(ListAdapterListener.class);
@@ -1603,26 +1388,14 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertFalse(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that an {@link NullPointerException} is thrown, if an item, which is null, should be
-     * removed from the adapter.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testRemoveItemThrowsExceptionWhenItemIsNull() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-            abstractListAdapter.removeItem(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter();
+        abstractListAdapter.removeItem(null);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to remove all items, which are contained
-     * by a specific collection, from the adapter, if the adapter does actually contain all of these
-     * items.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testRemoveAllItemsFromCollectionWhenAdapterDoesContainAllItems() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -1644,12 +1417,8 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to remove all items, which are contained
-     * by a specific collection, from the adapter, if the adapter does not contain all of these
-     * items.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testRemoveAllItemsFromCollectionWhenAdapterDoesNotContainAllItems() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -1670,27 +1439,15 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if all items, which are contained by
-     * a collection, which is null, should be removed from the adapter.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testRemoveAllItemsFromCollectionThrowsExceptionWhenCollectionIsNull() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-            Collection<Object> items = null;
-            abstractListAdapter.removeAllItems(items);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter();
+        Collection<Object> items = null;
+        abstractListAdapter.removeAllItems(items);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to remove all items, which are contained
-     * by a specific array, from the adapter, if the adapter does actually contain all of these
-     * items.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testRemoveAllItemsFromArrayWhenAdapterDoesContainAllItems() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -1712,11 +1469,8 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to remove all items, which are contained
-     * by a specific array, from the adapter, if the adapter does not contain all of these items.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testRemoveAllItemsFromArrayWhenAdapterDoesNotContainAllItems() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -1737,26 +1491,15 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if all items, which are contained by
-     * an array, which is null, should be removed from the adapter.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testRemoveAllItemsFromArrayThrowsExceptionWhenCollectionIsNull() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-            Object[] items = null;
-            abstractListAdapter.removeAllItems(items);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter();
+        Object[] items = null;
+        abstractListAdapter.removeAllItems(items);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to remove all items except of the ones,
-     * which are contained by a specific collection, from the adapter.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testRetainAllItemsFromCollection() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -1780,26 +1523,15 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if all items except of the ones,
-     * which are contained by a collection, which is null, should be removed from the adapter.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testRetainAllItemsFromCollectionThrowsExceptionWhenCollectionIsNull() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-            Collection<Object> items = null;
-            abstractListAdapter.retainAllItems(items);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter();
+        Collection<Object> items = null;
+        abstractListAdapter.retainAllItems(items);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to remove all items except of the ones,
-     * which are contained by a specific array, from the adapter.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testRetainAllItemsFromArray() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -1823,25 +1555,15 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if all items except of the ones,
-     * which are contained by an array, which is null, should be removed from the adapter.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testRetainAllItemsFromArrayThrowsExceptionWhenCollectionIsNull() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-            Object[] items = null;
-            abstractListAdapter.retainAllItems(items);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter();
+        Object[] items = null;
+        abstractListAdapter.retainAllItems(items);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to remove all items from the adapter.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testClearItems() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -1860,10 +1582,7 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve an {@link Iterator}, which
-     * allows to iterate the adapter's items.
-     */
+    @Test
     public final void testIterator() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -1875,10 +1594,7 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertEquals(item2, iterator.next());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve a {@link ListIterator}, which
-     * allows to iterate the adapter's items.
-     */
+    @Test
     public final void testListIterator() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -1890,10 +1606,7 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertEquals(item2, listIterator.next());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve a {@link ListIterator}, which
-     * allows to iterate the adapter's items, beginning at a specific index.
-     */
+    @Test
     public final void testListIteratorWithSpecificStartIndex() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -1904,10 +1617,7 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertEquals(item2, listIterator.next());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve a collection, which contains
-     * the items between a specific start and end index.
-     */
+    @Test
     public final void testSubList() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -1925,10 +1635,7 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertEquals(item3, iterator.next());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve an array, which contains the
-     * adapter's items.
-     */
+    @Test
     public final void testToArray() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -1941,10 +1648,7 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertEquals(item2, items[1]);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve an array, which contains the
-     * adapter's items and is created by using an already existing array.
-     */
+    @Test
     public final void testToArrayWithArrayParameter() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -1957,10 +1661,7 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertEquals(item2, items[1]);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the index of a specific item,
-     * if the adapter does actually contain this item.
-     */
+    @Test
     public final void testIndexOfWhenAdapterDoesContainItem() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -1970,10 +1671,7 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertEquals(1, abstractListAdapter.indexOf(item2));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the index of a specific item,
-     * if the adapter does not contain this item.
-     */
+    @Test
     public final void testIndexOfWhenAdapterDoesNotContainItem() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -1982,24 +1680,13 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertEquals(-1, abstractListAdapter.indexOf(item2));
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if the index of an item, which is
-     * null, should be retrieved.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testIndexOfThrowsExceptionWhenItemIsNull() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-            abstractListAdapter.indexOf(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter();
+        abstractListAdapter.indexOf(null);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the last index of a specific
-     * item, if the adapter does actually contain this item.
-     */
+    @Test
     public final void testLastIndexOfWhenAdapterDoesContainItem() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -2011,10 +1698,7 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertEquals(2, abstractListAdapter.lastIndexOf(item2));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the last index of a specific
-     * item, if the adapter does not contain this item.
-     */
+    @Test
     public final void testLastIndexOfWhenAdapterDoesNotContainItem() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -2023,24 +1707,13 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertEquals(-1, abstractListAdapter.lastIndexOf(item2));
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if the last index of an item, which
-     * is null, should be retrieved.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testLastIndexOfThrowsExceptionWhenItemIsNull() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-            abstractListAdapter.lastIndexOf(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter();
+        abstractListAdapter.lastIndexOf(null);
     }
 
-    /**
-     * Test the functionality of the method, which allows to retrieve, whether the adapter contains
-     * an item, if the adapter does actually contain the item.
-     */
+    @Test
     public final void testContainsItemWhenAdapterDoesContainItem() {
         Object item = new Object();
         AbstractListAdapterImplementation abstractListAdapter = createAdapter(true);
@@ -2048,35 +1721,20 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(abstractListAdapter.containsItem(item));
     }
 
-    /**
-     * Test the functionality of the method, which allows to retrieve, whether the adapter contains
-     * an item, if the adapter does not contain the item.
-     */
+    @Test
     public final void testContainsItemWhenAdapterDoesNotContainItem() {
         Object item = new Object();
         AbstractListAdapterImplementation abstractListAdapter = createAdapter(true);
         assertFalse(abstractListAdapter.containsItem(item));
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if it should be retrieved, whether
-     * the adapter contains an item, which is null, or not.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testContainsItemThrowsExceptionWhenItemIsNull() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-            abstractListAdapter.containsItem(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter();
+        abstractListAdapter.containsItem(null);
     }
 
-    /**
-     * Test the functionality of the method, which allows to retrieve, whether the adapter contains
-     * all items, which are contained by a collection, if the adapter does actually contain all of
-     * these items.
-     */
+    @Test
     public final void testContainsAllItemsFromCollectionWhenAdapterDoesContainAllItems() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -2088,11 +1746,7 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(abstractListAdapter.containsAllItems(items));
     }
 
-    /**
-     * Test the functionality of the method, which allows to retrieve, whether the adapter contains
-     * all items, which are contained by a collection, if the adapter does not contain all of these
-     * items.
-     */
+    @Test
     public final void testContainsAllItemsFromCollectionWhenAdapterDoesNotContainAllItems() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -2104,27 +1758,14 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertFalse(abstractListAdapter.containsAllItems(items));
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if it should be retrieved, whether
-     * all items, which are contained by a collection, which is null, are contained by the adapter,
-     * or not.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testContainsAllItemsFromCollectionThrowsExceptionWhenCollectionIsNull() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-            Collection<Object> items = null;
-            abstractListAdapter.containsAllItems(items);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter();
+        Collection<Object> items = null;
+        abstractListAdapter.containsAllItems(items);
     }
 
-    /**
-     * Test the functionality of the method, which allows to retrieve, whether the adapter contains
-     * all items, which are contained by an array, if the adapter does actually contain all of these
-     * items.
-     */
+    @Test
     public final void testContainsAllItemsFromArrayWhenAdapterDoesContainAllItems() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -2136,11 +1777,7 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(abstractListAdapter.containsAllItems(items));
     }
 
-    /**
-     * Test the functionality of the method, which allows to retrieve, whether the adapter contains
-     * all items, which are contained by an array, if the adapter does not contain all of these
-     * items.
-     */
+    @Test
     public final void testContainsAllItemsFromArrayWhenAdapterDoesNotContainAllItems() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -2152,26 +1789,14 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertFalse(abstractListAdapter.containsAllItems(items));
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if it should be retrieved, whether
-     * all items, which are contained by an array, which is null, are contained by the adapter, or
-     * not.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testContainsAllItemsFromArrayThrowsExceptionWhenArrayIsNull() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-            Object[] items = null;
-            abstractListAdapter.containsAllItems(items);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter();
+        Object[] items = null;
+        abstractListAdapter.containsAllItems(items);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the item, which belongs to a
-     * specific index.
-     */
+    @Test
     public final void testGetItem() {
         Object item = new Object();
         AbstractListAdapterImplementation abstractListAdapter = createAdapter();
@@ -2179,24 +1804,13 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertEquals(item, abstractListAdapter.getItem(0));
     }
 
-    /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown, if an item, which belongs to an
-     * invalid index, should be retrieved.
-     */
+    @Test(expected = IndexOutOfBoundsException.class)
     public final void testGetItemThrowsExceptionWhenIndexIsInvalid() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-            abstractListAdapter.getItem(-1);
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter();
+        abstractListAdapter.getItem(-1);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve a collection, which contains
-     * all items.
-     */
+    @Test
     public final void testGetAllItems() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -2209,110 +1823,80 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertEquals(item2, iterator.next());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve, whether the adapter is
-     * empty, or not, if the adapter is actually empty.
-     */
+    @Test
     public final void testIsEmptyWhenAdapterIsEmpty() {
         AbstractListAdapterImplementation abstractListAdapter = createAdapter();
         assertTrue(abstractListAdapter.isEmpty());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve, whether the adapter is
-     * empty, or not, if the adapter is not empty.
-     */
+    @Test
     public final void testIsEmptyWhenAdapterIsNotEmpty() {
         AbstractListAdapterImplementation abstractListAdapter = createAdapter();
         abstractListAdapter.addItem(new Object());
         assertFalse(abstractListAdapter.isEmpty());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to attach the adapter to a list view.
-     */
+    @Test
     public final void testAttachToListView() {
         AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-        ListView listView = new ListView(getContext());
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        ListView listView = new ListView(context);
         abstractListAdapter.attach(listView);
         assertEquals(listView, abstractListAdapter.getAdapterView());
         assertEquals(abstractListAdapter, listView.getAdapter());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown by the method, which allows to attach
-     * the adapter to a list view, if the list view is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testAttachToListViewThrowsException() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-            ListView listView = null;
-            abstractListAdapter.attach(listView);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter();
+        ListView listView = null;
+        abstractListAdapter.attach(listView);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to attach the adapter to a grid view.
-     */
+    @Test
     public final void testAttachToGridView() {
         AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-        GridView gridView = new GridView(getContext());
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        GridView gridView = new GridView(context);
         abstractListAdapter.attach(gridView);
         assertEquals(gridView, abstractListAdapter.getAdapterView());
         assertEquals(abstractListAdapter, gridView.getAdapter());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown by the method, which allows to attach
-     * the adapter to a grid view, if the grid view is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testAttachToGridViewThrowsException() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-            GridView gridView = null;
-            abstractListAdapter.attach(gridView);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter();
+        GridView gridView = null;
+        abstractListAdapter.attach(gridView);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to detach the adapter from the view, it
-     * is currently attached to.
-     */
+    @Test
     public final void testDetach() {
         AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-        ListView adapterView = new ListView(getContext());
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        ListView adapterView = new ListView(context);
         abstractListAdapter.attach(adapterView);
         abstractListAdapter.detach();
         assertNull(abstractListAdapter.getAdapterView());
         assertNull(adapterView.getAdapter());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to detach the adapter from the view, it
-     * is currently attached to, if the adapter has not been attached to a view before.
-     */
+    @Test
     public final void testDetachWhenAdapterHasNotBeenAttachedBefore() {
         AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-        ListView adapterView = new ListView(getContext());
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        ListView adapterView = new ListView(context);
         abstractListAdapter.detach();
         assertNull(abstractListAdapter.getAdapterView());
         assertNull(adapterView.getAdapter());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to detach the adapter from the view, it
-     * is currently attached to, if the adapter of the view changed in the meantime.
-     */
+    @Test
     public final void testDetachWhenAdapterWhenViewAdapterChanged() {
         AbstractListAdapterImplementation abstractListAdapter1 = createAdapter();
         AbstractListAdapterImplementation abstractListAdapter2 = createAdapter();
-        ListView adapterView = new ListView(getContext());
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        ListView adapterView = new ListView(context);
         abstractListAdapter1.attach(adapterView);
         abstractListAdapter2.attach(adapterView);
         abstractListAdapter1.detach();
@@ -2320,41 +1904,30 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertEquals(abstractListAdapter2, adapterView.getAdapter());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the count of items, if the
-     * adapter is empty.
-     */
+    @Test
     public final void testGetCountWhenAdapterIsEmpty() {
         AbstractListAdapterImplementation abstractListAdapter = createAdapter();
         assertEquals(0, abstractListAdapter.getCount());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the count of items, if the
-     * adapter is not empty.
-     */
+    @Test
     public final void testGetCountWhenAdapterIsNotEmpty() {
         AbstractListAdapterImplementation abstractListAdapter = createAdapter();
         abstractListAdapter.addItem(new Object());
         assertEquals(1, abstractListAdapter.getCount());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the id of the item, which
-     * belongs to a specific index.
-     */
+    @Test
     public final void testGetItemId() {
         AbstractListAdapterImplementation abstractListAdapter = createAdapter();
         abstractListAdapter.addItem(new Object());
         assertNotSame(0, abstractListAdapter.getItemId(0));
     }
 
-    /**
-     * Tests the functionality of the getView-method.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testGetView() {
-        Context context = getContext();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         ListDecoratorImplementation decorator = new ListDecoratorImplementation();
         Object item = new Object();
         AbstractListAdapterImplementation abstractListAdapter =
@@ -2371,11 +1944,9 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(decorator.hasOnShowItemBeenInvoked);
     }
 
-    /**
-     * Tests the functionality of the getView-method, when the passed view is not null.
-     */
+    @Test
     public final void testGetViewWhenViewIsNotNull() {
-        Context context = getContext();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         ListDecoratorImplementation decorator = new ListDecoratorImplementation();
         Object item = new Object();
         AbstractListAdapterImplementation abstractListAdapter =
@@ -2392,10 +1963,7 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(decorator.hasOnShowItemBeenInvoked);
     }
 
-    /**
-     * Tests the functionality of the onSaveInstanceState-method, when the adapter's underlying data
-     * implements the interface {@link Parcelable}.
-     */
+    @Test
     public final void testOnSaveInstanceStateWhenDataIsParcelable() {
         String key = "adapterkey";
         Bundle outState = new Bundle();
@@ -2431,11 +1999,8 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertEquals(logLevel, abstractListAdapter.getLogLevel());
     }
 
-    /**
-     * Tests the functionality of the onSaveInstanceState-method, when the adapter's underlying data
-     * implements the interface {@link Serializable}.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testOnSaveInstanceStateWhenDataIsSerializable() {
         String key = "adapterkey";
         Bundle outState = new Bundle();
@@ -2471,10 +2036,7 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertEquals(logLevel, abstractListAdapter.getLogLevel());
     }
 
-    /**
-     * Tests the functionality of the onSaveInstanceState-method, if the underlying data does
-     * neither implement the interface {@link Parcelable}, nor the interface {@link Serializable}.
-     */
+    @Test
     public final void testOnSaveInstanceStateWhenDataIsNotParcelableOrSerializable() {
         String key = "adapterkey";
         Bundle outState = new Bundle();
@@ -2487,61 +2049,33 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertNull(outState.getSerializable(AbstractListAdapter.SERIALIZABLE_ITEMS_BUNDLE_KEY));
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown by the onSaveInstanceState-method, if
-     * the bundle is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testOnSaveInstanceStateThrowsExceptionWhenBundleIsNull() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-            abstractListAdapter.onSaveInstanceState(null, "key");
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter();
+        abstractListAdapter.onSaveInstanceState(null, "key");
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown by the onSaveInstanceState-method, if
-     * the key is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testOnSaveInstanceStateThrowsExceptionWhenKeyIsNull() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-            abstractListAdapter.onSaveInstanceState(new Bundle(), null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter();
+        abstractListAdapter.onSaveInstanceState(new Bundle(), null);
     }
 
-    /**
-     * Ensures, that a {@link IllegalArgumentException} is thrown by the onSaveInstanceState-method,
-     * if the key is empty.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testOnSaveInstanceStateThrowsExceptionWhenKeyIsEmpty() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-            abstractListAdapter.onSaveInstanceState(new Bundle(), "");
-            Assert.fail();
-        } catch (IllegalArgumentException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter();
+        abstractListAdapter.onSaveInstanceState(new Bundle(), "");
     }
 
-    /**
-     * Tests the functionality of the onRestoreInstanceState-method, when the adapter's underlying
-     * data implements the interface {@link Parcelable}.
-     */
+    @Test
     public final void testOnRestoreInstanceStateWhenDataIsParcelable() {
         String key = "adapterkey";
         Bundle savedInstanceState = new Bundle();
         ParcelableImplementation item1 = new ParcelableImplementation(0);
         ParcelableImplementation item2 = new ParcelableImplementation(1);
-        ArrayList<Item<ParcelableImplementation>> savedItems =
-                new ArrayList<Item<ParcelableImplementation>>();
-        savedItems.add(new Item<ParcelableImplementation>(item1));
-        savedItems.add(new Item<ParcelableImplementation>(item2));
+        ArrayList<Item<ParcelableImplementation>> savedItems = new ArrayList<>();
+        savedItems.add(new Item<>(item1));
+        savedItems.add(new Item<>(item2));
         Bundle parameters = new Bundle();
         parameters.putInt("key", 1);
         boolean allowDuplicates = true;
@@ -2568,10 +2102,7 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the onRestoreInstanceState-method, when the adapter's underlying
-     * data implements the interface {@link Serializable}.
-     */
+    @Test
     public final void testOnRestoreInstanceStateWhenDataIsSerializable() {
         String key = "adapterkey";
         Bundle savedInstanceState = new Bundle();
@@ -2605,51 +2136,25 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown by the onRestoreInstanceState-method,
-     * if the bundle is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testOnRestoreInstanceStateThrowsExceptionWhenBundleIsNull() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-            abstractListAdapter.onRestoreInstanceState(null, "key");
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter();
+        abstractListAdapter.onRestoreInstanceState(null, "key");
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown by the onRestoreInstanceState-method,
-     * if the key is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testOnRestoreInstanceStateThrowsExceptionWhenKeyIsNull() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-            abstractListAdapter.onRestoreInstanceState(new Bundle(), null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter();
+        abstractListAdapter.onRestoreInstanceState(new Bundle(), null);
     }
 
-    /**
-     * Ensures, that an {@link IllegalArgumentException} is thrown by the
-     * onRestoreInstanceState-method, if the key is empty.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testOnRestoreInstanceStateThrowsExceptionWhenKeyIsEmpty() {
-        try {
-            AbstractListAdapterImplementation abstractListAdapter = createAdapter();
-            abstractListAdapter.onRestoreInstanceState(new Bundle(), "");
-            Assert.fail();
-        } catch (IllegalArgumentException e) {
-
-        }
+        AbstractListAdapterImplementation abstractListAdapter = createAdapter();
+        abstractListAdapter.onRestoreInstanceState(new Bundle(), "");
     }
 
-    /**
-     * Tests the functionality of the hashCode-method.
-     */
+    @Test
     public final void testHashCode() {
         AbstractListAdapterImplementation abstractListAdapter1 = createAdapter();
         AbstractListAdapterImplementation abstractListAdapter2 = createAdapter();
@@ -2675,9 +2180,7 @@ public class AbstractListAdapterTest extends AndroidTestCase {
         assertNotSame(abstractListAdapter1.hashCode(), abstractListAdapter2.hashCode());
     }
 
-    /**
-     * Tests the functionality of the equals-method.
-     */
+    @Test
     public final void testEquals() {
         AbstractListAdapterImplementation abstractListAdapter1 = createAdapter();
         AbstractListAdapterImplementation abstractListAdapter2 = createAdapter();

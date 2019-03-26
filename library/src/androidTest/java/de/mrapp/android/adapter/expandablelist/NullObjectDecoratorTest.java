@@ -13,9 +13,14 @@
  */
 package de.mrapp.android.adapter.expandablelist;
 
-import android.test.AndroidTestCase;
+import android.content.Context;
 import android.view.View;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 import de.mrapp.android.adapter.list.selectable.SelectableListAdapter;
 
 import static org.mockito.Mockito.mock;
@@ -25,16 +30,17 @@ import static org.mockito.Mockito.mock;
  *
  * @author Michael Rapp
  */
-public class NullObjectDecoratorTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class NullObjectDecoratorTest {
 
-    /**
-     * Tests the functionality of the applyDecorator-method.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testApplyDecorator() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         NullObjectDecorator<Object> nullObjectDecorator = new NullObjectDecorator<>();
-        nullObjectDecorator.applyDecorator(getContext(), mock(SelectableListAdapter.class),
-                new View(getContext()), new Object(), 0, true, 0, false, false);
+        nullObjectDecorator
+                .applyDecorator(context, mock(SelectableListAdapter.class), new View(context),
+                        new Object(), 0, true, 0, false, false);
     }
 
 }

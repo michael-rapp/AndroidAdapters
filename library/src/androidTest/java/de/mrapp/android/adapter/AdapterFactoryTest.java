@@ -14,24 +14,31 @@
 package de.mrapp.android.adapter;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import android.test.AndroidTestCase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapter;
 import de.mrapp.android.adapter.expandablelist.selectable.SelectableExpandableListAdapter;
 import de.mrapp.android.adapter.list.ListAdapter;
 import de.mrapp.android.adapter.list.selectable.SelectableListAdapter;
+
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Tests the functionality of the class {@link AdapterFactory}.
  *
  * @author Michael Rapp
  */
-public class AdapterFactoryTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class AdapterFactoryTest {
 
     /**
      * An implementation of the abstract class {@link ListDecorator}, which is needed for test
@@ -172,68 +179,55 @@ public class AdapterFactoryTest extends AndroidTestCase {
 
     }
 
-    /**
-     * Tests the functionality of the method, which allows to create an instance of the type {@link
-     * NoChoiceListAdapter}.
-     */
+    @Test
     public final void testCreateListAdapter() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         NoChoiceListAdapter<Object> listAdapter =
-                AdapterFactory.createListAdapter(getContext(), new ListDecoratorImplementation());
+                AdapterFactory.createListAdapter(context, new ListDecoratorImplementation());
         assertNotNull(listAdapter);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to create an instance of the type {@link
-     * SingleChoiceListAdapter}.
-     */
+    @Test
     public final void testCreateSingleChoiceListAdapter() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SingleChoiceListAdapter<Object> singleChoiceListAdapter = AdapterFactory
-                .createSingleChoiceListAdapter(getContext(),
+                .createSingleChoiceListAdapter(context,
                         new SelectableListDecoratorImplementation());
         assertNotNull(singleChoiceListAdapter);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to create an instance of the type {@link
-     * MultipleChoiceListAdapter}.
-     */
+    @Test
     public final void testCreateMultipleChoiceListAdapter() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapter<Object> multipleChoiceListAdapter = AdapterFactory
-                .createMultipleChoiceListAdapter(getContext(),
+                .createMultipleChoiceListAdapter(context,
                         new SelectableListDecoratorImplementation());
         assertNotNull(multipleChoiceListAdapter);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to create an instance of the type {@link
-     * NoChoiceExpandableListAdapter}.
-     */
+    @Test
     public final void testCreateExpandableListAdapter() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         NoChoiceExpandableListAdapter<Object, Object> expandableListAdapter = AdapterFactory
-                .createExpandableListAdapter(getContext(),
-                        new ExpandableListDecoratorImplementation());
+                .createExpandableListAdapter(context, new ExpandableListDecoratorImplementation());
         assertNotNull(expandableListAdapter);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to create an instance of the type {@link
-     * SingleChoiceExpandableListAdapter}.
-     */
+    @Test
     public final void testCreateSingleChoiceExpandableListAdapter() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SingleChoiceExpandableListAdapter<Object, Object> singleChoiceExpandableListAdapter =
-                AdapterFactory.createSingleChoiceExpandableListAdapter(getContext(),
+                AdapterFactory.createSingleChoiceExpandableListAdapter(context,
                         new SelectableExpandableListDecoratorImplementation(),
                         ChoiceMode.GROUPS_AND_CHILDREN);
         assertNotNull(singleChoiceExpandableListAdapter);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to create an instance of the type {@link
-     * MultipleChoiceExpandableListAdapter}.
-     */
+    @Test
     public final void testCreateMultipleChoiceExpandableListAdapter() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceExpandableListAdapter<Object, Object> multipleChoiceExpandableListAdapter =
-                AdapterFactory.createMultipleChoiceExpandableListAdapter(getContext(),
+                AdapterFactory.createMultipleChoiceExpandableListAdapter(context,
                         new SelectableExpandableListDecoratorImplementation(),
                         ChoiceMode.GROUPS_AND_CHILDREN);
         assertNotNull(multipleChoiceExpandableListAdapter);

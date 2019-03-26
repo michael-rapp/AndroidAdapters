@@ -1529,6 +1529,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         Condition.INSTANCE.ensureNotNull(adapterListeners, "The adapter listeners may not be null");
         Condition.INSTANCE
                 .ensureNotNull(expansionListeners, "The expansion listeners may not be null");
+        Condition.INSTANCE.ensureNotNull(groupAdapter, "The group adapter may not be null");
         this.context = context;
         this.decorator = decorator;
         this.logger = new Logger(logLevel);
@@ -2033,6 +2034,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     @SafeVarargs
     @Override
     public final boolean removeAllGroups(@NonNull final GroupType... groups) {
+        Condition.INSTANCE.ensureNotNull(groups, "The array may not be null");
         return removeAllGroups(Arrays.asList(groups));
     }
 
@@ -2124,6 +2126,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
     @SafeVarargs
     @Override
     public final boolean containsAllGroups(@NonNull final GroupType... groups) {
+        Condition.INSTANCE.ensureNotNull(groups, "The array may not be null");
         return containsAllGroups(Arrays.asList(groups));
     }
 

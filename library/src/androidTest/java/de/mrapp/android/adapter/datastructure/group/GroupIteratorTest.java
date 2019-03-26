@@ -13,11 +13,15 @@
  */
 package de.mrapp.android.adapter.datastructure.group;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.Iterator;
 
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -28,25 +32,16 @@ import static org.mockito.Mockito.when;
  *
  * @author Michael Rapp
  */
-public class GroupIteratorTest extends TestCase {
+@RunWith(AndroidJUnit4.class)
+public class GroupIteratorTest {
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if the iterator, which is passed as a
-     * constructor parameter, is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testConstructorThrowsException() {
-        try {
-            new GroupIterator<>(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        new GroupIterator<>(null);
     }
 
-    /**
-     * Tests the functionality of the hasNext-method.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testHasNext() {
         Iterator<Group<Object, Object>> iterator = mock(Iterator.class);
         GroupIterator<Object, Object> groupIterator = new GroupIterator<>(iterator);
@@ -56,10 +51,8 @@ public class GroupIteratorTest extends TestCase {
         verify(iterator, times(1)).hasNext();
     }
 
-    /**
-     * Tests the functionality of the next-method.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testNext() {
         Iterator<Group<Object, Object>> iterator = mock(Iterator.class);
         GroupIterator<Object, Object> groupIterator = new GroupIterator<>(iterator);
@@ -70,10 +63,8 @@ public class GroupIteratorTest extends TestCase {
         verify(iterator, times(1)).next();
     }
 
-    /**
-     * Tests the functionality of the remove-method.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testRemove() {
         Iterator<Group<Object, Object>> iterator = mock(Iterator.class);
         GroupIterator<Object, Object> groupIterator = new GroupIterator<>(iterator);

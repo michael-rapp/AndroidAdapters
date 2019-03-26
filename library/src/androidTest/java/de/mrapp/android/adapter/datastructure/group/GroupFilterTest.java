@@ -13,11 +13,13 @@
  */
 package de.mrapp.android.adapter.datastructure.group;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import de.mrapp.android.adapter.Filter;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -26,25 +28,16 @@ import static org.mockito.Mockito.when;
  *
  * @author Michael Rapp
  */
-public class GroupFilterTest extends TestCase {
+@RunWith(AndroidJUnit4.class)
+public class GroupFilterTest {
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if the filter's filter is set to
-     * null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testSetFilterToNullThrowsException() {
-        try {
-            new GroupFilter<>(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        new GroupFilter<>(null);
     }
 
-    /**
-     * Tests the functionality of the match-method.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testMatch() {
         Group<Object, Object> group = new Group<>(new Object());
         Filter<Object> filter = mock(Filter.class);

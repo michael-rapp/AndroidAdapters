@@ -13,15 +13,19 @@
  */
 package de.mrapp.android.adapter.datastructure.item;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import de.mrapp.android.adapter.list.ListAdapter;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -31,12 +35,10 @@ import static org.mockito.Mockito.verify;
  *
  * @author Michael Rapp
  */
-public class ItemListIteratorTest extends TestCase {
+@RunWith(AndroidJUnit4.class)
+public class ItemListIteratorTest {
 
-    /**
-     * Ensures, that all properties are initialized correctly by the constructor, which expects the
-     * iterator's start index as a parameter.
-     */
+    @Test
     public final void testConstructorWithIndexParameter() {
         List<Item<Object>> items = new ArrayList<>();
         items.add(new Item<>(new Object()));
@@ -44,10 +46,7 @@ public class ItemListIteratorTest extends TestCase {
         assertFalse(iterator.hasNext());
     }
 
-    /**
-     * Ensures, that all properties are initialized correctly by the constructor, which implicitly
-     * sets the iterator's start index.
-     */
+    @Test
     public final void testConstructorWithoutIndexParameter() {
         List<Item<Object>> items = new ArrayList<>();
         items.add(new Item<>(new Object()));
@@ -55,58 +54,29 @@ public class ItemListIteratorTest extends TestCase {
         assertTrue(iterator.hasNext());
     }
 
-    /**
-     * Ensures that a {@link NullPointerException} is thrown, if the iterator's underlying list is
-     * set to null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testSetListToNullThrowsException() {
-        try {
-            new ItemListIterator<>(null, null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        new ItemListIterator<>(null, null);
     }
 
-    /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown, if the iterator's start index
-     * is set to a value less than 0.
-     */
+    @Test(expected = IndexOutOfBoundsException.class)
     public final void testSetIndexToLessThanNegativeOneThrowsException() {
-        try {
-            new ItemListIterator<>(new ArrayList<Item<Object>>(), null, -2);
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
+        new ItemListIterator<>(new ArrayList<Item<Object>>(), null, -2);
     }
 
-    /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown, if the iterator's start index
-     * is set to a value greater than size of its underlying list - 1.
-     */
+    @Test(expected = IndexOutOfBoundsException.class)
     public final void testSetIndexGreaterThanListSizeThrowsException() {
-        try {
-            new ItemListIterator<>(new ArrayList<Item<Object>>(), null, 1);
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
+        new ItemListIterator<>(new ArrayList<Item<Object>>(), null, 1);
     }
 
-    /**
-     * Tests the functionality of the hasNext-method, if the iterator's underlying list is empty.
-     */
+    @Test
     public final void testHasNextIfListIsEmpty() {
         List<Item<Object>> items = new ArrayList<>();
         ItemListIterator<Object> iterator = new ItemListIterator<>(items, null);
         assertFalse(iterator.hasNext());
     }
 
-    /**
-     * Tests the functionality of the hasNext-method, if the iterator's underlying list is not
-     * empty.
-     */
+    @Test
     public final void testHasNextIfListIsNotEmpty() {
         List<Item<Object>> items = new ArrayList<>();
         items.add(new Item<>(new Object()));
@@ -114,10 +84,7 @@ public class ItemListIteratorTest extends TestCase {
         assertTrue(iterator.hasNext());
     }
 
-    /**
-     * Tests the functionality of the hasNext-method, if the iterator has already reached the end of
-     * its underlying list.
-     */
+    @Test
     public final void testHasNextIfEndIsReached() {
         List<Item<Object>> items = new ArrayList<>();
         items.add(new Item<>(new Object()));
@@ -126,20 +93,14 @@ public class ItemListIteratorTest extends TestCase {
         assertFalse(iterator.hasNext());
     }
 
-    /**
-     * Tests the functionality of the hasPrevious-method, if the iterator's underlying list is
-     * empty.
-     */
+    @Test
     public final void testHasPreviousIfListIsEmpty() {
         List<Item<Object>> items = new ArrayList<>();
         ItemListIterator<Object> iterator = new ItemListIterator<>(items, null);
         assertFalse(iterator.hasPrevious());
     }
 
-    /**
-     * Tests the functionality of the hasPrevious-method, if the iterator's underlying list is not
-     * empty.
-     */
+    @Test
     public final void testHasPreviousIfListIsNotEmpty() {
         List<Item<Object>> items = new ArrayList<>();
         items.add(new Item<>(new Object()));
@@ -150,10 +111,7 @@ public class ItemListIteratorTest extends TestCase {
         assertTrue(iterator.hasPrevious());
     }
 
-    /**
-     * Tests the functionality of the hasPrevious-method, if the iterator has reached the beginning
-     * of its underlying list.
-     */
+    @Test
     public final void testHasPreviousIfBeginningIsReached() {
         List<Item<Object>> items = new ArrayList<>();
         items.add(new Item<>(new Object()));
@@ -161,24 +119,14 @@ public class ItemListIteratorTest extends TestCase {
         assertFalse(iterator.hasPrevious());
     }
 
-    /**
-     * Ensures, that a {@link NoSuchElementException} is thrown, if the next-method is called, when
-     * the iterator's underlying list is empty.
-     */
+    @Test(expected = NoSuchElementException.class)
     public final void testNextThrowsExceptionIfListIsEmpty() {
-        try {
-            List<Item<Object>> items = new ArrayList<>();
-            ItemListIterator<Object> iterator = new ItemListIterator<>(items, null);
-            iterator.next();
-            Assert.fail();
-        } catch (NoSuchElementException e) {
-
-        }
+        List<Item<Object>> items = new ArrayList<>();
+        ItemListIterator<Object> iterator = new ItemListIterator<>(items, null);
+        iterator.next();
     }
 
-    /**
-     * Tests the functionality of the next-method, if the iterator's underlying list is not empty.
-     */
+    @Test
     public final void testNextIfListIsNotEmpty() {
         Object data = new Object();
         List<Item<Object>> items = new ArrayList<>();
@@ -188,42 +136,23 @@ public class ItemListIteratorTest extends TestCase {
         assertEquals(data, next);
     }
 
-    /**
-     * Ensures, that a {@link NoSuchElementException} is thrown, if the next-method is called, when
-     * the iterator already reached the end of the underlying list.
-     */
+    @Test(expected = NoSuchElementException.class)
     public final void testNextIfEndIsReached() {
-        try {
-            List<Item<Object>> items = new ArrayList<>();
-            items.add(new Item<>(new Object()));
-            ItemListIterator<Object> iterator = new ItemListIterator<>(items, null);
-            iterator.next();
-            iterator.next();
-            Assert.fail();
-        } catch (NoSuchElementException e) {
-
-        }
+        List<Item<Object>> items = new ArrayList<>();
+        items.add(new Item<>(new Object()));
+        ItemListIterator<Object> iterator = new ItemListIterator<>(items, null);
+        iterator.next();
+        iterator.next();
     }
 
-    /**
-     * Ensures, that a {@link NoSuchElementException} is thrown, if the nextIndex-method is called,
-     * when the iterator's underlying list is empty.
-     */
+    @Test(expected = NoSuchElementException.class)
     public final void testNextIndexThrowsExceptionExceptionIfListIsEmpty() {
-        try {
-            List<Item<Object>> items = new ArrayList<>();
-            ItemListIterator<Object> iterator = new ItemListIterator<>(items, null);
-            iterator.nextIndex();
-            Assert.fail();
-        } catch (NoSuchElementException e) {
-
-        }
+        List<Item<Object>> items = new ArrayList<>();
+        ItemListIterator<Object> iterator = new ItemListIterator<>(items, null);
+        iterator.nextIndex();
     }
 
-    /**
-     * Tests the functionality of the nextIndex-method, if the iterator's underlying list is not
-     * empty.
-     */
+    @Test
     public final void testNextIndexIfListIsNotEmpty() {
         List<Item<Object>> items = new ArrayList<>();
         items.add(new Item<>(new Object()));
@@ -232,42 +161,23 @@ public class ItemListIteratorTest extends TestCase {
         assertTrue(iterator.hasNext());
     }
 
-    /**
-     * Ensures, that a {@link NoSuchElementException} is thrown, if the nextIndex-method is called
-     * when the iterator has reached the end of its underlying list.
-     */
+    @Test(expected = NoSuchElementException.class)
     public final void testNextIndexIfEndIsReached() {
-        try {
-            List<Item<Object>> items = new ArrayList<>();
-            items.add(new Item<>(new Object()));
-            ItemListIterator<Object> iterator = new ItemListIterator<>(items, null);
-            iterator.next();
-            iterator.nextIndex();
-            Assert.fail();
-        } catch (NoSuchElementException e) {
-
-        }
+        List<Item<Object>> items = new ArrayList<>();
+        items.add(new Item<>(new Object()));
+        ItemListIterator<Object> iterator = new ItemListIterator<>(items, null);
+        iterator.next();
+        iterator.nextIndex();
     }
 
-    /**
-     * Ensures, that a {@link NoSuchElementException} is thrown, if the previousIndex-method is
-     * called when the iterator's underlying list is empty.
-     */
+    @Test(expected = NoSuchElementException.class)
     public final void testPreviousIndexIfListIsEmpty() {
-        try {
-            List<Item<Object>> items = new ArrayList<>();
-            ItemListIterator<Object> iterator = new ItemListIterator<>(items, null);
-            iterator.previousIndex();
-            Assert.fail();
-        } catch (NoSuchElementException e) {
-
-        }
+        List<Item<Object>> items = new ArrayList<>();
+        ItemListIterator<Object> iterator = new ItemListIterator<>(items, null);
+        iterator.previousIndex();
     }
 
-    /**
-     * Tests the functionality of the previousIndex-method, if the iterator's underlying list is not
-     * empty.
-     */
+    @Test
     public final void testPreviousIndexIfListIsNotEmpty() {
         List<Item<Object>> items = new ArrayList<>();
         items.add(new Item<>(new Object()));
@@ -278,41 +188,22 @@ public class ItemListIteratorTest extends TestCase {
         assertEquals(0, iterator.previousIndex());
     }
 
-    /**
-     * Ensures, that a {@link NoSuchElementException} is thrown, if the iterator has reached the
-     * beginning of its underlying list.
-     */
+    @Test(expected = NoSuchElementException.class)
     public final void testPreviousIndexThrowsExceptionIfBeginningIsReached() {
-        try {
-            List<Item<Object>> items = new ArrayList<>();
-            items.add(new Item<>(new Object()));
-            ItemListIterator<Object> iterator = new ItemListIterator<>(items, null);
-            iterator.previousIndex();
-            Assert.fail();
-        } catch (NoSuchElementException e) {
-
-        }
+        List<Item<Object>> items = new ArrayList<>();
+        items.add(new Item<>(new Object()));
+        ItemListIterator<Object> iterator = new ItemListIterator<>(items, null);
+        iterator.previousIndex();
     }
 
-    /**
-     * Ensures, that a {@link NoSuchElementException} is thrown, if the previous-method is called,
-     * when the iterator's underlying list is empty.
-     */
+    @Test(expected = NoSuchElementException.class)
     public final void testPreviousThrowsExceptionIfListIsEmpty() {
-        try {
-            List<Item<Object>> items = new ArrayList<>();
-            ItemListIterator<Object> iterator = new ItemListIterator<>(items, null);
-            iterator.previous();
-            Assert.fail();
-        } catch (NoSuchElementException e) {
-
-        }
+        List<Item<Object>> items = new ArrayList<>();
+        ItemListIterator<Object> iterator = new ItemListIterator<>(items, null);
+        iterator.previous();
     }
 
-    /**
-     * Tests the functionality of the previous-method, if the iterator's underlying list is not
-     * empty.
-     */
+    @Test
     public final void testPreviousifListIsNotEmpty() {
         Object data = new Object();
         List<Item<Object>> items = new ArrayList<>();
@@ -325,55 +216,30 @@ public class ItemListIteratorTest extends TestCase {
         assertEquals(data, previous);
     }
 
-    /**
-     * Ensures, that a {@link NoSuchElementException} is thrown, if the iterator has reached the
-     * beginning of its underlying list.
-     */
+    @Test(expected = NoSuchElementException.class)
     public final void testPreviousThrowsExceptionIfBeginningIsReached() {
-        try {
-            List<Item<Object>> items = new ArrayList<>();
-            items.add(new Item<>(new Object()));
-            ItemListIterator<Object> iterator = new ItemListIterator<>(items, null);
-            iterator.previous();
-        } catch (NoSuchElementException e) {
-
-        }
+        List<Item<Object>> items = new ArrayList<>();
+        items.add(new Item<>(new Object()));
+        ItemListIterator<Object> iterator = new ItemListIterator<>(items, null);
+        iterator.previous();
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if an item, which is null, should be
-     * added.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testAddThrowsExceptionIfItemIsNull() {
-        try {
-            List<Item<Object>> items = new ArrayList<>();
-            ItemListIterator<Object> iterator = new ItemListIterator<>(items, null);
-            iterator.add(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        List<Item<Object>> items = new ArrayList<>();
+        ItemListIterator<Object> iterator = new ItemListIterator<>(items, null);
+        iterator.add(null);
     }
 
-    /**
-     * Ensures, that an {@link UnsupportedOperationException} is thrown, if an an item should be
-     * added and the adapter is null.
-     */
+    @Test(expected = UnsupportedOperationException.class)
     public final void testAddThrowsExceptionIfAdapterIsNull() {
-        try {
-            List<Item<Object>> items = new ArrayList<>();
-            ItemListIterator<Object> iterator = new ItemListIterator<>(items, null);
-            iterator.add(new Object());
-            Assert.fail();
-        } catch (UnsupportedOperationException e) {
-
-        }
+        List<Item<Object>> items = new ArrayList<>();
+        ItemListIterator<Object> iterator = new ItemListIterator<>(items, null);
+        iterator.add(new Object());
     }
 
-    /**
-     * Tests the functionality of the add-method, if the iterator's underlying list is empty.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddIfListIsEmpty() {
         Object data = new Object();
         List<Item<Object>> items = new ArrayList<>();
@@ -385,11 +251,8 @@ public class ItemListIteratorTest extends TestCase {
         verify(adapter, times(1)).addItem(0, data);
     }
 
-    /**
-     * Tests the functionality of the add-method, if the new element is added at the beginning of
-     * the iterator's underlying list.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddAtTheBeginning() {
         Object data = new Object();
         List<Item<Object>> items = new ArrayList<>();
@@ -401,11 +264,8 @@ public class ItemListIteratorTest extends TestCase {
         assertTrue(iterator.hasNext());
     }
 
-    /**
-     * Tests the functionality of the add-method, if the new element is added at the end of the
-     * iterator's underlying list.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddAtTheEnd() {
         Object data = new Object();
         List<Item<Object>> items = new ArrayList<>();
@@ -419,11 +279,8 @@ public class ItemListIteratorTest extends TestCase {
         verify(adapter, times(1)).addItem(1, data);
     }
 
-    /**
-     * Tests the functionality of the add-method, if the new element is added at in the middle of
-     * the iterator's underlying list.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddInTheMiddle() {
         Object data = new Object();
         List<Item<Object>> items = new ArrayList<>();
@@ -438,79 +295,43 @@ public class ItemListIteratorTest extends TestCase {
         verify(adapter, times(1)).addItem(1, data);
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if an item, which is null, should be
-     * set.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testSetThrowsExceptionIfItemIsNull() {
-        try {
-            List<Item<Object>> items = new ArrayList<>();
-            ItemListIterator<Object> iterator = new ItemListIterator<>(items, null);
-            iterator.set(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        List<Item<Object>> items = new ArrayList<>();
+        ItemListIterator<Object> iterator = new ItemListIterator<>(items, null);
+        iterator.set(null);
     }
 
-    /**
-     * Ensures, that an {@link IllegalStateException} is thrown, if the set-method is called when
-     * the next- or previous-method has not been called before.
-     */
     @SuppressWarnings("unchecked")
+    @Test(expected = IllegalStateException.class)
     public final void testSetThrowsExceptionIfNextOrPreviousHasNotBeenCalled() {
-        try {
-            List<Item<Object>> items = new ArrayList<>();
-            ItemListIterator<Object> iterator =
-                    new ItemListIterator<>(items, mock(ListAdapter.class));
-            iterator.set(new Object());
-            Assert.fail();
-        } catch (IllegalStateException e) {
-
-        }
+        List<Item<Object>> items = new ArrayList<>();
+        ItemListIterator<Object> iterator = new ItemListIterator<>(items, mock(ListAdapter.class));
+        iterator.set(new Object());
     }
 
-    /**
-     * Ensures, that an {@link IllegalStateException} is thrown, if the set-method has already been
-     * called and the next- or previous-method has not been called since then.
-     */
     @SuppressWarnings("unchecked")
+    @Test(expected = IllegalStateException.class)
     public final void testSetThrowsExceptionIfRemoveHasAlreadyBeenCalled() {
-        try {
-            List<Item<Object>> items = new ArrayList<>();
-            items.add(new Item<>(new Object()));
-            ItemListIterator<Object> iterator =
-                    new ItemListIterator<>(items, mock(ListAdapter.class));
-            iterator.next();
-            iterator.set(new Object());
-            iterator.set(new Object());
-            Assert.fail();
-        } catch (IllegalStateException e) {
-
-        }
+        List<Item<Object>> items = new ArrayList<>();
+        items.add(new Item<>(new Object()));
+        ItemListIterator<Object> iterator = new ItemListIterator<>(items, mock(ListAdapter.class));
+        iterator.next();
+        iterator.set(new Object());
+        iterator.set(new Object());
     }
 
-    /**
-     * Ensures, that an {@link UnsupportedOperationException} is thrown, if the set-method is called
-     * and the adapter is null.
-     */
+    @Test(expected = UnsupportedOperationException.class)
     public final void testSetThrowsExceptionIfAdapterIsNull() {
-        try {
-            List<Item<Object>> items = new ArrayList<>();
-            items.add(new Item<>(new Object()));
-            ItemListIterator<Object> iterator = new ItemListIterator<>(items, null);
-            iterator.next();
-            iterator.set(new Object());
-            Assert.fail();
-        } catch (UnsupportedOperationException e) {
-
-        }
+        List<Item<Object>> items = new ArrayList<>();
+        items.add(new Item<>(new Object()));
+        ItemListIterator<Object> iterator = new ItemListIterator<>(items, null);
+        iterator.next();
+        iterator.set(new Object());
     }
 
-    /**
-     * Tests the functionality of the set-method.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSet() {
         Object data = new Object();
         List<Item<Object>> items = new ArrayList<>();
@@ -525,64 +346,36 @@ public class ItemListIteratorTest extends TestCase {
         verify(adapter, times(1)).replaceItem(0, data);
     }
 
-    /**
-     * Ensures, that an {@link IllegalStateException} is thrown, if the remove-method is called when
-     * the next- or previous-method has not been called before.
-     */
     @SuppressWarnings("unchecked")
+    @Test(expected = IllegalStateException.class)
     public final void testRemoveThrowsExceptionIfNextOrPreviousHasNotBeenCalled() {
-        try {
-            List<Item<Object>> items = new ArrayList<>();
-            ItemListIterator<Object> iterator =
-                    new ItemListIterator<>(items, mock(ListAdapter.class));
-            iterator.remove();
-            Assert.fail();
-        } catch (IllegalStateException e) {
-
-        }
+        List<Item<Object>> items = new ArrayList<>();
+        ItemListIterator<Object> iterator = new ItemListIterator<>(items, mock(ListAdapter.class));
+        iterator.remove();
     }
 
-    /**
-     * Ensures, that an {@link IllegalStateException} is thrown, if the remove-method has already
-     * been called and the next- or previous-method has not been called since then.
-     */
     @SuppressWarnings("unchecked")
+    @Test(expected = IllegalStateException.class)
     public final void testRemoveThrowsExceptionIfRemoveHasAlreadyBeenCalled() {
-        try {
-            List<Item<Object>> items = new ArrayList<>();
-            items.add(new Item<>(new Object()));
-            ItemListIterator<Object> iterator =
-                    new ItemListIterator<>(items, mock(ListAdapter.class));
-            iterator.next();
-            iterator.remove();
-            iterator.remove();
-            Assert.fail();
-        } catch (IllegalStateException e) {
-
-        }
+        List<Item<Object>> items = new ArrayList<>();
+        items.add(new Item<>(new Object()));
+        ItemListIterator<Object> iterator = new ItemListIterator<>(items, mock(ListAdapter.class));
+        iterator.next();
+        iterator.remove();
+        iterator.remove();
     }
 
-    /**
-     * Ensures, that an {@link UnsupportedOperationException} is thrown, if the remove-method is
-     * called and the adapter is null.
-     */
+    @Test(expected = UnsupportedOperationException.class)
     public final void testRemoveThrowsExceptionIfAdapterIsNull() {
-        try {
-            List<Item<Object>> items = new ArrayList<>();
-            items.add(new Item<>(new Object()));
-            ItemListIterator<Object> iterator = new ItemListIterator<>(items, null);
-            iterator.next();
-            iterator.remove();
-            Assert.fail();
-        } catch (UnsupportedOperationException e) {
-
-        }
+        List<Item<Object>> items = new ArrayList<>();
+        items.add(new Item<>(new Object()));
+        ItemListIterator<Object> iterator = new ItemListIterator<>(items, null);
+        iterator.next();
+        iterator.remove();
     }
 
-    /**
-     * Tests the functionality of the remove-method.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testRemove() {
         List<Item<Object>> items = new ArrayList<>();
         items.add(new Item<>(new Object()));

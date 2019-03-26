@@ -13,10 +13,8 @@
  */
 package de.mrapp.android.adapter.datastructure;
 
-import androidx.annotation.NonNull;
-
-import junit.framework.Assert;
-import junit.framework.TestCase;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,12 +22,20 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import androidx.annotation.NonNull;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 /**
  * Tests the functionality of the class {@link AbstractUnmodifiableList}.
  *
  * @author Michael Rapp
  */
-public class AbstractUnmodifiableListTest extends TestCase {
+@RunWith(AndroidJUnit4.class)
+public class AbstractUnmodifiableListTest {
 
     /**
      * An implementation of the abstract class {@link AbstractUnmodifiableList}, which is needed for
@@ -56,6 +62,7 @@ public class AbstractUnmodifiableListTest extends TestCase {
             return getEncapsulatedList().iterator();
         }
 
+        @NonNull
         @Override
         public ListIterator<Object> listIterator() {
             return getEncapsulatedList().listIterator();
@@ -74,9 +81,7 @@ public class AbstractUnmodifiableListTest extends TestCase {
 
     }
 
-    /**
-     * Tests, if all properties are set correctly by the constructor.
-     */
+    @Test
     public final void testConstructor() {
         ArrayList<Object> encapsulatedList = new ArrayList<>();
         AbstractUnmodifiableListImplementation abstractUnmodifiableList =
@@ -84,174 +89,83 @@ public class AbstractUnmodifiableListTest extends TestCase {
         assertEquals(encapsulatedList, abstractUnmodifiableList.getEncapsulatedList());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown by the constructor, if the
-     * encapsulated list is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testConstructorThrowsException() {
-        try {
-            ArrayList<Object> encapsulatedList = null;
-            new AbstractUnmodifiableListImplementation(encapsulatedList);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        ArrayList<Object> encapsulatedList = null;
+        new AbstractUnmodifiableListImplementation(encapsulatedList);
     }
 
-    /**
-     * Ensures, that an {@link UnsupportedOperationException} is thrown by the method, which allows
-     * to add an item and expects an index as a parameter.
-     */
+    @Test(expected = UnsupportedOperationException.class)
     public final void testAddWithIndexParameterThrowsException() {
-        try {
-            AbstractUnmodifiableListImplementation abstractUnmodifiableList =
-                    new AbstractUnmodifiableListImplementation(new ArrayList<>());
-            abstractUnmodifiableList.add(0, new Object());
-            Assert.fail();
-        } catch (UnsupportedOperationException e) {
-
-        }
+        AbstractUnmodifiableListImplementation abstractUnmodifiableList =
+                new AbstractUnmodifiableListImplementation(new ArrayList<>());
+        abstractUnmodifiableList.add(0, new Object());
     }
 
-    /**
-     * Ensures, that an {@link UnsupportedOperationException} is thrown by the method, which allows
-     * to add an item.
-     */
+    @Test(expected = UnsupportedOperationException.class)
     public final void testAddThrowsException() {
-        try {
-            AbstractUnmodifiableListImplementation abstractUnmodifiableList =
-                    new AbstractUnmodifiableListImplementation(new ArrayList<>());
-            abstractUnmodifiableList.add(new Object());
-            Assert.fail();
-        } catch (UnsupportedOperationException e) {
-
-        }
+        AbstractUnmodifiableListImplementation abstractUnmodifiableList =
+                new AbstractUnmodifiableListImplementation(new ArrayList<>());
+        abstractUnmodifiableList.add(new Object());
     }
 
-    /**
-     * Ensures, that an {@link UnsupportedOperationException} is thrown by the method, which allows
-     * to add all items, which are contained by a collection, and expects an index as a parameter.
-     */
+    @Test(expected = UnsupportedOperationException.class)
     public final void testAddAllWithIndexParameterThrowsException() {
-        try {
-            AbstractUnmodifiableListImplementation abstractUnmodifiableList =
-                    new AbstractUnmodifiableListImplementation(new ArrayList<>());
-            abstractUnmodifiableList.addAll(0, new ArrayList<>());
-            Assert.fail();
-        } catch (UnsupportedOperationException e) {
-
-        }
+        AbstractUnmodifiableListImplementation abstractUnmodifiableList =
+                new AbstractUnmodifiableListImplementation(new ArrayList<>());
+        abstractUnmodifiableList.addAll(0, new ArrayList<>());
     }
 
-    /**
-     * Ensures, that an {@link UnsupportedOperationException} is thrown by the method, which allows
-     * to add all items, which are contained by a collection.
-     */
+    @Test(expected = UnsupportedOperationException.class)
     public final void testAddAllThrowsException() {
-        try {
-            AbstractUnmodifiableListImplementation abstractUnmodifiableList =
-                    new AbstractUnmodifiableListImplementation(new ArrayList<>());
-            abstractUnmodifiableList.addAll(new ArrayList<>());
-            Assert.fail();
-        } catch (UnsupportedOperationException e) {
-
-        }
+        AbstractUnmodifiableListImplementation abstractUnmodifiableList =
+                new AbstractUnmodifiableListImplementation(new ArrayList<>());
+        abstractUnmodifiableList.addAll(new ArrayList<>());
     }
 
-    /**
-     * Ensures, that an {@link UnsupportedOperationException} is thrown by the method, which allows
-     * to remove all items.
-     */
+    @Test(expected = UnsupportedOperationException.class)
     public final void testClearThrowsException() {
-        try {
-            AbstractUnmodifiableListImplementation abstractUnmodifiableList =
-                    new AbstractUnmodifiableListImplementation(new ArrayList<>());
-            abstractUnmodifiableList.clear();
-            Assert.fail();
-        } catch (UnsupportedOperationException e) {
-
-        }
+        AbstractUnmodifiableListImplementation abstractUnmodifiableList =
+                new AbstractUnmodifiableListImplementation(new ArrayList<>());
+        abstractUnmodifiableList.clear();
     }
 
-    /**
-     * Ensures, that an {@link UnsupportedOperationException} is thrown by the method, which allows
-     * to remove the item at a specific index.
-     */
+    @Test(expected = UnsupportedOperationException.class)
     public final void testRemoveWithIndexParameterThrowsException() {
-        try {
-            AbstractUnmodifiableListImplementation abstractUnmodifiableList =
-                    new AbstractUnmodifiableListImplementation(new ArrayList<>());
-            abstractUnmodifiableList.remove(0);
-            Assert.fail();
-        } catch (UnsupportedOperationException e) {
-
-        }
+        AbstractUnmodifiableListImplementation abstractUnmodifiableList =
+                new AbstractUnmodifiableListImplementation(new ArrayList<>());
+        abstractUnmodifiableList.remove(0);
     }
 
-    /**
-     * Ensures, that an {@link UnsupportedOperationException} is thrown by the method, which allows
-     * to remove a specific item.
-     */
+    @Test(expected = UnsupportedOperationException.class)
     public final void testRemoveThrowsException() {
-        try {
-            AbstractUnmodifiableListImplementation abstractUnmodifiableList =
-                    new AbstractUnmodifiableListImplementation(new ArrayList<>());
-            abstractUnmodifiableList.remove(new Object());
-            Assert.fail();
-        } catch (UnsupportedOperationException e) {
-
-        }
+        AbstractUnmodifiableListImplementation abstractUnmodifiableList =
+                new AbstractUnmodifiableListImplementation(new ArrayList<>());
+        abstractUnmodifiableList.remove(new Object());
     }
 
-    /**
-     * Ensures, that an {@link UnsupportedOperationException} is thrown by the method, which allows
-     * to remove all items, which are contained by a collection.
-     */
+    @Test(expected = UnsupportedOperationException.class)
     public final void testRemoveAllThrowsException() {
-        try {
-            AbstractUnmodifiableListImplementation abstractUnmodifiableList =
-                    new AbstractUnmodifiableListImplementation(new ArrayList<>());
-            abstractUnmodifiableList.removeAll(new ArrayList<>());
-            Assert.fail();
-        } catch (UnsupportedOperationException e) {
-
-        }
+        AbstractUnmodifiableListImplementation abstractUnmodifiableList =
+                new AbstractUnmodifiableListImplementation(new ArrayList<>());
+        abstractUnmodifiableList.removeAll(new ArrayList<>());
     }
 
-    /**
-     * Ensures, that an {@link UnsupportedOperationException} is thrown by the method, which allows
-     * to retain all items, which are contained by a collection.
-     */
+    @Test(expected = UnsupportedOperationException.class)
     public final void testRetainAllThrowsException() {
-        try {
-            AbstractUnmodifiableListImplementation abstractUnmodifiableList =
-                    new AbstractUnmodifiableListImplementation(new ArrayList<>());
-            abstractUnmodifiableList.retainAll(new ArrayList<>());
-            Assert.fail();
-        } catch (UnsupportedOperationException e) {
-
-        }
+        AbstractUnmodifiableListImplementation abstractUnmodifiableList =
+                new AbstractUnmodifiableListImplementation(new ArrayList<>());
+        abstractUnmodifiableList.retainAll(new ArrayList<>());
     }
 
-    /**
-     * Ensures, that an {@link UnsupportedOperationException} is thrown by the method, which allows
-     * to replace the item at a specific index.
-     */
+    @Test(expected = UnsupportedOperationException.class)
     public final void testSetThrowsException() {
-        try {
-            AbstractUnmodifiableListImplementation abstractUnmodifiableList =
-                    new AbstractUnmodifiableListImplementation(new ArrayList<>());
-            abstractUnmodifiableList.set(0, new Object());
-            Assert.fail();
-        } catch (UnsupportedOperationException e) {
-
-        }
+        AbstractUnmodifiableListImplementation abstractUnmodifiableList =
+                new AbstractUnmodifiableListImplementation(new ArrayList<>());
+        abstractUnmodifiableList.set(0, new Object());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to test, whether a specific item is
-     * contained by the list.
-     */
+    @Test
     public final void testContains() {
         Object item = new Object();
         ArrayList<Object> encapsulatedList = new ArrayList<>();
@@ -262,10 +176,7 @@ public class AbstractUnmodifiableListTest extends TestCase {
         assertTrue(abstractUnmodifiableList.contains(item));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to test, whether all items, which are
-     * contained by a collection, are contained by the list.
-     */
+    @Test
     public final void testContainsAll() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -281,10 +192,7 @@ public class AbstractUnmodifiableListTest extends TestCase {
         assertTrue(abstractUnmodifiableList.containsAll(collection));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the index of a specific
-     * item.
-     */
+    @Test
     public final void testIndexOf() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -300,9 +208,7 @@ public class AbstractUnmodifiableListTest extends TestCase {
         assertEquals(1, abstractUnmodifiableList.indexOf(item3));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve, whether the list is empty.
-     */
+    @Test
     public final void testIsEmpty() {
         ArrayList<Object> encapsulatedList = new ArrayList<>();
         AbstractUnmodifiableListImplementation abstractUnmodifiableList =
@@ -312,10 +218,7 @@ public class AbstractUnmodifiableListTest extends TestCase {
         assertFalse(abstractUnmodifiableList.isEmpty());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the last index of a specific
-     * item.
-     */
+    @Test
     public final void testLastIndexOf() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -331,9 +234,7 @@ public class AbstractUnmodifiableListTest extends TestCase {
         assertEquals(1, abstractUnmodifiableList.lastIndexOf(item3));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the size of the list.
-     */
+    @Test
     public final void testSize() {
         ArrayList<Object> encapsulatedList = new ArrayList<>();
         AbstractUnmodifiableListImplementation abstractUnmodifiableList =
@@ -343,9 +244,7 @@ public class AbstractUnmodifiableListTest extends TestCase {
         assertEquals(1, abstractUnmodifiableList.size());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to create a sub list from the list.
-     */
+    @Test
     public final void testSubList() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -364,9 +263,7 @@ public class AbstractUnmodifiableListTest extends TestCase {
         assertEquals(item3, subList.get(1));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to create an array from the list.
-     */
+    @Test
     public final void testToArray() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -381,10 +278,7 @@ public class AbstractUnmodifiableListTest extends TestCase {
         assertEquals(item2, array[1]);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to create an array from the list and
-     * expects an array as a parameter.
-     */
+    @Test
     public final void testToArrayWithArrayParameter() {
         Object item1 = new Object();
         Object item2 = new Object();

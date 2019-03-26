@@ -13,15 +13,18 @@
  */
 package de.mrapp.android.adapter.datastructure;
 
-import android.os.Parcel;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
-
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import de.mrapp.android.adapter.Filterable;
 import de.mrapp.android.adapter.FilteringNotSupportedException;
 import de.mrapp.android.adapter.SortingNotSupportedException;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -30,11 +33,10 @@ import static org.mockito.Mockito.when;
  *
  * @author Michael Rapp
  */
-public class AbstractAdapterItemTest extends TestCase {
+@RunWith(AndroidJUnit4.class)
+public class AbstractAdapterItemTest {
 
-    /**
-     * Tests, if all properties are set correctly by the constructor.
-     */
+    @Test
     public final void testConstructor() {
         Object data = new Object();
         AbstractAdapterItem<Object> abstractAdapterItem =
@@ -42,22 +44,12 @@ public class AbstractAdapterItemTest extends TestCase {
         assertEquals(abstractAdapterItem.getData(), data);
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown by the constructor, if the data is
-     * null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testConstructorThrowsException() {
-        try {
-            new AbstractAdapterItemImplementation<>(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        new AbstractAdapterItemImplementation<>(null);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set the item's data.
-     */
+    @Test
     public final void testSetData() {
         Object data = new Object();
         AbstractAdapterItem<Object> abstractAdapterItem =
@@ -66,21 +58,12 @@ public class AbstractAdapterItemTest extends TestCase {
         assertEquals(abstractAdapterItem.getData(), data);
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if the item's data is set to null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testSetDataToNullThrowsException() {
-        try {
-            new AbstractAdapterItemImplementation<>(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        new AbstractAdapterItemImplementation<>(null);
     }
 
-    /**
-     * Tests the functionality of the compareTo-method.
-     */
+    @Test
     public final void testCompareTo() {
         int mockedResult = 1;
         Comparable<?> data = mock(Comparable.class);
@@ -93,24 +76,14 @@ public class AbstractAdapterItemTest extends TestCase {
         assertEquals(result, mockedResult);
     }
 
-    /**
-     * Ensures, that a {@link SortingNotSupportedException} is thrown, if the item is compared to
-     * another item whose data does not implement the interface {@link Comparable}.
-     */
+    @Test(expected = SortingNotSupportedException.class)
     public final void testCompareToThrowsSortingNotSupportedException() {
-        try {
-            AbstractAdapterItem<Object> abstractAdapterItem =
-                    new AbstractAdapterItemImplementation<>(new Object());
-            abstractAdapterItem.compareTo(new AbstractAdapterItemImplementation<>(new Object()));
-            Assert.fail();
-        } catch (SortingNotSupportedException e) {
-
-        }
+        AbstractAdapterItem<Object> abstractAdapterItem =
+                new AbstractAdapterItemImplementation<>(new Object());
+        abstractAdapterItem.compareTo(new AbstractAdapterItemImplementation<>(new Object()));
     }
 
-    /**
-     * Tests the functionality of the match-method.
-     */
+    @Test
     public final void testMatch() {
         Filterable filterable = mock(Filterable.class);
         String query = "query";
@@ -121,24 +94,14 @@ public class AbstractAdapterItemTest extends TestCase {
         assertTrue(abstractAdapterItem.match(query, flags));
     }
 
-    /**
-     * Ensures, that a {@link FilteringNotSupportedException} is thrown, if filtering is not
-     * supported by the item's data.
-     */
+    @Test(expected = FilteringNotSupportedException.class)
     public final void testMatchThrowsFilteringNotSupportedException() {
-        try {
-            AbstractAdapterItem<Object> abstractAdapterItem =
-                    new AbstractAdapterItemImplementation<>(new Object());
-            abstractAdapterItem.match("query", 0);
-            Assert.fail();
-        } catch (FilteringNotSupportedException e) {
-
-        }
+        AbstractAdapterItem<Object> abstractAdapterItem =
+                new AbstractAdapterItemImplementation<>(new Object());
+        abstractAdapterItem.match("query", 0);
     }
 
-    /**
-     * Tests the functionality of the hashCode-method.
-     */
+    @Test
     public final void testHashCode() {
         Object data = new Object();
         AbstractAdapterItem<Object> abstractAdapterItem1 =
@@ -151,9 +114,7 @@ public class AbstractAdapterItemTest extends TestCase {
         assertNotSame(abstractAdapterItem1.hashCode(), abstractAdapterItem2.hashCode());
     }
 
-    /**
-     * Tests the functionality of the equals-method.
-     */
+    @Test
     public final void testEquals() {
         Object data = new Object();
         AbstractAdapterItem<Object> abstractAdapterItem1 =
@@ -168,9 +129,7 @@ public class AbstractAdapterItemTest extends TestCase {
         assertFalse(abstractAdapterItem1.equals(abstractAdapterItem2));
     }
 
-    /**
-     * Tests the functionality of the describeContents-method.
-     */
+    @Test
     public final void testDescribeContents() {
         AbstractAdapterItem<Object> abstractAdapterItem =
                 new AbstractAdapterItemImplementation<>(new Object());

@@ -15,24 +15,28 @@ package de.mrapp.android.adapter.datastructure;
 
 import android.os.Parcel;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import de.mrapp.android.adapter.Filter;
+import de.mrapp.util.ClassUtil;
 
-import static de.mrapp.android.util.ClassUtil.getTruncatedName;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests the functionality of the class {@link AppliedFilter}.
  *
  * @author Michael Rapp
  */
-public class AppliedFilterTest extends TestCase {
+@RunWith(AndroidJUnit4.class)
+public class AppliedFilterTest {
 
-    /**
-     * Tests, if all properties are set correctly by the constructor, which expects a query and
-     * flags as parameters.
-     */
+    @Test
     public final void testConstructorWithQueryAndFlagsParameters() {
         String query = "query";
         int flags = 1;
@@ -41,10 +45,7 @@ public class AppliedFilterTest extends TestCase {
         assertEquals(flags, appliedFilter.getFlags());
     }
 
-    /**
-     * Tests, if all properties are set correctly by the constructor, which expects a query, flags
-     * and a filter as parameters.
-     */
+    @Test
     public final void testConstructorWithQueryFlagsAndFilterParameters() {
         String query = "query";
         int flags = 1;
@@ -55,22 +56,12 @@ public class AppliedFilterTest extends TestCase {
         assertEquals(filter, appliedFilter.getFilter());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown by the constructors, if the query,
-     * which is passed as a parameter, is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testConstructorThrowsExceptionWhenQueryIsNull() {
-        try {
-            new AppliedFilter<>(null, 1);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        new AppliedFilter<>(null, 1);
     }
 
-    /**
-     * Tests the functionality of the toString-method.
-     */
+    @Test
     public final void testToString() {
         String query = "query";
         int flags = 1;
@@ -80,12 +71,11 @@ public class AppliedFilterTest extends TestCase {
                 appliedFilter.toString());
         appliedFilter = new AppliedFilter<>(query, flags, filter);
         assertEquals("AppliedFilter [query=" + query + ", flags=" + flags + ", filter=" +
-                getTruncatedName(filter.getClass()) + "]", appliedFilter.toString());
+                        ClassUtil.INSTANCE.getTruncatedName(filter.getClass()) + "]",
+                appliedFilter.toString());
     }
 
-    /**
-     * Tests the functionality of the hashCode-method.
-     */
+    @Test
     public final void testHashCode() {
         AppliedFilter<Object> appliedFilter1 = new AppliedFilter<>("query", 0);
         AppliedFilter<Object> appliedFilter2 = new AppliedFilter<>("query", 0);
@@ -97,9 +87,7 @@ public class AppliedFilterTest extends TestCase {
         assertNotSame(appliedFilter1.hashCode(), appliedFilter2.hashCode());
     }
 
-    /**
-     * Tests the functionality of the equals-method.
-     */
+    @Test
     public final void testEquals() {
         AppliedFilter<Object> appliedFilter1 = new AppliedFilter<>("query", 0);
         AppliedFilter<Object> appliedFilter2 = new AppliedFilter<>("query", 0);
@@ -113,9 +101,7 @@ public class AppliedFilterTest extends TestCase {
         assertFalse(appliedFilter1.equals(appliedFilter2));
     }
 
-    /**
-     * Tests the functionality of the clone-method.
-     */
+    @Test
     public final void testClone() {
         String query = "query";
         int flags = 1;
@@ -127,19 +113,14 @@ public class AppliedFilterTest extends TestCase {
         assertEquals(filter, clonedAppliedFilter.getFilter());
     }
 
-    /**
-     * Tests the functionality of the describeContents-method.
-     */
+    @Test
     public final void testDescribeContents() {
         AppliedFilter<Object> appliedFilter =
                 new AppliedFilter<>("query", 0, new FilterImplementation());
         assertEquals(0, appliedFilter.describeContents());
     }
 
-    /**
-     * Tests the createFromParcel-method of the creator, which allows to create instances from a
-     * {@link Parcel}.
-     */
+    @Test
     public final void testCreatorCreateFromParcel() {
         String query = "query";
         int flags = 1;
@@ -155,10 +136,7 @@ public class AppliedFilterTest extends TestCase {
         parcel.recycle();
     }
 
-    /**
-     * Tests the newArray-method of the creator, which allows to create instances from a {@link
-     * Parcel}.
-     */
+    @Test
     public final void testCreatorNewArray() {
         int size = 1;
         AppliedFilter<?>[] array = AppliedFilter.CREATOR.newArray(size);

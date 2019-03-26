@@ -15,14 +15,12 @@ package de.mrapp.android.adapter.list.filterable;
 
 import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import android.test.AndroidTestCase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import junit.framework.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,6 +30,10 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 import de.mrapp.android.adapter.DataSetObserver;
 import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.Filterable;
@@ -50,6 +52,12 @@ import de.mrapp.android.adapter.list.sortable.AbstractSortableListAdapter;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 import de.mrapp.android.util.logging.LogLevel;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isNull;
@@ -62,7 +70,8 @@ import static org.mockito.Mockito.verify;
  *
  * @author Michael Rapp
  */
-public class AbstractFilterableListAdapterTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class AbstractFilterableListAdapterTest {
 
     /**
      * An implementation of the abstract class {@link AbstractFilterableListAdapter}, which is
@@ -266,15 +275,14 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
 
     }
 
-    /**
-     * Tests, if all properties are set correctly by the constructor.
-     */
+    @Test
     public final void testConstructor() {
         Set<ListFilterListener<FilterableImplementation>> filterListeners = new LinkedHashSet<>();
         LinkedHashSet<AppliedFilter<FilterableImplementation>> appliedFilters =
                 new LinkedHashSet<>();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(),
+                new AbstractFilterableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -288,11 +296,8 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         assertEquals(appliedFilters, abstractFilterableListAdapter.getAppliedFilters());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to create a deep copy of the filters,
-     * which are applied on the adapter.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testCloneAppliedFilters() {
         LinkedHashSet<AppliedFilter<FilterableImplementation>> appliedFilters =
                 new LinkedHashSet<>();
@@ -301,8 +306,9 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         AppliedFilter<FilterableImplementation> appliedFilter =
                 new AppliedFilter<>(query, 0, filter);
         appliedFilters.add(appliedFilter);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(),
+                new AbstractFilterableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -322,13 +328,11 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         assertEquals(filter, clonedAppliedFilter.getFilter());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the unfiltered index, which
-     * corresponds to a specific filtered index.
-     */
+    @Test
     public final void testGetUnfilteredIndex() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(),
+                new AbstractFilterableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -350,13 +354,11 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         assertEquals(2, abstractFilterableListAdapter.getUnfilteredIndex(1));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the unfiltered index, which
-     * corresponds to a specific filtered index, if the adapter is not filtered.
-     */
+    @Test
     public final void testGetUnfilteredIndexWhenAdapterIsNotFiltered() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(),
+                new AbstractFilterableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -375,67 +377,47 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         assertEquals(1, abstractFilterableListAdapter.getUnfilteredIndex(1));
     }
 
-    /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown by the method, which allows to
-     * retrieve the unfiltered index, which corresponds to a specific filtered index, if the index
-     * is less than 0.
-     */
+    @Test(expected = IndexOutOfBoundsException.class)
     public final void testGetUnfilteredIndexThrowsExceptionWhenIndexIsLessThanZero() {
-        try {
-            AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                    new AbstractFilterableListAdapterImplementation(getContext(),
-                            new ListDecoratorImplementation(), LogLevel.ALL,
-                            new ArrayList<Item<FilterableImplementation>>(), false, true,
-                            new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
-                            new LinkedHashSet<ListAdapterItemLongClickListener<FilterableImplementation>>(),
-                            new LinkedHashSet<ListAdapterListener<FilterableImplementation>>(),
-                            new LinkedHashSet<ListEnableStateListener<FilterableImplementation>>(),
-                            1, false,
-                            new LinkedHashSet<ListItemStateListener<FilterableImplementation>>(),
-                            new LinkedHashSet<ListSortingListener<FilterableImplementation>>(),
-                            new LinkedHashSet<ListFilterListener<FilterableImplementation>>(),
-                            new LinkedHashSet<AppliedFilter<FilterableImplementation>>());
-            abstractFilterableListAdapter.getUnfilteredIndex(-1);
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
-    }
-
-    /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown by the method, which allows to
-     * retrieve the unfiltered index, which corresponds to a specific filtered index, if the index
-     * is greater than the number of items - 1.
-     */
-    public final void testGetUnfilteredIndexThrowsExceptionWhenIndexIsTooGreat() {
-        try {
-            AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                    new AbstractFilterableListAdapterImplementation(getContext(),
-                            new ListDecoratorImplementation(), LogLevel.ALL,
-                            new ArrayList<Item<FilterableImplementation>>(), false, true,
-                            new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
-                            new LinkedHashSet<ListAdapterItemLongClickListener<FilterableImplementation>>(),
-                            new LinkedHashSet<ListAdapterListener<FilterableImplementation>>(),
-                            new LinkedHashSet<ListEnableStateListener<FilterableImplementation>>(),
-                            1, false,
-                            new LinkedHashSet<ListItemStateListener<FilterableImplementation>>(),
-                            new LinkedHashSet<ListSortingListener<FilterableImplementation>>(),
-                            new LinkedHashSet<ListFilterListener<FilterableImplementation>>(),
-                            new LinkedHashSet<AppliedFilter<FilterableImplementation>>());
-            abstractFilterableListAdapter.getUnfilteredIndex(0);
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
-    }
-
-    /**
-     * Tests the functionality of the method, which allows to retrieve, whether a specific filter is
-     * currently applied, or not.
-     */
-    public final void testIsFilterApplied() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(),
+                new AbstractFilterableListAdapterImplementation(context,
+                        new ListDecoratorImplementation(), LogLevel.ALL,
+                        new ArrayList<Item<FilterableImplementation>>(), false, true,
+                        new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<FilterableImplementation>>(),
+                        new LinkedHashSet<ListAdapterListener<FilterableImplementation>>(),
+                        new LinkedHashSet<ListEnableStateListener<FilterableImplementation>>(), 1,
+                        false, new LinkedHashSet<ListItemStateListener<FilterableImplementation>>(),
+                        new LinkedHashSet<ListSortingListener<FilterableImplementation>>(),
+                        new LinkedHashSet<ListFilterListener<FilterableImplementation>>(),
+                        new LinkedHashSet<AppliedFilter<FilterableImplementation>>());
+        abstractFilterableListAdapter.getUnfilteredIndex(-1);
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public final void testGetUnfilteredIndexThrowsExceptionWhenIndexIsTooGreat() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
+                new AbstractFilterableListAdapterImplementation(context,
+                        new ListDecoratorImplementation(), LogLevel.ALL,
+                        new ArrayList<Item<FilterableImplementation>>(), false, true,
+                        new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<FilterableImplementation>>(),
+                        new LinkedHashSet<ListAdapterListener<FilterableImplementation>>(),
+                        new LinkedHashSet<ListEnableStateListener<FilterableImplementation>>(), 1,
+                        false, new LinkedHashSet<ListItemStateListener<FilterableImplementation>>(),
+                        new LinkedHashSet<ListSortingListener<FilterableImplementation>>(),
+                        new LinkedHashSet<ListFilterListener<FilterableImplementation>>(),
+                        new LinkedHashSet<AppliedFilter<FilterableImplementation>>());
+        abstractFilterableListAdapter.getUnfilteredIndex(0);
+    }
+
+    @Test
+    public final void testIsFilterApplied() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
+                new AbstractFilterableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -455,16 +437,15 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         assertTrue(abstractFilterableListAdapter.isFilterApplied(query, flags));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to apply a filter on the adapter.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testApplyFilter() {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListFilterListener<FilterableImplementation> filterListener =
                 mock(ListFilterListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(),
+                new AbstractFilterableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -508,17 +489,15 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         assertEquals(item3, iterator.next());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to apply a filter on the adapter, if a
-     * filter, which uses the same regular expression, is already applied on the adapter.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testApplyFilterWhenFilterIsAlreadyApplied() {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListFilterListener<FilterableImplementation> filterListener =
                 mock(ListFilterListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(),
+                new AbstractFilterableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -553,17 +532,15 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
                         any(UnmodifiableItemList.class));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to apply a filter, which uses a specific
-     * instance of the type {@link Filter}, on the adapter.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testApplyFilterWithFilterParameter() {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListFilterListener<FilterableImplementation> filterListener =
                 mock(ListFilterListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(),
+                new AbstractFilterableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -607,18 +584,15 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         assertEquals(item3, iterator.next());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to apply a filter, which uses a specific
-     * instance of the type {@link Filter}, on the adapter, if a filter, which uses the same regular
-     * expression is already applied on the adapter.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testApplyFilterWithFilterParameterWhenFilterIsAlreadyApplied() {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListFilterListener<FilterableImplementation> filterListener =
                 mock(ListFilterListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(),
+                new AbstractFilterableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -652,16 +626,15 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
                         any(UnmodifiableItemList.class), any(UnmodifiableItemList.class));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to reset a filter.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testResetFilter() {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListFilterListener<FilterableImplementation> filterListener =
                 mock(ListFilterListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(),
+                new AbstractFilterableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -699,17 +672,15 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to reset a filter, if no filter, which
-     * uses the given regular expression, is applied on the adapter.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testResetFilterWhenNoSuchFilterIsApplied() {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListFilterListener<FilterableImplementation> filterListener =
                 mock(ListFilterListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(),
+                new AbstractFilterableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -732,16 +703,15 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         assertFalse(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to reset all filters.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testResetAllFilters() {
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListFilterListener<FilterableImplementation> filterListener =
                 mock(ListFilterListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(),
+                new AbstractFilterableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -784,13 +754,11 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve, whether at least one filter
-     * is applied on the adapter, or not.
-     */
+    @Test
     public final void testIsFiltered() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(),
+                new AbstractFilterableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -806,14 +774,12 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         assertTrue(abstractFilterableListAdapter.isFiltered());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add a listener, which should be
-     * notified, when the adapter's underlying data has been filtered.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddFilterListener() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(),
+                new AbstractFilterableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -833,40 +799,30 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         assertTrue(abstractFilterableListAdapter.getFilterListeners().contains(filterListener));
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if a {@link ListFilterListener},
-     * which is null, should be added to the adapter.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testAddFilterListenerThrowsExceptionWhenListenerIsNull() {
-        try {
-            AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                    new AbstractFilterableListAdapterImplementation(getContext(),
-                            new ListDecoratorImplementation(), LogLevel.ALL,
-                            new ArrayList<Item<FilterableImplementation>>(), false, true,
-                            new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
-                            new LinkedHashSet<ListAdapterItemLongClickListener<FilterableImplementation>>(),
-                            new LinkedHashSet<ListAdapterListener<FilterableImplementation>>(),
-                            new LinkedHashSet<ListEnableStateListener<FilterableImplementation>>(),
-                            1, false,
-                            new LinkedHashSet<ListItemStateListener<FilterableImplementation>>(),
-                            new LinkedHashSet<ListSortingListener<FilterableImplementation>>(),
-                            new LinkedHashSet<ListFilterListener<FilterableImplementation>>(),
-                            new LinkedHashSet<AppliedFilter<FilterableImplementation>>());
-            abstractFilterableListAdapter.addFilterListener(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
+                new AbstractFilterableListAdapterImplementation(context,
+                        new ListDecoratorImplementation(), LogLevel.ALL,
+                        new ArrayList<Item<FilterableImplementation>>(), false, true,
+                        new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<FilterableImplementation>>(),
+                        new LinkedHashSet<ListAdapterListener<FilterableImplementation>>(),
+                        new LinkedHashSet<ListEnableStateListener<FilterableImplementation>>(), 1,
+                        false, new LinkedHashSet<ListItemStateListener<FilterableImplementation>>(),
+                        new LinkedHashSet<ListSortingListener<FilterableImplementation>>(),
+                        new LinkedHashSet<ListFilterListener<FilterableImplementation>>(),
+                        new LinkedHashSet<AppliedFilter<FilterableImplementation>>());
+        abstractFilterableListAdapter.addFilterListener(null);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add a listener, which should be
-     * notified, when the adapter's underlying data has been filtered.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testRemoveFilterListener() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(),
+                new AbstractFilterableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -886,39 +842,29 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         assertTrue(abstractFilterableListAdapter.getFilterListeners().isEmpty());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if a {@link ListFilterListener},
-     * which is null, should be removed from the adapter.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testRemoveFilterListenerThrowsExceptionWhenListenerIsNull() {
-        try {
-            AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                    new AbstractFilterableListAdapterImplementation(getContext(),
-                            new ListDecoratorImplementation(), LogLevel.ALL,
-                            new ArrayList<Item<FilterableImplementation>>(), false, true,
-                            new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
-                            new LinkedHashSet<ListAdapterItemLongClickListener<FilterableImplementation>>(),
-                            new LinkedHashSet<ListAdapterListener<FilterableImplementation>>(),
-                            new LinkedHashSet<ListEnableStateListener<FilterableImplementation>>(),
-                            1, false,
-                            new LinkedHashSet<ListItemStateListener<FilterableImplementation>>(),
-                            new LinkedHashSet<ListSortingListener<FilterableImplementation>>(),
-                            new LinkedHashSet<ListFilterListener<FilterableImplementation>>(),
-                            new LinkedHashSet<AppliedFilter<FilterableImplementation>>());
-            abstractFilterableListAdapter.removeFilterListener(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
+                new AbstractFilterableListAdapterImplementation(context,
+                        new ListDecoratorImplementation(), LogLevel.ALL,
+                        new ArrayList<Item<FilterableImplementation>>(), false, true,
+                        new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<FilterableImplementation>>(),
+                        new LinkedHashSet<ListAdapterListener<FilterableImplementation>>(),
+                        new LinkedHashSet<ListEnableStateListener<FilterableImplementation>>(), 1,
+                        false, new LinkedHashSet<ListItemStateListener<FilterableImplementation>>(),
+                        new LinkedHashSet<ListSortingListener<FilterableImplementation>>(),
+                        new LinkedHashSet<ListFilterListener<FilterableImplementation>>(),
+                        new LinkedHashSet<AppliedFilter<FilterableImplementation>>());
+        abstractFilterableListAdapter.removeFilterListener(null);
     }
 
-    /**
-     * Ensures, that the unfiltered items are also sorted, when sorting a filtered adapter in
-     * ascending order.
-     */
+    @Test
     public final void testAdaptUnfilteredItemsWhenSortingInAscendingOrder() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(),
+                new AbstractFilterableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -945,13 +891,11 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         assertEquals(item1, iterator.next());
     }
 
-    /**
-     * Ensures, that the unfiltered items are also sorted, when sorting a filtered adapter in
-     * ascending order.
-     */
+    @Test
     public final void testAdaptUnfilteredItemsWhenSortingInDescendingOrder() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(),
+                new AbstractFilterableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -978,13 +922,11 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         assertEquals(item1, iterator.next());
     }
 
-    /**
-     * Ensures, that the unfiltered items are also sorted, when sorting a filtered adapter by using
-     * a comparator in ascending order.
-     */
+    @Test
     public final void testAdaptUnfilteredItemsWhenSortingByComparatorInAscendingOrder() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(),
+                new AbstractFilterableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -1011,13 +953,11 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         assertEquals(item1, iterator.next());
     }
 
-    /**
-     * Ensures, that the unfiltered items are also sorted, when sorting a filtered adapter by using
-     * a comparator in ascending order.
-     */
+    @Test
     public final void testAdaptUnfilteredItemsWhenSortingByComparatorInDescendingOrder() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(),
+                new AbstractFilterableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -1044,13 +984,11 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         assertEquals(item1, iterator.next());
     }
 
-    /**
-     * Ensures, that an item, which is added to a filtered adapter, is also added to the unfiltered
-     * items, if the item matches the applied filters.
-     */
+    @Test
     public final void testAdaptUnfilteredItemsWhenMatchingItemIsAdded() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(),
+                new AbstractFilterableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -1077,13 +1015,11 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         assertEquals(item2, iterator.next());
     }
 
-    /**
-     * Ensures, that an item, which is added to a filtered adapter, is also added to the unfiltered
-     * items, but removed from the filtered items, if the item does not match the applied filters.
-     */
+    @Test
     public final void testAdaptUnfilteredItemsWhenNotMatchingItemIsAdded() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(),
+                new AbstractFilterableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -1109,13 +1045,11 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         assertEquals(item2, iterator.next());
     }
 
-    /**
-     * Ensures, that an item, which is removed from a filtered adapter, is also removed from the
-     * unfiltered items.
-     */
+    @Test
     public final void testAdaptUnfilteredItemsWhenItemIsRemoved() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(),
+                new AbstractFilterableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -1142,13 +1076,11 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         assertEquals(item3, iterator.next());
     }
 
-    /**
-     * Ensures, that an item, which is removed from a filtered adapter, is also removed from the
-     * unfiltered items, if the adapter contains duplicates.
-     */
+    @Test
     public final void testAdaptUnfilteredItemsWhenDuplicateItemIsRemoved() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(),
+                new AbstractFilterableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), true, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -1176,13 +1108,11 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         assertFalse(abstractFilterableListAdapter.isEnabled(1));
     }
 
-    /**
-     * Ensures, that an item, which is enabled in a filtered adapter, is also enabled in the
-     * unfiltered items.
-     */
+    @Test
     public final void testAdaptUnfilteredItemWhenItemIsEnabled() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(),
+                new AbstractFilterableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), true, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -1207,13 +1137,11 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         assertTrue(abstractFilterableListAdapter.isEnabled(0));
     }
 
-    /**
-     * Ensures, that an item, which is disabled in a filtered adapter, is also disabled in the
-     * unfiltered items.
-     */
+    @Test
     public final void testAdaptUnfilteredItemWhenItemIsDisabled() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(),
+                new AbstractFilterableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), true, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -1237,13 +1165,11 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         assertFalse(abstractFilterableListAdapter.isEnabled(0));
     }
 
-    /**
-     * Ensures, that the state of an item, whose state is changed in a filtered adapter, is also
-     * changed in the unfiltered items.
-     */
+    @Test
     public final void testAdaptUnfilteredItemWhenItemStateChanged() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(),
+                new AbstractFilterableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), true, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -1268,16 +1194,15 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         assertEquals(0, abstractFilterableListAdapter.getItemState(0));
     }
 
-    /**
-     * Tests the functionality of the onSaveInstanceState-method.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testOnSaveInstanceState() {
         Bundle outState = new Bundle();
         String query = "querystring";
         int flags = 1;
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(),
+                new AbstractFilterableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -1299,15 +1224,14 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
                 appliedFiltersIterator.next());
     }
 
-    /**
-     * Tests the functionality of the onRestoreInstanceState-method.
-     */
+    @Test
     public final void testOnRestoreInstanceState() {
         String key = "keyadapter";
         FilterableImplementation item1 = new FilterableImplementation("abcdef");
         FilterableImplementation item2 = new FilterableImplementation("abcquerystringdef");
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(),
+                new AbstractFilterableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -1331,18 +1255,17 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         savedState.putSerializable(AbstractFilterableListAdapter.APPLIED_FILTERS_BUNDLE_KEY,
                 appliedFilters);
         DataSetObserver dataSetObserver = new DataSetObserver();
-        abstractFilterableListAdapter =
-                new AbstractFilterableListAdapterImplementation(getContext(),
-                        new ListDecoratorImplementation(), LogLevel.ALL,
-                        new ArrayList<Item<FilterableImplementation>>(), false, true,
-                        new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
-                        new LinkedHashSet<ListAdapterItemLongClickListener<FilterableImplementation>>(),
-                        new LinkedHashSet<ListAdapterListener<FilterableImplementation>>(),
-                        new LinkedHashSet<ListEnableStateListener<FilterableImplementation>>(), 1,
-                        false, new LinkedHashSet<ListItemStateListener<FilterableImplementation>>(),
-                        new LinkedHashSet<ListSortingListener<FilterableImplementation>>(),
-                        new LinkedHashSet<ListFilterListener<FilterableImplementation>>(),
-                        new LinkedHashSet<AppliedFilter<FilterableImplementation>>());
+        abstractFilterableListAdapter = new AbstractFilterableListAdapterImplementation(context,
+                new ListDecoratorImplementation(), LogLevel.ALL,
+                new ArrayList<Item<FilterableImplementation>>(), false, true,
+                new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
+                new LinkedHashSet<ListAdapterItemLongClickListener<FilterableImplementation>>(),
+                new LinkedHashSet<ListAdapterListener<FilterableImplementation>>(),
+                new LinkedHashSet<ListEnableStateListener<FilterableImplementation>>(), 1, false,
+                new LinkedHashSet<ListItemStateListener<FilterableImplementation>>(),
+                new LinkedHashSet<ListSortingListener<FilterableImplementation>>(),
+                new LinkedHashSet<ListFilterListener<FilterableImplementation>>(),
+                new LinkedHashSet<AppliedFilter<FilterableImplementation>>());
         abstractFilterableListAdapter.registerDataSetObserver(dataSetObserver);
         abstractFilterableListAdapter.onRestoreInstanceState(savedInstanceState, key);
         Iterator<AppliedFilter<FilterableImplementation>> appliedFiltersIterator =
@@ -1353,12 +1276,11 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the hashCode-method.
-     */
+    @Test
     public final void testHashCode() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter1 =
-                new AbstractFilterableListAdapterImplementation(getContext(),
+                new AbstractFilterableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -1370,7 +1292,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
                         new LinkedHashSet<ListFilterListener<FilterableImplementation>>(),
                         new LinkedHashSet<AppliedFilter<FilterableImplementation>>());
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter2 =
-                new AbstractFilterableListAdapterImplementation(getContext(),
+                new AbstractFilterableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -1396,12 +1318,11 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
         abstractFilterableListAdapter2.applyFilter("", 0);
     }
 
-    /**
-     * Tests the functionality of the equals-method.
-     */
+    @Test
     public final void testEquals() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter1 =
-                new AbstractFilterableListAdapterImplementation(getContext(),
+                new AbstractFilterableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),
@@ -1413,7 +1334,7 @@ public class AbstractFilterableListAdapterTest extends AndroidTestCase {
                         new LinkedHashSet<ListFilterListener<FilterableImplementation>>(),
                         new LinkedHashSet<AppliedFilter<FilterableImplementation>>());
         AbstractFilterableListAdapterImplementation abstractFilterableListAdapter2 =
-                new AbstractFilterableListAdapterImplementation(getContext(),
+                new AbstractFilterableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<FilterableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<FilterableImplementation>>(),

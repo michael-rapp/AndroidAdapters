@@ -15,21 +15,23 @@ package de.mrapp.android.adapter.list.selectable;
 
 import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import android.test.AndroidTestCase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import junit.framework.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 import de.mrapp.android.adapter.R;
 import de.mrapp.android.adapter.SelectableListDecorator;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
@@ -43,6 +45,10 @@ import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 import de.mrapp.android.util.logging.LogLevel;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -50,7 +56,8 @@ import static org.mockito.Mockito.mock;
  *
  * @author Michael Rapp
  */
-public class AbstractSelectableListAdapterTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class AbstractSelectableListAdapterTest {
 
     /**
      * An implementation of the abstract class {@link AbstractSelectableListAdapter}, which is
@@ -220,15 +227,13 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
 
     }
 
-    /**
-     * Tests, if all properties are set correctly by the constructor.
-     */
+    @Test
     public final void testConstructor() {
         boolean selectItemOnClick = true;
-        Set<ListSelectionListener<Object>> selectionListeners =
-                new LinkedHashSet<ListSelectionListener<Object>>();
+        Set<ListSelectionListener<Object>> selectionListeners = new LinkedHashSet<>();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
-                new AbstractSelectableListAdapterImplementation(getContext(),
+                new AbstractSelectableListAdapterImplementation(context,
                         new SelectableListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -244,37 +249,28 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
         assertEquals(selectionListeners, abstractSelectableListAdapter.getSelectionListeners());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if the set, which contains the
-     * selection listeners, which is passed to the constructor, is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testConstructorThrowsExceptionWhenSelectionListenersIsNull() {
-        try {
-            new AbstractSelectableListAdapterImplementation(getContext(),
-                    new SelectableListDecoratorImplementation(), LogLevel.ALL,
-                    new ArrayList<Item<Object>>(), false, true,
-                    new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
-                    new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
-                    new LinkedHashSet<ListAdapterListener<Object>>(),
-                    new LinkedHashSet<ListEnableStateListener<Object>>(), 1, false,
-                    new LinkedHashSet<ListItemStateListener<Object>>(),
-                    new LinkedHashSet<ListSortingListener<Object>>(),
-                    new LinkedHashSet<ListFilterListener<Object>>(),
-                    new LinkedHashSet<AppliedFilter<Object>>(), false, null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        new AbstractSelectableListAdapterImplementation(context,
+                new SelectableListDecoratorImplementation(), LogLevel.ALL,
+                new ArrayList<Item<Object>>(), false, true,
+                new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+                new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
+                new LinkedHashSet<ListAdapterListener<Object>>(),
+                new LinkedHashSet<ListEnableStateListener<Object>>(), 1, false,
+                new LinkedHashSet<ListItemStateListener<Object>>(),
+                new LinkedHashSet<ListSortingListener<Object>>(),
+                new LinkedHashSet<ListFilterListener<Object>>(),
+                new LinkedHashSet<AppliedFilter<Object>>(), false, null);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add a listener, which should be
-     * notified, when the selection of an item has been changed.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddSelectionListener() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
-                new AbstractSelectableListAdapterImplementation(getContext(),
+                new AbstractSelectableListAdapterImplementation(context,
                         new SelectableListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -295,41 +291,32 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
                 .contains(listSelectionListener));
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if a {@link ListSelectionListener},
-     * which is null, should be added to the adapter.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testAddSelectionListenerThrowsExceptionWhenListenerIsNull() {
-        try {
-            AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
-                    new AbstractSelectableListAdapterImplementation(getContext(),
-                            new SelectableListDecoratorImplementation(), LogLevel.ALL,
-                            new ArrayList<Item<Object>>(), false, true,
-                            new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterListener<Object>>(),
-                            new LinkedHashSet<ListEnableStateListener<Object>>(), 1, false,
-                            new LinkedHashSet<ListItemStateListener<Object>>(),
-                            new LinkedHashSet<ListSortingListener<Object>>(),
-                            new LinkedHashSet<ListFilterListener<Object>>(),
-                            new LinkedHashSet<AppliedFilter<Object>>(), false,
-                            new LinkedHashSet<ListSelectionListener<Object>>());
-            abstractSelectableListAdapter.addSelectionListener(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
+                new AbstractSelectableListAdapterImplementation(context,
+                        new SelectableListDecoratorImplementation(), LogLevel.ALL,
+                        new ArrayList<Item<Object>>(), false, true,
+                        new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterListener<Object>>(),
+                        new LinkedHashSet<ListEnableStateListener<Object>>(), 1, false,
+                        new LinkedHashSet<ListItemStateListener<Object>>(),
+                        new LinkedHashSet<ListSortingListener<Object>>(),
+                        new LinkedHashSet<ListFilterListener<Object>>(),
+                        new LinkedHashSet<AppliedFilter<Object>>(), false,
+                        new LinkedHashSet<ListSelectionListener<Object>>());
+        abstractSelectableListAdapter.addSelectionListener(null);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to remove a listener, which should not be
-     * notified, when an item's selection has been changed, anymore.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testRemoveSelectionListener() {
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
-                new AbstractSelectableListAdapterImplementation(getContext(),
+                new AbstractSelectableListAdapterImplementation(context,
                         new SelectableListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -348,39 +335,30 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
         assertEquals(1, abstractSelectableListAdapter.getSelectionListeners().size());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if a {@link ListSelectionListener},
-     * which is null, should be removed from the adapter.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testRemoveAdapterListenerThrowsExceptionWhenListenerIsNull() {
-        try {
-            AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
-                    new AbstractSelectableListAdapterImplementation(getContext(),
-                            new SelectableListDecoratorImplementation(), LogLevel.ALL,
-                            new ArrayList<Item<Object>>(), false, true,
-                            new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterListener<Object>>(),
-                            new LinkedHashSet<ListEnableStateListener<Object>>(), 1, false,
-                            new LinkedHashSet<ListItemStateListener<Object>>(),
-                            new LinkedHashSet<ListSortingListener<Object>>(),
-                            new LinkedHashSet<ListFilterListener<Object>>(),
-                            new LinkedHashSet<AppliedFilter<Object>>(), false,
-                            new LinkedHashSet<ListSelectionListener<Object>>());
-            abstractSelectableListAdapter.removeSelectionListener(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
+                new AbstractSelectableListAdapterImplementation(context,
+                        new SelectableListDecoratorImplementation(), LogLevel.ALL,
+                        new ArrayList<Item<Object>>(), false, true,
+                        new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterListener<Object>>(),
+                        new LinkedHashSet<ListEnableStateListener<Object>>(), 1, false,
+                        new LinkedHashSet<ListItemStateListener<Object>>(),
+                        new LinkedHashSet<ListSortingListener<Object>>(),
+                        new LinkedHashSet<ListFilterListener<Object>>(),
+                        new LinkedHashSet<AppliedFilter<Object>>(), false,
+                        new LinkedHashSet<ListSelectionListener<Object>>());
+        abstractSelectableListAdapter.removeSelectionListener(null);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve, whether the item, which
-     * belongs to a specific index, is selected, or not, if the item is actually selected.
-     */
+    @Test
     public final void testIsSelectedByIndexWhenItemIsSelected() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
-                new AbstractSelectableListAdapterImplementation(getContext(),
+                new AbstractSelectableListAdapterImplementation(context,
                         new SelectableListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -397,13 +375,11 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
         assertTrue(abstractSelectableListAdapter.isSelected(0));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve, whether the item, which
-     * belongs to a specific index, is selected, or not, if the item is not selected.
-     */
+    @Test
     public final void testIsSelectedByIndexWhenItemIsNotSelected() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
-                new AbstractSelectableListAdapterImplementation(getContext(),
+                new AbstractSelectableListAdapterImplementation(context,
                         new SelectableListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -419,41 +395,31 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
         assertFalse(abstractSelectableListAdapter.isSelected(0));
     }
 
-    /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown, by the method, which allows to
-     * retrieve, whether the item, which belongs to a specific index, is selected, or not, if the
-     * index is invalid.
-     */
+    @Test(expected = IndexOutOfBoundsException.class)
     public final void testIsSelectedByIndexThrowsExceptionWhenIndexIsInvalid() {
-        try {
-            AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
-                    new AbstractSelectableListAdapterImplementation(getContext(),
-                            new SelectableListDecoratorImplementation(), LogLevel.ALL,
-                            new ArrayList<Item<Object>>(), false, true,
-                            new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterListener<Object>>(),
-                            new LinkedHashSet<ListEnableStateListener<Object>>(), 1, false,
-                            new LinkedHashSet<ListItemStateListener<Object>>(),
-                            new LinkedHashSet<ListSortingListener<Object>>(),
-                            new LinkedHashSet<ListFilterListener<Object>>(),
-                            new LinkedHashSet<AppliedFilter<Object>>(), false,
-                            new LinkedHashSet<ListSelectionListener<Object>>());
-            assertTrue(abstractSelectableListAdapter.isSelected(-1));
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
+                new AbstractSelectableListAdapterImplementation(context,
+                        new SelectableListDecoratorImplementation(), LogLevel.ALL,
+                        new ArrayList<Item<Object>>(), false, true,
+                        new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterListener<Object>>(),
+                        new LinkedHashSet<ListEnableStateListener<Object>>(), 1, false,
+                        new LinkedHashSet<ListItemStateListener<Object>>(),
+                        new LinkedHashSet<ListSortingListener<Object>>(),
+                        new LinkedHashSet<ListFilterListener<Object>>(),
+                        new LinkedHashSet<AppliedFilter<Object>>(), false,
+                        new LinkedHashSet<ListSelectionListener<Object>>());
+        assertTrue(abstractSelectableListAdapter.isSelected(-1));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve, whether a specific item is
-     * selected, or not, if the item is actually selected.
-     */
+    @Test
     public final void testIsSelectedWhenItemIsSelected() {
         Object item = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
-                new AbstractSelectableListAdapterImplementation(getContext(),
+                new AbstractSelectableListAdapterImplementation(context,
                         new SelectableListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -470,14 +436,12 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
         assertTrue(abstractSelectableListAdapter.isSelected(item));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve, whether a specific item is
-     * selected, or not, if the item is not selected.
-     */
+    @Test
     public final void testIsSelectedWhenItemIsNotSelected() {
         Object item = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
-                new AbstractSelectableListAdapterImplementation(getContext(),
+                new AbstractSelectableListAdapterImplementation(context,
                         new SelectableListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -493,69 +457,52 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
         assertFalse(abstractSelectableListAdapter.isSelected(item));
     }
 
-    /**
-     * Ensures, that a {@link NoSuchElementException} is thrown by the method, which allows to
-     * retrieve, whether a specific item is selected, or not, if the item does not belong to the
-     * adapter.
-     */
+    @Test(expected = NoSuchElementException.class)
     public final void testIsSelectedThrowsExceptionWhenAdapterDoesNotContainItem() {
-        try {
-            AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
-                    new AbstractSelectableListAdapterImplementation(getContext(),
-                            new SelectableListDecoratorImplementation(), LogLevel.ALL,
-                            new ArrayList<Item<Object>>(), false, true,
-                            new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterListener<Object>>(),
-                            new LinkedHashSet<ListEnableStateListener<Object>>(), 1, false,
-                            new LinkedHashSet<ListItemStateListener<Object>>(),
-                            new LinkedHashSet<ListSortingListener<Object>>(),
-                            new LinkedHashSet<ListFilterListener<Object>>(),
-                            new LinkedHashSet<AppliedFilter<Object>>(), false,
-                            new LinkedHashSet<ListSelectionListener<Object>>());
-            abstractSelectableListAdapter.isSelected(new Object());
-            Assert.fail();
-        } catch (NoSuchElementException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
+                new AbstractSelectableListAdapterImplementation(context,
+                        new SelectableListDecoratorImplementation(), LogLevel.ALL,
+                        new ArrayList<Item<Object>>(), false, true,
+                        new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterListener<Object>>(),
+                        new LinkedHashSet<ListEnableStateListener<Object>>(), 1, false,
+                        new LinkedHashSet<ListItemStateListener<Object>>(),
+                        new LinkedHashSet<ListSortingListener<Object>>(),
+                        new LinkedHashSet<ListFilterListener<Object>>(),
+                        new LinkedHashSet<AppliedFilter<Object>>(), false,
+                        new LinkedHashSet<ListSelectionListener<Object>>());
+        abstractSelectableListAdapter.isSelected(new Object());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown by the method, which allows to
-     * retrieve, whether a specific item is selected, or not, if the item is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testIsSelectedThrowsExceptionWhenItemIsNull() {
-        try {
-            AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
-                    new AbstractSelectableListAdapterImplementation(getContext(),
-                            new SelectableListDecoratorImplementation(), LogLevel.ALL,
-                            new ArrayList<Item<Object>>(), false, true,
-                            new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterListener<Object>>(),
-                            new LinkedHashSet<ListEnableStateListener<Object>>(), 1, false,
-                            new LinkedHashSet<ListItemStateListener<Object>>(),
-                            new LinkedHashSet<ListSortingListener<Object>>(),
-                            new LinkedHashSet<ListFilterListener<Object>>(),
-                            new LinkedHashSet<AppliedFilter<Object>>(), false,
-                            new LinkedHashSet<ListSelectionListener<Object>>());
-            abstractSelectableListAdapter.isSelected(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
+                new AbstractSelectableListAdapterImplementation(context,
+                        new SelectableListDecoratorImplementation(), LogLevel.ALL,
+                        new ArrayList<Item<Object>>(), false, true,
+                        new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterListener<Object>>(),
+                        new LinkedHashSet<ListEnableStateListener<Object>>(), 1, false,
+                        new LinkedHashSet<ListItemStateListener<Object>>(),
+                        new LinkedHashSet<ListSortingListener<Object>>(),
+                        new LinkedHashSet<ListFilterListener<Object>>(),
+                        new LinkedHashSet<AppliedFilter<Object>>(), false,
+                        new LinkedHashSet<ListSelectionListener<Object>>());
+        abstractSelectableListAdapter.isSelected(null);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the number of selected
-     * items.
-     */
+    @Test
     public final void testGetNumberOfSelectedItems() {
         Object item1 = new Object();
         Object item2 = new Object();
         Object item3 = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
-                new AbstractSelectableListAdapterImplementation(getContext(),
+                new AbstractSelectableListAdapterImplementation(context,
                         new SelectableListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -575,13 +522,11 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
         assertEquals(2, abstractSelectableListAdapter.getSelectedItemCount());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the number of selected
-     * items.
-     */
+    @Test
     public final void testGetNumberOfSelectedItemsWhenAdapterIsEmpty() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
-                new AbstractSelectableListAdapterImplementation(getContext(),
+                new AbstractSelectableListAdapterImplementation(context,
                         new SelectableListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -596,14 +541,12 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
         assertEquals(0, abstractSelectableListAdapter.getSelectedItemCount());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the number of selected
-     * items.
-     */
+    @Test
     public final void testGetNumberOfSelectedItemsWhenNoItemIsSelected() {
         Object item1 = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
-                new AbstractSelectableListAdapterImplementation(getContext(),
+                new AbstractSelectableListAdapterImplementation(context,
                         new SelectableListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -619,14 +562,13 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
         assertEquals(0, abstractSelectableListAdapter.getSelectedItemCount());
     }
 
-    /**
-     * Tests the functionality of the onSaveInstanceState-method.
-     */
+    @Test
     public final void testOnSaveInstanceState() {
         Bundle outState = new Bundle();
         boolean selectItemOnClick = true;
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
-                new AbstractSelectableListAdapterImplementation(getContext(),
+                new AbstractSelectableListAdapterImplementation(context,
                         new SelectableListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -645,12 +587,11 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
         assertEquals(selectItemOnClick, savedSelectItemOnClick);
     }
 
-    /**
-     * Tests the functionality of the onRestoreInstanceState-method.
-     */
+    @Test
     public final void testOnRestoreInstanceState() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
-                new AbstractSelectableListAdapterImplementation(getContext(),
+                new AbstractSelectableListAdapterImplementation(context,
                         new SelectableListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -671,12 +612,10 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
         assertEquals(selectItemOnClick, abstractSelectableListAdapter.isItemSelectedOnClick());
     }
 
-    /**
-     * Tests the functionality of the applyDecorator-method.
-     */
+    @Test
     public final void testApplyDecorator() {
         Object item = new Object();
-        Context context = getContext();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SelectableListDecoratorImplementation decorator =
                 new SelectableListDecoratorImplementation();
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter =
@@ -701,12 +640,11 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
         assertTrue(decorator.hasOnShowItemBeenInvoked);
     }
 
-    /**
-     * Tests the functionality of the hashCode-method.
-     */
+    @Test
     public final void testHashCode() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter1 =
-                new AbstractSelectableListAdapterImplementation(getContext(),
+                new AbstractSelectableListAdapterImplementation(context,
                         new SelectableListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -719,7 +657,7 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
                         new LinkedHashSet<AppliedFilter<Object>>(), false,
                         new LinkedHashSet<ListSelectionListener<Object>>());
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter2 =
-                new AbstractSelectableListAdapterImplementation(getContext(),
+                new AbstractSelectableListAdapterImplementation(context,
                         new SelectableListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -747,12 +685,11 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
                 .selectItemOnClick(abstractSelectableListAdapter1.isItemSelectedOnClick());
     }
 
-    /**
-     * Tests the functionality of the equals-method.
-     */
+    @Test
     public final void testEquals() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter1 =
-                new AbstractSelectableListAdapterImplementation(getContext(),
+                new AbstractSelectableListAdapterImplementation(context,
                         new SelectableListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -765,7 +702,7 @@ public class AbstractSelectableListAdapterTest extends AndroidTestCase {
                         new LinkedHashSet<AppliedFilter<Object>>(), false,
                         new LinkedHashSet<ListSelectionListener<Object>>());
         AbstractSelectableListAdapterImplementation abstractSelectableListAdapter2 =
-                new AbstractSelectableListAdapterImplementation(getContext(),
+                new AbstractSelectableListAdapterImplementation(context,
                         new SelectableListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),

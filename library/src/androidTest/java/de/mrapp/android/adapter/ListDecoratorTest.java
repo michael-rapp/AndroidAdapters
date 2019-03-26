@@ -14,15 +14,20 @@
 package de.mrapp.android.adapter;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import android.test.AndroidTestCase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 import de.mrapp.android.adapter.list.ListAdapter;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -30,7 +35,8 @@ import static org.mockito.Mockito.mock;
  *
  * @author Michael Rapp
  */
-public class ListDecoratorTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class ListDecoratorTest {
 
     /**
      * An implementation of the abstract {@link ListDecorator}, which is needed for test purposes.
@@ -108,12 +114,10 @@ public class ListDecoratorTest extends AndroidTestCase {
 
     }
 
-    /**
-     * Tests the functionality of the applyDecorator-method.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testApplyDecorator() {
-        Context context = getContext();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         ListAdapter<Object> adapter = mock(ListAdapter.class);
         View view = new View(context);
         Object item = new Object();
@@ -134,9 +138,7 @@ public class ListDecoratorTest extends AndroidTestCase {
         assertEquals(filtered, listDecorator.filtered);
     }
 
-    /**
-     * Tests the functionality of the getViewType-method.
-     */
+    @Test
     public final void testGetViewType() {
         Object item = new Object();
         ListDecoratorImplementation listDecorator = new ListDecoratorImplementation();

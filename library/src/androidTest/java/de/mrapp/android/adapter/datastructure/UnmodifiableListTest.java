@@ -13,23 +13,27 @@
  */
 package de.mrapp.android.adapter.datastructure;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ListIterator;
 
-import junit.framework.TestCase;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /**
  * Tests the functionality of the class {@link UnmodifiableList}.
  *
  * @author Michael Rapp
  */
-public class UnmodifiableListTest extends TestCase {
+@RunWith(AndroidJUnit4.class)
+public class UnmodifiableListTest {
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the item, which corresponds
-     * to a specific index.
-     */
+    @Test
     public final void testGet() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -41,9 +45,7 @@ public class UnmodifiableListTest extends TestCase {
         assertEquals(item2, unmodifiableList.get(1));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve an iterator.
-     */
+    @Test
     public final void testIterator() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -57,9 +59,7 @@ public class UnmodifiableListTest extends TestCase {
         assertFalse(iterator.hasNext());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve a list iterator.
-     */
+    @Test
     public final void testListIterator() {
         Object item1 = new Object();
         Object item2 = new Object();
@@ -73,10 +73,7 @@ public class UnmodifiableListTest extends TestCase {
         assertFalse(iterator.hasNext());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve a list iterator and expects a
-     * start index as a parameter.
-     */
+    @Test
     public final void testListIteratorWithStartParameter() {
         Object item1 = new Object();
         Object item2 = new Object();

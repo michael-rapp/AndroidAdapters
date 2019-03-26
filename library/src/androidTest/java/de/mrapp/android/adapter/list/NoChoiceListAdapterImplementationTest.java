@@ -15,18 +15,22 @@ package de.mrapp.android.adapter.list;
 
 import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import android.test.AndroidTestCase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 import de.mrapp.android.adapter.ListDecorator;
 import de.mrapp.android.adapter.R;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
@@ -37,12 +41,17 @@ import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 import de.mrapp.android.util.logging.LogLevel;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 /**
  * Tests the functionality of the class {@link NoChoiceListAdapterImplementation}.
  *
  * @author Michael Rapp
  */
-public class NoChoiceListAdapterImplementationTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class NoChoiceListAdapterImplementationTest {
 
     /**
      * An implementation of the abstract class {@link ListDecorator}, which is needed for test
@@ -72,11 +81,9 @@ public class NoChoiceListAdapterImplementationTest extends AndroidTestCase {
 
     }
 
-    /**
-     * Tests, if all properties are set correctly by the protected constructor.
-     */
+    @Test
     public final void testProtectedConstructor() {
-        Context context = getContext();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         ListDecorator<Object> decorator = new ListDecoratorImplementation();
         ArrayList<Item<Object>> items = new ArrayList<>();
         boolean allowDuplicates = true;
@@ -112,26 +119,22 @@ public class NoChoiceListAdapterImplementationTest extends AndroidTestCase {
                 noChoiceListAdapterImplementation.isItemStateTriggeredOnClick());
     }
 
-    /**
-     * Tests, if all properties are set correctly by the public constructor.
-     */
+    @Test
     public final void testPublicConstructor() {
-        Context context = getContext();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         ListDecorator<Object> decorator = new ListDecoratorImplementation();
         NoChoiceListAdapterImplementation<Object> noChoiceListAdapterImplementation =
                 new NoChoiceListAdapterImplementation<>(context, decorator);
         assertEquals(context, noChoiceListAdapterImplementation.getContext());
         assertEquals(decorator, noChoiceListAdapterImplementation.getDecorator());
-        assertEquals(false, noChoiceListAdapterImplementation.areDuplicatesAllowed());
-        assertEquals(true, noChoiceListAdapterImplementation.isNotifiedOnChange());
+        assertFalse(noChoiceListAdapterImplementation.areDuplicatesAllowed());
+        assertTrue(noChoiceListAdapterImplementation.isNotifiedOnChange());
     }
 
-    /**
-     * Tests the functionality of the applyDecorator-method.
-     */
+    @Test
     public final void testApplyDecorator() {
         Object item = new Object();
-        Context context = getContext();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         ListDecoratorImplementation decorator = new ListDecoratorImplementation();
         NoChoiceListAdapterImplementation<Object> noChoiceListAdapterImplementation =
                 new NoChoiceListAdapterImplementation<>(context, decorator);
@@ -145,9 +148,7 @@ public class NoChoiceListAdapterImplementationTest extends AndroidTestCase {
         assertTrue(decorator.hasOnShowItemBeenInvoked);
     }
 
-    /**
-     * Tests the functionality of the toString-method.
-     */
+    @Test
     public final void testToString() {
         ArrayList<Item<Object>> items = new ArrayList<>();
         items.add(new Item<>(new Object()));
@@ -166,13 +167,13 @@ public class NoChoiceListAdapterImplementationTest extends AndroidTestCase {
         Set<ListFilterListener<Object>> filterListeners = new LinkedHashSet<>();
         LinkedHashSet<AppliedFilter<Object>> appliedFilters = new LinkedHashSet<>();
         Bundle parameters = new Bundle();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         NoChoiceListAdapterImplementation<Object> noChoiceListAdapterImplementation =
-                new NoChoiceListAdapterImplementation<>(getContext(),
-                        new ListDecoratorImplementation(), logLevel, items, allowDuplicates,
-                        notifyOnChange, itemClickListeners, itemLongClickListeners,
-                        adapterListeners, enableStateListeners, numberOfItemStates,
-                        triggerItemStateOnClick, itemStateListeners, sortingListeners,
-                        filterListeners, appliedFilters);
+                new NoChoiceListAdapterImplementation<>(context, new ListDecoratorImplementation(),
+                        logLevel, items, allowDuplicates, notifyOnChange, itemClickListeners,
+                        itemLongClickListeners, adapterListeners, enableStateListeners,
+                        numberOfItemStates, triggerItemStateOnClick, itemStateListeners,
+                        sortingListeners, filterListeners, appliedFilters);
         noChoiceListAdapterImplementation.setParameters(parameters);
         assertEquals(
                 "ListAdapter (" + items.size() + " items) [logLevel=" + logLevel + ", parameters=" +
@@ -182,14 +183,9 @@ public class NoChoiceListAdapterImplementationTest extends AndroidTestCase {
                         false + "]", noChoiceListAdapterImplementation.toString());
     }
 
-    /**
-     * Tests the functionality of the clone-method.
-     *
-     * @throws CloneNotSupportedException
-     *         The exception, which is thrown, if cloning is not supported
-     */
+    @Test
     public final void testClone() throws CloneNotSupportedException {
-        Context context = getContext();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         ListDecorator<Object> decorator = new ListDecoratorImplementation();
         ArrayList<Item<Object>> items = new ArrayList<>();
         boolean allowDuplicates = true;

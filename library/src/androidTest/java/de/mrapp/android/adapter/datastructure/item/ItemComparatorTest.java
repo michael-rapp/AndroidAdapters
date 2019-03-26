@@ -13,11 +13,14 @@
  */
 package de.mrapp.android.adapter.datastructure.item;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.Comparator;
 
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -26,25 +29,11 @@ import static org.mockito.Mockito.when;
  *
  * @author Michael Rapp
  */
-public class ItemComparatorTest extends TestCase {
+@RunWith(AndroidJUnit4.class)
+public class ItemComparatorTest {
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if the comparator's comparable is set
-     * to null.
-     */
-    public final void testSetComparableToNullThrowsException() {
-        try {
-            new ItemComparator<>(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
-    }
-
-    /**
-     * Tests the functionality of the compare-method.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testCompare() {
         Item<Object> item = new Item<>(new Object());
         Comparator<Object> comparator = mock(Comparator.class);

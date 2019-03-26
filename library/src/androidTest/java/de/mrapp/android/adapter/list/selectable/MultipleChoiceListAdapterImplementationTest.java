@@ -15,14 +15,12 @@ package de.mrapp.android.adapter.list.selectable;
 
 import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import android.test.AndroidTestCase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import junit.framework.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,6 +29,10 @@ import java.util.LinkedHashSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 import de.mrapp.android.adapter.DataSetObserver;
 import de.mrapp.android.adapter.Filterable;
 import de.mrapp.android.adapter.R;
@@ -46,6 +48,10 @@ import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 import de.mrapp.android.util.logging.LogLevel;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -55,7 +61,8 @@ import static org.mockito.Mockito.verify;
  *
  * @author Michael Rapp
  */
-public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class MultipleChoiceListAdapterImplementationTest {
 
     /**
      * An implementation of the abstract class {@link SelectableListDecorator}, which is needed for
@@ -119,11 +126,9 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
 
     }
 
-    /**
-     * Tests, if all properties are set correctly by the protected constructor.
-     */
+    @Test
     public final void testProtectedConstructor() {
-        Context context = getContext();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SelectableListDecorator<Object> decorator = new SelectableListDecoratorImplementation();
         ArrayList<Item<Object>> items = new ArrayList<>();
         boolean allowDuplicates = true;
@@ -161,25 +166,21 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
                 multipleChoiceListAdapterImplementation.getSelectionListeners());
     }
 
-    /**
-     * Tests, if all properties are set correctly by the public constructor.
-     */
+    @Test
     public final void testPublicConstructor() {
-        Context context = getContext();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SelectableListDecorator<Object> decorator = new SelectableListDecoratorImplementation();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
                 new MultipleChoiceListAdapterImplementation<>(context, decorator);
-        assertEquals(false, multipleChoiceListAdapterImplementation.areDuplicatesAllowed());
-        assertEquals(true, multipleChoiceListAdapterImplementation.isNotifiedOnChange());
+        assertFalse(multipleChoiceListAdapterImplementation.areDuplicatesAllowed());
+        assertTrue(multipleChoiceListAdapterImplementation.isNotifiedOnChange());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the index of the first
-     * selected item.
-     */
+    @Test
     public final void testGetFirstSelectedIndex() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(new Object());
         multipleChoiceListAdapterImplementation.addItem(new Object());
@@ -188,13 +189,11 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertEquals(0, multipleChoiceListAdapterImplementation.getFirstSelectedIndex());
     }
 
-    /**
-     * Ensures, that the unfiltered items are adapted, when an item of a filtered adapter is
-     * selected.
-     */
+    @Test
     public final void testAdaptUnfilteredItemsWhenItemIsSelected() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         FilterableImplementation item1 = new FilterableImplementation("cdefghij");
         FilterableImplementation item2 = new FilterableImplementation("bcquerystringdef");
@@ -212,13 +211,11 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertEquals(1, selectedIndices.iterator().next().intValue());
     }
 
-    /**
-     * Ensures, that the unfiltered items are adapted, when an item of a filtered adapter is
-     * unselected.
-     */
+    @Test
     public final void testAdaptUnfilteredItemsWhenItemIsUnselected() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         FilterableImplementation item1 = new FilterableImplementation("cdefghij");
         FilterableImplementation item2 = new FilterableImplementation("bcquerystringdef");
@@ -234,38 +231,33 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertTrue(multipleChoiceListAdapterImplementation.getSelectedIndices().isEmpty());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the index of the first
-     * selected item, if the adapter is empty.
-     */
+    @Test
     public final void testGetFirstSelectedIndexWhenAdapterIsEmpty() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         assertEquals(-1, multipleChoiceListAdapterImplementation.getFirstSelectedIndex());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the index of the first
-     * selected item, if no item is selected.
-     */
+    @Test
     public final void testGetFirstSelectedIndexWhenNoItemIsSelected() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(new Object());
         multipleChoiceListAdapterImplementation.addItem(new Object());
         assertEquals(-1, multipleChoiceListAdapterImplementation.getFirstSelectedIndex());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the first selected item.
-     */
+    @Test
     public final void testGetFirstSelectedItem() {
         Object item1 = new Object();
         Object item2 = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(item1);
         multipleChoiceListAdapterImplementation.addItem(item2);
@@ -274,39 +266,33 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertEquals(item1, multipleChoiceListAdapterImplementation.getFirstSelectedItem());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the first selected item, if
-     * the adapter is empty.
-     */
+    @Test
     public final void testGetFirstSelectedItemWhenAdapterIsEmpty() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         assertNull(multipleChoiceListAdapterImplementation.getFirstSelectedItem());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the first selected item, if
-     * no item is selected.
-     */
+    @Test
     public final void testGetFirstSelectedItemWhenNoItemIsSelected() {
         Object item1 = new Object();
         Object item2 = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(item1);
         multipleChoiceListAdapterImplementation.addItem(item2);
         assertNull(multipleChoiceListAdapterImplementation.getFirstSelectedItem());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the index of the last
-     * selected item.
-     */
+    @Test
     public final void testGetLastSelectedIndex() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(new Object());
         multipleChoiceListAdapterImplementation.addItem(new Object());
@@ -315,38 +301,33 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertEquals(1, multipleChoiceListAdapterImplementation.getLastSelectedIndex());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the index of the last
-     * selected item, if the adapter is empty.
-     */
+    @Test
     public final void testGetLastSelectedIndexWhenAdapterIsEmpty() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         assertEquals(-1, multipleChoiceListAdapterImplementation.getLastSelectedIndex());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the index of the last
-     * selected item, if no item is selected.
-     */
+    @Test
     public final void testGetLastSelectedIndexWhenNoItemIsSelected() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(new Object());
         multipleChoiceListAdapterImplementation.addItem(new Object());
         assertEquals(-1, multipleChoiceListAdapterImplementation.getLastSelectedIndex());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the last selected item.
-     */
+    @Test
     public final void testGetLastSelectedItem() {
         Object item1 = new Object();
         Object item2 = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(item1);
         multipleChoiceListAdapterImplementation.addItem(item2);
@@ -355,63 +336,53 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertEquals(item2, multipleChoiceListAdapterImplementation.getLastSelectedItem());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the last selected item, if
-     * the adapter is empty.
-     */
+    @Test
     public final void testGetLastSelectedItemWhenAdapterIsEmpty() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         assertNull(multipleChoiceListAdapterImplementation.getLastSelectedItem());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the last selected item, if no
-     * item is selected.
-     */
+    @Test
     public final void testGetLastSelectedItemWhenNoItemIsSelected() {
         Object item1 = new Object();
         Object item2 = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(item1);
         multipleChoiceListAdapterImplementation.addItem(item2);
         assertNull(multipleChoiceListAdapterImplementation.getLastSelectedItem());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the index of the first
-     * unselected item.
-     */
+    @Test
     public final void testGetFirstUnselectedIndex() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(new Object());
         multipleChoiceListAdapterImplementation.addItem(new Object());
         assertEquals(0, multipleChoiceListAdapterImplementation.getFirstUnselectedIndex());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the index of the first
-     * unselected item, if the adapter is empty.
-     */
+    @Test
     public final void testGetFirstUnselectedIndexWhenAdapterIsEmpty() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         assertEquals(-1, multipleChoiceListAdapterImplementation.getFirstUnselectedIndex());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the index of the first
-     * unselected item, if no item is unselected.
-     */
+    @Test
     public final void testGetFirstUnselectedIndexWhenNoItemIsUnselected() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(new Object());
         multipleChoiceListAdapterImplementation.addItem(new Object());
@@ -420,40 +391,35 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertEquals(-1, multipleChoiceListAdapterImplementation.getFirstUnselectedIndex());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the first unselected item.
-     */
+    @Test
     public final void testGetFirstUnselectedItem() {
         Object item1 = new Object();
         Object item2 = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(item1);
         multipleChoiceListAdapterImplementation.addItem(item2);
         assertEquals(item1, multipleChoiceListAdapterImplementation.getFirstUnselectedItem());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the first unselected item, if
-     * the adapter is empty.
-     */
+    @Test
     public final void testGetFirstUnselectedItemWhenAdapterIsEmpty() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         assertNull(multipleChoiceListAdapterImplementation.getFirstUnselectedItem());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the first unselected item, if
-     * no item is unselected.
-     */
+    @Test
     public final void testGetFirstUnselectedItemWhenNoItemIsUnselected() {
         Object item1 = new Object();
         Object item2 = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(item1);
         multipleChoiceListAdapterImplementation.addItem(item2);
@@ -462,37 +428,31 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertNull(multipleChoiceListAdapterImplementation.getFirstUnselectedItem());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the index of the last
-     * unselected item.
-     */
+    @Test
     public final void testGetLastUnselectedIndex() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(new Object());
         multipleChoiceListAdapterImplementation.addItem(new Object());
         assertEquals(1, multipleChoiceListAdapterImplementation.getLastUnselectedIndex());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the index of the last
-     * unselected item, if the adapter is empty.
-     */
+    @Test
     public final void testGetLastUnselectedIndexWhenAdapterIsEmpty() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         assertEquals(-1, multipleChoiceListAdapterImplementation.getLastUnselectedIndex());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the index of the last
-     * unselected item, if no item is unselected.
-     */
+    @Test
     public final void testGetLastUnselectedIndexWhenNoItemIsUnselected() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(new Object());
         multipleChoiceListAdapterImplementation.addItem(new Object());
@@ -501,40 +461,35 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertEquals(-1, multipleChoiceListAdapterImplementation.getLastUnselectedIndex());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the last unselected item.
-     */
+    @Test
     public final void testGetLastUnselectedItem() {
         Object item1 = new Object();
         Object item2 = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(item1);
         multipleChoiceListAdapterImplementation.addItem(item2);
         assertEquals(item2, multipleChoiceListAdapterImplementation.getLastUnselectedItem());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the last unselected item, if
-     * the adapter is empty.
-     */
+    @Test
     public final void testGetLastUnselectedItemWhenAdapterIsEmpty() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         assertNull(multipleChoiceListAdapterImplementation.getLastUnselectedItem());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the last unselected item, if
-     * no item is unselected.
-     */
+    @Test
     public final void testGetLastUnselectedItemWhenNoItemIsUnselected() {
         Object item1 = new Object();
         Object item2 = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(item1);
         multipleChoiceListAdapterImplementation.addItem(item2);
@@ -543,16 +498,14 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertNull(multipleChoiceListAdapterImplementation.getLastUnselectedItem());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve a collection, which contains
-     * the indices of all selected items.
-     */
+    @Test
     public final void testGetSelectedIndices() {
         Object item1 = new Object();
         Object item2 = new Object();
         Object item3 = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(item1);
         multipleChoiceListAdapterImplementation.addItem(item2);
@@ -566,41 +519,35 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertEquals(2, iterator.next().intValue());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve a collection, which contains
-     * the indices of all selected items, if the adapter is empty.
-     */
+    @Test
     public final void testGetSelectedIndicesWhenAdapterIsEmpty() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         Collection<Integer> indices = multipleChoiceListAdapterImplementation.getSelectedIndices();
         assertTrue(indices.isEmpty());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve a collection, which contains
-     * the indices of all selected items, if no item is selected.
-     */
+    @Test
     public final void testGetSelectedIndicesWhenNoItemIsSelected() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(new Object());
         Collection<Integer> indices = multipleChoiceListAdapterImplementation.getSelectedIndices();
         assertTrue(indices.isEmpty());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve a collection, which contains
-     * all selected items.
-     */
+    @Test
     public final void testGetSelectedItems() {
         Object item1 = new Object();
         Object item2 = new Object();
         Object item3 = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(item1);
         multipleChoiceListAdapterImplementation.addItem(item2);
@@ -614,41 +561,35 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertEquals(item3, iterator.next());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve a collection, which contains
-     * all selected items, if the adapter is empty.
-     */
+    @Test
     public final void testGetSelectedItemsWhenAdapterIsEmpty() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         Collection<Object> items = multipleChoiceListAdapterImplementation.getSelectedItems();
         assertTrue(items.isEmpty());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve a collection, which contains
-     * all selected items, if no item is selected.
-     */
+    @Test
     public final void testGetSelectedItemsWhenNoItemIsSelected() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(new Object());
         Collection<Object> items = multipleChoiceListAdapterImplementation.getSelectedItems();
         assertTrue(items.isEmpty());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve a collection, which contains
-     * the indices of all unselected items.
-     */
+    @Test
     public final void testGetUnselectedIndices() {
         Object item1 = new Object();
         Object item2 = new Object();
         Object item3 = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(item1);
         multipleChoiceListAdapterImplementation.addItem(item2);
@@ -662,27 +603,23 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertEquals(2, iterator.next().intValue());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve a collection, which contains
-     * the indices of all unselected items, if the adapter is empty.
-     */
+    @Test
     public final void testGetUnselectedIndicesWhenAdapterIsEmpty() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         Collection<Integer> indices =
                 multipleChoiceListAdapterImplementation.getUnselectedIndices();
         assertTrue(indices.isEmpty());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve a collection, which contains
-     * the indices of all unselected items.
-     */
+    @Test
     public final void testGetUnselectedIndicesWhenNoItemIsUnselected() {
         Object item = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(item);
         multipleChoiceListAdapterImplementation.setSelected(item, true);
@@ -691,16 +628,14 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertTrue(indices.isEmpty());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve a collection, which contains
-     * all unselected items.
-     */
+    @Test
     public final void testGetUnselectedItems() {
         Object item1 = new Object();
         Object item2 = new Object();
         Object item3 = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(item1);
         multipleChoiceListAdapterImplementation.addItem(item2);
@@ -713,26 +648,22 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertEquals(item3, iterator.next());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve a collection, which contains
-     * all unselected items, if the adapter is empty.
-     */
+    @Test
     public final void testGetUnselectedItemsWhenAdapterIsEmpty() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         Collection<Object> items = multipleChoiceListAdapterImplementation.getUnselectedItems();
         assertTrue(items.isEmpty());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve a collection, which contains
-     * all unselected items.
-     */
+    @Test
     public final void testGetUnselectedItemsWhenNoItemIsUnselected() {
         Object item = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.addItem(item);
         multipleChoiceListAdapterImplementation.setSelected(item, true);
@@ -740,17 +671,15 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertTrue(items.isEmpty());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set the selection of the item, which
-     * belongs to a specific index.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSetSelectedByIndex() {
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -771,17 +700,15 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set the selection of the item, which
-     * belongs to a specific index, if the item is disabled.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSetSelectedByIndexWhenItemIsDisabled() {
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -796,15 +723,13 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertFalse(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set the selection of the item, which
-     * belongs to a specific index, if the item is already selected.
-     */
+    @Test
     public final void testSetSelectedByIndexWhenItemIsAlreadySelected() {
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addItem(item);
@@ -815,33 +740,24 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertFalse(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown by the method, which allows to
-     * set the selection of the item, which belongs to a specific index, if the index is invalid.
-     */
+    @Test(expected = IndexOutOfBoundsException.class)
     public final void testSetSelectedByIndexThrowsExceptionWhenIndexIsInvalid() {
-        try {
-            MultipleChoiceListAdapterImplementation<Object>
-                    multipleChoiceListAdapterImplementation =
-                    new MultipleChoiceListAdapterImplementation<>(getContext(),
-                            new SelectableListDecoratorImplementation());
-            multipleChoiceListAdapterImplementation.setSelected(-1, true);
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
+                new MultipleChoiceListAdapterImplementation<>(context,
+                        new SelectableListDecoratorImplementation());
+        multipleChoiceListAdapterImplementation.setSelected(-1, true);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set the selection of a specific item.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSetSelected() {
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -862,17 +778,15 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set the selection of a specific item,
-     * if the item is disabled.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSetSelectedWhenItemIsDisabled() {
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -887,15 +801,13 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertFalse(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set the selection of a specific item,
-     * if the item is already selected.
-     */
+    @Test
     public final void testSetSelectedWhenItemIsAlreadySelected() {
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addItem(item);
@@ -906,51 +818,33 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertFalse(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that an {@link NullPointerException} is thrown by the method, which allows to set
-     * the selection a specific item, if the item is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testSetSelectedThrowsExceptionWhenItemIsNull() {
-        try {
-            MultipleChoiceListAdapterImplementation<Object>
-                    multipleChoiceListAdapterImplementation =
-                    new MultipleChoiceListAdapterImplementation<>(getContext(),
-                            new SelectableListDecoratorImplementation());
-            multipleChoiceListAdapterImplementation.setSelected(null, true);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
+                new MultipleChoiceListAdapterImplementation<>(context,
+                        new SelectableListDecoratorImplementation());
+        multipleChoiceListAdapterImplementation.setSelected(null, true);
     }
 
-    /**
-     * Ensures, that an {@link NoSuchElementException} is thrown by the method, which allows to set
-     * the selection of a specific item, if the item does not belong to the adapter.
-     */
+    @Test(expected = NoSuchElementException.class)
     public final void testSetSelectedThrowsExceptionWhenAdapterDoesNotContainItem() {
-        try {
-            MultipleChoiceListAdapterImplementation<Object>
-                    multipleChoiceListAdapterImplementation =
-                    new MultipleChoiceListAdapterImplementation<>(getContext(),
-                            new SelectableListDecoratorImplementation());
-            multipleChoiceListAdapterImplementation.setSelected(new Object(), true);
-            Assert.fail();
-        } catch (NoSuchElementException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
+                new MultipleChoiceListAdapterImplementation<>(context,
+                        new SelectableListDecoratorImplementation());
+        multipleChoiceListAdapterImplementation.setSelected(new Object(), true);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to trigger the selection of the item,
-     * which belongs to a specific item, if the item is not selected.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testTriggerSelectionByIndexWhenItemIsNotSelected() {
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -964,17 +858,15 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to trigger the selection of the item,
-     * which belongs to a specific item, if the item is selected.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testTriggerSelectionByIndexWhenItemIsSelected() {
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -989,17 +881,15 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to trigger the selection of the item,
-     * which belongs to a specific item, if the item is disabled.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testTriggerSelectionByIndexWhenItemIsDisabled() {
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -1014,35 +904,24 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertFalse(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown by the method, which allows to
-     * trigger the selection of the item, which belongs to a specific item, if the index is
-     * invalid.
-     */
+    @Test(expected = IndexOutOfBoundsException.class)
     public final void testTriggerSelectionByIndexThrowsExceptionWhenIndexIsInvalid() {
-        try {
-            MultipleChoiceListAdapterImplementation<Object>
-                    multipleChoiceListAdapterImplementation =
-                    new MultipleChoiceListAdapterImplementation<>(getContext(),
-                            new SelectableListDecoratorImplementation());
-            multipleChoiceListAdapterImplementation.triggerSelection(-1);
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
+                new MultipleChoiceListAdapterImplementation<>(context,
+                        new SelectableListDecoratorImplementation());
+        multipleChoiceListAdapterImplementation.triggerSelection(-1);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to trigger the selection of a specific
-     * item, if the item is not selected.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testTriggerSelectionWhenItemIsNotSelected() {
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<Object>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -1056,17 +935,15 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to trigger the selection of a specific
-     * item, if the item is selected.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testTriggerSelectionWhenItemIsSelected() {
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -1081,17 +958,15 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to trigger the selection of a specific
-     * item, if the item is disabled.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testTriggerSelectionWhenItemIsDisabled() {
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -1106,51 +981,34 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertFalse(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown by the method, which allows to trigger
-     * the selection of a specific item, if the item is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testTriggerSelectionThrowsExceptionWhenItemIsNull() {
-        try {
-            MultipleChoiceListAdapterImplementation<Object>
-                    multipleChoiceListAdapterImplementation =
-                    new MultipleChoiceListAdapterImplementation<>(getContext(),
-                            new SelectableListDecoratorImplementation());
-            multipleChoiceListAdapterImplementation.triggerSelection(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
+                new MultipleChoiceListAdapterImplementation<>(context,
+                        new SelectableListDecoratorImplementation());
+        multipleChoiceListAdapterImplementation.triggerSelection(null);
     }
 
-    /**
-     * Ensures, that a {@link NoSuchElementException} is thrown by the method, which allows to
-     * trigger the selection of a specific item, if the item does not belong to the adapter.
-     */
+    @Test(expected = NoSuchElementException.class)
     public final void testTriggerSelectionThrowsExceptionWhenAdapterDoesNotContainItem() {
-        try {
-            MultipleChoiceListAdapterImplementation<Object>
-                    multipleChoiceListAdapterImplementation =
-                    new MultipleChoiceListAdapterImplementation<>(getContext(),
-                            new SelectableListDecoratorImplementation());
-            multipleChoiceListAdapterImplementation.triggerSelection(new Object());
-            Assert.fail();
-        } catch (NoSuchElementException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
+                new MultipleChoiceListAdapterImplementation<>(context,
+                        new SelectableListDecoratorImplementation());
+        multipleChoiceListAdapterImplementation.triggerSelection(new Object());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set the selections of all items.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSetAllSelected() {
         Object item1 = new Object();
         Object item2 = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -1166,18 +1024,16 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set the selection of all items, if at
-     * least one item is already selected.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSetAllSelectedWhenItemIsAlreadySelected() {
         Object item1 = new Object();
         Object item2 = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -1194,18 +1050,16 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set the selection of all items, if at
-     * least one item is disabled.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSetAllSelectedWhenItemIsDisabled() {
         Object item1 = new Object();
         Object item2 = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -1222,17 +1076,16 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to trigger the selections of all items.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testTriggerAllSelections() {
         Object item1 = new Object();
         Object item2 = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -1249,18 +1102,16 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to trigger the selections of all items,
-     * if at least one item is disabled.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testTriggerAllSelectionsWhenItemIsDisabled() {
         Object item1 = new Object();
         Object item2 = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -1277,16 +1128,15 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that the selection is adapted, when an item becomes disabled.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSelectionIsAdaptedWhenItemBecomesDisabled() {
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         multipleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         multipleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -1300,9 +1150,7 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the toString-method.
-     */
+    @Test
     public final void testToString() {
         ArrayList<Item<Object>> items = new ArrayList<>();
         items.add(new Item<Object>(new Object()));
@@ -1323,8 +1171,9 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
         boolean selectItemOnClick = true;
         Set<ListSelectionListener<Object>> selectionListeners = new LinkedHashSet<>();
         Bundle parameters = new Bundle();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapterImplementation<Object> multipleChoiceListAdapterImplementation =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation(), logLevel, items,
                         allowDuplicates, notifyOnChange, itemClickListeners, itemLongClickListeners,
                         adapterListeners, enableStateListeners, numberOfItemStates,
@@ -1341,14 +1190,9 @@ public class MultipleChoiceListAdapterImplementationTest extends AndroidTestCase
                 multipleChoiceListAdapterImplementation.toString());
     }
 
-    /**
-     * Tests the functionality of the clone-method.
-     *
-     * @throws CloneNotSupportedException
-     *         The exception, which is thrown, if cloning is not supported
-     */
+    @Test
     public final void testClone() throws CloneNotSupportedException {
-        Context context = getContext();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SelectableListDecorator<Object> decorator = new SelectableListDecoratorImplementation();
         ArrayList<Item<Object>> items = new ArrayList<>();
         boolean allowDuplicates = true;

@@ -14,12 +14,17 @@
 package de.mrapp.android.adapter.datastructure.group;
 
 import android.content.Context;
-import android.test.AndroidTestCase;
 
-import junit.framework.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ListIterator;
 
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -31,28 +36,20 @@ import static org.mockito.Mockito.when;
  *
  * @author Michael Rapp
  */
-public class GroupListIteratorTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class GroupListIteratorTest {
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if the list iterator, which is passed
-     * as a constructor parameter, is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testConstructorThrowsExceptionIfListIteratorIsNull() {
-        try {
-            new GroupListIterator<>(null, getContext());
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        new GroupListIterator<>(null, context);
     }
 
-    /**
-     * Tests the functionality of the add-method.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAdd() {
         ListIterator<Group<Object, Object>> listIterator = mock(ListIterator.class);
-        Context context = getContext();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         GroupListIterator<Object, Object> groupListIterator =
                 new GroupListIterator<>(listIterator, context);
         Object group = new Object();
@@ -60,42 +57,39 @@ public class GroupListIteratorTest extends AndroidTestCase {
         verify(listIterator, times(1)).add(any(Group.class));
     }
 
-    /**
-     * Tests the functionality of the hasNext-method.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testHasNext() {
         ListIterator<Group<Object, Object>> listIterator = mock(ListIterator.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         GroupListIterator<Object, Object> groupListIterator =
-                new GroupListIterator<>(listIterator, getContext());
+                new GroupListIterator<>(listIterator, context);
         when(groupListIterator.hasNext()).thenReturn(true);
         boolean hasNext = groupListIterator.hasNext();
         assertTrue(hasNext);
         verify(listIterator, times(1)).hasNext();
     }
 
-    /**
-     * Tests the functionality of the hasPrevious-method.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testHasPrevious() {
         ListIterator<Group<Object, Object>> listIterator = mock(ListIterator.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         GroupListIterator<Object, Object> groupListIterator =
-                new GroupListIterator<>(listIterator, getContext());
+                new GroupListIterator<>(listIterator, context);
         when(groupListIterator.hasPrevious()).thenReturn(true);
         boolean hasPrevious = groupListIterator.hasPrevious();
         assertTrue(hasPrevious);
         verify(listIterator, times(1)).hasPrevious();
     }
 
-    /**
-     * Tests the functionality of the next-method.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testNext() {
         ListIterator<Group<Object, Object>> listIterator = mock(ListIterator.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         GroupListIterator<Object, Object> groupListIterator =
-                new GroupListIterator<>(listIterator, getContext());
+                new GroupListIterator<>(listIterator, context);
         Group<Object, Object> nextGroup = new Group<>(new Object());
         when(listIterator.next()).thenReturn(nextGroup);
         Object nextData = groupListIterator.next();
@@ -103,14 +97,13 @@ public class GroupListIteratorTest extends AndroidTestCase {
         verify(listIterator, times(1)).next();
     }
 
-    /**
-     * Tests the functionality of the nextIndex-method.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testNextIndex() {
         ListIterator<Group<Object, Object>> listIterator = mock(ListIterator.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         GroupListIterator<Object, Object> groupListIterator =
-                new GroupListIterator<>(listIterator, getContext());
+                new GroupListIterator<>(listIterator, context);
         int nextIndex = 1;
         when(groupListIterator.nextIndex()).thenReturn(nextIndex);
         Object next = groupListIterator.nextIndex();
@@ -118,14 +111,13 @@ public class GroupListIteratorTest extends AndroidTestCase {
         verify(listIterator, times(1)).nextIndex();
     }
 
-    /**
-     * Tests the functionality of the previous-method.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testPrevious() {
         ListIterator<Group<Object, Object>> listIterator = mock(ListIterator.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         GroupListIterator<Object, Object> groupListIterator =
-                new GroupListIterator<>(listIterator, getContext());
+                new GroupListIterator<>(listIterator, context);
         Group<Object, Object> previousGroup = new Group<>(new Object());
         when(listIterator.previous()).thenReturn(previousGroup);
         Object previousData = groupListIterator.previous();
@@ -133,14 +125,13 @@ public class GroupListIteratorTest extends AndroidTestCase {
         verify(listIterator, times(1)).previous();
     }
 
-    /**
-     * Tests the functionality of the previousIndex-method.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testPreviousIndex() {
         ListIterator<Group<Object, Object>> listIterator = mock(ListIterator.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         GroupListIterator<Object, Object> groupListIterator =
-                new GroupListIterator<>(listIterator, getContext());
+                new GroupListIterator<>(listIterator, context);
         int previousIndex = 1;
         when(groupListIterator.previousIndex()).thenReturn(previousIndex);
         Object previous = groupListIterator.previousIndex();
@@ -148,25 +139,22 @@ public class GroupListIteratorTest extends AndroidTestCase {
         verify(listIterator, times(1)).previousIndex();
     }
 
-    /**
-     * Tests the functionality of the remove-method.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testRemove() {
         ListIterator<Group<Object, Object>> listIterator = mock(ListIterator.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         GroupListIterator<Object, Object> groupListIterator =
-                new GroupListIterator<>(listIterator, getContext());
+                new GroupListIterator<>(listIterator, context);
         groupListIterator.remove();
         verify(listIterator, times(1)).remove();
     }
 
-    /**
-     * Tests the functionality of the set-method.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSet() {
         ListIterator<Group<Object, Object>> listIterator = mock(ListIterator.class);
-        Context context = getContext();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         GroupListIterator<Object, Object> groupListIterator =
                 new GroupListIterator<>(listIterator, context);
         Object group = new Object();

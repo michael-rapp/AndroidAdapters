@@ -15,14 +15,12 @@ package de.mrapp.android.adapter.list.itemstate;
 
 import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import android.test.AndroidTestCase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import junit.framework.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,6 +31,10 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 import de.mrapp.android.adapter.DataSetObserver;
 import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.FilterQuery;
@@ -49,6 +51,11 @@ import de.mrapp.android.adapter.list.filterable.ListFilterListener;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 import de.mrapp.android.util.logging.LogLevel;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -58,7 +65,8 @@ import static org.mockito.Mockito.verify;
  *
  * @author Michael Rapp
  */
-public class AbstractItemStateListAdapterTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class AbstractItemStateListAdapterTest {
 
     /**
      * An implementation of the abstract class {@link AbstractItemStateListAdapter}, which is needed
@@ -166,6 +174,39 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         }
 
         @Override
+        public int addItemSorted(@NonNull final Object item) {
+            return 0;
+        }
+
+        @Override
+        public int addItemSorted(@NonNull final Object item,
+                                 @Nullable final Comparator<Object> comparator) {
+            return 0;
+        }
+
+        @Override
+        public boolean addAllItemsSorted(@NonNull final Collection<?> items) {
+            return false;
+        }
+
+        @Override
+        public boolean addAllItemsSorted(@NonNull final Collection<?> items,
+                                         @Nullable final Comparator<Object> comparator) {
+            return false;
+        }
+
+        @Override
+        public boolean addAllItemsSorted(@NonNull final Object... items) {
+            return false;
+        }
+
+        @Override
+        public boolean addAllItemsSorted(@Nullable final Comparator<Object> comparator,
+                                         @NonNull final Object... items) {
+            return false;
+        }
+
+        @Override
         public Order getOrder() {
             return null;
         }
@@ -259,15 +300,14 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
 
     }
 
-    /**
-     * Tests, if all properties are set correctly by the constructor.
-     */
+    @Test
     public final void testConstructor() {
         int numberOfItemStates = 2;
         boolean triggerItemStateOnClick = true;
         Set<ListItemStateListener<Object>> itemStateListeners = new LinkedHashSet<>();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -281,52 +321,39 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertEquals(itemStateListeners, abstractItemStateListAdapter.getItemStateListeners());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if the set, which contains the item
-     * state listeners, which is passed to the constructor, is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testConstructorThrowsExceptionWhenItemStateListenersIsNull() {
-        try {
-            new AbstractItemStateListAdapterImplementation(getContext(),
-                    new ListDecoratorImplementation(), LogLevel.ALL, new ArrayList<Item<Object>>(),
-                    false, true, new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
-                    new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
-                    new LinkedHashSet<ListAdapterListener<Object>>(),
-                    new LinkedHashSet<ListEnableStateListener<Object>>(), 1, false, null);
-        } catch (NullPointerException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        new AbstractItemStateListAdapterImplementation(context, new ListDecoratorImplementation(),
+                LogLevel.ALL, new ArrayList<Item<Object>>(), false, true,
+                new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+                new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
+                new LinkedHashSet<ListAdapterListener<Object>>(),
+                new LinkedHashSet<ListEnableStateListener<Object>>(), 1, false, null);
     }
 
-    /**
-     * Ensures, that a {@link IllegalArgumentException} is thrown, if the number of item states,
-     * which is passed to the constructor, is less than 1.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testConstructorThrowsExceptionWhenNumberOfItemStatesIsLessThanOne() {
-        try {
-            new AbstractItemStateListAdapterImplementation(getContext(),
-                    new ListDecoratorImplementation(), LogLevel.ALL, new ArrayList<Item<Object>>(),
-                    false, true, new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
-                    new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
-                    new LinkedHashSet<ListAdapterListener<Object>>(),
-                    new LinkedHashSet<ListEnableStateListener<Object>>(), 0, false,
-                    new LinkedHashSet<ListItemStateListener<Object>>());
-        } catch (IllegalArgumentException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        new AbstractItemStateListAdapterImplementation(context, new ListDecoratorImplementation(),
+                LogLevel.ALL, new ArrayList<Item<Object>>(), false, true,
+                new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+                new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
+                new LinkedHashSet<ListAdapterListener<Object>>(),
+                new LinkedHashSet<ListEnableStateListener<Object>>(), 0, false,
+                new LinkedHashSet<ListItemStateListener<Object>>());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set the number of item states.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSetNumberOfItemStates() {
         Object item1 = new Object();
         Object item2 = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -350,34 +377,26 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that an {@link IllegalArgumentException} is thrown by the method, which allows to
-     * set the number of item states, if the number of states is less than 1.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testSetNumberOfItemStatesThrowsExceptionWhenNumberOfStatesIsLessThanOne() {
-        try {
-            AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                    new AbstractItemStateListAdapterImplementation(getContext(),
-                            new ListDecoratorImplementation(), LogLevel.ALL,
-                            new ArrayList<Item<Object>>(), false, true,
-                            new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterListener<Object>>(),
-                            new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
-                            new LinkedHashSet<ListItemStateListener<Object>>());
-            abstractItemStateListAdapter.setNumberOfItemStates(0);
-            Assert.fail();
-        } catch (IllegalArgumentException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
+                new AbstractItemStateListAdapterImplementation(context,
+                        new ListDecoratorImplementation(), LogLevel.ALL,
+                        new ArrayList<Item<Object>>(), false, true,
+                        new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterListener<Object>>(),
+                        new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
+                        new LinkedHashSet<ListItemStateListener<Object>>());
+        abstractItemStateListAdapter.setNumberOfItemStates(0);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the minimum item state.
-     */
+    @Test
     public final void testMinItemState() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -388,12 +407,11 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertEquals(0, abstractItemStateListAdapter.minItemState());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the maximum item state.
-     */
+    @Test
     public final void testMaxItemState() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -406,15 +424,13 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertEquals(1, abstractItemStateListAdapter.maxItemState());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the state of the item, which
-     * belongs to a specific index.
-     */
+    @Test
     public final void testGetItemStateByIndex() {
         Object item1 = new Object();
         Object item2 = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -429,37 +445,28 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertEquals(1, abstractItemStateListAdapter.getItemState(1));
     }
 
-    /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown by the method, which allows to
-     * retrieve the state of the item, which belongs to a specific index, if the index is invalid.
-     */
+    @Test(expected = IndexOutOfBoundsException.class)
     public final void testGetItemStateByIndexThrowsExceptionWhenIndexIsInvalid() {
-        try {
-            AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                    new AbstractItemStateListAdapterImplementation(getContext(),
-                            new ListDecoratorImplementation(), LogLevel.ALL,
-                            new ArrayList<Item<Object>>(), false, true,
-                            new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterListener<Object>>(),
-                            new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
-                            new LinkedHashSet<ListItemStateListener<Object>>());
-            abstractItemStateListAdapter.getItemState(-1);
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
+                new AbstractItemStateListAdapterImplementation(context,
+                        new ListDecoratorImplementation(), LogLevel.ALL,
+                        new ArrayList<Item<Object>>(), false, true,
+                        new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterListener<Object>>(),
+                        new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
+                        new LinkedHashSet<ListItemStateListener<Object>>());
+        abstractItemStateListAdapter.getItemState(-1);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the state of a specific
-     * item.
-     */
+    @Test
     public final void testGetItemState() {
         Object item1 = new Object();
         Object item2 = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -474,61 +481,45 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertEquals(1, abstractItemStateListAdapter.getItemState(item2));
     }
 
-    /**
-     * Ensures, that a {@link NoSuchElementException} is thrown by the method, which allows to
-     * retrieve the state of a specific item, if the item does not belong to the adapter.
-     */
+    @Test(expected = NoSuchElementException.class)
     public final void testGetItemStateThrowsExceptionWhenAdapterDoesNotContainItem() {
-        try {
-            AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                    new AbstractItemStateListAdapterImplementation(getContext(),
-                            new ListDecoratorImplementation(), LogLevel.ALL,
-                            new ArrayList<Item<Object>>(), false, true,
-                            new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterListener<Object>>(),
-                            new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
-                            new LinkedHashSet<ListItemStateListener<Object>>());
-            abstractItemStateListAdapter.getItemState(new Object());
-            Assert.fail();
-        } catch (NoSuchElementException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
+                new AbstractItemStateListAdapterImplementation(context,
+                        new ListDecoratorImplementation(), LogLevel.ALL,
+                        new ArrayList<Item<Object>>(), false, true,
+                        new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterListener<Object>>(),
+                        new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
+                        new LinkedHashSet<ListItemStateListener<Object>>());
+        abstractItemStateListAdapter.getItemState(new Object());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown by the method, which allows to
-     * retrieve the state of a specific item, if the item is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testGetItemStateThrowsExceptionWhenItemIsNull() {
-        try {
-            AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                    new AbstractItemStateListAdapterImplementation(getContext(),
-                            new ListDecoratorImplementation(), LogLevel.ALL,
-                            new ArrayList<Item<Object>>(), false, true,
-                            new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterListener<Object>>(),
-                            new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
-                            new LinkedHashSet<ListItemStateListener<Object>>());
-            abstractItemStateListAdapter.getItemState(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
+                new AbstractItemStateListAdapterImplementation(context,
+                        new ListDecoratorImplementation(), LogLevel.ALL,
+                        new ArrayList<Item<Object>>(), false, true,
+                        new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterListener<Object>>(),
+                        new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
+                        new LinkedHashSet<ListItemStateListener<Object>>());
+        abstractItemStateListAdapter.getItemState(null);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set the state of the item, which
-     * belongs to a specific index.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSetItemStateByIndex() {
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -548,17 +539,15 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set the state of the item, which
-     * belongs to a specific index, if the item is disabled.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSetItemStateByIndexWhenItemIsDisabled() {
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -579,17 +568,15 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertFalse(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set the state of the item, which
-     * belongs to a specific index, if the state is already set.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSetItemStateByIndexWhenStateIsAlreadySet() {
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -610,85 +597,62 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertFalse(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown by the method, which allows to
-     * set the state of the item, which belongs to a specific index, if the index is invalid.
-     */
+    @Test(expected = IndexOutOfBoundsException.class)
     public final void testSetItemStateByIndexThrowsExceptionWhenIndexIsInvalid() {
-        try {
-            AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                    new AbstractItemStateListAdapterImplementation(getContext(),
-                            new ListDecoratorImplementation(), LogLevel.ALL,
-                            new ArrayList<Item<Object>>(), false, true,
-                            new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterListener<Object>>(),
-                            new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
-                            new LinkedHashSet<ListItemStateListener<Object>>());
-            abstractItemStateListAdapter.setItemState(-1, 0);
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
+                new AbstractItemStateListAdapterImplementation(context,
+                        new ListDecoratorImplementation(), LogLevel.ALL,
+                        new ArrayList<Item<Object>>(), false, true,
+                        new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterListener<Object>>(),
+                        new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
+                        new LinkedHashSet<ListItemStateListener<Object>>());
+        abstractItemStateListAdapter.setItemState(-1, 0);
     }
 
-    /**
-     * Ensures, that an {@link IllegalArgumentException} is thrown by the method, which allows to
-     * set the state of the item, which belongs to a specific index, if the state is less than 0.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testSetItemStateByIndexThrowsExceptionWhenStateIsLessThanZero() {
-        try {
-            AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                    new AbstractItemStateListAdapterImplementation(getContext(),
-                            new ListDecoratorImplementation(), LogLevel.ALL,
-                            new ArrayList<Item<Object>>(), false, true,
-                            new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterListener<Object>>(),
-                            new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
-                            new LinkedHashSet<ListItemStateListener<Object>>());
-            abstractItemStateListAdapter.addItem(new Object());
-            abstractItemStateListAdapter.setItemState(0, -1);
-            Assert.fail();
-        } catch (IllegalArgumentException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
+                new AbstractItemStateListAdapterImplementation(context,
+                        new ListDecoratorImplementation(), LogLevel.ALL,
+                        new ArrayList<Item<Object>>(), false, true,
+                        new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterListener<Object>>(),
+                        new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
+                        new LinkedHashSet<ListItemStateListener<Object>>());
+        abstractItemStateListAdapter.addItem(new Object());
+        abstractItemStateListAdapter.setItemState(0, -1);
     }
 
-    /**
-     * Ensures, that an {@link IllegalArgumentException} is thrown by the method, which allows to
-     * set the state of the item, which belongs to a specific index, if the state is greater than
-     * the maximum state.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testSetItemStateByIndexThrowsExceptionWhenStateIsGreaterThanMaxState() {
-        try {
-            AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                    new AbstractItemStateListAdapterImplementation(getContext(),
-                            new ListDecoratorImplementation(), LogLevel.ALL,
-                            new ArrayList<Item<Object>>(), false, true,
-                            new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterListener<Object>>(),
-                            new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
-                            new LinkedHashSet<ListItemStateListener<Object>>());
-            abstractItemStateListAdapter.addItem(new Object());
-            abstractItemStateListAdapter.setItemState(0, 2);
-            Assert.fail();
-        } catch (IllegalArgumentException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
+                new AbstractItemStateListAdapterImplementation(context,
+                        new ListDecoratorImplementation(), LogLevel.ALL,
+                        new ArrayList<Item<Object>>(), false, true,
+                        new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterListener<Object>>(),
+                        new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
+                        new LinkedHashSet<ListItemStateListener<Object>>());
+        abstractItemStateListAdapter.addItem(new Object());
+        abstractItemStateListAdapter.setItemState(0, 2);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set the state of a specific item.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSetItemState() {
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -708,17 +672,15 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set the state of a specific item, if
-     * the item is disabled.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSetItemStateWhenItemIsDisabled() {
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -739,17 +701,15 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertFalse(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set the state of a specific item, if
-     * the state is already set.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSetItemStateWhenStateIsAlreadySet() {
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -770,88 +730,65 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertFalse(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that an {@link NullPointerException} is thrown by the method, which allows to set
-     * the state of a specific item, if the item is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testSetItemStateThrowsExceptionWhenItemIsNull() {
-        try {
-            AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                    new AbstractItemStateListAdapterImplementation(getContext(),
-                            new ListDecoratorImplementation(), LogLevel.ALL,
-                            new ArrayList<Item<Object>>(), false, true,
-                            new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterListener<Object>>(),
-                            new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
-                            new LinkedHashSet<ListItemStateListener<Object>>());
-            abstractItemStateListAdapter.setItemState(null, 0);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
+                new AbstractItemStateListAdapterImplementation(context,
+                        new ListDecoratorImplementation(), LogLevel.ALL,
+                        new ArrayList<Item<Object>>(), false, true,
+                        new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterListener<Object>>(),
+                        new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
+                        new LinkedHashSet<ListItemStateListener<Object>>());
+        abstractItemStateListAdapter.setItemState(null, 0);
     }
 
-    /**
-     * Ensures, that an {@link IllegalArgumentException} is thrown by the method, which allows to
-     * set the state of a specific item, if the state is less than 0.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testSetItemStateThrowsExceptionWhenStateIsLessThanZero() {
-        try {
-            Object item = new Object();
-            AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                    new AbstractItemStateListAdapterImplementation(getContext(),
-                            new ListDecoratorImplementation(), LogLevel.ALL,
-                            new ArrayList<Item<Object>>(), false, true,
-                            new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterListener<Object>>(),
-                            new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
-                            new LinkedHashSet<ListItemStateListener<Object>>());
-            abstractItemStateListAdapter.addItem(item);
-            abstractItemStateListAdapter.setItemState(item, -1);
-            Assert.fail();
-        } catch (IllegalArgumentException e) {
-
-        }
+        Object item = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
+                new AbstractItemStateListAdapterImplementation(context,
+                        new ListDecoratorImplementation(), LogLevel.ALL,
+                        new ArrayList<Item<Object>>(), false, true,
+                        new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterListener<Object>>(),
+                        new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
+                        new LinkedHashSet<ListItemStateListener<Object>>());
+        abstractItemStateListAdapter.addItem(item);
+        abstractItemStateListAdapter.setItemState(item, -1);
     }
 
-    /**
-     * Ensures, that an {@link IllegalArgumentException} is thrown by the method, which allows to
-     * set the state of a specific item, if the state is greater than the maximum state.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testSetItemStateThrowsExceptionWhenStateIsGreaterThanMaxState() {
-        try {
-            Object item = new Object();
-            AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                    new AbstractItemStateListAdapterImplementation(getContext(),
-                            new ListDecoratorImplementation(), LogLevel.ALL,
-                            new ArrayList<Item<Object>>(), false, true,
-                            new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterListener<Object>>(),
-                            new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
-                            new LinkedHashSet<ListItemStateListener<Object>>());
-            abstractItemStateListAdapter.addItem(item);
-            abstractItemStateListAdapter.setItemState(item, 2);
-            Assert.fail();
-        } catch (IllegalArgumentException e) {
-
-        }
+        Object item = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
+                new AbstractItemStateListAdapterImplementation(context,
+                        new ListDecoratorImplementation(), LogLevel.ALL,
+                        new ArrayList<Item<Object>>(), false, true,
+                        new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterListener<Object>>(),
+                        new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
+                        new LinkedHashSet<ListItemStateListener<Object>>());
+        abstractItemStateListAdapter.addItem(item);
+        abstractItemStateListAdapter.setItemState(item, 2);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set the states of all items to a
-     * specific state.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSetAllItemStates() {
         Object item1 = new Object();
         Object item2 = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -875,18 +812,16 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set the states of all items to a
-     * specific state, if not all states are changed.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSetAllItemStatesWhenNotAllStatesAreChanged() {
         Object item1 = new Object();
         Object item2 = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -911,62 +846,45 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that an {@link IllegalArgumentException} is thrown by the method, which allows to
-     * set the states of all items to a specific state, if the state is less than 0.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testSetAllItemStatesThrowsExceptionWhenStateIsLessThanZero() {
-        try {
-            AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                    new AbstractItemStateListAdapterImplementation(getContext(),
-                            new ListDecoratorImplementation(), LogLevel.ALL,
-                            new ArrayList<Item<Object>>(), false, true,
-                            new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterListener<Object>>(),
-                            new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
-                            new LinkedHashSet<ListItemStateListener<Object>>());
-            abstractItemStateListAdapter.setAllItemStates(-1);
-            Assert.fail();
-        } catch (IllegalArgumentException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
+                new AbstractItemStateListAdapterImplementation(context,
+                        new ListDecoratorImplementation(), LogLevel.ALL,
+                        new ArrayList<Item<Object>>(), false, true,
+                        new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterListener<Object>>(),
+                        new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
+                        new LinkedHashSet<ListItemStateListener<Object>>());
+        abstractItemStateListAdapter.setAllItemStates(-1);
     }
 
-    /**
-     * Ensures, that an {@link IllegalArgumentException} is thrown by the method, which allows to
-     * set the states of all items to a specific state, if the state is greater than the maximum
-     * state.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testSetAllItemStatesThrowsExceptionWhenStateIsGreaterThanMaxState() {
-        try {
-            AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                    new AbstractItemStateListAdapterImplementation(getContext(),
-                            new ListDecoratorImplementation(), LogLevel.ALL,
-                            new ArrayList<Item<Object>>(), false, true,
-                            new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterListener<Object>>(),
-                            new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
-                            new LinkedHashSet<ListItemStateListener<Object>>());
-            abstractItemStateListAdapter.setAllItemStates(2);
-            Assert.fail();
-        } catch (IllegalArgumentException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
+                new AbstractItemStateListAdapterImplementation(context,
+                        new ListDecoratorImplementation(), LogLevel.ALL,
+                        new ArrayList<Item<Object>>(), false, true,
+                        new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterListener<Object>>(),
+                        new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
+                        new LinkedHashSet<ListItemStateListener<Object>>());
+        abstractItemStateListAdapter.setAllItemStates(2);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to trigger the state of the item, which
-     * belongs to a specific index, if the item's state is not already the maximum state.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testTriggerItemStateByIndexWhenStateIsNotMaxState() {
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -986,17 +904,15 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to trigger the state of the item, which
-     * belongs to a specific index, if the item's state is already the maximum state.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testTriggerItemStateByIndexWhenStateIsMaxState() {
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1017,17 +933,15 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to trigger the state of the item, which
-     * belongs to a specific index, if the item is disabled.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testTriggerItemStateByIndexWhenItemIsDisabled() {
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1048,39 +962,30 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertFalse(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown by the method, which allows to
-     * trigger the state of the item, which belongs to a specific index, if the index is invalid.
-     */
+    @Test(expected = IndexOutOfBoundsException.class)
     public final void testTriggerItemStateByIndexThrowsExceptionWhenIndexIsInvalid() {
-        try {
-            AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                    new AbstractItemStateListAdapterImplementation(getContext(),
-                            new ListDecoratorImplementation(), LogLevel.ALL,
-                            new ArrayList<Item<Object>>(), false, true,
-                            new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterListener<Object>>(),
-                            new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
-                            new LinkedHashSet<ListItemStateListener<Object>>());
-            abstractItemStateListAdapter.triggerItemState(-1);
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
+                new AbstractItemStateListAdapterImplementation(context,
+                        new ListDecoratorImplementation(), LogLevel.ALL,
+                        new ArrayList<Item<Object>>(), false, true,
+                        new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterListener<Object>>(),
+                        new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
+                        new LinkedHashSet<ListItemStateListener<Object>>());
+        abstractItemStateListAdapter.triggerItemState(-1);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to trigger the state of a specific item,
-     * if the item's state is not already the maximum state.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testTriggerItemStateWhenStateIsNotMaxState() {
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1100,17 +1005,15 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to trigger the state of a specific item,
-     * if the item's state is already the maximum state.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testTriggerItemStateWhenStateIsMaxState() {
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1132,17 +1035,15 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to trigger the state of a specific item,
-     * if the item is disabled.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testTriggerItemStateWhenItemIsDisabled() {
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1163,61 +1064,46 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertFalse(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown by the method, which allows to trigger
-     * the state of a specific item, if the item is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testTriggerItemStateThrowsExceptionWhenItemIsNull() {
-        try {
-            AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                    new AbstractItemStateListAdapterImplementation(getContext(),
-                            new ListDecoratorImplementation(), LogLevel.ALL,
-                            new ArrayList<Item<Object>>(), false, true,
-                            new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterListener<Object>>(),
-                            new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
-                            new LinkedHashSet<ListItemStateListener<Object>>());
-            abstractItemStateListAdapter.triggerItemState(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
+                new AbstractItemStateListAdapterImplementation(context,
+                        new ListDecoratorImplementation(), LogLevel.ALL,
+                        new ArrayList<Item<Object>>(), false, true,
+                        new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterListener<Object>>(),
+                        new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
+                        new LinkedHashSet<ListItemStateListener<Object>>());
+        abstractItemStateListAdapter.triggerItemState(null);
     }
 
-    /**
-     * Ensures, that a {@link NoSuchElementException} is thrown by the method, which allows to
-     * trigger the state of a specific item, if the item does not belong to the adapter.
-     */
+    @Test(expected = NoSuchElementException.class)
     public final void testTriggerItemStateThrowsExceptionWhenAdapterDoesNotContainItem() {
-        try {
-            AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                    new AbstractItemStateListAdapterImplementation(getContext(),
-                            new ListDecoratorImplementation(), LogLevel.ALL,
-                            new ArrayList<Item<Object>>(), false, true,
-                            new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterListener<Object>>(),
-                            new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
-                            new LinkedHashSet<ListItemStateListener<Object>>());
-            abstractItemStateListAdapter.triggerItemState(new Object());
-            Assert.fail();
-        } catch (NoSuchElementException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
+                new AbstractItemStateListAdapterImplementation(context,
+                        new ListDecoratorImplementation(), LogLevel.ALL,
+                        new ArrayList<Item<Object>>(), false, true,
+                        new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterListener<Object>>(),
+                        new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
+                        new LinkedHashSet<ListItemStateListener<Object>>());
+        abstractItemStateListAdapter.triggerItemState(new Object());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to trigger the states of all items.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testTriggerAllItemStates() {
         Object item1 = new Object();
         Object item2 = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1243,18 +1129,16 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to trigger the states of all items, if
-     * not all states are changed.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testTriggerAllItemStatesWhenNotAllStatesAreChanged() {
         Object item1 = new Object();
         Object item2 = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1279,15 +1163,13 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the index of the first item,
-     * which has a specific state.
-     */
+    @Test
     public final void testGetFirstIndexWithSpecificState() {
         Object item1 = new Object();
         Object item2 = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1300,15 +1182,13 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertEquals(0, abstractItemStateListAdapter.getFirstIndexWithSpecificState(0));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the index of the first item,
-     * which has a specific state, if no item has the state.
-     */
+    @Test
     public final void testGetFirstIndexWithSpecificStateWhenNoItemHasState() {
         Object item1 = new Object();
         Object item2 = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1321,13 +1201,11 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertEquals(-1, abstractItemStateListAdapter.getFirstIndexWithSpecificState(1));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the index of the first item,
-     * which has a specific state, if the adapter is empty.
-     */
+    @Test
     public final void testGetFirstIndexWithSpecificStateWhenAdapterIsEmpty() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1338,15 +1216,13 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertEquals(-1, abstractItemStateListAdapter.getFirstIndexWithSpecificState(0));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the first item, which has a
-     * specific state.
-     */
+    @Test
     public final void testGetFirstItemWithSpecificState() {
         Object item1 = new Object();
         Object item2 = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1359,15 +1235,13 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertEquals(item1, abstractItemStateListAdapter.getFirstItemWithSpecificState(0));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the first item, which has a
-     * specific state, if no item has the state.
-     */
+    @Test
     public final void testGetFirstItemWithSpecificStateWhenNoItemHasState() {
         Object item1 = new Object();
         Object item2 = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1380,13 +1254,11 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertNull(abstractItemStateListAdapter.getFirstItemWithSpecificState(1));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the first item, which has a
-     * specific state, if the adapter is empty.
-     */
+    @Test
     public final void testGetFirstItemWithSpecificStateWhenAdapterIsEmpty() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1397,15 +1269,13 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertNull(abstractItemStateListAdapter.getFirstItemWithSpecificState(0));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the index of the last item,
-     * which has a specific state.
-     */
+    @Test
     public final void testGetLastIndexWithSpecificState() {
         Object item1 = new Object();
         Object item2 = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1418,15 +1288,13 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertEquals(1, abstractItemStateListAdapter.getLastIndexWithSpecificState(0));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the index of the last item,
-     * which has a specific state, if no item has the state.
-     */
+    @Test
     public final void testGetLastIndexWithSpecificStateWhenNoItemHasState() {
         Object item1 = new Object();
         Object item2 = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1439,13 +1307,11 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertEquals(-1, abstractItemStateListAdapter.getLastIndexWithSpecificState(1));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the index of the last item,
-     * which has a specific state, if the adapter is empty.
-     */
+    @Test
     public final void testGetLastIndexWithSpecificStateWhenAdapterIsEmpty() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1456,15 +1322,13 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertEquals(-1, abstractItemStateListAdapter.getLastIndexWithSpecificState(0));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the last item, which has a
-     * specific state.
-     */
+    @Test
     public final void testGetLastItemWithSpecificState() {
         Object item1 = new Object();
         Object item2 = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1477,15 +1341,13 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertEquals(item2, abstractItemStateListAdapter.getLastItemWithSpecificState(0));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the last item, which has a
-     * specific state, if no item has the state.
-     */
+    @Test
     public final void testGetLastItemWithSpecificStateWhenNoItemHasState() {
         Object item1 = new Object();
         Object item2 = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1498,13 +1360,11 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertNull(abstractItemStateListAdapter.getLastItemWithSpecificState(1));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the last item, which has a
-     * specific state, if the adapter is empty.
-     */
+    @Test
     public final void testGetLastItemWithSpecificStateWhenAdapterIsEmpty() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1515,16 +1375,14 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertNull(abstractItemStateListAdapter.getLastItemWithSpecificState(0));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve a collection, which contains
-     * the indices of all items, which have a specific state.
-     */
+    @Test
     public final void testGetIndicesWithSpecificState() {
         Object item1 = new Object();
         Object item2 = new Object();
         Object item3 = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1543,14 +1401,12 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertEquals(2, iterator.next().intValue());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve a collection, which contains
-     * the indices of all items, which have a specific state, if no item has the state.
-     */
+    @Test
     public final void testGetIndicesWithSpecificStateWhenNoItemHasState() {
         Object item = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1563,13 +1419,11 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertTrue(indices.isEmpty());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve a collection, which contains
-     * the indices of all items, which have a specific state, if the adapter is empty.
-     */
+    @Test
     public final void testGetIndicesWithSpecificStateWhenAdapterIsEmpty() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1581,16 +1435,14 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertTrue(indices.isEmpty());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve a collection, which contains
-     * all items, which have a specific state.
-     */
+    @Test
     public final void testGetItemsWithSpecificState() {
         Object item1 = new Object();
         Object item2 = new Object();
         Object item3 = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1609,14 +1461,12 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertEquals(item3, iterator.next());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve a collection, which contains
-     * all items, which have a specific state, if no item has the state.
-     */
+    @Test
     public final void testGetItemsWithSpecificStateWhenNoItemHasState() {
         Object item = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1629,13 +1479,11 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertTrue(items.isEmpty());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve a collection, which contains
-     * all items, which have a specific state, if the adapter is empty.
-     */
+    @Test
     public final void testGetItemsWithSpecificStateWhenAdapterIsEmpty() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1647,16 +1495,14 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertTrue(items.isEmpty());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the number of items, which
-     * have a specific state.
-     */
+    @Test
     public final void testGetItemStateCountWithSpecificState() {
         Object item1 = new Object();
         Object item2 = new Object();
         Object item3 = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1671,14 +1517,12 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertEquals(2, abstractItemStateListAdapter.getItemStateCount(0));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the number of items, which
-     * have a specific state, if no item has the state.
-     */
+    @Test
     public final void testGetItemStateCountWhenNotItemHasState() {
         Object item1 = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1690,13 +1534,11 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertEquals(0, abstractItemStateListAdapter.getItemStateCount(1));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the number of items, which
-     * have a specific state, if the adapter is empty.
-     */
+    @Test
     public final void testGetItemStateCountWhenAdapterIsEmpty() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1707,14 +1549,12 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertEquals(0, abstractItemStateListAdapter.getItemStateCount(0));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add a listener, which should be
-     * notified, when the state of an item has been changed.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddItemStateListener() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1731,37 +1571,28 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
                 .contains(listItemStateListener));
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if a {@link ListItemStateListener},
-     * which is null, should be added to the adapter.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testAddItemStateListenerThrowsExceptionWhenListenerIsNull() {
-        try {
-            AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                    new AbstractItemStateListAdapterImplementation(getContext(),
-                            new ListDecoratorImplementation(), LogLevel.ALL,
-                            new ArrayList<Item<Object>>(), false, true,
-                            new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
-                            new LinkedHashSet<ListAdapterListener<Object>>(),
-                            new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
-                            new LinkedHashSet<ListItemStateListener<Object>>());
-            abstractItemStateListAdapter.addItemStateListener(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
+                new AbstractItemStateListAdapterImplementation(context,
+                        new ListDecoratorImplementation(), LogLevel.ALL,
+                        new ArrayList<Item<Object>>(), false, true,
+                        new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<Object>>(),
+                        new LinkedHashSet<ListAdapterListener<Object>>(),
+                        new LinkedHashSet<ListEnableStateListener<Object>>(), 2, false,
+                        new LinkedHashSet<ListItemStateListener<Object>>());
+        abstractItemStateListAdapter.addItemStateListener(null);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to remove a listener, which should not be
-     * notified, when the state of an item has been changed, anymore.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testRemoveItemStateListener() {
         ListItemStateListener<Object> listItemStateListener = mock(ListItemStateListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1776,15 +1607,14 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertTrue(abstractItemStateListAdapter.getItemStateListeners().isEmpty());
     }
 
-    /**
-     * Tests the functionality of the onSaveInstanceState-method.
-     */
+    @Test
     public final void testOnSaveInstanceState() {
         Bundle outState = new Bundle();
         int numberOfItemStates = 2;
         boolean triggerItemStateOnClick = true;
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1803,12 +1633,11 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
         assertEquals(triggerItemStateOnClick, savedTriggerItemStateOnClick);
     }
 
-    /**
-     * Tests the functionality of the onRestoreInstanceState-method.
-     */
+    @Test
     public final void testOnRestoreInstanceState() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1831,12 +1660,11 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
                 abstractItemStateListAdapter.isItemStateTriggeredOnClick());
     }
 
-    /**
-     * Tests the functionality of the hashCode-method.
-     */
+    @Test
     public final void testHashCode() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter1 =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1845,7 +1673,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
                         new LinkedHashSet<ListEnableStateListener<Object>>(), 1, false,
                         new LinkedHashSet<ListItemStateListener<Object>>());
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter2 =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1874,12 +1702,11 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
                 abstractItemStateListAdapter1.isItemStateTriggeredOnClick());
     }
 
-    /**
-     * Tests the functionality of the equals-method.
-     */
+    @Test
     public final void testEquals() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter1 =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),
@@ -1888,7 +1715,7 @@ public class AbstractItemStateListAdapterTest extends AndroidTestCase {
                         new LinkedHashSet<ListEnableStateListener<Object>>(), 1, false,
                         new LinkedHashSet<ListItemStateListener<Object>>());
         AbstractItemStateListAdapterImplementation abstractItemStateListAdapter2 =
-                new AbstractItemStateListAdapterImplementation(getContext(),
+                new AbstractItemStateListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<Object>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<Object>>(),

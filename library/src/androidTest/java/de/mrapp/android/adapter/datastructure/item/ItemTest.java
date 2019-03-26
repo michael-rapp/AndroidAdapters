@@ -16,15 +16,22 @@ package de.mrapp.android.adapter.datastructure.item;
 import android.os.Bundle;
 import android.os.Parcel;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
 
 /**
  * Tests the functionality of the class {@link Item}.
  *
  * @author Michael Rapp
  */
-public class ItemTest extends TestCase {
+@RunWith(AndroidJUnit4.class)
+public class ItemTest {
 
     /**
      * An implementation of the interface {@link Cloneable}, which is needed for test purposes.
@@ -38,9 +45,7 @@ public class ItemTest extends TestCase {
 
     }
 
-    /**
-     * Tests, if all properties are set correctly by the constructor.
-     */
+    @Test
     public final void testConstructor() {
         Object data = new Object();
         Item<Object> item = new Item<>(data);
@@ -50,10 +55,7 @@ public class ItemTest extends TestCase {
         assertEquals(item.isSelected(), false);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set, whether the item is selected, or
-     * not.
-     */
+    @Test
     public final void testSetSelected() {
         boolean selected = true;
         Item<Object> item = new Item<>(new Object());
@@ -61,10 +63,7 @@ public class ItemTest extends TestCase {
         assertEquals(item.isSelected(), selected);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set, whether the item is enabled, or
-     * not.
-     */
+    @Test
     public final void testSetEnabled() {
         boolean enabled = false;
         Item<Object> item = new Item<>(new Object());
@@ -72,9 +71,7 @@ public class ItemTest extends TestCase {
         assertEquals(item.isEnabled(), enabled);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set the item's state.
-     */
+    @Test
     public final void testSetState() {
         int state = 1;
         Item<Object> item = new Item<>(new Object());
@@ -82,26 +79,13 @@ public class ItemTest extends TestCase {
         assertEquals(item.getState(), state);
     }
 
-    /**
-     * Ensures, that an {@link IllegalArgumentException} is thrown, if the item's state is set to a
-     * value less than 0.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testSetStateToLessThanZeroThrowsException() {
-        try {
-            Item<Object> item = new Item<>(new Object());
-            item.setState(-1);
-            Assert.fail();
-        } catch (IllegalArgumentException e) {
-
-        }
+        Item<Object> item = new Item<>(new Object());
+        item.setState(-1);
     }
 
-    /**
-     * Tests the functionality of the clone-method.
-     *
-     * @throws CloneNotSupportedException
-     *         The exception, which is thrown, if cloning is not supported
-     */
+    @Test
     public final void testClone() throws CloneNotSupportedException {
         CloneableImplementation data = new CloneableImplementation();
         boolean enabled = false;
@@ -119,23 +103,14 @@ public class ItemTest extends TestCase {
         assertEquals(clonedItem.getState(), state);
     }
 
-    /**
-     * Ensures, that a {@link CloneNotSupportedException} is thrown, if cloning is not supported by
-     * the item's data.
-     */
-    public final void testCloneThrowsCloneNotSupportedException() {
-        try {
-            Item<Object> item = new Item<>(new Object());
-            item.clone();
-            Assert.fail();
-        } catch (CloneNotSupportedException e) {
-
-        }
+    @Test(expected = CloneNotSupportedException.class)
+    public final void testCloneThrowsCloneNotSupportedException()
+            throws CloneNotSupportedException {
+        Item<Object> item = new Item<>(new Object());
+        item.clone();
     }
 
-    /**
-     * Tests the functionality of the toString-method.
-     */
+    @Test
     public final void testToString() {
         Object data = new Object();
         boolean enabled = true;
@@ -150,9 +125,7 @@ public class ItemTest extends TestCase {
                         ", state=" + state + "]");
     }
 
-    /**
-     * Tests the functionality of the hashCode-method.
-     */
+    @Test
     public final void testHashCode() {
         Object data = new Object();
         Item<Object> item1 = new Item<>(data);
@@ -169,9 +142,7 @@ public class ItemTest extends TestCase {
         assertNotSame(item1.hashCode(), item2.hashCode());
     }
 
-    /**
-     * Tests the functionality of the equals-method.
-     */
+    @Test
     public final void testEquals() {
         Object data = new Object();
         Item<Object> item1 = new Item<>(data);
@@ -190,10 +161,7 @@ public class ItemTest extends TestCase {
         assertEquals(item1.equals(item2), false);
     }
 
-    /**
-     * Tests the createFromParcel-method of the creator, which allows to create instances from a
-     * {@link Parcel}.
-     */
+    @Test
     public final void testCreatorCreateFromParcel() {
         boolean enabled = false;
         boolean selected = true;
@@ -216,10 +184,7 @@ public class ItemTest extends TestCase {
         parcel.recycle();
     }
 
-    /**
-     * Tests the newArray-method of the creator, which allows to create instances from a {@link
-     * Parcel}.
-     */
+    @Test
     public final void testCreatorNewArray() {
         int size = 1;
         Item<?>[] array = Item.CREATOR.newArray(size);

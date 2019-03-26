@@ -15,14 +15,12 @@ package de.mrapp.android.adapter.list.sortable;
 
 import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import android.test.AndroidTestCase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import junit.framework.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,6 +29,10 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 import de.mrapp.android.adapter.DataSetObserver;
 import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.FilterQuery;
@@ -46,6 +48,11 @@ import de.mrapp.android.adapter.list.filterable.ListFilterListener;
 import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
 import de.mrapp.android.util.logging.LogLevel;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isNull;
@@ -58,7 +65,8 @@ import static org.mockito.Mockito.verify;
  *
  * @author Michael Rapp
  */
-public class AbstractSortableListAdapterTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class AbstractSortableListAdapterTest {
 
     /**
      * An implementation of the abstract class {@link AbstractSortableListAdapter}, which is needed
@@ -281,13 +289,12 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
 
     }
 
-    /**
-     * Tests, if all properties are set correctly by the constructor.
-     */
+    @Test
     public final void testConstructor() {
         Set<ListSortingListener<ComparableImplementation>> sortingListeners = new LinkedHashSet<>();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractSortableListAdapterImplementation abstractSortableListAdapter =
-                new AbstractSortableListAdapterImplementation(getContext(),
+                new AbstractSortableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
@@ -300,35 +307,24 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
         assertNull(abstractSortableListAdapter.getOrder());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if the set, which contains the
-     * sorting listeners, which is passed to the constructor, is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testConstructorThrowsExceptionWhenSortingListenersIsNull() {
-        try {
-            new AbstractSortableListAdapterImplementation(getContext(),
-                    new ListDecoratorImplementation(), LogLevel.ALL,
-                    new ArrayList<Item<ComparableImplementation>>(), false, true,
-                    new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
-                    new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
-                    new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
-                    new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(), 1,
-                    false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
-                    null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        new AbstractSortableListAdapterImplementation(context, new ListDecoratorImplementation(),
+                LogLevel.ALL, new ArrayList<Item<ComparableImplementation>>(), false, true,
+                new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
+                new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
+                new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
+                new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(), 1, false,
+                new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(), null);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add a listener, which should be
-     * notified, when the adapter's underlying data has been sorted, to the adapter.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddSortingListener() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractSortableListAdapterImplementation abstractSortableListAdapter =
-                new AbstractSortableListAdapterImplementation(getContext(),
+                new AbstractSortableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
@@ -344,38 +340,28 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
         assertTrue(abstractSortableListAdapter.getSortingListeners().contains(listSortingListener));
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if a {@link ListSortingListener},
-     * which is null, should be added to the adapter.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testAddSortingListenerThrowsExceptionWhenListenerIsNull() {
-        try {
-            AbstractSortableListAdapterImplementation abstractSortableListAdapter =
-                    new AbstractSortableListAdapterImplementation(getContext(),
-                            new ListDecoratorImplementation(), LogLevel.ALL,
-                            new ArrayList<Item<ComparableImplementation>>(), false, true,
-                            new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
-                            new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
-                            new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
-                            new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(),
-                            1, false,
-                            new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
-                            new LinkedHashSet<ListSortingListener<ComparableImplementation>>());
-            abstractSortableListAdapter.addSortingListener(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        AbstractSortableListAdapterImplementation abstractSortableListAdapter =
+                new AbstractSortableListAdapterImplementation(context,
+                        new ListDecoratorImplementation(), LogLevel.ALL,
+                        new ArrayList<Item<ComparableImplementation>>(), false, true,
+                        new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(), 1,
+                        false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListSortingListener<ComparableImplementation>>());
+        abstractSortableListAdapter.addSortingListener(null);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to remove a listener, which should not be
-     * notified, when the adapter's underlying data has been sorted, anymore, from the adapter.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testRemoveSortingListener() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractSortableListAdapterImplementation abstractSortableListAdapter =
-                new AbstractSortableListAdapterImplementation(getContext(),
+                new AbstractSortableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
@@ -393,43 +379,33 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
         assertTrue(abstractSortableListAdapter.getSortingListeners().isEmpty());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if a {@link ListSortingListener},
-     * which is null, should be removed from the adapter.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testRemoveSortingListenerThrowsExceptionWhenListenerIsNull() {
-        try {
-            AbstractSortableListAdapterImplementation abstractSortableListAdapter =
-                    new AbstractSortableListAdapterImplementation(getContext(),
-                            new ListDecoratorImplementation(), LogLevel.ALL,
-                            new ArrayList<Item<ComparableImplementation>>(), false, true,
-                            new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
-                            new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
-                            new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
-                            new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(),
-                            1, false,
-                            new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
-                            new LinkedHashSet<ListSortingListener<ComparableImplementation>>());
-            abstractSortableListAdapter.removeSortingListener(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        AbstractSortableListAdapterImplementation abstractSortableListAdapter =
+                new AbstractSortableListAdapterImplementation(context,
+                        new ListDecoratorImplementation(), LogLevel.ALL,
+                        new ArrayList<Item<ComparableImplementation>>(), false, true,
+                        new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(), 1,
+                        false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListSortingListener<ComparableImplementation>>());
+        abstractSortableListAdapter.removeSortingListener(null);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to sort the adapter's items in the
-     * default order.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSortByDefaultOrder() {
         ComparableImplementation item1 = new ComparableImplementation(2);
         ComparableImplementation item2 = new ComparableImplementation(1);
         ListSortingListener<ComparableImplementation> listSortingListener =
                 mock(ListSortingListener.class);
         DataSetObserver dataSetObserver = new DataSetObserver();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractSortableListAdapterImplementation abstractSortableListAdapter =
-                new AbstractSortableListAdapterImplementation(getContext(),
+                new AbstractSortableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
@@ -453,11 +429,8 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
         assertEquals(Order.ASCENDING, abstractSortableListAdapter.getOrder());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to sort the adapter's items in ascending
-     * order.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSortByAscendingOrder() {
         ComparableImplementation item1 = new ComparableImplementation(2);
         ComparableImplementation item2 = new ComparableImplementation(1);
@@ -465,8 +438,9 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
         ListSortingListener<ComparableImplementation> listSortingListener =
                 mock(ListSortingListener.class);
         DataSetObserver dataSetObserver = new DataSetObserver();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractSortableListAdapterImplementation abstractSortableListAdapter =
-                new AbstractSortableListAdapterImplementation(getContext(),
+                new AbstractSortableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
@@ -490,11 +464,8 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
         assertEquals(order, abstractSortableListAdapter.getOrder());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to sort the adapter's items in descending
-     * order.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSortByDescendingOrder() {
         ComparableImplementation item1 = new ComparableImplementation(1);
         ComparableImplementation item2 = new ComparableImplementation(2);
@@ -502,8 +473,9 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
         ListSortingListener<ComparableImplementation> listSortingListener =
                 mock(ListSortingListener.class);
         DataSetObserver dataSetObserver = new DataSetObserver();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractSortableListAdapterImplementation abstractSortableListAdapter =
-                new AbstractSortableListAdapterImplementation(getContext(),
+                new AbstractSortableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
@@ -527,44 +499,34 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
         assertEquals(order, abstractSortableListAdapter.getOrder());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if the adapter's items should be
-     * sorted by an order, which is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testSortThrowsExceptionWhenOrderIsNull() {
-        try {
-            AbstractSortableListAdapterImplementation abstractSortableListAdapter =
-                    new AbstractSortableListAdapterImplementation(getContext(),
-                            new ListDecoratorImplementation(), LogLevel.ALL,
-                            new ArrayList<Item<ComparableImplementation>>(), false, true,
-                            new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
-                            new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
-                            new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
-                            new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(),
-                            1, false,
-                            new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
-                            new LinkedHashSet<ListSortingListener<ComparableImplementation>>());
-            Order order = null;
-            abstractSortableListAdapter.sort(order);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        AbstractSortableListAdapterImplementation abstractSortableListAdapter =
+                new AbstractSortableListAdapterImplementation(context,
+                        new ListDecoratorImplementation(), LogLevel.ALL,
+                        new ArrayList<Item<ComparableImplementation>>(), false, true,
+                        new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(), 1,
+                        false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListSortingListener<ComparableImplementation>>());
+        Order order = null;
+        abstractSortableListAdapter.sort(order);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to sort the adapter's items using a
-     * specific comparator in the default order.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSortUsingComparatorByDefaultOrder() {
         ComparableImplementation item1 = new ComparableImplementation(2);
         ComparableImplementation item2 = new ComparableImplementation(1);
         ListSortingListener<ComparableImplementation> listSortingListener =
                 mock(ListSortingListener.class);
         DataSetObserver dataSetObserver = new DataSetObserver();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractSortableListAdapterImplementation abstractSortableListAdapter =
-                new AbstractSortableListAdapterImplementation(getContext(),
+                new AbstractSortableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
@@ -589,11 +551,8 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
         assertEquals(Order.ASCENDING, abstractSortableListAdapter.getOrder());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to sort the adapter's items using a
-     * specific comparator in ascending order.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSortUsingComparatorByAscendingOrder() {
         ComparableImplementation item1 = new ComparableImplementation(2);
         ComparableImplementation item2 = new ComparableImplementation(1);
@@ -601,8 +560,9 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
         ListSortingListener<ComparableImplementation> listSortingListener =
                 mock(ListSortingListener.class);
         DataSetObserver dataSetObserver = new DataSetObserver();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractSortableListAdapterImplementation abstractSortableListAdapter =
-                new AbstractSortableListAdapterImplementation(getContext(),
+                new AbstractSortableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
@@ -627,11 +587,8 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
         assertEquals(order, abstractSortableListAdapter.getOrder());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to sort the adapter's items using a
-     * specific comparator in descending order.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSortUsingComparatorByDescendingOrder() {
         ComparableImplementation item1 = new ComparableImplementation(1);
         ComparableImplementation item2 = new ComparableImplementation(2);
@@ -639,8 +596,9 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
         ListSortingListener<ComparableImplementation> listSortingListener =
                 mock(ListSortingListener.class);
         DataSetObserver dataSetObserver = new DataSetObserver();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractSortableListAdapterImplementation abstractSortableListAdapter =
-                new AbstractSortableListAdapterImplementation(getContext(),
+                new AbstractSortableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
@@ -665,87 +623,27 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
         assertEquals(order, abstractSortableListAdapter.getOrder());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if the adapter's items should be
-     * sorted by an order, which is null, using a specific comparator.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testSortUsingComparatorThrowsExceptionWhenOrderIsNull() {
-        try {
-            AbstractSortableListAdapterImplementation abstractSortableListAdapter =
-                    new AbstractSortableListAdapterImplementation(getContext(),
-                            new ListDecoratorImplementation(), LogLevel.ALL,
-                            new ArrayList<Item<ComparableImplementation>>(), false, true,
-                            new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
-                            new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
-                            new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
-                            new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(),
-                            1, false,
-                            new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
-                            new LinkedHashSet<ListSortingListener<ComparableImplementation>>());
-            abstractSortableListAdapter.sort(null, new ComparatorImplementation());
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
-    }
-
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if the adapter's items should be
-     * sorted in the default order, using a specific comparator, which is null.
-     */
-    public final void testSortUsingComparatorByDefaultOrderThrowsExceptionWhenComparatorIsNull() {
-        try {
-            AbstractSortableListAdapterImplementation abstractSortableListAdapter =
-                    new AbstractSortableListAdapterImplementation(getContext(),
-                            new ListDecoratorImplementation(), LogLevel.ALL,
-                            new ArrayList<Item<ComparableImplementation>>(), false, true,
-                            new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
-                            new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
-                            new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
-                            new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(),
-                            1, false,
-                            new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
-                            new LinkedHashSet<ListSortingListener<ComparableImplementation>>());
-            Comparator<ComparableImplementation> comparator = null;
-            abstractSortableListAdapter.sort(comparator);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
-    }
-
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if the adapter's items should be
-     * sorted in a specific order, using a specific comparator, which is null.
-     */
-    public final void testSortUsingComparatorBySpecificOrderThrowsExceptionWhenComparatorIsNull() {
-        try {
-            AbstractSortableListAdapterImplementation abstractSortableListAdapter =
-                    new AbstractSortableListAdapterImplementation(getContext(),
-                            new ListDecoratorImplementation(), LogLevel.ALL,
-                            new ArrayList<Item<ComparableImplementation>>(), false, true,
-                            new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
-                            new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
-                            new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
-                            new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(),
-                            1, false,
-                            new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
-                            new LinkedHashSet<ListSortingListener<ComparableImplementation>>());
-            Comparator<ComparableImplementation> comparator = null;
-            abstractSortableListAdapter.sort(Order.DESCENDING, comparator);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
-    }
-
-    /**
-     * Ensures, that the order of the adapter's items is invalidated, when an item is added to the
-     * adapter.
-     */
-    public final void testAddItemInvalidatesOrder() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractSortableListAdapterImplementation abstractSortableListAdapter =
-                new AbstractSortableListAdapterImplementation(getContext(),
+                new AbstractSortableListAdapterImplementation(context,
+                        new ListDecoratorImplementation(), LogLevel.ALL,
+                        new ArrayList<Item<ComparableImplementation>>(), false, true,
+                        new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(), 1,
+                        false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListSortingListener<ComparableImplementation>>());
+        abstractSortableListAdapter.sort(null, new ComparatorImplementation());
+    }
+
+    @Test
+    public final void testAddItemInvalidatesOrder() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        AbstractSortableListAdapterImplementation abstractSortableListAdapter =
+                new AbstractSortableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
@@ -764,13 +662,11 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
         assertNull(abstractSortableListAdapter.getOrder());
     }
 
-    /**
-     * Ensures, that the order of the adapter's items is invalidated, when an item is removed from
-     * the adapter.
-     */
+    @Test
     public final void testRemoveItemInvalidatesOrder() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractSortableListAdapterImplementation abstractSortableListAdapter =
-                new AbstractSortableListAdapterImplementation(getContext(),
+                new AbstractSortableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
@@ -789,12 +685,11 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
         assertNull(abstractSortableListAdapter.getOrder());
     }
 
-    /**
-     * Tests the functionality of the hashCode-method.
-     */
+    @Test
     public final void testHashCode() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractSortableListAdapterImplementation abstractSortableListAdapter1 =
-                new AbstractSortableListAdapterImplementation(getContext(),
+                new AbstractSortableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
@@ -804,7 +699,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                         false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListSortingListener<ComparableImplementation>>());
         AbstractSortableListAdapterImplementation abstractSortableListAdapter2 =
-                new AbstractSortableListAdapterImplementation(getContext(),
+                new AbstractSortableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
@@ -822,12 +717,11 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                 abstractSortableListAdapter2.hashCode());
     }
 
-    /**
-     * Tests the functionality of the equals-method.
-     */
+    @Test
     public final void testEquals() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractSortableListAdapterImplementation abstractSortableListAdapter1 =
-                new AbstractSortableListAdapterImplementation(getContext(),
+                new AbstractSortableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
@@ -837,7 +731,7 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
                         false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
                         new LinkedHashSet<ListSortingListener<ComparableImplementation>>());
         AbstractSortableListAdapterImplementation abstractSortableListAdapter2 =
-                new AbstractSortableListAdapterImplementation(getContext(),
+                new AbstractSortableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
@@ -854,14 +748,13 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
         assertFalse(abstractSortableListAdapter1.equals(abstractSortableListAdapter2));
     }
 
-    /**
-     * Tests the functionality of the onSaveInstanceState-method.
-     */
+    @Test
     public final void testOnSaveInstanceState() {
         Bundle outState = new Bundle();
         Order order = Order.DESCENDING;
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractSortableListAdapterImplementation abstractSortableListAdapter =
-                new AbstractSortableListAdapterImplementation(getContext(),
+                new AbstractSortableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
@@ -877,14 +770,13 @@ public class AbstractSortableListAdapterTest extends AndroidTestCase {
         assertEquals(savedOrder, order);
     }
 
-    /**
-     * Tests the functionality of the onRestoreInstanceState-method.
-     */
+    @Test
     public final void testOnRestoreInstanceState() {
         String key = "keyadapter";
         Order order = Order.DESCENDING;
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractSortableListAdapterImplementation abstractSortableListAdapter =
-                new AbstractSortableListAdapterImplementation(getContext(),
+                new AbstractSortableListAdapterImplementation(context,
                         new ListDecoratorImplementation(), LogLevel.ALL,
                         new ArrayList<Item<ComparableImplementation>>(), false, true,
                         new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),

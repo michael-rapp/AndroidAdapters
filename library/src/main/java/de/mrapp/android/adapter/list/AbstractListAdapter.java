@@ -990,6 +990,7 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
     @SafeVarargs
     @Override
     public final boolean addAllItems(final int index, @NonNull final DataType... items) {
+        Condition.INSTANCE.ensureNotNull(items, "The array may not be null");
         return addAllItems(index, Arrays.asList(items));
     }
 

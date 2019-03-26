@@ -15,20 +15,22 @@ package de.mrapp.android.adapter.list.selectable;
 
 import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import android.test.AndroidTestCase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import junit.framework.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 import de.mrapp.android.adapter.DataSetObserver;
 import de.mrapp.android.adapter.Filterable;
 import de.mrapp.android.adapter.R;
@@ -44,6 +46,10 @@ import de.mrapp.android.adapter.list.itemstate.ListItemStateListener;
 import de.mrapp.android.adapter.list.sortable.ListSortingListener;
 import de.mrapp.android.util.logging.LogLevel;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -53,7 +59,8 @@ import static org.mockito.Mockito.verify;
  *
  * @author Michael Rapp
  */
-public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class SingleChoiceListAdapterImplementationTest {
 
     /**
      * An implementation of the abstract class {@link SelectableListDecorator}, which is needed for
@@ -117,11 +124,9 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
 
     }
 
-    /**
-     * Tests, if all properties are set correctly by the protected constructor.
-     */
+    @Test
     public final void testProtectedConstructor() {
-        Context context = getContext();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SelectableListDecorator<Object> decorator = new SelectableListDecoratorImplementation();
         ArrayList<Item<Object>> items = new ArrayList<>();
         boolean allowDuplicates = true;
@@ -161,24 +166,20 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
                 singleChoiceListAdapterImplementation.isSelectionAdaptedAutomatically());
     }
 
-    /**
-     * Tests, if all properties are set correctly by the public constructor.
-     */
+    @Test
     public final void testPublicConstructor() {
-        Context context = getContext();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SelectableListDecorator<Object> decorator = new SelectableListDecoratorImplementation();
         new SingleChoiceListAdapterImplementation<>(context, decorator);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the index of the currently
-     * selected item.
-     */
+    @Test
     public final void testGetSelectedIndex() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         Object item1 = new Object();
         Object item2 = new Object();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(),
+                new SingleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.addItem(item1);
         singleChoiceListAdapterImplementation.addItem(item2);
@@ -186,39 +187,34 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         assertEquals(1, singleChoiceListAdapterImplementation.getSelectedIndex());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the index of the currently
-     * selected item, if the adapter is empty.
-     */
+    @Test
     public final void testGetSelectedIndexWhenAdapterIsEmpty() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(),
+                new SingleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         assertEquals(-1, singleChoiceListAdapterImplementation.getSelectedIndex());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the index of the currently
-     * selected item, if all items are disabled.
-     */
+    @Test
     public final void testGetSelectedIndexWhenAllItemsAreDisabled() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         Object item = new Object();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(),
+                new SingleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.addItem(item);
         singleChoiceListAdapterImplementation.setEnabled(item, false);
         assertEquals(-1, singleChoiceListAdapterImplementation.getSelectedIndex());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the currently selected item.
-     */
+    @Test
     public final void testGetSelectedItem() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         Object item1 = new Object();
         Object item2 = new Object();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(),
+                new SingleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.addItem(item1);
         singleChoiceListAdapterImplementation.addItem(item2);
@@ -226,43 +222,37 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         assertEquals(item2, singleChoiceListAdapterImplementation.getSelectedItem());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the currently selected item,
-     * if the adapter is empty.
-     */
+    @Test
     public final void testGetSelectedItemWhenAdapterIsEmpty() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(),
+                new SingleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         assertNull(singleChoiceListAdapterImplementation.getSelectedItem());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the currently selected item,
-     * if no item is enabled.
-     */
+    @Test
     public final void testGetSelectedWhenNoItemIsEnabled() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         Object item = new Object();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(),
+                new SingleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.addItem(item);
         singleChoiceListAdapterImplementation.setEnabled(item, false);
         assertNull(singleChoiceListAdapterImplementation.getSelectedItem());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to triggerSelection the item, which
-     * belongs to a specific index.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSelectByIndex() {
         Object item1 = new Object();
         Object item2 = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(),
+                new SingleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         singleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -279,17 +269,15 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to triggerSelection the item, which
-     * belongs to a specific index, if the item is already selected.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSelectByIndexWhenItemIsAlreadySelected() {
         Object item1 = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(),
+                new SingleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         singleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -303,18 +291,16 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to triggerSelection the item, which
-     * belongs to a specific index, if the item is disabled.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSelectByIndexWhenItemIsDisabled() {
         Object item1 = new Object();
         Object item2 = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(),
+                new SingleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         singleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -332,33 +318,25 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         assertFalse(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown by the method, which allows to
-     * triggerSelection the item, which belongs to a specific index, if the index is invalid.
-     */
+    @Test(expected = IndexOutOfBoundsException.class)
     public final void testSelectByIndexThrowsExceptionWhenIndexIsInvalid() {
-        try {
-            SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                    new SingleChoiceListAdapterImplementation<>(getContext(),
-                            new SelectableListDecoratorImplementation());
-            singleChoiceListAdapterImplementation.triggerSelection(-1);
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
+                new SingleChoiceListAdapterImplementation<>(context,
+                        new SelectableListDecoratorImplementation());
+        singleChoiceListAdapterImplementation.triggerSelection(-1);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to triggerSelection a specific item.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSelect() {
         Object item1 = new Object();
         Object item2 = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(),
+                new SingleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         singleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -375,17 +353,15 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to triggerSelection a specific item, if
-     * the item is already selected.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSelectWhenItemIsAlreadySelected() {
         Object item1 = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(),
+                new SingleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         singleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -399,18 +375,16 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to triggerSelection a specific item, if
-     * the item is disabled.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSelectWhenItemIsDisabled() {
         Object item1 = new Object();
         Object item2 = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(),
+                new SingleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         singleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -428,46 +402,30 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         assertFalse(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown by the method, which allows to
-     * triggerSelection a specific item, if the item is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testSelectThrowsExceptionWhenItemIsNull() {
-        try {
-            SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                    new SingleChoiceListAdapterImplementation<>(getContext(),
-                            new SelectableListDecoratorImplementation());
-            singleChoiceListAdapterImplementation.triggerSelection(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
+                new SingleChoiceListAdapterImplementation<>(context,
+                        new SelectableListDecoratorImplementation());
+        singleChoiceListAdapterImplementation.triggerSelection(null);
     }
 
-    /**
-     * Ensures, that a {@link NoSuchElementException} is thrown by the method, which allows to
-     * triggerSelection a specific item, if the item does not belong to the adapter.
-     */
+    @Test(expected = NoSuchElementException.class)
     public final void testSelectThrowsExceptionWhenAdapterDoesNotContainItem() {
-        try {
-            SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                    new SingleChoiceListAdapterImplementation<>(getContext(),
-                            new SelectableListDecoratorImplementation());
-            singleChoiceListAdapterImplementation.triggerSelection(new Object());
-            Assert.fail();
-        } catch (NoSuchElementException e) {
-
-        }
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
+                new SingleChoiceListAdapterImplementation<>(context,
+                        new SelectableListDecoratorImplementation());
+        singleChoiceListAdapterImplementation.triggerSelection(new Object());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set, whether the adapter's selection
-     * should be adapted automatically, or not.
-     */
+    @Test
     public final void testAdaptSelectionAutomatically() {
         boolean adaptSelectionAutomatically = false;
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(),
+                new SingleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation
                 .adaptSelectionAutomatically(adaptSelectionAutomatically);
@@ -475,16 +433,15 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
                 singleChoiceListAdapterImplementation.isSelectionAdaptedAutomatically());
     }
 
-    /**
-     * Ensures, that the selection is adapted, when an item is added to an empty adapter.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSelectionIsAdaptedWhenItemIsAddedToEmptyAdapter() {
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(),
+                new SingleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         singleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -495,19 +452,17 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that the selection is adapted correctly by ascending index, when the currently
-     * selected item is removed from the adapter.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSelectionIsAdaptedByAscendingIndexWhenSelectedItemIsRemoved() {
         Object item1 = new Object();
         Object item2 = new Object();
         Object item3 = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(),
+                new SingleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         singleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -523,19 +478,17 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that the selection is adapted correctly by descending index, when the currently
-     * selected item is removed from the adapter.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSelectionIsAdaptedByDescendingIndexWhenSelectedItemIsRemoved() {
         Object item1 = new Object();
         Object item2 = new Object();
         Object item3 = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(),
+                new SingleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         singleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -552,30 +505,26 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that the selection is adapted correctly, when the currently selected item is removed
-     * from the adapter and the adapter does not contain an other item.
-     */
+    @Test
     public final void testSelectionIsAdaptedWhenSelectedItemIsRemovedAndNoOtherItemExists() {
         Object item = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(),
+                new SingleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.addItem(item);
         singleChoiceListAdapterImplementation.removeItem(item);
         assertNull(singleChoiceListAdapterImplementation.getSelectedItem());
     }
 
-    /**
-     * Ensures, that the selection is adapted correctly, when the currently selected item is removed
-     * from the adapter and the adapter does not contain an other item, which is enabled.
-     */
+    @Test
     public final void testSelectionIsAdaptedWhenSelectedItemIsRemovedAndAllOtherItemsAreDisabled() {
         Object item1 = new Object();
         Object item2 = new Object();
         Object item3 = new Object();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(),
+                new SingleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.addItem(item1);
         singleChoiceListAdapterImplementation.addItem(item2);
@@ -586,17 +535,15 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         assertNull(singleChoiceListAdapterImplementation.getSelectedItem());
     }
 
-    /**
-     * Ensures, that the selection is adapted, when the only item, the adapter contains, becomes
-     * enabled.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSelectionIsAdaptedWhenOnlyItemBecomesEnabled() {
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(),
+                new SingleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         singleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -611,19 +558,17 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that the selection is adapted correctly by ascending index, when the currently
-     * selected item becomes disabled.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSelectionIsAdaptedByAscendingIndexWhenSelectedItemBecomesDisabled() {
         Object item1 = new Object();
         Object item2 = new Object();
         Object item3 = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(),
+                new SingleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         singleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -641,19 +586,17 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that the selection is adapted correctly by descending index, when the currently
-     * selected item becomes disabled.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSelectionIsAdaptedByDescendingIndexWhenSelectedItemBecomesDisabled() {
         Object item1 = new Object();
         Object item2 = new Object();
         Object item3 = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(),
+                new SingleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         singleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -672,17 +615,15 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that the selection is adapted correctly, when the currently selected item becomes
-     * disabled and the adapter does not contain an other item.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSelectionIsAdaptedWhenSelectedItemBecomesDisabledAndNoOtherItemExists() {
         Object item = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(),
+                new SingleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         singleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -695,19 +636,17 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that the selection is adapted correctly, when the currently selected item becomes
-     * disabled and the adapter does not contain an other item, which is enabled.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSelectionIsAdaptedWhenSelectedItemBecomesDisabledAndAllOtherItemsAreDisabled() {
         Object item1 = new Object();
         Object item2 = new Object();
         Object item3 = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
         ListSelectionListener<Object> listSelectionListener = mock(ListSelectionListener.class);
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(),
+                new SingleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.registerDataSetObserver(dataSetObserver);
         singleChoiceListAdapterImplementation.addSelectionListener(listSelectionListener);
@@ -723,13 +662,11 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that the selections of the unfiltered items are also adapted, when a filtered item
-     * is selected.
-     */
+    @Test
     public final void testAdaptUnfilteredItemsWhenItemIsSelected() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(),
+                new SingleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         FilterableImplementation item1 = new FilterableImplementation("cdefghij");
         FilterableImplementation item2 = new FilterableImplementation("bcquerystringdef");
@@ -744,13 +681,11 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         assertEquals(item3, singleChoiceListAdapterImplementation.getSelectedItem());
     }
 
-    /**
-     * Ensures, that the selections of the unfiltered items are also adapted, when a duplicate
-     * filtered item is selected.
-     */
+    @Test
     public final void testAdaptUnfilteredItemsWhenDuplicateItemIsSelected() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(),
+                new SingleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.allowDuplicates(true);
         FilterableImplementation item1 = new FilterableImplementation("cdefghij");
@@ -767,12 +702,11 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         assertTrue(singleChoiceListAdapterImplementation.isSelected(2));
     }
 
-    /**
-     * Ensures, that the selection is adapted, when the currently selected item is filtered.
-     */
+    @Test
     public final void testAdaptSelectionWhenSelectedItemIsFiltered() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(),
+                new SingleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.allowDuplicates(true);
         FilterableImplementation item1 = new FilterableImplementation("cdefghij");
@@ -786,12 +720,11 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         assertTrue(singleChoiceListAdapterImplementation.isSelected(1));
     }
 
-    /**
-     * Ensures, that the selection is adapted, when all items are filtered.
-     */
+    @Test
     public final void testAdaptSelectionWhenAllItemsAreFiltered() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(),
+                new SingleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation());
         singleChoiceListAdapterImplementation.allowDuplicates(true);
         FilterableImplementation item1 = new FilterableImplementation("cdefghij");
@@ -806,9 +739,7 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         assertFalse(singleChoiceListAdapterImplementation.isSelected(1));
     }
 
-    /**
-     * Tests the functionality of the toString-method.
-     */
+    @Test
     public final void testToString() {
         ArrayList<Item<Object>> items = new ArrayList<>();
         items.add(new Item<>(new Object()));
@@ -830,8 +761,9 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         Set<ListSelectionListener<Object>> selectionListeners = new LinkedHashSet<>();
         boolean adaptSelectionAutomatically = false;
         Bundle parameters = new Bundle();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SingleChoiceListAdapterImplementation<Object> singleChoiceListAdapterImplementation =
-                new SingleChoiceListAdapterImplementation<>(getContext(),
+                new SingleChoiceListAdapterImplementation<>(context,
                         new SelectableListDecoratorImplementation(), logLevel, items,
                         allowDuplicates, notifyOnchange, itemClickListeners, itemLongClickListeners,
                         adapterListeners, enableStateListeners, numberOfItemStates,
@@ -842,21 +774,15 @@ public class SingleChoiceListAdapterImplementationTest extends AndroidTestCase {
         assertEquals("SingleChoiceListAdapter (" + items.size() + " items) [logLevel=" + logLevel +
                         ", parameters=" + parameters + ", notifyOnChange=" + notifyOnchange +
                         ", allowDuplicates=" + allowDuplicates + ", numberOfItemStates=" +
-                        numberOfItemStates + ", triggerItemStateOnClick=" +
-                        triggerItemStateOnClick + ", filtered=" + false + ", selectItemOnClick=" +
-                        selectItemOnClick + ", adaptSelectionAutomatically=" +
-                        adaptSelectionAutomatically + "]",
+                        numberOfItemStates + ", triggerItemStateOnClick=" + triggerItemStateOnClick +
+                        ", filtered=" + false + ", selectItemOnClick=" + selectItemOnClick +
+                        ", adaptSelectionAutomatically=" + adaptSelectionAutomatically + "]",
                 singleChoiceListAdapterImplementation.toString());
     }
 
-    /**
-     * Tests the functionality of the clone-method.
-     *
-     * @throws CloneNotSupportedException
-     *         The exception, which is thrown, if cloning is not supported
-     */
+    @Test
     public final void testClone() throws CloneNotSupportedException {
-        Context context = getContext();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         SelectableListDecorator<Object> decorator = new SelectableListDecoratorImplementation();
         ArrayList<Item<Object>> items = new ArrayList<>();
         boolean allowDuplicates = true;

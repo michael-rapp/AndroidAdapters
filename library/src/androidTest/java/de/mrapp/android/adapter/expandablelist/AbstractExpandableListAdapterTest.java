@@ -15,26 +15,27 @@ package de.mrapp.android.adapter.expandablelist;
 
 import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import android.test.AndroidTestCase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import junit.framework.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 import de.mrapp.android.adapter.DataSetObserver;
 import de.mrapp.android.adapter.ExpandableListDecorator;
 import de.mrapp.android.adapter.Filter;
@@ -47,9 +48,14 @@ import de.mrapp.android.adapter.expandablelist.filterable.ExpandableListFilterLi
 import de.mrapp.android.adapter.expandablelist.itemstate.ExpandableListItemStateListener;
 import de.mrapp.android.adapter.expandablelist.sortable.ExpandableListSortingListener;
 import de.mrapp.android.adapter.list.selectable.MultipleChoiceListAdapterImplementation;
-import de.mrapp.android.util.datastructure.ListenerList;
 import de.mrapp.android.util.logging.LogLevel;
+import de.mrapp.util.datastructure.ListenerList;
 
+import static androidx.test.InstrumentationRegistry.getContext;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -59,7 +65,8 @@ import static org.mockito.Mockito.verify;
  *
  * @author Michael Rapp
  */
-public class AbstractExpandableListAdapterTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class AbstractExpandableListAdapterTest {
 
     /**
      * An implementation of the abstract class {@link AbstractExpandableListAdapter}, which is
@@ -1327,11 +1334,12 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
      * @return The instance, which has been created
      */
     private AbstractExpandableListAdapterImplementation createAdapter() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         MultipleChoiceListAdapter<Group<Object, Object>> groupAdapter =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new NullObjectDecorator<Group<Object, Object>>());
         AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                new AbstractExpandableListAdapterImplementation(getContext(),
+                new AbstractExpandableListAdapterImplementation(context,
                         new ExpandableListDecoratorImplementation(), LogLevel.ALL, groupAdapter,
                         false, true, true,
                         new ListenerList<ExpandableListAdapterItemClickListener<Object, Object>>(),
@@ -1341,14 +1349,7 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         return abstractExpandableListAdapter;
     }
 
-    /**
-     * Tests the functionality of the method, which allows to create a deep copy of the adapter,
-     * which manages the adapter's groups.
-     *
-     * @throws CloneNotSupportedException
-     *         The exception, which is thrown, if cloning is not supported by the adapter's
-     *         underlying data
-     */
+    @Test
     public final void testCloneGroupAdapter() throws CloneNotSupportedException {
         Object group1 = new SerializableImplementation(1);
         Object group2 = new SerializableImplementation(2);
@@ -1361,16 +1362,14 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertEquals(group2, clonedGroupAdapter.getItem(1).getData());
     }
 
-    /**
-     * Tests, if all properties are set correctly by the constructor.
-     */
+    @Test
     public final void testConstructor() {
-        Context context = getContext();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         ExpandableListDecorator<Object, Object> decorator =
                 new ExpandableListDecoratorImplementation();
         LogLevel logLevel = LogLevel.ERROR;
         MultipleChoiceListAdapter<Group<Object, Object>> groupAdapter =
-                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                new MultipleChoiceListAdapterImplementation<>(context,
                         new NullObjectDecorator<Group<Object, Object>>());
         boolean allowDuplicateChildren = false;
         boolean notifyOnChange = true;
@@ -1404,177 +1403,106 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertNull(abstractExpandableListAdapter.getParameters());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if the context, which is passed to
-     * the constructor, is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testConstructorThrowsExceptionWhenContextIsNull() {
-        try {
-            MultipleChoiceListAdapter<Group<Object, Object>> groupAdapter =
-                    new MultipleChoiceListAdapterImplementation<>(getContext(),
-                            new NullObjectDecorator<Group<Object, Object>>());
-            new AbstractExpandableListAdapterImplementation(null,
-                    new ExpandableListDecoratorImplementation(), LogLevel.ALL, groupAdapter, false,
-                    true, true,
-                    new ListenerList<ExpandableListAdapterItemClickListener<Object, Object>>(),
-                    new ListenerList<ExpandableListAdapterItemLongClickListener<Object, Object>>(),
-                    new ListenerList<ExpandableListAdapterListener<Object, Object>>(),
-                    new ListenerList<ExpansionListener<Object, Object>>());
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        MultipleChoiceListAdapter<Group<Object, Object>> groupAdapter =
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                        new NullObjectDecorator<Group<Object, Object>>());
+        new AbstractExpandableListAdapterImplementation(null,
+                new ExpandableListDecoratorImplementation(), LogLevel.ALL, groupAdapter, false,
+                true, true,
+                new ListenerList<ExpandableListAdapterItemClickListener<Object, Object>>(),
+                new ListenerList<ExpandableListAdapterItemLongClickListener<Object, Object>>(),
+                new ListenerList<ExpandableListAdapterListener<Object, Object>>(),
+                new ListenerList<ExpansionListener<Object, Object>>());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if the decorator, which is passed to
-     * the constructor, is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testConstructorThrowsExceptionWhenDecoratorIsNull() {
-        try {
-            MultipleChoiceListAdapter<Group<Object, Object>> groupAdapter =
-                    new MultipleChoiceListAdapterImplementation<>(getContext(),
-                            new NullObjectDecorator<Group<Object, Object>>());
-            new AbstractExpandableListAdapterImplementation(getContext(), null, LogLevel.ALL,
-                    groupAdapter, false, true, true,
-                    new ListenerList<ExpandableListAdapterItemClickListener<Object, Object>>(),
-                    new ListenerList<ExpandableListAdapterItemLongClickListener<Object, Object>>(),
-                    new ListenerList<ExpandableListAdapterListener<Object, Object>>(),
-                    new ListenerList<ExpansionListener<Object, Object>>());
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        MultipleChoiceListAdapter<Group<Object, Object>> groupAdapter =
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                        new NullObjectDecorator<Group<Object, Object>>());
+        new AbstractExpandableListAdapterImplementation(getContext(), null, LogLevel.ALL,
+                groupAdapter, false, true, true,
+                new ListenerList<ExpandableListAdapterItemClickListener<Object, Object>>(),
+                new ListenerList<ExpandableListAdapterItemLongClickListener<Object, Object>>(),
+                new ListenerList<ExpandableListAdapterListener<Object, Object>>(),
+                new ListenerList<ExpansionListener<Object, Object>>());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if the log level, which is passed to
-     * the constructor, is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testConstructorThrowsExceptionWhenLogLevelIsNull() {
-        try {
-            MultipleChoiceListAdapter<Group<Object, Object>> groupAdapter =
-                    new MultipleChoiceListAdapterImplementation<>(getContext(),
-                            new NullObjectDecorator<Group<Object, Object>>());
-            new AbstractExpandableListAdapterImplementation(getContext(),
-                    new ExpandableListDecoratorImplementation(), null, groupAdapter, false, true,
-                    true,
-                    new ListenerList<ExpandableListAdapterItemClickListener<Object, Object>>(),
-                    new ListenerList<ExpandableListAdapterItemLongClickListener<Object, Object>>(),
-                    new ListenerList<ExpandableListAdapterListener<Object, Object>>(),
-                    new ListenerList<ExpansionListener<Object, Object>>());
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        MultipleChoiceListAdapter<Group<Object, Object>> groupAdapter =
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                        new NullObjectDecorator<Group<Object, Object>>());
+        new AbstractExpandableListAdapterImplementation(getContext(),
+                new ExpandableListDecoratorImplementation(), null, groupAdapter, false, true, true,
+                new ListenerList<ExpandableListAdapterItemClickListener<Object, Object>>(),
+                new ListenerList<ExpandableListAdapterItemLongClickListener<Object, Object>>(),
+                new ListenerList<ExpandableListAdapterListener<Object, Object>>(),
+                new ListenerList<ExpansionListener<Object, Object>>());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if the group adapter, which is passed
-     * to the constructor, is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testConstructorThrowsExceptionWhenGroupAdapterIsNull() {
-        try {
-            new AbstractExpandableListAdapterImplementation(getContext(),
-                    new ExpandableListDecoratorImplementation(), LogLevel.ALL, null, false, true,
-                    true,
-                    new ListenerList<ExpandableListAdapterItemClickListener<Object, Object>>(),
-                    new ListenerList<ExpandableListAdapterItemLongClickListener<Object, Object>>(),
-                    new ListenerList<ExpandableListAdapterListener<Object, Object>>(),
-                    new ListenerList<ExpansionListener<Object, Object>>());
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        new AbstractExpandableListAdapterImplementation(getContext(),
+                new ExpandableListDecoratorImplementation(), LogLevel.ALL, null, false, true, true,
+                new ListenerList<ExpandableListAdapterItemClickListener<Object, Object>>(),
+                new ListenerList<ExpandableListAdapterItemLongClickListener<Object, Object>>(),
+                new ListenerList<ExpandableListAdapterListener<Object, Object>>(),
+                new ListenerList<ExpansionListener<Object, Object>>());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if the set, which contains the item
-     * click listeners, which is passed to the constructor, is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testConstructorThrowsExceptionWhenItemClickListenersIsNull() {
-        try {
-            MultipleChoiceListAdapter<Group<Object, Object>> groupAdapter =
-                    new MultipleChoiceListAdapterImplementation<>(getContext(),
-                            new NullObjectDecorator<Group<Object, Object>>());
-            new AbstractExpandableListAdapterImplementation(getContext(),
-                    new ExpandableListDecoratorImplementation(), null, groupAdapter, false, true,
-                    true, null,
-                    new ListenerList<ExpandableListAdapterItemLongClickListener<Object, Object>>(),
-                    new ListenerList<ExpandableListAdapterListener<Object, Object>>(),
-                    new ListenerList<ExpansionListener<Object, Object>>());
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        MultipleChoiceListAdapter<Group<Object, Object>> groupAdapter =
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                        new NullObjectDecorator<Group<Object, Object>>());
+        new AbstractExpandableListAdapterImplementation(getContext(),
+                new ExpandableListDecoratorImplementation(), null, groupAdapter, false, true, true,
+                null,
+                new ListenerList<ExpandableListAdapterItemLongClickListener<Object, Object>>(),
+                new ListenerList<ExpandableListAdapterListener<Object, Object>>(),
+                new ListenerList<ExpansionListener<Object, Object>>());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if the set, which contains the item
-     * long click listeners, which is passed to the constructor, is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testConstructorThrowsExceptionWhenItemLongClickListenersIsNull() {
-        try {
-            MultipleChoiceListAdapter<Group<Object, Object>> groupAdapter =
-                    new MultipleChoiceListAdapterImplementation<>(getContext(),
-                            new NullObjectDecorator<Group<Object, Object>>());
-            new AbstractExpandableListAdapterImplementation(getContext(),
-                    new ExpandableListDecoratorImplementation(), null, groupAdapter, false, true,
-                    true,
-                    new ListenerList<ExpandableListAdapterItemClickListener<Object, Object>>(),
-                    null, new ListenerList<ExpandableListAdapterListener<Object, Object>>(),
-                    new ListenerList<ExpansionListener<Object, Object>>());
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        MultipleChoiceListAdapter<Group<Object, Object>> groupAdapter =
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                        new NullObjectDecorator<Group<Object, Object>>());
+        new AbstractExpandableListAdapterImplementation(getContext(),
+                new ExpandableListDecoratorImplementation(), null, groupAdapter, false, true, true,
+                new ListenerList<ExpandableListAdapterItemClickListener<Object, Object>>(), null,
+                new ListenerList<ExpandableListAdapterListener<Object, Object>>(),
+                new ListenerList<ExpansionListener<Object, Object>>());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if the set, which contains the
-     * adapter listeners, which is passed to the constructor, is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testConstructorThrowsExceptionWhenAdapterListenersIsNull() {
-        try {
-            MultipleChoiceListAdapter<Group<Object, Object>> groupAdapter =
-                    new MultipleChoiceListAdapterImplementation<>(getContext(),
-                            new NullObjectDecorator<Group<Object, Object>>());
-            new AbstractExpandableListAdapterImplementation(getContext(),
-                    new ExpandableListDecoratorImplementation(), null, groupAdapter, false, true,
-                    true,
-                    new ListenerList<ExpandableListAdapterItemClickListener<Object, Object>>(),
-                    new ListenerList<ExpandableListAdapterItemLongClickListener<Object, Object>>(),
-                    null, new ListenerList<ExpansionListener<Object, Object>>());
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        MultipleChoiceListAdapter<Group<Object, Object>> groupAdapter =
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                        new NullObjectDecorator<Group<Object, Object>>());
+        new AbstractExpandableListAdapterImplementation(getContext(),
+                new ExpandableListDecoratorImplementation(), null, groupAdapter, false, true, true,
+                new ListenerList<ExpandableListAdapterItemClickListener<Object, Object>>(),
+                new ListenerList<ExpandableListAdapterItemLongClickListener<Object, Object>>(),
+                null, new ListenerList<ExpansionListener<Object, Object>>());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if the set, which contains the
-     * expansion listeners, which is passed to the constructor, is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testConstructorThrowsExceptionWhenExpansionListenersIsNull() {
-        try {
-            MultipleChoiceListAdapter<Group<Object, Object>> groupAdapter =
-                    new MultipleChoiceListAdapterImplementation<>(getContext(),
-                            new NullObjectDecorator<Group<Object, Object>>());
-            new AbstractExpandableListAdapterImplementation(getContext(),
-                    new ExpandableListDecoratorImplementation(), null, groupAdapter, false, true,
-                    true,
-                    new ListenerList<ExpandableListAdapterItemClickListener<Object, Object>>(),
-                    new ListenerList<ExpandableListAdapterItemLongClickListener<Object, Object>>(),
-                    new ListenerList<ExpandableListAdapterListener<Object, Object>>(), null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        MultipleChoiceListAdapter<Group<Object, Object>> groupAdapter =
+                new MultipleChoiceListAdapterImplementation<>(getContext(),
+                        new NullObjectDecorator<Group<Object, Object>>());
+        new AbstractExpandableListAdapterImplementation(getContext(),
+                new ExpandableListDecoratorImplementation(), null, groupAdapter, false, true, true,
+                new ListenerList<ExpandableListAdapterItemClickListener<Object, Object>>(),
+                new ListenerList<ExpandableListAdapterItemLongClickListener<Object, Object>>(),
+                new ListenerList<ExpandableListAdapterListener<Object, Object>>(), null);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set the log level.
-     */
+    @Test
     public final void testSetLogLevel() {
         AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
         LogLevel logLevel = LogLevel.ERROR;
@@ -1582,10 +1510,7 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertEquals(logLevel, abstractExpandableListAdapter.getLogLevel());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set a bundle, which contains the key
-     * value pairs, which should be stored within the adapter.
-     */
+    @Test
     public final void testSetParameters() {
         AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
         Bundle parameters = new Bundle();
@@ -1593,10 +1518,7 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertEquals(parameters, abstractExpandableListAdapter.getParameters());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set, whether duplicate children should
-     * be allowed, or not.
-     */
+    @Test
     public final void testAllowDuplicateGroups() {
         AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
         boolean allowDuplicateGroups = true;
@@ -1605,10 +1527,7 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
                 abstractExpandableListAdapter.areDuplicateGroupsAllowed());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set, whether duplicate children,
-     * regardless of the groups they belong to, should be allowed, or not.
-     */
+    @Test
     public final void testAllowDuplicateChildren() {
         AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
         boolean allowDuplicateChildren = true;
@@ -1617,11 +1536,7 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
                 abstractExpandableListAdapter.areDuplicateChildrenAllowed());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set, whether the method
-     * <code>notifyDataSetChanged():void</code> should be automatically called when the adapter's
-     * underlying data has been changed, or not.
-     */
+    @Test
     public final void testNotifyOnChange() {
         DataSetObserver dataSetObserver = new DataSetObserver();
         AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
@@ -1636,26 +1551,14 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertFalse(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if an {@link
-     * ExpandableListAdapterItemClickListener}, which is null, should be removed from the adapter.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testRemoveItemClickListenerThrowsExceptionWhenListenerIsNull() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.removeItemClickListener(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.removeItemClickListener(null);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add a listener, which should be
-     * notified, when the adapter's underlying data has been modified.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddAdapterListener() {
         AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
         ExpandableListAdapterListener<Object, Object> adapterListener =
@@ -1666,26 +1569,14 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertEquals(1, abstractExpandableListAdapter.getAdapterListeners().size());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if an {@link
-     * ExpandableListAdapterListener}, which is null, should be added to the adapter.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testAddAdapterListenerThrowsExceptionWhenListenerIsNull() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.addAdapterListener(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.addAdapterListener(null);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to remove a listener, which should not be
-     * notified, when the adapter's underlying data has been changed, anymore.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testRemoveAdapterListener() {
         ExpandableListAdapterListener<Object, Object> adapterListener =
                 mock(ExpandableListAdapterListener.class);
@@ -1697,26 +1588,14 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(abstractExpandableListAdapter.getAdapterListeners().isEmpty());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if an {@link
-     * ExpandableListAdapterListener}, which is null, should be removed from the adapter.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testRemoveAdapterListenerThrowsExceptionIfListenerIsNull() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.removeAdapterListener(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.removeAdapterListener(null);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add a listener, which should be
-     * notified, when a group item has been expanded or collapsed.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddExpansionListener() {
         ExpansionListener<Object, Object> expansionListener = mock(ExpansionListener.class);
         AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
@@ -1726,26 +1605,14 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertEquals(1, abstractExpandableListAdapter.getExpansionListeners().size());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if an {@link ExpansionListener},
-     * which is null, should be added to the adapter.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testAddExpansionListenerThrowsExceptionWhenListenerIsNull() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.addExpansionListener(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.addExpansionListener(null);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to remove a listener, which should not be
-     * notified, when a group item has been expanded or collapsed.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testRemoveExpansionListener() {
         ExpansionListener<Object, Object> expansionListener = mock(ExpansionListener.class);
         AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
@@ -1756,25 +1623,14 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(abstractExpandableListAdapter.getExpansionListeners().isEmpty());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if an {@link ExpansionListener},
-     * which is null, should be removed from the adapter.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testRemoveExpansionListenerThrowsExceptionWhenListenerIsNull() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.removeExpansionListener(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.removeExpansionListener(null);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add a group item to the adapter.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddGroup() {
         Object group = new Object();
         ExpandableListAdapterListener<Object, Object> adapterListener =
@@ -1790,26 +1646,14 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if a group item, which is null,
-     * should be added to the adapter.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testAddGroupThrowsExceptionWhenGroupIsNull() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.addGroup(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.addGroup(null);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add a group item to the adapter, if
-     * the adapter does already contain the group item.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddDuplicateGroup() {
         Object group = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
@@ -1828,11 +1672,8 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertFalse(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add a group item to the adapter at a
-     * specific index.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddGroupAtSpecificIndex() {
         Object group1 = new Object();
         Object group2 = new Object();
@@ -1855,41 +1696,20 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if a group item, which is null,
-     * should be added to the adapter at a specific index.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testAddGroupAtSpecificIndexThrowsExceptionWhenGroupIsNull() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.addGroup(0, null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.addGroup(0, null);
     }
 
-    /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown, if a group item should be added
-     * to the adapter at an invalid index.
-     */
+    @Test(expected = IndexOutOfBoundsException.class)
     public final void testAddGroupAtSpecificIndexThrowsExceptionWhenIndexIsInvalid() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.addGroup(-1, new Object());
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.addGroup(-1, new Object());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add a group item to the adapter at a
-     * specific index, if the adapter does already contain the group item.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddDuplicateGroupAtSpecificIndex() {
         Object group = new Object();
         DataSetObserver dataSetObserver = new DataSetObserver();
@@ -1909,11 +1729,8 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertFalse(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add all group items, which are
-     * contained by a specific collection, to the adapter.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddAllGroupsFromCollection() {
         Object group1 = new Object();
         Object group2 = new Object();
@@ -1937,27 +1754,15 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if all group items of a collection,
-     * which his null, should be added to the adapter.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testAddAllGroupsFromCollectionThrowsExceptionWhenCollectionIsNull() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            Collection<Object> groups = null;
-            abstractExpandableListAdapter.addAllGroups(groups);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        Collection<Object> groups = null;
+        abstractExpandableListAdapter.addAllGroups(groups);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add all group items, which are
-     * contained by a specific collection, if the collection contains duplicates.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddAllGroupsFromCollectionContainingDuplicates() {
         Object group = new Object();
         Collection<Object> groups = new ArrayList<>();
@@ -1978,11 +1783,8 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add all group items, which are
-     * contained by a specific collection, to the adapter at a specific index.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddAllGroupsFromCollectionAtSpecificIndex() {
         Object group1 = new Object();
         Object group2 = new Object();
@@ -2013,12 +1815,8 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add all group items, which are
-     * contained by a specific collection, to the adapter at a specific index, if the collection
-     * contains duplicates.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddAllGroupsFromCollectionContainingDuplicatesAtSpecificIndex() {
         Object group1 = new Object();
         Object group2 = new Object();
@@ -2045,44 +1843,23 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if all group items of a collection,
-     * which is null, should be added to the adapter at a specific index.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testAddAllGroupsFromCollectionAtSpecificIndexThrowsExceptionWhenCollectionIsNull() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            Collection<Object> groups = null;
-            abstractExpandableListAdapter.addAllGroups(0, groups);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        Collection<Object> groups = null;
+        abstractExpandableListAdapter.addAllGroups(0, groups);
     }
 
-    /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown, if all group items, which are
-     * contained by a specific collection, should be added to the adapter at an invalid index.
-     */
+    @Test(expected = IndexOutOfBoundsException.class)
     public final void testAddAllGroupsFromCollectionAtSpecificIndexThrowsExceptionWhenIndexIsInvalid() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            Collection<Object> groups = new ArrayList<>();
-            groups.add(new Object());
-            abstractExpandableListAdapter.addAllGroups(-1, groups);
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        Collection<Object> groups = new ArrayList<>();
+        groups.add(new Object());
+        abstractExpandableListAdapter.addAllGroups(-1, groups);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add all group items, which are
-     * contained by a specific array, to the adapter.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddAllGroupsFromArray() {
         Object group1 = new Object();
         Object group2 = new Object();
@@ -2106,27 +1883,15 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if all group items of an array, which
-     * is null, should be added to the adapter.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testAddAllGroupsFromArrayThrowsExceptionWhenArrayIsNull() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            Object[] groups = null;
-            abstractExpandableListAdapter.addAllGroups(groups);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        Object[] groups = null;
+        abstractExpandableListAdapter.addAllGroups(groups);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add all group items, which are
-     * contained by a specific array, if the array contains duplicates.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddAllGroupsFromArrayContainingDuplicates() {
         Object group = new Object();
         Object[] groups = new Object[2];
@@ -2147,11 +1912,8 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add all group items, which are
-     * contained by a specific array, to the adapter at a specific index.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddAllGroupsFromArrayAtSpecificIndex() {
         Object group1 = new Object();
         Object group2 = new Object();
@@ -2182,12 +1944,8 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add all group items, which are
-     * contained by a specific array, to the adapter at a specific index, if the array contains
-     * duplicates.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddAllGroupsFromArrayContainingDuplicatesAtSpecificIndex() {
         Object group1 = new Object();
         Object group2 = new Object();
@@ -2214,44 +1972,23 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if all group items of an array, which
-     * is null, should be added to the adapter at a specific index.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testAddAllGroupsFromArrayAtSpecificIndexThrowsExceptionWhenCollectionIsNull() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            Object[] groups = null;
-            abstractExpandableListAdapter.addAllGroups(0, groups);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        Object[] groups = null;
+        abstractExpandableListAdapter.addAllGroups(0, groups);
     }
 
-    /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown, if all group items, which are
-     * contained by a specific array, should be added to the adapter at an invalid index.
-     */
+    @Test(expected = IndexOutOfBoundsException.class)
     public final void testAddAllGroupsFromArrayAtSpecificIndexThrowsExceptionWhenIndexIsInvalid() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            Object[] groups = new Object[1];
-            groups[0] = new Object();
-            abstractExpandableListAdapter.addAllGroups(-1, groups);
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        Object[] groups = new Object[1];
+        groups[0] = new Object();
+        abstractExpandableListAdapter.addAllGroups(-1, groups);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to replace the group item at a specific
-     * index.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testReplaceGroup() {
         Object group1 = new Object();
         Object group2 = new Object();
@@ -2272,41 +2009,20 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, tat a {@link NullPointerException} is thrown, if the group item at a specific index
-     * should be replaced by a group item, which is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testReplaceGroupThrowsExceptionWhenGroupIsNull() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.replaceGroup(0, null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.replaceGroup(0, null);
     }
 
-    /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown, if the group item at an invalid
-     * index should be replaced.
-     */
+    @Test(expected = IndexOutOfBoundsException.class)
     public final void testReplaceGroupThrowsExceptionWhenIndexIsInvalid() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.replaceGroup(-1, new Object());
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.replaceGroup(-1, new Object());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to remove the group item at a specific
-     * index from the adapter.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testRemoveGroupAtSpecificIndex() {
         Object group = new Object();
         ExpandableListAdapterListener<Object, Object> adapterListener =
@@ -2323,26 +2039,14 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown, if the group item at an invalid
-     * index should be removed from the adapter.
-     */
+    @Test(expected = IndexOutOfBoundsException.class)
     public final void testRemoveGroupAtSpecificIndexThrowsExceptionWhenIndexIsInvalid() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.removeGroup(-1);
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.removeGroup(-1);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to remove a specific group item from the
-     * adapter, if the adapter does actually contain the group item.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testRemoveGroupWhenAdapterDoesContainGroup() {
         Object group = new Object();
         ExpandableListAdapterListener<Object, Object> adapterListener =
@@ -2360,11 +2064,8 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to remove a specific group item from the
-     * adapter, if the adapter does not contain the group item.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testRemoveGroupWhenAdapterDoesNotContainGroup() {
         Object group = new Object();
         ExpandableListAdapterListener<Object, Object> adapterListener =
@@ -2382,27 +2083,14 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertFalse(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if a group item, which is null,
-     * should be removed from the adapter.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testRemoveGroupThrowsExceptionWhenItemIsNull() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.removeGroup(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.removeGroup(null);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to remove all group items, which are
-     * contained by a specific collection, from the adapter, if the adapter does actually contain
-     * all of these group items.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testRemoveAllGroupsFromCollectionWhenAdapterDoesContainAllGroups() {
         Object group1 = new Object();
         Object group2 = new Object();
@@ -2425,12 +2113,8 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to remove all group items, which are
-     * contained by a specific collection, from the adapter, if the adapter does not contain all of
-     * these group items.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testRemoveAllGroupsFromCollectionWhenAdapterDoesNotContainAllGroups() {
         Object group1 = new Object();
         Object group2 = new Object();
@@ -2452,28 +2136,15 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if all group items, which are
-     * contained by a collection, which is null, should be removed from the adapter.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testRemoveAllGroupsFromCollectionThrowsExceptionWhenCollectionIsNull() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            Collection<Object> groups = null;
-            abstractExpandableListAdapter.removeAllGroups(groups);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        Collection<Object> groups = null;
+        abstractExpandableListAdapter.removeAllGroups(groups);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to remove all group items, which are
-     * contained by a specific array, from the adapter, if the adapter does actually contain all of
-     * these group items.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testRemoveAllGroupsFromArrayWhenAdapterDoesContainAllGroups() {
         Object group1 = new Object();
         Object group2 = new Object();
@@ -2496,12 +2167,8 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to remove all group items, which are
-     * contained by a specific array, from the adapter, if the adapter does not contain all of these
-     * group items.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testRemoveAllGroupsFromArrayWhenAdapterDoesNotContainAllGroups() {
         Object group1 = new Object();
         Object group2 = new Object();
@@ -2523,27 +2190,15 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if all group items, which are
-     * contained by an array, which is null, should be removed from the adapter.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testRemoveAllGroupsFromArrayThrowsExceptionWhenArrayIsNull() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            Object[] groups = null;
-            abstractExpandableListAdapter.removeAllGroups(groups);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        Object[] groups = null;
+        abstractExpandableListAdapter.removeAllGroups(groups);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to remove all group items except of the
-     * ones, which are contained by a specific collection, from the adapter.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testRetainAllGroupsFromCollection() {
         Object group1 = new Object();
         Object group2 = new Object();
@@ -2568,28 +2223,15 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if all group items except of the
-     * ones, which are contained by a collection, which is null, should be removed from the
-     * adapter.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testRetainAllGroupsFromCollectionThrowsExceptionWhenCollectionIsNull() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            Collection<Object> groups = null;
-            abstractExpandableListAdapter.retainAllGroups(groups);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        Collection<Object> groups = null;
+        abstractExpandableListAdapter.retainAllGroups(groups);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to remove all group items except of the
-     * ones, which are contained by a specific array, from the adapter.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testRetainAllGroupsFromArray() {
         Object group1 = new Object();
         Object group2 = new Object();
@@ -2614,27 +2256,15 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if all group items except of the
-     * ones, which are contained by an array, which is null, should be removed from the adapter.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testRetainAllGroupsFromArrayThrowsExceptionWhenArrayIsNull() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            Object[] groups = null;
-            abstractExpandableListAdapter.retainAllGroups(groups);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        Object[] groups = null;
+        abstractExpandableListAdapter.retainAllGroups(groups);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to remove all group items from the
-     * adapter.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testClearGroups() {
         Object group1 = new Object();
         Object group2 = new Object();
@@ -2654,10 +2284,7 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve an {@link Iterator}, which
-     * allows to iterate the adapter's group items.
-     */
+    @Test
     public final void testGroupIterator() {
         Object group1 = new Object();
         Object group2 = new Object();
@@ -2669,10 +2296,7 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertEquals(group2, iterator.next());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve a {@link ListIterator}, which
-     * allows to iterate the adapter's group items.
-     */
+    @Test
     public final void testGroupListIterator() {
         Object group1 = new Object();
         Object group2 = new Object();
@@ -2684,10 +2308,7 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertEquals(group2, listIterator.next());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve a {@link ListIterator}, which
-     * allows to iterate the adapter's group items, beginning at a specific index.
-     */
+    @Test
     public final void testListIteratorWithSpecificStartIndex() {
         Object group1 = new Object();
         Object group2 = new Object();
@@ -2698,10 +2319,7 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertEquals(group2, listIterator.next());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve a collection, which contains
-     * the group items between a specific start and end index.
-     */
+    @Test
     public final void testSubListGroups() {
         Object group1 = new Object();
         Object group2 = new Object();
@@ -2719,10 +2337,7 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertEquals(group3, iterator.next());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve an array, which contains the
-     * adapter's group items.
-     */
+    @Test
     public final void testGroupsToArray() {
         Object group1 = new Object();
         Object group2 = new Object();
@@ -2735,10 +2350,7 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertEquals(group2, groups[1]);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve an array, which contains the
-     * adapter's group items and is created by using an already existing array.
-     */
+    @Test
     public final void testGroupsToArrayWithArrayParameter() {
         Object group1 = new Object();
         Object group2 = new Object();
@@ -2751,10 +2363,7 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertEquals(group2, groups[1]);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the index of a specific group
-     * item, if the adapter does actually contain this group item.
-     */
+    @Test
     public final void testIndexOfGroupWhenAdapterDoesContainGroup() {
         Object group1 = new Object();
         Object group2 = new Object();
@@ -2764,10 +2373,7 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertEquals(1, abstractExpandableListAdapter.indexOfGroup(group2));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the index of a specific group
-     * item, if the adapter does not contain this group item.
-     */
+    @Test
     public final void testIndexOfGroupWhenAdapterDoesNotContainGroup() {
         Object group1 = new Object();
         Object group2 = new Object();
@@ -2776,25 +2382,13 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertEquals(-1, abstractExpandableListAdapter.indexOfGroup(group2));
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if the index of an item, which is
-     * null, should be retrieved.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testIndexOfGroupThrowsExceptionWhenGroupIsNull() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.indexOfGroup(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.indexOfGroup(null);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve, whether the adapter contains
-     * a group item, if the adapter does actually contain the group item.
-     */
+    @Test
     public final void testContainsGroupWhenAdapterDoesContainGroup() {
         Object group = new Object();
         AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
@@ -2802,36 +2396,20 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(abstractExpandableListAdapter.containsGroup(group));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve, whether the adapter contains
-     * a group item, if the adapter does not contain the group item.
-     */
+    @Test
     public final void testContainsGroupWhenAdapterDoesNotContainGroup() {
         Object group = new Object();
         AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
         assertFalse(abstractExpandableListAdapter.containsGroup(group));
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if it should be retrieved, whether
-     * the adapter contains a group item, which is null, or not.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testContainsGroupThrowsExceptionWhenGroupIsNull() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.containsGroup(null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.containsGroup(null);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve, whether the adapter contains
-     * all group items, which are contained by a collection, if the adapter does actually contain
-     * all of these group items.
-     */
+    @Test
     public final void testContainsAllGroupsFromCollectionWhenAdapterDoesContainAllGroups() {
         Object group1 = new Object();
         Object group2 = new Object();
@@ -2843,11 +2421,7 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(abstractExpandableListAdapter.containsAllGroups(groups));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve, whether the adapter contains
-     * all group items, which are contained by a collection, if the adapter does not contain all of
-     * these group items.
-     */
+    @Test
     public final void testContainsAllGroupsFromCollectionWhenAdapterDoesNotContainAllGroups() {
         Object group1 = new Object();
         Object group2 = new Object();
@@ -2859,28 +2433,14 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertFalse(abstractExpandableListAdapter.containsAllGroups(groups));
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if it should be retrieved, whether
-     * all group items, which are contained by a collection, which is null, are contained by the
-     * adapter, or not.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testContainsAllItemsFromCollectionThrowsExceptionWhenCollectionIsNull() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            Collection<Object> groups = null;
-            abstractExpandableListAdapter.containsAllGroups(groups);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        Collection<Object> groups = null;
+        abstractExpandableListAdapter.containsAllGroups(groups);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve, whether the adapter contains
-     * all group items, which are contained by an array, if the adapter does actually contain all of
-     * these group items.
-     */
+    @Test
     public final void testContainsAllGroupsFromArrayWhenAdapterDoesContainAllGroups() {
         Object group1 = new Object();
         Object group2 = new Object();
@@ -2892,11 +2452,7 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(abstractExpandableListAdapter.containsAllGroups(groups));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve, whether the adapter contains
-     * all group items, which are contained by an array, if the adapter does not contain all of
-     * these group items.
-     */
+    @Test
     public final void testContainsAllGroupsFromArrayWhenAdapterDoesNotContainAllGroups() {
         Object group1 = new Object();
         Object group2 = new Object();
@@ -2908,46 +2464,27 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertFalse(abstractExpandableListAdapter.containsAllGroups(groups));
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown, if it should be retrieved, whether
-     * all group items, which are contained by an array, which is null, are contained by the
-     * adapter, or not.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testContainsAllItemsFromArrayThrowsExceptionWhenArrayIsNull() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            Object[] groups = null;
-            abstractExpandableListAdapter.containsAllGroups(groups);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        Object[] groups = null;
+        abstractExpandableListAdapter.containsAllGroups(groups);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the number of group items, if
-     * the adapter is empty.
-     */
+    @Test
     public final void testGetGroupCountWhenAdapterIsEmpty() {
         AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
         assertEquals(0, abstractExpandableListAdapter.getGroupCount());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the number of group items, if
-     * the adapter is not empty.
-     */
+    @Test
     public final void testGetGroupCountWhenAdapterIsNotEmpty() {
         AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
         abstractExpandableListAdapter.addGroup(new Object());
         assertEquals(1, abstractExpandableListAdapter.getGroupCount());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve the group item, which belongs
-     * to a specific index.
-     */
+    @Test
     public final void testGetGroup() {
         Object group = new Object();
         AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
@@ -2955,25 +2492,13 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertEquals(group, abstractExpandableListAdapter.getGroup(0));
     }
 
-    /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown, if a group item, which belongs
-     * to an invalid index, should be retrieved.
-     */
+    @Test(expected = IndexOutOfBoundsException.class)
     public final void testGetGroupThrowsExceptionWhenIndexIsInvalid() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.getGroup(-1);
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.getGroup(-1);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve a collection, which contains
-     * all group items.
-     */
+    @Test
     public final void testGetAllGroups() {
         Object group1 = new Object();
         Object group2 = new Object();
@@ -2986,29 +2511,20 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertEquals(group2, iterator.next());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve, whether the adapter is
-     * empty, or not, if the adapter is actually empty.
-     */
+    @Test
     public final void testIsEmptyWhenAdapterIsEmpty() {
         AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
         assertTrue(abstractExpandableListAdapter.isEmpty());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve, whether the adapter is
-     * empty, or not, if the adapter is not empty.
-     */
+    @Test
     public final void testIsEmptyWhenAdapterIsNotEmpty() {
         AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
         abstractExpandableListAdapter.addGroup(new Object());
         assertFalse(abstractExpandableListAdapter.isEmpty());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve, whether a specific group is
-     * empty, or not, if the group is actually empty.
-     */
+    @Test
     public final void testIsGroupEmptyWhenGroupIsEmpty() {
         AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
         Object group = new Object();
@@ -3016,10 +2532,7 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(abstractExpandableListAdapter.isGroupEmpty(group));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve, whether a specific group is
-     * empty, or not, if the group is not empty.
-     */
+    @Test
     public final void testIsGroupEmptyWhenGroupIsNotEmpty() {
         AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
         Object group = new Object();
@@ -3028,36 +2541,20 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertFalse(abstractExpandableListAdapter.isGroupEmpty(group));
     }
 
-    /**
-     * Ensures, that a {@link NoSuchElementException} is thrown by the method, which allows to
-     * retrieve, whether a specific group is empty, or not, if the group does not belong to the
-     * adapter.
-     */
+    @Test(expected = NoSuchElementException.class)
     public final void testIsGroupEmptyThrowsException() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.isGroupEmpty(new Object());
-            Assert.fail();
-        } catch (NoSuchElementException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.isGroupEmpty(new Object());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve, whether the group, which
-     * belongs to a specific index, is empty, or not, if the group is actually empty.
-     */
+    @Test
     public final void testIsGroupEmptyWithIndexParameterWhenGroupIsEmpty() {
         AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
         abstractExpandableListAdapter.addGroup(new Object());
         assertTrue(abstractExpandableListAdapter.isGroupEmpty(0));
     }
 
-    /**
-     * Tests the functionality of the method, which allows to retrieve, whether the group, which
-     * belongs to a specific index, is empty, or not, if the group is not empty.
-     */
+    @Test
     public final void testIsGroupEmptyWithIndexParameterWhenGroupIsNotEmpty() {
         AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
         abstractExpandableListAdapter.addGroup(new Object());
@@ -3065,26 +2562,13 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertFalse(abstractExpandableListAdapter.isGroupEmpty(0));
     }
 
-    /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown by the method, which allows to
-     * retrieve, whether the group, which belongs to a specific index, is empty, or not, if the
-     * index is invalid.
-     */
+    @Test(expected = IndexOutOfBoundsException.class)
     public final void testIsGroupEmptyWithIndexParameterThrowsException() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.isGroupEmpty(-1);
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.isGroupEmpty(-1);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set, whether duplicate children should
-     * be allowed within a specific group, or not.
-     */
+    @Test
     public final void testAllowDuplicateChildrenWithGroupParameter() {
         AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
         Object group = new Object();
@@ -3095,26 +2579,13 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
                 abstractExpandableListAdapter.areDuplicateChildrenAllowed(group));
     }
 
-    /**
-     * Ensures, that a {@link NoSuchElementException} is thrown by the method, which allows to set,
-     * whether duplicate children should be allowed within a specific group, or not, if the group
-     * does not belong to the adapter.
-     */
+    @Test(expected = NoSuchElementException.class)
     public final void testAllowDuplicateChildrenWithGroupParameterThrowsException() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.allowDuplicateChildren(new Object(), true);
-            Assert.fail();
-        } catch (NoSuchElementException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.allowDuplicateChildren(new Object(), true);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set, whether duplicate children should
-     * be allowed within the group, which belongs to a specific index, or not.
-     */
+    @Test
     public final void testAllowDuplicateChildrenWithIndexParameter() {
         AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
         abstractExpandableListAdapter.addGroup(new Object());
@@ -3124,26 +2595,14 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
                 abstractExpandableListAdapter.areDuplicateChildrenAllowed(0));
     }
 
-    /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown by the method, which allows to
-     * set, whether duplicate children should be allowed within the group, which belongs to a
-     * specific index, or not, if the index is invalid.
-     */
+    @Test(expected = IndexOutOfBoundsException.class)
     public final void testAllowDuplicateChildrenWithIndexParameterThrowsException() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.allowDuplicateChildren(-1, true);
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.allowDuplicateChildren(-1, true);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add a child item to a specific group.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddChildWithGroupParameter() {
         Object group = new Object();
         Object child = new Object();
@@ -3163,43 +2622,22 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NoSuchElementException} is thrown by the method, which allows to add a
-     * child item to a specific group, if the group does not belong to the adapter.
-     */
+    @Test(expected = NoSuchElementException.class)
     public final void testAddChildWithGroupParameterThrowsExceptionIfGroupDoesNotBelongToAdapter() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.addChild(new Object(), new Object());
-            Assert.fail();
-        } catch (NoSuchElementException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.addChild(new Object(), new Object());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown by the method, which allows to add a
-     * child item to a specific group, if the child is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testAddChildWithGroupParameterThrowsExceptionIfChildIsNull() {
-        try {
-            Object group = new Object();
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.addGroup(group);
-            abstractExpandableListAdapter.addChild(group, null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        Object group = new Object();
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.addGroup(group);
+        abstractExpandableListAdapter.addChild(group, null);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add a child item to a specific group,
-     * when the group does already contain the item.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddDuplicateChildWithGroupParameter() {
         Object group = new Object();
         Object child = new Object();
@@ -3221,11 +2659,8 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add a child item to a specific group,
-     * when the adapter does already contain the item.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddGlobalDuplicateChildWithGroupParameter() {
         Object group1 = new Object();
         Object group2 = new Object();
@@ -3252,11 +2687,8 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add a child item to the group, which
-     * belongs to a specific index.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddChildWithGroupIndexParameter() {
         Object group = new Object();
         Object child = new Object();
@@ -3276,42 +2708,21 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown by the method, which allows to add a
-     * child item to the group, which belongs to a specific index.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testAddChildWithGroupIndexParameterThrowsExceptionWhenChildIsNull() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.addGroup(new Object());
-            abstractExpandableListAdapter.addChild(0, null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.addGroup(new Object());
+        abstractExpandableListAdapter.addChild(0, null);
     }
 
-    /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown by the method, which allows to
-     * add a child item to the group, which belongs to a specific index, if the index is invalid.
-     */
+    @Test(expected = IndexOutOfBoundsException.class)
     public final void testAddChildWithGroupIndexParameterThrowsExceptionWhenIndexIsInvalid() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.addChild(0, new Object());
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.addChild(0, new Object());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add a child item to the group, which
-     * belongs to a specific index, if the group does already contain the child.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddDuplicateChildWithGroupIndexParameter() {
         Object group = new Object();
         Object child = new Object();
@@ -3333,11 +2744,8 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add a child item to the group, which
-     * belongs to a specific index, if the adapter does already contain the child.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddGlobalDuplicateChildWithGroupIndexParameter() {
         Object group1 = new Object();
         Object group2 = new Object();
@@ -3364,11 +2772,8 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add a child item to a specific group
-     * at a specific index.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddChildWithGroupParameterAtSpecificIndex() {
         Object group = new Object();
         Object child1 = new Object();
@@ -3393,61 +2798,30 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown by the method, which allows to add a
-     * child item to a specific group at a specific index, if the child is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testAddChildWithGroupParameterAtSpecificIndexThrowsExceptionIfChildIsNull() {
-        try {
-            Object group = new Object();
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.addGroup(group);
-            abstractExpandableListAdapter.addChild(group, 0, null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        Object group = new Object();
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.addGroup(group);
+        abstractExpandableListAdapter.addChild(group, 0, null);
     }
 
-    /**
-     * Ensures, that a {@link NoSuchElementException} is thrown by the method, which allows to add a
-     * child item to a specific group at a specific index, if the group does not belong to the
-     * adapter.
-     */
+    @Test(expected = NoSuchElementException.class)
     public final void testAddChildWithGroupParameterAtSpecificIndexThrowsExceptionIfGroupDoesNotBelongToAdapter() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.addChild(new Object(), 0, new Object());
-            Assert.fail();
-        } catch (NoSuchElementException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.addChild(new Object(), 0, new Object());
     }
 
-    /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown by the method, which allows to
-     * add a child item to a specific group at a specific index, if the index is invalid.
-     */
+    @Test(expected = IndexOutOfBoundsException.class)
     public final void testAddChildWithGroupParameterAtSpecificIndexThrowsExceptionIfIndexIsInvalid() {
-        try {
-            Object group = new Object();
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.addGroup(group);
-            abstractExpandableListAdapter.addChild(group, -1, new Object());
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
+        Object group = new Object();
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.addGroup(group);
+        abstractExpandableListAdapter.addChild(group, -1, new Object());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add a child item to a specific group
-     * at a specific index, if the group does already contain the item.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddDuplicateChildWithGroupParameterAtSpecificIndex() {
         Object group = new Object();
         Object child1 = new Object();
@@ -3474,11 +2848,8 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add a child item to a specific group
-     * at a specific index, if the adapter does already contain the item.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddGlobalDuplicateChildWithGroupParameterAtSpecificIndex() {
         Object group1 = new Object();
         Object group2 = new Object();
@@ -3508,11 +2879,8 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add a child item to the group, which
-     * belongs to a specific index, at a specific index.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddChildWithGroupIndexParameterAtSpecificIndex() {
         Object group = new Object();
         Object child1 = new Object();
@@ -3537,63 +2905,29 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown by the method, which allows to add a
-     * child item to the group, which belongs to a specific index, at a specific index, if the child
-     * is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testAddChildWithGroupIndexParameterAtSpecificIndexThrowsExceptionIfChildIsNull() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.addGroup(new Object());
-            abstractExpandableListAdapter.addChild(0, 0, null);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.addGroup(new Object());
+        abstractExpandableListAdapter.addChild(0, 0, null);
     }
 
-    /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown by the method, which allows to
-     * add a child item to the group, which belongs to a specific index, at a specific index, if the
-     * group index is invalid.
-     */
+    @Test(expected = IndexOutOfBoundsException.class)
     public final void testAddChildWithGroupIndexParameterAtSpecificIndexThrowsExceptionIfGroupIndexIsInvalid() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.addGroup(new Object());
-            abstractExpandableListAdapter.addChild(-1, 0, new Object());
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.addGroup(new Object());
+        abstractExpandableListAdapter.addChild(-1, 0, new Object());
     }
 
-    /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown by the method, which allows to
-     * add a child item to the group, which belongs to a specific index, at a specific index, if the
-     * index is invalid.
-     */
+    @Test(expected = IndexOutOfBoundsException.class)
     public final void testAddChildWithGroupIndexParameterAtSpecificIndexThrowsExceptionIfIndexIsInvalid() {
-        try {
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.addGroup(new Object());
-            abstractExpandableListAdapter.addChild(0, -1, new Object());
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.addGroup(new Object());
+        abstractExpandableListAdapter.addChild(0, -1, new Object());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add a child item to the group, which
-     * belongs to a specific index, at a specific index, if the group does already contain the
-     * item.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddDuplicateChildWithGroupIndexParameterAtSpecificIndex() {
         Object group = new Object();
         Object child1 = new Object();
@@ -3619,12 +2953,8 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add a child item to the group, which
-     * belongs to a specific index, at a specific index, if the adapter does already contain the
-     * item.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddGlobalDuplicateChildWithGroupIndexParameterAtSpecificIndex() {
         Object group1 = new Object();
         Object group2 = new Object();
@@ -3652,11 +2982,8 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add all child items, which are
-     * contained by a specific collection, to the a specific group.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddAllChildrenFromCollectionWithGroupParameter() {
         Object group = new Object();
         Object child1 = new Object();
@@ -3684,48 +3011,24 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown by the method, which allows to add all
-     * child items, which are contained by a specific collection, to a specific group, if the
-     * collection is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testAddAllChildrenFromCollectionWithGroupParameterThrowsExceptionIfCollectionIsNull() {
-        try {
-            Object group = new Object();
-            Collection<Object> children = null;
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.addGroup(group);
-            abstractExpandableListAdapter.addAllChildren(group, children);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        Object group = new Object();
+        Collection<Object> children = null;
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.addGroup(group);
+        abstractExpandableListAdapter.addAllChildren(group, children);
     }
 
-    /**
-     * Ensures, that a {@link NoSuchElementException} is thrown by the method, which allows to add
-     * all child items, which are contained by a specific collection, to a specific group, if the
-     * group does not belong to the adapter.
-     */
+    @Test(expected = NoSuchElementException.class)
     public final void testAddAllChildrenFromCollectionWithGroupParameterThrowsExceptionIfGroupDoesNotBelongToAdapter() {
-        try {
-            Collection<Object> children = new ArrayList<>();
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.addAllChildren(new Object(), children);
-            Assert.fail();
-        } catch (NoSuchElementException e) {
-
-        }
+        Collection<Object> children = new ArrayList<>();
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.addAllChildren(new Object(), children);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add all child items, which are
-     * contained by a specific collection, to the a specific group, if the collection contains
-     * duplicates.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddAllChildrenFromCollectionContainingDuplicatesWithGroupParameter() {
         Object group = new Object();
         Object child = new Object();
@@ -3749,11 +3052,8 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add all child items, which are
-     * contained by a specific collection, to the group, which corresponds to a specific index.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddAllChildrenFromCollectionWithGroupIndexParameter() {
         Object group = new Object();
         Object child1 = new Object();
@@ -3781,48 +3081,24 @@ public class AbstractExpandableListAdapterTest extends AndroidTestCase {
         assertTrue(dataSetObserver.hasOnChangedBeenCalled());
     }
 
-    /**
-     * Ensures, that a {@link NullPointerException} is thrown by the method, which allows to add all
-     * child items, which are contained by a specific collection, to the group, which corresponds to
-     * a specific index, if the collection is null.
-     */
+    @Test(expected = IllegalArgumentException.class)
     public final void testAddAllChildrenFromCollectionWithGroupIndexParameterThrowsExceptionIfCollectionIsNull() {
-        try {
-            Collection<Object> children = null;
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.addGroup(new Object());
-            abstractExpandableListAdapter.addAllChildren(0, children);
-            Assert.fail();
-        } catch (NullPointerException e) {
-
-        }
+        Collection<Object> children = null;
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.addGroup(new Object());
+        abstractExpandableListAdapter.addAllChildren(0, children);
     }
 
-    /**
-     * Ensures, that an {@link IndexOutOfBoundsException} is thrown by the method, which allows to
-     * add all child items, which are contained by a specific collection, to the group, which
-     * corresponds to a specific index, if the collection is null.
-     */
+    @Test(expected = IndexOutOfBoundsException.class)
     public final void testAddAllChildrenFromCollectionWithGroupIndexParameterThrowsExceptionIfIndexIsInvalid() {
-        try {
-            Collection<Object> children = new ArrayList<>();
-            AbstractExpandableListAdapterImplementation abstractExpandableListAdapter =
-                    createAdapter();
-            abstractExpandableListAdapter.addGroup(new Object());
-            abstractExpandableListAdapter.addAllChildren(-1, children);
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-
-        }
+        Collection<Object> children = new ArrayList<>();
+        AbstractExpandableListAdapterImplementation abstractExpandableListAdapter = createAdapter();
+        abstractExpandableListAdapter.addGroup(new Object());
+        abstractExpandableListAdapter.addAllChildren(-1, children);
     }
 
-    /**
-     * Tests the functionality of the method, which allows to add all child items, which are
-     * contained by a specific collection, to the group, which corresponds to a specific index, if
-     * the collection contains duplicates.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testAddAllChildrenFromCollectionContainingDuplicatesWithGroupIndexParameter() {
         Object group = new Object();
         Object child = new Object();

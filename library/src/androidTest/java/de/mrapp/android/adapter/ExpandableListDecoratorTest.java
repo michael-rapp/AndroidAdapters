@@ -14,15 +14,20 @@
 package de.mrapp.android.adapter;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import android.test.AndroidTestCase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapter;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -30,7 +35,8 @@ import static org.mockito.Mockito.mock;
  *
  * @author Michael Rapp
  */
-public class ExpandableListDecoratorTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class ExpandableListDecoratorTest {
 
     /**
      * An implementation of the abstract class {@link ExpandableListDecorator}, which is needed for
@@ -162,14 +168,10 @@ public class ExpandableListDecoratorTest extends AndroidTestCase {
 
     }
 
-    ;
-
-    /**
-     * Tests the functionality of the applyDecoratorOnGroup-method.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testApplyDecoratorOnGroup() {
-        Context context = getContext();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         ExpandableListAdapter<Object, Object> adapter = mock(ExpandableListAdapter.class);
         View view = new View(context);
         Object group = new Object();
@@ -195,12 +197,10 @@ public class ExpandableListDecoratorTest extends AndroidTestCase {
         assertEquals(filtered, expandableListDecorator.filtered);
     }
 
-    /**
-     * Tests the functionality of the applyDecoratorOnChild-method.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testApplyDecoratorOnChild() {
-        Context context = getContext();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
         ExpandableListAdapter<Object, Object> adapter = mock(ExpandableListAdapter.class);
         View view = new View(context);
         Object group = new Object();
@@ -228,9 +228,7 @@ public class ExpandableListDecoratorTest extends AndroidTestCase {
         assertEquals(filtered, expandableListDecorator.filtered);
     }
 
-    /**
-     * Tests the functionality of the getGroupViewType-method.
-     */
+    @Test
     public final void testGetGroupViewType() {
         Object group = new Object();
         ExpandableListDecoratorImplementation expandableListDecorator =
@@ -239,9 +237,7 @@ public class ExpandableListDecoratorTest extends AndroidTestCase {
         assertEquals(0, viewType);
     }
 
-    /**
-     * Tests the functionality of the getChildViewType-method.
-     */
+    @Test
     public final void testGetChildViewType() {
         Object child = new Object();
         ExpandableListDecoratorImplementation expandableListDecorator =

@@ -15,12 +15,19 @@ package de.mrapp.android.adapter.datastructure.group;
 
 import android.os.Bundle;
 import android.os.Parcel;
-import android.test.AndroidTestCase;
 
-import junit.framework.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -29,7 +36,8 @@ import static org.mockito.Mockito.when;
  *
  * @author Michael Rapp
  */
-public class GroupTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class GroupTest {
 
     /**
      * An implementation of the interface {@link Cloneable}, which is needed for test purposes.
@@ -43,10 +51,7 @@ public class GroupTest extends AndroidTestCase {
 
     }
 
-    /**
-     * Tests, if all properties are set correctly by the constructor, which expects the group's data
-     * as a parameter.
-     */
+    @Test
     public final void testConstructorWithDataParameter() {
         Object data = new Object();
         Group<Object, Object> group = new Group<>(data);
@@ -55,11 +60,8 @@ public class GroupTest extends AndroidTestCase {
         assertFalse(group.isExpanded());
     }
 
-    /**
-     * Tests, if all properties are set correctly by the constructor, which expects the group's data
-     * and a child adapter as parameters.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testConstructorWithDataAndChildAdapterParameter() {
         MultipleChoiceListAdapter<Object> childAdapter = mock(MultipleChoiceListAdapter.class);
         Object data = new Object();
@@ -69,10 +71,8 @@ public class GroupTest extends AndroidTestCase {
         assertFalse(group.isExpanded());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set the group's child adapter.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testSetChildAdapter() {
         MultipleChoiceListAdapter<Object> childAdapter = mock(MultipleChoiceListAdapter.class);
         Group<Object, Object> group = new Group<>(new Object());
@@ -80,10 +80,7 @@ public class GroupTest extends AndroidTestCase {
         assertEquals(childAdapter, group.getChildAdapter());
     }
 
-    /**
-     * Tests the functionality of the method, which allows to set, whether the group is expanded, or
-     * not.
-     */
+    @Test
     public final void testSetExpanded() {
         boolean expanded = true;
         Group<Object, Object> group = new Group<>(new Object());
@@ -91,13 +88,8 @@ public class GroupTest extends AndroidTestCase {
         assertEquals(expanded, group.isExpanded());
     }
 
-    /**
-     * Tests the functionality of the clone-method.
-     *
-     * @throws CloneNotSupportedException
-     *         The exception, which is thrown, if cloning is not supported
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testClone() throws CloneNotSupportedException {
         MultipleChoiceListAdapter<CloneableImplementation> childAdapter =
                 mock(MultipleChoiceListAdapter.class);
@@ -115,13 +107,7 @@ public class GroupTest extends AndroidTestCase {
         assertEquals(clonedGroup.isExpanded(), expanded);
     }
 
-    /**
-     * Tests the functionality of the clone-method, if the adapter, which manages the group's child
-     * items, is null.
-     *
-     * @throws CloneNotSupportedException
-     *         The exception, which is thrown, if cloning is not supported
-     */
+    @Test
     public final void testCloneWhenChildAdapterIsNull() throws CloneNotSupportedException {
         CloneableImplementation data = new CloneableImplementation();
         boolean expanded = true;
@@ -134,25 +120,16 @@ public class GroupTest extends AndroidTestCase {
         assertEquals(clonedGroup.isExpanded(), expanded);
     }
 
-    /**
-     * Ensures, that a {@link CloneNotSupportedException} is thrown, if cloning is not supported by
-     * the item's data.
-     */
-    public final void testCloneThrowsCloneNotSupportedException() {
-        try {
-            Object data = new Object();
-            Group<Object, Object> group = new Group<>(data);
-            group.clone();
-            Assert.fail();
-        } catch (CloneNotSupportedException e) {
-
-        }
+    @Test(expected = CloneNotSupportedException.class)
+    public final void testCloneThrowsCloneNotSupportedException()
+            throws CloneNotSupportedException {
+        Object data = new Object();
+        Group<Object, Object> group = new Group<>(data);
+        group.clone();
     }
 
-    /**
-     * Tests the functionality of the match-method.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testMatch() {
         Group<Object, Object> group = new Group<>(new Object());
         MultipleChoiceListAdapter<Object> childAdapter = mock(MultipleChoiceListAdapter.class);
@@ -161,17 +138,13 @@ public class GroupTest extends AndroidTestCase {
         assertFalse(group.match("", Group.FLAG_FILTER_EMPTY_GROUPS));
     }
 
-    /**
-     * Tests the functionality of the match-method, if the child adapter is null.
-     */
+    @Test
     public final void testMatchIfChildAdapterIsNull() {
         Group<Object, Object> group = new Group<>(new Object());
         assertFalse(group.match("", Group.FLAG_FILTER_EMPTY_GROUPS));
     }
 
-    /**
-     * Tests the functionality of the toString-method.
-     */
+    @Test
     public final void testToString() {
         Object data = new Object();
         boolean expanded = true;
@@ -180,9 +153,7 @@ public class GroupTest extends AndroidTestCase {
         assertEquals("Group [data=" + data + ", expanded=" + expanded + "]", group.toString());
     }
 
-    /**
-     * Tests the functionality of the hashCode-method.
-     */
+    @Test
     public final void testHashCode() {
         Object data = new Object();
         Group<Object, Object> group1 = new Group<>(data);
@@ -193,9 +164,7 @@ public class GroupTest extends AndroidTestCase {
         assertNotSame(group1.hashCode(), group2.hashCode());
     }
 
-    /**
-     * Tests the functionality of the equals-method.
-     */
+    @Test
     public final void testEquals() {
         Object data = new Object();
         Group<Object, Object> group1 = new Group<>(data);
@@ -208,11 +177,8 @@ public class GroupTest extends AndroidTestCase {
         assertFalse(group1.equals(group2));
     }
 
-    /**
-     * Tests the createFromParcel-method of the creator, which allows to create instances from a
-     * {@link Parcel}.
-     */
     @SuppressWarnings("unchecked")
+    @Test
     public final void testCreatorCreateFromParcel() {
         Bundle data = new Bundle();
         int parcelableValue = 1;
@@ -230,10 +196,7 @@ public class GroupTest extends AndroidTestCase {
         parcel.recycle();
     }
 
-    /**
-     * Tests the newArray-method of the creator, which allows to create instances from a {@link
-     * Parcel}.
-     */
+    @Test
     public final void testCreatorNewArray() {
         int size = 1;
         Group<?, ?>[] array = Group.CREATOR.newArray(size);
