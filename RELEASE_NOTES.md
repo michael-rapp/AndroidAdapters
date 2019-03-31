@@ -1,5 +1,12 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.12.0 (Mar. 31th 2019)
+
+A feature release, which introduces the following changes:
+
+- Added methods for adding items to a sorted `ListAdapter`.
+- Added methods for adding groups and children to a sorted `ExpandableListAdapter`.
+
 ## Version 0.11.2 (Feb. 23th 2019)
 
 A bugfix release, which fixes the following issues:
