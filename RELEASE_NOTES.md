@@ -6,6 +6,8 @@ A feature release, which introduces the following changes:
 
 - Added methods for adding items to a sorted `ListAdapter`.
 - Added methods for adding groups and children to a sorted `ExpandableListAdapter`.
+- A `RestoreInstanceStateException` is now thrown when the state of an adapter could not be restored.
+- Made unit tests work again.
 
 ## Version 0.11.2 (Feb. 23th 2019)
 
