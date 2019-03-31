@@ -1222,6 +1222,73 @@ public class AbstractExpandableListAdapterTest {
         }
 
         @Override
+        public int addChildSorted(@NonNull Object group, @NonNull Object child) {
+            return 0;
+        }
+
+        @Override
+        public int addChildSorted(@NonNull Object group, @NonNull Object child,
+                                  @Nullable Comparator<Object> comparator) {
+            return 0;
+        }
+
+        @Override
+        public int addChildSorted(int groupIndex, @NonNull Object child) {
+            return 0;
+        }
+
+        @Override
+        public int addChildSorted(int groupIndex, @NonNull Object child,
+                                  @Nullable Comparator<Object> comparator) {
+            return 0;
+        }
+
+        @Override
+        public boolean addAllChildrenSorted(@NonNull Object group,
+                                            @NonNull Collection<?> children) {
+            return false;
+        }
+
+        @Override
+        public boolean addAllChildrenSorted(@NonNull Object group, @NonNull Collection<?> children,
+                                            @Nullable Comparator<Object> comparator) {
+            return false;
+        }
+
+        @Override
+        public boolean addAllChildrenSorted(int groupIndex, @NonNull Collection<?> children) {
+            return false;
+        }
+
+        @Override
+        public boolean addAllChildrenSorted(int groupIndex, @NonNull Collection<?> children,
+                                            @Nullable Comparator<Object> comparator) {
+            return false;
+        }
+
+        @Override
+        public boolean addAllChildrenSorted(@NonNull Object group, @NonNull Object... children) {
+            return false;
+        }
+
+        @Override
+        public boolean addAllChildrenSorted(@Nullable Comparator<Object> comparator,
+                                            @NonNull Object group, @NonNull Object... children) {
+            return false;
+        }
+
+        @Override
+        public boolean addAllChildrenSorted(int groupIndex, @NonNull Object... children) {
+            return false;
+        }
+
+        @Override
+        public boolean addAllChildrenSorted(@Nullable Comparator<Object> comparator, int groupIndex,
+                                            @NonNull Object... children) {
+            return false;
+        }
+
+        @Override
         public Order getChildOrder() {
             return null;
         }

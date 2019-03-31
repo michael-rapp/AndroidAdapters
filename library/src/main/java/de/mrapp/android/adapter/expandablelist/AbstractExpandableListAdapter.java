@@ -462,8 +462,8 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      *         as an {@link Integer} value. The index must be between 0 and the value of the method
      *         <code>getGroupCount():int</code> - 1
      */
-    private void notifyOnChildAdded(@NonNull final ChildType child, final int childIndex,
-                                    @NonNull final GroupType group, final int groupIndex) {
+    protected final void notifyOnChildAdded(@NonNull final ChildType child, final int childIndex,
+                                            @NonNull final GroupType group, final int groupIndex) {
         for (ExpandableListAdapterListener<GroupType, ChildType> listener : adapterListeners) {
             listener.onChildAdded(this, child, childIndex, group, groupIndex);
         }

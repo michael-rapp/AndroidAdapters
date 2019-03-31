@@ -557,6 +557,130 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
     }
 
     @Override
+    public final int addChildSorted(@NonNull final GroupType group,
+                                    @NonNull final ChildType child) {
+        return addChildSorted(group, child, null);
+    }
+
+    @Override
+    public final int addChildSorted(@NonNull final GroupType group, @NonNull final ChildType child,
+                                    @Nullable final Comparator<ChildType> comparator) {
+        int groupIndex = indexOfGroupOrThrowException(group);
+        return addChildSorted(groupIndex, child, comparator);
+    }
+
+    @Override
+    public final int addChildSorted(final int groupIndex, @NonNull final ChildType child) {
+        return addChildSorted(groupIndex, child, null);
+    }
+
+    @Override
+    public final int addChildSorted(final int groupIndex, @NonNull final ChildType child,
+                                    @Nullable final Comparator<ChildType> comparator) {
+        Condition.INSTANCE.ensureNotNull(child, "The child may not be null");
+        Order currentOrder = getChildOrder(groupIndex);
+
+        if (currentOrder != null) {
+            Group<GroupType, ChildType> group = getGroupAdapter().getItem(groupIndex);
+
+            if (areDuplicateChildrenAllowed() || !containsChild(child)) {
+                int index = group.getChildAdapter().addItemSorted(child, comparator);
+
+                if (index != -1) {
+                    notifyOnChildAdded(child, index, group.getData(), groupIndex);
+                    notifyObserversOnChildInserted(groupIndex, index);
+                    String message =
+                            "Child \"" + child + "\" added at index " + index + " to group \"" +
+                                    group.getData() + "\" at index " + groupIndex;
+                    getLogger().logInfo(getClass(), message);
+                } else {
+                    String message =
+                            "Child \"" + child + "\" not added to group \"" + group.getData() +
+                                    "\" at index " + groupIndex +
+                                    ", because group already contains child";
+                    getLogger().logDebug(getClass(), message);
+                }
+
+                return index;
+            } else {
+                String message = "Child \"" + child + "\" not added to group \"" + group.getData() +
+                        "\" at index " + groupIndex + ", because adapter already contains child";
+                getLogger().logDebug(getClass(), message);
+                return -1;
+            }
+        } else {
+            String message = "The children of the group at index " + groupIndex +
+                    " are currently not sorted. Child will be added at the end...";
+            getLogger().logDebug(getClass(), message);
+            return addChild(groupIndex, child);
+        }
+    }
+
+    @Override
+    public final boolean addAllChildrenSorted(@NonNull final GroupType group,
+                                              @NonNull final Collection<? extends ChildType> children) {
+        return addAllChildrenSorted(group, children, null);
+    }
+
+    @Override
+    public final boolean addAllChildrenSorted(@NonNull final GroupType group,
+                                              @NonNull final Collection<? extends ChildType> children,
+                                              @Nullable final Comparator<ChildType> comparator) {
+        int groupIndex = indexOfGroupOrThrowException(group);
+        return addAllChildrenSorted(groupIndex, children, comparator);
+    }
+
+    @Override
+    public final boolean addAllChildrenSorted(final int groupIndex,
+                                              @NonNull final Collection<? extends ChildType> children) {
+        return addAllChildrenSorted(groupIndex, children, null);
+    }
+
+    @Override
+    public final boolean addAllChildrenSorted(final int groupIndex,
+                                              @NonNull final Collection<? extends ChildType> children,
+                                              @Nullable final Comparator<ChildType> comparator) {
+        boolean result = true;
+
+        for (ChildType child : children) {
+            result &= addChildSorted(groupIndex, child, comparator) != -1;
+        }
+
+        return result;
+    }
+
+    @SafeVarargs
+    @Override
+    public final boolean addAllChildrenSorted(@NonNull final GroupType group,
+                                              @NonNull final ChildType... children) {
+        return addAllChildrenSorted(null, group, children);
+    }
+
+    @SafeVarargs
+    @Override
+    public final boolean addAllChildrenSorted(@Nullable final Comparator<ChildType> comparator,
+                                              @NonNull final GroupType group,
+                                              @NonNull final ChildType... children) {
+        int groupIndex = indexOfGroupOrThrowException(group);
+        return addAllChildrenSorted(comparator, groupIndex, children);
+    }
+
+    @SafeVarargs
+    @Override
+    public final boolean addAllChildrenSorted(final int groupIndex,
+                                              @NonNull final ChildType... children) {
+        return addAllChildrenSorted(null, groupIndex, children);
+    }
+
+    @SafeVarargs
+    @Override
+    public final boolean addAllChildrenSorted(@Nullable final Comparator<ChildType> comparator,
+                                              final int groupIndex,
+                                              @NonNull final ChildType... children) {
+        return addAllChildrenSorted(groupIndex, Arrays.asList(children), comparator);
+    }
+
+    @Override
     public final Order getChildOrder() {
         return childOrder;
     }

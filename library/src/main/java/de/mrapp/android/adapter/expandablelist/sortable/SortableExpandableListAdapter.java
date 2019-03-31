@@ -351,6 +351,264 @@ public interface SortableExpandableListAdapter<GroupType, ChildType> {
                       @Nullable Comparator<ChildType> comparator);
 
     /**
+     * Adds a specific child item to a specific group. If the group's children are currently sorted,
+     * the child item will be added at the correct position regarding the current order. Otherwise,
+     * it will be added at the end. If the adapter's underlying data does not implement the
+     * interface {@link Comparable} a {@link SortingNotSupportedException} will be thrown.
+     *
+     * @param group
+     *         The group, the child item should be added to, as an instance of the generic type
+     *         GroupType. The group may not be null. If the group does not belong to the adapter, a
+     *         {@link NoSuchElementException} will be thrown
+     * @param child
+     *         The child item, which should be added to the adapter, as an instance of the generic
+     *         type ChildType. The child item may not be null
+     * @return The index of the the child item, which has been added to the adapter, as an {@link
+     * Integer} value or -1, if the child item has not been added
+     */
+    int addChildSorted(@NonNull GroupType group, @NonNull ChildType child);
+
+    /**
+     * Adds a specific child item to a specific group. If the group's children are currently sorted,
+     * the child item will be added at the correct position regarding the current order. Otherwise,
+     * it will be added at the end. If the adapter's underlying data does not implement the
+     * interface {@link Comparable} a {@link SortingNotSupportedException} will be thrown.
+     *
+     * @param group
+     *         The group, the child item should be added to, as an instance of the generic type
+     *         GroupType. The group may not be null. If the group does not belong to the adapter, a
+     *         {@link NoSuchElementException} will be thrown
+     * @param child
+     *         The child item, which should be added to the adapter, as an instance of the generic
+     *         type ChildType. The child item may not be null
+     * @param comparator
+     *         The comparator, which should be used to sort the child items, as an instance of the
+     *         type {@link Comparator} or null, if the natural order should be used
+     * @return The index of the the child item, which has been added to the adapter, as an {@link
+     * Integer} value or -1, if the child item has not been added
+     */
+    int addChildSorted(@NonNull GroupType group, @NonNull ChildType child,
+                       @Nullable Comparator<ChildType> comparator);
+
+    /**
+     * Adds a specific child item to the group, which belongs to a specific index. If the group's
+     * children are currently sorted, the child item will be added at the correct position regarding
+     * the current order. Otherwise, it will be added at the end.
+     *
+     * @param groupIndex
+     *         The index of the group, the child item should be added to, as an {@link Integer}
+     *         value. The index must be between 0 and the value of the method
+     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException}
+     *         will be thrown
+     * @param child
+     *         The child item, which should be added to the adapter, as an instance of the generic
+     *         type ChildType. The child item may not be null
+     * @return The index of the the child item, which has been added to the adapter, as an {@link
+     * Integer} value or -1, if the child item has not been added
+     */
+    int addChildSorted(int groupIndex, @NonNull ChildType child);
+
+    /**
+     * Adds a specific child item to the group, which belongs to a specific index. If the group's
+     * children are currently sorted, the child item will be added at the correct position regarding
+     * the current order. Otherwise, it will be added at the end.
+     *
+     * @param groupIndex
+     *         The index of the group, the child item should be added to, as an {@link Integer}
+     *         value. The index must be between 0 and the value of the method
+     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException}
+     *         will be thrown
+     * @param child
+     *         The child item, which should be added to the adapter, as an instance of the generic
+     *         type ChildType. The child item may not be null
+     * @param comparator
+     *         The comparator, which should be used to sort the child items, as an instance of the
+     *         type {@link Comparator} or null, if the natural order should be used
+     * @return The index of the the child item, which has been added to the adapter, as an {@link
+     * Integer} value or -1, if the child item has not been added
+     */
+    int addChildSorted(int groupIndex, @NonNull ChildType child,
+                       @Nullable Comparator<ChildType> comparator);
+
+    /**
+     * Adds all child items, which are contained by a specific collection, to a specific group. If
+     * the group's children are currently sorted, the child items will be added at the correct
+     * position regarding the current order. Otherwise, they will be added at the end. If the
+     * adapter's underlying data does not implement the interface {@link Comparable} a {@link
+     * SortingNotSupportedException} will be thrown.
+     *
+     * @param group
+     *         The group, the child items should be added to, as an instance of the generic type
+     *         GroupType. The group may not be null. If the group does not belong to the adapter, a
+     *         {@link NoSuchElementException} will be thrown
+     * @param children
+     *         The collection, which contains the child items, which should be added to the adapter,
+     *         as an instance of the type {@link Collection} or an empty collection, if no child
+     *         items should be added
+     * @return True, if all child items have been added to the adapter, false otherwise
+     */
+    boolean addAllChildrenSorted(@NonNull GroupType group,
+                                 @NonNull Collection<? extends ChildType> children);
+
+    /**
+     * Adds all child items, which are contained by a specific collection, to a specific group. If
+     * the group's children are currently sorted, the child items will be added at the correct
+     * position regarding the current order. Otherwise, they will be added at the end. If the
+     * adapter's underlying data does not implement the interface {@link Comparable} a {@link
+     * SortingNotSupportedException} will be thrown.
+     *
+     * @param group
+     *         The group, the child items should be added to, as an instance of the generic type
+     *         GroupType. The group may not be null. If the group does not belong to the adapter, a
+     *         {@link NoSuchElementException} will be thrown
+     * @param children
+     *         The collection, which contains the child items, which should be added to the adapter,
+     *         as an instance of the type {@link Collection} or an empty collection, if no child
+     *         items should be added
+     * @param comparator
+     *         The comparator, which should be used to sort the child items, as an instance of the
+     *         type {@link Comparator} or null, if the natural order should be used
+     * @return True, if all child items have been added to the adapter, false otherwise
+     */
+    boolean addAllChildrenSorted(@NonNull GroupType group,
+                                 @NonNull Collection<? extends ChildType> children,
+                                 @Nullable Comparator<ChildType> comparator);
+
+    /**
+     * Adds all child items, which are contained by a specific collection, to the group, which
+     * belongs to a specific index. If the group's children are currently sorted, the child items
+     * will be added at the correct position regarding the current order. Otherwise, they will be
+     * added at the end. If the adapter's underlying data does not implement the interface {@link
+     * Comparable} a {@link SortingNotSupportedException} will be thrown.
+     *
+     * @param groupIndex
+     *         The index of the group, the child item should be added to, as an {@link Integer}
+     *         value. The index must be between 0 and the value of the method
+     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException}
+     *         will be thrown
+     * @param children
+     *         The collection, which contains the child items, which should be added to the adapter,
+     *         as an instance of the type {@link Collection} or an empty collection, if no child
+     *         items should be added
+     * @return True, if all child items have been added to the adapter, false otherwise
+     */
+    boolean addAllChildrenSorted(int groupIndex, @NonNull Collection<? extends ChildType> children);
+
+    /**
+     * Adds all child items, which are contained by a specific collection, to the group, which
+     * belongs to a specific index. If the group's children are currently sorted, the child items
+     * will be added at the correct position regarding the current order. Otherwise, they will be
+     * added at the end. If the adapter's underlying data does not implement the interface {@link
+     * Comparable} a {@link SortingNotSupportedException} will be thrown.
+     *
+     * @param groupIndex
+     *         The index of the group, the child item should be added to, as an {@link Integer}
+     *         value. The index must be between 0 and the value of the method
+     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException}
+     *         will be thrown
+     * @param children
+     *         The collection, which contains the child items, which should be added to the adapter,
+     *         as an instance of the type {@link Collection} or an empty collection, if no child
+     *         items should be added
+     * @param comparator
+     *         The comparator, which should be used to sort the child items, as an instance of the
+     *         type {@link Comparator} or null, if the natural order should be used
+     * @return True, if all child items have been added to the adapter, false otherwise
+     */
+    boolean addAllChildrenSorted(int groupIndex, @NonNull Collection<? extends ChildType> children,
+                                 @Nullable Comparator<ChildType> comparator);
+
+    /**
+     * Adds all child items, which are contained by a specific array, to a specific group. If the
+     * group's children are currently sorted, the child items will be added at the correct position
+     * regarding the current order. Otherwise, they will be added at the end. If the adapter's
+     * underlying data does not implement the interface {@link Comparable} a {@link
+     * SortingNotSupportedException} will be thrown.
+     *
+     * @param group
+     *         The group, the child items should be added to, as an instance of the generic type
+     *         GroupType. The group may not be null. If the group does not belong to the adapter, a
+     *         {@link NoSuchElementException} will be thrown
+     * @param children
+     *         The array, which contains the child items, which should be added to the adapter, as
+     *         an array of the generic type ChildType or an empty array, if no child items should be
+     *         added
+     * @return True, if all child items have been added to the adapter, false otherwise
+     */
+    @SuppressWarnings("unchecked")
+    boolean addAllChildrenSorted(@NonNull GroupType group, @NonNull ChildType... children);
+
+    /**
+     * Adds all child items, which are contained by a specific array, to a specific group. If the
+     * group's children are currently sorted, the child items will be added at the correct position
+     * regarding the current order. Otherwise, they will be added at the end. If the adapter's
+     * underlying data does not implement the interface {@link Comparable} a {@link
+     * SortingNotSupportedException} will be thrown.
+     *
+     * @param comparator
+     *         The comparator, which should be used to sort the child items, as an instance of the
+     *         type {@link Comparator} or null, if the natural order should be used
+     * @param group
+     *         The group, the child items should be added to, as an instance of the generic type
+     *         GroupType. The group may not be null. If the group does not belong to the adapter, a
+     *         {@link NoSuchElementException} will be thrown
+     * @param children
+     *         The array, which contains the child items, which should be added to the adapter, as
+     *         an array of the generic type ChildType or an empty array, if no child items should be
+     *         added
+     * @return True, if all child items have been added to the adapter, false otherwise
+     */
+    @SuppressWarnings("unchecked")
+    boolean addAllChildrenSorted(@Nullable Comparator<ChildType> comparator,
+                                 @NonNull GroupType group, @NonNull ChildType... children);
+
+    /**
+     * Adds all child items, which are contained by a specific array, to the group, which belongs to
+     * a specific index. If the group's children are currently sorted, the child items will be added
+     * at the correct position regarding the current order. Otherwise, they will be added at the
+     * end. If the adapter's underlying data does not implement the interface {@link Comparable} a
+     * {@link SortingNotSupportedException} will be thrown.
+     *
+     * @param groupIndex
+     *         The index of the group, the child item should be added to, as an {@link Integer}
+     *         value. The index must be between 0 and the value of the method
+     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException}
+     *         will be thrown
+     * @param children
+     *         The array, which contains the child items, which should be added to the adapter, as
+     *         an array of the generic type ChildType or an empty array, if no child items should be
+     *         added
+     * @return True, if all child items have been added to the adapter, false otherwise
+     */
+    @SuppressWarnings("unchecked")
+    boolean addAllChildrenSorted(int groupIndex, @NonNull ChildType... children);
+
+    /**
+     * Adds all child items, which are contained by a specific array, to the group, which belongs to
+     * a specific index. If the group's children are currently sorted, the child items will be added
+     * at the correct position regarding the current order. Otherwise, they will be added at the
+     * end. If the adapter's underlying data does not implement the interface {@link Comparable} a
+     * {@link SortingNotSupportedException} will be thrown.
+     *
+     * @param comparator
+     *         The comparator, which should be used to sort the child items, as an instance of the
+     *         type {@link Comparator} or null, if the natural order should be used
+     * @param groupIndex
+     *         The index of the group, the child item should be added to, as an {@link Integer}
+     *         value. The index must be between 0 and the value of the method
+     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException}
+     *         will be thrown
+     * @param children
+     *         The array, which contains the child items, which should be added to the adapter, as
+     *         an array of the generic type ChildType or an empty array, if no child items should be
+     *         added
+     * @return True, if all child items have been added to the adapter, false otherwise
+     */
+    @SuppressWarnings("unchecked")
+    boolean addAllChildrenSorted(@Nullable Comparator<ChildType> comparator, int groupIndex,
+                                 @NonNull ChildType... children);
+
+    /**
      * Returns the current order of all child items, regardless of the group they belong to.
      *
      * @return The current order of the child items as a value of the enum {@link Order} or null, if
