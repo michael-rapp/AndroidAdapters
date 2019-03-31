@@ -419,7 +419,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      *         value. The index must be between 0 and the value of the method
      *         <code>getGroupCount():int</code> - 1
      */
-    private void notifyOnGroupAdded(@NonNull final GroupType group, final int index) {
+    protected final void notifyOnGroupAdded(@NonNull final GroupType group, final int index) {
         for (ExpandableListAdapterListener<GroupType, ChildType> listener : adapterListeners) {
             listener.onGroupAdded(this, group, index);
         }
@@ -1387,8 +1387,6 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      * Creates and returns a group. This method may be overridden by subclasses in order to modify
      * the group.
      *
-     * @param groupIndex
-     *         The index of the group, which should be created, as an {@link Integer} value
      * @param group
      *         The data of the group, which should be created, as an instance of the generic type
      *         GroupType. The data may not be null
@@ -1396,8 +1394,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
      * group may not be null
      */
     @CallSuper
-    protected Group<GroupType, ChildType> createGroup(final int groupIndex,
-                                                      @NonNull final GroupType group) {
+    protected Group<GroupType, ChildType> createGroup(@NonNull final GroupType group) {
         return new Group<>(group, createChildAdapter());
     }
 
@@ -1919,7 +1916,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @Override
     public final boolean addGroup(final int index, @NonNull final GroupType group) {
-        boolean added = groupAdapter.addItem(index, createGroup(index, group));
+        boolean added = groupAdapter.addItem(index, createGroup(group));
 
         if (added) {
             notifyOnGroupAdded(group, index);

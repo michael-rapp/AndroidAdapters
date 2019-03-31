@@ -1113,13 +1113,45 @@ public class AbstractExpandableListAdapterTest {
         }
 
         @Override
-        public void sortGroups(@NonNull Comparator<Object> comparator) {
+        public void sortGroups(@Nullable Comparator<Object> comparator) {
 
         }
 
         @Override
-        public void sortGroups(@NonNull Order order, @NonNull Comparator<Object> comparator) {
+        public void sortGroups(@NonNull Order order, @Nullable Comparator<Object> comparator) {
 
+        }
+
+        @Override
+        public int addGroupSorted(@NonNull Object group) {
+            return 0;
+        }
+
+        @Override
+        public int addGroupSorted(@NonNull Object group, @Nullable Comparator<Object> comparator) {
+            return 0;
+        }
+
+        @Override
+        public boolean addAllGroupsSorted(@NonNull Collection<?> groups) {
+            return false;
+        }
+
+        @Override
+        public boolean addAllGroupsSorted(@NonNull Collection<?> groups,
+                                          @Nullable Comparator<Object> comparator) {
+            return false;
+        }
+
+        @Override
+        public boolean addAllGroupsSorted(@NonNull Object... groups) {
+            return false;
+        }
+
+        @Override
+        public boolean addAllGroupsSorted(@Nullable Comparator<Object> comparator,
+                                          @NonNull Object... groups) {
+            return false;
         }
 
         @Override
@@ -1138,12 +1170,12 @@ public class AbstractExpandableListAdapterTest {
         }
 
         @Override
-        public void sortChildren(@NonNull Comparator<Object> comparator) {
+        public void sortChildren(@Nullable Comparator<Object> comparator) {
 
         }
 
         @Override
-        public void sortChildren(@NonNull Order order, @NonNull Comparator<Object> comparator) {
+        public void sortChildren(@NonNull Order order, @Nullable Comparator<Object> comparator) {
 
         }
 
@@ -1158,13 +1190,13 @@ public class AbstractExpandableListAdapterTest {
         }
 
         @Override
-        public void sortChildren(int groupIndex, @NonNull Comparator<Object> comparator) {
+        public void sortChildren(int groupIndex, @Nullable Comparator<Object> comparator) {
 
         }
 
         @Override
         public void sortChildren(int groupIndex, @NonNull Order order,
-                                 @NonNull Comparator<Object> comparator) {
+                                 @Nullable Comparator<Object> comparator) {
 
         }
 
@@ -1179,13 +1211,13 @@ public class AbstractExpandableListAdapterTest {
         }
 
         @Override
-        public void sortChildren(@NonNull Object group, @NonNull Comparator<Object> comparator) {
+        public void sortChildren(@NonNull Object group, @Nullable Comparator<Object> comparator) {
 
         }
 
         @Override
         public void sortChildren(@NonNull Object group, @NonNull Order order,
-                                 @NonNull Comparator<Object> comparator) {
+                                 @Nullable Comparator<Object> comparator) {
 
         }
 

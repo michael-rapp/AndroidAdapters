@@ -17,7 +17,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.ExpandableListView;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 
 import androidx.annotation.CallSuper;
@@ -351,28 +353,99 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
     }
 
     @Override
-    public final void sortGroups(@NonNull final Comparator<GroupType> comparator) {
+    public final void sortGroups(@Nullable final Comparator<GroupType> comparator) {
         sortGroups(Order.ASCENDING, comparator);
     }
 
     @Override
     public final void sortGroups(@NonNull final Order order,
-                                 @NonNull final Comparator<GroupType> comparator) {
+                                 @Nullable final Comparator<GroupType> comparator) {
         Comparator<Group<GroupType, ChildType>> groupComparator = new GroupComparator<>(comparator);
         getGroupAdapter().sort(order, groupComparator);
 
         if (order == Order.ASCENDING) {
-            String message = "Sorted groups in ascending order using the comparator \"" +
-                    comparator.getClass().getSimpleName() + "\"";
+            String message = "Sorted groups in ascending order";
             getLogger().logInfo(getClass(), message);
         } else {
-            String message = "Sorted groups in descending order using the comparator \"" +
-                    comparator.getClass().getSimpleName() + "\"";
+            String message = "Sorted groups in descending order";
             getLogger().logInfo(getClass(), message);
         }
 
         notifyObserversOnDataSetChanged();
         notifyOnGroupsSorted(getAllGroups(), order, comparator);
+    }
+
+    @Override
+    public final int addGroupSorted(@NonNull final GroupType group) {
+        return addGroupSorted(group, null);
+    }
+
+    @Override
+    public final int addGroupSorted(@NonNull final GroupType group,
+                                    @Nullable final Comparator<GroupType> comparator) {
+        Condition.INSTANCE.ensureNotNull(group, "The group may not be null");
+        Order currentOrder = getGroupOrder();
+
+        if (currentOrder != null) {
+            Comparator<Group<GroupType, ChildType>> groupComparator =
+                    new GroupComparator<>(comparator);
+
+            if (currentOrder == Order.DESCENDING) {
+                groupComparator = Collections.reverseOrder(groupComparator);
+            }
+
+            Group<GroupType, ChildType> groupToAdd = createGroup(group);
+            int index = getGroupAdapter().addItemSorted(groupToAdd, groupComparator);
+
+            if (index != -1) {
+                notifyOnGroupAdded(group, index);
+                notifyObserversOnGroupInserted(index);
+                String message = "Group \"" + group + "\" added at index " + index;
+                getLogger().logInfo(getClass(), message);
+            } else {
+                String message =
+                        "Group \"" + group + "\" not added, because adapter already contains group";
+                getLogger().logDebug(getClass(), message);
+            }
+
+            return index;
+        } else {
+            String message = "Groups are currently not sorted. Group will be added at the end...";
+            getLogger().logDebug(getClass(), message);
+            return addGroup(group);
+        }
+    }
+
+    @Override
+    public final boolean addAllGroupsSorted(@NonNull final Collection<? extends GroupType> groups) {
+        return addAllGroupsSorted(groups, null);
+    }
+
+    @Override
+    public final boolean addAllGroupsSorted(@NonNull final Collection<? extends GroupType> groups,
+                                            @Nullable final Comparator<GroupType> comparator) {
+        Condition.INSTANCE.ensureNotNull(groups, "The collection may not be null");
+        boolean result = true;
+
+        for (GroupType group : groups) {
+            int index = addGroupSorted(group, comparator);
+            result &= index != -1;
+        }
+
+        return result;
+    }
+
+    @SafeVarargs
+    @Override
+    public final boolean addAllGroupsSorted(@NonNull final GroupType... groups) {
+        return addAllGroupsSorted(null, groups);
+    }
+
+    @SafeVarargs
+    @Override
+    public final boolean addAllGroupsSorted(@Nullable final Comparator<GroupType> comparator,
+                                            @NonNull final GroupType... groups) {
+        return addAllGroupsSorted(Arrays.asList(groups), comparator);
     }
 
     @Override
@@ -395,13 +468,13 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
     }
 
     @Override
-    public final void sortChildren(@NonNull final Comparator<ChildType> comparator) {
+    public final void sortChildren(@Nullable final Comparator<ChildType> comparator) {
         sortChildren(Order.ASCENDING, comparator);
     }
 
     @Override
     public final void sortChildren(@NonNull final Order order,
-                                   @NonNull final Comparator<ChildType> comparator) {
+                                   @Nullable final Comparator<ChildType> comparator) {
         childOrder = order;
 
         for (int i = 0; i < getGroupCount(); i++) {
@@ -436,30 +509,28 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
 
     @Override
     public final void sortChildren(final int groupIndex,
-                                   @NonNull final Comparator<ChildType> comparator) {
+                                   @Nullable final Comparator<ChildType> comparator) {
         sortChildren(groupIndex, Order.ASCENDING, comparator);
     }
 
     @Override
     public final void sortChildren(final int groupIndex, @NonNull final Order order,
-                                   @NonNull final Comparator<ChildType> comparator) {
+                                   @Nullable final Comparator<ChildType> comparator) {
         Group<GroupType, ChildType> group = getGroupAdapter().getItem(groupIndex);
         group.getChildAdapter().sort(order, comparator);
 
         if (order == Order.ASCENDING) {
-            String message = "Sorted children of group \"" + group.getData() +
-                    "\" in ascending order using the comparator \"" +
-                    comparator.getClass().getSimpleName() + "\"";
+            String message =
+                    "Sorted children of group \"" + group.getData() + "\" in ascending order";
             getLogger().logInfo(getClass(), message);
         } else {
-            String message = "Sorted children of group \"" + group.getData() +
-                    "\" in descending order using the comparator \"" +
-                    comparator.getClass().getSimpleName() + "\"";
+            String message =
+                    "Sorted children of group \"" + group.getData() + "\" in descending order";
             getLogger().logInfo(getClass(), message);
         }
 
         notifyObserversOnDataSetChanged();
-        notifyOnChildrenSorted(getAllChildren(groupIndex), order, null, group.getData(),
+        notifyOnChildrenSorted(getAllChildren(groupIndex), order, comparator, group.getData(),
                 groupIndex);
     }
 
@@ -475,13 +546,13 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
 
     @Override
     public final void sortChildren(@NonNull final GroupType group,
-                                   @NonNull final Comparator<ChildType> comparator) {
+                                   @Nullable final Comparator<ChildType> comparator) {
         sortChildren(group, Order.ASCENDING, comparator);
     }
 
     @Override
     public final void sortChildren(@NonNull final GroupType group, @NonNull final Order order,
-                                   @NonNull final Comparator<ChildType> comparator) {
+                                   @Nullable final Comparator<ChildType> comparator) {
         sortChildren(indexOfGroupOrThrowException(group), order, comparator);
     }
 

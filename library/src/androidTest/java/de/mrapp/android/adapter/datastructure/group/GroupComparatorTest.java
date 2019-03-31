@@ -32,11 +32,6 @@ import static org.mockito.Mockito.when;
 @RunWith(AndroidJUnit4.class)
 public class GroupComparatorTest {
 
-    @Test(expected = IllegalArgumentException.class)
-    public final void testSetComparableToNullThrowsException() {
-        new GroupComparator<>(null);
-    }
-
     @SuppressWarnings("unchecked")
     @Test
     public final void testCompare() {

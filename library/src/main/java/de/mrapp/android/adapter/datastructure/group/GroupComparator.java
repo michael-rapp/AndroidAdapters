@@ -15,7 +15,7 @@ package de.mrapp.android.adapter.datastructure.group;
 
 import java.util.Comparator;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import de.mrapp.util.Condition;
 
 /**
@@ -42,17 +42,20 @@ public class GroupComparator<GroupType, ChildType>
      *
      * @param comparator
      *         The comparator, which should be used to compare the groups' data, as an instance of
-     *         the type {@link Comparator}. The comparator may not be null
+     *         the type {@link Comparator} or null, if the natural order should be used
      */
-    public GroupComparator(@NonNull final Comparator<GroupType> comparator) {
-        Condition.INSTANCE.ensureNotNull(comparator, "The comparator may not be null");
+    public GroupComparator(@Nullable final Comparator<GroupType> comparator) {
         this.comparator = comparator;
     }
 
     @Override
     public final int compare(final Group<GroupType, ChildType> lhs,
                              final Group<GroupType, ChildType> rhs) {
-        return comparator.compare(lhs.getData(), rhs.getData());
+        if (comparator != null) {
+            return comparator.compare(lhs.getData(), rhs.getData());
+        } else {
+            return lhs.compareTo(rhs);
+        }
     }
 
 }
