@@ -639,6 +639,41 @@ public class AbstractSortableListAdapterTest {
         abstractSortableListAdapter.sort(null, new ComparatorImplementation());
     }
 
+    @SuppressWarnings("unchecked")
+    @Test
+    public final void testAddItemSorted() {
+        ComparableImplementation item1 = new ComparableImplementation(3);
+        ComparableImplementation item2 = new ComparableImplementation(1);
+        ComparableImplementation item3 = new ComparableImplementation(2);
+        DataSetObserver dataSetObserver = new DataSetObserver();
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        AbstractSortableListAdapterImplementation abstractSortableListAdapter =
+                new AbstractSortableListAdapterImplementation(context,
+                        new ListDecoratorImplementation(), LogLevel.ALL,
+                        new ArrayList<Item<ComparableImplementation>>(), false, true,
+                        new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(), 1,
+                        false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
+                        new LinkedHashSet<ListSortingListener<ComparableImplementation>>());
+        abstractSortableListAdapter.registerDataSetObserver(dataSetObserver);
+        abstractSortableListAdapter.addItem(item1);
+        abstractSortableListAdapter.addItem(item2);
+        abstractSortableListAdapter.sort();
+        assertEquals(0, abstractSortableListAdapter.indexOf(item2));
+        assertEquals(1, abstractSortableListAdapter.indexOf(item1));
+        assertEquals(Order.ASCENDING, abstractSortableListAdapter.getOrder());
+        dataSetObserver.reset();
+        int index = abstractSortableListAdapter.addItemSorted(item3);
+        assertEquals(1, index);
+        assertEquals(0, abstractSortableListAdapter.indexOf(item2));
+        assertEquals(1, abstractSortableListAdapter.indexOf(item3));
+        assertEquals(2, abstractSortableListAdapter.indexOf(item1));
+        assertTrue(dataSetObserver.hasOnChangedBeenCalled());
+        assertEquals(Order.ASCENDING, abstractSortableListAdapter.getOrder());
+    }
+
     @Test
     public final void testAddItemInvalidatesOrder() {
         Context context = InstrumentationRegistry.getInstrumentation().getContext();
