@@ -38,6 +38,7 @@ import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.FilterQuery;
 import de.mrapp.android.adapter.ListDecorator;
 import de.mrapp.android.adapter.Order;
+import de.mrapp.android.adapter.RestoreInstanceStateException;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.list.ListAdapter;
 import de.mrapp.android.adapter.list.ListAdapterItemClickListener;
@@ -806,7 +807,7 @@ public class AbstractSortableListAdapterTest {
     }
 
     @Test
-    public final void testOnRestoreInstanceState() {
+    public final void testOnRestoreInstanceState() throws RestoreInstanceStateException {
         String key = "keyadapter";
         Order order = Order.DESCENDING;
         Context context = InstrumentationRegistry.getInstrumentation().getContext();

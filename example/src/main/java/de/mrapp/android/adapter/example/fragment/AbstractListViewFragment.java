@@ -41,7 +41,7 @@ public abstract class AbstractListViewFragment<AdapterType extends ListAdapter<C
 
     @Override
     protected final void attachAdapter(final View rootView, final ListAdapter adapter) {
-        ListView listView = (ListView) rootView.findViewById(R.id.list_view);
+        ListView listView = rootView.findViewById(R.id.list_view);
         adapter.attach(listView);
         listView.setLongClickable(true);
     }

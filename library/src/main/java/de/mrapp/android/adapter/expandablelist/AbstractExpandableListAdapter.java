@@ -41,6 +41,7 @@ import androidx.annotation.VisibleForTesting;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
+import de.mrapp.android.adapter.RestoreInstanceStateException;
 import de.mrapp.android.adapter.datastructure.UnmodifiableList;
 import de.mrapp.android.adapter.datastructure.group.Group;
 import de.mrapp.android.adapter.datastructure.group.GroupIterator;
@@ -3435,48 +3436,53 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @Override
     public final void onRestoreInstanceState(@NonNull final Bundle savedInstanceState,
-                                             @NonNull final String key) {
+                                             @NonNull final String key)
+            throws RestoreInstanceStateException {
         Bundle savedState = savedInstanceState.getBundle(key);
 
         if (savedState != null) {
-            if (savedState.containsKey(GROUP_ADAPTER_BUNDLE_KEY)) {
-                groupAdapter.onRestoreInstanceState(savedState, GROUP_ADAPTER_BUNDLE_KEY);
+            try {
+                if (savedState.containsKey(GROUP_ADAPTER_BUNDLE_KEY)) {
+                    groupAdapter.onRestoreInstanceState(savedState, GROUP_ADAPTER_BUNDLE_KEY);
 
-                for (int i = 0; i < groupAdapter.getCount(); i++) {
-                    Group<GroupType, ChildType> group = groupAdapter.getItem(i);
-                    String childAdapterKey = String.format(CHILD_ADAPTER_BUNDLE_KEY, i);
-                    MultipleChoiceListAdapter<ChildType> childAdapter = createChildAdapter();
+                    for (int i = 0; i < groupAdapter.getCount(); i++) {
+                        Group<GroupType, ChildType> group = groupAdapter.getItem(i);
+                        String childAdapterKey = String.format(CHILD_ADAPTER_BUNDLE_KEY, i);
+                        MultipleChoiceListAdapter<ChildType> childAdapter = createChildAdapter();
 
-                    if (savedState.containsKey(childAdapterKey)) {
-                        childAdapter.onRestoreInstanceState(savedState, childAdapterKey);
+                        if (savedState.containsKey(childAdapterKey)) {
+                            childAdapter.onRestoreInstanceState(savedState, childAdapterKey);
+                        }
+
+                        group.setChildAdapter(childAdapter);
                     }
-
-                    group.setChildAdapter(childAdapter);
                 }
-            }
 
-            if (savedState.containsKey(ADAPTER_VIEW_STATE_BUNDLE_KEY)) {
-                if (adapterView != null) {
-                    AdapterViewUtil.onRestoreInstanceState(adapterView, savedState,
-                            ADAPTER_VIEW_STATE_BUNDLE_KEY);
-                } else if (expandableGridView != null) {
-                    AdapterViewUtil.onRestoreInstanceState(expandableGridView, savedState,
-                            ADAPTER_VIEW_STATE_BUNDLE_KEY);
-                } else if (expandableRecyclerView != null) {
-                    expandableRecyclerView.getLayoutManager().onRestoreInstanceState(
-                            savedState.getParcelable(ADAPTER_VIEW_STATE_BUNDLE_KEY));
+                if (savedState.containsKey(ADAPTER_VIEW_STATE_BUNDLE_KEY)) {
+                    if (adapterView != null) {
+                        AdapterViewUtil.onRestoreInstanceState(adapterView, savedState,
+                                ADAPTER_VIEW_STATE_BUNDLE_KEY);
+                    } else if (expandableGridView != null) {
+                        AdapterViewUtil.onRestoreInstanceState(expandableGridView, savedState,
+                                ADAPTER_VIEW_STATE_BUNDLE_KEY);
+                    } else if (expandableRecyclerView != null) {
+                        expandableRecyclerView.getLayoutManager().onRestoreInstanceState(
+                                savedState.getParcelable(ADAPTER_VIEW_STATE_BUNDLE_KEY));
+                    }
                 }
-            }
 
-            allowDuplicateChildren(savedState.getBoolean(ALLOW_DUPLICATE_CHILDREN_BUNDLE_KEY));
-            triggerGroupExpansionOnClick(
-                    savedState.getBoolean(TRIGGER_GROUP_EXPANSION_ON_CLICK_BUNDLE_KEY));
-            setLogLevel(LogLevel.fromRank(savedState.getInt(LOG_LEVEL_BUNDLE_KEY)));
-            onRestoreInstanceState(savedState);
-            notifyDataSetChanged();
-            getLogger().logDebug(getClass(), "Restored instance state");
+                allowDuplicateChildren(savedState.getBoolean(ALLOW_DUPLICATE_CHILDREN_BUNDLE_KEY));
+                triggerGroupExpansionOnClick(
+                        savedState.getBoolean(TRIGGER_GROUP_EXPANSION_ON_CLICK_BUNDLE_KEY));
+                setLogLevel(LogLevel.fromRank(savedState.getInt(LOG_LEVEL_BUNDLE_KEY)));
+                onRestoreInstanceState(savedState);
+                notifyDataSetChanged();
+                getLogger().logDebug(getClass(), "Restored instance state");
+            } catch (Exception e) {
+                throw new RestoreInstanceStateException(e);
+            }
         } else {
-            getLogger().logWarn(getClass(),
+            throw new RestoreInstanceStateException(
                     "Saved instance state does not contain bundle with key \"" + key + "\"");
         }
     }

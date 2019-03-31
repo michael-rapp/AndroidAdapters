@@ -14,7 +14,6 @@
 package de.mrapp.android.adapter.example.fragment;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,15 +24,17 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import de.mrapp.android.adapter.Filter;
-import de.mrapp.android.adapter.list.ListAdapter;
 import de.mrapp.android.adapter.MultipleChoiceListAdapter;
 import de.mrapp.android.adapter.Order;
+import de.mrapp.android.adapter.RestoreInstanceStateException;
 import de.mrapp.android.adapter.SingleChoiceListAdapter;
 import de.mrapp.android.adapter.example.R;
 import de.mrapp.android.adapter.example.dialog.AddContactDialog;
 import de.mrapp.android.adapter.example.model.Contact;
 import de.mrapp.android.adapter.example.model.SampleData;
+import de.mrapp.android.adapter.list.ListAdapter;
 import de.mrapp.android.adapter.list.ListAdapterItemLongClickListener;
 import de.mrapp.android.adapter.list.ListAdapterListener;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
@@ -192,6 +193,18 @@ public abstract class AbstractListAdapterFragment<AdapterType extends ListAdapte
     }
 
     /**
+     * Adds items to a specific adapter.
+     *
+     * @param adapter
+     *         The adapter, the items should be added to, as an instance of the generic type
+     *         AdapterType
+     */
+    private void addItemsToAdapter(@NonNull final AdapterType adapter) {
+        adapter.setNumberOfItemStates(2);
+        adapter.addAllItems(SampleData.CONTACTS_US);
+    }
+
+    /**
      * Returns the fragment's adapter.
      *
      * @return The fragments adapter as an instance of the generic type AdapterType
@@ -262,36 +275,36 @@ public abstract class AbstractListAdapterFragment<AdapterType extends ListAdapte
         adapter.addItemLongClickListener(createItemLongClickListener());
         attachAdapter(view, adapter);
 
-        ImageButton sortAscendingButton =
-                (ImageButton) view.findViewById(R.id.sort_ascending_button);
+        ImageButton sortAscendingButton = view.findViewById(R.id.sort_ascending_button);
         sortAscendingButton.setOnClickListener(createSortingClickListener(Order.ASCENDING));
 
-        ImageButton sortDescendingButton =
-                (ImageButton) view.findViewById(R.id.sort_descending_button);
+        ImageButton sortDescendingButton = view.findViewById(R.id.sort_descending_button);
         sortDescendingButton.setOnClickListener(createSortingClickListener(Order.DESCENDING));
 
-        ImageButton addButton = (ImageButton) view.findViewById(R.id.add_button);
+        ImageButton addButton = view.findViewById(R.id.add_button);
         addButton.setOnClickListener(createAddClickListener());
 
-        removeButton = (ImageButton) view.findViewById(R.id.remove_button);
+        removeButton = view.findViewById(R.id.remove_button);
 
-        selectedItemCountTextView =
-                (TextView) view.findViewById(R.id.selected_item_count_text_view);
+        selectedItemCountTextView = view.findViewById(R.id.selected_item_count_text_view);
 
-        enabledItemCountTextView = (TextView) view.findViewById(R.id.enabled_item_count_text_view);
+        enabledItemCountTextView = view.findViewById(R.id.enabled_item_count_text_view);
         adapter.addEnableStateListener(this);
 
-        itemCountTextView = (TextView) view.findViewById(R.id.item_count_text_view);
+        itemCountTextView = view.findViewById(R.id.item_count_text_view);
         adapter.addAdapterListener(this);
         adapter.addFilterListener(this);
 
         if (savedInstanceState != null) {
-            adapter.onRestoreInstanceState(savedInstanceState, ADAPTER_STATE_EXTRA);
-            updateItemCount();
-            updateEnabledItemCount();
+            try {
+                adapter.onRestoreInstanceState(savedInstanceState, ADAPTER_STATE_EXTRA);
+                updateItemCount();
+                updateEnabledItemCount();
+            } catch (RestoreInstanceStateException e) {
+                addItemsToAdapter(adapter);
+            }
         } else {
-            adapter.setNumberOfItemStates(2);
-            adapter.addAllItems(SampleData.CONTACTS_US);
+            addItemsToAdapter(adapter);
         }
 
         return view;

@@ -14,7 +14,6 @@
 package de.mrapp.android.adapter.example.fragment;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,16 +27,18 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import de.mrapp.android.adapter.expandablelist.ExpandableListAdapter;
+import androidx.annotation.NonNull;
 import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.MultipleChoiceExpandableListAdapter;
 import de.mrapp.android.adapter.Order;
+import de.mrapp.android.adapter.RestoreInstanceStateException;
 import de.mrapp.android.adapter.SingleChoiceExpandableListAdapter;
 import de.mrapp.android.adapter.example.R;
 import de.mrapp.android.adapter.example.dialog.AddContactAsChildDialog;
 import de.mrapp.android.adapter.example.model.Contact;
 import de.mrapp.android.adapter.example.model.Country;
 import de.mrapp.android.adapter.example.model.SampleData;
+import de.mrapp.android.adapter.expandablelist.ExpandableListAdapter;
 import de.mrapp.android.adapter.expandablelist.ExpandableListAdapterListener;
 import de.mrapp.android.adapter.expandablelist.enablestate.ExpandableListEnableStateListener;
 import de.mrapp.android.adapter.expandablelist.filterable.ExpandableListFilterListener;
@@ -194,6 +195,25 @@ public abstract class AbstractExpandableListAdapterFragment<AdapterType extends 
     }
 
     /**
+     * Adds groups and child items to a specific adapter.
+     *
+     * @param adapter
+     *         The adapter, the items should be added to, as an instance of the generic type
+     *         AdapterType
+     */
+    private void addItemsToAdapter(@NonNull final AdapterType adapter) {
+        adapter.setNumberOfChildStates(2);
+        adapter.addGroup(SampleData.COUNTRY_US);
+        adapter.addAllChildren(0, SampleData.CONTACTS_US);
+        adapter.addGroup(SampleData.COUNTRY_UK);
+        adapter.addAllChildren(1, SampleData.CONTACTS_UK);
+        adapter.addGroup(SampleData.COUNTRY_CA);
+        adapter.addAllChildren(2, SampleData.CONTACTS_CA);
+        adapter.addGroup(SampleData.COUNTRY_AU);
+        adapter.addAllChildren(3, SampleData.CONTACTS_AU);
+    }
+
+    /**
      * Returns the fragment's adapter.
      *
      * @return The fragments adapter as an instance of the generic type AdapterType
@@ -234,49 +254,41 @@ public abstract class AbstractExpandableListAdapterFragment<AdapterType extends 
     public final View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                                    final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.expandable_list_view, container, false);
-        ExpandableListView expandableListView =
-                (ExpandableListView) view.findViewById(R.id.expandable_list_view);
+        ExpandableListView expandableListView = view.findViewById(R.id.expandable_list_view);
         expandableListView.setGroupIndicator(null);
         adapter = createAdapter();
         adapter.attach(expandableListView);
         expandableListView.setLongClickable(true);
         expandableListView.setOnItemLongClickListener(createItemLongClickListener());
 
-        ImageButton sortAscendingButton =
-                (ImageButton) view.findViewById(R.id.sort_ascending_button);
+        ImageButton sortAscendingButton = view.findViewById(R.id.sort_ascending_button);
         sortAscendingButton.setOnClickListener(createSortingClickListener(Order.ASCENDING));
 
-        ImageButton sortDescendingButton =
-                (ImageButton) view.findViewById(R.id.sort_descending_button);
+        ImageButton sortDescendingButton = view.findViewById(R.id.sort_descending_button);
         sortDescendingButton.setOnClickListener(createSortingClickListener(Order.DESCENDING));
 
-        ImageButton addButton = (ImageButton) view.findViewById(R.id.add_button);
+        ImageButton addButton = view.findViewById(R.id.add_button);
         addButton.setOnClickListener(createAddClickListener());
 
-        removeButton = (ImageButton) view.findViewById(R.id.remove_button);
+        removeButton = view.findViewById(R.id.remove_button);
 
-        selectedItemCountTextView =
-                (TextView) view.findViewById(R.id.selected_item_count_text_view);
+        selectedItemCountTextView = view.findViewById(R.id.selected_item_count_text_view);
 
-        enabledItemCountTextView = (TextView) view.findViewById(R.id.enabled_item_count_text_view);
+        enabledItemCountTextView = view.findViewById(R.id.enabled_item_count_text_view);
         adapter.addEnableStateListener(this);
 
-        itemCountTextView = (TextView) view.findViewById(R.id.item_count_text_view);
+        itemCountTextView = view.findViewById(R.id.item_count_text_view);
         adapter.addAdapterListener(this);
         adapter.addFilterListener(this);
 
         if (savedInstanceState != null) {
-            adapter.onRestoreInstanceState(savedInstanceState, ADAPTER_STATE_EXTRA);
+            try {
+                adapter.onRestoreInstanceState(savedInstanceState, ADAPTER_STATE_EXTRA);
+            } catch (RestoreInstanceStateException e) {
+                addItemsToAdapter(adapter);
+            }
         } else {
-            adapter.setNumberOfChildStates(2);
-            adapter.addGroup(SampleData.COUNTRY_US);
-            adapter.addAllChildren(0, SampleData.CONTACTS_US);
-            adapter.addGroup(SampleData.COUNTRY_UK);
-            adapter.addAllChildren(1, SampleData.CONTACTS_UK);
-            adapter.addGroup(SampleData.COUNTRY_CA);
-            adapter.addAllChildren(2, SampleData.CONTACTS_CA);
-            adapter.addGroup(SampleData.COUNTRY_AU);
-            adapter.addAllChildren(3, SampleData.CONTACTS_AU);
+            addItemsToAdapter(adapter);
         }
 
         return view;

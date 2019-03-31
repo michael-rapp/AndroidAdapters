@@ -45,6 +45,7 @@ import de.mrapp.android.adapter.ListDecorator;
 import de.mrapp.android.adapter.Order;
 import de.mrapp.android.adapter.ParcelableImplementation;
 import de.mrapp.android.adapter.R;
+import de.mrapp.android.adapter.RestoreInstanceStateException;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.list.enablestate.ListEnableStateListener;
 import de.mrapp.android.adapter.list.filterable.ListFilterListener;
@@ -2068,7 +2069,8 @@ public class AbstractListAdapterTest {
     }
 
     @Test
-    public final void testOnRestoreInstanceStateWhenDataIsParcelable() {
+    public final void testOnRestoreInstanceStateWhenDataIsParcelable()
+            throws RestoreInstanceStateException {
         String key = "adapterkey";
         Bundle savedInstanceState = new Bundle();
         ParcelableImplementation item1 = new ParcelableImplementation(0);
@@ -2103,7 +2105,8 @@ public class AbstractListAdapterTest {
     }
 
     @Test
-    public final void testOnRestoreInstanceStateWhenDataIsSerializable() {
+    public final void testOnRestoreInstanceStateWhenDataIsSerializable()
+            throws RestoreInstanceStateException {
         String key = "adapterkey";
         Bundle savedInstanceState = new Bundle();
         SerializableImplementation item1 = new SerializableImplementation(0);
@@ -2137,19 +2140,22 @@ public class AbstractListAdapterTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public final void testOnRestoreInstanceStateThrowsExceptionWhenBundleIsNull() {
+    public final void testOnRestoreInstanceStateThrowsExceptionWhenBundleIsNull()
+            throws RestoreInstanceStateException {
         AbstractListAdapterImplementation abstractListAdapter = createAdapter();
         abstractListAdapter.onRestoreInstanceState(null, "key");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public final void testOnRestoreInstanceStateThrowsExceptionWhenKeyIsNull() {
+    public final void testOnRestoreInstanceStateThrowsExceptionWhenKeyIsNull()
+            throws RestoreInstanceStateException {
         AbstractListAdapterImplementation abstractListAdapter = createAdapter();
         abstractListAdapter.onRestoreInstanceState(new Bundle(), null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public final void testOnRestoreInstanceStateThrowsExceptionWhenKeyIsEmpty() {
+    public final void testOnRestoreInstanceStateThrowsExceptionWhenKeyIsEmpty()
+            throws RestoreInstanceStateException {
         AbstractListAdapterImplementation abstractListAdapter = createAdapter();
         abstractListAdapter.onRestoreInstanceState(new Bundle(), "");
     }

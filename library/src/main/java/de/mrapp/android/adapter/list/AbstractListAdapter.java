@@ -43,6 +43,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.recyclerview.widget.RecyclerView;
+import de.mrapp.android.adapter.RestoreInstanceStateException;
 import de.mrapp.android.adapter.datastructure.UnmodifiableList;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.ItemIterator;
@@ -1374,50 +1375,55 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
     @SuppressWarnings("unchecked")
     @Override
     public final void onRestoreInstanceState(@NonNull final Bundle savedInstanceState,
-                                             @NonNull final String key) {
+                                             @NonNull final String key)
+            throws RestoreInstanceStateException {
         Condition.INSTANCE.ensureNotNull(savedInstanceState, "The bundle may not be null");
         Condition.INSTANCE.ensureNotNull(key, "The key may not be null");
         Condition.INSTANCE.ensureNotEmpty(key, "The key may not be null");
         Bundle savedState = savedInstanceState.getBundle(key);
 
         if (savedState != null) {
-            if (savedState.containsKey(ADAPTER_VIEW_STATE_BUNDLE_KEY)) {
-                if (adapterView != null) {
-                    AdapterViewUtil.onRestoreInstanceState(adapterView, savedState,
-                            ADAPTER_VIEW_STATE_BUNDLE_KEY);
-                } else if (recyclerView != null && recyclerView.getLayoutManager() != null) {
-                    recyclerView.getLayoutManager().onRestoreInstanceState(
-                            savedState.getParcelable(ADAPTER_VIEW_STATE_BUNDLE_KEY));
-                }
-            }
-
-            ArrayList<Item<DataType>> restoredItems = null;
-
-            if (savedState.containsKey(PARCELABLE_ITEMS_BUNDLE_KEY)) {
-                restoredItems = savedState.getParcelableArrayList(PARCELABLE_ITEMS_BUNDLE_KEY);
-            } else if (savedState.containsKey(SERIALIZABLE_ITEMS_BUNDLE_KEY)) {
-                restoredItems = (ArrayList<Item<DataType>>) savedState
-                        .getSerializable(SERIALIZABLE_ITEMS_BUNDLE_KEY);
-            }
-
-            if (restoredItems != null) {
-                for (Item<DataType> item : restoredItems) {
-                    if (item != null) {
-                        items.add(item);
+            try {
+                if (savedState.containsKey(ADAPTER_VIEW_STATE_BUNDLE_KEY)) {
+                    if (adapterView != null) {
+                        AdapterViewUtil.onRestoreInstanceState(adapterView, savedState,
+                                ADAPTER_VIEW_STATE_BUNDLE_KEY);
+                    } else if (recyclerView != null && recyclerView.getLayoutManager() != null) {
+                        recyclerView.getLayoutManager().onRestoreInstanceState(
+                                savedState.getParcelable(ADAPTER_VIEW_STATE_BUNDLE_KEY));
                     }
                 }
-            }
 
-            parameters = savedState.getBundle(PARAMETERS_BUNDLE_KEY);
-            allowDuplicates = savedState.getBoolean(ALLOW_DUPLICATES_BUNDLE_KEY, false);
-            notifyOnChange = savedState.getBoolean(NOTIFY_ON_CHANGE_BUNDLE_KEY, true);
-            setLogLevel(LogLevel.fromRank(
-                    savedState.getInt(LOG_LEVEL_BUNDLE_KEY, LogLevel.ALL.getRank())));
-            onRestoreInstanceState(savedState);
-            notifyDataSetChanged();
-            getLogger().logDebug(getClass(), "Restored instance state");
+                ArrayList<Item<DataType>> restoredItems = null;
+
+                if (savedState.containsKey(PARCELABLE_ITEMS_BUNDLE_KEY)) {
+                    restoredItems = savedState.getParcelableArrayList(PARCELABLE_ITEMS_BUNDLE_KEY);
+                } else if (savedState.containsKey(SERIALIZABLE_ITEMS_BUNDLE_KEY)) {
+                    restoredItems = (ArrayList<Item<DataType>>) savedState
+                            .getSerializable(SERIALIZABLE_ITEMS_BUNDLE_KEY);
+                }
+
+                if (restoredItems != null) {
+                    for (Item<DataType> item : restoredItems) {
+                        if (item != null) {
+                            items.add(item);
+                        }
+                    }
+                }
+
+                parameters = savedState.getBundle(PARAMETERS_BUNDLE_KEY);
+                allowDuplicates = savedState.getBoolean(ALLOW_DUPLICATES_BUNDLE_KEY, false);
+                notifyOnChange = savedState.getBoolean(NOTIFY_ON_CHANGE_BUNDLE_KEY, true);
+                setLogLevel(LogLevel.fromRank(
+                        savedState.getInt(LOG_LEVEL_BUNDLE_KEY, LogLevel.ALL.getRank())));
+                onRestoreInstanceState(savedState);
+                notifyDataSetChanged();
+                getLogger().logDebug(getClass(), "Restored instance state");
+            } catch (Exception e) {
+                throw new RestoreInstanceStateException(e);
+            }
         } else {
-            getLogger().logWarn(getClass(),
+            throw new RestoreInstanceStateException(
                     "Saved instance state does not contain bundle with key \"" + key + "\"");
         }
     }

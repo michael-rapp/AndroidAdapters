@@ -14,7 +14,9 @@
 package de.mrapp.android.adapter.datastructure;
 
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
+import de.mrapp.android.adapter.RestoreInstanceStateException;
 
 /**
  * Defines the interface, a class whose state should be able to be stored, before an activity is
@@ -50,7 +52,10 @@ public interface Restorable {
      * @param key
      *         The key, which previously has been used to store the saved state, as a {@link
      *         String}. The key may neither be null, nor null
+     * @throws RestoreInstanceStateException
+     *         The exception, which is thrown, if the state of the adapter could not be restored
      */
-    void onRestoreInstanceState(@NonNull Bundle savedInstanceState, @NonNull String key);
+    void onRestoreInstanceState(@NonNull Bundle savedInstanceState, @NonNull String key)
+            throws RestoreInstanceStateException;
 
 }

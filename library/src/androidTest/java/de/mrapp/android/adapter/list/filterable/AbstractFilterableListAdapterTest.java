@@ -39,6 +39,7 @@ import de.mrapp.android.adapter.Filter;
 import de.mrapp.android.adapter.Filterable;
 import de.mrapp.android.adapter.ListDecorator;
 import de.mrapp.android.adapter.Order;
+import de.mrapp.android.adapter.RestoreInstanceStateException;
 import de.mrapp.android.adapter.datastructure.AppliedFilter;
 import de.mrapp.android.adapter.datastructure.item.Item;
 import de.mrapp.android.adapter.datastructure.item.UnmodifiableItemList;
@@ -1225,7 +1226,7 @@ public class AbstractFilterableListAdapterTest {
     }
 
     @Test
-    public final void testOnRestoreInstanceState() {
+    public final void testOnRestoreInstanceState() throws RestoreInstanceStateException {
         String key = "keyadapter";
         FilterableImplementation item1 = new FilterableImplementation("abcdef");
         FilterableImplementation item2 = new FilterableImplementation("abcquerystringdef");
