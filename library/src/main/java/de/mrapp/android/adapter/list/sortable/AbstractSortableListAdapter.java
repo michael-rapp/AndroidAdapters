@@ -124,7 +124,7 @@ public abstract class AbstractSortableListAdapter<DataType, DecoratorType extend
             @Override
             public void onItemRemoved(@NonNull final ListAdapter<DataType> adapter,
                                       @NonNull final DataType item, final int index) {
-                order = null;
+
             }
 
         };

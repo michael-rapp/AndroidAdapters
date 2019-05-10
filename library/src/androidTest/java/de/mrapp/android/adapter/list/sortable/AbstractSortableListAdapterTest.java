@@ -699,29 +699,6 @@ public class AbstractSortableListAdapterTest {
     }
 
     @Test
-    public final void testRemoveItemInvalidatesOrder() {
-        Context context = InstrumentationRegistry.getInstrumentation().getContext();
-        AbstractSortableListAdapterImplementation abstractSortableListAdapter =
-                new AbstractSortableListAdapterImplementation(context,
-                        new ListDecoratorImplementation(), LogLevel.ALL,
-                        new ArrayList<Item<ComparableImplementation>>(), false, true,
-                        new LinkedHashSet<ListAdapterItemClickListener<ComparableImplementation>>(),
-                        new LinkedHashSet<ListAdapterItemLongClickListener<ComparableImplementation>>(),
-                        new LinkedHashSet<ListAdapterListener<ComparableImplementation>>(),
-                        new LinkedHashSet<ListEnableStateListener<ComparableImplementation>>(), 1,
-                        false, new LinkedHashSet<ListItemStateListener<ComparableImplementation>>(),
-                        new LinkedHashSet<ListSortingListener<ComparableImplementation>>());
-        ComparableImplementation item1 = new ComparableImplementation(2);
-        ComparableImplementation item2 = new ComparableImplementation(1);
-        abstractSortableListAdapter.addItem(item1);
-        abstractSortableListAdapter.addItem(item2);
-        abstractSortableListAdapter.sort();
-        assertEquals(Order.ASCENDING, abstractSortableListAdapter.getOrder());
-        abstractSortableListAdapter.removeItem(0);
-        assertNull(abstractSortableListAdapter.getOrder());
-    }
-
-    @Test
     public final void testHashCode() {
         Context context = InstrumentationRegistry.getInstrumentation().getContext();
         AbstractSortableListAdapterImplementation abstractSortableListAdapter1 =
