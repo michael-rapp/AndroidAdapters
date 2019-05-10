@@ -1,5 +1,11 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.12.1 (May 10th 2019)
+
+A bugfix release, which fixes the following issues:
+
+- The `addChildSorted`-methods of an `ExpandableListAdapter` now still work after children have been removed.
+
 ## Version 0.12.0 (Mar. 31th 2019)
 
 A feature release, which introduces the following changes:
