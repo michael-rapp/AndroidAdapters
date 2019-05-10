@@ -181,7 +181,7 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
                     @NonNull final ExpandableListAdapter<GroupType, ChildType> adapter,
                     @NonNull final ChildType child, final int childIndex,
                     @NonNull final GroupType group, final int groupIndex) {
-                childOrder = null;
+
             }
 
         };
