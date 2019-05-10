@@ -1,5 +1,11 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.12.1 (May 11th 2019)
+
+A bugfix release, which fixes the following issues:
+
+- The `addItemSorted`-methods of a `ListAdapter` now still work after children have been removed.
+
 ## Version 0.12.1 (May 10th 2019)
 
 A bugfix release, which fixes the following issues:
