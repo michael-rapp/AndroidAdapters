@@ -579,6 +579,7 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
                                     @Nullable final Comparator<ChildType> comparator) {
         Condition.INSTANCE.ensureNotNull(child, "The child may not be null");
         Order currentOrder = getChildOrder(groupIndex);
+        Order currentChildOrder = this.childOrder;
 
         if (currentOrder != null) {
             Group<GroupType, ChildType> group = getGroupAdapter().getItem(groupIndex);
@@ -601,6 +602,7 @@ public abstract class AbstractSortableExpandableListAdapter<GroupType, ChildType
                     getLogger().logDebug(getClass(), message);
                 }
 
+                this.childOrder = currentChildOrder;
                 return index;
             } else {
                 String message = "Child \"" + child + "\" not added to group \"" + group.getData() +
