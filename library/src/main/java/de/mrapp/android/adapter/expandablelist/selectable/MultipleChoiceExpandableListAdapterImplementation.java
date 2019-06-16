@@ -437,6 +437,19 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
     }
 
     @Override
+    public ChildType getFirstSelectedChild() {
+        for (int i = 0; i < getGroupCount(); i++) {
+            ChildType child = getFirstSelectedChild(i);
+
+            if (child != null) {
+                return child;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
     public final ChildType getFirstSelectedChild(@NonNull final GroupType group) {
         return getFirstSelectedChild(indexOfGroupOrThrowException(group));
     }
@@ -454,6 +467,19 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
     @Override
     public final int getLastSelectedChildIndex(final int groupIndex) {
         return getGroupAdapter().getItem(groupIndex).getChildAdapter().getLastSelectedIndex();
+    }
+
+    @Override
+    public ChildType getLastSelectedChild() {
+        for (int i = getGroupCount() - 1; i >= 0; i--) {
+            ChildType child = getLastSelectedChild(i);
+
+            if (child != null) {
+                return child;
+            }
+        }
+
+        return null;
     }
 
     @Override
@@ -477,6 +503,19 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
     }
 
     @Override
+    public ChildType getFirstUnselectedChild() {
+        for (int i = 0; i < getGroupCount(); i++) {
+            ChildType child = getFirstUnselectedChild(i);
+
+            if (child != null) {
+                return child;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
     public final ChildType getFirstUnselectedChild(@NonNull final GroupType group) {
         return getFirstUnselectedChild(indexOfGroupOrThrowException(group));
     }
@@ -494,6 +533,19 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
     @Override
     public final int getLastUnselectedChildIndex(final int groupIndex) {
         return getGroupAdapter().getItem(groupIndex).getChildAdapter().getLastUnselectedIndex();
+    }
+
+    @Override
+    public ChildType getLastUnselectedChild() {
+        for (int i = getGroupCount() - 1; i >= 0; i--) {
+            ChildType child = getLastUnselectedChild(i);
+
+            if (child != null) {
+                return child;
+            }
+        }
+
+        return null;
     }
 
     @Override

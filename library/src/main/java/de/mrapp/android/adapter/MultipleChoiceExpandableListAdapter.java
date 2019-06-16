@@ -216,7 +216,7 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      *         of the generic type GroupType. The group may not be null. If the group does not
      *         belong to the adapter, a {@link NoSuchElementException} will be thrown
      * @return The index of the first selected child item of the given group or -1, if no group item
-     * is currently unselected
+     * is currently selected
      */
     int getFirstSelectedChildIndex(@NonNull GroupType group);
 
@@ -230,9 +230,17 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      *         <code>getGroupCount():int</code> - 1, otherwise an {@link IndexOutOfBoundsException}
      *         will be thrown
      * @return The index of the first selected child item of the given group or -1, if no group item
-     * is currently unselected
+     * is currently selected
      */
     int getFirstSelectedChildIndex(int groupIndex);
+
+    /**
+     * Returns the first selected child item.
+     *
+     * @return The first selected child item, as an instance of the generic type ChildType or null,
+     * if no child item is currently selected
+     */
+    ChildType getFirstSelectedChild();
 
     /**
      * Returns the first selected child item of a specific group.
@@ -242,7 +250,7 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      *         the generic type GroupType. The group may not be null. If the group does not belong
      *         to the adapter, a {@link NoSuchElementException} will be thrown
      * @return The first selected child item of the given group, as an instance of the generic type
-     * ChildType or null, if no child item is currently unselected
+     * ChildType or null, if no child item is currently selected
      */
     ChildType getFirstSelectedChild(@NonNull GroupType group);
 
@@ -255,7 +263,7 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      *         <code>getGroupCount():int</code> - 1, otherwise an {@link IndexOutOfBoundsException}
      *         will be thrown
      * @return The first selected child item of the given group, as an instance of the generic type
-     * ChildType or null, if no child item is currently unselected
+     * ChildType or null, if no child item is currently selected
      */
     ChildType getFirstSelectedChild(int groupIndex);
 
@@ -267,7 +275,7 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      *         of the generic type GroupType. The group may not be null. If the group does not
      *         belong to the adapter, a {@link NoSuchElementException} will be thrown
      * @return The index of the last selected child item of the given group or -1, if no group item
-     * is currently unselected
+     * is currently selected
      */
     int getLastSelectedChildIndex(@NonNull GroupType group);
 
@@ -281,9 +289,17 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      *         <code>getGroupCount():int</code> - 1, otherwise an {@link IndexOutOfBoundsException}
      *         will be thrown
      * @return The index of the last selected child item of the given group or -1, if no group item
-     * is currently unselected
+     * is currently selected
      */
     int getLastSelectedChildIndex(int groupIndex);
+
+    /**
+     * Returns the last selected child item.
+     *
+     * @return The last selected child item, as an instance of the generic type ChildType or null,
+     * if no child item is currently selected
+     */
+    ChildType getLastSelectedChild();
 
     /**
      * Returns the last selected child item of a specific group.
@@ -293,7 +309,7 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      *         the generic type GroupType. The group may not be null. If the group does not belong
      *         to the adapter, a {@link NoSuchElementException} will be thrown
      * @return The last selected child item of the given group, as an instance of the generic type
-     * ChildType or null, if no child item of the given group is currently unselected
+     * ChildType or null, if no child item of the given group is currently selected
      */
     ChildType getLastSelectedChild(@NonNull GroupType group);
 
@@ -335,6 +351,14 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      * item is currently unselected
      */
     int getFirstUnselectedChildIndex(int groupIndex);
+
+    /**
+     * Returns the first unselected child item.
+     *
+     * @return The first unselected child item, as an instance of the generic type ChildType or
+     * null, if no child item is currently unselected
+     */
+    ChildType getFirstUnselectedChild();
 
     /**
      * Returns the first unselected child item of a specific group.
@@ -386,6 +410,14 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      * item is currently unselected
      */
     int getLastUnselectedChildIndex(int groupIndex);
+
+    /**
+     * Returns the last unselected child item.
+     *
+     * @return The last unselected child item, as an instance of the generic type ChildType or null,
+     * if no child item is currently unselected
+     */
+    ChildType getLastUnselectedChild();
 
     /**
      * Returns the last unselected child item of a specific group.
