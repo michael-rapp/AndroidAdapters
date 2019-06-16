@@ -1,5 +1,11 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.12.3 (Jun. 16th 2019)
+
+A minor release, which introduces the following changes:
+
+- Added methods for retrieving all selected/unselected children, or their indices, to the `MultipleChoiceExpandableListAdapter`.
+
 ## Version 0.12.2 (May 11th 2019)
 
 A bugfix release, which fixes the following issues:
