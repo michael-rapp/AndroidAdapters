@@ -17,6 +17,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.ExpandableListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -506,6 +507,17 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
     }
 
     @Override
+    public List<Integer> getSelectedChildIndices() {
+        List<Integer> result = new ArrayList<>();
+
+        for (int i = 0; i < getGroupCount(); i++) {
+            result.addAll(getSelectedChildIndices(i));
+        }
+
+        return result;
+    }
+
+    @Override
     public final List<Integer> getSelectedChildIndices(@NonNull final GroupType group) {
         return getSelectedChildIndices(indexOfGroupOrThrowException(group));
     }
@@ -513,6 +525,17 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
     @Override
     public final List<Integer> getSelectedChildIndices(final int groupIndex) {
         return getGroupAdapter().getItem(groupIndex).getChildAdapter().getSelectedIndices();
+    }
+
+    @Override
+    public List<ChildType> getSelectedChildren() {
+        List<ChildType> result = new ArrayList<>();
+
+        for (int i = 0; i < getGroupCount(); i++) {
+            result.addAll(getSelectedChildren(i));
+        }
+
+        return result;
     }
 
     @Override
@@ -526,6 +549,17 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
     }
 
     @Override
+    public List<Integer> getUnselectedChildIndices() {
+        List<Integer> result = new ArrayList<>();
+
+        for (int i = 0; i < getGroupCount(); i++) {
+            result.addAll(getUnselectedChildIndices(i));
+        }
+
+        return result;
+    }
+
+    @Override
     public final List<Integer> getUnselectedChildIndices(@NonNull final GroupType group) {
         return getUnselectedChildIndices(indexOfGroupOrThrowException(group));
     }
@@ -533,6 +567,17 @@ public class MultipleChoiceExpandableListAdapterImplementation<GroupType, ChildT
     @Override
     public final List<Integer> getUnselectedChildIndices(final int groupIndex) {
         return getGroupAdapter().getItem(groupIndex).getChildAdapter().getUnselectedIndices();
+    }
+
+    @Override
+    public List<ChildType> getUnselectedChildren() {
+        List<ChildType> result = new ArrayList<>();
+
+        for (int i = 0; i < getGroupCount(); i++) {
+            result.addAll(getUnselectedChildren(i));
+        }
+
+        return result;
     }
 
     @Override

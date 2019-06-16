@@ -14,6 +14,7 @@
 package de.mrapp.android.adapter;
 
 import androidx.annotation.NonNull;
+
 import android.widget.ExpandableListView;
 
 import java.util.List;
@@ -412,6 +413,14 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
     ChildType getLastUnselectedChild(int groupIndex);
 
     /**
+     * Returns a list, which contains the indices of all currently selected child items.
+     *
+     * @return A list, which contains the indices of all currently selected child items, as an
+     * instance of the type {@link List} or an empty list, if no child item is currently selected
+     */
+    List<Integer> getSelectedChildIndices();
+
+    /**
      * Returns a list, which contains the indices of all currently selected child items of a
      * specific group.
      *
@@ -441,6 +450,14 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
     List<Integer> getSelectedChildIndices(int groupIndex);
 
     /**
+     * Returns a list, which contains all currently selected child items.
+     *
+     * @return A list, which contains all currently selected child items, as an instance of the type
+     * {@link List} or an empty list, if no child item is currently selected
+     */
+    List<ChildType> getSelectedChildren();
+
+    /**
      * Returns a list, which contains all currently selected child items of a specific group.
      *
      * @param group
@@ -467,6 +484,14 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
     List<ChildType> getSelectedChildren(int groupIndex);
 
     /**
+     * Returns a list, which contains the indices of all currently unselected child items.
+     *
+     * @return A list, which contains the indices of all currently unselected child items, as an
+     * instance of the type {@link List} or an empty list, if no child item is currently unselected
+     */
+    List<Integer> getUnselectedChildIndices();
+
+    /**
      * Returns a list, which contains the indices of all currently unselected child items of a
      * specific group.
      *
@@ -476,7 +501,7 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      *         not belong to the adapter, a {@link NoSuchElementException} will be thrown
      * @return A list, which contains the indices of all currently unselected child items of the
      * given group, as an instance of the type {@link List} or an empty list, if no child item is
-     * currently selected
+     * currently unselected
      */
     List<Integer> getUnselectedChildIndices(@NonNull GroupType group);
 
@@ -491,9 +516,17 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      *         will be thrown
      * @return A list, which contains the indices of all currently unselected child items of the
      * given group, as an instance of the type {@link List} or an empty list, if no child item is
-     * currently selected
+     * currently unselected
      */
     List<Integer> getUnselectedChildIndices(int groupIndex);
+
+    /**
+     * Returns a list, which contains all currently unselected child items.
+     *
+     * @return A list, which contains all currently unselected child items, as an instance of the
+     * type {@link List} or an empty list, if no child item is currently unselected
+     */
+    List<ChildType> getUnselectedChildren();
 
     /**
      * Returns a list, which contains all currently unselected child items of a specific group.
@@ -503,7 +536,7 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      *         the generic type GroupType. The group may not be null. If the group does not belong
      *         to the adapter, a {@link NoSuchElementException} will be thrown
      * @return A list, which contains all currently unselected child items of the given group, as an
-     * instance of the type {@link List} or an empty list, if no child item is currently selected
+     * instance of the type {@link List} or an empty list, if no child item is currently unselected
      */
     List<ChildType> getUnselectedChildren(@NonNull GroupType group);
 
@@ -517,7 +550,7 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      *         <code>getGroupCount():int</code> - 1, otherwise an {@link IndexOutOfBoundsException}
      *         will be thrown
      * @return A list, which contains all currently unselected child items of the given group, as an
-     * instance of the type {@link List} or an empty list, if no child item is currently selected
+     * instance of the type {@link List} or an empty list, if no child item is currently unselected
      */
     List<ChildType> getUnselectedChildren(int groupIndex);
 
@@ -562,8 +595,8 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      * @param groupIndex
      *         The index of the group, the child item, whose selection should be set, belongs to, as
      *         an {@link Integer} value. The index must be between 0 and the value of the method
-     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException} will
-     *         be thrown
+     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException}
+     *         will be thrown
      * @param childIndex
      *         The index of the child item, whose selection should be set, as an {@link Integer}
      *         value. The index must be between 0 and the value of the method
@@ -581,8 +614,8 @@ public interface MultipleChoiceExpandableListAdapter<GroupType, ChildType>
      * @param groupIndex
      *         The index of the group, the child item, whose selection should be set, belongs to, as
      *         an {@link Integer} value. The index must be between 0 and the value of the method
-     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException} will
-     *         be thrown
+     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException}
+     *         will be thrown
      * @param child
      *         The child item, whose selection should be set, as an instance of the generic type
      *         ChildType. The child item may not be null. If the child item does not belong to the
