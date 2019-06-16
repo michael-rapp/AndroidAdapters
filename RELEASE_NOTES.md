@@ -1,6 +1,6 @@
 # AndroidAdapters - RELEASE NOTES
 
-## Version 0.12.1 (May 11th 2019)
+## Version 0.12.2 (May 11th 2019)
 
 A bugfix release, which fixes the following issues:
 
