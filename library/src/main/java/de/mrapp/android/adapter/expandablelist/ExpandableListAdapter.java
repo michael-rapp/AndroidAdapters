@@ -13,8 +13,7 @@
  */
 package de.mrapp.android.adapter.expandablelist;
 
-import androidx.annotation.NonNull;
-
+import android.os.Build;
 import android.widget.ExpandableListView;
 import android.widget.HeterogeneousExpandableList;
 
@@ -23,7 +22,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
+import java.util.function.Predicate;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import de.mrapp.android.adapter.ExpandableRecyclerViewAdapter;
 import de.mrapp.android.adapter.expandablelist.enablestate.EnableStateExpandableListAdapter;
 import de.mrapp.android.adapter.expandablelist.filterable.FilterableExpandableListAdapter;
@@ -416,6 +418,18 @@ public interface ExpandableListAdapter<GroupType, ChildType>
     int indexOfGroup(@NonNull GroupType group);
 
     /**
+     * Returns the index of the first group item that matches a specific predicate.
+     *
+     * @param predicate
+     *         The predicate as an instance of the type {@link Predicate}. The predicate may not be
+     *         null
+     * @return The index of the first group item, which matches the given predicate, as an {@link
+     * Integer} value or -1, if no group item matches the predicate
+     */
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    int indexOfGroup(@NonNull Predicate<GroupType> predicate);
+
+    /**
      * Returns the last index of a specific group item.
      *
      * @param group
@@ -425,6 +439,18 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * adapter does not contain the given group item
      */
     int lastIndexOfGroup(@NonNull GroupType group);
+
+    /**
+     * Returns the index of the last group item that matches a specific predicate.
+     *
+     * @param predicate
+     *         The predicate as an instance of the type {@link Predicate}. The predicate may not be
+     *         null
+     * @return The index of the last group item, which matches the given predicate, as an {@link
+     * Integer} value or -1, if no group item matches the predicate
+     */
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    int lastIndexOfGroup(@NonNull Predicate<GroupType> predicate);
 
     /**
      * Returns, whether the adapter contains a specific group item, or not.

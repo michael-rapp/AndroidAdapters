@@ -16,6 +16,7 @@ package de.mrapp.android.adapter.expandablelist;
 import android.content.Context;
 import android.database.DataSetObservable;
 import android.database.DataSetObserver;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,10 +34,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
+import java.util.function.Predicate;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.annotation.VisibleForTesting;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
@@ -2104,12 +2107,40 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         return -1;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public final int indexOfGroup(@NonNull final Predicate<GroupType> predicate) {
+        Condition.INSTANCE.ensureNotNull(predicate, "The predicate may not be null");
+
+        for (int i = 0; i < getGroupCount(); i++) {
+            if (predicate.test(getGroup(i))) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
     @Override
     public final int lastIndexOfGroup(@NonNull final GroupType group) {
         Condition.INSTANCE.ensureNotNull(group, "The group may not be null");
 
         for (int i = getGroupCount() - 1; i >= 0; i--) {
             if (getGroup(i).equals(group)) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public final int lastIndexOfGroup(@NonNull final Predicate<GroupType> predicate) {
+        Condition.INSTANCE.ensureNotNull(predicate, "The predicate may not be null");
+
+        for (int i = getGroupCount() - 1; i >= 0; i--) {
+            if (predicate.test(getGroup(i))) {
                 return i;
             }
         }
