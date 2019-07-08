@@ -14,6 +14,7 @@
 package de.mrapp.android.adapter.expandablelist;
 
 import androidx.annotation.NonNull;
+
 import android.widget.ExpandableListView;
 import android.widget.HeterogeneousExpandableList;
 
@@ -415,6 +416,17 @@ public interface ExpandableListAdapter<GroupType, ChildType>
     int indexOfGroup(@NonNull GroupType group);
 
     /**
+     * Returns the last index of a specific group item.
+     *
+     * @param group
+     *         The group item, whose index should be returned, as an instance of the generic type
+     *         GroupType. The group item may not be null
+     * @return The last index of the given group item, as an {@link Integer} value or -1, if the
+     * adapter does not contain the given group item
+     */
+    int lastIndexOfGroup(@NonNull GroupType group);
+
+    /**
      * Returns, whether the adapter contains a specific group item, or not.
      *
      * @param group
@@ -561,8 +573,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @param groupIndex
      *         The index of the group, the child item should be added to, as an {@link Integer}
      *         value. The index must be between 0 and the value of the method
-     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException} will
-     *         be thrown
+     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException}
+     *         will be thrown
      * @param child
      *         The child item, which should be added to the group, as an instance of the generic
      *         type ChildType. The child item may not be null
@@ -594,8 +606,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @param groupIndex
      *         The index of the group, the child item should be added to, as an {@link Integer}
      *         value. The index must be between 0 and the value of the method
-     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException} will
-     *         be thrown
+     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException}
+     *         will be thrown
      * @param index
      *         The index, the child item should be added at, as an {@link Integer} value. The index
      *         must be between 0 and the value of the method <code>getChildCount(groupIndex):int</code>
@@ -634,8 +646,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @param groupIndex
      *         The index of the group, the child items should be added to, as an {@link Integer}
      *         value. The index must be between 0 and the value of the method
-     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException} will
-     *         be thrown
+     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException}
+     *         will be thrown
      * @param children
      *         The collection, which contains the child items, which should be added to the group,
      *         as an instance of the type {@link Collection} or an empty collection, if no child
@@ -669,8 +681,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @param groupIndex
      *         The index of the group, the child items should be added to, as an {@link Integer}
      *         value. The index must be between 0 and the value of the method
-     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException} will
-     *         be thrown
+     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException}
+     *         will be thrown
      * @param index
      *         The index, the child items should be added at, as an {@link Integer} value. The index
      *         must be between 0 and the value of the method <code>getChildCount(groupIndex):int</code>
@@ -712,8 +724,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @param groupIndex
      *         The index of the group, the child items should be added to, as an {@link Integer}
      *         value. The index must be between 0 and the value of the method
-     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException} will
-     *         be thrown
+     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException}
+     *         will be thrown
      * @param children
      *         The array, which contains the child items, which should be added to the group, as an
      *         array of the generic type ChildType or an empty array, if no child items should be
@@ -748,8 +760,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @param groupIndex
      *         The index of the group, the child items should be added to, as an {@link Integer}
      *         value. The index must be between 0 and the value of the method
-     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException} will
-     *         be thrown
+     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException}
+     *         will be thrown
      * @param index
      *         The index, the child items should be added at, as an {@link Integer} value. The index
      *         must be between 0 and the value of the method <code>getChildCount(groupIndex):int</code>
@@ -791,8 +803,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @param groupIndex
      *         The index of the group, the child item, which should be replaced, belongs to, as an
      *         {@link Integer} value. The index must be between 0 and the value of the method
-     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException} will
-     *         be thrown
+     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException}
+     *         will be thrown
      * @param index
      *         The index of the item, which should be replaced, as an {@link Integer} value. The
      *         index must be between 0 and the value of the method <code>getChildCount(groupIndex):int</code>
@@ -833,8 +845,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @param groupIndex
      *         The index of the group, the child item should be removed from, as an {@link Integer}
      *         value. The index must be between 0 and the value of the method
-     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException} will
-     *         be thrown
+     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException}
+     *         will be thrown
      * @param index
      *         The index of the child item, which should be removed from the group, as an {@link
      *         Integer} value. The index must be between 0 and the value of the method
@@ -855,8 +867,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @param groupIndex
      *         The index of the group, the child item should be removed from, as an {@link Integer}
      *         value. The index must be between 0 and the value of the method
-     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException} will
-     *         be thrown
+     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException}
+     *         will be thrown
      * @param index
      *         The index of the child item, which should be removed from the group, as an {@link
      *         Integer} value. The index must be between 0 and the value of the method
@@ -912,8 +924,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @param groupIndex
      *         The index of the group, the child item should be removed from, as an {@link Integer}
      *         value. The index must be between 0 and the value of the method
-     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException} will
-     *         be thrown
+     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException}
+     *         will be thrown
      * @param child
      *         The child item, which should be removed from the group, as an instance of the generic
      *         type ChildType. The child item may not be null
@@ -930,8 +942,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @param groupIndex
      *         The index of the group, the child item should be removed from, as an {@link Integer}
      *         value. The index must be between 0 and the value of the method
-     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException} will
-     *         be thrown
+     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException}
+     *         will be thrown
      * @param child
      *         The child item, which should be removed from the group, as an instance of the generic
      *         type ChildType. The child item may not be null
@@ -1006,8 +1018,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @param groupIndex
      *         The index of the group, the child items should be removed from, as an {@link Integer}
      *         value. The index must be between 0 and the value of the method
-     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException} will
-     *         be thrown
+     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException}
+     *         will be thrown
      * @param children
      *         The collection, which contains the child items, which should be removed from the
      *         group, as an instance of the type {@link Collection} or an empty collection, if no
@@ -1026,8 +1038,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @param groupIndex
      *         The index of the group, the child items should be removed from, as an {@link Integer}
      *         value. The index must be between 0 and the value of the method
-     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException} will
-     *         be thrown
+     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException}
+     *         will be thrown
      * @param children
      *         The collection, which contains the child items, which should be removed from the
      *         group, as an instance of the type {@link Collection} or an empty collection, if no
@@ -1109,8 +1121,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @param groupIndex
      *         The index of the group, the child items should be removed from, as an {@link Integer}
      *         value. The index must be between 0 and the value of the method
-     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException} will
-     *         be thrown
+     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException}
+     *         will be thrown
      * @param children
      *         The array, which contains the child items, which should be removed from the group, as
      *         an array of the generic type ChildType or an empty array, if no child items should be
@@ -1130,8 +1142,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @param groupIndex
      *         The index of the group, the child items should be removed from, as an {@link Integer}
      *         value. The index must be between 0 and the value of the method
-     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException} will
-     *         be thrown
+     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException}
+     *         will be thrown
      * @param children
      *         The array, which contains the child items, which should be removed from the group, as
      *         an array of the generic type ChildType or an empty array, if no child items should be
@@ -1212,8 +1224,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @param groupIndex
      *         The index of the group, the child items should be removed from, as an {@link Integer}
      *         value. The index must be between 0 and the value of the method
-     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException} will
-     *         be thrown
+     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException}
+     *         will be thrown
      * @param children
      *         The collection, which contains the child items, which should be retained, as an
      *         instance of the type {@link Collection} or an empty collection, if no child items
@@ -1231,8 +1243,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @param groupIndex
      *         The index of the group, the child items should be removed from, as an {@link Integer}
      *         value. The index must be between 0 and the value of the method
-     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException} will
-     *         be thrown
+     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException}
+     *         will be thrown
      * @param children
      *         The collection, which contains the child items, which should be retained, as an
      *         instance of the type {@link Collection} or an empty collection, if no child items
@@ -1309,8 +1321,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @param groupIndex
      *         The index of the group, the child items should be removed from, as an {@link Integer}
      *         value. The index must be between 0 and the value of the method
-     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException} will
-     *         be thrown
+     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException}
+     *         will be thrown
      * @param children
      *         The array, which contains the child items, which should be retained, as an array of
      *         the generic type ChildType or an empty collection, if no child items should be
@@ -1329,8 +1341,8 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * @param groupIndex
      *         The index of the group, the child items should be removed from, as an {@link Integer}
      *         value. The index must be between 0 and the value of the method
-     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException} will
-     *         be thrown
+     *         <code>getGroupCount():int</code>, otherwise an {@link IndexOutOfBoundsException}
+     *         will be thrown
      * @param children
      *         The array, which contains the child items, which should be retained, as an array of
      *         the generic type ChildType or an empty collection, if no child items should be
