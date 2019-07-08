@@ -15,6 +15,7 @@ package de.mrapp.android.adapter.list;
 
 import android.content.Context;
 import android.database.DataSetObserver;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
@@ -37,10 +38,12 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.annotation.VisibleForTesting;
 import androidx.recyclerview.widget.RecyclerView;
 import de.mrapp.android.adapter.RestoreInstanceStateException;
@@ -1134,12 +1137,40 @@ public abstract class AbstractListAdapter<DataType, DecoratorType extends Abstra
         return -1;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public final int indexOf(@NonNull final Predicate<DataType> predicate) {
+        Condition.INSTANCE.ensureNotNull(predicate, "The predicate may not be null");
+
+        for (int i = 0; i < getCount(); i++) {
+            if (predicate.test(getItem(i))) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
     @Override
     public final int lastIndexOf(@NonNull final DataType item) {
         Condition.INSTANCE.ensureNotNull(item, "The item may not be null");
 
         for (int i = getCount() - 1; i >= 0; i--) {
             if (getItem(i).equals(item)) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public final int lastIndexOf(@NonNull final Predicate<DataType> predicate) {
+        Condition.INSTANCE.ensureNotNull(predicate, "The predicate may not be null");
+
+        for (int i = getCount() - 1; i >= 0; i--) {
+            if (predicate.test(getItem(i))) {
                 return i;
             }
         }

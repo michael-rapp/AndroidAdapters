@@ -14,13 +14,18 @@
 package de.mrapp.android.adapter.list;
 
 import androidx.annotation.NonNull;
+
+import android.os.Build;
 import android.widget.AbsListView;
 
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
+import androidx.annotation.RequiresApi;
 import de.mrapp.android.adapter.RecyclerViewAdapter;
 import de.mrapp.android.adapter.list.enablestate.EnableStateListAdapter;
 import de.mrapp.android.adapter.list.filterable.FilterableListAdapter;
@@ -320,6 +325,18 @@ public interface ListAdapter<DataType>
     int indexOf(@NonNull DataType item);
 
     /**
+     * Returns the index of the first item that matches a specific predicate.
+     *
+     * @param predicate
+     *         The predicate as an instance of the type {@link Predicate}. The predicate may not be
+     *         null
+     * @return The index of the first item, which matches the given predicate, as an {@link Integer}
+     * value or -1, if no item matches the predicate
+     */
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    int indexOf(@NonNull Predicate<DataType> predicate);
+
+    /**
      * Returns the last index of a specific item.
      *
      * @param item
@@ -329,6 +346,18 @@ public interface ListAdapter<DataType>
      * does not contain the given item
      */
     int lastIndexOf(@NonNull DataType item);
+
+    /**
+     * Returns the index of the last item that matches a specific predicate.
+     *
+     * @param predicate
+     *         The predicate as an instance of the type {@link Predicate}. The predicate may not be
+     *         null
+     * @return The index of the last item, which matches the given predicate, as an {@link Integer}
+     * value or -1, if no item matches the predicate
+     */
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    int lastIndexOf(@NonNull Predicate<DataType> predicate);
 
     /**
      * Returns, whether the adapter contains a specific item, or not.
