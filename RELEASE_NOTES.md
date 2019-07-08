@@ -1,5 +1,12 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.12.5 (Jul. 9th 2019)
+
+A minor release, which introduces the following changes:
+
+- Added `indexOf`- and `lastIndexOf`-methods that accept a `Predicate` as an argument to the `ListAdapter`.
+- Added `indexOfGroup`-, `lastIndexOfGroup`-, `indexOfChild`- and `lastIndexOfChild`-methods that accept a `Predicate` as an argument to the `ExpandableListAdapter`.
+
 ## Version 0.12.4 (Jun. 16th 2019)
 
 A minor release, which introduces the following changes:
