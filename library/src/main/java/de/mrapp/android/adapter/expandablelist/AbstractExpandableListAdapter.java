@@ -2770,15 +2770,44 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         return -1;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public final int indexOfChild(@NonNull final Predicate<ChildType> predicate) {
+        Condition.INSTANCE.ensureNotNull(predicate, "The predicate may not be null");
+
+        for (int i = 0; i < groupAdapter.getCount(); i++) {
+            if (groupAdapter.getItem(i).getChildAdapter().indexOf(predicate) != -1) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
     @Override
     public final int indexOfChild(final int groupIndex, @NonNull final ChildType child) {
         Condition.INSTANCE.ensureNotNull(child, "The child may not be null");
         return groupAdapter.getItem(groupIndex).getChildAdapter().indexOf(child);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public final int indexOfChild(final int groupIndex,
+                                  @NonNull final Predicate<ChildType> predicate) {
+        Condition.INSTANCE.ensureNotNull(predicate, "The predicate may not be null");
+        return groupAdapter.getItem(groupIndex).getChildAdapter().indexOf(predicate);
+    }
+
     @Override
     public final int indexOfChild(@NonNull final GroupType group, @NonNull final ChildType child) {
         return indexOfChild(indexOfGroupOrThrowException(group), child);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public final int indexOfChild(@NonNull final GroupType group,
+                                  @NonNull final Predicate<ChildType> predicate) {
+        return indexOfChild(indexOfGroupOrThrowException(group), predicate);
     }
 
     @Override
@@ -2794,16 +2823,45 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
         return -1;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public final int lastIndexOfChild(@NonNull final Predicate<ChildType> predicate) {
+        Condition.INSTANCE.ensureNotNull(predicate, "The predicate may not be null");
+
+        for (int i = groupAdapter.getCount() - 1; i >= 0; i--) {
+            if (groupAdapter.getItem(i).getChildAdapter().indexOf(predicate) != -1) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
     @Override
     public final int lastIndexOfChild(final int groupIndex, @NonNull final ChildType child) {
         Condition.INSTANCE.ensureNotNull(child, "The child may not be null");
         return groupAdapter.getItem(groupIndex).getChildAdapter().lastIndexOf(child);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public final int lastIndexOfChild(final int groupIndex,
+                                      @NonNull final Predicate<ChildType> predicate) {
+        Condition.INSTANCE.ensureNotNull(predicate, "The predicate may not be null");
+        return groupAdapter.getItem(groupIndex).getChildAdapter().lastIndexOf(predicate);
+    }
+
     @Override
     public final int lastIndexOfChild(@NonNull final GroupType group,
                                       @NonNull final ChildType child) {
         return lastIndexOfChild(indexOfGroupOrThrowException(group), child);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public final int lastIndexOfChild(@NonNull final GroupType group,
+                                      @NonNull final Predicate<ChildType> predicate) {
+        return lastIndexOfChild(indexOfGroupOrThrowException(group), predicate);
     }
 
     @Override

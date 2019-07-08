@@ -1759,6 +1759,19 @@ public interface ExpandableListAdapter<GroupType, ChildType>
     int indexOfChild(@NonNull ChildType child);
 
     /**
+     * Returns the index of the group, the child item that matches a specific predicate, belongs
+     * to.
+     *
+     * @param predicate
+     *         The predicate as an instance of the type {@link Predicate}. The predicate may not be
+     *         null
+     * @return The index of the group item, the child item, which matches the given predicate,
+     * belongs to, as an {@link Integer} value or -1, if no child item matches the predicate
+     */
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    int indexOfChild(@NonNull Predicate<ChildType> predicate);
+
+    /**
      * Returns the index of a specific child item within the group, which belongs to a specific
      * index.
      *
@@ -1776,6 +1789,19 @@ public interface ExpandableListAdapter<GroupType, ChildType>
     int indexOfChild(int groupIndex, @NonNull ChildType child);
 
     /**
+     * Returns the index of the first child item within the group, which belongs to a specific
+     * index, that matches a specific predicate.
+     *
+     * @param predicate
+     *         The predicate as an instance of the type {@link Predicate}. The predicate may not be
+     *         null
+     * @return The index of the first child item, which matches the given predicate, as an {@link
+     * Integer} value or -1, if no group item matches the predicate
+     */
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    int indexOfChild(int groupIndex, @NonNull Predicate<ChildType> predicate);
+
+    /**
      * Returns the index of a specific child item within a specific group.
      *
      * @param group
@@ -1791,6 +1817,19 @@ public interface ExpandableListAdapter<GroupType, ChildType>
     int indexOfChild(@NonNull GroupType group, @NonNull ChildType child);
 
     /**
+     * Returns the index of the first child item within a specific group that matches a specific
+     * predicate.
+     *
+     * @param predicate
+     *         The predicate as an instance of the type {@link Predicate}. The predicate may not be
+     *         null
+     * @return The index of the first group item, which matches the given predicate, as an {@link
+     * Integer} value or -1, if no group item matches the predicate
+     */
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    int indexOfChild(@NonNull GroupType group, @NonNull Predicate<ChildType> predicate);
+
+    /**
      * Returns the last index of the group, a specific child item belongs to.
      *
      * @param child
@@ -1800,6 +1839,19 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * value or -1, if the adapter does not contain the given child item
      */
     int lastIndexOfChild(@NonNull ChildType child);
+
+    /**
+     * Returns the index of the group, the last child item that matches a specific predicate,
+     * belongs to.
+     *
+     * @param predicate
+     *         The predicate as an instance of the type {@link Predicate}. The predicate may not be
+     *         null
+     * @return The index of the group item, the child item, which matches the given predicate,
+     * belongs to, as an {@link Integer} value or -1, if no child item matches the predicate
+     */
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    int lastIndexOfChild(@NonNull Predicate<ChildType> predicate);
 
     /**
      * Returns the last index of a specific child item within the group, which belongs to a specific
@@ -1819,6 +1871,19 @@ public interface ExpandableListAdapter<GroupType, ChildType>
     int lastIndexOfChild(int groupIndex, @NonNull ChildType child);
 
     /**
+     * Returns the index of the last child item within the group, which belongs to a specific index,
+     * that matches a specific predicate.
+     *
+     * @param predicate
+     *         The predicate as an instance of the type {@link Predicate}. The predicate may not be
+     *         null
+     * @return The index of the last child item, which matches the given predicate, as an {@link
+     * Integer} value or -1, if no group item matches the predicate
+     */
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    int lastIndexOfChild(int groupIndex, @NonNull Predicate<ChildType> predicate);
+
+    /**
      * Returns the last index of a specific child item within a specific group.
      *
      * @param group
@@ -1832,6 +1897,19 @@ public interface ExpandableListAdapter<GroupType, ChildType>
      * group does not contain the given child item
      */
     int lastIndexOfChild(@NonNull GroupType group, @NonNull ChildType child);
+
+    /**
+     * Returns the index of the last child item within a specific group that matches a specific
+     * predicate.
+     *
+     * @param predicate
+     *         The predicate as an instance of the type {@link Predicate}. The predicate may not be
+     *         null
+     * @return The index of the last group item, which matches the given predicate, as an {@link
+     * Integer} value or -1, if no group item matches the predicate
+     */
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    int lastIndexOfChild(@NonNull GroupType group, @NonNull Predicate<ChildType> predicate);
 
     /**
      * Returns, whether the adapter contains a specific child item, or not.
