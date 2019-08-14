@@ -1,5 +1,13 @@
 # AndroidAdapters - RELEASE NOTES
 
+## Version 0.12.6 (Aug. 15th 2019)
+
+A bugfix release, which fixes the following issues:
+
+- Fixed the `allowDuplicateChildren`-method of the `ExpandableListAdapter`.
+- Updated dependency "JavaUtil" to version 2.0.2.
+- Updated annotation support library to version 1.1.0.
+
 ## Version 0.12.5 (Jul. 9th 2019)
 
 A minor release, which introduces the following changes:
