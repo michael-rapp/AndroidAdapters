@@ -20,7 +20,7 @@ android {
 }
 
 dependencies {
-    api 'androidx.annotation:annotation:1.0.2'
+    api 'androidx.annotation:annotation:1.1.0'
     api 'androidx.recyclerview:recyclerview:1.0.0'
     api 'com.github.michael-rapp:android-util:2.0.2'
     androidTestImplementation 'androidx.test:runner:1.1.1'
