@@ -2199,7 +2199,7 @@ public abstract class AbstractExpandableListAdapter<GroupType, ChildType, Decora
 
     @Override
     public final void allowDuplicateChildren(final boolean allowDuplicateChildren) {
-        this.allowDuplicateChildren = true;
+        this.allowDuplicateChildren = allowDuplicateChildren;
         Iterator<Group<GroupType, ChildType>> iterator = groupAdapter.iterator();
 
         while (iterator.hasNext()) {
